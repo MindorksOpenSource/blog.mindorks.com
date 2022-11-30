@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Jetpack Compose Tutorial - Step by Step Guide
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/jetpack-compose-tutorial" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Jetpack Compose Tutorial - Step by Step Guide" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/jetpack-compose-tutorial" property="og:url"/>
+  <meta content="/images/banner-jetpack-compose-tutorial-713779506dbc7754.jpg" property="og:image"/>
+  <meta content="In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI. We will go through this tutorial to learn Jetpack Compose for Android by example." property="og:description"/>
+  <meta content="Jetpack Compose Tutorial - Step by Step Guide" property="twitter:title"/>
+  <meta content="In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI. We will go through this tutorial to learn Jetpack Compose for Android by example." name="twitter:description"/>
+  <meta content="/images/banner-jetpack-compose-tutorial-713779506dbc7754.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI. We will go through this tutorial to learn Jetpack Compose for Android by example." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:510,data:{id:510,title:"Jetpack Compose Tutorial - Step by Step Guide",description:"In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI. We will go through this tutorial to learn Jetpack Compose for Android by example.",text:'<h1 class="graf--h1">Jetpack Compose Tutorial - Step by Step Guide</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-jetpack-compose-tutorial-713779506dbc7754.jpg alt="Banner Jetpack Compose Tutorial" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI.</p><p class="graf--p">We will learn how to use Text, TextField, Preview, Column, Row, Button, Card, AlertDialog, MaterialDesign elements, etc, with this complete tutorial. So, without any further delay, let&#x27;s get started by creating a Jetpack Compose Project. So, this tutorial is all about Learning Jetpack Compose for Android by Example.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/Jetpack-Compose-Android-Examples">Project to learn Jetpack Compose in Android by example.</a></b> You can follow this project along with this blog.</p><p class="graf--p"><b class="graf--bold">NOTE:</b> To use Jetpack Compose, you need to have the latest Canary version of Android Studio 4.2. So, you can move over to the <span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/studio/preview">Android Studio Preview</a></span> page and download the latest Canary version and then make an Empty Compose Activity.</p><h2 class="graf--h2">Composable Function</h2><p class="graf--p">In Jetpack Compose, Composable functions are used to define all the UI of your app programmatically. So, you need not use any XML files for the layout of the app. All you need to make a composable function is just by using the <code class="graf--code-inline">@Composable</code> annotation to the function name. The basic syntax of a Composable function is:</p><pre><code class="language-java graf graf--code">@Composable\nfun AnyUiComponent() {\n    // Code for UI element\n}</code></pre><p class="graf--p">Now, you know what Composable Functions are and how to make a composable function by using the <code class="graf--code-inline">@Composable</code> annotation. Let&#x27;s move on to the example of Text.</p><h2 class="graf--h2">Displaying a Simple Text</h2><p class="graf--p">In this section of this tutorial, we are going to learn how to display a simple text using compose.</p><p class="graf--p">To display a text, we use Text Composable and inside that, we pass the string that we want to display.  For example,</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleText(displayText: String) {\n    Text(text = displayText)\n}</code></pre><p class="graf--p">Here, <code class="graf--code-inline">SimpleText</code> is a Composable function and inside that function, we are using <code class="graf--code-inline">Text</code> and passing <code class="graf--code-inline">displayText</code> into it.</p><p class="graf--p">Now, you can call this <code class="graf--code-inline">SimpleText</code> function from the <code class="graf--code-inline">setContent</code> block of the <code class="graf--code-inline">onCreate</code> method of the activity.</p><pre><code class="language-java graf graf--code">class SimpleTextActivity : AppCompatActivity() {\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContent {\n            Column(\n                modifier = Modifier.fillMaxSize(),\n                verticalArrangement = Arrangement.Center,\n                horizontalAlignment = Alignment.CenterHorizontally,\n            ) {\n                SimpleText(getString("I am learning Compose"))\n            }\n        }\n    }\n}</code></pre><p class="graf--p">Here, we are using a <code class="graf--code-inline">Column</code> that is used to display some content vertically and inside that Column, we are calling the <code class="graf--code-inline">SimpleText</code> Composable function. </p><h2 class="graf--h2">Applying Styles to a Text</h2><p class="graf--p">We can apply various styles to a Text such as increasing the font size, changing the color, etc.</p><p class="graf--p">So, let&#x27;s make a function named <code class="graf--code-inline">SetTextStyling</code>:</p><pre><code class="language-java graf graf--code">@Composable\nfun SetTextStyling(displayText: String, style: TextStyle? = null, maxLines: Int? = null) {\n    Text(\n        text = displayText,\n        modifier = Modifier.padding(16.dp),\n        style = style ?: TextStyle.Default,\n        overflow = TextOverflow.Ellipsis,\n        maxLines = maxLines ?: Int.MAX_VALUE\n    )\n}</code></pre><p class="graf--p">In the above function, the parameters are <b class="graf--bold">displayText</b> i.e. the text to be displayed, <b class="graf--bold">style</b> i.e. the style to be put on the Text, and <b class="graf--bold">maxLines</b> i.e. the maximum number of lines allowed for the text. If the text is more than the maximum line, then ellipsis(...) will be shown. </p><p class="graf--p">We will call this function by passing these parameters. Let&#x27;s see some of these:</p><ul><li>To set font-size:</li></ul><pre><code class="language-java graf graf--code">style = TextStyle(\n    fontSize = 24.sp\n)</code></pre><ul><li>To set font-weight, pass text-style as:</li></ul><pre><code class="language-java graf graf--code">fontWeight = FontWeight.Bold</code></pre><p class="graf--p">Similarly, you can change the font-Size, textColor, font-family, underline a text, etc. You can see all these from our Opensource Project.</p><h2 class="graf--h2">Taking inputs using TextField</h2><p class="graf--p">Just like EditText, in Compose we can use <code class="graf--code-inline">TextField</code> and <code class="graf--code-inline">BaseTextField</code>. <code class="graf--code-inline">BaseTextField</code> is still experimental and can be removed or added permanently at any time. So, to use <code class="graf--code-inline">BaseTextField</code>, you need to add <code class="graf--code-inline">@ExperimentalFoundationApi</code> annotation. </p><p class="graf--p">The following is an example of a simple <code class="graf--code-inline">BaseTextField</code>:</p><pre><code class="language-java graf graf--code">@ExperimentalFoundationApi\n@Composable\nfun SimpleTextFieldComponent() {\n    Surface(color = Color.LightGray, modifier = Modifier.padding(16.dp)) {\n        var text by remember { mutableStateOf(TextFieldValue("Enter text here")) }\n        BaseTextField(\n            value = text,\n            modifier = Modifier.padding(16.dp).fillMaxWidth(),\n            onValueChange = {\n                text = it\n            }\n        )\n    }\n}</code></pre><p class="graf--p">In the above function, we are having a <code class="graf--code-inline">BaseTextField</code> inside a <code class="graf--code-inline">Surface</code>. We have a callback named <code class="graf--code-inline">onValueChange</code>. This callback is called when there is some change in the input to the <code class="graf--code-inline">BaseTextField</code> and the updated text will come as a parameter from the callback.</p><p class="graf--p">This is an example of <code class="graf--code-inline">BaseTextField</code>. The Material Design also provides one Composable for EditText i.e. <code class="graf--code-inline">TextField</code>. A simple implementation of <code class="graf--code-inline">TextField</code> is as below:</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleMaterialTextFieldComponent() {\n    var text by savedInstanceState { "" }\n    TextField(\n        value = text,\n        modifier = Modifier.padding(16.dp).fillMaxWidth(),\n        onValueChange = { text = it },\n        label = { Text("Label") }\n    )\n}</code></pre><p class="graf--p"><code class="graf--code-inline">TextField</code> behaves similar to that of <code class="graf--code-inline">BaseTextField</code>. Here in <code class="graf--code-inline">TextField</code>, you have one more thing i.e. <code class="graf--code-inline">label</code>. A label is a text that is displayed inside the <code class="graf--code-inline">TextField</code> when there is no text in the <code class="graf--code-inline">TextField</code>.</p><p class="graf--p">We can customize this BaseTextField and the TextField by passing various parameters to it. For example,</p><ul><li>To show only numerical keyboard:</li></ul><pre><code class="language-java graf graf--code">var text by remember { mutableStateOf(TextFieldValue("0123")) }\nBaseTextField(value = text,\n    keyboardType = KeyboardType.Number,\n    onValueChange = {\n        text = it\n    }\n)</code></pre><ul><li>To take a password as an input:</li></ul><pre><code class="language-java graf graf--code">keyboardType = KeyboardType.Password,\nvisualTransformation = PasswordVisualTransformation()</code></pre><ul><li>To add a placeholder in TextField(will be displayed when TextField is empty and focused)</li></ul><pre><code class="language-java graf graf--code">placeholder = { Text("MindOrks") }</code></pre><p class="graf--p">Similarly, we can add icons, show error message in TextFiled, set errorColor, backgroundColor, intractionState, activeColor, inactiveColor, etc. You can find these on our Opensource Project.</p><p class="graf--p">You can try these and see the output in the Android Studio itself. Yes, you heard it right. You can preview any UI element in Android Studion itself. Let&#x27;s see how.</p><h2 class="graf--h2">Preview in Android Studio</h2><p class="graf--p">Android Studio provides an awesome feature of previewing your UI components in the studio itself and that too dynamically. So, whenever you want to test some UI components, then you can simply preview it in the Android Studio by making a Composable function and by using the <code class="graf--code-inline">@Preview</code> annotation.</p><p class="graf--p">The following is an example of the same:</p><pre><code class="language-java graf graf--code">// This is a Composable function to display a Text\n@Composable\nfun SimpleText(displayText: String) {\n    Text(text = displayText)\n}\n\n@Preview\n@Composable\nfun SimpleTextPreview() {\n    SimpleText("Hi I am learning Compose")\n}</code></pre><p class="graf--p">Now, in the preview tab(right-hand side of the Studio), you can see the preview of the above Composable function.</p><p class="graf--p">You can use as many previews as you want with different width and height. If you click on any of the UI elements in the preview, then the Android Studio will take you to the line where that UI is created.</p><p class="graf--p">Also, you can put some names to a Preview by using the <code class="graf--code-inline">name</code> parameter. To name a preview you need to add the below code:</p><pre><code class="language-java graf graf--code">@Preview(name = "Named Preview")</code></pre><p class="graf--p">By default, the name of the preview is the name of the function.</p><p class="graf--p">The following is an example of the preview feature in Android Studio:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/jetpack-compose-tutorial-preview-example-ae4b42f5e619e397.jpg alt="Jetpack Compose Tutorial Preview Example" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><b class="graf--bold">NOTE: You can&#x27;t pass any parameter to a Preview Composable function.</b></p><h2 class="graf--h2">Preview Parameter</h2><p class="graf--p">In the last section, we learned how to use the preview feature of Android Studio. Now, when we make any Android application, then in most of the cases the data is coming from the server and we populate those data in our app. So, the next question is how to preview that UI where the data is coming from the server i.e. whose data is not available right now. For these situations, we can use <code class="graf--code-inline">@PreviewParameter</code> annotation.</p><p class="graf--p">The main idea is to make a dummy data and pass that dummy data to the Preview Composable Function. Since you can&#x27;t pass any parameter to a Preview Composable Function, so in order to achieve this, you need to pass the parameter by using the <code class="graf--code-inline">@PreviewParamter</code> annotation.</p><p class="graf--p">So, let&#x27;s first create a dummy data class.</p><p class="graf--p">Make a data class named <code class="graf--code-inline">Blog.kt</code> and add the below code into it:</p><pre><code class="language-java graf graf--code">data class Blog(\n    val name: String,\n    val author: String\n)</code></pre><p class="graf--p">Now, create a class named <code class="graf--code-inline">DummyBlogProvider</code> which implements an interface named <code class="graf--code-inline">PreviewParameterProvider</code>:</p><pre><code class="language-java graf graf--code">class DummyBlogProvider : PreviewParameterProvider&lt;Blog&gt; {\n    override val values =\n        sequenceOf(Blog("Learning Compose", "MindOrks"), Blog("Learning Android", "MindOrks"))\n    override val count: Int = values.count()\n}</code></pre><p class="graf--p">Now, we are done with the dummy data and we can use this dummy data in our preview. The following is an example of the same:</p><pre><code class="language-java graf graf--code">@Preview\n@Composable\nfun BlogInfo(@PreviewParameter(DummyBlogProvider::class) blog: Blog) {\n    SimpleTextComponent("${blog.name} by ${blog.author}")\n}</code></pre><p class="graf--p">You can see the preview of the UI with your dummy data.</p><h2 class="graf--h2">Column</h2><p class="graf--p">A <code class="graf--code-inline">Column</code> is a layout composable that is used to place all its children vertically one after the other. It is similar to LinearLayout with vertical orientation.</p><p class="graf--p">The following is an example of a Column:</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleColumnComponent() {\n    Column(modifier = Modifier.padding(16.dp)) {\n        Text(text = "Hello! I am Text 1", color = Color.Black)\n        Text(text = "Hello! I am Text 2", color = Color.Blue)\n    }\n}</code></pre><h2 class="graf--h2">Scrollable Column</h2><p class="graf--p">When you use a simple <code class="graf--code-inline">Column</code>, then you are restricted to use the height of the mobile screen only. But if your content is going out of the screen then you can use <code class="graf--code-inline">ScrollableColumn</code>. ScrollableColumn is just like ScrollView.</p><p class="graf--p">The following is an example of the same:</p><pre><code class="language-java graf graf--code">@Composable\nfun ScrollableColumnComponent(blogList: List&lt;Blog&gt;) {\n    ScrollableColumn {\n        val context = ContextAmbient.current\n        Column {\n            for (blog in blogList) {\n                Card(\n                    shape = RoundedCornerShape(4.dp),\n                    modifier = Modifier.fillMaxWidth().padding(16.dp).clickable(onClick = {\n                        Toast.makeText(context, "Author: ${blog.author}", Toast.LENGTH_SHORT).show()\n                    }),\n                    backgroundColor = Color(0xFFFFA867.toInt())\n                ) {\n                    Text(\n                        blog.name, style = TextStyle(\n                            fontSize = 16.sp,\n                            textAlign = TextAlign.Center\n                        ), modifier = Modifier.padding(16.dp)\n                    )\n                }\n            }\n        }\n    }\n}</code></pre><h2 class="graf--h2">Lazy Column</h2><p class="graf--p"><code class="graf--code-inline">ScrollableColumn</code> loads all its elements at the start. For example, if you are having 50 elements and at any point in time the screen can show only 10 elements and you need to scroll to see the other element then if you are using a <code class="graf--code-inline">ScrollableColumn</code>, then all the elements will be loaded initially. </p><p class="graf--p">But if you are using <code class="graf--code-inline">LazyColumnFor</code>, then it will load only those elements that are currently visible on the mobile screen. It behaves somewhat similar to a <code class="graf--code-inline">RecyclerView</code>. </p><p class="graf--p">The following is an example of the same:</p><pre><code class="language-java graf graf--code">@Composable\nfun LazyColumnScrollableComponent(blogList: List&lt;Blog&gt;) {\n    LazyColumnFor(items = blogList, modifier = Modifier.fillMaxHeight()) { blog -&gt;\n        val context = ContextAmbient.current\n        Card(\n            shape = RoundedCornerShape(4.dp),\n            modifier = Modifier.fillParentMaxWidth().padding(16.dp).clickable(onClick = {\n                Toast.makeText(context, "Author: ${blog.author}", Toast.LENGTH_SHORT).show()\n            }),\n            backgroundColor = Color(0xFFFFA867.toInt())\n        ) {\n            Text(\n                blog.name, style = TextStyle(\n                    fontSize = 16.sp,\n                    textAlign = TextAlign.Center\n                ), modifier = Modifier.padding(16.dp)\n            )\n        }\n    }\n}</code></pre><p class="graf--p">Now, if you want to display the content horizontally, then you can use Row, ScrollableRow, or Lazy Row. The working of all these is similar to that of Column, ScrollableColumn, and Lazy Column respectively. So, to make this blog more informative, we are not including that part. Still, you can find the code of these from our Opensource Project. </p><h2 class="graf--h2">Box</h2><p class="graf--p">A Box is a layout composable that is used to place children relative to its edges. Initially, Stack was used in place of Box. But now, Stack is deprecated and Box is introduced. </p><p class="graf--p">As the name suggests, the children are placed inside the parent. The children inside a box are drawn in the specified order and if the children are smaller than the parent, then they will be placed inside the Box by default based on the alignment.</p><p class="graf--p">The following is an example of Box:</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleBoxComponent() {\n    Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {\n        Image(imageResource(R.drawable.mindorks_cover))\n        Text(\n            modifier = Modifier.padding(start = 16.dp, top = 16.dp),\n            text = "I am a text over Image",\n            fontSize = 16.sp,\n            color = Color.Red\n        )\n    }\n}</code></pre><h2 class="graf--h2">Button</h2><p class="graf--p">Buttons are used to perform some action when the user clicks it.</p><p class="graf--p">The following is an example of a simple button:</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleButtonComponent() {\n    val context = ContextAmbient.current\n    Button(\n        onClick = {\n            Toast.makeText(context, "Thanks for clicking!", Toast.LENGTH_LONG).show()\n        },\n        modifier = Modifier.padding(8.dp).fillMaxWidth()\n    ) {\n        Text("Click Me")\n    }\n}</code></pre><p class="graf--p">Here, <code class="graf--code-inline">Text</code> is used to put some text over the Button and <code class="graf--code-inline">onClick</code> callback is used to listen to the click event of the button.</p><p class="graf--p">By passing various parameters to a Button, you can customize it to a large extent. Some of these are:</p><ul><li>Make rounded corners Button:</li></ul><pre><code class="language-java graf graf--code">shape = RoundedCornerShape(12.dp)</code></pre><ul><li>Make a Button with borders:</li></ul><pre><code class="language-java graf graf--code">border = BorderStroke(width = 1.dp, brush = SolidColor(Color.Green))</code></pre><p class="graf--p">Similarly, you can add some icon to a button, apply color to a button, make a button disabled, make an outlined button, make an IconButton, make a FAB, etc. You can look at our open-source project for more examples.</p><h2 class="graf--h2"><b class="graf--bold">Card</b></h2><p class="graf--p">A Card is a layout composable that is used to make a CardView.</p><p class="graf--p">The following is an example of the same:</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleCardComponent() {\n    Card(\n        backgroundColor = Color(0xFFFFA867.toInt()),\n        modifier = Modifier.padding(16.dp).fillMaxWidth()\n    ) {\n        Text(\n            text = "Simple Card",\n            textAlign = TextAlign.Center,\n            style = TextStyle(\n                fontSize = 16.sp\n            ),\n            modifier = Modifier.padding(16.dp)\n        )\n    }\n}</code></pre><h2 class="graf--h2">Clickable</h2><p class="graf--p">You can make a composable react with the user by using Clickable. Clickable supports a one-time click, double click, and long press.</p><p class="graf--p">The following is an example of the same:</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleTextComponent() {\n    val context = ContextAmbient.current\n    Text(\n        text = "Click Me",\n        textAlign = TextAlign.Center,\n        color = Color.Black,\n        modifier = Modifier.padding(16.dp).fillMaxWidth().clickable(onClick = {\n            Toast.makeText(context, "Thanks for clicking! I am Text", Toast.LENGTH_SHORT).show()\n        }, onLongClick = {\n            Toast.makeText(context, "Thanks for LONG click! I am Text", Toast.LENGTH_SHORT).show()\n        }, onDoubleClick = {\n            Toast.makeText(context, "Thanks for DOUBLE click! I am Text", Toast.LENGTH_SHORT).show()\n        })\n    )\n}</code></pre><p class="graf--p">Similarly, you can make a Card clickable.</p><h2 class="graf--h2">Image</h2><p class="graf--p">To display an image, we can use <code class="graf--code-inline">Image</code> composable.</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleImageComponent() {\n    // Image is a composable that is used to display some image.\n    val image = imageResource(R.drawable.mindorks_cover)\n    Column(\n        modifier = Modifier.padding(16.dp)\n    ) {\n        Image(image)\n    }\n}</code></pre><p class="graf--p">You can also make a rounded corner image by using the below code:</p><pre><code class="language-java graf graf--code">Image(\n    image,\n    modifier = Modifier.fillMaxWidth().clip(shape = RoundedCornerShape(8.dp)),\n    contentScale = ContentScale.Fit\n)</code></pre><h2 class="graf--h2">Alert Dialog</h2><p class="graf--p">As the name suggests, AlertDialog is used to display some important messages(which may have some actions on it) to the user in the form of a dialog.</p><p class="graf--p">We have title, text, confirm button, and dismiss button in an AlertDialog.</p><pre><code class="language-java graf graf--code">@Composable\nfun AlertDialogComponent() {\n    val openDialog = remember { mutableStateOf(true) }\n    if (openDialog.value) {\n        AlertDialog(\n            onDismissRequest = { openDialog.value = false },\n            title = { Text(text = "Alert Dialog") },\n            text = { Text("Hello! I am an Alert Dialog") },\n            confirmButton = {\n                TextButton(\n                    onClick = {\n                        openDialog.value = false\n                        /* Do some other action */\n                    }\n                ) {\n                    Text("Confirm")\n                }\n            },\n            dismissButton = {\n                TextButton(\n                    onClick = {\n                        openDialog.value = false\n                        /* Do some other action */\n                    }\n                ) {\n                    Text("Dismiss")\n                }\n            },\n            backgroundColor = Color.Black,\n            contentColor = Color.White\n        )\n    }\n}</code></pre><h2 class="graf--h2">Material AppBar</h2><p class="graf--p">To display an AppBar in an Android app, you can use the <code class="graf--code-inline">TopAppBar</code> or <code class="graf--code-inline">BottomAppBar</code> composable in your app. Here, you can have the title(generally app name), some navigationIcon, and some actions that are there on the AppBar.</p><pre><code class="language-java graf graf--code">@Composable\nfun TopAppBarComponent() {\n    TopAppBar(\n        modifier = Modifier.padding(16.dp).fillMaxWidth(),\n        title = { Text("App Name") },\n        navigationIcon = {\n            IconButton(onClick = { /* doSomething() */ }) {\n                Icon(Icons.Filled.Menu)\n            }\n        },\n        actions = {\n            IconButton(onClick = { /* doSomething() */ }) {\n                Icon(Icons.Filled.Favorite)\n            }\n            IconButton(onClick = { /* doSomething() */ }) {\n                Icon(Icons.Filled.Favorite)\n            }\n        }\n    )\n}</code></pre><p class="graf--p">Similarly, we can use the <code class="graf--code-inline">BottomAppBar</code> also.</p><h2 class="graf--h2">Material BottomNavigation</h2><p class="graf--p">BottomNavigation is used to have some important actions of the app at the bottom of the screen so that it is easily accessible to the users. To add an item to a <code class="graf--code-inline">BottomNavigation</code>, we need to use the <code class="graf--code-inline">BottomNavigationItem</code> composable.</p><pre><code class="language-java graf graf--code">@Composable\nfun BottomNavigationWithLabelComponent() {\n    var selectedItem by remember { mutableStateOf(0) }\n    val items = listOf("Home", "Blogs", "Profile")\n    BottomNavigation(\n        modifier = Modifier.padding(16.dp).fillMaxWidth(),\n        backgroundColor = Color.Black,\n        contentColor = Color.Yellow\n    ) {\n        items.forEachIndexed { index, item -&gt;\n            BottomNavigationItem(\n                label = { Text(text = item) },\n                icon = { Icon(Icons.Filled.Favorite) },\n                selected = selectedItem == index,\n                onClick = { selectedItem = index }\n            )\n        }\n    }\n}</code></pre><p class="graf--p">To use BottomNavigation without labels you can use <code class="graf--code-inline">alwaysShowLabels = false</code> in <code class="graf--code-inline">BottomNavigationItem</code>.</p><h2 class="graf--h2">Material Checkbox</h2><p class="graf--p">A checkbox is used when we have 2 options and the user can either select or unselect the options.</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleCheckboxComponent() {\n    val checkedState = remember { mutableStateOf(true) }\n    Row {\n        Checkbox(\n            checked = checkedState.value,\n            modifier = Modifier.padding(16.dp),\n            onCheckedChange = { checkedState.value = it },\n        )\n        Text(text = "Checkbox Example", modifier = Modifier.padding(16.dp))\n    }\n}</code></pre><p class="graf--p"><code class="graf--code-inline">onCheckedChange</code> callback is used to identify the change in the Checkbox.</p><h2 class="graf--h2">Material ProgressBar</h2><p class="graf--p">A ProgressBar is used to show some progress that is happening right now in the app. For example, downloading progress or loading data from the server.</p><p class="graf--p">We can make a Circular ProgressBar or a Linear ProgressBar.</p><p class="graf--p">The following is an example of Circular ProgressBar:</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleCircularProgressComponent() {\n    CircularProgressIndicator(\n        modifier = Modifier.padding(16.dp)\n    )\n}</code></pre><p class="graf--p">You can also set the progress of progress by using <code class="graf--code-inline">progress = 0.4f</code>.</p><p class="graf--p">Similarly, you can use the <code class="graf--code-inline">LinearProgressIndicator</code> also.</p><h2 class="graf--h2">Material Slider</h2><p class="graf--p">A Slider is used to select some value from a range of values. For example, you can increase/decrease the volume by volume slider, brightness by brightness slider, etc.</p><p class="graf--p">A slider can be linear or can have some discrete values i.e. you can slide through to select only allowed values like selecting only integer values.</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleSliderComponent() {\n    var sliderValue by remember { mutableStateOf(0.4f) }\n    Slider(\n        value = sliderValue,\n        modifier = Modifier.padding(8.dp),\n        onValueChange = { newValue -&gt;\n            sliderValue = newValue\n        }\n    )\n    Text(\n        text = "Slider value: $sliderValue",\n        modifier = Modifier.padding(8.dp)\n    )\n}</code></pre><p class="graf--p">Similarly, you can make a stepped slider by passing the steps parameter to the Slider.</p><h2 class="graf--h2">Material Snackbar</h2><p class="graf--p">A Snackbar is used to show some information at the bottom of the screen and it is placed over all the UI elements.</p><pre><code class="language-java graf graf--code">@Composable\nfun SimpleSnackbarComponent() {\n    Snackbar(\n        modifier = Modifier.padding(16.dp),\n        text = {\n            Text(text = "I\'m a Simple Snackbar")\n        }\n    )\n}</code></pre><p class="graf--p">You can also add some action to a Snackbar by using:</p><pre><code class="language-java graf graf--code">action = {\n    Text(text = "OK", style = TextStyle(color = Color.Green))\n}</code></pre><h2 class="graf--h2">Custom View</h2><p class="graf--p">In Compose also, we can make a Canvas and on the canvas, we can draw various shapes such as Circle, Rectangle, arc, etc.</p><pre><code class="language-java graf graf--code">@Composable\nfun CustomViewComponent() {\n    Canvas(modifier = Modifier.fillMaxSize().padding(16.dp)) {\n        drawRect(\n            color = Color.Red,\n            // topLeft is the coordinate of top-left point\n            topLeft = Offset(0f, 0f),\n            size = Size(800f, 400f)\n        )\n        drawArc(\n            Color.Gray,\n            startAngle = 0f,\n            sweepAngle = 120f,\n            useCenter = true,\n            size = Size(600f, 600f),\n            topLeft = Offset(300f, 300f)\n        )\n    }\n}</code></pre><h2 class="graf--h2">Crossfade Animation</h2><p class="graf--p">We can use animations in Compose also. For example, we can use Crossfade animation by using the Crossfade Composable.</p><pre><code class="language-java graf graf--code">@Composable\nfun CrossFadeAnimation() {\n    val colors = listOf(Color.Red, Color.Green, Color.Blue, Color.Gray)\n    var current by remember { mutableStateOf(colors[0]) }\n    Column(modifier = Modifier.fillMaxSize()) {\n        Crossfade(current = current) { color -&gt;\n            Box(Modifier.fillMaxSize().clickable(\n                onClick = {\n                    current = colors.random()\n                }\n            ).background(color))\n            Text(\n                modifier = Modifier.fillMaxSize(),\n                textAlign = TextAlign.Center,\n                text = "Click To See"\n            )\n        }\n    }\n}</code></pre><p class="graf--p">Here, the color of the Box will change with Crossfade animation on clicking over the Box.</p><p class="graf--p">That&#x27;s it from this tutorial. There are many other examples that you can try using Jetpack Compose.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/Jetpack-Compose-Android-Examples">Here is a Project to learn Jetpack Compose in Android by example.</a></b></p><p class="graf--p">Keep Learning!</p><p class="graf--p">Team MindOrks :)</p>',author:14897,img_url:"/images/banner-jetpack-compose-tutorial-713779506dbc7754.jpg",blog_url:"jetpack-compose-tutorial",likes:0,rank:0,category:1,published_at:"5th November 2020"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:367,title:"Using Jetpack Compose to build UI in Android",description:"In this blog, we will build and learn how to Use Jetpack Compose to build UI in Android. We will learn how to setup and work with it. We will also discuss how to make few other components as well",author:9959,img_url:"/images/banner_jetpack.png",blog_url:"using-jetpack-compose-to-build-ui-in-android",likes:0,rank:0,category:1,published_at:"25th October 2019",score:3.9975550174713135},{id:432,title:"State Management in Jetpack Compose",description:"In this blog, we are going to learn how to manage state in Jetpack Compose. We will also see different ways to handle state with examples.",author:9959,img_url:"/images/state-management-compose-android-min.jpg",blog_url:"state-management-in-jetpack-compose",likes:0,rank:0,category:1,published_at:"2nd May 2020",score:3.9975550174713135},{id:440,title:"Using Constraint layout in Jetpack Compose",description:"In this blog, we are going to learn how to use constraint layout in Jetpack Compose to design our UI.",author:9959,img_url:"/images/constraint-layout-compose-bannerr.png",blog_url:"constraint-layout-in-jetpack-compose",likes:0,rank:0,category:1,published_at:"11th May 2020",score:3.9975550174713135},{id:511,title:"Pagination in Jetpack Compose",description:"In this blog, we will learn how to build pagination using the paging library in Jetpack Compose. We will learn how to load data from API and show it in the paginated list.",author:9959,img_url:"/images/jetpack-compose-pagination-banner-b806521cd4f325b6.jpg",blog_url:"pagination-in-jetpack-compose",likes:0,rank:0,category:1,published_at:"26th November 2020",score:3.9975550174713135},{id:512,title:"Jetpack Compose: Navigation",description:"In this blog, we will learn how to navigate between different composable using Jetpack Navigation.",author:17146,img_url:"/images/banner-jetpack-compose-navigation-657edc7b323cafdf.png",blog_url:"jetpack-compose-navigation",likes:0,rank:0,category:1,published_at:"4th December 2020",score:3.9975550174713135},{id:206,title:"What is Android Jetpack and why should we use it?",description:"What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.",author:30,img_url:"/images/android-jetpack.png",blog_url:"what-is-android-jetpack-and-why-should-we-use-it",likes:0,rank:0,category:1,published_at:"4th January 2019",score:1.668971061706543}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            5th November 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Jetpack Compose Tutorial - Step by Step Guide
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Banner Jetpack Compose Tutorial" class="graf-image" src="/images/banner-jetpack-compose-tutorial-713779506dbc7754.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI.
+                 </p>
+                 <p class="graf--p">
+                  We will learn how to use Text, TextField, Preview, Column, Row, Button, Card, AlertDialog, MaterialDesign elements, etc, with this complete tutorial. So, without any further delay, let's get started by creating a Jetpack Compose Project. So, this tutorial is all about Learning Jetpack Compose for Android by Example.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://github.com/MindorksOpenSource/Jetpack-Compose-Android-Examples" target="_blank">
+                    Project to learn Jetpack Compose in Android by example.
+                   </a>
+                  </b>
+                  You can follow this project along with this blog.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   NOTE:
+                  </b>
+                  To use Jetpack Compose, you need to have the latest Canary version of Android Studio 4.2. So, you can move over to the
+                  <span class="">
+                   <a class="markup--anchor" href="https://developer.android.com/studio/preview" target="_blank">
+                    Android Studio Preview
+                   </a>
+                  </span>
+                  page and download the latest Canary version and then make an Empty Compose Activity.
+                 </p>
+                 <h2 class="graf--h2">
+                  Composable Function
+                 </h2>
+                 <p class="graf--p">
+                  In Jetpack Compose, Composable functions are used to define all the UI of your app programmatically. So, you need not use any XML files for the layout of the app. All you need to make a composable function is just by using the
+                  <code class="graf--code-inline">
+                   @Composable
+                  </code>
+                  annotation to the function name. The basic syntax of a Composable function is:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun AnyUiComponent() {
+    // Code for UI element
+}</code></pre>
+                 <p class="graf--p">
+                  Now, you know what Composable Functions are and how to make a composable function by using the
+                  <code class="graf--code-inline">
+                   @Composable
+                  </code>
+                  annotation. Let's move on to the example of Text.
+                 </p>
+                 <h2 class="graf--h2">
+                  Displaying a Simple Text
+                 </h2>
+                 <p class="graf--p">
+                  In this section of this tutorial, we are going to learn how to display a simple text using compose.
+                 </p>
+                 <p class="graf--p">
+                  To display a text, we use Text Composable and inside that, we pass the string that we want to display.  For example,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleText(displayText: String) {
+    Text(text = displayText)
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                  <code class="graf--code-inline">
+                   SimpleText
+                  </code>
+                  is a Composable function and inside that function, we are using
+                  <code class="graf--code-inline">
+                   Text
+                  </code>
+                  and passing
+                  <code class="graf--code-inline">
+                   displayText
+                  </code>
+                  into it.
+                 </p>
+                 <p class="graf--p">
+                  Now, you can call this
+                  <code class="graf--code-inline">
+                   SimpleText
+                  </code>
+                  function from the
+                  <code class="graf--code-inline">
+                   setContent
+                  </code>
+                  block of the
+                  <code class="graf--code-inline">
+                   onCreate
+                  </code>
+                  method of the activity.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class SimpleTextActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                SimpleText(getString("I am learning Compose"))
+            }
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we are using a
+                  <code class="graf--code-inline">
+                   Column
+                  </code>
+                  that is used to display some content vertically and inside that Column, we are calling the
+                  <code class="graf--code-inline">
+                   SimpleText
+                  </code>
+                  Composable function.
+                 </p>
+                 <h2 class="graf--h2">
+                  Applying Styles to a Text
+                 </h2>
+                 <p class="graf--p">
+                  We can apply various styles to a Text such as increasing the font size, changing the color, etc.
+                 </p>
+                 <p class="graf--p">
+                  So, let's make a function named
+                  <code class="graf--code-inline">
+                   SetTextStyling
+                  </code>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SetTextStyling(displayText: String, style: TextStyle? = null, maxLines: Int? = null) {
+    Text(
+        text = displayText,
+        modifier = Modifier.padding(16.dp),
+        style = style ?: TextStyle.Default,
+        overflow = TextOverflow.Ellipsis,
+        maxLines = maxLines ?: Int.MAX_VALUE
+    )
+}</code></pre>
+                 <p class="graf--p">
+                  In the above function, the parameters are
+                  <b class="graf--bold">
+                   displayText
+                  </b>
+                  i.e. the text to be displayed,
+                  <b class="graf--bold">
+                   style
+                  </b>
+                  i.e. the style to be put on the Text, and
+                  <b class="graf--bold">
+                   maxLines
+                  </b>
+                  i.e. the maximum number of lines allowed for the text. If the text is more than the maximum line, then ellipsis(...) will be shown.
+                 </p>
+                 <p class="graf--p">
+                  We will call this function by passing these parameters. Let's see some of these:
+                 </p>
+                 <ul>
+                  <li>
+                   To set font-size:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">style = TextStyle(
+    fontSize = 24.sp
+)</code></pre>
+                 <ul>
+                  <li>
+                   To set font-weight, pass text-style as:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">fontWeight = FontWeight.Bold</code></pre>
+                 <p class="graf--p">
+                  Similarly, you can change the font-Size, textColor, font-family, underline a text, etc. You can see all these from our Opensource Project.
+                 </p>
+                 <h2 class="graf--h2">
+                  Taking inputs using TextField
+                 </h2>
+                 <p class="graf--p">
+                  Just like EditText, in Compose we can use
+                  <code class="graf--code-inline">
+                   TextField
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   BaseTextField
+                  </code>
+                  .
+                  <code class="graf--code-inline">
+                   BaseTextField
+                  </code>
+                  is still experimental and can be removed or added permanently at any time. So, to use
+                  <code class="graf--code-inline">
+                   BaseTextField
+                  </code>
+                  , you need to add
+                  <code class="graf--code-inline">
+                   @ExperimentalFoundationApi
+                  </code>
+                  annotation.
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of a simple
+                  <code class="graf--code-inline">
+                   BaseTextField
+                  </code>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">@ExperimentalFoundationApi
+@Composable
+fun SimpleTextFieldComponent() {
+    Surface(color = Color.LightGray, modifier = Modifier.padding(16.dp)) {
+        var text by remember { mutableStateOf(TextFieldValue("Enter text here")) }
+        BaseTextField(
+            value = text,
+            modifier = Modifier.padding(16.dp).fillMaxWidth(),
+            onValueChange = {
+                text = it
+            }
+        )
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In the above function, we are having a
+                  <code class="graf--code-inline">
+                   BaseTextField
+                  </code>
+                  inside a
+                  <code class="graf--code-inline">
+                   Surface
+                  </code>
+                  . We have a callback named
+                  <code class="graf--code-inline">
+                   onValueChange
+                  </code>
+                  . This callback is called when there is some change in the input to the
+                  <code class="graf--code-inline">
+                   BaseTextField
+                  </code>
+                  and the updated text will come as a parameter from the callback.
+                 </p>
+                 <p class="graf--p">
+                  This is an example of
+                  <code class="graf--code-inline">
+                   BaseTextField
+                  </code>
+                  . The Material Design also provides one Composable for EditText i.e.
+                  <code class="graf--code-inline">
+                   TextField
+                  </code>
+                  . A simple implementation of
+                  <code class="graf--code-inline">
+                   TextField
+                  </code>
+                  is as below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleMaterialTextFieldComponent() {
+    var text by savedInstanceState { "" }
+    TextField(
+        value = text,
+        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+        onValueChange = { text = it },
+        label = { Text("Label") }
+    )
+}</code></pre>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   TextField
+                  </code>
+                  behaves similar to that of
+                  <code class="graf--code-inline">
+                   BaseTextField
+                  </code>
+                  . Here in
+                  <code class="graf--code-inline">
+                   TextField
+                  </code>
+                  , you have one more thing i.e.
+                  <code class="graf--code-inline">
+                   label
+                  </code>
+                  . A label is a text that is displayed inside the
+                  <code class="graf--code-inline">
+                   TextField
+                  </code>
+                  when there is no text in the
+                  <code class="graf--code-inline">
+                   TextField
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  We can customize this BaseTextField and the TextField by passing various parameters to it. For example,
+                 </p>
+                 <ul>
+                  <li>
+                   To show only numerical keyboard:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">var text by remember { mutableStateOf(TextFieldValue("0123")) }
+BaseTextField(value = text,
+    keyboardType = KeyboardType.Number,
+    onValueChange = {
+        text = it
+    }
+)</code></pre>
+                 <ul>
+                  <li>
+                   To take a password as an input:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">keyboardType = KeyboardType.Password,
+visualTransformation = PasswordVisualTransformation()</code></pre>
+                 <ul>
+                  <li>
+                   To add a placeholder in TextField(will be displayed when TextField is empty and focused)
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">placeholder = { Text("MindOrks") }</code></pre>
+                 <p class="graf--p">
+                  Similarly, we can add icons, show error message in TextFiled, set errorColor, backgroundColor, intractionState, activeColor, inactiveColor, etc. You can find these on our Opensource Project.
+                 </p>
+                 <p class="graf--p">
+                  You can try these and see the output in the Android Studio itself. Yes, you heard it right. You can preview any UI element in Android Studion itself. Let's see how.
+                 </p>
+                 <h2 class="graf--h2">
+                  Preview in Android Studio
+                 </h2>
+                 <p class="graf--p">
+                  Android Studio provides an awesome feature of previewing your UI components in the studio itself and that too dynamically. So, whenever you want to test some UI components, then you can simply preview it in the Android Studio by making a Composable function and by using the
+                  <code class="graf--code-inline">
+                   @Preview
+                  </code>
+                  annotation.
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// This is a Composable function to display a Text
+@Composable
+fun SimpleText(displayText: String) {
+    Text(text = displayText)
+}
+
+@Preview
+@Composable
+fun SimpleTextPreview() {
+    SimpleText("Hi I am learning Compose")
+}</code></pre>
+                 <p class="graf--p">
+                  Now, in the preview tab(right-hand side of the Studio), you can see the preview of the above Composable function.
+                 </p>
+                 <p class="graf--p">
+                  You can use as many previews as you want with different width and height. If you click on any of the UI elements in the preview, then the Android Studio will take you to the line where that UI is created.
+                 </p>
+                 <p class="graf--p">
+                  Also, you can put some names to a Preview by using the
+                  <code class="graf--code-inline">
+                   name
+                  </code>
+                  parameter. To name a preview you need to add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Preview(name = "Named Preview")</code></pre>
+                 <p class="graf--p">
+                  By default, the name of the preview is the name of the function.
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of the preview feature in Android Studio:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Jetpack Compose Tutorial Preview Example" class="graf-image" src="/images/jetpack-compose-tutorial-preview-example-ae4b42f5e619e397.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   NOTE: You can't pass any parameter to a Preview Composable function.
+                  </b>
+                 </p>
+                 <h2 class="graf--h2">
+                  Preview Parameter
+                 </h2>
+                 <p class="graf--p">
+                  In the last section, we learned how to use the preview feature of Android Studio. Now, when we make any Android application, then in most of the cases the data is coming from the server and we populate those data in our app. So, the next question is how to preview that UI where the data is coming from the server i.e. whose data is not available right now. For these situations, we can use
+                  <code class="graf--code-inline">
+                   @PreviewParameter
+                  </code>
+                  annotation.
+                 </p>
+                 <p class="graf--p">
+                  The main idea is to make a dummy data and pass that dummy data to the Preview Composable Function. Since you can't pass any parameter to a Preview Composable Function, so in order to achieve this, you need to pass the parameter by using the
+                  <code class="graf--code-inline">
+                   @PreviewParamter
+                  </code>
+                  annotation.
+                 </p>
+                 <p class="graf--p">
+                  So, let's first create a dummy data class.
+                 </p>
+                 <p class="graf--p">
+                  Make a data class named
+                  <code class="graf--code-inline">
+                   Blog.kt
+                  </code>
+                  and add the below code into it:
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class Blog(
+    val name: String,
+    val author: String
+)</code></pre>
+                 <p class="graf--p">
+                  Now, create a class named
+                  <code class="graf--code-inline">
+                   DummyBlogProvider
+                  </code>
+                  which implements an interface named
+                  <code class="graf--code-inline">
+                   PreviewParameterProvider
+                  </code>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">class DummyBlogProvider : PreviewParameterProvider&lt;Blog&gt; {
+    override val values =
+        sequenceOf(Blog("Learning Compose", "MindOrks"), Blog("Learning Android", "MindOrks"))
+    override val count: Int = values.count()
+}</code></pre>
+                 <p class="graf--p">
+                  Now, we are done with the dummy data and we can use this dummy data in our preview. The following is an example of the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Preview
+@Composable
+fun BlogInfo(@PreviewParameter(DummyBlogProvider::class) blog: Blog) {
+    SimpleTextComponent("${blog.name} by ${blog.author}")
+}</code></pre>
+                 <p class="graf--p">
+                  You can see the preview of the UI with your dummy data.
+                 </p>
+                 <h2 class="graf--h2">
+                  Column
+                 </h2>
+                 <p class="graf--p">
+                  A
+                  <code class="graf--code-inline">
+                   Column
+                  </code>
+                  is a layout composable that is used to place all its children vertically one after the other. It is similar to LinearLayout with vertical orientation.
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of a Column:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleColumnComponent() {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "Hello! I am Text 1", color = Color.Black)
+        Text(text = "Hello! I am Text 2", color = Color.Blue)
+    }
+}</code></pre>
+                 <h2 class="graf--h2">
+                  Scrollable Column
+                 </h2>
+                 <p class="graf--p">
+                  When you use a simple
+                  <code class="graf--code-inline">
+                   Column
+                  </code>
+                  , then you are restricted to use the height of the mobile screen only. But if your content is going out of the screen then you can use
+                  <code class="graf--code-inline">
+                   ScrollableColumn
+                  </code>
+                  . ScrollableColumn is just like ScrollView.
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun ScrollableColumnComponent(blogList: List&lt;Blog&gt;) {
+    ScrollableColumn {
+        val context = ContextAmbient.current
+        Column {
+            for (blog in blogList) {
+                Card(
+                    shape = RoundedCornerShape(4.dp),
+                    modifier = Modifier.fillMaxWidth().padding(16.dp).clickable(onClick = {
+                        Toast.makeText(context, "Author: ${blog.author}", Toast.LENGTH_SHORT).show()
+                    }),
+                    backgroundColor = Color(0xFFFFA867.toInt())
+                ) {
+                    Text(
+                        blog.name, style = TextStyle(
+                            fontSize = 16.sp,
+                            textAlign = TextAlign.Center
+                        ), modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+        }
+    }
+}</code></pre>
+                 <h2 class="graf--h2">
+                  Lazy Column
+                 </h2>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   ScrollableColumn
+                  </code>
+                  loads all its elements at the start. For example, if you are having 50 elements and at any point in time the screen can show only 10 elements and you need to scroll to see the other element then if you are using a
+                  <code class="graf--code-inline">
+                   ScrollableColumn
+                  </code>
+                  , then all the elements will be loaded initially.
+                 </p>
+                 <p class="graf--p">
+                  But if you are using
+                  <code class="graf--code-inline">
+                   LazyColumnFor
+                  </code>
+                  , then it will load only those elements that are currently visible on the mobile screen. It behaves somewhat similar to a
+                  <code class="graf--code-inline">
+                   RecyclerView
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun LazyColumnScrollableComponent(blogList: List&lt;Blog&gt;) {
+    LazyColumnFor(items = blogList, modifier = Modifier.fillMaxHeight()) { blog -&gt;
+        val context = ContextAmbient.current
+        Card(
+            shape = RoundedCornerShape(4.dp),
+            modifier = Modifier.fillParentMaxWidth().padding(16.dp).clickable(onClick = {
+                Toast.makeText(context, "Author: ${blog.author}", Toast.LENGTH_SHORT).show()
+            }),
+            backgroundColor = Color(0xFFFFA867.toInt())
+        ) {
+            Text(
+                blog.name, style = TextStyle(
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center
+                ), modifier = Modifier.padding(16.dp)
+            )
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, if you want to display the content horizontally, then you can use Row, ScrollableRow, or Lazy Row. The working of all these is similar to that of Column, ScrollableColumn, and Lazy Column respectively. So, to make this blog more informative, we are not including that part. Still, you can find the code of these from our Opensource Project.
+                 </p>
+                 <h2 class="graf--h2">
+                  Box
+                 </h2>
+                 <p class="graf--p">
+                  A Box is a layout composable that is used to place children relative to its edges. Initially, Stack was used in place of Box. But now, Stack is deprecated and Box is introduced.
+                 </p>
+                 <p class="graf--p">
+                  As the name suggests, the children are placed inside the parent. The children inside a box are drawn in the specified order and if the children are smaller than the parent, then they will be placed inside the Box by default based on the alignment.
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of Box:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleBoxComponent() {
+    Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Image(imageResource(R.drawable.mindorks_cover))
+        Text(
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp),
+            text = "I am a text over Image",
+            fontSize = 16.sp,
+            color = Color.Red
+        )
+    }
+}</code></pre>
+                 <h2 class="graf--h2">
+                  Button
+                 </h2>
+                 <p class="graf--p">
+                  Buttons are used to perform some action when the user clicks it.
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of a simple button:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleButtonComponent() {
+    val context = ContextAmbient.current
+    Button(
+        onClick = {
+            Toast.makeText(context, "Thanks for clicking!", Toast.LENGTH_LONG).show()
+        },
+        modifier = Modifier.padding(8.dp).fillMaxWidth()
+    ) {
+        Text("Click Me")
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                  <code class="graf--code-inline">
+                   Text
+                  </code>
+                  is used to put some text over the Button and
+                  <code class="graf--code-inline">
+                   onClick
+                  </code>
+                  callback is used to listen to the click event of the button.
+                 </p>
+                 <p class="graf--p">
+                  By passing various parameters to a Button, you can customize it to a large extent. Some of these are:
+                 </p>
+                 <ul>
+                  <li>
+                   Make rounded corners Button:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">shape = RoundedCornerShape(12.dp)</code></pre>
+                 <ul>
+                  <li>
+                   Make a Button with borders:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">border = BorderStroke(width = 1.dp, brush = SolidColor(Color.Green))</code></pre>
+                 <p class="graf--p">
+                  Similarly, you can add some icon to a button, apply color to a button, make a button disabled, make an outlined button, make an IconButton, make a FAB, etc. You can look at our open-source project for more examples.
+                 </p>
+                 <h2 class="graf--h2">
+                  <b class="graf--bold">
+                   Card
+                  </b>
+                 </h2>
+                 <p class="graf--p">
+                  A Card is a layout composable that is used to make a CardView.
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleCardComponent() {
+    Card(
+        backgroundColor = Color(0xFFFFA867.toInt()),
+        modifier = Modifier.padding(16.dp).fillMaxWidth()
+    ) {
+        Text(
+            text = "Simple Card",
+            textAlign = TextAlign.Center,
+            style = TextStyle(
+                fontSize = 16.sp
+            ),
+            modifier = Modifier.padding(16.dp)
+        )
+    }
+}</code></pre>
+                 <h2 class="graf--h2">
+                  Clickable
+                 </h2>
+                 <p class="graf--p">
+                  You can make a composable react with the user by using Clickable. Clickable supports a one-time click, double click, and long press.
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleTextComponent() {
+    val context = ContextAmbient.current
+    Text(
+        text = "Click Me",
+        textAlign = TextAlign.Center,
+        color = Color.Black,
+        modifier = Modifier.padding(16.dp).fillMaxWidth().clickable(onClick = {
+            Toast.makeText(context, "Thanks for clicking! I am Text", Toast.LENGTH_SHORT).show()
+        }, onLongClick = {
+            Toast.makeText(context, "Thanks for LONG click! I am Text", Toast.LENGTH_SHORT).show()
+        }, onDoubleClick = {
+            Toast.makeText(context, "Thanks for DOUBLE click! I am Text", Toast.LENGTH_SHORT).show()
+        })
+    )
+}</code></pre>
+                 <p class="graf--p">
+                  Similarly, you can make a Card clickable.
+                 </p>
+                 <h2 class="graf--h2">
+                  Image
+                 </h2>
+                 <p class="graf--p">
+                  To display an image, we can use
+                  <code class="graf--code-inline">
+                   Image
+                  </code>
+                  composable.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleImageComponent() {
+    // Image is a composable that is used to display some image.
+    val image = imageResource(R.drawable.mindorks_cover)
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Image(image)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  You can also make a rounded corner image by using the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">Image(
+    image,
+    modifier = Modifier.fillMaxWidth().clip(shape = RoundedCornerShape(8.dp)),
+    contentScale = ContentScale.Fit
+)</code></pre>
+                 <h2 class="graf--h2">
+                  Alert Dialog
+                 </h2>
+                 <p class="graf--p">
+                  As the name suggests, AlertDialog is used to display some important messages(which may have some actions on it) to the user in the form of a dialog.
+                 </p>
+                 <p class="graf--p">
+                  We have title, text, confirm button, and dismiss button in an AlertDialog.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun AlertDialogComponent() {
+    val openDialog = remember { mutableStateOf(true) }
+    if (openDialog.value) {
+        AlertDialog(
+            onDismissRequest = { openDialog.value = false },
+            title = { Text(text = "Alert Dialog") },
+            text = { Text("Hello! I am an Alert Dialog") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        openDialog.value = false
+                        /* Do some other action */
+                    }
+                ) {
+                    Text("Confirm")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        openDialog.value = false
+                        /* Do some other action */
+                    }
+                ) {
+                    Text("Dismiss")
+                }
+            },
+            backgroundColor = Color.Black,
+            contentColor = Color.White
+        )
+    }
+}</code></pre>
+                 <h2 class="graf--h2">
+                  Material AppBar
+                 </h2>
+                 <p class="graf--p">
+                  To display an AppBar in an Android app, you can use the
+                  <code class="graf--code-inline">
+                   TopAppBar
+                  </code>
+                  or
+                  <code class="graf--code-inline">
+                   BottomAppBar
+                  </code>
+                  composable in your app. Here, you can have the title(generally app name), some navigationIcon, and some actions that are there on the AppBar.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun TopAppBarComponent() {
+    TopAppBar(
+        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+        title = { Text("App Name") },
+        navigationIcon = {
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(Icons.Filled.Menu)
+            }
+        },
+        actions = {
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(Icons.Filled.Favorite)
+            }
+            IconButton(onClick = { /* doSomething() */ }) {
+                Icon(Icons.Filled.Favorite)
+            }
+        }
+    )
+}</code></pre>
+                 <p class="graf--p">
+                  Similarly, we can use the
+                  <code class="graf--code-inline">
+                   BottomAppBar
+                  </code>
+                  also.
+                 </p>
+                 <h2 class="graf--h2">
+                  Material BottomNavigation
+                 </h2>
+                 <p class="graf--p">
+                  BottomNavigation is used to have some important actions of the app at the bottom of the screen so that it is easily accessible to the users. To add an item to a
+                  <code class="graf--code-inline">
+                   BottomNavigation
+                  </code>
+                  , we need to use the
+                  <code class="graf--code-inline">
+                   BottomNavigationItem
+                  </code>
+                  composable.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun BottomNavigationWithLabelComponent() {
+    var selectedItem by remember { mutableStateOf(0) }
+    val items = listOf("Home", "Blogs", "Profile")
+    BottomNavigation(
+        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+        backgroundColor = Color.Black,
+        contentColor = Color.Yellow
+    ) {
+        items.forEachIndexed { index, item -&gt;
+            BottomNavigationItem(
+                label = { Text(text = item) },
+                icon = { Icon(Icons.Filled.Favorite) },
+                selected = selectedItem == index,
+                onClick = { selectedItem = index }
+            )
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  To use BottomNavigation without labels you can use
+                  <code class="graf--code-inline">
+                   alwaysShowLabels = false
+                  </code>
+                  in
+                  <code class="graf--code-inline">
+                   BottomNavigationItem
+                  </code>
+                  .
+                 </p>
+                 <h2 class="graf--h2">
+                  Material Checkbox
+                 </h2>
+                 <p class="graf--p">
+                  A checkbox is used when we have 2 options and the user can either select or unselect the options.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleCheckboxComponent() {
+    val checkedState = remember { mutableStateOf(true) }
+    Row {
+        Checkbox(
+            checked = checkedState.value,
+            modifier = Modifier.padding(16.dp),
+            onCheckedChange = { checkedState.value = it },
+        )
+        Text(text = "Checkbox Example", modifier = Modifier.padding(16.dp))
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   onCheckedChange
+                  </code>
+                  callback is used to identify the change in the Checkbox.
+                 </p>
+                 <h2 class="graf--h2">
+                  Material ProgressBar
+                 </h2>
+                 <p class="graf--p">
+                  A ProgressBar is used to show some progress that is happening right now in the app. For example, downloading progress or loading data from the server.
+                 </p>
+                 <p class="graf--p">
+                  We can make a Circular ProgressBar or a Linear ProgressBar.
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of Circular ProgressBar:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleCircularProgressComponent() {
+    CircularProgressIndicator(
+        modifier = Modifier.padding(16.dp)
+    )
+}</code></pre>
+                 <p class="graf--p">
+                  You can also set the progress of progress by using
+                  <code class="graf--code-inline">
+                   progress = 0.4f
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Similarly, you can use the
+                  <code class="graf--code-inline">
+                   LinearProgressIndicator
+                  </code>
+                  also.
+                 </p>
+                 <h2 class="graf--h2">
+                  Material Slider
+                 </h2>
+                 <p class="graf--p">
+                  A Slider is used to select some value from a range of values. For example, you can increase/decrease the volume by volume slider, brightness by brightness slider, etc.
+                 </p>
+                 <p class="graf--p">
+                  A slider can be linear or can have some discrete values i.e. you can slide through to select only allowed values like selecting only integer values.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleSliderComponent() {
+    var sliderValue by remember { mutableStateOf(0.4f) }
+    Slider(
+        value = sliderValue,
+        modifier = Modifier.padding(8.dp),
+        onValueChange = { newValue -&gt;
+            sliderValue = newValue
+        }
+    )
+    Text(
+        text = "Slider value: $sliderValue",
+        modifier = Modifier.padding(8.dp)
+    )
+}</code></pre>
+                 <p class="graf--p">
+                  Similarly, you can make a stepped slider by passing the steps parameter to the Slider.
+                 </p>
+                 <h2 class="graf--h2">
+                  Material Snackbar
+                 </h2>
+                 <p class="graf--p">
+                  A Snackbar is used to show some information at the bottom of the screen and it is placed over all the UI elements.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun SimpleSnackbarComponent() {
+    Snackbar(
+        modifier = Modifier.padding(16.dp),
+        text = {
+            Text(text = "I'm a Simple Snackbar")
+        }
+    )
+}</code></pre>
+                 <p class="graf--p">
+                  You can also add some action to a Snackbar by using:
+                 </p>
+                 <pre><code class="language-java graf graf--code">action = {
+    Text(text = "OK", style = TextStyle(color = Color.Green))
+}</code></pre>
+                 <h2 class="graf--h2">
+                  Custom View
+                 </h2>
+                 <p class="graf--p">
+                  In Compose also, we can make a Canvas and on the canvas, we can draw various shapes such as Circle, Rectangle, arc, etc.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun CustomViewComponent() {
+    Canvas(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        drawRect(
+            color = Color.Red,
+            // topLeft is the coordinate of top-left point
+            topLeft = Offset(0f, 0f),
+            size = Size(800f, 400f)
+        )
+        drawArc(
+            Color.Gray,
+            startAngle = 0f,
+            sweepAngle = 120f,
+            useCenter = true,
+            size = Size(600f, 600f),
+            topLeft = Offset(300f, 300f)
+        )
+    }
+}</code></pre>
+                 <h2 class="graf--h2">
+                  Crossfade Animation
+                 </h2>
+                 <p class="graf--p">
+                  We can use animations in Compose also. For example, we can use Crossfade animation by using the Crossfade Composable.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun CrossFadeAnimation() {
+    val colors = listOf(Color.Red, Color.Green, Color.Blue, Color.Gray)
+    var current by remember { mutableStateOf(colors[0]) }
+    Column(modifier = Modifier.fillMaxSize()) {
+        Crossfade(current = current) { color -&gt;
+            Box(Modifier.fillMaxSize().clickable(
+                onClick = {
+                    current = colors.random()
+                }
+            ).background(color))
+            Text(
+                modifier = Modifier.fillMaxSize(),
+                textAlign = TextAlign.Center,
+                text = "Click To See"
+            )
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, the color of the Box will change with Crossfade animation on clicking over the Box.
+                 </p>
+                 <p class="graf--p">
+                  That's it from this tutorial. There are many other examples that you can try using Jetpack Compose.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://github.com/MindorksOpenSource/Jetpack-Compose-Android-Examples" target="_blank">
+                    Here is a Project to learn Jetpack Compose in Android by example.
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning!
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks :)
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Jetpack Compose to build UI in Android" class="ui centered image" src="/images/banner_jetpack.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Jetpack Compose to build UI in Android
+           </div>
+           <div class="meta">
+            25th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will build and learn how to Use Jetpack Compose to build UI in Android. We will learn how to setup and work with it. We will also discuss how to make few other components as well
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="State Management in Jetpack Compose" class="ui centered image" src="/images/state-management-compose-android-min.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            State Management in Jetpack Compose
+           </div>
+           <div class="meta">
+            2nd May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to manage state in Jetpack Compose. We will also see different ways to handle state with examples.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Constraint layout in Jetpack Compose" class="ui centered image" src="/images/constraint-layout-compose-bannerr.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Constraint layout in Jetpack Compose
+           </div>
+           <div class="meta">
+            11th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to use constraint layout in Jetpack Compose to design our UI.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Pagination in Jetpack Compose" class="ui centered image" src="/images/jetpack-compose-pagination-banner-b806521cd4f325b6.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Pagination in Jetpack Compose
+           </div>
+           <div class="meta">
+            26th November 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to build pagination using the paging library in Jetpack Compose. We will learn how to load data from API and show it in the paginated list.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Jetpack Compose: Navigation" class="ui centered image" src="/images/banner-jetpack-compose-navigation-657edc7b323cafdf.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Jetpack Compose: Navigation
+           </div>
+           <div class="meta">
+            4th December 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to navigate between different composable using Jetpack Navigation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="What is Android Jetpack and why should we use it?" class="ui centered image" src="/images/android-jetpack.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            What is Android Jetpack and why should we use it?
+           </div>
+           <div class="meta">
+            4th January 2019
+           </div>
+           <div class="description">
+            What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

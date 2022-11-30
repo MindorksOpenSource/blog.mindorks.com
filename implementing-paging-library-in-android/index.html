@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Implementing Paging Library in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/implementing-paging-library-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Implementing Paging Library in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/implementing-paging-library-in-android" property="og:url"/>
+  <meta content="/images/implementing-paging-library-in-android-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to implement Paging Library in Android. Paging Library is used to get only a selected amount of data out of a heap of data i.e. at a particular instant of time only the desired amount of data will be loaded in the application. This feature is very important for applications using infinite scrolling. We have created a full tutorial for Paging." property="og:description"/>
+  <meta content="Implementing Paging Library in Android" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to implement Paging Library in Android. Paging Library is used to get only a selected amount of data out of a heap of data i.e. at a particular instant of time only the desired amount of data will be loaded in the application. This feature is very important for applications using infinite scrolling. We have created a full tutorial for Paging." name="twitter:description"/>
+  <meta content="/images/implementing-paging-library-in-android-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to implement Paging Library in Android. Paging Library is used to get only a selected amount of data out of a heap of data i.e. at a particular instant of time only the desired amount of data will be loaded in the application. This feature is very important for applications using infinite scrolling. We have created a full tutorial for Paging." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:286,data:{id:286,title:"Implementing Paging Library in Android",description:"In this blog, we will learn how to implement Paging Library in Android. Paging Library is used to get only a selected amount of data out of a heap of data i.e. at a particular instant of time only the desired amount of data will be loaded in the application. This feature is very important for applications using infinite scrolling. We have created a full tutorial for Paging.",text:'<h1 class="graf--h1">Implementing Paging Library in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/implementing-paging-library-in-android-banner.png class=\'graf-image\' alt=\'Implementing Paging Library in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">With the increase in the number of users of a particular mobile application, there is an increase in the amount of data associated with that application. For example, with the increase in the number of users of the Instagram app, the daily feeds of the app also increased to a large amount. In general, if we want to display some data from our remote server to our Android application, we fetch the data at the time of launching of that particular activity that will display the data and after that, we show the data on that activity. But think of the Instagram application. With 1+ billion users, you can’t even imagine the amount of data that the Instagram application has. And if the app starts loads the data from the server and then displays the data on our feeds then it will take years to load all the data from the server. </p><p class="graf--p">So, what we want is, if the user comes to the bottom of the screen then we can fetch some more data from the server and display it. But what if the user at the same time scrolls up the screen? So, you need to handle a lot of cases while using this approach. To avoid these kinds of difficulties and to load only a desired amount of data from the database, Google introduced the concept of <b class="graf--bold">Paging</b> in Android.</p><p class="graf--p">In this blog, we will learn about Paging and will use this concept in our Android Application. So, let’s get started.</p><h4 class="graf--h3">What is Paging?</h4><p class="graf--p">Paging is a part of the Android Jetpack and is used to load and display small amounts of data from the remote server. By doing so, it reduces the use of network bandwidth. Some of the advantages of Paging can be:</p><ol><li>You will get the content on the page faster</li><li>It uses very less memory</li><li>It doesn’t load the useless data i.e. only one or two pages can be loaded at a time.</li><li>You can use Paging along with LiveData and ViewModel to observe and update data in an easier way.</li></ol><h4 class="graf--h3">Components of Paging</h4><p class="graf--p">Following are the components of Paging:</p><p class="graf--p"><b class="graf--bold">DataSource:</b> DataSource is the class where you tell your application about how much data you want to load in your application. You can load the data from the server by using three subclasses of the DataSource class. They are:</p><ol><li><b class="graf--bold">ItemKeyedDataSource:</b> If you want the data of an item with the help of the previous item then you can use ItemKeyedDataSource. For example, while commenting to a post, you need the id of the last comment to get the content of the next comment.</li><li><b class="graf--bold">PageKeyedDataSource:</b> If your feeds page has some feature of next or previous post then you can use PageKeyedDataSource. For example, you can see the next post by clicking the next button in any social media platform.</li><li><b class="graf--bold">PositionalDataSource:</b> If you want to fetch data only from a specific location then you can use PositionalDataSource. For example, out of 1000 users, if you want to fetch the data of the users from 300 to 400 then you can do this by using PositionalDataSource.</li></ol><p class="graf--p"><b class="graf--bold">PagedList:</b> By using the PagedList class, you can load the data of your application. If more and more data are added or need by the user then that extra data will be added to the previous PagedList only. Also, if there is a change in the data is observed then a new instance of PagedList is emitted to the observer with the help of the LiveData or RxJava.</p><p class="graf--p">So, to use the LiveData holder of PagedList objects in your ViewModel, you can use the below code:</p><pre><code class="language-java graf graf--code">class ConcertViewModel(concertDao: ConcertDao) : ViewModel() {\n    val concertList: LiveData&lt;PagedList&lt;Concert&gt;&gt; =\n            concertDao.concertsByDate().toLiveData(pageSize = 30)\n}</code></pre><p class="graf--p"><b class="graf--bold">New Data:</b> With the help of PagedListAdapter, whenever a new page is loaded by the PagedList then the PagedListAdapter will notify the RecyclerView that a new data has been added and the RecyclerView will update that data to the UI.</p><h4 class="graf--h3">Implementation of Paging Library</h4><p class="graf--p">So, till now we are done with the introduction part of the Paging Library. Now, let’s move on to the implementation of Paging Library in our project. Since to load data into our application either we can fetch data from the local database i.e. by using SQLite or we can fetch the data from the remote server. In most of the cases, we deal with some kind of data stored at some remote server, so in our example, we will fetch data from Github. We will take input from the user and will display the related repositories from the Github.</p><p class="graf--p">This example is going to be long, so have some water and snacks with you. Don’t worry you will learn in the best possible way. So, let’s get started.</p><p class="graf--p"><b class="graf--bold">Step 1:</b> Create a project in Android Studio by selecting the Empty Activity template.</p><p class="graf--p"><b class="graf--bold">Step 2:</b> After creating the project, our next step should be to add the required dependencies in our project. We need to add the dependencies for ViewModel, LiveData, Room, Retrofit and Paging. So, open your app level build.gradle file and add the below dependencies:</p><pre><code class="language-java graf graf--code">// architecture components\nimplementation "androidx.lifecycle:lifecycle-extensions:2.0.0"\nimplementation "androidx.lifecycle:lifecycle-runtime:2.0.0"\nimplementation "androidx.room:room-runtime:2.1.0-alpha01"\nimplementation "androidx.paging:paging-runtime:2.1.0-alpha01"\nkapt "androidx.lifecycle:lifecycle-compiler:2.0.0"\nkapt "androidx.room:room-compiler:2.1.0-alpha01"\n\n// retrofit\nimplementation "com.squareup.retrofit2:retrofit:2.3.0"\nimplementation"com.squareup.retrofit2:converter-gson:2.3.0"\nimplementation "com.squareup.retrofit2:retrofit-mock:2.3.0"\nimplementation "com.squareup.okhttp3:logging-interceptor:3.9.0"</code></pre><p class="graf--p"><b class="graf--bold">Step 3:</b> As always, our next task is to make the UI of the application and after that we will move on to the coding part. So, in our <b class="graf--bold"><i class="graf--italic">activity_main.xml</i></b> file, we are having one EditText to search repository and one RecyclerView to display the repository list. Following is the code for the <b class="graf--bold"><i class="graf--italic">activity_main.xml</i></b> file:</p><pre><code class="language-java graf graf--code">&lt;androidx.constraintlayout.widget.ConstraintLayout\n    xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".ui.MainActivity"&gt;\n    &lt;com.google.android.material.textfield.TextInputLayout\n        android:id="@+id/input_layout"\n        android:layout_width="0dp"\n        android:layout_height="wrap_content"\n        android:layout_marginEnd="8dp"\n        android:layout_marginStart="8dp"\n        android:layout_marginTop="8dp"\n        android:layout_marginLeft="8dp"\n        android:layout_marginRight="8dp"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent"&gt;\n        &lt;EditText\n            android:id="@+id/search_repo"\n            android:layout_width="match_parent"\n            android:layout_height="wrap_content"\n            android:hint="Enter your Github Repository"\n            android:imeOptions="actionSearch"\n            android:inputType="textNoSuggestions"\n            tools:text="Kotlin"/&gt;\n    &lt;/com.google.android.material.textfield.TextInputLayout&gt;\n\n    &lt;androidx.recyclerview.widget.RecyclerView\n        android:id="@+id/list"\n        android:layout_width="0dp"\n        android:layout_height="0dp"\n        android:paddingVertical="@dimen/row_item_margin_vertical"\n        android:scrollbars="vertical"\n        app:layoutManager="LinearLayoutManager"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toBottomOf="@+id/input_layout"\n        tools:ignore="UnusedAttribute"/&gt;\n\n    &lt;TextView android:id="@+id/emptyList"\n              android:layout_width="0dp"\n              android:layout_height="match_parent"\n              android:gravity="center"\n              android:text="@string/no_results"\n              android:textSize="@dimen/repo_name_size"\n              android:visibility="gone"\n              app:layout_constraintBottom_toBottomOf="parent"\n              app:layout_constraintEnd_toEndOf="parent"\n              app:layout_constraintStart_toStartOf="parent"\n              app:layout_constraintTop_toTopOf="parent"/&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p"><b class="graf--bold">Step 4:</b> Now, we need to set the items to be displayed in the RecyclerView. So, in the Recycler View, we are having one TextView for the Repository title, one TextView for the description of the repository, one TextView for displaying language of repository and two TextViews for displaying the number of stars and forks. So, add one layout file in the <b class="graf--bold"><i class="graf--italic">res/layout</i></b> directory and name it as <b class="graf--bold"><i class="graf--italic">recycler_item.xml</i></b>. Following is the code of the same:</p><pre><code class="language-java graf graf--code">&lt;androidx.constraintlayout.widget.ConstraintLayout\n    xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="wrap_content"\n    android:paddingHorizontal="@dimen/row_item_margin_horizontal"\n    android:paddingTop="@dimen/row_item_margin_vertical"\n    tools:ignore="UnusedAttribute"&gt;\n\n    &lt;TextView\n        android:id="@+id/repo_name"\n        android:layout_width="0dp"\n        android:layout_height="wrap_content"\n        android:textColor="@color/titleColor"\n        android:textSize="@dimen/repo_name_size"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent"\n        tools:text="Repo name  goes here"/&gt;\n\n    &lt;TextView\n        android:id="@+id/repo_description"\n        android:layout_width="0dp"\n        android:layout_height="wrap_content"\n        android:maxLines="10"\n        android:paddingVertical="@dimen/row_item_margin_vertical"\n        android:textColor="?android:textColorPrimary"\n        android:textSize="@dimen/repo_description_size"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toBottomOf="@+id/repo_name"\n        tools:ignore="UnusedAttribute"\n        tools:text="Description of the Repository"/&gt;\n\n    &lt;TextView\n        android:id="@+id/repo_language"\n        android:layout_width="0dp"\n        android:layout_height="wrap_content"\n        android:layout_marginStart="0dp"\n        android:paddingVertical="@dimen/row_item_margin_vertical"\n        android:text="Language: %s"\n        android:textSize="@dimen/repo_description_size"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toBottomOf="@+id/repo_description"\n        tools:ignore="RtlCompat"/&gt;\n\n    &lt;ImageView\n        android:id="@+id/star"\n        android:layout_width="0dp"\n        android:layout_marginVertical="@dimen/row_item_margin_vertical"\n        android:layout_height="wrap_content"\n        android:src="@drawable/ic_star"\n        app:layout_constraintEnd_toStartOf="@+id/repo_stars"\n        app:layout_constraintBottom_toBottomOf="@+id/repo_stars"\n        app:layout_constraintTop_toTopOf="@+id/repo_stars" /&gt;\n\n    &lt;TextView\n        android:id="@+id/repo_stars"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:paddingVertical="@dimen/row_item_margin_vertical"\n        android:textSize="@dimen/repo_description_size"\n        app:layout_constraintEnd_toStartOf="@id/forks"\n        app:layout_constraintBaseline_toBaselineOf="@+id/repo_forks"\n        tools:text="Number of stars"/&gt;\n\n    &lt;ImageView\n        android:id="@+id/forks"\n        android:layout_width="0dp"\n        android:layout_height="wrap_content"\n        android:layout_marginVertical="@dimen/row_item_margin_vertical"\n        android:src="@drawable/ic_git_branch"\n        app:layout_constraintEnd_toStartOf="@+id/repo_forks"\n        app:layout_constraintBottom_toBottomOf="@+id/repo_forks"\n        app:layout_constraintTop_toTopOf="@+id/repo_forks" /&gt;\n\n    &lt;TextView\n        android:id="@+id/repo_forks"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:paddingVertical="@dimen/row_item_margin_vertical"\n        android:textSize="@dimen/repo_description_size"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintTop_toBottomOf="@+id/repo_description"\n        tools:text="Number of Forks"/&gt;\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Now, we are done with the UI part. Our next step is to write the code for the Paging.</p><p class="graf--p"><b class="graf--bold">Step 5: </b>Since we are dealing with LiveData, ViewModel, RecyclerView, fetching data from Github, so, it will be great if we make different packages for these different tasks. So, your root directory, create five packages named githubapi, dbcache, datastore, userinterface and modelclass.</p><ul><li><b class="graf--bold">githubapi:</b> To call the Github API using Retrofit</li><li><b class="graf--bold">dbcache:</b> To cache the network data</li><li><b class="graf--bold">datastore:</b> To store the response from the API to the database</li><li><b class="graf--bold">userinterface:</b> To handle the UI related things like displaying data in the RecyclerView</li><li><b class="graf--bold">modelclass:</b> To observe search result data and network errors.</li></ul><p class="graf--p"><b class="graf--bold">Step 6:</b> Our next step is to use the Github API to search for the Github Repo using the <b class="graf--bold">searchRepo</b> API. So, create an Interface in the githubapi package and add the below code:</p><pre><code class="language-java graf graf--code">private const val TAG = "GithubService"\nprivate const val IN_QUALIFIER = "in:name,description"\n\nfun searchRepos(\n        service: GithubService,\n        query: String,\n        page: Int,\n        itemsPerPage: Int,\n        onSuccess: (repos: List&lt;RepoModel&gt;) -&gt; Unit,\n        onError: (error: String) -&gt; Unit\n) {\n    Log.d(TAG, "query: $query, page: $page, itemsPerPage: $itemsPerPage")\n\n    val apiQuery = query + IN_QUALIFIER\n\n    service.searchRepos(apiQuery, page, itemsPerPage).enqueue(\n            object : Callback&lt;RepoResponse&gt; {\n                override fun onFailure(call: Call&lt;RepoResponse&gt;?, t: Throwable) {\n                    Log.d(TAG, "fail to get data")\n                    onError(t.message ?: "unknown error")\n                }\n\n                override fun onResponse(\n                        call: Call&lt;RepoResponse&gt;?,\n                        response: Response&lt;RepoResponse&gt;\n                ) {\n                    Log.d(TAG, "got a response $response")\n                    if (response.isSuccessful) {\n                        val repos = response.body()?.items ?: emptyList()\n                        onSuccess(repos)\n                    } else {\n                        onError(response.errorBody()?.string() ?: "Unknown error")\n                    }\n                }\n            }\n    )\n}\n\ninterface GithubService {\n    /**\n     * Get repos ordered by stars.\n     */\n    @GET("search/repositories?sort=stars")\n    fun searchRepos(\n        @Query("q") query: String,\n        @Query("page") page: Int,\n        @Query("per_page") itemsPerPage: Int\n    ): Call&lt;RepoResponse&gt;\n\n    companion object {\n        private const val BASE_URL = "https://api.github.com/"\n\n        fun create(): GithubService {\n            val logger = HttpLoggingInterceptor()\n            logger.level = Level.BASIC\n\n            val client = OkHttpClient.Builder()\n                    .addInterceptor(logger)\n                    .build()\n            return Retrofit.Builder()\n                    .baseUrl(BASE_URL)\n                    .client(client)\n                    .addConverterFactory(GsonConverterFactory.create())\n                    .build()\n                    .create(GithubService::class.java)\n        }\n    }\n}</code></pre><p class="graf--p"><b class="graf--bold">Step 7:</b> Now add one data class in the githubapi package to hold the responses from the <b class="graf--bold">searchRepo</b> API and add the below code:</p><pre><code class="language-java graf graf--code">data class RepoResponse(\n        @SerializedName("total_count") val total: Int = 0,\n        @SerializedName("items") val items: List&lt;RepoModel&gt; = emptyList(),\n        val nextPage: Int? = null\n)</code></pre><p class="graf--p"><b class="graf--bold">Step 8:</b> Our next task is to hold the query data and network error message. So, in the modelclass package, add one data class and add the below code in it:</p><pre><code class="language-java graf graf--code">data class RepoResult(\n        val data: LiveData&lt;PagedList&lt;RepoModel&gt;&gt;,\n        val networkErrors: LiveData&lt;String&gt;\n)</code></pre><p class="graf--p">Now, in the same package, add one data class to hold all the information about a repository:</p><pre><code class="language-java graf graf--code">@Entity(tableName = "repos")\ndata class RepoModel(\n    @PrimaryKey @field:SerializedName("id") val id: Long,\n    @field:SerializedName("name") val name: String,\n    @field:SerializedName("full_name") val fullName: String,\n    @field:SerializedName("description") val description: String?,\n    @field:SerializedName("html_url") val url: String,\n    @field:SerializedName("stargazers_count") val stars: Int,\n    @field:SerializedName("forks_count") val forks: Int,\n    @field:SerializedName("language") val language: String?\n)</code></pre><p class="graf--p"><b class="graf--bold">Step 9:</b> Our next task is to create the Database schema to hold the list of repos in the application. So, in the dbcache package add one abstract class with the below code:</p><pre><code class="language-java graf graf--code">@Database(\n        entities = [RepoModel::class],\n        version = 1,\n        exportSchema = false\n)\nabstract class RepoDb : RoomDatabase() {\n\n    abstract fun reposDao(): RepoDao\n\n    companion object {\n\n        @Volatile\n        private var INSTANCE: RepoDb? = null\n\n        fun getInstance(context: Context): RepoDb =\n                INSTANCE ?: synchronized(this) {\n                    INSTANCE\n                            ?: buildDatabase(context).also { INSTANCE = it }\n                }\n\n        private fun buildDatabase(context: Context) =\n                Room.databaseBuilder(context.applicationContext,\n                        RepoDb::class.java, "Github.db")\n                        .build()\n    }\n}</code></pre><p class="graf--p">Now, in the same package, for accessing the repo table we need to make a room data access object. So, create an interface and add the below code:</p><pre><code class="language-java graf graf--code">@Dao\ninterface RepoDao {\n\n    @Insert(onConflict = OnConflictStrategy.REPLACE)\n    fun insert(posts: List&lt;Repo&gt;)\n\n    // Do a similar query as the search API:\n    // Look for repos that contain the query string in the name or in the description\n    // and order those results descending, by the number of stars and then by name\n    @Query("SELECT * FROM repos WHERE (name LIKE :queryString) OR (description LIKE " +\n            ":queryString) ORDER BY stars DESC, name ASC")\n    fun reposByName(queryString: String): androidx.paging.DataSource.Factory&lt;Int, Repo&gt;\n}</code></pre><p class="graf--p">Now, to hold the DAO local data source, create a class and add the below code:</p><pre><code class="language-java graf graf--code">class LocalCache(\n    private val repoDao: RepoDao,\n    private val ioExecutor: Executor\n) {\n\n    /**\n     * Insert a list of repos in the database, on a background thread.\n     */\n    fun insert(repos: List&lt;RepoModel&gt;, insertFinished: () -&gt; Unit) {\n        ioExecutor.execute {\n            Log.d("LocalCache", "inserting ${repos.size} repos")\n            repoDao.insert(repos)\n            insertFinished()\n        }\n    }\n\n    /**\n     * Request a LiveData&lt;List&lt;RepoModel&gt;&gt; from the Dao, based on a repo name.\n     */\n    fun reposByName(name: String): DataSource.Factory&lt;Int, RepoModel&gt; {\n        // appending \'%\' so we can allow other characters to be before and after the query string\n        val query = "%${name.replace(\' \', \'%\')}%"\n        return repoDao.reposByName(query)\n    }\n}</code></pre><p class="graf--p"><b class="graf--bold">Step 10:</b> Now in order to work with the local and remote data sources, we need to create a class in the datasource package and add the below code:</p><pre><code class="language-java graf graf--code">class Repository(\n    private val service: GithubService,\n    private val cache: LocalCache\n) {\n\n    /**\n     * Search repositories whose names match the query.\n     */\n    fun search(query: String): RepoResult {\n        Log.d("Repository", "New query: $query")\n\n        // Get data source factory from the local cache\n        val dataSourceFactory = cache.reposByName(query)\n\n        // Construct the boundary callback\n        val boundaryCallback = BoundaryCondition(query, service, cache)\n        val networkErrors = boundaryCallback.networkErrors\n\n        // Get the paged list\n        val data = LivePagedListBuilder(dataSourceFactory, DATABASE_PAGE_SIZE).build()\n\n        // Get the network errors exposed by the boundary callback\n        return RepoResult(data, networkErrors)\n    }\n\n    companion object {\n        private const val DATABASE_PAGE_SIZE = 20\n    }\n}</code></pre><p class="graf--p">While fetching data from the data source, a situation may arise where the data source doesn’t have any more data to give i.e. we have fetched the whole data from the data source. So, we need to handle these cases. In the datastore package, add one class and write the below code:</p><pre><code class="language-java graf graf--code">class BoundaryCondition(\n        private val query: String,\n        private val service: GithubService,\n        private val cache: LocalCache\n) : PagedList.BoundaryCallback&lt;RepoModel&gt;() {\n\n    private var lastRequestedPage = 1\n\n    private val _networkErrors = MutableLiveData&lt;String&gt;()\n\n    // LiveData of network errors.\n    val networkErrors: LiveData&lt;String&gt;\n        get() = _networkErrors\n\n    // avoid triggering multiple requests in the same time\n    private var isRequestInProgress = false\n\n    override fun onZeroItemsLoaded() {\n        requestAndSaveData(query)\n    }\n\n    override fun onItemAtEndLoaded(itemAtEnd: RepoModel) {\n        requestAndSaveData(query)\n    }\n\n    companion object {\n        private const val NETWORK_PAGE_SIZE = 50\n    }\n\n    private fun requestAndSaveData(query: String) {\n        if (isRequestInProgress) return\n\n        isRequestInProgress = true\n        searchRepos(service, query, lastRequestedPage, NETWORK_PAGE_SIZE, { repos -&gt;\n            cache.insert(repos) {\n                lastRequestedPage++\n                isRequestInProgress = false\n            }\n        }, { error -&gt;\n            isRequestInProgress = false\n        })\n    }\n}</code></pre><p class="graf--p"><b class="graf--bold">Step 11:</b> Now, let’s move on to the UI part of the application. Make a view holder in the userinterface package and add the below code:</p><pre><code class="language-java graf graf--code">class ViewHolderRepo(view: View) : RecyclerView.ViewHolder(view) {\n    private val name: TextView = view.findViewById(R.id.repo_name)\n    private val description: TextView = view.findViewById(R.id.repo_description)\n    private val stars: TextView = view.findViewById(R.id.repo_stars)\n    private val language: TextView = view.findViewById(R.id.repo_language)\n    private val forks: TextView = view.findViewById(R.id.repo_forks)\n\n    private var repo: RepoModel? = null\n\n    init {\n        view.setOnClickListener {\n            repo?.url?.let { url -&gt;\n                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))\n                view.context.startActivity(intent)\n            }\n        }\n    }\n\n    fun bind(repo: RepoModel?) {\n        if (repo == null) {\n            val resources = itemView.resources\n            name.text = resources.getString(R.string.loading)\n            description.visibility = View.GONE\n            language.visibility = View.GONE\n            stars.text = resources.getString(R.string.unknown)\n            forks.text = resources.getString(R.string.unknown)\n        } else {\n            showRepoData(repo)\n        }\n    }\n\n    private fun showRepoData(repo: RepoModel) {\n        this.repo = repo\n        name.text = repo.fullName\n\n        // if the description is missing, hide the TextView\n        var descriptionVisibility = View.GONE\n        if (repo.description != null) {\n            description.text = repo.description\n            descriptionVisibility = View.VISIBLE\n        }\n        description.visibility = descriptionVisibility\n\n        stars.text = repo.stars.toString()\n        forks.text = repo.forks.toString()\n\n        // if the language is missing, hide the label and the value\n        var languageVisibility = View.GONE\n        if (!repo.language.isNullOrEmpty()) {\n            val resources = this.itemView.context.resources\n            language.text = resources.getString(R.string.language, repo.language)\n            languageVisibility = View.VISIBLE\n        }\n        language.visibility = languageVisibility\n    }\n\n    companion object {\n        fun create(parent: ViewGroup): ViewHolderRepo {\n            val view = LayoutInflater.from(parent.context)\n                    .inflate(R.layout.recycler_item, parent, false)\n            return ViewHolderRepo(view)\n        }\n    }\n}</code></pre><p class="graf--p">Now, create the Adapter for the list of repositories in the same package and add the below code:</p><pre><code class="language-java graf graf--code">class AdapterRepo : PagedListAdapter&lt;RepoModel, RecyclerView.ViewHolder&gt;(REPO_COMPARATOR) {\n\n    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {\n        return ViewHolderRepo.create(parent)\n    }\n\n    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {\n        val repoItem = getItem(position)\n        if (repoItem != null) {\n            (holder as ViewHolderRepo).bind(repoItem)\n        }\n    }\n\n    companion object {\n        private val REPO_COMPARATOR = object : DiffUtil.ItemCallback&lt;RepoModel&gt;() {\n            override fun areItemsTheSame(oldItem: RepoModel, newItem: RepoModel): Boolean =\n                    oldItem.fullName == newItem.fullName\n\n            override fun areContentsTheSame(oldItem: RepoModel, newItem: RepoModel): Boolean =\n                    oldItem == newItem\n        }\n    }\n}</code></pre><p class="graf--p">Now, in the same package, add a ViewModel for the MainActivity to get the data from <b class="graf--bold"><i class="graf--italic">datastore/Repository :</i></b></p><pre><code class="language-java graf graf--code">class ViewModelSearch(private val repository: Repository) : ViewModel() {\n\n    private val queryLiveData = MutableLiveData&lt;String&gt;()\n    private val repoResult: LiveData&lt;RepoResult&gt; = Transformations.map(queryLiveData) {\n        repository.search(it)\n    }\n\n    val repos: LiveData&lt;PagedList&lt;RepoModel&gt;&gt; = Transformations.switchMap(repoResult) { it -&gt; it.data }\n    val networkErrors: LiveData&lt;String&gt; = Transformations.switchMap(repoResult) { it -&gt;\n        it.networkErrors\n    }\n\n    /**\n     * Search a repository based on a query string.\n     */\n    fun searchRepo(queryString: String) {\n        queryLiveData.postValue(queryString)\n    }\n\n\n    /**\n     * Get the last query value.\n     */\n    fun lastQueryValue(): String? = queryLiveData.value\n}</code></pre><p class="graf--p">At last, you have to make Factory for the ViewModels. So, create another class in the same package and add the below code:</p><pre><code class="language-java graf graf--code">class ViewModelFactory(private val repository: Repository) : ViewModelProvider.Factory {\n\n    override fun &lt;T : ViewModel&gt; create(modelClass: Class&lt;T&gt;): T {\n        if (modelClass.isAssignableFrom(ViewModelSearch::class.java)) {\n            @Suppress("UNCHECKED_CAST")\n            return ViewModelSearch(repository) as T\n        }\n        throw IllegalArgumentException("Unknown ViewModel class")\n    }\n}</code></pre><p class="graf--p">At last, we have to add the code for our <b class="graf--bold"><i class="graf--italic">MainActivty.kt</i></b> file. Here, we will perform our tasks like Search for repositories, update the Repo list and show the list. So, add the below code in your <b class="graf--bold"><i class="graf--italic">MainActivity.kt</i></b> file:</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    private lateinit var viewModel: ViewModelSearch\n    private val adapter = AdapterRepo()\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        // get the view model\n        viewModel = ViewModelProviders.of(this, Injection.provideViewModelFactory(this))\n                .get(ViewModelSearch::class.java)\n\n        // add dividers between RecyclerView\'s row items\n        val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)\n        list.addItemDecoration(decoration)\n\n        initAdapter()\n        val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY\n        viewModel.searchRepo(query)\n        initSearch(query)\n    }\n\n    override fun onSaveInstanceState(outState: Bundle) {\n        super.onSaveInstanceState(outState)\n        outState.putString(LAST_SEARCH_QUERY, viewModel.lastQueryValue())\n    }\n\n    private fun initAdapter() {\n        list.adapter = adapter\n        viewModel.repos.observe(this, Observer&lt;PagedList&lt;RepoModel&gt;&gt; {\n            Log.d("Activity", "list: ${it?.size}")\n            showEmptyList(it?.size == 0)\n            adapter.submitList(it)\n        })\n        viewModel.networkErrors.observe(this, Observer&lt;String&gt; {\n            Toast.makeText(this, "\\uD83D\\uDE28 Wooops $it", Toast.LENGTH_LONG).show()\n        })\n    }\n\n    private fun initSearch(query: String) {\n        search_repo.setText(query)\n\n        search_repo.setOnEditorActionListener { _, actionId, _ -&gt;\n            if (actionId == EditorInfo.IME_ACTION_GO) {\n                updateRepoListFromInput()\n                true\n            } else {\n                false\n            }\n        }\n        search_repo.setOnKeyListener { _, keyCode, event -&gt;\n            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {\n                updateRepoListFromInput()\n                true\n            } else {\n                false\n            }\n        }\n    }\n\n    private fun updateRepoListFromInput() {\n        search_repo.text.trim().let {\n            if (it.isNotEmpty()) {\n                list.scrollToPosition(0)\n                viewModel.searchRepo(it.toString())\n                adapter.submitList(null)\n            }\n        }\n    }\n\n    private fun showEmptyList(show: Boolean) {\n        if (show) {\n            emptyList.visibility = View.VISIBLE\n            list.visibility = View.GONE\n        } else {\n            emptyList.visibility = View.GONE\n            list.visibility = View.VISIBLE\n        }\n    }\n\n    companion object {\n        private const val LAST_SEARCH_QUERY: String = "last_search_query"\n        private const val DEFAULT_QUERY = "Android"\n    }\n}</code></pre><p class="graf--p">Phew! that was a lot of stuff about Paging Library, Now, run your application in your mobile device and try to reach the bottom of the screen and see the output.</p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we learned about one of the important concepts of Android i.e. Paging. Paging Library is used to display a small and required amount of data from a large number of available data. By doing so, the speed of application increases as we are just loading a small amount of data. Other data will be loaded on the demand of the user.</p><p class="graf--p">Hope you enjoyed this blog. Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/implementing-paging-library-in-android-banner.png",blog_url:"implementing-paging-library-in-android",likes:0,rank:0,category:1,published_at:"28th June 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:496,title:"Paging 3 Android Tutorial",description:"In this blog, we will learn how to use paging 3 library in our android project. We will also see how we can use it with Coroutines and RxJava.",author:9959,img_url:"/images/pagin-3-banner-ea0e11235223f0cd.png",blog_url:"paging-3-tutorial",likes:0,rank:0,category:1,published_at:"14th August 2020",score:4.294234275817871},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:1.598717212677002},{id:231,title:"Understanding and Implementing Permission in Android Q",description:"In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.",author:14897,img_url:"/images/location-permission.png",blog_url:"location-permissions-in-android-q",likes:0,rank:0,category:1,published_at:"11th May 2019",score:1.589539647102356},{id:252,title:"Implementing in-app updates on Android",description:"In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.",author:14897,img_url:"/images/in-app-updates-android-banner.png",blog_url:"implementing-in-app-updates-on-android",likes:0,rank:0,category:1,published_at:"25th May 2019",score:1.589539647102356},{id:265,title:"Implementing Android Slice",description:"In this blog, you will learn about Android Slice and how to implement it. We have learned a basic way to implement a slice and how to work with it.",author:9959,img_url:"/images/android-slice.png",blog_url:"implementing-android-slice",likes:0,rank:0,category:1,published_at:"5th June 2019",score:1.589539647102356},{id:271,title:"Implementing Bubbles in Android",description:"In this blog, we will learn how to use Bubbles in Android. Bubbles are a new feature introduced in the Beta version of Android Q. These are used to display notifications of any application over some other application and you can launch any activity by using these Bubbles, something like Facebook Messenger's app.",author:14897,img_url:"/images/implementing-bubbles-in-android-banner.png",blog_url:"implementing-bubbles-in-android",likes:0,rank:0,category:1,published_at:"8th June 2019",score:1.589539647102356}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            28th June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Implementing Paging Library in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implementing Paging Library in Android" class="graf-image" src="/images/implementing-paging-library-in-android-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  With the increase in the number of users of a particular mobile application, there is an increase in the amount of data associated with that application. For example, with the increase in the number of users of the Instagram app, the daily feeds of the app also increased to a large amount. In general, if we want to display some data from our remote server to our Android application, we fetch the data at the time of launching of that particular activity that will display the data and after that, we show the data on that activity. But think of the Instagram application. With 1+ billion users, you can’t even imagine the amount of data that the Instagram application has. And if the app starts loads the data from the server and then displays the data on our feeds then it will take years to load all the data from the server.
+                 </p>
+                 <p class="graf--p">
+                  So, what we want is, if the user comes to the bottom of the screen then we can fetch some more data from the server and display it. But what if the user at the same time scrolls up the screen? So, you need to handle a lot of cases while using this approach. To avoid these kinds of difficulties and to load only a desired amount of data from the database, Google introduced the concept of
+                  <b class="graf--bold">
+                   Paging
+                  </b>
+                  in Android.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will learn about Paging and will use this concept in our Android Application. So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  What is Paging?
+                 </h4>
+                 <p class="graf--p">
+                  Paging is a part of the Android Jetpack and is used to load and display small amounts of data from the remote server. By doing so, it reduces the use of network bandwidth. Some of the advantages of Paging can be:
+                 </p>
+                 <ol>
+                  <li>
+                   You will get the content on the page faster
+                  </li>
+                  <li>
+                   It uses very less memory
+                  </li>
+                  <li>
+                   It doesn’t load the useless data i.e. only one or two pages can be loaded at a time.
+                  </li>
+                  <li>
+                   You can use Paging along with LiveData and ViewModel to observe and update data in an easier way.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  Components of Paging
+                 </h4>
+                 <p class="graf--p">
+                  Following are the components of Paging:
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   DataSource:
+                  </b>
+                  DataSource is the class where you tell your application about how much data you want to load in your application. You can load the data from the server by using three subclasses of the DataSource class. They are:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    ItemKeyedDataSource:
+                   </b>
+                   If you want the data of an item with the help of the previous item then you can use ItemKeyedDataSource. For example, while commenting to a post, you need the id of the last comment to get the content of the next comment.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    PageKeyedDataSource:
+                   </b>
+                   If your feeds page has some feature of next or previous post then you can use PageKeyedDataSource. For example, you can see the next post by clicking the next button in any social media platform.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    PositionalDataSource:
+                   </b>
+                   If you want to fetch data only from a specific location then you can use PositionalDataSource. For example, out of 1000 users, if you want to fetch the data of the users from 300 to 400 then you can do this by using PositionalDataSource.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   PagedList:
+                  </b>
+                  By using the PagedList class, you can load the data of your application. If more and more data are added or need by the user then that extra data will be added to the previous PagedList only. Also, if there is a change in the data is observed then a new instance of PagedList is emitted to the observer with the help of the LiveData or RxJava.
+                 </p>
+                 <p class="graf--p">
+                  So, to use the LiveData holder of PagedList objects in your ViewModel, you can use the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ConcertViewModel(concertDao: ConcertDao) : ViewModel() {
+    val concertList: LiveData&lt;PagedList&lt;Concert&gt;&gt; =
+            concertDao.concertsByDate().toLiveData(pageSize = 30)
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   New Data:
+                  </b>
+                  With the help of PagedListAdapter, whenever a new page is loaded by the PagedList then the PagedListAdapter will notify the RecyclerView that a new data has been added and the RecyclerView will update that data to the UI.
+                 </p>
+                 <h4 class="graf--h3">
+                  Implementation of Paging Library
+                 </h4>
+                 <p class="graf--p">
+                  So, till now we are done with the introduction part of the Paging Library. Now, let’s move on to the implementation of Paging Library in our project. Since to load data into our application either we can fetch data from the local database i.e. by using SQLite or we can fetch the data from the remote server. In most of the cases, we deal with some kind of data stored at some remote server, so in our example, we will fetch data from Github. We will take input from the user and will display the related repositories from the Github.
+                 </p>
+                 <p class="graf--p">
+                  This example is going to be long, so have some water and snacks with you. Don’t worry you will learn in the best possible way. So, let’s get started.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 1:
+                  </b>
+                  Create a project in Android Studio by selecting the Empty Activity template.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 2:
+                  </b>
+                  After creating the project, our next step should be to add the required dependencies in our project. We need to add the dependencies for ViewModel, LiveData, Room, Retrofit and Paging. So, open your app level build.gradle file and add the below dependencies:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// architecture components
+implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+implementation "androidx.lifecycle:lifecycle-runtime:2.0.0"
+implementation "androidx.room:room-runtime:2.1.0-alpha01"
+implementation "androidx.paging:paging-runtime:2.1.0-alpha01"
+kapt "androidx.lifecycle:lifecycle-compiler:2.0.0"
+kapt "androidx.room:room-compiler:2.1.0-alpha01"
+
+// retrofit
+implementation "com.squareup.retrofit2:retrofit:2.3.0"
+implementation"com.squareup.retrofit2:converter-gson:2.3.0"
+implementation "com.squareup.retrofit2:retrofit-mock:2.3.0"
+implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 3:
+                  </b>
+                  As always, our next task is to make the UI of the application and after that we will move on to the coding part. So, in our
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    activity_main.xml
+                   </i>
+                  </b>
+                  file, we are having one EditText to search repository and one RecyclerView to display the repository list. Following is the code for the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    activity_main.xml
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MainActivity"&gt;
+    &lt;com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"&gt;
+        &lt;EditText
+            android:id="@+id/search_repo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your Github Repository"
+            android:imeOptions="actionSearch"
+            android:inputType="textNoSuggestions"
+            tools:text="Kotlin"/&gt;
+    &lt;/com.google.android.material.textfield.TextInputLayout&gt;
+
+    &lt;androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingVertical="@dimen/row_item_margin_vertical"
+        android:scrollbars="vertical"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_layout"
+        tools:ignore="UnusedAttribute"/&gt;
+
+    &lt;TextView android:id="@+id/emptyList"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:text="@string/no_results"
+              android:textSize="@dimen/repo_name_size"
+              android:visibility="gone"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent"/&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 4:
+                  </b>
+                  Now, we need to set the items to be displayed in the RecyclerView. So, in the Recycler View, we are having one TextView for the Repository title, one TextView for the description of the repository, one TextView for displaying language of repository and two TextViews for displaying the number of stars and forks. So, add one layout file in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    res/layout
+                   </i>
+                  </b>
+                  directory and name it as
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    recycler_item.xml
+                   </i>
+                  </b>
+                  . Following is the code of the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/row_item_margin_horizontal"
+    android:paddingTop="@dimen/row_item_margin_vertical"
+    tools:ignore="UnusedAttribute"&gt;
+
+    &lt;TextView
+        android:id="@+id/repo_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/titleColor"
+        android:textSize="@dimen/repo_name_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Repo name  goes here"/&gt;
+
+    &lt;TextView
+        android:id="@+id/repo_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="10"
+        android:paddingVertical="@dimen/row_item_margin_vertical"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="@dimen/repo_description_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/repo_name"
+        tools:ignore="UnusedAttribute"
+        tools:text="Description of the Repository"/&gt;
+
+    &lt;TextView
+        android:id="@+id/repo_language"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:paddingVertical="@dimen/row_item_margin_vertical"
+        android:text="Language: %s"
+        android:textSize="@dimen/repo_description_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/repo_description"
+        tools:ignore="RtlCompat"/&gt;
+
+    &lt;ImageView
+        android:id="@+id/star"
+        android:layout_width="0dp"
+        android:layout_marginVertical="@dimen/row_item_margin_vertical"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_star"
+        app:layout_constraintEnd_toStartOf="@+id/repo_stars"
+        app:layout_constraintBottom_toBottomOf="@+id/repo_stars"
+        app:layout_constraintTop_toTopOf="@+id/repo_stars" /&gt;
+
+    &lt;TextView
+        android:id="@+id/repo_stars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/row_item_margin_vertical"
+        android:textSize="@dimen/repo_description_size"
+        app:layout_constraintEnd_toStartOf="@id/forks"
+        app:layout_constraintBaseline_toBaselineOf="@+id/repo_forks"
+        tools:text="Number of stars"/&gt;
+
+    &lt;ImageView
+        android:id="@+id/forks"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/row_item_margin_vertical"
+        android:src="@drawable/ic_git_branch"
+        app:layout_constraintEnd_toStartOf="@+id/repo_forks"
+        app:layout_constraintBottom_toBottomOf="@+id/repo_forks"
+        app:layout_constraintTop_toTopOf="@+id/repo_forks" /&gt;
+
+    &lt;TextView
+        android:id="@+id/repo_forks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/row_item_margin_vertical"
+        android:textSize="@dimen/repo_description_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/repo_description"
+        tools:text="Number of Forks"/&gt;
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, we are done with the UI part. Our next step is to write the code for the Paging.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 5:
+                  </b>
+                  Since we are dealing with LiveData, ViewModel, RecyclerView, fetching data from Github, so, it will be great if we make different packages for these different tasks. So, your root directory, create five packages named githubapi, dbcache, datastore, userinterface and modelclass.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    githubapi:
+                   </b>
+                   To call the Github API using Retrofit
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    dbcache:
+                   </b>
+                   To cache the network data
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    datastore:
+                   </b>
+                   To store the response from the API to the database
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    userinterface:
+                   </b>
+                   To handle the UI related things like displaying data in the RecyclerView
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    modelclass:
+                   </b>
+                   To observe search result data and network errors.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 6:
+                  </b>
+                  Our next step is to use the Github API to search for the Github Repo using the
+                  <b class="graf--bold">
+                   searchRepo
+                  </b>
+                  API. So, create an Interface in the githubapi package and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private const val TAG = "GithubService"
+private const val IN_QUALIFIER = "in:name,description"
+
+fun searchRepos(
+        service: GithubService,
+        query: String,
+        page: Int,
+        itemsPerPage: Int,
+        onSuccess: (repos: List&lt;RepoModel&gt;) -&gt; Unit,
+        onError: (error: String) -&gt; Unit
+) {
+    Log.d(TAG, "query: $query, page: $page, itemsPerPage: $itemsPerPage")
+
+    val apiQuery = query + IN_QUALIFIER
+
+    service.searchRepos(apiQuery, page, itemsPerPage).enqueue(
+            object : Callback&lt;RepoResponse&gt; {
+                override fun onFailure(call: Call&lt;RepoResponse&gt;?, t: Throwable) {
+                    Log.d(TAG, "fail to get data")
+                    onError(t.message ?: "unknown error")
+                }
+
+                override fun onResponse(
+                        call: Call&lt;RepoResponse&gt;?,
+                        response: Response&lt;RepoResponse&gt;
+                ) {
+                    Log.d(TAG, "got a response $response")
+                    if (response.isSuccessful) {
+                        val repos = response.body()?.items ?: emptyList()
+                        onSuccess(repos)
+                    } else {
+                        onError(response.errorBody()?.string() ?: "Unknown error")
+                    }
+                }
+            }
+    )
+}
+
+interface GithubService {
+    /**
+     * Get repos ordered by stars.
+     */
+    @GET("search/repositories?sort=stars")
+    fun searchRepos(
+        @Query("q") query: String,
+        @Query("page") page: Int,
+        @Query("per_page") itemsPerPage: Int
+    ): Call&lt;RepoResponse&gt;
+
+    companion object {
+        private const val BASE_URL = "https://api.github.com/"
+
+        fun create(): GithubService {
+            val logger = HttpLoggingInterceptor()
+            logger.level = Level.BASIC
+
+            val client = OkHttpClient.Builder()
+                    .addInterceptor(logger)
+                    .build()
+            return Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .client(client)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(GithubService::class.java)
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 7:
+                  </b>
+                  Now add one data class in the githubapi package to hold the responses from the
+                  <b class="graf--bold">
+                   searchRepo
+                  </b>
+                  API and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class RepoResponse(
+        @SerializedName("total_count") val total: Int = 0,
+        @SerializedName("items") val items: List&lt;RepoModel&gt; = emptyList(),
+        val nextPage: Int? = null
+)</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 8:
+                  </b>
+                  Our next task is to hold the query data and network error message. So, in the modelclass package, add one data class and add the below code in it:
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class RepoResult(
+        val data: LiveData&lt;PagedList&lt;RepoModel&gt;&gt;,
+        val networkErrors: LiveData&lt;String&gt;
+)</code></pre>
+                 <p class="graf--p">
+                  Now, in the same package, add one data class to hold all the information about a repository:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Entity(tableName = "repos")
+data class RepoModel(
+    @PrimaryKey @field:SerializedName("id") val id: Long,
+    @field:SerializedName("name") val name: String,
+    @field:SerializedName("full_name") val fullName: String,
+    @field:SerializedName("description") val description: String?,
+    @field:SerializedName("html_url") val url: String,
+    @field:SerializedName("stargazers_count") val stars: Int,
+    @field:SerializedName("forks_count") val forks: Int,
+    @field:SerializedName("language") val language: String?
+)</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 9:
+                  </b>
+                  Our next task is to create the Database schema to hold the list of repos in the application. So, in the dbcache package add one abstract class with the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Database(
+        entities = [RepoModel::class],
+        version = 1,
+        exportSchema = false
+)
+abstract class RepoDb : RoomDatabase() {
+
+    abstract fun reposDao(): RepoDao
+
+    companion object {
+
+        @Volatile
+        private var INSTANCE: RepoDb? = null
+
+        fun getInstance(context: Context): RepoDb =
+                INSTANCE ?: synchronized(this) {
+                    INSTANCE
+                            ?: buildDatabase(context).also { INSTANCE = it }
+                }
+
+        private fun buildDatabase(context: Context) =
+                Room.databaseBuilder(context.applicationContext,
+                        RepoDb::class.java, "Github.db")
+                        .build()
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, in the same package, for accessing the repo table we need to make a room data access object. So, create an interface and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Dao
+interface RepoDao {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(posts: List&lt;Repo&gt;)
+
+    // Do a similar query as the search API:
+    // Look for repos that contain the query string in the name or in the description
+    // and order those results descending, by the number of stars and then by name
+    @Query("SELECT * FROM repos WHERE (name LIKE :queryString) OR (description LIKE " +
+            ":queryString) ORDER BY stars DESC, name ASC")
+    fun reposByName(queryString: String): androidx.paging.DataSource.Factory&lt;Int, Repo&gt;
+}</code></pre>
+                 <p class="graf--p">
+                  Now, to hold the DAO local data source, create a class and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class LocalCache(
+    private val repoDao: RepoDao,
+    private val ioExecutor: Executor
+) {
+
+    /**
+     * Insert a list of repos in the database, on a background thread.
+     */
+    fun insert(repos: List&lt;RepoModel&gt;, insertFinished: () -&gt; Unit) {
+        ioExecutor.execute {
+            Log.d("LocalCache", "inserting ${repos.size} repos")
+            repoDao.insert(repos)
+            insertFinished()
+        }
+    }
+
+    /**
+     * Request a LiveData&lt;List&lt;RepoModel&gt;&gt; from the Dao, based on a repo name.
+     */
+    fun reposByName(name: String): DataSource.Factory&lt;Int, RepoModel&gt; {
+        // appending '%' so we can allow other characters to be before and after the query string
+        val query = "%${name.replace(' ', '%')}%"
+        return repoDao.reposByName(query)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 10:
+                  </b>
+                  Now in order to work with the local and remote data sources, we need to create a class in the datasource package and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Repository(
+    private val service: GithubService,
+    private val cache: LocalCache
+) {
+
+    /**
+     * Search repositories whose names match the query.
+     */
+    fun search(query: String): RepoResult {
+        Log.d("Repository", "New query: $query")
+
+        // Get data source factory from the local cache
+        val dataSourceFactory = cache.reposByName(query)
+
+        // Construct the boundary callback
+        val boundaryCallback = BoundaryCondition(query, service, cache)
+        val networkErrors = boundaryCallback.networkErrors
+
+        // Get the paged list
+        val data = LivePagedListBuilder(dataSourceFactory, DATABASE_PAGE_SIZE).build()
+
+        // Get the network errors exposed by the boundary callback
+        return RepoResult(data, networkErrors)
+    }
+
+    companion object {
+        private const val DATABASE_PAGE_SIZE = 20
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  While fetching data from the data source, a situation may arise where the data source doesn’t have any more data to give i.e. we have fetched the whole data from the data source. So, we need to handle these cases. In the datastore package, add one class and write the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class BoundaryCondition(
+        private val query: String,
+        private val service: GithubService,
+        private val cache: LocalCache
+) : PagedList.BoundaryCallback&lt;RepoModel&gt;() {
+
+    private var lastRequestedPage = 1
+
+    private val _networkErrors = MutableLiveData&lt;String&gt;()
+
+    // LiveData of network errors.
+    val networkErrors: LiveData&lt;String&gt;
+        get() = _networkErrors
+
+    // avoid triggering multiple requests in the same time
+    private var isRequestInProgress = false
+
+    override fun onZeroItemsLoaded() {
+        requestAndSaveData(query)
+    }
+
+    override fun onItemAtEndLoaded(itemAtEnd: RepoModel) {
+        requestAndSaveData(query)
+    }
+
+    companion object {
+        private const val NETWORK_PAGE_SIZE = 50
+    }
+
+    private fun requestAndSaveData(query: String) {
+        if (isRequestInProgress) return
+
+        isRequestInProgress = true
+        searchRepos(service, query, lastRequestedPage, NETWORK_PAGE_SIZE, { repos -&gt;
+            cache.insert(repos) {
+                lastRequestedPage++
+                isRequestInProgress = false
+            }
+        }, { error -&gt;
+            isRequestInProgress = false
+        })
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 11:
+                  </b>
+                  Now, let’s move on to the UI part of the application. Make a view holder in the userinterface package and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ViewHolderRepo(view: View) : RecyclerView.ViewHolder(view) {
+    private val name: TextView = view.findViewById(R.id.repo_name)
+    private val description: TextView = view.findViewById(R.id.repo_description)
+    private val stars: TextView = view.findViewById(R.id.repo_stars)
+    private val language: TextView = view.findViewById(R.id.repo_language)
+    private val forks: TextView = view.findViewById(R.id.repo_forks)
+
+    private var repo: RepoModel? = null
+
+    init {
+        view.setOnClickListener {
+            repo?.url?.let { url -&gt;
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                view.context.startActivity(intent)
+            }
+        }
+    }
+
+    fun bind(repo: RepoModel?) {
+        if (repo == null) {
+            val resources = itemView.resources
+            name.text = resources.getString(R.string.loading)
+            description.visibility = View.GONE
+            language.visibility = View.GONE
+            stars.text = resources.getString(R.string.unknown)
+            forks.text = resources.getString(R.string.unknown)
+        } else {
+            showRepoData(repo)
+        }
+    }
+
+    private fun showRepoData(repo: RepoModel) {
+        this.repo = repo
+        name.text = repo.fullName
+
+        // if the description is missing, hide the TextView
+        var descriptionVisibility = View.GONE
+        if (repo.description != null) {
+            description.text = repo.description
+            descriptionVisibility = View.VISIBLE
+        }
+        description.visibility = descriptionVisibility
+
+        stars.text = repo.stars.toString()
+        forks.text = repo.forks.toString()
+
+        // if the language is missing, hide the label and the value
+        var languageVisibility = View.GONE
+        if (!repo.language.isNullOrEmpty()) {
+            val resources = this.itemView.context.resources
+            language.text = resources.getString(R.string.language, repo.language)
+            languageVisibility = View.VISIBLE
+        }
+        language.visibility = languageVisibility
+    }
+
+    companion object {
+        fun create(parent: ViewGroup): ViewHolderRepo {
+            val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.recycler_item, parent, false)
+            return ViewHolderRepo(view)
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, create the Adapter for the list of repositories in the same package and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class AdapterRepo : PagedListAdapter&lt;RepoModel, RecyclerView.ViewHolder&gt;(REPO_COMPARATOR) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return ViewHolderRepo.create(parent)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val repoItem = getItem(position)
+        if (repoItem != null) {
+            (holder as ViewHolderRepo).bind(repoItem)
+        }
+    }
+
+    companion object {
+        private val REPO_COMPARATOR = object : DiffUtil.ItemCallback&lt;RepoModel&gt;() {
+            override fun areItemsTheSame(oldItem: RepoModel, newItem: RepoModel): Boolean =
+                    oldItem.fullName == newItem.fullName
+
+            override fun areContentsTheSame(oldItem: RepoModel, newItem: RepoModel): Boolean =
+                    oldItem == newItem
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, in the same package, add a ViewModel for the MainActivity to get the data from
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    datastore/Repository :
+                   </i>
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ViewModelSearch(private val repository: Repository) : ViewModel() {
+
+    private val queryLiveData = MutableLiveData&lt;String&gt;()
+    private val repoResult: LiveData&lt;RepoResult&gt; = Transformations.map(queryLiveData) {
+        repository.search(it)
+    }
+
+    val repos: LiveData&lt;PagedList&lt;RepoModel&gt;&gt; = Transformations.switchMap(repoResult) { it -&gt; it.data }
+    val networkErrors: LiveData&lt;String&gt; = Transformations.switchMap(repoResult) { it -&gt;
+        it.networkErrors
+    }
+
+    /**
+     * Search a repository based on a query string.
+     */
+    fun searchRepo(queryString: String) {
+        queryLiveData.postValue(queryString)
+    }
+
+
+    /**
+     * Get the last query value.
+     */
+    fun lastQueryValue(): String? = queryLiveData.value
+}</code></pre>
+                 <p class="graf--p">
+                  At last, you have to make Factory for the ViewModels. So, create another class in the same package and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ViewModelFactory(private val repository: Repository) : ViewModelProvider.Factory {
+
+    override fun &lt;T : ViewModel&gt; create(modelClass: Class&lt;T&gt;): T {
+        if (modelClass.isAssignableFrom(ViewModelSearch::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return ViewModelSearch(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  At last, we have to add the code for our
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MainActivty.kt
+                   </i>
+                  </b>
+                  file. Here, we will perform our tasks like Search for repositories, update the Repo list and show the list. So, add the below code in your
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MainActivity.kt
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: ViewModelSearch
+    private val adapter = AdapterRepo()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // get the view model
+        viewModel = ViewModelProviders.of(this, Injection.provideViewModelFactory(this))
+                .get(ViewModelSearch::class.java)
+
+        // add dividers between RecyclerView's row items
+        val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        list.addItemDecoration(decoration)
+
+        initAdapter()
+        val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
+        viewModel.searchRepo(query)
+        initSearch(query)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(LAST_SEARCH_QUERY, viewModel.lastQueryValue())
+    }
+
+    private fun initAdapter() {
+        list.adapter = adapter
+        viewModel.repos.observe(this, Observer&lt;PagedList&lt;RepoModel&gt;&gt; {
+            Log.d("Activity", "list: ${it?.size}")
+            showEmptyList(it?.size == 0)
+            adapter.submitList(it)
+        })
+        viewModel.networkErrors.observe(this, Observer&lt;String&gt; {
+            Toast.makeText(this, "\uD83D\uDE28 Wooops $it", Toast.LENGTH_LONG).show()
+        })
+    }
+
+    private fun initSearch(query: String) {
+        search_repo.setText(query)
+
+        search_repo.setOnEditorActionListener { _, actionId, _ -&gt;
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                updateRepoListFromInput()
+                true
+            } else {
+                false
+            }
+        }
+        search_repo.setOnKeyListener { _, keyCode, event -&gt;
+            if (event.action == KeyEvent.ACTION_DOWN &amp;&amp; keyCode == KeyEvent.KEYCODE_ENTER) {
+                updateRepoListFromInput()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun updateRepoListFromInput() {
+        search_repo.text.trim().let {
+            if (it.isNotEmpty()) {
+                list.scrollToPosition(0)
+                viewModel.searchRepo(it.toString())
+                adapter.submitList(null)
+            }
+        }
+    }
+
+    private fun showEmptyList(show: Boolean) {
+        if (show) {
+            emptyList.visibility = View.VISIBLE
+            list.visibility = View.GONE
+        } else {
+            emptyList.visibility = View.GONE
+            list.visibility = View.VISIBLE
+        }
+    }
+
+    companion object {
+        private const val LAST_SEARCH_QUERY: String = "last_search_query"
+        private const val DEFAULT_QUERY = "Android"
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Phew! that was a lot of stuff about Paging Library, Now, run your application in your mobile device and try to reach the bottom of the screen and see the output.
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned about one of the important concepts of Android i.e. Paging. Paging Library is used to display a small and required amount of data from a large number of available data. By doing so, the speed of application increases as we are just loading a small amount of data. Other data will be loaded on the demand of the user.
+                 </p>
+                 <p class="graf--p">
+                  Hope you enjoyed this blog. Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Paging 3 Android Tutorial" class="ui centered image" src="/images/pagin-3-banner-ea0e11235223f0cd.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Paging 3 Android Tutorial
+           </div>
+           <div class="meta">
+            14th August 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use paging 3 library in our android project. We will also see how we can use it with Coroutines and RxJava.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding and Implementing Permission in Android Q" class="ui centered image" src="/images/location-permission.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding and Implementing Permission in Android Q
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing in-app updates on Android" class="ui centered image" src="/images/in-app-updates-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing in-app updates on Android
+           </div>
+           <div class="meta">
+            25th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Android Slice" class="ui centered image" src="/images/android-slice.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Android Slice
+           </div>
+           <div class="meta">
+            5th June 2019
+           </div>
+           <div class="description">
+            In this blog, you will learn about Android Slice and how to implement it. We have learned a basic way to implement a slice and how to work with it.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Bubbles in Android" class="ui centered image" src="/images/implementing-bubbles-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Bubbles in Android
+           </div>
+           <div class="meta">
+            8th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Bubbles in Android. Bubbles are a new feature introduced in the Beta version of Android Q. These are used to display notifications of any application over some other application and you can launch any activity by using these Bubbles, something like Facebook Messenger's app.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

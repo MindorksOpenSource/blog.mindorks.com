@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   How does RecyclerView work internally?
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/how-does-recyclerview-work-internally" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="How does RecyclerView work internally?" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/how-does-recyclerview-work-internally" property="og:url"/>
+  <meta content="/images/banner-recyclerview-working-3a65a777947be8b6.png" property="og:image"/>
+  <meta content="In this blog, we are going to talk about how recyclerView works internally and how the recycling of views happen. We would also discuss the benefit of using viewholders in recyclerView." property="og:description"/>
+  <meta content="How does RecyclerView work internally?" property="twitter:title"/>
+  <meta content="In this blog, we are going to talk about how recyclerView works internally and how the recycling of views happen. We would also discuss the benefit of using viewholders in recyclerView." name="twitter:description"/>
+  <meta content="/images/banner-recyclerview-working-3a65a777947be8b6.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to talk about how recyclerView works internally and how the recycling of views happen. We would also discuss the benefit of using viewholders in recyclerView." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:454,data:{id:454,title:"How does RecyclerView work internally?",description:"In this blog, we are going to talk about how recyclerView works internally and how the recycling of views happen. We would also discuss the benefit of using viewholders in recyclerView.",text:'<h1 class="graf--h1"></h2><h1 class="graf--h1">How does RecyclerView work internally?</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-recyclerview-working-3a65a777947be8b6.png class=\'graf-image\' alt=\'How does RecyclerView work internally?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">When building an Android app, we have a very high chance we have to use recyclerView in our project.</p><p class="graf--p">In this blog, we are going to understand the way how recyclerView actually works in the Android system.</p><p class="graf--p">We are going to discuss,</p><ul><li>What is RecyclerView?</li><li>Building components of RecyclerView</li><li>How it actually works?</li><li>Usage of ViewHolder</li></ul><h4 class="graf--h3">What is RecyclerView?</h4><p class="graf--p">RecyclerView is a ViewGroup, which populates a list on a collection of data provided with the help of ViewHolder and draws it to the user on-screen.</p><h4 class="graf--h3">Building components of RecyclerView</h4><p class="graf--p">The major components of RecyclerView are,</p><ul><li>Adapter</li><li>ViewHolder</li><li>LayoutManager</li></ul><h4 class="graf--h3">Adapter</h4><p class="graf--p">It is a subtype of RecyclerView.Adapter class. It takes the data set which has to be displayed to the user in RecyclerView. It is like the main responsible class to bind the views and display it.</p><p class="graf--p">Most of the tasks happen inside the adapter class of the recyclerView.</p><h4 class="graf--h3">ViewHolder</h4><p class="graf--p">ViewHolder is a type of a helper class that helps us to draw the UI for individual items that we want to draw on the screen.</p><p class="graf--p">All the binding of Views of the individual items happens in this class. It is a subclass of RecyclerView.ViewHolder class.</p><h4 class="graf--h3">LayoutManager</h4><p class="graf--p">LayoutManager in recyclerView helps us to figure out how we need to display the items on the screen. It can be linearly or in a grid. RecyclerView provides by default a few implementations of layoutManager out of the box.</p><p class="graf--p">It is like the governing body of recyclerView which tells the recyclerView&#x27;s adapter when to create a new view.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/relation-rcv-29094a550bfcc3d8.jpg class=\'graf-image\' alt=\'How does RecyclerView work internally?\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">How it actually works?</h4><p class="graf--p">So, now we are going to discuss how the recyclerView actually works. When we talk about recyclerView, you would always hear someone saying that it <b class="graf--bold">recycles</b> the views. But what does it actually mean?</p><p class="graf--p">So, let&#x27;s say when we are scrolling the list which has <b class="graf--bold">50 items</b> in the collection and we show only <b class="graf--bold">5 items</b> at once in the list like,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/items-recyclerview-e80fdeae5cb6db5e.png class=\'graf-image\' alt=\'How does RecyclerView work internally?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here, <b class="graf--bold">item 1</b> to<b class="graf--bold"> item 5</b> is the ones that are visible on the screen. <code class="graf--code-inline">item x</code> is the one that will be loaded next on the screen when we scroll up.</p><p class="graf--p">All the items here have their own instance of ViewHolder and the ViewHolder here is helpful for caching the specific item&#x27;s view.</p><p class="graf--p">So, how recycling works here?</p><p class="graf--p">Let us break this down in steps.</p><h4 class="graf--h3">Step 01.</h4><p class="graf--p">First <b class="graf--bold">item x</b> to <b class="graf--bold">item 4</b> must be shown to screen at the initial launch. So, they are the five items that are in the visible view mode. Let&#x27;s call them a <b class="graf--bold">visible view.</b></p><p class="graf--p">And, <b class="graf--bold">item 5</b> is the new item to be loaded when the list is scrolled up.</p><h4 class="graf--h3">Step 02.</h4><p class="graf--p">When we scroll one item above, <b class="graf--bold">item x</b> moves up and a new item, <b class="graf--bold">item 5</b> comes in the visible view category. </p><p class="graf--p">Now, <b class="graf--bold">item 6</b> is in the waiting view.</p><p class="graf--p">Here <b class="graf--bold">item x</b> has moved out from the visible view on top of the screen. This is called a <b class="graf--bold">scrapped view.</b></p><blockquote class="graf--blockquote">ScrapView is the view in RecyclerView which was once visible and now are not visible on the phone&#x27;s screen to the user.</blockquote><h4 class="graf--h3">Step 03.</h4><p class="graf--p">Now, let&#x27;s say we scrolled one more step up. This will move the <b class="graf--bold">item 1 </b>out of the screen and the <b class="graf--bold">item 6</b> will move in.</p><p class="graf--p">Here, <b class="graf--bold">item 1</b> also becomes a scrapped view. Now, we have two scrapped views <b class="graf--bold">item x</b> and <b class="graf--bold">item 1</b>.</p><p class="graf--p">They will be now stored in a collection of <b class="graf--bold">scrapped views.</b></p><p class="graf--p">So, now when we have to load a new view in the visible view group, let&#x27;s consider <b class="graf--bold">item 7</b>, then the view from the collection from the scrapped view is used.</p><h4 class="graf--h3">Step 04.</h4><p class="graf--p">Now, when we are loading <b class="graf--bold">item 7</b>, we take a view from the collection of scrapped views. The view which we loaded from the scrapped view is called a <b class="graf--bold">dirty view</b>.</p><p class="graf--p">Now, the dirty view gets recycled and is relocated to the new item in the queue which has to be displayed on the screen i.e <b class="graf--bold">item 7</b>.</p><blockquote class="graf--blockquote">The views which we take from scrap view collection and then after re-bound happens by the recyclerView adapter before it is drawn to the screen are called dirty views.</blockquote> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/pages-for-view-recycler-7a25475edce4b0d5.jpg class=\'graf-image\' alt=\'How does RecyclerView work internally?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">This is how recycling of views happens in recyclerView which is one of the main reasons for the better improvement of recyclerView. In this process, the views of the item are reused to draw new items on the screen.</p><h4 class="graf--h3">Usage of  ViewHolder</h4><p class="graf--p">The other way the views are optimized is because of ViewHolders in RecyclerView.</p><p class="graf--p">So, let us say we have 100 items be displayed on the list and we want to show 5 items on the screen. </p><p class="graf--p">Each item here has 1 <i class="graf--italic">TextView</i> and 1 <i class="graf--italic">ImageView</i> in the item. </p><p class="graf--p">So, to map each view using findViewById is always an expensive task and just imagine the number of findViewByIds we might need to map all the TextViews and ImageViews of 100 items i.e 200 findViewByIds.</p><p class="graf--p">So, when we are using RecyclerView, then only 6 items are created initially with 5 loaded at once to be displayed on-screen and one is the one to be loaded.</p><p class="graf--p">Now, if we scroll the list then we have 7 viewHolders. One each for scrapped view and to be loaded view and 5 for the ones which are displayed.</p><p class="graf--p">So, at a time, maximum findViewByIds that we are using are only 14 as we have a maximum of 7 ViewHolders.</p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">Because of ViewHolders and recycling of views, we have got the performance improvement in RecyclerViews.</p><p class="graf--p">Similarly, if we have multiple view types, let&#x27;s say <b class="graf--bold">ViewType1</b> and <b class="graf--bold">ViewType2</b> then we would have two different collections of scrapped view of type <b class="graf--bold">ViewType1</b> and <b class="graf--bold">ViewType2</b>.</p><p class="graf--p">And while recycling the views, the <b class="graf--bold">ViewType1</b> view will be allocated to only views of <b class="graf--bold">ViewType1</b> and <b class="graf--bold">ViewType2</b> views will be allocated to <b class="graf--bold">ViewType2</b> views.</p><p class="graf--p">This is how recyclerView works internally and efficiently.</p><p class="graf--p">Happy learning.</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/banner-recyclerview-working-3a65a777947be8b6.png",blog_url:"how-does-recyclerview-work-internally",likes:0,rank:0,category:1,published_at:"20th May 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:450,title:"How does Room work internally?",description:"In this blog, we are going to learn the working of Room with the help of an example.",author:14040,img_url:"/images/how-does-room-work-internally-banner-2a2f345225530f17.png",blog_url:"how-does-room-work-internally",likes:0,rank:0,category:1,published_at:"18th May 2020",score:9.951828002929688},{id:268,title:"The powerful tool DiffUtil in RecyclerView - Android Tutorial",description:"In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details",author:9959,img_url:"/images/banner-diffutil.png",blog_url:"the-powerful-tool-diff-util-in-recyclerview-android-tutorial",likes:0,rank:0,category:1,published_at:"6th June 2019",score:2.7959113121032715},{id:486,title:"RecyclerView Multiple View Types in Android",description:"In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project.",author:17146,img_url:"/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png",blog_url:"recyclerview-multiple-view-types-in-android",likes:0,rank:0,category:1,published_at:"22nd June 2020",score:2.7959113121032715},{id:328,title:"Integrating Work Manager - Android Tutorial",description:"In this blog, we will talk about how to integrate the work manager in your android project and much more advanced feature and customization which makes your life easy in scheduling tasks.",author:9959,img_url:"/images/integrating-work-manager-in-android.png",blog_url:"integrating-work-manager-in-android",likes:0,rank:0,category:1,published_at:"16th September 2019",score:2.5373833179473877}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            20th May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  <h1 class="graf--h1">
+                   How does RecyclerView work internally?
+                  </h1>
+                  <div class="graf-image graf-caption">
+                   <img alt="How does RecyclerView work internally?" class="graf-image" src="/images/banner-recyclerview-working-3a65a777947be8b6.png"/>
+                  </div>
+                  <p class="graf--p">
+                   When building an Android app, we have a very high chance we have to use recyclerView in our project.
+                  </p>
+                  <p class="graf--p">
+                   In this blog, we are going to understand the way how recyclerView actually works in the Android system.
+                  </p>
+                  <p class="graf--p">
+                   We are going to discuss,
+                  </p>
+                  <ul>
+                   <li>
+                    What is RecyclerView?
+                   </li>
+                   <li>
+                    Building components of RecyclerView
+                   </li>
+                   <li>
+                    How it actually works?
+                   </li>
+                   <li>
+                    Usage of ViewHolder
+                   </li>
+                  </ul>
+                  <h4 class="graf--h3">
+                   What is RecyclerView?
+                  </h4>
+                  <p class="graf--p">
+                   RecyclerView is a ViewGroup, which populates a list on a collection of data provided with the help of ViewHolder and draws it to the user on-screen.
+                  </p>
+                  <h4 class="graf--h3">
+                   Building components of RecyclerView
+                  </h4>
+                  <p class="graf--p">
+                   The major components of RecyclerView are,
+                  </p>
+                  <ul>
+                   <li>
+                    Adapter
+                   </li>
+                   <li>
+                    ViewHolder
+                   </li>
+                   <li>
+                    LayoutManager
+                   </li>
+                  </ul>
+                  <h4 class="graf--h3">
+                   Adapter
+                  </h4>
+                  <p class="graf--p">
+                   It is a subtype of RecyclerView.Adapter class. It takes the data set which has to be displayed to the user in RecyclerView. It is like the main responsible class to bind the views and display it.
+                  </p>
+                  <p class="graf--p">
+                   Most of the tasks happen inside the adapter class of the recyclerView.
+                  </p>
+                  <h4 class="graf--h3">
+                   ViewHolder
+                  </h4>
+                  <p class="graf--p">
+                   ViewHolder is a type of a helper class that helps us to draw the UI for individual items that we want to draw on the screen.
+                  </p>
+                  <p class="graf--p">
+                   All the binding of Views of the individual items happens in this class. It is a subclass of RecyclerView.ViewHolder class.
+                  </p>
+                  <h4 class="graf--h3">
+                   LayoutManager
+                  </h4>
+                  <p class="graf--p">
+                   LayoutManager in recyclerView helps us to figure out how we need to display the items on the screen. It can be linearly or in a grid. RecyclerView provides by default a few implementations of layoutManager out of the box.
+                  </p>
+                  <p class="graf--p">
+                   It is like the governing body of recyclerView which tells the recyclerView's adapter when to create a new view.
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="How does RecyclerView work internally?" class="graf-image" src="/images/relation-rcv-29094a550bfcc3d8.jpg"/>
+                  </div>
+                  <h4 class="graf--h3">
+                   How it actually works?
+                  </h4>
+                  <p class="graf--p">
+                   So, now we are going to discuss how the recyclerView actually works. When we talk about recyclerView, you would always hear someone saying that it
+                   <b class="graf--bold">
+                    recycles
+                   </b>
+                   the views. But what does it actually mean?
+                  </p>
+                  <p class="graf--p">
+                   So, let's say when we are scrolling the list which has
+                   <b class="graf--bold">
+                    50 items
+                   </b>
+                   in the collection and we show only
+                   <b class="graf--bold">
+                    5 items
+                   </b>
+                   at once in the list like,
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="How does RecyclerView work internally?" class="graf-image" src="/images/items-recyclerview-e80fdeae5cb6db5e.png"/>
+                  </div>
+                  <p class="graf--p">
+                   Here,
+                   <b class="graf--bold">
+                    item 1
+                   </b>
+                   to
+                   <b class="graf--bold">
+                    item 5
+                   </b>
+                   is the ones that are visible on the screen.
+                   <code class="graf--code-inline">
+                    item x
+                   </code>
+                   is the one that will be loaded next on the screen when we scroll up.
+                  </p>
+                  <p class="graf--p">
+                   All the items here have their own instance of ViewHolder and the ViewHolder here is helpful for caching the specific item's view.
+                  </p>
+                  <p class="graf--p">
+                   So, how recycling works here?
+                  </p>
+                  <p class="graf--p">
+                   Let us break this down in steps.
+                  </p>
+                  <h4 class="graf--h3">
+                   Step 01.
+                  </h4>
+                  <p class="graf--p">
+                   First
+                   <b class="graf--bold">
+                    item x
+                   </b>
+                   to
+                   <b class="graf--bold">
+                    item 4
+                   </b>
+                   must be shown to screen at the initial launch. So, they are the five items that are in the visible view mode. Let's call them a
+                   <b class="graf--bold">
+                    visible view.
+                   </b>
+                  </p>
+                  <p class="graf--p">
+                   And,
+                   <b class="graf--bold">
+                    item 5
+                   </b>
+                   is the new item to be loaded when the list is scrolled up.
+                  </p>
+                  <h4 class="graf--h3">
+                   Step 02.
+                  </h4>
+                  <p class="graf--p">
+                   When we scroll one item above,
+                   <b class="graf--bold">
+                    item x
+                   </b>
+                   moves up and a new item,
+                   <b class="graf--bold">
+                    item 5
+                   </b>
+                   comes in the visible view category.
+                  </p>
+                  <p class="graf--p">
+                   Now,
+                   <b class="graf--bold">
+                    item 6
+                   </b>
+                   is in the waiting view.
+                  </p>
+                  <p class="graf--p">
+                   Here
+                   <b class="graf--bold">
+                    item x
+                   </b>
+                   has moved out from the visible view on top of the screen. This is called a
+                   <b class="graf--bold">
+                    scrapped view.
+                   </b>
+                  </p>
+                  <blockquote class="graf--blockquote">
+                   ScrapView is the view in RecyclerView which was once visible and now are not visible on the phone's screen to the user.
+                  </blockquote>
+                  <h4 class="graf--h3">
+                   Step 03.
+                  </h4>
+                  <p class="graf--p">
+                   Now, let's say we scrolled one more step up. This will move the
+                   <b class="graf--bold">
+                    item 1
+                   </b>
+                   out of the screen and the
+                   <b class="graf--bold">
+                    item 6
+                   </b>
+                   will move in.
+                  </p>
+                  <p class="graf--p">
+                   Here,
+                   <b class="graf--bold">
+                    item 1
+                   </b>
+                   also becomes a scrapped view. Now, we have two scrapped views
+                   <b class="graf--bold">
+                    item x
+                   </b>
+                   and
+                   <b class="graf--bold">
+                    item 1
+                   </b>
+                   .
+                  </p>
+                  <p class="graf--p">
+                   They will be now stored in a collection of
+                   <b class="graf--bold">
+                    scrapped views.
+                   </b>
+                  </p>
+                  <p class="graf--p">
+                   So, now when we have to load a new view in the visible view group, let's consider
+                   <b class="graf--bold">
+                    item 7
+                   </b>
+                   , then the view from the collection from the scrapped view is used.
+                  </p>
+                  <h4 class="graf--h3">
+                   Step 04.
+                  </h4>
+                  <p class="graf--p">
+                   Now, when we are loading
+                   <b class="graf--bold">
+                    item 7
+                   </b>
+                   , we take a view from the collection of scrapped views. The view which we loaded from the scrapped view is called a
+                   <b class="graf--bold">
+                    dirty view
+                   </b>
+                   .
+                  </p>
+                  <p class="graf--p">
+                   Now, the dirty view gets recycled and is relocated to the new item in the queue which has to be displayed on the screen i.e
+                   <b class="graf--bold">
+                    item 7
+                   </b>
+                   .
+                  </p>
+                  <blockquote class="graf--blockquote">
+                   The views which we take from scrap view collection and then after re-bound happens by the recyclerView adapter before it is drawn to the screen are called dirty views.
+                  </blockquote>
+                  <div class="graf-image graf-caption">
+                   <img alt="How does RecyclerView work internally?" class="graf-image" src="/images/pages-for-view-recycler-7a25475edce4b0d5.jpg"/>
+                  </div>
+                  <p class="graf--p">
+                   This is how recycling of views happens in recyclerView which is one of the main reasons for the better improvement of recyclerView. In this process, the views of the item are reused to draw new items on the screen.
+                  </p>
+                  <h4 class="graf--h3">
+                   Usage of  ViewHolder
+                  </h4>
+                  <p class="graf--p">
+                   The other way the views are optimized is because of ViewHolders in RecyclerView.
+                  </p>
+                  <p class="graf--p">
+                   So, let us say we have 100 items be displayed on the list and we want to show 5 items on the screen.
+                  </p>
+                  <p class="graf--p">
+                   Each item here has 1
+                   <i class="graf--italic">
+                    TextView
+                   </i>
+                   and 1
+                   <i class="graf--italic">
+                    ImageView
+                   </i>
+                   in the item.
+                  </p>
+                  <p class="graf--p">
+                   So, to map each view using findViewById is always an expensive task and just imagine the number of findViewByIds we might need to map all the TextViews and ImageViews of 100 items i.e 200 findViewByIds.
+                  </p>
+                  <p class="graf--p">
+                   So, when we are using RecyclerView, then only 6 items are created initially with 5 loaded at once to be displayed on-screen and one is the one to be loaded.
+                  </p>
+                  <p class="graf--p">
+                   Now, if we scroll the list then we have 7 viewHolders. One each for scrapped view and to be loaded view and 5 for the ones which are displayed.
+                  </p>
+                  <p class="graf--p">
+                   So, at a time, maximum findViewByIds that we are using are only 14 as we have a maximum of 7 ViewHolders.
+                  </p>
+                  <h4 class="graf--h3">
+                   Conclusion
+                  </h4>
+                  <p class="graf--p">
+                   Because of ViewHolders and recycling of views, we have got the performance improvement in RecyclerViews.
+                  </p>
+                  <p class="graf--p">
+                   Similarly, if we have multiple view types, let's say
+                   <b class="graf--bold">
+                    ViewType1
+                   </b>
+                   and
+                   <b class="graf--bold">
+                    ViewType2
+                   </b>
+                   then we would have two different collections of scrapped view of type
+                   <b class="graf--bold">
+                    ViewType1
+                   </b>
+                   and
+                   <b class="graf--bold">
+                    ViewType2
+                   </b>
+                   .
+                  </p>
+                  <p class="graf--p">
+                   And while recycling the views, the
+                   <b class="graf--bold">
+                    ViewType1
+                   </b>
+                   view will be allocated to only views of
+                   <b class="graf--bold">
+                    ViewType1
+                   </b>
+                   and
+                   <b class="graf--bold">
+                    ViewType2
+                   </b>
+                   views will be allocated to
+                   <b class="graf--bold">
+                    ViewType2
+                   </b>
+                   views.
+                  </p>
+                  <p class="graf--p">
+                   This is how recyclerView works internally and efficiently.
+                  </p>
+                  <p class="graf--p">
+                   Happy learning.
+                  </p>
+                  <p class="graf--p">
+                   <b class="graf--bold">
+                    Team MindOrks :)
+                   </b>
+                  </p>
+                 </h1>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How does Room work internally?" class="ui centered image" src="/images/how-does-room-work-internally-banner-2a2f345225530f17.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How does Room work internally?
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn the working of Room with the help of an example.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="The powerful tool DiffUtil in RecyclerView - Android Tutorial" class="ui centered image" src="/images/banner-diffutil.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            The powerful tool DiffUtil in RecyclerView - Android Tutorial
+           </div>
+           <div class="meta">
+            6th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="RecyclerView Multiple View Types in Android" class="ui centered image" src="/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            RecyclerView Multiple View Types in Android
+           </div>
+           <div class="meta">
+            22nd June 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Work Manager - Android Tutorial" class="ui centered image" src="/images/integrating-work-manager-in-android.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Work Manager - Android Tutorial
+           </div>
+           <div class="meta">
+            16th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how to integrate the work manager in your android project and much more advanced feature and customization which makes your life easy in scheduling tasks.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

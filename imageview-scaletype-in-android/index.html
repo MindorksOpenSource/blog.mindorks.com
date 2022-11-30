@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Understanding ImageView ScaleType in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/imageview-scaletype-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Understanding ImageView ScaleType in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/imageview-scaletype-in-android" property="og:url"/>
+  <meta content="/images/banner-understanding-imageview-scaletype-in-android-c0b210083c77f75b.png" property="og:image"/>
+  <meta content="In this blog, we are going to learn various scale types that are used for images in our Android application." property="og:description"/>
+  <meta content="Understanding ImageView ScaleType in Android" property="twitter:title"/>
+  <meta content="In this blog, we are going to learn various scale types that are used for images in our Android application." name="twitter:description"/>
+  <meta content="/images/banner-understanding-imageview-scaletype-in-android-c0b210083c77f75b.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to learn various scale types that are used for images in our Android application." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:464,data:{id:464,title:"Understanding ImageView ScaleType in Android",description:"In this blog, we are going to learn various scale types that are used for images in our Android application.",text:'<h1 class="graf--h1">Understanding ImageView ScaleType in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-understanding-imageview-scaletype-in-android-c0b210083c77f75b.png alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Open your Android phone, look at the applications present in it and try to find if there is some application which doesn&#x27;t have any image. Did you get any? The answer will be a big NO (how do I know? No I don&#x27;t have the access to your phone :) ). This is because every application uses an image in some or the other form to have a better user experience. </p><p class="graf--p">So, we as an Android developer are very fond of adding images or we can say adding <b class="graf--bold">ImageView</b> to our application. But many times, we face various issues related to the scaling of the image i.e. either your image will be cropped or you will get your image left aligned and many other problems arise while scaling an image.</p><p class="graf--p">So, welcome to MindOrks! In this blog, we are going to learn ImageView ScaleType. Let&#x27;s get started.</p><blockquote class="graf--blockquote">Note: In this blog, I am going to use the MindOrks logo. You can download the below image and use this in your project.</blockquote> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/mindorks-logo-9e39a11181c76237.jpg alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><h3 class="graf--h3">Adding an image to the project</h3><p class="graf--p">First of all, we need to add an image to our project. Copy the desired image and paste into the <code class="graf--code-inline">res &gt; drawable directory</code>. After that, add an <code class="graf--code-inline">ImageView</code> to your XML file. Here is the code of my <code class="graf--code-inline">activity_main.xml</code> file:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n\n    &lt;ImageView\n        android:id="@+id/imageView"\n        android:layout_width="wrap_content"\n        android:layout_height="240dp"\n        android:src="@drawable/mindorks_logo"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">The following is the output of the above XML code:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understanding-imageview-scaletype-in-android-original-cbd0ccb16ccfdfc3.jpg alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">We will use the above image for our reference to compare with the output image after applying some <code class="graf--code-inline">ScaleType</code>.</p><h3 class="graf--h3">ImageView ScaleType in Android</h3><p class="graf--p">In Android, we can scale the bounds of an <code class="graf--code-inline">ImageView</code> by using various <code class="graf--code-inline">ScaleType</code>s. By using <code class="graf--code-inline">ScaleType</code>, the bounds of the image are scaled to the bounds of the <code class="graf--code-inline">ImageView</code>. The following are the  <code class="graf--code-inline">ScaleType</code>s used in Android:</p><ol type="1"><li>CENTER</li><li>CENTER_CROP</li><li>CENTER_INSIDE</li><li>FIT_CENTER</li><li>FIT_START</li><li>FIT_END</li><li>FIT_XY</li><li>MATRIX</li></ol><p class="graf--p">Let&#x27;s learn one by one.</p><h3 class="graf--h3">CENTER</h3><p class="graf--p">The CENTER ScaleType is used to place the image to the center of the ImageView in which that image is present by keeping the same aspect ratio. No scaling is done here and while centering the image, if the image is so big such that it is not fitting in the center, then some parts of the image will be cropped. </p><p class="graf--p">The below line of code is used to apply CENTER ScaleType:</p><pre><code class="language-java graf graf--code">android:scaleType="center"</code></pre><p class="graf--p">The output will look something like this:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understanding-imageview-scaletype-in-android-center-fa90053ab51c79a3.jpg alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">If you compare the above image with our original image then you will find that some parts of the image are cropped because the image is centered here.</p><h3 class="graf--h3">CENTER_CROP</h3><p class="graf--p">The CENTER_CROP ScaleType is used to place the image in the center of the ImageView and scale the image uniformly by maintaining the aspect ratio. So basically it scales in such a way that one of the width or height of the image becomes equal to the width and height of the ImageView. During scaling, if any of them becomes equal then the scaling will be stopped and the rest of the parts will be cropped. So, the dimensions of the image can be equal to or more than that of ImageView.</p><p class="graf--p">The below line of code is used to apply CENTER_CROP ScaleType:</p><pre><code class="language-java graf graf--code">android:scaleType="centerCrop"</code></pre><p class="graf--p">The output will look something like this:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understanding-imageview-scaletype-in-android-center-crop-158016bc9adce864.jpg alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In the above image, while scaling when the width of the image becomes equal to the width of ImageView, then the scaling is stopped and the rest of the part is cropped.</p><h3 class="graf--h3">CENTER_INSIDE</h3><p class="graf--p">The CENTER_INSIDE ScaleType is used to place the image in the center of the ImageView and scale the image uniformly by maintaining the aspect ratio. So basically the scaling is done until both the width and height of the image become less than the width and height of the ImageView. So, the image will be put inside the ImageView irrespective of the size of the image and no cropping of the image will be performed.</p><p class="graf--p">The below line of code is used to apply CENTER_INSIDE ScaleType:</p><pre><code class="language-java graf graf--code">android:scaleType="centerInside"</code></pre><p class="graf--p">The output will look something like this:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understanding-imageview-scaletype-in-android-center-inside-67d6d09aa6b1dec3.jpg alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In the above image, the scaling is done until both the width and height of the image become equal to the width and height of ImageView.</p><h3 class="graf--h3"><b class="graf--bold">FIT_CENTER</b></h3><p class="graf--p">The FIT_CENTER ScaleType is used to place the image in the center of the ImageView and scale the image uniformly by maintaining the aspect ratio and no cropping of image will be performed. The width and height of the image are scaled down or up based on the size of the image. So basically the scaling is done until both the width and height of the image become less than the width and height of the ImageView. Anyone of width or height must be the same with the width or height of the ImageView. </p><p class="graf--p">The below line of code is used to apply FIT_CENTER ScaleType:</p><pre><code class="language-java graf graf--code">android:scaleType="fitCenter"</code></pre><p class="graf--p">The output will look something like this:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understanding-imageview-scaletype-in-android-fit-center-a5e9a673e075d540.jpg alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In the above image, the image is fitted in the center without any cropping.</p><h3 class="graf--h3"><b class="graf--bold">FIT_START</b></h3><p class="graf--p">The FIT_START ScaleType is used to place the image in the left-most and top part of the ImageView and scale the image uniformly by maintaining the aspect ratio and no cropping of image will be performed. The width and height of the image are scaled down or up based on the size of the image. So basically the scaling is done in the left part until both the width and height of the image become less than the width and height of the ImageView. Anyone of width or height must be the same with the width or height of the ImageView. </p><p class="graf--p">The below line of code is used to apply FIT_START ScaleType:</p><pre><code class="language-java graf graf--code">android:scaleType="fitStart"</code></pre><p class="graf--p">The output will look something like this:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understanding-imageview-scaletype-in-android-fit-start-577e8c688d6496b0.jpg alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In the above image, the image is scaled in the left-part of the ImageView.</p><h3 class="graf--h3"><b class="graf--bold">FIT_END</b></h3><p class="graf--p">The FIT_END ScaleType is used to place the image in the right-most bottom part of the ImageView and scale the image uniformly by maintaining the aspect ratio and no cropping of image will be performed. The width and height of the image are scaled down or up based on the size of the image. So basically the scaling is done until both the width and height of the image become less than the width and height of the ImageView. Anyone of width or height must be the same with the width or height of the ImageView. </p><p class="graf--p">The below line of code is used to apply FIT_START ScaleType:</p><pre><code class="language-java graf graf--code">android:scaleType="fitEnd"</code></pre><p class="graf--p">The output will look something like this:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understanding-imageview-scaletype-in-android-fit-end-b373273bc6638f5d.jpg alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In the above image, the image is scaled to the right-part of ImageView.</p><h3 class="graf--h3"><b class="graf--bold">FIT_XY</b></h3><p class="graf--p">The FIT_XY ScaleType is used to scale the image throughout the ImageView. The aspect ratio of the image is not maintained here. The width and height of the image are the same as that of the width and height of the ImageView.</p><p class="graf--p">The below line of code is used to apply FIT_XY ScaleType:</p><pre><code class="language-java graf graf--code">android:scaleType="fitXY"</code></pre><p class="graf--p">The output will look something like this:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understanding-imageview-scaletype-in-android-fit-xy-adf3a53321e6d123.jpg alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In the above image, the image is scaled to fit the width and height of the ImageView. So, the width and height of the image are the same as that of ImageView.</p><h3 class="graf--h3">MATRIX</h3><p class="graf--p">The MATRIX ScaleType is used to scale the image according to some user-defined MATRIX. Basically, we use a Matrix to manipulate the canvas while drawing some graphics. So, when using a Matrix with an ImageView, you can use it to flip, rotate, translate, etc with your image. </p><p class="graf--p">The below line of code is used to apply FIT_START ScaleType:</p><pre><code class="language-java graf graf--code">android:scaleType="matrix"</code></pre><p class="graf--p">The output will look something like this:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understanding-imageview-scaletype-in-android-matrix-b8ec8067aeab8630.jpg alt="Understanding Imageview Scaletype In Android Matrix" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><h3 class="graf--h3">Conclusion</h3><p class="graf--p">In this blog, we learned about all the ScaleTypes that can be used in an ImageView. You can experiment more by making use of images of different size and also using the ImageView of different sizes.</p><p class="graf--p">Hope you enjoyed this blog. Do share this blog with your fellow developers to spread Android learning.</p><p class="graf--p">Video for this blog: Check <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://www.youtube.com/watch?v=0suwzaxaxE4&feature=youtu.be">here</a></b>.</p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p><p class="graf--p"><b class="graf--bold">Also, Let’s connect on</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://twitter.com/hiii_sumit">Twitter</a></span>,</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/mishra3452/">Linkedin</a></span>,</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://github.com/mishra3452">Github</a></span>, and</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://www.facebook.com/mishra3452">Facebook</a></span></b></p>',author:17146,img_url:"/images/banner-understanding-imageview-scaletype-in-android-c0b210083c77f75b.png",blog_url:"imageview-scaletype-in-android",likes:0,rank:0,category:1,published_at:"1st June 2020"},author:{id:17146,name:"Sumit Mishra",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Software Development Engineer at MindOrks",fb_profile_url:"https://www.facebook.com/mishra3452",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hiii_sumit",github_profile_url:"https://github.com/mishra3452",linkedin_profile_url:"https://www.linkedin.com/in/sumit-mishra-a15499135/"},isFetching:!1,similarBlogs:[{id:216,title:"Understanding Density Independence Pixel: sp, dp, dip in Android",description:"What is the best measurement unit for designing for Android Screen? Density Independent Pixel, Scaled Independent Pixels, Density Pixels or Pixels.",author:7037,img_url:"/images/understanding_density_independent_pixel.jpg",blog_url:"understanding-density-independent-pixel-sp-dp-dip-in-android",likes:0,rank:0,category:1,published_at:"31st January 2019",score:.5386013984680176},{id:231,title:"Understanding and Implementing Permission in Android Q",description:"In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.",author:14897,img_url:"/images/location-permission.png",blog_url:"location-permissions-in-android-q",likes:0,rank:0,category:1,published_at:"11th May 2019",score:.5386013984680176},{id:233,title:"Understanding Settings Panels in Android Q",description:"In this blog, we will understand the new setting panel which released in Android Q. With Google launching Android Q, Lot of exciting features has also popped up. One amazing feature is Location Service usage and few more.",author:14897,img_url:"/images/android-setting.png",blog_url:"understanding-settings-panel-in-android-q",likes:0,rank:0,category:1,published_at:"14th May 2019",score:.5386013984680176},{id:243,title:"Understanding Multidex in Android",description:"In this blog, we will learn how to use Multidex in Android. Basically, Multidex is used when we want to add more than 64K methods in our Android project. If we don't use any Multidex for the project having more than 64K methods, then we will encounter DEX error. So, in this blog, we will learn how to use Multidex.",author:14897,img_url:"/images/understanding-multidex-banner-img.png",blog_url:"understanding-multidex-in-android",likes:0,rank:0,category:1,published_at:"18th May 2019",score:.5386013984680176},{id:263,title:"Understanding the Application Lifecycle in Android",description:"In this blog, we will learn about the Application life cycle in Android. We will learn how to make use of various application states that a particular application has in general. ",author:14897,img_url:"/images/understanding-the-application-lifecycle-in-android-banner.png",blog_url:"understanding-the-application-lifecycle-in-android",likes:0,rank:0,category:1,published_at:"4th June 2019",score:.5386013984680176},{id:277,title:"Understanding Activity Aliases in Android To Preserve Your Launchers",description:"In this blog, we will learn the concept of Activity Aliases in Android. Activity Aliases are used to preserve the Launchers whenever there is a change in the Launcher Activity name. Generally, when we create a shortcut on our home screen and if we change the Launcher Activity, then the shortcut will be removed from the home screen. So, let's find how to deal with this.",author:14897,img_url:"/images/activity-aliases-in-android-banner.png",blog_url:"understanding-activity-aliases-in-android-to-preserve-your-launchers",likes:0,rank:0,category:1,published_at:"17th June 2019",score:.5386013984680176}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Sumit Mishra" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300"/>
+          <div class="content">
+           Sumit Mishra
+           <div class="sub header" style="margin-top:5px">
+            1st June 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Understanding ImageView ScaleType in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/banner-understanding-imageview-scaletype-in-android-c0b210083c77f75b.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Open your Android phone, look at the applications present in it and try to find if there is some application which doesn't have any image. Did you get any? The answer will be a big NO (how do I know? No I don't have the access to your phone :) ). This is because every application uses an image in some or the other form to have a better user experience.
+                 </p>
+                 <p class="graf--p">
+                  So, we as an Android developer are very fond of adding images or we can say adding
+                  <b class="graf--bold">
+                   ImageView
+                  </b>
+                  to our application. But many times, we face various issues related to the scaling of the image i.e. either your image will be cropped or you will get your image left aligned and many other problems arise while scaling an image.
+                 </p>
+                 <p class="graf--p">
+                  So, welcome to MindOrks! In this blog, we are going to learn ImageView ScaleType. Let's get started.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  Note: In this blog, I am going to use the MindOrks logo. You can download the below image and use this in your project.
+                 </blockquote>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/mindorks-logo-9e39a11181c76237.jpg"/>
+                 </div>
+                 <h3 class="graf--h3">
+                  Adding an image to the project
+                 </h3>
+                 <p class="graf--p">
+                  First of all, we need to add an image to our project. Copy the desired image and paste into the
+                  <code class="graf--code-inline">
+                   res &gt; drawable directory
+                  </code>
+                  . After that, add an
+                  <code class="graf--code-inline">
+                   ImageView
+                  </code>
+                  to your XML file. Here is the code of my
+                  <code class="graf--code-inline">
+                   activity_main.xml
+                  </code>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+
+    &lt;ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="240dp"
+        android:src="@drawable/mindorks_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  The following is the output of the above XML code:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/understanding-imageview-scaletype-in-android-original-cbd0ccb16ccfdfc3.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  We will use the above image for our reference to compare with the output image after applying some
+                  <code class="graf--code-inline">
+                   ScaleType
+                  </code>
+                  .
+                 </p>
+                 <h3 class="graf--h3">
+                  ImageView ScaleType in Android
+                 </h3>
+                 <p class="graf--p">
+                  In Android, we can scale the bounds of an
+                  <code class="graf--code-inline">
+                   ImageView
+                  </code>
+                  by using various
+                  <code class="graf--code-inline">
+                   ScaleType
+                  </code>
+                  s. By using
+                  <code class="graf--code-inline">
+                   ScaleType
+                  </code>
+                  , the bounds of the image are scaled to the bounds of the
+                  <code class="graf--code-inline">
+                   ImageView
+                  </code>
+                  . The following are the
+                  <code class="graf--code-inline">
+                   ScaleType
+                  </code>
+                  s used in Android:
+                 </p>
+                 <ol type="1">
+                  <li>
+                   CENTER
+                  </li>
+                  <li>
+                   CENTER_CROP
+                  </li>
+                  <li>
+                   CENTER_INSIDE
+                  </li>
+                  <li>
+                   FIT_CENTER
+                  </li>
+                  <li>
+                   FIT_START
+                  </li>
+                  <li>
+                   FIT_END
+                  </li>
+                  <li>
+                   FIT_XY
+                  </li>
+                  <li>
+                   MATRIX
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  Let's learn one by one.
+                 </p>
+                 <h3 class="graf--h3">
+                  CENTER
+                 </h3>
+                 <p class="graf--p">
+                  The CENTER ScaleType is used to place the image to the center of the ImageView in which that image is present by keeping the same aspect ratio. No scaling is done here and while centering the image, if the image is so big such that it is not fitting in the center, then some parts of the image will be cropped.
+                 </p>
+                 <p class="graf--p">
+                  The below line of code is used to apply CENTER ScaleType:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:scaleType="center"</code></pre>
+                 <p class="graf--p">
+                  The output will look something like this:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/understanding-imageview-scaletype-in-android-center-fa90053ab51c79a3.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  If you compare the above image with our original image then you will find that some parts of the image are cropped because the image is centered here.
+                 </p>
+                 <h3 class="graf--h3">
+                  CENTER_CROP
+                 </h3>
+                 <p class="graf--p">
+                  The CENTER_CROP ScaleType is used to place the image in the center of the ImageView and scale the image uniformly by maintaining the aspect ratio. So basically it scales in such a way that one of the width or height of the image becomes equal to the width and height of the ImageView. During scaling, if any of them becomes equal then the scaling will be stopped and the rest of the parts will be cropped. So, the dimensions of the image can be equal to or more than that of ImageView.
+                 </p>
+                 <p class="graf--p">
+                  The below line of code is used to apply CENTER_CROP ScaleType:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:scaleType="centerCrop"</code></pre>
+                 <p class="graf--p">
+                  The output will look something like this:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/understanding-imageview-scaletype-in-android-center-crop-158016bc9adce864.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  In the above image, while scaling when the width of the image becomes equal to the width of ImageView, then the scaling is stopped and the rest of the part is cropped.
+                 </p>
+                 <h3 class="graf--h3">
+                  CENTER_INSIDE
+                 </h3>
+                 <p class="graf--p">
+                  The CENTER_INSIDE ScaleType is used to place the image in the center of the ImageView and scale the image uniformly by maintaining the aspect ratio. So basically the scaling is done until both the width and height of the image become less than the width and height of the ImageView. So, the image will be put inside the ImageView irrespective of the size of the image and no cropping of the image will be performed.
+                 </p>
+                 <p class="graf--p">
+                  The below line of code is used to apply CENTER_INSIDE ScaleType:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:scaleType="centerInside"</code></pre>
+                 <p class="graf--p">
+                  The output will look something like this:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/understanding-imageview-scaletype-in-android-center-inside-67d6d09aa6b1dec3.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  In the above image, the scaling is done until both the width and height of the image become equal to the width and height of ImageView.
+                 </p>
+                 <h3 class="graf--h3">
+                  <b class="graf--bold">
+                   FIT_CENTER
+                  </b>
+                 </h3>
+                 <p class="graf--p">
+                  The FIT_CENTER ScaleType is used to place the image in the center of the ImageView and scale the image uniformly by maintaining the aspect ratio and no cropping of image will be performed. The width and height of the image are scaled down or up based on the size of the image. So basically the scaling is done until both the width and height of the image become less than the width and height of the ImageView. Anyone of width or height must be the same with the width or height of the ImageView.
+                 </p>
+                 <p class="graf--p">
+                  The below line of code is used to apply FIT_CENTER ScaleType:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:scaleType="fitCenter"</code></pre>
+                 <p class="graf--p">
+                  The output will look something like this:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/understanding-imageview-scaletype-in-android-fit-center-a5e9a673e075d540.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  In the above image, the image is fitted in the center without any cropping.
+                 </p>
+                 <h3 class="graf--h3">
+                  <b class="graf--bold">
+                   FIT_START
+                  </b>
+                 </h3>
+                 <p class="graf--p">
+                  The FIT_START ScaleType is used to place the image in the left-most and top part of the ImageView and scale the image uniformly by maintaining the aspect ratio and no cropping of image will be performed. The width and height of the image are scaled down or up based on the size of the image. So basically the scaling is done in the left part until both the width and height of the image become less than the width and height of the ImageView. Anyone of width or height must be the same with the width or height of the ImageView.
+                 </p>
+                 <p class="graf--p">
+                  The below line of code is used to apply FIT_START ScaleType:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:scaleType="fitStart"</code></pre>
+                 <p class="graf--p">
+                  The output will look something like this:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/understanding-imageview-scaletype-in-android-fit-start-577e8c688d6496b0.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  In the above image, the image is scaled in the left-part of the ImageView.
+                 </p>
+                 <h3 class="graf--h3">
+                  <b class="graf--bold">
+                   FIT_END
+                  </b>
+                 </h3>
+                 <p class="graf--p">
+                  The FIT_END ScaleType is used to place the image in the right-most bottom part of the ImageView and scale the image uniformly by maintaining the aspect ratio and no cropping of image will be performed. The width and height of the image are scaled down or up based on the size of the image. So basically the scaling is done until both the width and height of the image become less than the width and height of the ImageView. Anyone of width or height must be the same with the width or height of the ImageView.
+                 </p>
+                 <p class="graf--p">
+                  The below line of code is used to apply FIT_START ScaleType:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:scaleType="fitEnd"</code></pre>
+                 <p class="graf--p">
+                  The output will look something like this:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/understanding-imageview-scaletype-in-android-fit-end-b373273bc6638f5d.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  In the above image, the image is scaled to the right-part of ImageView.
+                 </p>
+                 <h3 class="graf--h3">
+                  <b class="graf--bold">
+                   FIT_XY
+                  </b>
+                 </h3>
+                 <p class="graf--p">
+                  The FIT_XY ScaleType is used to scale the image throughout the ImageView. The aspect ratio of the image is not maintained here. The width and height of the image are the same as that of the width and height of the ImageView.
+                 </p>
+                 <p class="graf--p">
+                  The below line of code is used to apply FIT_XY ScaleType:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:scaleType="fitXY"</code></pre>
+                 <p class="graf--p">
+                  The output will look something like this:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/understanding-imageview-scaletype-in-android-fit-xy-adf3a53321e6d123.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  In the above image, the image is scaled to fit the width and height of the ImageView. So, the width and height of the image are the same as that of ImageView.
+                 </p>
+                 <h3 class="graf--h3">
+                  MATRIX
+                 </h3>
+                 <p class="graf--p">
+                  The MATRIX ScaleType is used to scale the image according to some user-defined MATRIX. Basically, we use a Matrix to manipulate the canvas while drawing some graphics. So, when using a Matrix with an ImageView, you can use it to flip, rotate, translate, etc with your image.
+                 </p>
+                 <p class="graf--p">
+                  The below line of code is used to apply FIT_START ScaleType:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:scaleType="matrix"</code></pre>
+                 <p class="graf--p">
+                  The output will look something like this:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Imageview Scaletype In Android Matrix" class="graf-image" src="/images/understanding-imageview-scaletype-in-android-matrix-b8ec8067aeab8630.jpg"/>
+                 </div>
+                 <h3 class="graf--h3">
+                  Conclusion
+                 </h3>
+                 <p class="graf--p">
+                  In this blog, we learned about all the ScaleTypes that can be used in an ImageView. You can experiment more by making use of images of different size and also using the ImageView of different sizes.
+                 </p>
+                 <p class="graf--p">
+                  Hope you enjoyed this blog. Do share this blog with your fellow developers to spread Android learning.
+                 </p>
+                 <p class="graf--p">
+                  Video for this blog: Check
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://www.youtube.com/watch?v=0suwzaxaxE4&amp;feature=youtu.be" target="_blank">
+                    here
+                   </a>
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Also, Let’s connect on
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://twitter.com/hiii_sumit" target="_blank">
+                     Twitter
+                    </a>
+                   </span>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://www.linkedin.com/in/mishra3452/" target="_blank">
+                     Linkedin
+                    </a>
+                   </span>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://github.com/mishra3452" target="_blank">
+                     Github
+                    </a>
+                   </span>
+                   , and
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://www.facebook.com/mishra3452" target="_blank">
+                     Facebook
+                    </a>
+                   </span>
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Density Independence Pixel: sp, dp, dip in Android" class="ui centered image" src="/images/understanding_density_independent_pixel.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Density Independence Pixel: sp, dp, dip in Android
+           </div>
+           <div class="meta">
+            31st January 2019
+           </div>
+           <div class="description">
+            What is the best measurement unit for designing for Android Screen? Density Independent Pixel, Scaled Independent Pixels, Density Pixels or Pixels.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding and Implementing Permission in Android Q" class="ui centered image" src="/images/location-permission.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding and Implementing Permission in Android Q
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Settings Panels in Android Q" class="ui centered image" src="/images/android-setting.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Settings Panels in Android Q
+           </div>
+           <div class="meta">
+            14th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new setting panel which released in Android Q. With Google launching Android Q, Lot of exciting features has also popped up. One amazing feature is Location Service usage and few more.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Multidex in Android" class="ui centered image" src="/images/understanding-multidex-banner-img.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Multidex in Android
+           </div>
+           <div class="meta">
+            18th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Multidex in Android. Basically, Multidex is used when we want to add more than 64K methods in our Android project. If we don't use any Multidex for the project having more than 64K methods, then we will encounter DEX error. So, in this blog, we will learn how to use Multidex.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding the Application Lifecycle in Android" class="ui centered image" src="/images/understanding-the-application-lifecycle-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding the Application Lifecycle in Android
+           </div>
+           <div class="meta">
+            4th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Application life cycle in Android. We will learn how to make use of various application states that a particular application has in general.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Activity Aliases in Android To Preserve Your Launchers" class="ui centered image" src="/images/activity-aliases-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Activity Aliases in Android To Preserve Your Launchers
+           </div>
+           <div class="meta">
+            17th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn the concept of Activity Aliases in Android. Activity Aliases are used to preserve the Launchers whenever there is a change in the Launcher Activity name. Generally, when we create a shortcut on our home screen and if we change the Launcher Activity, then the shortcut will be removed from the home screen. So, let's find how to deal with this.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

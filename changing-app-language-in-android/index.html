@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Changing App language in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/changing-app-language-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Changing App language in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/changing-app-language-in-android" property="og:url"/>
+  <meta content="/images/changing-app-language-in-android-banner-94b2757a89091539.jpg" property="og:image"/>
+  <meta content="In this blog, we will learn how to change the locale of our Android application. Locale helps us to have different language support in the same App. Let's learn about it." property="og:description"/>
+  <meta content="Changing App language in Android" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to change the locale of our Android application. Locale helps us to have different language support in the same App. Let's learn about it." name="twitter:description"/>
+  <meta content="/images/changing-app-language-in-android-banner-94b2757a89091539.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to change the locale of our Android application. Locale helps us to have different language support in the same App. Let's learn about it." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:514,data:{id:514,title:"Changing App language in Android",description:"In this blog, we will learn how to change the locale of our Android application. Locale helps us to have different language support in the same App. Let's learn about it.",text:'<h1 class="graf--h1">Changing App language in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/changing-app-language-in-android-banner-94b2757a89091539.jpg alt="Changing App Language In Android Banner" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In your app, you can add as many languages as you want. By languages, I mean the language of the text that we see in any mobile application. For example, if you have English, French, and Hindi users, then you can have language support for all these languages. Like &quot;Hello&quot; in English will become &quot;Bonjour&quot; in French and &quot;नमस्ते&quot; in Hindi.</p><p class="graf--p">But how can we change the language? That&#x27;s the topic for this blog. In this blog, we will learn how to change the App locale in Android with ease.</p><p class="graf--p">By default, you have English as your default language for the whole app and the text corresponding to the English language will be there in our <code class="graf--code-inline">strings.xml</code> file. So, similarly, for other languages, you need to add their <code class="graf--code-inline">strings.xml</code> file.</p><p class="graf--p">So, basically Android loads the resources related to language based on the system locale setting. For example, if the language of your Android phone is English, then <code class="graf--code-inline">strings.xml</code> of English will be loaded by Android. We do not have to do anything extra here.</p><p class="graf--p">But, many times, we want our users to change the language of our App only by selecting the preferred language and not by changing the language of our Android phone. So, let&#x27;s see how to add this.</p><p class="graf--p">First of all, create a project in Android Studio. Here, we will be having 2 activities:</p><ul><li><b class="graf--bold">MainActivity:</b> This will contain one welcome TextView and two Buttons, one for opening the next activity in the English language and the other for opening the next activity in the Hindi language.</li><li><b class="graf--bold">LanguageActivity:</b> This will simply contain a TextView displaying some message. The message will be shown in English if the language of the app is English and the message will be shown in Hindi if the language of the app is Hindi.</li></ul><p class="graf--p">So, let&#x27;s start with the MainActivity. The following is the code for the <code class="graf--code-inline">activity_main.xml</code> file:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n\n    &lt;TextView\n        android:id="@+id/tvWelcome"\n        android:layout_width="match_parent"\n        android:layout_height="wrap_content"\n        android:layout_marginTop="40dp"\n        android:text="@string/msg_welcome"\n        android:textAlignment="center"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n    &lt;Button\n        android:id="@+id/btnEnglish"\n        android:layout_width="match_parent"\n        android:layout_height="56dp"\n        android:layout_marginTop="40dp"\n        android:text="@string/label_btn_english"\n        android:textAllCaps="false"\n        app:layout_constraintEnd_toEndOf="@id/tvWelcome"\n        app:layout_constraintStart_toStartOf="@id/tvWelcome"\n        app:layout_constraintTop_toBottomOf="@id/tvWelcome" /&gt;\n\n    &lt;Button\n        android:id="@+id/btnHindi"\n        android:layout_width="match_parent"\n        android:layout_height="56dp"\n        android:layout_marginTop="16dp"\n        android:text="@string/label_btn_hindi"\n        android:textAllCaps="false"\n        app:layout_constraintEnd_toEndOf="@id/tvWelcome"\n        app:layout_constraintStart_toStartOf="@id/tvWelcome"\n        app:layout_constraintTop_toBottomOf="@id/btnEnglish" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Here, we have 1 TextView and 2 Buttons.</p><p class="graf--p">Similarly, you can add one TextView in your LanguageActivity. The following is the XML code for the same:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".LanguageActivity"&gt;\n\n    &lt;TextView\n        android:id="@+id/tvLearning"\n        android:layout_width="match_parent"\n        android:layout_height="wrap_content"\n        android:text="@string/msg_learning"\n        android:textAlignment="center"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">And finally, here is the <code class="graf--code-inline">strings.xml</code> file:</p><pre><code class="language-java graf graf--code">&lt;resources&gt;\n    &lt;string name="app_name"&gt;ChangeAppLocale&lt;/string&gt;\n    &lt;string name="msg_welcome"&gt;Welcome to MindOrks!&lt;/string&gt;\n    &lt;string name="label_btn_english"&gt;Open Next Activity in English&lt;/string&gt;\n    &lt;string name="label_btn_hindi"&gt;Open Next Activity in Hindi&lt;/string&gt;\n    &lt;string name="msg_learning"&gt;Hello Everyone! I am learning how to change the App Locale. Having fun in learning this.&lt;/string&gt;\n&lt;/resources&gt;</code></pre><p class="graf--p">So, we are done with our prerequisite part. Now, we are ready to add a new language to our app. Follow the below steps to do so:</p><ul><li>Right Click on res &gt; New &gt; Android Resource File</li><li>Put the file name as <code class="graf--code-inline">strings.xml</code></li><li>Select the option of Locale</li></ul> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/changing-app-language-in-android-step1-71af123b6a2787be.jpg alt="Changing App Language In Android Step1" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><ul><li>Select the locale for Hindi with code &quot;hi&quot;</li></ul> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/changing-app-language-in-android-step2-b91b0db91a9e2ed3.jpg alt="Changing App Language In Android Step2" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><ul><li>Click on Ok and now, you will be having two <code class="graf--code-inline">values</code> directory i.e. the default one with the name <code class="graf--code-inline">values</code> and the other with name <code class="graf--code-inline">values-hi</code>. The default one will contain the <code class="graf--code-inline">strings.xml</code> file for the default language(in our case, English) and the <code class="graf--code-inline">values-hi</code> will contain the <code class="graf--code-inline">strings.xml</code> file for the Hindi language.</li></ul><p class="graf--p">Now, you need to put all the values of all the strings that we defined in our default <code class="graf--code-inline">strings.xml</code> file for our new Hindi strings.xml file. </p><p class="graf--p">But there are certain cases where we want to keep the text of the default language. For example, the name of the App should be the same for all languages. In our case, we just need to translate the message that is shown on the LanguageActivity and not all texts like AppName, WelcomeMessage, etc. </p><p class="graf--p">So, for that, we need to set translatable to false in our default strings.xml file(the English one). For example:</p><pre><code class="language-java graf graf--code">&lt;string name="app_name" translatable="false"&gt;ChangeAppLocale&lt;/string&gt;</code></pre><p class="graf--p">Similarly, you can set <code class="graf--code-inline">translatable = &quot;false&quot;</code> for other string values as well. Now, for the other strings that you want to translate, you can simply add their values in the strings.xml file of the Hindi language. For example, the code of <code class="graf--code-inline">strings.xml</code> (hi) will be:</p><pre><code class="language-java graf graf--code">&lt;resources&gt;\n    &lt;string name="msg_learning"&gt;सभी को नमस्कार! मैं ऐप लोकेल को बदलना सीख रहा हूं। यह सीखने में मज़ा आ रहा है।&lt;/string&gt;\n&lt;/resources&gt;</code></pre><p class="graf--p">In this way, you are telling the Android app to use the string value according to the locale of the App.</p><p class="graf--p">Now, our final task is to change the locale or simply the language of the app when we click on the button. For this, add the below function in your <code class="graf--code-inline">MainActivity.kt</code> file:</p><pre><code class="language-java graf graf--code">fun setAppLocale(context: Context, language: String) {\n    val locale = Locale(language)\n    Locale.setDefault(locale)\n    val config = context.resources.configuration\n    config.setLocale(locale)\n    context.createConfigurationContext(config)\n    context.resources.updateConfiguration(config, context.resources.displayMetrics)\n}</code></pre><p class="graf--p">In the above code, pass the context and the language code and then start the <code class="graf--code-inline">LanguageActivity</code>. For example:</p><pre><code class="language-java graf graf--code">enButton.setOnClickListener {\n    setAppLocale(this, "en")\n    val intent = Intent(this, LanguageActivity::class.java)\n    startActivity(intent)\n}\n\nhiButton.setOnClickListener {\n    setAppLocale(this, "hi")\n    val intent = Intent(this, LanguageActivity::class.java)\n    startActivity(intent)\n}</code></pre><p class="graf--p">Now, when you open the LangaugeActivity, then you can see the changes in the language. </p><h3 class="graf--h3"><b class="graf--bold">Points to keep in mind:</b></h3><ul><li>Whenever an activity is loaded then the corresponding  string.xml file is loaded at that time only. For example, if the current locale of your app is English and on button click, you changed it to Hindi. Then no change on that particular activity will be observed because the string file of that activity is already loaded. But if you move to some other activity and then come back to the first activity, then you will see the language changes. If you want to see instant changes, then you need to refresh the activity after the change of the locale.</li><li>In some Android Versions, you might not see the locale change if you are opening some WebView in your app. Always take care of the case when you load the WebView for the very first time. One possible option is to set again the locale after loading the WebView.</li><li>You need to handle the case of orientation change of your activity. The locale will be reset in this case as well, so handle this as well. </li><li>It is recommended by Android to not change the locale at runtime. So, you can avoid this if the use-case of language is not that much important in your app.</li></ul><p class="graf--p">This is how you can change the locale of your App. That&#x27;s it for this blog. Hope you enjoyed this blog.</p><p class="graf--p"><b class="graf--bold">Happy Learning :)</b></p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:17146,img_url:"/images/changing-app-language-in-android-banner-94b2757a89091539.jpg",blog_url:"changing-app-language-in-android",likes:0,rank:0,category:1,published_at:"16th March 2021"},author:{id:17146,name:"Sumit Mishra",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Software Development Engineer at MindOrks",fb_profile_url:"https://www.facebook.com/mishra3452",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hiii_sumit",github_profile_url:"https://github.com/mishra3452",linkedin_profile_url:"https://www.linkedin.com/in/sumit-mishra-a15499135/"},isFetching:!1,similarBlogs:[{id:297,title:"Integrating Android Google’s reCAPTCHA in Android App",description:"In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.",author:17146,img_url:"/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png",blog_url:"integrating-android-google-re-captcha-in-android-app",likes:0,rank:0,category:1,published_at:"18th July 2019",score:1.118438482284546},{id:252,title:"Implementing in-app updates on Android",description:"In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.",author:14897,img_url:"/images/in-app-updates-android-banner.png",blog_url:"implementing-in-app-updates-on-android",likes:0,rank:0,category:1,published_at:"25th May 2019",score:1.1092609167099},{id:315,title:"How to build a Modular Android App Architecture?",description:"In this blog, we will learn how can we Build a Modular Android App Architecture. We will learn about dynamic-feature and dynamic delivery. We will also learn how can we use a library module to modularise the app's architecture",author:9959,img_url:"/images/banner-modular-arch.png",blog_url:"how-to-build-a-modular-android-app-architecture",likes:0,rank:0,category:1,published_at:"19th August 2019",score:1.1092609167099},{id:327,title:"Improving Android app performance with Benchmarking",description:"In this blog, we will learn how to improve Android app performance with Benchmarking. Benchmarking is a way to measure the code that you have written for your app. For the process of benchmarking, we have one library called Jetpack Benchmark. So, we will lean each and everything related to benchmarking.",author:14897,img_url:"/images/improving-android-app-performance-with-benchmarking-banner.png",blog_url:"improving-android-app-performance-with-benchmarking",likes:0,rank:0,category:1,published_at:"13th September 2019",score:1.1092609167099},{id:353,title:"Integrating Expression Search in Android app",description:"In this blog, we will learn how to integrate expression search in Android application. We will learn how to use GIFs for better user communication in our application. We will cover every aspect of it.",author:14897,img_url:"/images/integrating-expression-search-in-android-app-banner.png",blog_url:"integrating-expression-search-in-android-app",likes:0,rank:0,category:1,published_at:"4th October 2019",score:1.1092609167099},{id:365,title:"Implement In-App Purchases in Android",description:"In this blog, we will talk about how to implement and setup you android app for in app purchase.",author:9959,img_url:"/images/banner-in-app-purchase.png",blog_url:"implement-in-app-purchases-in-android",likes:0,rank:0,category:1,published_at:"16th October 2019",score:1.1092609167099}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Sumit Mishra" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300"/>
+          <div class="content">
+           Sumit Mishra
+           <div class="sub header" style="margin-top:5px">
+            16th March 2021
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Changing App language in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Changing App Language In Android Banner" class="graf-image" src="/images/changing-app-language-in-android-banner-94b2757a89091539.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  In your app, you can add as many languages as you want. By languages, I mean the language of the text that we see in any mobile application. For example, if you have English, French, and Hindi users, then you can have language support for all these languages. Like "Hello" in English will become "Bonjour" in French and "नमस्ते" in Hindi.
+                 </p>
+                 <p class="graf--p">
+                  But how can we change the language? That's the topic for this blog. In this blog, we will learn how to change the App locale in Android with ease.
+                 </p>
+                 <p class="graf--p">
+                  By default, you have English as your default language for the whole app and the text corresponding to the English language will be there in our
+                  <code class="graf--code-inline">
+                   strings.xml
+                  </code>
+                  file. So, similarly, for other languages, you need to add their
+                  <code class="graf--code-inline">
+                   strings.xml
+                  </code>
+                  file.
+                 </p>
+                 <p class="graf--p">
+                  So, basically Android loads the resources related to language based on the system locale setting. For example, if the language of your Android phone is English, then
+                  <code class="graf--code-inline">
+                   strings.xml
+                  </code>
+                  of English will be loaded by Android. We do not have to do anything extra here.
+                 </p>
+                 <p class="graf--p">
+                  But, many times, we want our users to change the language of our App only by selecting the preferred language and not by changing the language of our Android phone. So, let's see how to add this.
+                 </p>
+                 <p class="graf--p">
+                  First of all, create a project in Android Studio. Here, we will be having 2 activities:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    MainActivity:
+                   </b>
+                   This will contain one welcome TextView and two Buttons, one for opening the next activity in the English language and the other for opening the next activity in the Hindi language.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    LanguageActivity:
+                   </b>
+                   This will simply contain a TextView displaying some message. The message will be shown in English if the language of the app is English and the message will be shown in Hindi if the language of the app is Hindi.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, let's start with the MainActivity. The following is the code for the
+                  <code class="graf--code-inline">
+                   activity_main.xml
+                  </code>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+
+    &lt;TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/msg_welcome"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+    &lt;Button
+        android:id="@+id/btnEnglish"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/label_btn_english"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@id/tvWelcome"
+        app:layout_constraintStart_toStartOf="@id/tvWelcome"
+        app:layout_constraintTop_toBottomOf="@id/tvWelcome" /&gt;
+
+    &lt;Button
+        android:id="@+id/btnHindi"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/label_btn_hindi"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@id/tvWelcome"
+        app:layout_constraintStart_toStartOf="@id/tvWelcome"
+        app:layout_constraintTop_toBottomOf="@id/btnEnglish" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Here, we have 1 TextView and 2 Buttons.
+                 </p>
+                 <p class="graf--p">
+                  Similarly, you can add one TextView in your LanguageActivity. The following is the XML code for the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LanguageActivity"&gt;
+
+    &lt;TextView
+        android:id="@+id/tvLearning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_learning"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  And finally, here is the
+                  <code class="graf--code-inline">
+                   strings.xml
+                  </code>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;resources&gt;
+    &lt;string name="app_name"&gt;ChangeAppLocale&lt;/string&gt;
+    &lt;string name="msg_welcome"&gt;Welcome to MindOrks!&lt;/string&gt;
+    &lt;string name="label_btn_english"&gt;Open Next Activity in English&lt;/string&gt;
+    &lt;string name="label_btn_hindi"&gt;Open Next Activity in Hindi&lt;/string&gt;
+    &lt;string name="msg_learning"&gt;Hello Everyone! I am learning how to change the App Locale. Having fun in learning this.&lt;/string&gt;
+&lt;/resources&gt;</code></pre>
+                 <p class="graf--p">
+                  So, we are done with our prerequisite part. Now, we are ready to add a new language to our app. Follow the below steps to do so:
+                 </p>
+                 <ul>
+                  <li>
+                   Right Click on res &gt; New &gt; Android Resource File
+                  </li>
+                  <li>
+                   Put the file name as
+                   <code class="graf--code-inline">
+                    strings.xml
+                   </code>
+                  </li>
+                  <li>
+                   Select the option of Locale
+                  </li>
+                 </ul>
+                 <div class="graf-image graf-caption">
+                  <img alt="Changing App Language In Android Step1" class="graf-image" src="/images/changing-app-language-in-android-step1-71af123b6a2787be.jpg"/>
+                 </div>
+                 <ul>
+                  <li>
+                   Select the locale for Hindi with code "hi"
+                  </li>
+                 </ul>
+                 <div class="graf-image graf-caption">
+                  <img alt="Changing App Language In Android Step2" class="graf-image" src="/images/changing-app-language-in-android-step2-b91b0db91a9e2ed3.jpg"/>
+                 </div>
+                 <ul>
+                  <li>
+                   Click on Ok and now, you will be having two
+                   <code class="graf--code-inline">
+                    values
+                   </code>
+                   directory i.e. the default one with the name
+                   <code class="graf--code-inline">
+                    values
+                   </code>
+                   and the other with name
+                   <code class="graf--code-inline">
+                    values-hi
+                   </code>
+                   . The default one will contain the
+                   <code class="graf--code-inline">
+                    strings.xml
+                   </code>
+                   file for the default language(in our case, English) and the
+                   <code class="graf--code-inline">
+                    values-hi
+                   </code>
+                   will contain the
+                   <code class="graf--code-inline">
+                    strings.xml
+                   </code>
+                   file for the Hindi language.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Now, you need to put all the values of all the strings that we defined in our default
+                  <code class="graf--code-inline">
+                   strings.xml
+                  </code>
+                  file for our new Hindi strings.xml file.
+                 </p>
+                 <p class="graf--p">
+                  But there are certain cases where we want to keep the text of the default language. For example, the name of the App should be the same for all languages. In our case, we just need to translate the message that is shown on the LanguageActivity and not all texts like AppName, WelcomeMessage, etc.
+                 </p>
+                 <p class="graf--p">
+                  So, for that, we need to set translatable to false in our default strings.xml file(the English one). For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;string name="app_name" translatable="false"&gt;ChangeAppLocale&lt;/string&gt;</code></pre>
+                 <p class="graf--p">
+                  Similarly, you can set
+                  <code class="graf--code-inline">
+                   translatable = "false"
+                  </code>
+                  for other string values as well. Now, for the other strings that you want to translate, you can simply add their values in the strings.xml file of the Hindi language. For example, the code of
+                  <code class="graf--code-inline">
+                   strings.xml
+                  </code>
+                  (hi) will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;resources&gt;
+    &lt;string name="msg_learning"&gt;सभी को नमस्कार! मैं ऐप लोकेल को बदलना सीख रहा हूं। यह सीखने में मज़ा आ रहा है।&lt;/string&gt;
+&lt;/resources&gt;</code></pre>
+                 <p class="graf--p">
+                  In this way, you are telling the Android app to use the string value according to the locale of the App.
+                 </p>
+                 <p class="graf--p">
+                  Now, our final task is to change the locale or simply the language of the app when we click on the button. For this, add the below function in your
+                  <code class="graf--code-inline">
+                   MainActivity.kt
+                  </code>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun setAppLocale(context: Context, language: String) {
+    val locale = Locale(language)
+    Locale.setDefault(locale)
+    val config = context.resources.configuration
+    config.setLocale(locale)
+    context.createConfigurationContext(config)
+    context.resources.updateConfiguration(config, context.resources.displayMetrics)
+}</code></pre>
+                 <p class="graf--p">
+                  In the above code, pass the context and the language code and then start the
+                  <code class="graf--code-inline">
+                   LanguageActivity
+                  </code>
+                  . For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">enButton.setOnClickListener {
+    setAppLocale(this, "en")
+    val intent = Intent(this, LanguageActivity::class.java)
+    startActivity(intent)
+}
+
+hiButton.setOnClickListener {
+    setAppLocale(this, "hi")
+    val intent = Intent(this, LanguageActivity::class.java)
+    startActivity(intent)
+}</code></pre>
+                 <p class="graf--p">
+                  Now, when you open the LangaugeActivity, then you can see the changes in the language.
+                 </p>
+                 <h3 class="graf--h3">
+                  <b class="graf--bold">
+                   Points to keep in mind:
+                  </b>
+                 </h3>
+                 <ul>
+                  <li>
+                   Whenever an activity is loaded then the corresponding  string.xml file is loaded at that time only. For example, if the current locale of your app is English and on button click, you changed it to Hindi. Then no change on that particular activity will be observed because the string file of that activity is already loaded. But if you move to some other activity and then come back to the first activity, then you will see the language changes. If you want to see instant changes, then you need to refresh the activity after the change of the locale.
+                  </li>
+                  <li>
+                   In some Android Versions, you might not see the locale change if you are opening some WebView in your app. Always take care of the case when you load the WebView for the very first time. One possible option is to set again the locale after loading the WebView.
+                  </li>
+                  <li>
+                   You need to handle the case of orientation change of your activity. The locale will be reset in this case as well, so handle this as well.
+                  </li>
+                  <li>
+                   It is recommended by Android to not change the locale at runtime. So, you can avoid this if the use-case of language is not that much important in your app.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  This is how you can change the locale of your App. That's it for this blog. Hope you enjoyed this blog.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Happy Learning :)
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Android Google’s reCAPTCHA in Android App" class="ui centered image" src="/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Android Google’s reCAPTCHA in Android App
+           </div>
+           <div class="meta">
+            18th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing in-app updates on Android" class="ui centered image" src="/images/in-app-updates-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing in-app updates on Android
+           </div>
+           <div class="meta">
+            25th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to build a Modular Android App Architecture?" class="ui centered image" src="/images/banner-modular-arch.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to build a Modular Android App Architecture?
+           </div>
+           <div class="meta">
+            19th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how can we Build a Modular Android App Architecture. We will learn about dynamic-feature and dynamic delivery. We will also learn how can we use a library module to modularise the app's architecture
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Improving Android app performance with Benchmarking" class="ui centered image" src="/images/improving-android-app-performance-with-benchmarking-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Improving Android app performance with Benchmarking
+           </div>
+           <div class="meta">
+            13th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to improve Android app performance with Benchmarking. Benchmarking is a way to measure the code that you have written for your app. For the process of benchmarking, we have one library called Jetpack Benchmark. So, we will lean each and everything related to benchmarking.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Expression Search in Android app" class="ui centered image" src="/images/integrating-expression-search-in-android-app-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Expression Search in Android app
+           </div>
+           <div class="meta">
+            4th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to integrate expression search in Android application. We will learn how to use GIFs for better user communication in our application. We will cover every aspect of it.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implement In-App Purchases in Android" class="ui centered image" src="/images/banner-in-app-purchase.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implement In-App Purchases in Android
+           </div>
+           <div class="meta">
+            16th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how to implement and setup you android app for in app purchase.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

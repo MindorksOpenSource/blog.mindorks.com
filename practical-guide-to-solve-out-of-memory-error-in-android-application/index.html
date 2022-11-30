@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Practical Guide To Solve OutOfMemoryError in Android Application
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/practical-guide-to-solve-out-of-memory-error-in-android-application" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Practical Guide To Solve OutOfMemoryError in Android Application" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/practical-guide-to-solve-out-of-memory-error-in-android-application" property="og:url"/>
+  <meta content="/images/practical-guide-to-solve-out-of-memory-error-in-android-application-banner.jpg" property="og:image"/>
+  <meta content="In this blog, we will learn how to solve OutOfMemoryError in Android application. There can be many reasons for OutOfMemoryError in Android. We will look at these reasons and we will remove the error with the help of some practical examples." property="og:description"/>
+  <meta content="Practical Guide To Solve OutOfMemoryError in Android Application" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to solve OutOfMemoryError in Android application. There can be many reasons for OutOfMemoryError in Android. We will look at these reasons and we will remove the error with the help of some practical examples." name="twitter:description"/>
+  <meta content="/images/practical-guide-to-solve-out-of-memory-error-in-android-application-banner.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to solve OutOfMemoryError in Android application. There can be many reasons for OutOfMemoryError in Android. We will look at these reasons and we will remove the error with the help of some practical examples." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:388,data:{id:388,title:"Practical Guide To Solve OutOfMemoryError in Android Application",description:"In this blog, we will learn how to solve OutOfMemoryError in Android application. There can be many reasons for OutOfMemoryError in Android. We will look at these reasons and we will remove the error with the help of some practical examples.",text:'<h1 class="graf--h1">Practical Guide To Solve OutOfMemoryError in Android Application</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/practical-guide-to-solve-out-of-memory-error-in-android-application-banner.jpg class=\'graf-image\' alt=\'Practical Guide To Solve OutOfMemoryError in Android Application\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">OutOfMemoryError or simply OOM is something that every Android developer must have encountered with. If you haven&#x27;t seen any OOM in your Android application, then you are going to have one in future. The OutOfMemoryError comes in Android due to memory leaks. So, in order to remove the OutOfMemoryError, you need to remove memory leaks from your Android application. </p><p class="graf--p">In this blog, we will solve the OutOfMemoryError in Android with the help of some practical examples. So, let&#x27;s get started with the basics of Memory Leak in Android.</p><h4 class="graf--h3">What is a Memory Leak?</h4><p class="graf--p">When you run some application on the Android device, then the Android system will provide some memory to your application for its working. All the variable creation, function creation, activity creation, etc takes place in that memory only. </p><p class="graf--p"><b class="graf--bold"><i class="graf--italic">For example</i></b>, if the Android System allocates 100MB for your application, then your application can use 100MB max at one particular time. With due course of time, if space allocated to the application gets reduced or very few amounts of space is left, then the Garbage Collector(GC) will release the memory that is being held by those variables and activities that are of no use. In this way, the application will again gain some space.</p><p class="graf--p"><b class="graf--bold">NOTE:</b> The Garbage Collector performs the task of releasing the memory automatically and you don&#x27;t have to do anything for this.</p><p class="graf--p">But sometimes, when you write the code in a bad manner such that your code holds the references of objects that are not required anymore, then in this situation, the Garbage Collector is unable to release the unused space and no space will be left for the application for its further working. This is called a <b class="graf--bold">Memory Leak</b>.</p><p class="graf--p">Due to the phenomenon of Memory Leak in Android, we encounter with the OutOfMemoryError in Android because your code is holding the references of the objects that are not required anymore and the Garbage Collector is unable to perform its job and your application uses all the space allocated to it by the Android System and is demanding for more.</p><h4 class="graf--h3">What may be the reasons for OutOfMemoryError?</h4><p class="graf--p">There are various reasons that can lead to OutOfMemoryError in Android. Some of the common reason for Memory Leaks that results in OutOfMemoryError are:</p><ul><li>Use of Static view/context/activity</li><li>Register and unregister listeners</li><li>Non-Static inner class</li><li>Wrong use of getContext() and getApplicationContext()</li></ul><p class="graf--p">Let&#x27;s learn one by one in detail.</p><h4 class="graf--h3"><b class="graf--bold">Use of static views/context/activity</b> </h4><p class="graf--p">If you are using some static views/context/activity then you are going to have OutOfMemoryError(if your activities are dealing with lots of space). This is because the view or the context or the activity will be held by the application until the application is alive and due to this the memory taken by these will not be released by the Garbage Collector.</p><p class="graf--p"><b class="graf--bold"><i class="graf--italic">For example</i></b>, In your application, you are having 4 activities i.e. <i class="graf--italic">A</i>, <i class="graf--italic">B</i>, <i class="graf--italic">C</i>, and <i class="graf--italic">D</i>. Activity &quot;<i class="graf--italic">A</i>&quot; is your main activity and you can open the activity <i class="graf--italic">B</i>, <i class="graf--italic">C</i>, and <i class="graf--italic">D</i> from <i class="graf--italic">A</i>. Now, suppose the activities <i class="graf--italic">B</i>, <i class="graf--italic">C</i>, and <i class="graf--italic">D</i> are holding static reference to its context and each activity is using 2MB and total memory allocated to the application by the Android System is 4MB. So, when activity &quot;<i class="graf--italic">B</i>&quot; will be started then the memory used by the application will be 2MB. Now, come back to the activity &quot;<i class="graf--italic">A</i>&quot; and start activity &quot;<i class="graf--italic">C</i>&quot;. Now, the memory used by the application will be 4MB(2MB for Activity <i class="graf--italic">B</i> and 2MB for Activity <i class="graf--italic">C</i>). Again come back to activity &quot;<i class="graf--italic">A</i>&quot; and start activity &quot;<i class="graf--italic">D</i>&quot;. Now, your app will require 6MB(2MB for <i class="graf--italic">B</i>, 2MB for <i class="graf--italic">C</i> and 2MB for <i class="graf--italic">D</i>), but the allocated memory is 4MB. So, here while opening the activity &quot;<i class="graf--italic">D</i>&quot;, you will get OutOfMemoryError because the allotted memory is 4MB and you are demanding for 6MB.</p><p class="graf--p">Let&#x27;s look at one practical implementation. Here in this example, I am using Bitmap. By using more than 5 images of size 1MB each, my application will encounter OutOfMemoryError on my mobile device. In your case, the number of images that can result in OutOfMemoryError can be more than or less than 5. You can find the limit by adding images to the BitmapArray one by one and whenever you get the OOM, that is the limit of your device.</p><p class="graf--p">So, my application is having one <i class="graf--italic">MainActivity</i> and from this activity, I can go to &quot;<i class="graf--italic">ActivityB</i>&quot; and &quot;<i class="graf--italic">ActivityC</i>&quot;. Both these activities i.e. &quot;<i class="graf--italic">ActivityB</i>&quot; and &quot;<i class="graf--italic">ActivityC</i>&quot; are having static reference of their context. So, space used by these activities will not be deleted by Garbage Collector.</p><p class="graf--p">Following is the code for <i class="graf--italic">ActivityB</i>:</p><pre><code class="language-java graf graf--code">class ActivityB : AppCompatActivity() {\n    // static context\n    companion object {\n        lateinit var context: Context\n    }\n    val bitmapArray = ArrayList&lt;Bitmap&gt;()\n    \n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_b)\n        context = this\n        Thread(Runnable {\n            try {\n                // adding 3 images to bitmapArray\n                val bitmap1: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1)\n                val bitmap2: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image2)\n                val bitmap3: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image3)\n                bitmapArray.add(bitmap1)\n                bitmapArray.add(bitmap2)\n                bitmapArray.add(bitmap3)\n            } catch (e: Exception){\n                Logger.getLogger(ActivityB::class.java.name).warning(e.toString())\n            }\n        }).start()\n    }\n}</code></pre><p class="graf--p">Following is the code for the <i class="graf--italic">ActivityC</i>:</p><pre><code class="language-java graf graf--code">class ActivityC : AppCompatActivity() {\n    companion object {\n        lateinit var context: Context\n    }\n    val bitmapArray = ArrayList&lt;Bitmap&gt;()\n    \n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_c)\n        context = this\n        Thread(Runnable {\n            try {\n\n                val bitmap1: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1)\n                val bitmap2: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image2)\n                val bitmap3: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image3)\n                bitmapArray.add(bitmap1)\n                bitmapArray.add(bitmap2)\n                bitmapArray.add(bitmap3)\n            } catch (e: Exception){\n                Logger.getLogger(ActivityC::class.java.name).warning(e.toString())\n            }\n\n        }).start()\n    }\n}</code></pre><p class="graf--p">So, if you launch the <i class="graf--italic">ActivityB</i> from <i class="graf--italic">MainActivity</i>, then there will no OutOfMemoryError because the limit for my mobile device is 5 images and in the <i class="graf--italic">ActivityB</i>, I am using only 3 images.</p><p class="graf--p">Now, come back to the <i class="graf--italic">MainActivity</i> and launch <i class="graf--italic">ActivityC</i> and you will get OutOfMemoryError because here in the <i class="graf--italic">ActivityC</i>, we are using 3 images and since we are using the static context in both <i class="graf--italic">ActivityB</i> and <i class="graf--italic">ActivityC</i>, the reference of <i class="graf--italic">ActivityB</i> is still with us and overall we have 6 images(3 from <i class="graf--italic">ActivityB</i> and 3 from <i class="graf--italic">ActivityC</i>) and the limit for my mobile device is 5 images. So, OutOfMemoryError will occur.</p><p class="graf--p">To remove this error, make the context or view or activity, Non-Static.</p><pre><code class="language-java graf graf--code">class ActivityB : AppCompatActivity() {\n    \n    lateinit var context: Context\n    val bitmapArray = ArrayList&lt;Bitmap&gt;()\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        ...\n    }\n}</code></pre><h4 class="graf--h3"><b class="graf--bold">Register and unregister listeners</b> </h4><p class="graf--p">In Android, we use various kind of listeners to listen to the changes like the location change. So, never forgot to unregister your listener when you are done using that listener. If you are not unregistering the listeners, then the listener will be present in the background and the space taken by the listener will not be deleted by the Garbage Collector even when the listener is of no use. So, it is better to unregister the listener if not in use. Let&#x27;s look at one practical example.</p><p class="graf--p">In this example, we are having one Singleton class named &quot;<i class="graf--italic">SomeListener</i>&quot; that will be having two functions i.e. <i class="graf--italic">register()</i> and <i class="graf--italic">unregister()</i>. The <i class="graf--italic">register()</i> function is used to add the activity in an activity array and the <i class="graf--italic">unregister()</i> function is used to remove the activity from the activity array. Following is the code for the Singleton class:</p><pre><code class="language-java graf graf--code">object SomeListener {\n    private val activityArray = ArrayList&lt;Activity&gt;()\n\n    fun register(activity: Activity) {\n        activityArray.add(activity)\n    }\n    fun unregister(activity: Activity) {\n        activityArray.remove(activity)\n    }\n}</code></pre><p class="graf--p">In my mobile device, if I am adding more than 5 images, then the application will give OutOfMemoryError. So, in this example, we will be having three activities i.e. <i class="graf--italic">MainActivity</i>, <i class="graf--italic">ActivityB</i>, and <i class="graf--italic">ActivityC</i>. The <i class="graf--italic">ActivityB</i> and <i class="graf--italic">ActivityC</i> will be called from <i class="graf--italic">MainActivity</i> and in the <i class="graf--italic">onCreate()</i> function of both these activities, we will call the <i class="graf--italic">register()</i> method of the Singleton class to add the activities in the activity array.</p><p class="graf--p">Following is the code of <i class="graf--italic">ActivityB</i>:</p><pre><code class="language-java graf graf--code">class ActivityB : AppCompatActivity() {\n    \n    val bitmapArray = ArrayList&lt;Bitmap&gt;()\n    \n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_b)\n        Thread(Runnable {\n            try {\n                // adding 3 images to bitmapArray\n                val bitmap1: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1)\n                val bitmap2: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image2)\n                val bitmap3: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image3)\n                bitmapArray.add(bitmap1)\n                bitmapArray.add(bitmap2)\n                bitmapArray.add(bitmap3)\n            } catch (e: Exception){\n                Logger.getLogger(ActivityB::class.java.name).warning(e.toString())\n            }\n        }).start()\n        // calling the register() function\n        SomeListener.register(this)\n    }\n}</code></pre><p class="graf--p">Following is the code of <i class="graf--italic">ActivityC</i>:</p><pre><code class="language-java graf graf--code">class ActivityC : AppCompatActivity() {\n    \n    val bitmapArray = ArrayList&lt;Bitmap&gt;()\n    \n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_c)\n        Thread(Runnable {\n            try {\n                // adding 3 images to bitmapArray\n                val bitmap1: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1)\n                val bitmap2: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image2)\n                val bitmap3: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image3)\n                bitmapArray.add(bitmap1)\n                bitmapArray.add(bitmap2)\n                bitmapArray.add(bitmap3)\n            } catch (e: Exception){\n                Logger.getLogger(ActivityC::class.java.name).warning(e.toString())\n            }\n        }).start()\n        // calling the register() function\n        SomeListener.register(this)\n    }\n}</code></pre><p class="graf--p">If we call the <i class="graf--italic">ActivityB</i> from <i class="graf--italic">MainActivity</i>, then the reference of 3 images will be stored(as we are storing in the Singleton class). Here, no OutOfMemoryError will be shown because our limit is of 5 images. Now, if we come back to the <i class="graf--italic">MainActivity</i> and call the <i class="graf--italic">ActivityC</i>, then we will get OutOfMemoryError because initially, we are having reference to 3 images and when <i class="graf--italic">ActivityC</i> is launched, then 3 more images came and overall we have reference to 6 images(as we are using the same Singleton class) and our limit is of 5 images. So, we will encounter MemoryOutOfBoundError.</p><p class="graf--p">To remove this error, you have to deregister the listener when the activity is closed or of no use. So, add the below lines of code to unregister the listener when the activity is stopped:</p><pre><code class="language-java graf graf--code">override fun onStop() {\n    SomeListener.unregister(this)\n    super.onStop()\n}</code></pre><h4 class="graf--h3"><b class="graf--bold">The nested class must be Static:</b> </h4><p class="graf--p">If you are having some nested class in the application, then make it a static class because the static class does not need the outer class implicit reference. So, if you are using the inner class as non-static then it makes the outer class alive until the application is alive. So, this can lead to OutOfMemoryError if your class is using a lot of memory. So, it is better to make the inner class Static.</p><p class="graf--p">In Java, you have to make the inner class static by your own but in Kotlin, the inner class is by default static in nature. So, you need not worry about static inner class in Kotlin.</p><h4 class="graf--h3">Wrong use of getContext() and getApplicationContext() in third party libraries</h4><p class="graf--p">We use many third-party libraries in our application and most of them use Singleton class. So, if you are passing some context to a third-party library and that third-party library is beyond the scope of the current activity, then use <i class="graf--italic">getApplicationContext()</i> and not <i class="graf--italic">getContext()</i>.</p><p class="graf--p">Generally, we do the below thing in our application:</p><pre><code class="language-java graf graf--code">SomeThirdPartyLibrary.initialize(this)</code></pre><p class="graf--p">Here, initialize is some static function in that library and it uses the context something like this:</p><pre><code class="language-java graf graf--code">SomeThirdPartyLibrary {\n  object companion {\n    initialize(Content context) {\n       this.context = context.getApplicationContext()\n    }\n  }\n}</code></pre><p class="graf--p">But some of the libraries don&#x27;t use the above notation. So, in that case, it will use the context of the current activity and due to this, the reference of the current activity will be held until the application is alive and this can result in OutOfMemoryError(as the initialize function is static).</p><p class="graf--p">So, it is better to use the <i class="graf--italic">getApplicationContext()</i> in your code explicitly and don&#x27;t depend on the third-party libraries to do that.</p><p class="graf--p">These are some of the techniques that can be used to remove OutOfMemoryError from our application. It is better to write the code that doesn&#x27;t give any OutOfMemoryError. Still, if your project is very big and you are getting it harder to find the class that is responsible for OutOfMemoryError, then you can use the memory profiler of Android Studio to find the classes responsible for OutOfMemoryError.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://www.youtube.com/watch?v=FxDa2td6Ej8">Learn how to use Android Studio Memory Profiler</a></b></p><p class="graf--p">Also, there is one library called <b class="graf--bold">LeakCanary</b>, that tells you about the class that is responsible for memory leaks in your Android application(if any).</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://square.github.io/leakcanary/">Learn more about LearCanary</a></b></p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we learned how to remove OutOfMemoryError in Android. This can be removed by using a non-static reference of views/context/activity, by registering and unregistering the listeners, by using a static inner class. So, in future, if you are writing some code in Android, then I am sure that you are going to use these to avoid OutOfMemoryError.</p><p class="graf--p">That&#x27;s it for this blog. Hope you learned something new today.</p><p class="graf--p">Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/">blogging website</a>.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://afteracademy.com/tech-interview">Have a look at our Interview Kit for company preparation.</a></b></p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://bootcamp.mindorks.com/">Apply Now: MindOrks Android Online Course and Learn Advanced Android</a></b></p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p><p class="graf--p"><b class="graf--bold">Also, Let’s connect on</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://twitter.com/hiii_sumit">Twitter</a>,</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/mishra3452/">Linkedin</a>,</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/mishra3452">Github</a>, and</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://www.facebook.com/mishra3452">Facebook</a></b></p>',author:17146,img_url:"/images/practical-guide-to-solve-out-of-memory-error-in-android-application-banner.jpg",blog_url:"practical-guide-to-solve-out-of-memory-error-in-android-application",likes:0,rank:0,category:1,published_at:"6th January 2020"},author:{id:17146,name:"Sumit Mishra",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Software Development Engineer at MindOrks",fb_profile_url:"https://www.facebook.com/mishra3452",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hiii_sumit",github_profile_url:"https://github.com/mishra3452",linkedin_profile_url:"https://www.linkedin.com/in/sumit-mishra-a15499135/"},isFetching:!1,similarBlogs:[{id:88,title:"How to create multiple apk files for android application",description:"Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.",author:30,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg",blog_url:"how-to-create-multiple-apk-files-for-android-application",likes:0,rank:0,category:1,published_at:"30th August 2017",score:1.8890047073364258},{id:244,title:"Using Swipe-to-refresh in Android Application",description:"In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.",author:14897,img_url:"/images/swipe-to-refresh-banner.png",blog_url:"using-swipe-to-refresh-in-android-application",likes:0,rank:0,category:1,published_at:"21st May 2019",score:1.8890047073364258},{id:263,title:"Understanding the Application Lifecycle in Android",description:"In this blog, we will learn about the Application life cycle in Android. We will learn how to make use of various application states that a particular application has in general. ",author:14897,img_url:"/images/understanding-the-application-lifecycle-in-android-banner.png",blog_url:"understanding-the-application-lifecycle-in-android",likes:0,rank:0,category:1,published_at:"4th June 2019",score:1.8890047073364258},{id:290,title:"Things to care while using Proguard in Android application",description:"In this blog, we will learn about the things that we should know before using Proguard in Android application. Proguard is used to minify, obfuscate and optimize the Android code. So, we created a list of things that you should know before using Proguard.",author:14897,img_url:"/images/things-to-take-care-while-using-proguard-banner.png",blog_url:"things-to-care-while-using-proguard-in-android-application",likes:0,rank:0,category:1,published_at:"2nd July 2019",score:1.8890047073364258},{id:188,title:"Build your first Android application in Kotlin",description:"In this blog, we will learn how to create and run your first Android application in Kotlin with the help of Android Studio. We will learn how to create an emulator in Android Studio and how to run applications on an emulator and on mobile devices.",author:14897,img_url:"/images/first-android-app-in-kotlin-banner.png",blog_url:"first-android-app-in-kotlin",likes:0,rank:0,category:1,published_at:"17th December 2018",score:1.8890047073364258},{id:445,title:"Finding the reason of exit in Android Application",description:"In this blog, we are going to talk about how we can find and log reasons for exit from our application. We will be discussing a few realtime examples as well.",author:9959,img_url:"/images/finding-the-reason-for-the-exit-in-android-application-5aeeba3095cc96f1.png",blog_url:"reason-of-exit-in-android-application",likes:0,rank:0,category:1,published_at:"16th May 2020",score:1.8890047073364258}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Sumit Mishra" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300"/>
+          <div class="content">
+           Sumit Mishra
+           <div class="sub header" style="margin-top:5px">
+            6th January 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Practical Guide To Solve OutOfMemoryError in Android Application
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Practical Guide To Solve OutOfMemoryError in Android Application" class="graf-image" src="/images/practical-guide-to-solve-out-of-memory-error-in-android-application-banner.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  OutOfMemoryError or simply OOM is something that every Android developer must have encountered with. If you haven't seen any OOM in your Android application, then you are going to have one in future. The OutOfMemoryError comes in Android due to memory leaks. So, in order to remove the OutOfMemoryError, you need to remove memory leaks from your Android application.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will solve the OutOfMemoryError in Android with the help of some practical examples. So, let's get started with the basics of Memory Leak in Android.
+                 </p>
+                 <h4 class="graf--h3">
+                  What is a Memory Leak?
+                 </h4>
+                 <p class="graf--p">
+                  When you run some application on the Android device, then the Android system will provide some memory to your application for its working. All the variable creation, function creation, activity creation, etc takes place in that memory only.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    For example
+                   </i>
+                  </b>
+                  , if the Android System allocates 100MB for your application, then your application can use 100MB max at one particular time. With due course of time, if space allocated to the application gets reduced or very few amounts of space is left, then the Garbage Collector(GC) will release the memory that is being held by those variables and activities that are of no use. In this way, the application will again gain some space.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   NOTE:
+                  </b>
+                  The Garbage Collector performs the task of releasing the memory automatically and you don't have to do anything for this.
+                 </p>
+                 <p class="graf--p">
+                  But sometimes, when you write the code in a bad manner such that your code holds the references of objects that are not required anymore, then in this situation, the Garbage Collector is unable to release the unused space and no space will be left for the application for its further working. This is called a
+                  <b class="graf--bold">
+                   Memory Leak
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Due to the phenomenon of Memory Leak in Android, we encounter with the OutOfMemoryError in Android because your code is holding the references of the objects that are not required anymore and the Garbage Collector is unable to perform its job and your application uses all the space allocated to it by the Android System and is demanding for more.
+                 </p>
+                 <h4 class="graf--h3">
+                  What may be the reasons for OutOfMemoryError?
+                 </h4>
+                 <p class="graf--p">
+                  There are various reasons that can lead to OutOfMemoryError in Android. Some of the common reason for Memory Leaks that results in OutOfMemoryError are:
+                 </p>
+                 <ul>
+                  <li>
+                   Use of Static view/context/activity
+                  </li>
+                  <li>
+                   Register and unregister listeners
+                  </li>
+                  <li>
+                   Non-Static inner class
+                  </li>
+                  <li>
+                   Wrong use of getContext() and getApplicationContext()
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Let's learn one by one in detail.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Use of static views/context/activity
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  If you are using some static views/context/activity then you are going to have OutOfMemoryError(if your activities are dealing with lots of space). This is because the view or the context or the activity will be held by the application until the application is alive and due to this the memory taken by these will not be released by the Garbage Collector.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    For example
+                   </i>
+                  </b>
+                  , In your application, you are having 4 activities i.e.
+                  <i class="graf--italic">
+                   A
+                  </i>
+                  ,
+                  <i class="graf--italic">
+                   B
+                  </i>
+                  ,
+                  <i class="graf--italic">
+                   C
+                  </i>
+                  , and
+                  <i class="graf--italic">
+                   D
+                  </i>
+                  . Activity "
+                  <i class="graf--italic">
+                   A
+                  </i>
+                  " is your main activity and you can open the activity
+                  <i class="graf--italic">
+                   B
+                  </i>
+                  ,
+                  <i class="graf--italic">
+                   C
+                  </i>
+                  , and
+                  <i class="graf--italic">
+                   D
+                  </i>
+                  from
+                  <i class="graf--italic">
+                   A
+                  </i>
+                  . Now, suppose the activities
+                  <i class="graf--italic">
+                   B
+                  </i>
+                  ,
+                  <i class="graf--italic">
+                   C
+                  </i>
+                  , and
+                  <i class="graf--italic">
+                   D
+                  </i>
+                  are holding static reference to its context and each activity is using 2MB and total memory allocated to the application by the Android System is 4MB. So, when activity "
+                  <i class="graf--italic">
+                   B
+                  </i>
+                  " will be started then the memory used by the application will be 2MB. Now, come back to the activity "
+                  <i class="graf--italic">
+                   A
+                  </i>
+                  " and start activity "
+                  <i class="graf--italic">
+                   C
+                  </i>
+                  ". Now, the memory used by the application will be 4MB(2MB for Activity
+                  <i class="graf--italic">
+                   B
+                  </i>
+                  and 2MB for Activity
+                  <i class="graf--italic">
+                   C
+                  </i>
+                  ). Again come back to activity "
+                  <i class="graf--italic">
+                   A
+                  </i>
+                  " and start activity "
+                  <i class="graf--italic">
+                   D
+                  </i>
+                  ". Now, your app will require 6MB(2MB for
+                  <i class="graf--italic">
+                   B
+                  </i>
+                  , 2MB for
+                  <i class="graf--italic">
+                   C
+                  </i>
+                  and 2MB for
+                  <i class="graf--italic">
+                   D
+                  </i>
+                  ), but the allocated memory is 4MB. So, here while opening the activity "
+                  <i class="graf--italic">
+                   D
+                  </i>
+                  ", you will get OutOfMemoryError because the allotted memory is 4MB and you are demanding for 6MB.
+                 </p>
+                 <p class="graf--p">
+                  Let's look at one practical implementation. Here in this example, I am using Bitmap. By using more than 5 images of size 1MB each, my application will encounter OutOfMemoryError on my mobile device. In your case, the number of images that can result in OutOfMemoryError can be more than or less than 5. You can find the limit by adding images to the BitmapArray one by one and whenever you get the OOM, that is the limit of your device.
+                 </p>
+                 <p class="graf--p">
+                  So, my application is having one
+                  <i class="graf--italic">
+                   MainActivity
+                  </i>
+                  and from this activity, I can go to "
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  " and "
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  ". Both these activities i.e. "
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  " and "
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  " are having static reference of their context. So, space used by these activities will not be deleted by Garbage Collector.
+                 </p>
+                 <p class="graf--p">
+                  Following is the code for
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ActivityB : AppCompatActivity() {
+    // static context
+    companion object {
+        lateinit var context: Context
+    }
+    val bitmapArray = ArrayList&lt;Bitmap&gt;()
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_b)
+        context = this
+        Thread(Runnable {
+            try {
+                // adding 3 images to bitmapArray
+                val bitmap1: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1)
+                val bitmap2: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image2)
+                val bitmap3: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image3)
+                bitmapArray.add(bitmap1)
+                bitmapArray.add(bitmap2)
+                bitmapArray.add(bitmap3)
+            } catch (e: Exception){
+                Logger.getLogger(ActivityB::class.java.name).warning(e.toString())
+            }
+        }).start()
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Following is the code for the
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ActivityC : AppCompatActivity() {
+    companion object {
+        lateinit var context: Context
+    }
+    val bitmapArray = ArrayList&lt;Bitmap&gt;()
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_c)
+        context = this
+        Thread(Runnable {
+            try {
+
+                val bitmap1: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1)
+                val bitmap2: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image2)
+                val bitmap3: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image3)
+                bitmapArray.add(bitmap1)
+                bitmapArray.add(bitmap2)
+                bitmapArray.add(bitmap3)
+            } catch (e: Exception){
+                Logger.getLogger(ActivityC::class.java.name).warning(e.toString())
+            }
+
+        }).start()
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  So, if you launch the
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  from
+                  <i class="graf--italic">
+                   MainActivity
+                  </i>
+                  , then there will no OutOfMemoryError because the limit for my mobile device is 5 images and in the
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  , I am using only 3 images.
+                 </p>
+                 <p class="graf--p">
+                  Now, come back to the
+                  <i class="graf--italic">
+                   MainActivity
+                  </i>
+                  and launch
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  and you will get OutOfMemoryError because here in the
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  , we are using 3 images and since we are using the static context in both
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  and
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  , the reference of
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  is still with us and overall we have 6 images(3 from
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  and 3 from
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  ) and the limit for my mobile device is 5 images. So, OutOfMemoryError will occur.
+                 </p>
+                 <p class="graf--p">
+                  To remove this error, make the context or view or activity, Non-Static.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ActivityB : AppCompatActivity() {
+    
+    lateinit var context: Context
+    val bitmapArray = ArrayList&lt;Bitmap&gt;()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        ...
+    }
+}</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Register and unregister listeners
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  In Android, we use various kind of listeners to listen to the changes like the location change. So, never forgot to unregister your listener when you are done using that listener. If you are not unregistering the listeners, then the listener will be present in the background and the space taken by the listener will not be deleted by the Garbage Collector even when the listener is of no use. So, it is better to unregister the listener if not in use. Let's look at one practical example.
+                 </p>
+                 <p class="graf--p">
+                  In this example, we are having one Singleton class named "
+                  <i class="graf--italic">
+                   SomeListener
+                  </i>
+                  " that will be having two functions i.e.
+                  <i class="graf--italic">
+                   register()
+                  </i>
+                  and
+                  <i class="graf--italic">
+                   unregister()
+                  </i>
+                  . The
+                  <i class="graf--italic">
+                   register()
+                  </i>
+                  function is used to add the activity in an activity array and the
+                  <i class="graf--italic">
+                   unregister()
+                  </i>
+                  function is used to remove the activity from the activity array. Following is the code for the Singleton class:
+                 </p>
+                 <pre><code class="language-java graf graf--code">object SomeListener {
+    private val activityArray = ArrayList&lt;Activity&gt;()
+
+    fun register(activity: Activity) {
+        activityArray.add(activity)
+    }
+    fun unregister(activity: Activity) {
+        activityArray.remove(activity)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In my mobile device, if I am adding more than 5 images, then the application will give OutOfMemoryError. So, in this example, we will be having three activities i.e.
+                  <i class="graf--italic">
+                   MainActivity
+                  </i>
+                  ,
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  , and
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  . The
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  and
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  will be called from
+                  <i class="graf--italic">
+                   MainActivity
+                  </i>
+                  and in the
+                  <i class="graf--italic">
+                   onCreate()
+                  </i>
+                  function of both these activities, we will call the
+                  <i class="graf--italic">
+                   register()
+                  </i>
+                  method of the Singleton class to add the activities in the activity array.
+                 </p>
+                 <p class="graf--p">
+                  Following is the code of
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ActivityB : AppCompatActivity() {
+    
+    val bitmapArray = ArrayList&lt;Bitmap&gt;()
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_b)
+        Thread(Runnable {
+            try {
+                // adding 3 images to bitmapArray
+                val bitmap1: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1)
+                val bitmap2: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image2)
+                val bitmap3: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image3)
+                bitmapArray.add(bitmap1)
+                bitmapArray.add(bitmap2)
+                bitmapArray.add(bitmap3)
+            } catch (e: Exception){
+                Logger.getLogger(ActivityB::class.java.name).warning(e.toString())
+            }
+        }).start()
+        // calling the register() function
+        SomeListener.register(this)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Following is the code of
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ActivityC : AppCompatActivity() {
+    
+    val bitmapArray = ArrayList&lt;Bitmap&gt;()
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_c)
+        Thread(Runnable {
+            try {
+                // adding 3 images to bitmapArray
+                val bitmap1: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image1)
+                val bitmap2: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image2)
+                val bitmap3: Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image3)
+                bitmapArray.add(bitmap1)
+                bitmapArray.add(bitmap2)
+                bitmapArray.add(bitmap3)
+            } catch (e: Exception){
+                Logger.getLogger(ActivityC::class.java.name).warning(e.toString())
+            }
+        }).start()
+        // calling the register() function
+        SomeListener.register(this)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  If we call the
+                  <i class="graf--italic">
+                   ActivityB
+                  </i>
+                  from
+                  <i class="graf--italic">
+                   MainActivity
+                  </i>
+                  , then the reference of 3 images will be stored(as we are storing in the Singleton class). Here, no OutOfMemoryError will be shown because our limit is of 5 images. Now, if we come back to the
+                  <i class="graf--italic">
+                   MainActivity
+                  </i>
+                  and call the
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  , then we will get OutOfMemoryError because initially, we are having reference to 3 images and when
+                  <i class="graf--italic">
+                   ActivityC
+                  </i>
+                  is launched, then 3 more images came and overall we have reference to 6 images(as we are using the same Singleton class) and our limit is of 5 images. So, we will encounter MemoryOutOfBoundError.
+                 </p>
+                 <p class="graf--p">
+                  To remove this error, you have to deregister the listener when the activity is closed or of no use. So, add the below lines of code to unregister the listener when the activity is stopped:
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onStop() {
+    SomeListener.unregister(this)
+    super.onStop()
+}</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   The nested class must be Static:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  If you are having some nested class in the application, then make it a static class because the static class does not need the outer class implicit reference. So, if you are using the inner class as non-static then it makes the outer class alive until the application is alive. So, this can lead to OutOfMemoryError if your class is using a lot of memory. So, it is better to make the inner class Static.
+                 </p>
+                 <p class="graf--p">
+                  In Java, you have to make the inner class static by your own but in Kotlin, the inner class is by default static in nature. So, you need not worry about static inner class in Kotlin.
+                 </p>
+                 <h4 class="graf--h3">
+                  Wrong use of getContext() and getApplicationContext() in third party libraries
+                 </h4>
+                 <p class="graf--p">
+                  We use many third-party libraries in our application and most of them use Singleton class. So, if you are passing some context to a third-party library and that third-party library is beyond the scope of the current activity, then use
+                  <i class="graf--italic">
+                   getApplicationContext()
+                  </i>
+                  and not
+                  <i class="graf--italic">
+                   getContext()
+                  </i>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Generally, we do the below thing in our application:
+                 </p>
+                 <pre><code class="language-java graf graf--code">SomeThirdPartyLibrary.initialize(this)</code></pre>
+                 <p class="graf--p">
+                  Here, initialize is some static function in that library and it uses the context something like this:
+                 </p>
+                 <pre><code class="language-java graf graf--code">SomeThirdPartyLibrary {
+  object companion {
+    initialize(Content context) {
+       this.context = context.getApplicationContext()
+    }
+  }
+}</code></pre>
+                 <p class="graf--p">
+                  But some of the libraries don't use the above notation. So, in that case, it will use the context of the current activity and due to this, the reference of the current activity will be held until the application is alive and this can result in OutOfMemoryError(as the initialize function is static).
+                 </p>
+                 <p class="graf--p">
+                  So, it is better to use the
+                  <i class="graf--italic">
+                   getApplicationContext()
+                  </i>
+                  in your code explicitly and don't depend on the third-party libraries to do that.
+                 </p>
+                 <p class="graf--p">
+                  These are some of the techniques that can be used to remove OutOfMemoryError from our application. It is better to write the code that doesn't give any OutOfMemoryError. Still, if your project is very big and you are getting it harder to find the class that is responsible for OutOfMemoryError, then you can use the memory profiler of Android Studio to find the classes responsible for OutOfMemoryError.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://www.youtube.com/watch?v=FxDa2td6Ej8" target="_blank">
+                    Learn how to use Android Studio Memory Profiler
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Also, there is one library called
+                  <b class="graf--bold">
+                   LeakCanary
+                  </b>
+                  , that tells you about the class that is responsible for memory leaks in your Android application(if any).
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://square.github.io/leakcanary/" target="_blank">
+                    Learn more about LearCanary
+                   </a>
+                  </b>
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how to remove OutOfMemoryError in Android. This can be removed by using a non-static reference of views/context/activity, by registering and unregistering the listeners, by using a static inner class. So, in future, if you are writing some code in Android, then I am sure that you are going to use these to avoid OutOfMemoryError.
+                 </p>
+                 <p class="graf--p">
+                  That's it for this blog. Hope you learned something new today.
+                 </p>
+                 <p class="graf--p">
+                  Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our
+                  <a class="markup--anchor" href="https://blog.mindorks.com/" target="_blank">
+                   blogging website
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://afteracademy.com/tech-interview" target="_blank">
+                    Have a look at our Interview Kit for company preparation.
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://bootcamp.mindorks.com/" target="_blank">
+                    Apply Now: MindOrks Android Online Course and Learn Advanced Android
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Also, Let’s connect on
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://twitter.com/hiii_sumit" target="_blank">
+                    Twitter
+                   </a>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://www.linkedin.com/in/mishra3452/" target="_blank">
+                    Linkedin
+                   </a>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://github.com/mishra3452" target="_blank">
+                    Github
+                   </a>
+                   , and
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://www.facebook.com/mishra3452" target="_blank">
+                    Facebook
+                   </a>
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to create multiple apk files for android application" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to create multiple apk files for android application
+           </div>
+           <div class="meta">
+            30th August 2017
+           </div>
+           <div class="description">
+            Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Swipe-to-refresh in Android Application" class="ui centered image" src="/images/swipe-to-refresh-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Swipe-to-refresh in Android Application
+           </div>
+           <div class="meta">
+            21st May 2019
+           </div>
+           <div class="description">
+            In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding the Application Lifecycle in Android" class="ui centered image" src="/images/understanding-the-application-lifecycle-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding the Application Lifecycle in Android
+           </div>
+           <div class="meta">
+            4th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Application life cycle in Android. We will learn how to make use of various application states that a particular application has in general.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Things to care while using Proguard in Android application" class="ui centered image" src="/images/things-to-take-care-while-using-proguard-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Things to care while using Proguard in Android application
+           </div>
+           <div class="meta">
+            2nd July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the things that we should know before using Proguard in Android application. Proguard is used to minify, obfuscate and optimize the Android code. So, we created a list of things that you should know before using Proguard.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Build your first Android application in Kotlin" class="ui centered image" src="/images/first-android-app-in-kotlin-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Build your first Android application in Kotlin
+           </div>
+           <div class="meta">
+            17th December 2018
+           </div>
+           <div class="description">
+            In this blog, we will learn how to create and run your first Android application in Kotlin with the help of Android Studio. We will learn how to create an emulator in Android Studio and how to run applications on an emulator and on mobile devices.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Finding the reason of exit in Android Application" class="ui centered image" src="/images/finding-the-reason-for-the-exit-in-android-application-5aeeba3095cc96f1.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Finding the reason of exit in Android Application
+           </div>
+           <div class="meta">
+            16th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to talk about how we can find and log reasons for exit from our application. We will be discussing a few realtime examples as well.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

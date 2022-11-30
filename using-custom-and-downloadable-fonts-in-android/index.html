@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Using Custom and Downloadable Fonts in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/using-custom-and-downloadable-fonts-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Using Custom and Downloadable Fonts in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/using-custom-and-downloadable-fonts-in-android" property="og:url"/>
+  <meta content="/images/downloadable-font-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app." property="og:description"/>
+  <meta content="Using Custom and Downloadable Fonts in Android" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app." name="twitter:description"/>
+  <meta content="/images/downloadable-font-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:238,data:{id:238,title:"Using Custom and Downloadable Fonts in Android",description:"In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.",text:'<h1 class="graf--h1">Using Custom and Downloadable Fonts in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/downloadable-font-banner.png class=\'graf-image\' alt=\'Using Custom and Downloadable Fonts in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">At the Google I/O 2017, Android O or simple Android Oreo was launched and it came with a lot of cool features. One of the really interesting features for developers was the new way to apply fonts right in your XML files. Yeah, you heard it right. Now there is no need of writing some piece of code for using the fonts. Also, you can choose from any of the thousands of fonts on <a class="markup--anchor" target="_blank" href="https://fonts.google.com/">Google Fonts</a> and use them in your app.</p><p class="graf--p">So, in this blog, you will understand how to use <b class="graf--bold">Custom and Downloadable Fonts in Android?</b></p><h4 class="graf--h3">The Older way of using Fonts</h4><p class="graf--p">Before we move forward to look for the new or the latest way of using the font, let&#x27;s revise the older way of using fonts. Before the release of Android O, fonts can be used in the following 2 ways : </p><ul><li><b class="graf--bold">Using Typeface:</b> One would typically need a custom view that extends the equivalent view were trying to apply a font to. In the custom view, one would create a Typeface and then call setTypeface (or a similar method, that, sets the typeface). One would also need to have the font file placed in the assets folder. The code in the custom view typically looks like:  </li></ul><pre><code class="language-java graf graf--code">TextView tv = (TextView)findViewById(R.id.textview1);\nTypeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/font-name.ttf");\ntx.setTypeface(custom_font);</code></pre><ul><li><b class="graf--bold">Calligraphy Library</b> : You can use some existing libraries for various fonts used in Android. One of them is <a class="markup--anchor" target="_blank" href="https://github.com/chrisjenx/Calligraphy">Calligraphy Library</a>. </li></ul><h4 class="graf--h3">Using Custom Font in Android</h4><p class="graf--p">To work with Custom Font, you need to install the latest version of Android Studio 3.x. This is important as some of the features are not supported on Android Studio 2.x - for example, the font resource directory. Once you are done with the installation of the latest version of Android Studio, create a project and add a text view in any of the activity(This is the text view on which we are going to apply custom font). Then follow the below steps :</p><ul><li><b class="graf--bold">Add a font directory to your project: </b>In the Android View, right click on the <b class="graf--bold"><i class="graf--italic">res </i></b>folder and go to <b class="graf--bold">New -&gt; Android Resource Directory. </b>Type <b class="graf--bold"><i class="graf--italic">font </i></b>as the name of the font and select <b class="graf--bold"><i class="graf--italic">font </i></b>as the resource type. Then click on <b class="graf--bold">Ok</b>.</li><li><b class="graf--bold">Add the downloaded font to the font directory: </b>Copy and Paste your font into <b class="graf--bold"><i class="graf--italic">res/font. </i></b>I am using <b class="graf--bold">Pacifico font</b>. You can get this font from <a class="markup--anchor" target="_blank" href="https://www.fontsquirrel.com/fonts/list/popular">FontSqirrel</a>. </li><li><b class="graf--bold">Create a font-family XML file: </b>You can create font families which contain a set of font files with their style and weight details. To create a new font family you need to create a new XML font resource. The benefit is that you can access it as a single unit instead of referencing individual font files for each style and weight. To create a font-family, right click on <b class="graf--bold"><i class="graf--italic">res/font </i></b>and choose <b class="graf--bold">New -&gt; Font Resource File and</b> give any name. In my case, I am using <b class="graf--bold">my_custom_font.xml</b>. </li></ul><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;font-family xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"&gt;\n\n    &lt;!-- regular --&gt;\n    &lt;font\n        android:font="@font/Pacifico"\n        android:fontStyle="normal"\n        android:fontWeight="400"\n\n        app:font="@font/Pacifico"\n        app:fontStyle="normal"\n        app:fontWeight="400" /&gt;\n\n    &lt;!-- italic --&gt;\n    &lt;font\n        android:font="@font/Pacifico"\n        android:fontStyle="italic"\n        android:fontWeight="400"\n\n        app:font="@font/Pacifico"\n        app:fontStyle="italic"\n        app:fontWeight="400" /&gt;\n\n    &lt;!-- bold --&gt;\n    &lt;font\n        android:font="@font/Pacifico"\n        android:fontStyle="normal"\n        android:fontWeight="700"\n\n        app:font="@font/Pacifico"\n        app:fontStyle="normal"\n        app:fontWeight="700" /&gt;\n&lt;/font-family&gt;</code></pre><p class="graf--p"><b class="graf--bold">Note: </b>A really important thing to note is that we had to define attributes using both <b class="graf--bold"><code class="graf--code-inline"><i class="graf--italic">android</i></code></b> and <b class="graf--bold"><code class="graf--code-inline"><i class="graf--italic">app</i></code></b> namespaces. The <code class="graf--code-inline">app</code> namespace is what ensures that the feature is backward compatible.</p><ul><li><b class="graf--bold">Set the font in the XML: </b>Now you can use the <b class="graf--bold"><i class="graf--italic">font-family </i></b>attribute to set the font in XML.<b class="graf--bold"><i class="graf--italic"> </i></b></li></ul><pre><code class="language-java graf graf--code">&lt;TextView\n    android:layout_width="wrap_content"\n    android:layout_height="wrap_content"\n    android:fontFamily="@font/my_custom_font"\n    android:text="Hello MindOrks!"\n    android:textColor="#000"/&gt;</code></pre><p class="graf--p">Below is the preview of the above code :</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/downloadable-font-banner.png class=\'graf-image\' alt=\'Using Custom and Downloadable Fonts in Android\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Downloadable Fonts</h4><p class="graf--p">Now that we have seen how custom fonts work, let&#x27;s jump onto another novality - <b class="graf--bold">downloadable font </b>. Android 8.0 (API level 26) and Android Support Library 26 introduce support for APIs to request fonts from a provider application instead of bundling files into APK or letting the APK download fonts. A font provider application retrieves fonts and caches them locally so that other apps can request and share fonts. How cool is that!</p><p class="graf--p">The feature is available on devices running Android API version 14 and higher through the Support Library 26.</p><p class="graf--p">Picture courtesy : Android Developer website</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/download-font-interface.png class=\'graf-image\' alt=\'Using Custom and Downloadable Fonts in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">As you can see in the image above, apps using Downloadable Fonts make a <a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/android/support/v4/provider/FontRequest.html">FontRequest</a> using the <a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/android/provider/FontsContract.html">FontsContract</a> API which retrieves the <a class="markup--anchor" target="_blank" href="https://hackernoon.com/tagged/typeface">Typeface</a> from the Font Provider. The Font Provider does not need to download fonts if it already exists in the Font Cache.</p><p class="graf--p"><b class="graf--bold">Benefits of downloadable fonts :</b> </p><ul><li>Reduces the APK size</li><li>Increase the app installation success rate</li><li>Improves the overall system health as multiple APKs can share the same font through a provider. This saves users cellular data, phone memory, and disk space. In this model, the font is fetched over the network when needed.</li></ul><p class="graf--p">In order to use the downloadable font in android studio, follow the below steps :</p><ul><li>If you want to use Android Studio to generate the required files, then you’ll need version 3.0+. Add the following (version 26+) to your module’s  build.gradle:</li></ul><pre><code class="language-java graf graf--code">implementation \'com.android.support:appcompat-v7:28.0.0\'</code></pre><ul><li>Select a text view in your app that you want to apply the font to and  click on the fontFamily attribute under Attributes in the graphical  layout</li></ul> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/subtitle-text-view-image.png class=\'graf-image\' alt=\'Using Custom and Downloadable Fonts in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Select the “More Fonts…” at the bottom, which will open the dialog below.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/more-fonts-image.png class=\'graf-image\' alt=\'Using Custom and Downloadable Fonts in Android\' />\n\t\t\t\t\t\t\t\t</div ><ul><li>Make sure to have “<b class="graf--bold">Create downloadable font</b>” selected. This results in  three files being downloaded — lato.xml, font_certs.xml and  preloaded_fonts.xml.</li></ul><p class="graf--p"><b class="graf--bold">lato.xml</b></p><p class="graf--p">This file contains the font attributes for loading a Typeface from the Google Fonts Provider Application.</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;font-family xmlns:app="http://schemas.android.com/apk/res-auto"\n        app:fontProviderAuthority="com.google.android.gms.fonts"\n        app:fontProviderPackage="com.google.android.gms"\n        app:fontProviderQuery="Lato"\n        app:fontProviderCerts="@array/com_google_android_gms_fonts_certs"&gt;\n&lt;/font-family&gt;</code></pre><p class="graf--p"><b class="graf--bold">font_certs.xml</b></p><p class="graf--p">The system uses these certificates to verify the font provider’s identity,  to avoid getting fonts from an unknown source. If using the steps above,  Android Studio should have automatically generated the string certificates for dev and prod in font_certs.xml below.</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;resources&gt;\n    &lt;array name="com_google_android_gms_fonts_certs"&gt;\n        &lt;item&gt;@array/com_google_android_gms_fonts_certs_dev&lt;/item&gt;\n        &lt;item&gt;@array/com_google_android_gms_fonts_certs_prod&lt;/item&gt;\n    &lt;/array&gt;\n    &lt;string-array name="com_google_android_gms_fonts_certs_dev"&gt;\n        &lt;item&gt;\n         &lt;!-- string cert --&gt;\n        &lt;/item&gt;\n    &lt;/string-array&gt;\n    &lt;string-array name="com_google_android_gms_fonts_certs_prod"&gt;\n        &lt;item&gt;\n         &lt;!-- string cert--&gt;   \n        &lt;/item&gt;\n    &lt;/string-array&gt;\n&lt;/resources&gt;</code></pre><p class="graf--p"><b class="graf--bold">preloaded-fonts.xml</b><br/>This  file is referenced in the Android manifest which helps the framework  pre-load fonts to avoid delays when the app is launched.</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;resources&gt;\n    &lt;array name="preloaded_fonts" translatable="false"&gt;\n        &lt;item&gt;@font/lato&lt;/item&gt;\n        &lt;item&gt;@font/lato_bold&lt;/item&gt;\n    &lt;/array&gt;\n&lt;/resources&gt;</code></pre><ul><li>Make sure this line is added to your app’s Manifest file, Android Studio should have done this automatically:</li></ul><pre><code class="language-java graf graf--code">&lt;meta-data\n    android:name="preloaded_fonts"\n    android:resource="@array/preloaded_fonts"/&gt;</code></pre><ul><li><b class="graf--bold">Great, now you are ready to apply the fonts in XML!</b></li></ul><pre><code class="language-java graf graf--code">&lt;style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"&gt;\n    &lt;item name="colorPrimary"&gt;@color/colorPrimary&lt;/item&gt;\n    ....\n    &lt;item name="android:fontFamily"&gt;@font/lato&lt;/item&gt;\n&lt;/style&gt;</code></pre><p class="graf--p">All I had to do was set the <b class="graf--bold">font family in the app’s theme to</b> get TextViews throughout the app to change to Lato, including parts that were bold or italicized. However, if you want to configure the  weights, you can follow the same steps to get Lato Bold using Android  Studio, and change the weight manually in lato_bold.xml that you can  then apply in XML layouts:</p><pre><code class="language-java graf graf--code">app:fontProviderQuery="name=Lato&amp;weight=700" //can modify the weight here</code></pre><p class="graf--p">That&#x27;s all about the custom and downloadable fonts in android. Hope you like the blog.</p><p class="graf--p">Happy learning</p><p class="graf--p">Team MindOrks :)</p>',author:14897,img_url:"/images/downloadable-font-banner.png",blog_url:"using-custom-and-downloadable-fonts-in-android",likes:0,rank:0,category:1,published_at:"16th May 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:217,title:"Android Browser: Let’s Launch Chrome Custom Tabs with Kotlin",description:"Google had launched a library called chrome custom tabs. As a developer, we have an option to open an in-app browser for better user experience. Chrome Custom Tabs helps us to open web URLs within the context of our app using an installed chrome browser.",author:7037,img_url:"/images/Powerpuff_girls_characters.jpg",blog_url:"android-browser-lets-launch-chrome-custom-tabs-with-kotlin",likes:0,rank:0,category:1,published_at:"11th February 2019",score:2.0165717601776123},{id:504,title:"Custom Snackbar in Android",description:"In this blog, we are going to learn how to implement a Custom Snackbar in our Android application. Snackbars are used to display some message at the bottom of the screen and these are a great alternative of Toasts in Android. So, let's see how to implement this.",author:17146,img_url:"/images/custom-snackbar-banner-086294ce72839321.png",blog_url:"custom-snackbar",likes:0,rank:0,category:1,published_at:"24th September 2020",score:2.0165717601776123},{id:239,title:"Create your own Custom View",description:"In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views.",author:14897,img_url:"/images/custom-view.jpg",blog_url:"create-your-own-custom-view",likes:0,rank:0,category:1,published_at:"17th May 2019",score:2.0073940753936768},{id:250,title:"Using Exoplayer to play Video and Audio in Android like a Pro",description:"In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.",author:14897,img_url:"/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png",blog_url:"using-exoplayer-to-play-video-and-audio-in-android-like-a-pro",likes:0,rank:0,category:1,published_at:"24th May 2019",score:.598477840423584},{id:369,title:"Build Material and Dark Themes Apps Using Style in Android",description:"In this blog, we will learn how to build material and dark themes apps using styles in Android. We will see how we can change the look of the application just by writing some styles code for our application.",author:14897,img_url:"/images/build-material-and-dark-themes-apps-using-style-in-android-banner.png",blog_url:"build-material-and-dark-themes-apps-using-style-in-android",likes:0,rank:0,category:1,published_at:"26th October 2019",score:.598477840423584},{id:451,title:"Using Room with LiveData and other third-party libraries",description:"In this blog, we will learn how to use Room with LiveData, RxJava and Coroutines.",author:14040,img_url:"/images/using-room-with-live-data-and-other-third-party-libraries-banner-b04ee19de235bb9c.png",blog_url:"using-room-with-live-data-and-other-third-party-libraries",likes:0,rank:0,category:1,published_at:"18th May 2020",score:.589300274848938}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            16th May 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Using Custom and Downloadable Fonts in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Custom and Downloadable Fonts in Android" class="graf-image" src="/images/downloadable-font-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  At the Google I/O 2017, Android O or simple Android Oreo was launched and it came with a lot of cool features. One of the really interesting features for developers was the new way to apply fonts right in your XML files. Yeah, you heard it right. Now there is no need of writing some piece of code for using the fonts. Also, you can choose from any of the thousands of fonts on
+                  <a class="markup--anchor" href="https://fonts.google.com/" target="_blank">
+                   Google Fonts
+                  </a>
+                  and use them in your app.
+                 </p>
+                 <p class="graf--p">
+                  So, in this blog, you will understand how to use
+                  <b class="graf--bold">
+                   Custom and Downloadable Fonts in Android?
+                  </b>
+                 </p>
+                 <h4 class="graf--h3">
+                  The Older way of using Fonts
+                 </h4>
+                 <p class="graf--p">
+                  Before we move forward to look for the new or the latest way of using the font, let's revise the older way of using fonts. Before the release of Android O, fonts can be used in the following 2 ways :
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Using Typeface:
+                   </b>
+                   One would typically need a custom view that extends the equivalent view were trying to apply a font to. In the custom view, one would create a Typeface and then call setTypeface (or a similar method, that, sets the typeface). One would also need to have the font file placed in the assets folder. The code in the custom view typically looks like:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">TextView tv = (TextView)findViewById(R.id.textview1);
+Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/font-name.ttf");
+tx.setTypeface(custom_font);</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Calligraphy Library
+                   </b>
+                   : You can use some existing libraries for various fonts used in Android. One of them is
+                   <a class="markup--anchor" href="https://github.com/chrisjenx/Calligraphy" target="_blank">
+                    Calligraphy Library
+                   </a>
+                   .
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Using Custom Font in Android
+                 </h4>
+                 <p class="graf--p">
+                  To work with Custom Font, you need to install the latest version of Android Studio 3.x. This is important as some of the features are not supported on Android Studio 2.x - for example, the font resource directory. Once you are done with the installation of the latest version of Android Studio, create a project and add a text view in any of the activity(This is the text view on which we are going to apply custom font). Then follow the below steps :
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Add a font directory to your project:
+                   </b>
+                   In the Android View, right click on the
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     res
+                    </i>
+                   </b>
+                   folder and go to
+                   <b class="graf--bold">
+                    New -&gt; Android Resource Directory.
+                   </b>
+                   Type
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     font
+                    </i>
+                   </b>
+                   as the name of the font and select
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     font
+                    </i>
+                   </b>
+                   as the resource type. Then click on
+                   <b class="graf--bold">
+                    Ok
+                   </b>
+                   .
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Add the downloaded font to the font directory:
+                   </b>
+                   Copy and Paste your font into
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     res/font.
+                    </i>
+                   </b>
+                   I am using
+                   <b class="graf--bold">
+                    Pacifico font
+                   </b>
+                   . You can get this font from
+                   <a class="markup--anchor" href="https://www.fontsquirrel.com/fonts/list/popular" target="_blank">
+                    FontSqirrel
+                   </a>
+                   .
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Create a font-family XML file:
+                   </b>
+                   You can create font families which contain a set of font files with their style and weight details. To create a new font family you need to create a new XML font resource. The benefit is that you can access it as a single unit instead of referencing individual font files for each style and weight. To create a font-family, right click on
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     res/font
+                    </i>
+                   </b>
+                   and choose
+                   <b class="graf--bold">
+                    New -&gt; Font Resource File and
+                   </b>
+                   give any name. In my case, I am using
+                   <b class="graf--bold">
+                    my_custom_font.xml
+                   </b>
+                   .
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;font-family xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"&gt;
+
+    &lt;!-- regular --&gt;
+    &lt;font
+        android:font="@font/Pacifico"
+        android:fontStyle="normal"
+        android:fontWeight="400"
+
+        app:font="@font/Pacifico"
+        app:fontStyle="normal"
+        app:fontWeight="400" /&gt;
+
+    &lt;!-- italic --&gt;
+    &lt;font
+        android:font="@font/Pacifico"
+        android:fontStyle="italic"
+        android:fontWeight="400"
+
+        app:font="@font/Pacifico"
+        app:fontStyle="italic"
+        app:fontWeight="400" /&gt;
+
+    &lt;!-- bold --&gt;
+    &lt;font
+        android:font="@font/Pacifico"
+        android:fontStyle="normal"
+        android:fontWeight="700"
+
+        app:font="@font/Pacifico"
+        app:fontStyle="normal"
+        app:fontWeight="700" /&gt;
+&lt;/font-family&gt;</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note:
+                  </b>
+                  A really important thing to note is that we had to define attributes using both
+                  <b class="graf--bold">
+                   <code class="graf--code-inline">
+                    <i class="graf--italic">
+                     android
+                    </i>
+                   </code>
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   <code class="graf--code-inline">
+                    <i class="graf--italic">
+                     app
+                    </i>
+                   </code>
+                  </b>
+                  namespaces. The
+                  <code class="graf--code-inline">
+                   app
+                  </code>
+                  namespace is what ensures that the feature is backward compatible.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Set the font in the XML:
+                   </b>
+                   Now you can use the
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     font-family
+                    </i>
+                   </b>
+                   attribute to set the font in XML.
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                    </i>
+                   </b>
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">&lt;TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/my_custom_font"
+    android:text="Hello MindOrks!"
+    android:textColor="#000"/&gt;</code></pre>
+                 <p class="graf--p">
+                  Below is the preview of the above code :
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Custom and Downloadable Fonts in Android" class="graf-image" src="/images/downloadable-font-banner.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Downloadable Fonts
+                 </h4>
+                 <p class="graf--p">
+                  Now that we have seen how custom fonts work, let's jump onto another novality -
+                  <b class="graf--bold">
+                   downloadable font
+                  </b>
+                  . Android 8.0 (API level 26) and Android Support Library 26 introduce support for APIs to request fonts from a provider application instead of bundling files into APK or letting the APK download fonts. A font provider application retrieves fonts and caches them locally so that other apps can request and share fonts. How cool is that!
+                 </p>
+                 <p class="graf--p">
+                  The feature is available on devices running Android API version 14 and higher through the Support Library 26.
+                 </p>
+                 <p class="graf--p">
+                  Picture courtesy : Android Developer website
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Custom and Downloadable Fonts in Android" class="graf-image" src="/images/download-font-interface.png"/>
+                 </div>
+                 <p class="graf--p">
+                  As you can see in the image above, apps using Downloadable Fonts make a
+                  <a class="markup--anchor" href="https://developer.android.com/reference/android/support/v4/provider/FontRequest.html" target="_blank">
+                   FontRequest
+                  </a>
+                  using the
+                  <a class="markup--anchor" href="https://developer.android.com/reference/android/provider/FontsContract.html" target="_blank">
+                   FontsContract
+                  </a>
+                  API which retrieves the
+                  <a class="markup--anchor" href="https://hackernoon.com/tagged/typeface" target="_blank">
+                   Typeface
+                  </a>
+                  from the Font Provider. The Font Provider does not need to download fonts if it already exists in the Font Cache.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Benefits of downloadable fonts :
+                  </b>
+                 </p>
+                 <ul>
+                  <li>
+                   Reduces the APK size
+                  </li>
+                  <li>
+                   Increase the app installation success rate
+                  </li>
+                  <li>
+                   Improves the overall system health as multiple APKs can share the same font through a provider. This saves users cellular data, phone memory, and disk space. In this model, the font is fetched over the network when needed.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  In order to use the downloadable font in android studio, follow the below steps :
+                 </p>
+                 <ul>
+                  <li>
+                   If you want to use Android Studio to generate the required files, then you’ll need version 3.0+. Add the following (version 26+) to your module’s  build.gradle:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">implementation 'com.android.support:appcompat-v7:28.0.0'</code></pre>
+                 <ul>
+                  <li>
+                   Select a text view in your app that you want to apply the font to and  click on the fontFamily attribute under Attributes in the graphical  layout
+                  </li>
+                 </ul>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Custom and Downloadable Fonts in Android" class="graf-image" src="/images/subtitle-text-view-image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Select the “More Fonts…” at the bottom, which will open the dialog below.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Custom and Downloadable Fonts in Android" class="graf-image" src="/images/more-fonts-image.png"/>
+                 </div>
+                 <ul>
+                  <li>
+                   Make sure to have “
+                   <b class="graf--bold">
+                    Create downloadable font
+                   </b>
+                   ” selected. This results in  three files being downloaded — lato.xml, font_certs.xml and  preloaded_fonts.xml.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   lato.xml
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  This file contains the font attributes for loading a Typeface from the Google Fonts Provider Application.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;font-family xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:fontProviderAuthority="com.google.android.gms.fonts"
+        app:fontProviderPackage="com.google.android.gms"
+        app:fontProviderQuery="Lato"
+        app:fontProviderCerts="@array/com_google_android_gms_fonts_certs"&gt;
+&lt;/font-family&gt;</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   font_certs.xml
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  The system uses these certificates to verify the font provider’s identity,  to avoid getting fonts from an unknown source. If using the steps above,  Android Studio should have automatically generated the string certificates for dev and prod in font_certs.xml below.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;resources&gt;
+    &lt;array name="com_google_android_gms_fonts_certs"&gt;
+        &lt;item&gt;@array/com_google_android_gms_fonts_certs_dev&lt;/item&gt;
+        &lt;item&gt;@array/com_google_android_gms_fonts_certs_prod&lt;/item&gt;
+    &lt;/array&gt;
+    &lt;string-array name="com_google_android_gms_fonts_certs_dev"&gt;
+        &lt;item&gt;
+         &lt;!-- string cert --&gt;
+        &lt;/item&gt;
+    &lt;/string-array&gt;
+    &lt;string-array name="com_google_android_gms_fonts_certs_prod"&gt;
+        &lt;item&gt;
+         &lt;!-- string cert--&gt;   
+        &lt;/item&gt;
+    &lt;/string-array&gt;
+&lt;/resources&gt;</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   preloaded-fonts.xml
+                  </b>
+                  <br/>
+                  This  file is referenced in the Android manifest which helps the framework  pre-load fonts to avoid delays when the app is launched.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;resources&gt;
+    &lt;array name="preloaded_fonts" translatable="false"&gt;
+        &lt;item&gt;@font/lato&lt;/item&gt;
+        &lt;item&gt;@font/lato_bold&lt;/item&gt;
+    &lt;/array&gt;
+&lt;/resources&gt;</code></pre>
+                 <ul>
+                  <li>
+                   Make sure this line is added to your app’s Manifest file, Android Studio should have done this automatically:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">&lt;meta-data
+    android:name="preloaded_fonts"
+    android:resource="@array/preloaded_fonts"/&gt;</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Great, now you are ready to apply the fonts in XML!
+                   </b>
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">&lt;style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"&gt;
+    &lt;item name="colorPrimary"&gt;@color/colorPrimary&lt;/item&gt;
+    ....
+    &lt;item name="android:fontFamily"&gt;@font/lato&lt;/item&gt;
+&lt;/style&gt;</code></pre>
+                 <p class="graf--p">
+                  All I had to do was set the
+                  <b class="graf--bold">
+                   font family in the app’s theme to
+                  </b>
+                  get TextViews throughout the app to change to Lato, including parts that were bold or italicized. However, if you want to configure the  weights, you can follow the same steps to get Lato Bold using Android  Studio, and change the weight manually in lato_bold.xml that you can  then apply in XML layouts:
+                 </p>
+                 <pre><code class="language-java graf graf--code">app:fontProviderQuery="name=Lato&amp;weight=700" //can modify the weight here</code></pre>
+                 <p class="graf--p">
+                  That's all about the custom and downloadable fonts in android. Hope you like the blog.
+                 </p>
+                 <p class="graf--p">
+                  Happy learning
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks :)
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Browser: Let’s Launch Chrome Custom Tabs with Kotlin" class="ui centered image" src="/images/Powerpuff_girls_characters.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Browser: Let’s Launch Chrome Custom Tabs with Kotlin
+           </div>
+           <div class="meta">
+            11th February 2019
+           </div>
+           <div class="description">
+            Google had launched a library called chrome custom tabs. As a developer, we have an option to open an in-app browser for better user experience. Chrome Custom Tabs helps us to open web URLs within the context of our app using an installed chrome browser.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Custom Snackbar in Android" class="ui centered image" src="/images/custom-snackbar-banner-086294ce72839321.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Custom Snackbar in Android
+           </div>
+           <div class="meta">
+            24th September 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to implement a Custom Snackbar in our Android application. Snackbars are used to display some message at the bottom of the screen and these are a great alternative of Toasts in Android. So, let's see how to implement this.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Create your own Custom View" class="ui centered image" src="/images/custom-view.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Create your own Custom View
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Exoplayer to play Video and Audio in Android like a Pro" class="ui centered image" src="/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Exoplayer to play Video and Audio in Android like a Pro
+           </div>
+           <div class="meta">
+            24th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Build Material and Dark Themes Apps Using Style in Android" class="ui centered image" src="/images/build-material-and-dark-themes-apps-using-style-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Build Material and Dark Themes Apps Using Style in Android
+           </div>
+           <div class="meta">
+            26th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to build material and dark themes apps using styles in Android. We will see how we can change the look of the application just by writing some styles code for our application.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Room with LiveData and other third-party libraries" class="ui centered image" src="/images/using-room-with-live-data-and-other-third-party-libraries-banner-b04ee19de235bb9c.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Room with LiveData and other third-party libraries
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Room with LiveData, RxJava and Coroutines.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

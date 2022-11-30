@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Dependency Injection with Dagger2
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/dependency-injection-with-dagger2" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Dependency Injection with Dagger2" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/dependency-injection-with-dagger2" property="og:url"/>
+  <meta content="/images/DI_banner.jpg" property="og:image"/>
+  <meta content="A detailed description of DI and dagger2" property="og:description"/>
+  <meta content="Dependency Injection with Dagger2" property="twitter:title"/>
+  <meta content="A detailed description of DI and dagger2" name="twitter:description"/>
+  <meta content="/images/DI_banner.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="A detailed description of DI and dagger2" name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:362,data:{id:362,title:"Dependency Injection with Dagger2",description:"A detailed description of DI and dagger2",text:'<h1 class="graf--h1">Dependency Injection with Dagger2</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/DI_banner.jpg class=\'graf-image\' alt=\'Dependency Injection with Dagger2\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">This blog is in continuation of my previous article. In the previous article, we read about Architecture design patterns and differences between them. If you haven’t read it go through the link given below:</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/mvc-mvp-mvvm-architecture-in-android">MVC vs MVP vs MVVM architecture in Android.</a></p><p class="graf--p">From the previous blog,</p><blockquote class="graf--blockquote"><b class="graf--bold">No Hard dependency:</b> It should be fixed if every component should work on some limited amount of dependency. All dependencies should be provided from outside. Use <i class="graf--italic">Dependency Injections.</i></blockquote><p class="graf--p"><i class="graf--italic">So, why to wait? Let&#x27;s start.</i></p><p class="graf--p"><b class="graf--bold">What is a dependency on Android? </b></p><p class="graf--p">If one class uses an instance of another class then it is called dependency. For example- If X class holds the reference of Y class, then class X dependents on class Y. Thus we can say, class Y is the dependency of class X. So, the problem is, if we do changes in class one then we have to do the changes in another class also. So, to increase the rigidity, immorality, and fragility we use Dependency Injections. For example:</p><pre><code class="language-java graf graf--code">public class Stream {\n\n    public static void main(String[] args) {\n        Math math = new Math();\n        Science science = new Science();\n        Subject subject = new Subject(math, science);\n        subject.read();\n    }\n    \n}\n</code></pre><p class="graf--p">In the above example, <b class="graf--bold">Math math = new Math();</b> and  <b class="graf--bold">Science science = new Science();</b> shows the hard dependency. So, to avoid this we use dependency injection.</p><h4 class="graf--h3"><b class="graf--bold">Dependency Injections: </b></h4><p class="graf--p"><b class="graf--bold">Injection</b>- Simply means passing these dependencies from the outside. <i class="graf--italic">It works on the principle of Inversion of Control (IoC)</i></p><p class="graf--p"><i class="graf--italic"><b class="graf--bold">Inversion of Control:</b> It is generally meant any sort of programming which doesn&#x27;t create the object. Instead, they get the objects which they need from outside sources. For example, let’s suppose you had a bakery and you hire someone from outside to bake cakes. This is the concept of IoC. </i><br/></p><p class="graf--p"><b class="graf--bold">Dependency injection</b>: DI facilitates a class to configure it’s dependency from outside not statically. </p><p class="graf--p">Advantages:</p><ul><li>It helps to remove the boilerplate code. Because the initialization of dependencies handled by the injecting component.</li><li>Testing is easy.</li><li>Local Singletons (Scopes).</li></ul><p class="graf--p">Some framework which uses DI is- Spring, Dagger, Android Annotation, RoboGuice, ButterKnife, etc.</p><h4 class="graf--h3"><br/><b class="graf--bold">Dagger</b>:</h4><p class="graf--p">Dagger is a framework that simply works on the Dependency Injection framework.  We have to instruct dagger on, how to create them. This is achieved by using constructor injection, method injection and field injection. </p><p class="graf--p">Two versions of Dagger:</p><p class="graf--p"><b class="graf--bold">Dagger1</b>- It was developed by Square. It’s now deprecated. Instances are generated at runtime using reflection.</p><p class="graf--p"><b class="graf--bold">Dagger2</b> - It is referred by Google there is a lot of improvement in performance, easier to debug and advance programming features. Instances are generated at compile time.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/pic.png class=\'graf-image\' alt=\'Dependency Injection with Dagger2\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Let&#x27;s see all these three one by one:</p><h4 class="graf--h3"><b class="graf--bold">Injection/ Dependency Client</b>: </h4><p class="graf--p">A class that <b class="graf--bold"><i class="graf--italic">uses</i></b> instance is the client or injection class. We have three places to put our injections with a symbol @Inject at <i class="graf--italic">constructor, methods, and fields</i>.</p><p class="graf--p"><b class="graf--bold">A) Constructor Injection</b>: We write @Inject on the top of the constructor. As shown in below example:</p><pre><code class="language-java graf graf--code">public class Subject \n{\n    private Math math ;\n    private Science science;\n\n    @Inject\n    public Subject(Math math, Science science ){}\n\n    public void read(){ }\n}</code></pre><p class="graf--p"><b class="graf--bold">B.) Field Injection</b>:- Field which participates in the injection is called field injection. Dagger doesn’t support Injection in private fields and the final field. Because the private field does not bind with our component and the final can’t change its value. As shown in the example:</p><pre><code class="language-java graf graf--code">public class Subject {\n    @Inject \n    Math math ;\n\n    private Science science ;   //can’t be injected\n\n    @Inject\n    public Subject(Science science ){}\n\n    public void read(){ }\n}</code></pre><p class="graf--p"><b class="graf--bold">C.) Method Injection</b>:- Method which participates in the injection is called Method injection. As shown in the example below:</p><pre><code class="language-java graf graf--code">public class Subject {\n    Math math;\n    private Science science;\n\n    @Inject\n    public Subject(Math math, Science science){}\n\n    @Inject\n    public void readMathBook(){ }\n\n    public void read(){ }\n}</code></pre><blockquote class="graf--blockquote"><i class="graf--italic">Note: Dagger will first check the constructor, if not find, then go to Field and Method.  If you want to inject field and method automatically then inject the constructor.</i></blockquote><h4 class="graf--h3"><b class="graf--bold">Modules and providers:</b></h4><p class="graf--p">It is a <b class="graf--bold">creator</b>. Its role is to provide instances. If we don’t own the class and it comes from outside then we use modules and providers. As it comes from the external class we can’t use <b class="graf--bold">@inject</b> in it.</p><p class="graf--p"><b class="graf--bold">@Module</b>- write on the top of the module class</p><pre><code class="language-java graf graf--code">@Module\nclass ScienceModule{\n\n    @Provides\n    ScienceBook provideScienceBooks(){\n        return new ScienceBook();\n    }\n}</code></pre><p class="graf--p"><b class="graf--bold">Static method and field: </b>You should use a static keyword for fields and methods if there is no dependency on instance state of any module. It improves performance. If all methods are static in module class, then make the class abstract.<br/>The example is given below:-</p><pre><code class="language-java graf graf--code">@Module\nabstract class ScienceModule\n{\n    @Provides\n    static ScienceBook provideScienceBooks()\n    {\n        return new ScienceBook();\n    }\n}</code></pre><p class="graf--p">Then it won’t instantiate and directly call in the class.<br/></p><h4 class="graf--h3"><b class="graf--bold">Components in Dagger:</b></h4><p class="graf--p">Components are dagger <b class="graf--bold">access points</b>. We can say, it is a dependency manager or an interface that binds the module and injects the class. It holds all the dependency together. The dagger has a component and its sub-components.</p><p class="graf--p">It is denoted by <b class="graf--bold">@Component</b>.<br/>@Component tells us what all modules need to provide or an array of modules to a component. It takes a particular class context in which data has to bind.</p><pre><code class="language-java graf graf--code">\n@Component(modules={ApplicationModule.class,  ActivityModule.class})</code></pre><p class="graf--p"><br/> But if we have to share our data between modules, then we can write-</p><pre><code class="language-java graf graf--code">@Component(dependencies={ApplicationModule.class,  ActivityModule.class})</code></pre><p class="graf--p"><br/>Example using the module in our component:</p><pre><code class="language-java graf graf--code">@Component(modules={ApplicationModule.class,  ScienceModule.class})\npublic interface SubjectComponent{\n    \n    Subject getSubject();\n    \n    void inject(SubjectActivity activity); // this line is to inject the class.\n}</code></pre><p class="graf--p">How to call dagger component:</p><pre><code class="language-java graf graf--code">public class SubjectActivity extends AppCompatActivity {\n    @Inject\n    Subject subject;\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_subject);\n\n        //Calling dagger component\n        DaggerSubjectComponent component = DaggerSubjectComponent.create();\n        component.inject(this);\n        subject.read();\n    }\n}</code></pre><p class="graf--p">Here is the <a class="markup--anchor" target="_blank" href="https://github.com/vandanasri/Dagger2-Android">link</a> for Github repo of Dagger 2 implementation.</p><p class="graf--p">This was the basic info about what is dependency injection and how it works with Dagger 2. In the <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/dependency-injection-with-dagger2-advance">next blog</a>, we will read about Sub-Component, Qualifiers, Scopes, and Binds vs Provides, etc.</p>',author:17193,img_url:"/images/DI_banner.jpg",blog_url:"dependency-injection-with-dagger2",likes:0,rank:0,category:1,published_at:"17th October 2019"},author:{id:17193,name:"Vandana Srivastava",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghvg5lB_rDN2Gbfhbv4kUgB7nyiL7l_vN-M9ZK9o0A=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Android Developer | Technical Writer at MindOrks",fb_profile_url:"https://www.facebook.com/androidexpertvandana",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/ask_vandana",github_profile_url:"https://github.com/vandanasri",linkedin_profile_url:"https://www.linkedin.com/in/androidexpertvandana/"},isFetching:!1,similarBlogs:[{id:363,title:"Dependency Injection with Dagger2 Advance",description:"It is an advanced version of dagger2 which will help in the interview.",author:17193,img_url:"/images/DI_banner.jpg",blog_url:"dependency-injection-with-dagger2-advance",likes:0,rank:0,category:1,published_at:"17th October 2019",score:9.178855895996094},{id:429,title:"Why do we use the Dependency Injection Framework like Dagger in Android?",description:"In this blog, we are going to see why do we use the Dependency Injection Framework like Dagger in Android. We will also see how can we give our configuration to the framework.",author:9959,img_url:"/images/dagger-banner-why.jpg",blog_url:"why-do-we-use-the-dependency-injection-framework-in-android",likes:0,rank:0,category:1,published_at:"28th April 2020",score:5.591822624206543}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Vandana Srivastava" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghvg5lB_rDN2Gbfhbv4kUgB7nyiL7l_vN-M9ZK9o0A=s96-c?sz=300"/>
+          <div class="content">
+           Vandana Srivastava
+           <div class="sub header" style="margin-top:5px">
+            17th October 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Dependency Injection with Dagger2
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Dependency Injection with Dagger2" class="graf-image" src="/images/DI_banner.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  This blog is in continuation of my previous article. In the previous article, we read about Architecture design patterns and differences between them. If you haven’t read it go through the link given below:
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/mvc-mvp-mvvm-architecture-in-android" target="_blank">
+                   MVC vs MVP vs MVVM architecture in Android.
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  From the previous blog,
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   No Hard dependency:
+                  </b>
+                  It should be fixed if every component should work on some limited amount of dependency. All dependencies should be provided from outside. Use
+                  <i class="graf--italic">
+                   Dependency Injections.
+                  </i>
+                 </blockquote>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   So, why to wait? Let's start.
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   What is a dependency on Android?
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  If one class uses an instance of another class then it is called dependency. For example- If X class holds the reference of Y class, then class X dependents on class Y. Thus we can say, class Y is the dependency of class X. So, the problem is, if we do changes in class one then we have to do the changes in another class also. So, to increase the rigidity, immorality, and fragility we use Dependency Injections. For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">public class Stream {
+
+    public static void main(String[] args) {
+        Math math = new Math();
+        Science science = new Science();
+        Subject subject = new Subject(math, science);
+        subject.read();
+    }
+    
+}
+</code></pre>
+                 <p class="graf--p">
+                  In the above example,
+                  <b class="graf--bold">
+                   Math math = new Math();
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   Science science = new Science();
+                  </b>
+                  shows the hard dependency. So, to avoid this we use dependency injection.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Dependency Injections:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Injection
+                  </b>
+                  - Simply means passing these dependencies from the outside.
+                  <i class="graf--italic">
+                   It works on the principle of Inversion of Control (IoC)
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    Inversion of Control:
+                   </b>
+                   It is generally meant any sort of programming which doesn't create the object. Instead, they get the objects which they need from outside sources. For example, let’s suppose you had a bakery and you hire someone from outside to bake cakes. This is the concept of IoC.
+                  </i>
+                  <br/>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Dependency injection
+                  </b>
+                  : DI facilitates a class to configure it’s dependency from outside not statically.
+                 </p>
+                 <p class="graf--p">
+                  Advantages:
+                 </p>
+                 <ul>
+                  <li>
+                   It helps to remove the boilerplate code. Because the initialization of dependencies handled by the injecting component.
+                  </li>
+                  <li>
+                   Testing is easy.
+                  </li>
+                  <li>
+                   Local Singletons (Scopes).
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Some framework which uses DI is- Spring, Dagger, Android Annotation, RoboGuice, ButterKnife, etc.
+                 </p>
+                 <h4 class="graf--h3">
+                  <br/>
+                  <b class="graf--bold">
+                   Dagger
+                  </b>
+                  :
+                 </h4>
+                 <p class="graf--p">
+                  Dagger is a framework that simply works on the Dependency Injection framework.  We have to instruct dagger on, how to create them. This is achieved by using constructor injection, method injection and field injection.
+                 </p>
+                 <p class="graf--p">
+                  Two versions of Dagger:
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Dagger1
+                  </b>
+                  - It was developed by Square. It’s now deprecated. Instances are generated at runtime using reflection.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Dagger2
+                  </b>
+                  - It is referred by Google there is a lot of improvement in performance, easier to debug and advance programming features. Instances are generated at compile time.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Dependency Injection with Dagger2" class="graf-image" src="/images/pic.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Let's see all these three one by one:
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Injection/ Dependency Client
+                  </b>
+                  :
+                 </h4>
+                 <p class="graf--p">
+                  A class that
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    uses
+                   </i>
+                  </b>
+                  instance is the client or injection class. We have three places to put our injections with a symbol @Inject at
+                  <i class="graf--italic">
+                   constructor, methods, and fields
+                  </i>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   A) Constructor Injection
+                  </b>
+                  : We write @Inject on the top of the constructor. As shown in below example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">public class Subject 
+{
+    private Math math ;
+    private Science science;
+
+    @Inject
+    public Subject(Math math, Science science ){}
+
+    public void read(){ }
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   B.) Field Injection
+                  </b>
+                  :- Field which participates in the injection is called field injection. Dagger doesn’t support Injection in private fields and the final field. Because the private field does not bind with our component and the final can’t change its value. As shown in the example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">public class Subject {
+    @Inject 
+    Math math ;
+
+    private Science science ;   //can’t be injected
+
+    @Inject
+    public Subject(Science science ){}
+
+    public void read(){ }
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   C.) Method Injection
+                  </b>
+                  :- Method which participates in the injection is called Method injection. As shown in the example below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">public class Subject {
+    Math math;
+    private Science science;
+
+    @Inject
+    public Subject(Math math, Science science){}
+
+    @Inject
+    public void readMathBook(){ }
+
+    public void read(){ }
+}</code></pre>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   Note: Dagger will first check the constructor, if not find, then go to Field and Method.  If you want to inject field and method automatically then inject the constructor.
+                  </i>
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Modules and providers:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  It is a
+                  <b class="graf--bold">
+                   creator
+                  </b>
+                  . Its role is to provide instances. If we don’t own the class and it comes from outside then we use modules and providers. As it comes from the external class we can’t use
+                  <b class="graf--bold">
+                   @inject
+                  </b>
+                  in it.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   @Module
+                  </b>
+                  - write on the top of the module class
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+class ScienceModule{
+
+    @Provides
+    ScienceBook provideScienceBooks(){
+        return new ScienceBook();
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Static method and field:
+                  </b>
+                  You should use a static keyword for fields and methods if there is no dependency on instance state of any module. It improves performance. If all methods are static in module class, then make the class abstract.
+                  <br/>
+                  The example is given below:-
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+abstract class ScienceModule
+{
+    @Provides
+    static ScienceBook provideScienceBooks()
+    {
+        return new ScienceBook();
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Then it won’t instantiate and directly call in the class.
+                  <br/>
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Components in Dagger:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Components are dagger
+                  <b class="graf--bold">
+                   access points
+                  </b>
+                  . We can say, it is a dependency manager or an interface that binds the module and injects the class. It holds all the dependency together. The dagger has a component and its sub-components.
+                 </p>
+                 <p class="graf--p">
+                  It is denoted by
+                  <b class="graf--bold">
+                   @Component
+                  </b>
+                  .
+                  <br/>
+                  @Component tells us what all modules need to provide or an array of modules to a component. It takes a particular class context in which data has to bind.
+                 </p>
+                 <pre><code class="language-java graf graf--code">
+@Component(modules={ApplicationModule.class,  ActivityModule.class})</code></pre>
+                 <p class="graf--p">
+                  <br/>
+                  But if we have to share our data between modules, then we can write-
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Component(dependencies={ApplicationModule.class,  ActivityModule.class})</code></pre>
+                 <p class="graf--p">
+                  <br/>
+                  Example using the module in our component:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Component(modules={ApplicationModule.class,  ScienceModule.class})
+public interface SubjectComponent{
+    
+    Subject getSubject();
+    
+    void inject(SubjectActivity activity); // this line is to inject the class.
+}</code></pre>
+                 <p class="graf--p">
+                  How to call dagger component:
+                 </p>
+                 <pre><code class="language-java graf graf--code">public class SubjectActivity extends AppCompatActivity {
+    @Inject
+    Subject subject;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_subject);
+
+        //Calling dagger component
+        DaggerSubjectComponent component = DaggerSubjectComponent.create();
+        component.inject(this);
+        subject.read();
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here is the
+                  <a class="markup--anchor" href="https://github.com/vandanasri/Dagger2-Android" target="_blank">
+                   link
+                  </a>
+                  for Github repo of Dagger 2 implementation.
+                 </p>
+                 <p class="graf--p">
+                  This was the basic info about what is dependency injection and how it works with Dagger 2. In the
+                  <a class="markup--anchor" href="https://blog.mindorks.com/dependency-injection-with-dagger2-advance" target="_blank">
+                   next blog
+                  </a>
+                  , we will read about Sub-Component, Qualifiers, Scopes, and Binds vs Provides, etc.
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Dependency Injection with Dagger2 Advance" class="ui centered image" src="/images/DI_banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Dependency Injection with Dagger2 Advance
+           </div>
+           <div class="meta">
+            17th October 2019
+           </div>
+           <div class="description">
+            It is an advanced version of dagger2 which will help in the interview.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Why do we use the Dependency Injection Framework like Dagger in Android?" class="ui centered image" src="/images/dagger-banner-why.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Why do we use the Dependency Injection Framework like Dagger in Android?
+           </div>
+           <div class="meta">
+            28th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to see why do we use the Dependency Injection Framework like Dagger in Android. We will also see how can we give our configuration to the framework.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

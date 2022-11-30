@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   ViewModel with SavedState
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/viewmodel-with-savedstate" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="ViewModel with SavedState" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/viewmodel-with-savedstate" property="og:url"/>
+  <meta content="/images/viewModel-with-savedState%20.png" property="og:image"/>
+  <meta content="In this blog, we will learn about using SavedState in ViewModel. This is the part of Android Architecture Component. You will learn how to Persist ViewModel state across process recreation." property="og:description"/>
+  <meta content="ViewModel with SavedState" property="twitter:title"/>
+  <meta content="In this blog, we will learn about using SavedState in ViewModel. This is the part of Android Architecture Component. You will learn how to Persist ViewModel state across process recreation." name="twitter:description"/>
+  <meta content="/images/viewModel-with-savedState%20.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about using SavedState in ViewModel. This is the part of Android Architecture Component. You will learn how to Persist ViewModel state across process recreation." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:228,data:{id:228,title:"ViewModel with SavedState",description:"In this blog, we will learn about using SavedState in ViewModel. This is the part of Android Architecture Component. You will learn how to Persist ViewModel state across process recreation.",text:'<h1 class="graf--h1">ViewModel with SavedState</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/viewModel-with-savedState%20.png class=\'graf-image\' alt=\'ViewModel with SavedState\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In Google I/O 2018 Google Launched <b class="graf--bold"><i class="graf--italic">Android Jetpack </i></b>which is a set of components, tools and guidance to make great <b class="graf--bold">Android</b> apps. It consisted of LiveData, ViewModel, Room Database, Work Manager etc.In this blog we will be talking about ViewModel.</p><p class="graf--p">ViewModel manages UI related data in Activity lifecycle. It allows to survive configuration changes in the App(like <i class="graf--italic">Screen rotation</i>). </p><p class="graf--p">ViewModel are basically used for,</p><ol><li>Prepare data for the UI layer.</li><li>Handles the configuration of App rotation.</li></ol><blockquote class="graf--blockquote">PS: the ViewModel class should not contain the reference of the View (Activity/Fragment).</blockquote> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/viewmodel-lifecycle.png class=\'graf-image\' alt=\'ViewModel with SavedState\' />\n\t\t\t\t\t\t\t\t</div ><blockquote class="graf--blockquote"><i class="graf--italic">Above Figure shows the ViewModel Lifecycle.</i></blockquote><p class="graf--p"><i class="graf--italic">Implementation of a ViewModel,</i></p><pre><code class="language-java graf graf--code">class MainViewModel : ViewModel() {\n    val blogs = MutableLiveData&lt;List&lt;Blog&gt;&gt;()\n    fun getBlogs(): LiveData&lt;List&lt;Blog&gt;&gt; {\n        return blogs\n    }\n    private fun loadBlogs() {\n        blogs.value = //our list of blogs\n    }\n}</code></pre><p class="graf--p">and to get the data in on View,</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        // Create a ViewModel the first time the system calls an activity\'s onCreate() method.\n        // Re-created activities receive the same MainViewModel instance created by the first activity.\n        val model = ViewModelProviders.of(this).get(MainViewModel::class.java)\n        model.getBlogs().observe(this, Observer&lt;List&lt;Blog&gt;&gt;{ blogs -&gt;\n            // update UI\n        })\n    }\n}</code></pre><p class="graf--p">In the View (Activitys/Fragments), we have to initalise the ViewModel using,</p><pre><code class="language-java graf graf--code">       val model = ViewModelProviders.of(this).get(MainViewModel::class.java)</code></pre><p class="graf--p">and we can observe the data using in UI,</p><pre><code class="language-java graf graf--code">model.getBlogs().observe(this, Observer&lt;List&lt;Blog&gt;&gt;{ blogs -&gt;\n            // update UI\n        })</code></pre><p class="graf--p">This is how we use ViewModel in our Views.You can learn more about ViewModel here.</p><p class="graf--p">Now, in ViewModel we can only handle the configuration changes in the View but it does not store the State of UI or the View.  But it does not handle the <b class="graf--bold"><i class="graf--italic">System Initiated Process Death</i></b>. To handle it , we can use  <b class="graf--bold"><i class="graf--italic">onSaveInstanceState() </i></b>to restore the state we left in.</p><blockquote class="graf--blockquote"><b class="graf--bold"><i class="graf--italic">System Initiated Process Death can be defined as , </i></b>every Android application runs in its own Linux process. This process is created for the application when some of its code needs to be run, and will remain running <b class="graf--bold">until it is no longer needed and the system needs to reclaim its memory for use by other applications</b>.</blockquote><p class="graf--p">If your app is not in the foreground, the system can terminate your process at any point to free up system RAM for use by other processes.</p><ul><li><b class="graf--bold"><i class="graf--italic">onSaveInstanceState() </i></b>bundle can handle both configuration and System Initiated process death. When we re-open the app and move our app to foreground we can still see our data which was persisted using  onSaveInstanceState().</li><li>But it can only store a limited amount of data and depends a lot on speed and storage as Serialization can take a lot of memory to store the data. </li><li>Serialization occurs on main thread so while configuration changes it can block the UI screen and might also let the app freeze of produces(ANRs) i.e. <b class="graf--bold"><i class="graf--italic">App Not Responding.</i></b></li><li><b class="graf--bold"><i class="graf--italic">onSaveInstanceState() </i></b> can store a minimum number of data and not large amount of it.</li></ul><blockquote class="graf--blockquote">In Google I/O 2019 , Google released something called <b class="graf--bold"><i class="graf--italic"><a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/libraries/architecture/viewmodel-savedstate">Saved State For ViewModel</a></i></b></blockquote><p class="graf--p"><b class="graf--bold"><i class="graf--italic">Saved State of ViewModel </i></b> can be considered as a replacement for <b class="graf--bold"><i class="graf--italic">onSaveInstanceState()</i></b> as it can also store the data because UI data is always referenced from ViewModel of Architecture Components and not the View (Activity/Fragment). So to use <b class="graf--bold"><i class="graf--italic">onSaveInstanceState() </i></b>will require us to do some coding. </p><blockquote class="graf--blockquote"><b class="graf--bold">Who wants to write some extra code?? No on right?</b></blockquote><p class="graf--p">So, as part of Jetpack Google launced something called <b class="graf--bold">Saved State</b> which helps us to store and retrieve the data from saved state after it goes through the <b class="graf--bold"><i class="graf--italic">System Initiated Process Death.</i></b></p><blockquote class="graf--blockquote"><b class="graf--bold">Note:</b> State must be simple and lightweight. For complex or large data you should use <span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/libraries/architecture/saving-states#use_local_persistence_to_handle_process_death_for_complex_or_large_data">local persistence</a></span>.</blockquote><h4 class="graf--h3">To Integrate the Saved State in Project,</h4><p class="graf--p">add the below code in your build.gradle of your app component</p><pre><code class="language-java graf graf--code">implementation \'androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha01\'</code></pre><h4 class="graf--h3">How to use Saved State?</h4><p class="graf--p">update the below code snippet in the <b class="graf--bold"><i class="graf--italic">onCreate()</i></b> of your View (Activity/Fragment), </p><pre><code class="language-java graf graf--code">val model = ViewModelProviders.of(this, SavedStateVMFactory(this)).get(MainViewModel::class.java)</code></pre><p class="graf--p">in place of,</p><pre><code class="language-java graf graf--code">val model = ViewModelProviders.of(this).get(MainViewModel::class.java)</code></pre><p class="graf--p">And in ViewModel, </p><pre><code class="language-java graf graf--code">class MainViewModel(private val state: SavedStateHandle) : ViewModel() { ... }</code></pre><p class="graf--p">Here, you can see we have passed <b class="graf--bold"><i class="graf--italic">SavedStateHandle </i></b>in the primary constructor of the ViewModel. In order to get SavedStateHandle we pass <b class="graf--bold"><i class="graf--italic">SavedStateVMFactory() </i></b> in our <b class="graf--bold"><i class="graf--italic">ViewModelProviders.of</i></b> as Factory.</p><blockquote class="graf--blockquote">A Factory is an Interface which tells the ViewModel , how to create the ViewModel.</blockquote><p class="graf--p">Here, <b class="graf--bold"><i class="graf--italic">SavedStateHandle</i></b> is a handle which is in <b class="graf--bold"><i class="graf--italic">Key-Value</i></b> map that will let you read and write objects to and from the saved state. The data will still be persisted even if the app goes through <b class="graf--bold"><i class="graf--italic">System Initiated Process Death</i></b>.</p><ul><li><b class="graf--bold"><i class="graf--italic">SavedStateHandle</i></b> is just like <b class="graf--bold"><i class="graf--italic">SharedPreferences</i></b> in Android which work on Key-Value pair.</li></ul><h4 class="graf--h3">Let&#x27;s Understand it better with an Example,</h4><ul><li>We will be building an App with 3 UI components(EditText, Button and TextView).</li><li>When User Enters the <b class="graf--bold">Username </b>in the <b class="graf--bold">EditText</b> and Clicks the <b class="graf--bold">Button</b>, it should display the username in the <b class="graf--bold">TextView.</b></li></ul><p class="graf--p"><b class="graf--bold"><i class="graf--italic">This is what we are going to build,</i></b></p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/final-preview.png class=\'graf-image\' alt=\'ViewModel with SavedState\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Now the MainViewModel will look like this,</p><pre><code class="language-java graf graf--code">class MainViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(), BaseViewModel {\n\n    override fun getUserName(): LiveData&lt;String&gt; {\n        return savedStateHandle.getLiveData(Constants.USERNAME)\n    }\n    override fun saveUserName(username: String) {\n        savedStateHandle.set(Constant.USERNAME, username)\n    }\n}</code></pre><p class="graf--p">Here,</p><ul><li><b class="graf--bold"><i class="graf--italic">savedStateHandle.set(&quot;Key&quot;,&quot;Value&quot;) </i></b>is used to store the data</li><li><b class="graf--bold"><i class="graf--italic">savedStateHandle.getLiveData(&quot;key&quot;)</i></b> is used to return the LiveData of String datatype</li></ul><p class="graf--p">The BaseViewModel looks like the following and it is implemented by <b class="graf--bold"><i class="graf--italic">MainViewModel</i></b> Class.</p><pre><code class="language-java graf graf--code">interface BaseViewModel {\n    fun getUserName(): LiveData&lt;String&gt;\n    fun saveUserName(username: String)\n}</code></pre><p class="graf--p">And finally the MainActivity class file looks like,</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n    lateinit var mainViewModel: MainViewModel\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        val factory = SavedStateVMFactory(this@MainActivity)\n        mainViewModel = ViewModelProviders.of(this, factory).get(MainViewModel::class.java)\n        setupActions()\n    }\n\n    private fun setupActions() {\n        submitButton.setOnClickListener {\n            mainViewModel.saveUserName(username_edittext.text.toString()\n        }\n        mainViewModel.getLiveDataUserName().observe(this, Observer {\n            saved_textview.text= "LiveData Result: $it"\n        })\n    }\n}</code></pre><pre><code class="language-java graf graf--code"></code></pre><p class="graf--p">Now, to test the <b class="graf--bold"><i class="graf--italic">SavedState</i></b> you need a <i class="graf--italic">Emulator/Device</i> atleast targetting Android <b class="graf--bold"><i class="graf--italic">Pie</i></b>(+). We have to follow the following state to simulate the <b class="graf--bold"><i class="graf--italic">System Initiate Process Death</i></b>,</p><ul><li>We have to make sure that , the App is currently running in the Android Device by</li></ul><pre><code class="language-java graf graf--code">adb shell ps -A | grep lifecycle</code></pre><ul><li>It will show an Output with the name of Your App&#x27;s lifecycle like &quot;<b class="graf--bold"><i class="graf--italic">com.mindorks.app</i></b>&quot; in your terminal</li></ul><pre><code class="language-java graf graf--code">adb shell am kill your-app-package-name</code></pre><ul><li>And to confirm, you should run the <b class="graf--bold"><i class="graf--italic">Step - 1</i></b> and you won&#x27;t see your app&#x27;s package name in the terminal.</li><li>Now re-open the app and you would see the output being persited and displayed in the TextView of the Screen.</li></ul><h4 class="graf--h3">Points to Note :-</h4><ol><li>If you want to set the data in savedState use, </li></ol><pre><code class="language-java graf graf--code">savedStateHandle.set("key_name","value")</code></pre><p class="graf--p">2. If you want to get the data from savedState use,</p><pre><code class="language-java graf graf--code">savedStateHandle.get("key_name")</code></pre><p class="graf--p">3. If you want to get LiveData as return type use,</p><pre><code class="language-java graf graf--code">savedStateHandle.getLiveData("key_name")</code></pre><p class="graf--p">4. If you want to check that specific key is present in savedState is,</p><pre><code class="language-java graf graf--code">savedState.contains("key_name")</code></pre><p class="graf--p">and it returns <b class="graf--bold"><i class="graf--italic">boolean</i></b> data type when <b class="graf--bold"><i class="graf--italic">true</i></b> means <b class="graf--bold"><i class="graf--italic">savedState</i></b> contains the <b class="graf--bold"><i class="graf--italic">value</i></b> and <b class="graf--bold"><i class="graf--italic">false</i></b> means it doesn&#x27;t.</p><p class="graf--p">5. If you want to find all the keys in the savedState use the following , which will return the list of keys.</p><pre><code class="language-java graf graf--code">savedState.keys()</code></pre><p class="graf--p">6. And to delete any specific value, you can access it via its key to delete it. To do the following use,</p><pre><code class="language-java graf graf--code">savedState.remove("key_name")</code></pre><blockquote class="graf--blockquote"><i class="graf--italic">This ends this article. I hope you must have got the concepts of using Viewmodel with SavedState in an Android application.</i></blockquote>',author:14897,img_url:"/images/viewModel-with-savedState%20.png",blog_url:"viewmodel-with-savedstate",likes:0,rank:0,category:1,published_at:"10th May 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:289,title:"Shared ViewModel in Android: Shared between Fragments",description:"In this blog, we will learn how we can use the ViewModel in our application to communicate between various fragments in our application. We say it as SharedViewModel.",author:14897,img_url:"/images/shared-viewmodel-in-android-banner.png",blog_url:"shared-viewmodel-in-android-shared-between-fragments",likes:0,rank:0,category:1,published_at:"1st July 2019",score:3.1293888092041016}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            10th May 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  ViewModel with SavedState
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="ViewModel with SavedState" class="graf-image" src="/images/viewModel-with-savedState%20.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In Google I/O 2018 Google Launched
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Android Jetpack
+                   </i>
+                  </b>
+                  which is a set of components, tools and guidance to make great
+                  <b class="graf--bold">
+                   Android
+                  </b>
+                  apps. It consisted of LiveData, ViewModel, Room Database, Work Manager etc.In this blog we will be talking about ViewModel.
+                 </p>
+                 <p class="graf--p">
+                  ViewModel manages UI related data in Activity lifecycle. It allows to survive configuration changes in the App(like
+                  <i class="graf--italic">
+                   Screen rotation
+                  </i>
+                  ).
+                 </p>
+                 <p class="graf--p">
+                  ViewModel are basically used for,
+                 </p>
+                 <ol>
+                  <li>
+                   Prepare data for the UI layer.
+                  </li>
+                  <li>
+                   Handles the configuration of App rotation.
+                  </li>
+                 </ol>
+                 <blockquote class="graf--blockquote">
+                  PS: the ViewModel class should not contain the reference of the View (Activity/Fragment).
+                 </blockquote>
+                 <div class="graf-image graf-caption">
+                  <img alt="ViewModel with SavedState" class="graf-image" src="/images/viewmodel-lifecycle.png"/>
+                 </div>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   Above Figure shows the ViewModel Lifecycle.
+                  </i>
+                 </blockquote>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   Implementation of a ViewModel,
+                  </i>
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainViewModel : ViewModel() {
+    val blogs = MutableLiveData&lt;List&lt;Blog&gt;&gt;()
+    fun getBlogs(): LiveData&lt;List&lt;Blog&gt;&gt; {
+        return blogs
+    }
+    private fun loadBlogs() {
+        blogs.value = //our list of blogs
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  and to get the data in on View,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // Create a ViewModel the first time the system calls an activity's onCreate() method.
+        // Re-created activities receive the same MainViewModel instance created by the first activity.
+        val model = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        model.getBlogs().observe(this, Observer&lt;List&lt;Blog&gt;&gt;{ blogs -&gt;
+            // update UI
+        })
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In the View (Activitys/Fragments), we have to initalise the ViewModel using,
+                 </p>
+                 <pre><code class="language-java graf graf--code">       val model = ViewModelProviders.of(this).get(MainViewModel::class.java)</code></pre>
+                 <p class="graf--p">
+                  and we can observe the data using in UI,
+                 </p>
+                 <pre><code class="language-java graf graf--code">model.getBlogs().observe(this, Observer&lt;List&lt;Blog&gt;&gt;{ blogs -&gt;
+            // update UI
+        })</code></pre>
+                 <p class="graf--p">
+                  This is how we use ViewModel in our Views.You can learn more about ViewModel here.
+                 </p>
+                 <p class="graf--p">
+                  Now, in ViewModel we can only handle the configuration changes in the View but it does not store the State of UI or the View.  But it does not handle the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    System Initiated Process Death
+                   </i>
+                  </b>
+                  . To handle it , we can use
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    onSaveInstanceState()
+                   </i>
+                  </b>
+                  to restore the state we left in.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    System Initiated Process Death can be defined as ,
+                   </i>
+                  </b>
+                  every Android application runs in its own Linux process. This process is created for the application when some of its code needs to be run, and will remain running
+                  <b class="graf--bold">
+                   until it is no longer needed and the system needs to reclaim its memory for use by other applications
+                  </b>
+                  .
+                 </blockquote>
+                 <p class="graf--p">
+                  If your app is not in the foreground, the system can terminate your process at any point to free up system RAM for use by other processes.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     onSaveInstanceState()
+                    </i>
+                   </b>
+                   bundle can handle both configuration and System Initiated process death. When we re-open the app and move our app to foreground we can still see our data which was persisted using  onSaveInstanceState().
+                  </li>
+                  <li>
+                   But it can only store a limited amount of data and depends a lot on speed and storage as Serialization can take a lot of memory to store the data.
+                  </li>
+                  <li>
+                   Serialization occurs on main thread so while configuration changes it can block the UI screen and might also let the app freeze of produces(ANRs) i.e.
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     App Not Responding.
+                    </i>
+                   </b>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     onSaveInstanceState()
+                    </i>
+                   </b>
+                   can store a minimum number of data and not large amount of it.
+                  </li>
+                 </ul>
+                 <blockquote class="graf--blockquote">
+                  In Google I/O 2019 , Google released something called
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    <a class="markup--anchor" href="https://developer.android.com/topic/libraries/architecture/viewmodel-savedstate" target="_blank">
+                     Saved State For ViewModel
+                    </a>
+                   </i>
+                  </b>
+                 </blockquote>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Saved State of ViewModel
+                   </i>
+                  </b>
+                  can be considered as a replacement for
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    onSaveInstanceState()
+                   </i>
+                  </b>
+                  as it can also store the data because UI data is always referenced from ViewModel of Architecture Components and not the View (Activity/Fragment). So to use
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    onSaveInstanceState()
+                   </i>
+                  </b>
+                  will require us to do some coding.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   Who wants to write some extra code?? No on right?
+                  </b>
+                 </blockquote>
+                 <p class="graf--p">
+                  So, as part of Jetpack Google launced something called
+                  <b class="graf--bold">
+                   Saved State
+                  </b>
+                  which helps us to store and retrieve the data from saved state after it goes through the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    System Initiated Process Death.
+                   </i>
+                  </b>
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   Note:
+                  </b>
+                  State must be simple and lightweight. For complex or large data you should use
+                  <span class="">
+                   <a class="markup--anchor" href="https://developer.android.com/topic/libraries/architecture/saving-states#use_local_persistence_to_handle_process_death_for_complex_or_large_data" target="_blank">
+                    local persistence
+                   </a>
+                  </span>
+                  .
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  To Integrate the Saved State in Project,
+                 </h4>
+                 <p class="graf--p">
+                  add the below code in your build.gradle of your app component
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha01'</code></pre>
+                 <h4 class="graf--h3">
+                  How to use Saved State?
+                 </h4>
+                 <p class="graf--p">
+                  update the below code snippet in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    onCreate()
+                   </i>
+                  </b>
+                  of your View (Activity/Fragment),
+                 </p>
+                 <pre><code class="language-java graf graf--code">val model = ViewModelProviders.of(this, SavedStateVMFactory(this)).get(MainViewModel::class.java)</code></pre>
+                 <p class="graf--p">
+                  in place of,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val model = ViewModelProviders.of(this).get(MainViewModel::class.java)</code></pre>
+                 <p class="graf--p">
+                  And in ViewModel,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainViewModel(private val state: SavedStateHandle) : ViewModel() { ... }</code></pre>
+                 <p class="graf--p">
+                  Here, you can see we have passed
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    SavedStateHandle
+                   </i>
+                  </b>
+                  in the primary constructor of the ViewModel. In order to get SavedStateHandle we pass
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    SavedStateVMFactory()
+                   </i>
+                  </b>
+                  in our
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    ViewModelProviders.of
+                   </i>
+                  </b>
+                  as Factory.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  A Factory is an Interface which tells the ViewModel , how to create the ViewModel.
+                 </blockquote>
+                 <p class="graf--p">
+                  Here,
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    SavedStateHandle
+                   </i>
+                  </b>
+                  is a handle which is in
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Key-Value
+                   </i>
+                  </b>
+                  map that will let you read and write objects to and from the saved state. The data will still be persisted even if the app goes through
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    System Initiated Process Death
+                   </i>
+                  </b>
+                  .
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     SavedStateHandle
+                    </i>
+                   </b>
+                   is just like
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     SharedPreferences
+                    </i>
+                   </b>
+                   in Android which work on Key-Value pair.
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Let's Understand it better with an Example,
+                 </h4>
+                 <ul>
+                  <li>
+                   We will be building an App with 3 UI components(EditText, Button and TextView).
+                  </li>
+                  <li>
+                   When User Enters the
+                   <b class="graf--bold">
+                    Username
+                   </b>
+                   in the
+                   <b class="graf--bold">
+                    EditText
+                   </b>
+                   and Clicks the
+                   <b class="graf--bold">
+                    Button
+                   </b>
+                   , it should display the username in the
+                   <b class="graf--bold">
+                    TextView.
+                   </b>
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    This is what we are going to build,
+                   </i>
+                  </b>
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="ViewModel with SavedState" class="graf-image" src="/images/final-preview.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Now the MainViewModel will look like this,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(), BaseViewModel {
+
+    override fun getUserName(): LiveData&lt;String&gt; {
+        return savedStateHandle.getLiveData(Constants.USERNAME)
+    }
+    override fun saveUserName(username: String) {
+        savedStateHandle.set(Constant.USERNAME, username)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     savedStateHandle.set("Key","Value")
+                    </i>
+                   </b>
+                   is used to store the data
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     savedStateHandle.getLiveData("key")
+                    </i>
+                   </b>
+                   is used to return the LiveData of String datatype
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  The BaseViewModel looks like the following and it is implemented by
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MainViewModel
+                   </i>
+                  </b>
+                  Class.
+                 </p>
+                 <pre><code class="language-java graf graf--code">interface BaseViewModel {
+    fun getUserName(): LiveData&lt;String&gt;
+    fun saveUserName(username: String)
+}</code></pre>
+                 <p class="graf--p">
+                  And finally the MainActivity class file looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+    lateinit var mainViewModel: MainViewModel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val factory = SavedStateVMFactory(this@MainActivity)
+        mainViewModel = ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
+        setupActions()
+    }
+
+    private fun setupActions() {
+        submitButton.setOnClickListener {
+            mainViewModel.saveUserName(username_edittext.text.toString()
+        }
+        mainViewModel.getLiveDataUserName().observe(this, Observer {
+            saved_textview.text= "LiveData Result: $it"
+        })
+    }
+}</code></pre>
+                 <pre><code class="language-java graf graf--code"></code></pre>
+                 <p class="graf--p">
+                  Now, to test the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    SavedState
+                   </i>
+                  </b>
+                  you need a
+                  <i class="graf--italic">
+                   Emulator/Device
+                  </i>
+                  atleast targetting Android
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Pie
+                   </i>
+                  </b>
+                  (+). We have to follow the following state to simulate the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    System Initiate Process Death
+                   </i>
+                  </b>
+                  ,
+                 </p>
+                 <ul>
+                  <li>
+                   We have to make sure that , the App is currently running in the Android Device by
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">adb shell ps -A | grep lifecycle</code></pre>
+                 <ul>
+                  <li>
+                   It will show an Output with the name of Your App's lifecycle like "
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     com.mindorks.app
+                    </i>
+                   </b>
+                   " in your terminal
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">adb shell am kill your-app-package-name</code></pre>
+                 <ul>
+                  <li>
+                   And to confirm, you should run the
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     Step - 1
+                    </i>
+                   </b>
+                   and you won't see your app's package name in the terminal.
+                  </li>
+                  <li>
+                   Now re-open the app and you would see the output being persited and displayed in the TextView of the Screen.
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Points to Note :-
+                 </h4>
+                 <ol>
+                  <li>
+                   If you want to set the data in savedState use,
+                  </li>
+                 </ol>
+                 <pre><code class="language-java graf graf--code">savedStateHandle.set("key_name","value")</code></pre>
+                 <p class="graf--p">
+                  2. If you want to get the data from savedState use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">savedStateHandle.get("key_name")</code></pre>
+                 <p class="graf--p">
+                  3. If you want to get LiveData as return type use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">savedStateHandle.getLiveData("key_name")</code></pre>
+                 <p class="graf--p">
+                  4. If you want to check that specific key is present in savedState is,
+                 </p>
+                 <pre><code class="language-java graf graf--code">savedState.contains("key_name")</code></pre>
+                 <p class="graf--p">
+                  and it returns
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    boolean
+                   </i>
+                  </b>
+                  data type when
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    true
+                   </i>
+                  </b>
+                  means
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    savedState
+                   </i>
+                  </b>
+                  contains the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    value
+                   </i>
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    false
+                   </i>
+                  </b>
+                  means it doesn't.
+                 </p>
+                 <p class="graf--p">
+                  5. If you want to find all the keys in the savedState use the following , which will return the list of keys.
+                 </p>
+                 <pre><code class="language-java graf graf--code">savedState.keys()</code></pre>
+                 <p class="graf--p">
+                  6. And to delete any specific value, you can access it via its key to delete it. To do the following use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">savedState.remove("key_name")</code></pre>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   This ends this article. I hope you must have got the concepts of using Viewmodel with SavedState in an Android application.
+                  </i>
+                 </blockquote>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Shared ViewModel in Android: Shared between Fragments" class="ui centered image" src="/images/shared-viewmodel-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Shared ViewModel in Android: Shared between Fragments
+           </div>
+           <div class="meta">
+            1st July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how we can use the ViewModel in our application to communicate between various fragments in our application. We say it as SharedViewModel.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

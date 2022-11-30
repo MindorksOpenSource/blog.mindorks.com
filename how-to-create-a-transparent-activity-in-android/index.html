@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   How to create a Transparent Activity in Android?
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/how-to-create-a-transparent-activity-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="How to create a Transparent Activity in Android?" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/how-to-create-a-transparent-activity-in-android" property="og:url"/>
+  <meta content="/images/transparent-activity-in-android-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to create a Transparent activity in Android. By using Transparent activity, your app will be launched but nothing will be displayed in the background of the window." property="og:description"/>
+  <meta content="How to create a Transparent Activity in Android?" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to create a Transparent activity in Android. By using Transparent activity, your app will be launched but nothing will be displayed in the background of the window." name="twitter:description"/>
+  <meta content="/images/transparent-activity-in-android-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to create a Transparent activity in Android. By using Transparent activity, your app will be launched but nothing will be displayed in the background of the window." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:302,data:{id:302,title:"How to create a Transparent Activity in Android?",description:"In this blog, we will learn how to create a Transparent activity in Android. By using Transparent activity, your app will be launched but nothing will be displayed in the background of the window.",text:'<h1 class="graf--h1">How to create a Transparent Activity in Android?</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/transparent-activity-in-android-banner.png class=\'graf-image\' alt=\'How to create a Transparent Activity in Android?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In Android, we can create a transparent activity that will not be visible but your application will be running. The best part of this transparent activity is that you can create a transparent activity by just changing the resource file and we need not write the java or kotlin code for the same.</p><p class="graf--p">In this blog, we will learn how to create a transparent activity in Android. So, let’s get started.</p><h4 class="graf--h3">Steps to create a Transparent Activity</h4><p class="graf--p"><b class="graf--bold">Step1:</b> Create a project in Android studio with Empty Activity template. In my case, the name of the project is TransparentActivity.</p><p class="graf--p"><b class="graf--bold">Step2:</b> Open the <b class="graf--bold"><i class="graf--italic">activity_main.xml</i></b> file and add the below code:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;RelativeLayout\n        xmlns:android="http://schemas.android.com/apk/res/android"\n        xmlns:tools="http://schemas.android.com/tools"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent"\n        android:padding="16dp"\n        tools:context=".MainActivity"&gt;\n    &lt;TextView\n            android:layout_width="wrap_content"\n            android:layout_height="wrap_content"\n            android:layout_centerInParent="true"\n            android:textSize="50sp"\n            android:textStyle="bold"\n            android:fontFamily="sans-serif-condensed"\n            android:text="Hello! I am Transparent Activity"\n            android:textColor="#112090"/&gt;\n&lt;/RelativeLayout&gt;</code></pre><p class="graf--p">Here, we are having one TextView and the text of this TextView will be displayed over the previously opened application.</p><p class="graf--p"><b class="graf--bold">Step3:</b> Now in the <b class="graf--bold"><i class="graf--italic">res/values</i></b> directory, open the <b class="graf--bold"><i class="graf--italic">styles.xml</i></b> file and add the below code:</p><pre><code class="language-java graf graf--code">&lt;style name="Theme.AppCompat.Transparent.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar"&gt;\n    &lt;item name="android:windowIsTranslucent"&gt;true&lt;/item&gt;\n    &lt;item name="android:windowBackground"&gt;@android:color/transparent&lt;/item&gt;\n    &lt;item name="android:windowContentOverlay"&gt;@null&lt;/item&gt;\n    &lt;item name="android:windowNoTitle"&gt;true&lt;/item&gt;\n    &lt;item name="android:windowIsFloating"&gt;true&lt;/item&gt;\n    &lt;item name="android:backgroundDimEnabled"&gt;false&lt;/item&gt;\n&lt;/style&gt;</code></pre><p class="graf--p">Let’s look at these property one by one.</p><p class="graf--p"><b class="graf--bold">android:windowIsTranslucent</b> indicates weather the window in which the activity is present in translucent state or not. It must be a boolean value i.e. it can be true or false.</p><p class="graf--p"><b class="graf--bold">android:windowBackground</b> is used to set the background of the main window. Here, we are setting the background as transparent.</p><p class="graf--p"><b class="graf--bold">android:windowContentOverlay</b> is used to overlay over the foreground of the window content area, usually to place a shadow below the title.</p><p class="graf--p"><b class="graf--bold">android:windowNoTitle</b> is used to indicate whether there should be title on the window or not.</p><p class="graf--p"><b class="graf--bold">android:windowIsFloating</b> is used to indicate whether the current window is floating or not.</p><p class="graf--p"><b class="graf--bold">android:backgroundDimEnabled</b> is used to indicate whether the dimming behind the window is enabled or not.</p><p class="graf--p"><b class="graf--bold">Step4:</b> The final step is to add the theme to your application in the manifest file. So, open the <b class="graf--bold"><i class="graf--italic">AndroidManifest.xml</i></b> file and add the below code:</p><pre><code class="language-java graf graf--code">&lt;activity android:name=".MainActivity"\n          android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"&gt;\n    &lt;intent-filter&gt;\n        &lt;action android:name="android.intent.action.MAIN"/&gt;\n\n        &lt;category android:name="android.intent.category.LAUNCHER"/&gt;\n    &lt;/intent-filter&gt;\n&lt;/activity&gt;</code></pre><p class="graf--p">Now, run your application and you will see the transparent activity of your application. Great, you are now a magician :)</p><p class="graf--p">Hope you enjoyed this blog. Learn more about concepts of Android from our <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/">website MindOrks blog</a>.</p><p class="graf--p">Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/transparent-activity-in-android-banner.png",blog_url:"how-to-create-a-transparent-activity-in-android",likes:0,rank:0,category:1,published_at:"22nd July 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:88,title:"How to create multiple apk files for android application",description:"Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.",author:30,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg",blog_url:"how-to-create-multiple-apk-files-for-android-application",likes:0,rank:0,category:1,published_at:"30th August 2017",score:2.5465610027313232},{id:239,title:"Create your own Custom View",description:"In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views.",author:14897,img_url:"/images/custom-view.jpg",blog_url:"create-your-own-custom-view",likes:0,rank:0,category:1,published_at:"17th May 2019",score:2.5373833179473877},{id:323,title:"How to create a singleton class in Kotlin?",description:"In this blog, we will learn how to create a singleton class in Kotlin? If you don't know anything about the singleton class then don't worry, we will cover every part of the singleton class.",author:17146,img_url:"/images/how-to-make-a-singleton-class-in-kotlin-banner.png",blog_url:"how-to-create-a-singleton-class-in-kotlin",likes:0,rank:0,category:1,published_at:"4th September 2019",score:2.5373833179473877},{id:273,title:"Activity Recognition in Android — Still, Walking, Running, Driving and much more",description:"In this blog, we will learn how to use the Activity Recognition API in our Android Application. The Activity Recognition API is used to determine the Activity that a user is doing at a particular instant of time like walking, running, driving, still, etc.",author:14897,img_url:"/images/activity-recognition-in-android-banner.png",blog_url:"activity-recognition-in-android-still-walking-running-driving-and-much-more",likes:0,rank:0,category:1,published_at:"12th June 2019",score:2.1641366481781006},{id:277,title:"Understanding Activity Aliases in Android To Preserve Your Launchers",description:"In this blog, we will learn the concept of Activity Aliases in Android. Activity Aliases are used to preserve the Launchers whenever there is a change in the Launcher Activity name. Generally, when we create a shortcut on our home screen and if we change the Launcher Activity, then the shortcut will be removed from the home screen. So, let's find how to deal with this.",author:14897,img_url:"/images/activity-aliases-in-android-banner.png",blog_url:"understanding-activity-aliases-in-android-to-preserve-your-launchers",likes:0,rank:0,category:1,published_at:"17th June 2019",score:2.1641366481781006},{id:193,title:"Android Activity Lifecycle",description:"In this blog, we will learn about Activities in Android and the lifecycle of activity in detail. We will also see the real example use-cases of Activity Lifecycle",author:9959,img_url:"/images/android-activity-lifecycle-banner.png",blog_url:"android-activity-lifecycle",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:2.1641366481781006}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            22nd July 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  How to create a Transparent Activity in Android?
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to create a Transparent Activity in Android?" class="graf-image" src="/images/transparent-activity-in-android-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In Android, we can create a transparent activity that will not be visible but your application will be running. The best part of this transparent activity is that you can create a transparent activity by just changing the resource file and we need not write the java or kotlin code for the same.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will learn how to create a transparent activity in Android. So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  Steps to create a Transparent Activity
+                 </h4>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step1:
+                  </b>
+                  Create a project in Android studio with Empty Activity template. In my case, the name of the project is TransparentActivity.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step2:
+                  </b>
+                  Open the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    activity_main.xml
+                   </i>
+                  </b>
+                  file and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context=".MainActivity"&gt;
+    &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Hello! I am Transparent Activity"
+            android:textColor="#112090"/&gt;
+&lt;/RelativeLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Here, we are having one TextView and the text of this TextView will be displayed over the previously opened application.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step3:
+                  </b>
+                  Now in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    res/values
+                   </i>
+                  </b>
+                  directory, open the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    styles.xml
+                   </i>
+                  </b>
+                  file and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;style name="Theme.AppCompat.Transparent.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar"&gt;
+    &lt;item name="android:windowIsTranslucent"&gt;true&lt;/item&gt;
+    &lt;item name="android:windowBackground"&gt;@android:color/transparent&lt;/item&gt;
+    &lt;item name="android:windowContentOverlay"&gt;@null&lt;/item&gt;
+    &lt;item name="android:windowNoTitle"&gt;true&lt;/item&gt;
+    &lt;item name="android:windowIsFloating"&gt;true&lt;/item&gt;
+    &lt;item name="android:backgroundDimEnabled"&gt;false&lt;/item&gt;
+&lt;/style&gt;</code></pre>
+                 <p class="graf--p">
+                  Let’s look at these property one by one.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   android:windowIsTranslucent
+                  </b>
+                  indicates weather the window in which the activity is present in translucent state or not. It must be a boolean value i.e. it can be true or false.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   android:windowBackground
+                  </b>
+                  is used to set the background of the main window. Here, we are setting the background as transparent.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   android:windowContentOverlay
+                  </b>
+                  is used to overlay over the foreground of the window content area, usually to place a shadow below the title.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   android:windowNoTitle
+                  </b>
+                  is used to indicate whether there should be title on the window or not.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   android:windowIsFloating
+                  </b>
+                  is used to indicate whether the current window is floating or not.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   android:backgroundDimEnabled
+                  </b>
+                  is used to indicate whether the dimming behind the window is enabled or not.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step4:
+                  </b>
+                  The final step is to add the theme to your application in the manifest file. So, open the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    AndroidManifest.xml
+                   </i>
+                  </b>
+                  file and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;activity android:name=".MainActivity"
+          android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name="android.intent.action.MAIN"/&gt;
+
+        &lt;category android:name="android.intent.category.LAUNCHER"/&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, run your application and you will see the transparent activity of your application. Great, you are now a magician :)
+                 </p>
+                 <p class="graf--p">
+                  Hope you enjoyed this blog. Learn more about concepts of Android from our
+                  <a class="markup--anchor" href="https://blog.mindorks.com/" target="_blank">
+                   website MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to create multiple apk files for android application" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to create multiple apk files for android application
+           </div>
+           <div class="meta">
+            30th August 2017
+           </div>
+           <div class="description">
+            Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Create your own Custom View" class="ui centered image" src="/images/custom-view.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Create your own Custom View
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to create a singleton class in Kotlin?" class="ui centered image" src="/images/how-to-make-a-singleton-class-in-kotlin-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to create a singleton class in Kotlin?
+           </div>
+           <div class="meta">
+            4th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to create a singleton class in Kotlin? If you don't know anything about the singleton class then don't worry, we will cover every part of the singleton class.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Activity Recognition in Android — Still, Walking, Running, Driving and much more" class="ui centered image" src="/images/activity-recognition-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Activity Recognition in Android — Still, Walking, Running, Driving and much more
+           </div>
+           <div class="meta">
+            12th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use the Activity Recognition API in our Android Application. The Activity Recognition API is used to determine the Activity that a user is doing at a particular instant of time like walking, running, driving, still, etc.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Activity Aliases in Android To Preserve Your Launchers" class="ui centered image" src="/images/activity-aliases-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Activity Aliases in Android To Preserve Your Launchers
+           </div>
+           <div class="meta">
+            17th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn the concept of Activity Aliases in Android. Activity Aliases are used to preserve the Launchers whenever there is a change in the Launcher Activity name. Generally, when we create a shortcut on our home screen and if we change the Launcher Activity, then the shortcut will be removed from the home screen. So, let's find how to deal with this.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Activity Lifecycle" class="ui centered image" src="/images/android-activity-lifecycle-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Activity Lifecycle
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about Activities in Android and the lifecycle of activity in detail. We will also see the real example use-cases of Activity Lifecycle
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Android  Fragments and its Lifecycle
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-fragments-and-its-lifecycle" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Android  Fragments and its Lifecycle" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-fragments-and-its-lifecycle" property="og:url"/>
+  <meta content="/images/android_fragments_mindorks_feature_image.png" property="og:image"/>
+  <meta content="Android Fragments" property="og:description"/>
+  <meta content="Android  Fragments and its Lifecycle" property="twitter:title"/>
+  <meta content="Android Fragments" name="twitter:description"/>
+  <meta content="/images/android_fragments_mindorks_feature_image.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="Android Fragments" name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:195,data:{id:195,title:"Android  Fragments and its Lifecycle",description:"Android Fragments",text:'<h2 class="graf--h1">Android  Fragments and its Lifecycle</h2><p class="graf--p">Welcome, you had successfully implemented apps using activity in our previous chapters. Here, we are going to start with the most important topic — Fragments.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_fragments_mindorks_feature_image.png class=\'graf-image\' alt=\'Android  Fragments and its Lifecycle\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">To understand what a fragment is, we can think fragment is like a sub-activity. A whole activity which we can see on our screen and if we only need to modify a small part, how we can do that with any modification in activity? So, we need a fragment. </p><p class="graf--p">Fragment provides us with 2 major things: </p><ol><li>Modularity</li><li>Adaptability</li></ol><h4 class="graf--h3">Modularity</h4><p class="graf--p">For example — we used Gmail application in our mobile phones, and also in tablets. How is the UI different? Depending on the screen size, it shows us like the image below.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_fragments_gmail_mindorks_image.jpg class=\'graf-image\' alt=\'Android  Fragments and its Lifecycle\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">The part in the tablet where the details and the list is showing, both are fragments running on a single activity. On a single activity, multiple fragments can be added and remove.</p><h4 class="graf--h3">Adaptability</h4><p class="graf--p">We can also take one example of WhatsApp, to understand it better. We see three tabs on WhatsApp, swiping which will give us another tab open up. Chat/Status/Calls — these three are the fragments which change in that particular area.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_fragments_whatsapp_mindroks_image.png class=\'graf-image\' alt=\'Android  Fragments and its Lifecycle\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">There are some points about fragments:</p><ul><li>A fragment has its layout and its behaviour with its lifecycle callbacks.</li><li>You can add or remove fragments in the activity. Activity is running, which is in the resumed lifecycle state.</li><li>You can combine multiple fragments in a single activity to build a multi-pane UI.</li><li>A fragment can be reuse in multiple activities.</li><li>A fragment life cycle is closely related to the lifecycle of its host activity which means when the activity is in the pause state, all the fragments available in the activity will also stop.</li><li>Fragments added to the Android API in Android 3.0 which API version 11 to support flexible UI on large screens.</li></ul><p class="graf--p">The fragment has its lifecycle which runs under the activity lifecycle.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_fragments_lifecycle_mindorks_image.png class=\'graf-image\' alt=\'Android  Fragments and its Lifecycle\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">When fragment come up on the screen:-</p><ol><li>onAttach() — This method called first, To know that our fragment has been attached to an activity. We are passing the Activity that will host our fragment. </li><li>onCreate() —  This method called when a fragment instance initializes, just after the onAttach where fragment attaches to the host activity.</li><li>onCreateView() —  The method called when it’s time for the fragment to draw its user interface for the first time. To draw a UI for your fragment, you must return a View component from this method that is the root of your fragment’s layout. You can return null if the fragment does not provide a UI.</li><li>onActivityCreated() — This method called when Activity completes its onCreate() method</li><li>onStart() — This method called when a fragment is visible.</li><li>onResume() — This method called when a fragment is visible and allowing the user to interact with it. Fragment resumes only after activity resumes.</li></ol><p class="graf--p">When fragment goes out off the screen:-</p><ol><li>onPause() — This method called when a fragment is not allowing the user to interact; the fragment will get change with other fragment or it gets removed from activity or fragment’s activity called a pause.</li><li>onStop() — This method called when the fragment is no longer visible; the fragment will get change with other fragment or it gets removed from activity or fragment’s activity called stop.</li><li>onDestroyView() —  This method called when the view and related resources created in onCreateView() are removed from the activity’s view hierarchy and destroyed.</li><li>onDestroy() —  This method called when the fragment does its final clean up.</li><li>onDetach() —  This method called when the fragment is detached from its host activity.</li></ol><p class="graf--p">This is all about how the fragment come up within the activity and goes out. Cool!! We had learnt about the Fragments.</p><h4 class="graf--h3"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/android-viewpager-in-kotlin">In the next chapter, we are going to use it and develop an Intro Application.</a><br/></h4>',author:14897,img_url:"/images/android_fragments_mindorks_feature_image.png",blog_url:"android-fragments-and-its-lifecycle",likes:0,rank:0,category:1,published_at:"3rd January 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:263,title:"Understanding the Application Lifecycle in Android",description:"In this blog, we will learn about the Application life cycle in Android. We will learn how to make use of various application states that a particular application has in general. ",author:14897,img_url:"/images/understanding-the-application-lifecycle-in-android-banner.png",blog_url:"understanding-the-application-lifecycle-in-android",likes:0,rank:0,category:1,published_at:"4th June 2019",score:2.805088996887207},{id:193,title:"Android Activity Lifecycle",description:"In this blog, we will learn about Activities in Android and the lifecycle of activity in detail. We will also see the real example use-cases of Activity Lifecycle",author:9959,img_url:"/images/android-activity-lifecycle-banner.png",blog_url:"android-activity-lifecycle",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:2.805088996887207},{id:289,title:"Shared ViewModel in Android: Shared between Fragments",description:"In this blog, we will learn how we can use the ViewModel in our application to communicate between various fragments in our application. We say it as SharedViewModel.",author:14897,img_url:"/images/shared-viewmodel-in-android-banner.png",blog_url:"shared-viewmodel-in-android-shared-between-fragments",likes:0,rank:0,category:1,published_at:"1st July 2019",score:2.805088996887207},{id:292,title:"How to communicate between fragments?",description:"In this blog, we will learn how to communicate between various Fragments in our Activity. You can have more than one Fragments in your Activity and it becomes a necessary task to learn how to communicate between those Fragments. So, let's learn how we can do this.",author:14897,img_url:"/images/how-to-communicate-between-fragments-banner.png",blog_url:"how-to-communicate-between-fragments",likes:0,rank:0,category:1,published_at:"15th July 2019",score:2.7959113121032715},{id:84,title:"Detecting and fixing memory leaks in android",description:"Many a time we see ANR dialog while using android apps, lags in our apps, we also see OutOfMemoryError in Android Studio while building apps. All these kinds of stuff happen due to memory leaks.",author:30,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/detecting-and-fixing-memory-leaks-in-android.jpg",blog_url:"detecting-and-fixing-memory-leaks-in-android",likes:1,rank:0,category:1,published_at:"27th August 2017",score:.2793795168399811},{id:206,title:"What is Android Jetpack and why should we use it?",description:"What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.",author:30,img_url:"/images/android-jetpack.png",blog_url:"what-is-android-jetpack-and-why-should-we-use-it",likes:0,rank:0,category:1,published_at:"4th January 2019",score:.2793795168399811}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            3rd January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h2 class="graf--h1">
+                  Android  Fragments and its Lifecycle
+                 </h2>
+                 <p class="graf--p">
+                  Welcome, you had successfully implemented apps using activity in our previous chapters. Here, we are going to start with the most important topic — Fragments.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android  Fragments and its Lifecycle" class="graf-image" src="/images/android_fragments_mindorks_feature_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  To understand what a fragment is, we can think fragment is like a sub-activity. A whole activity which we can see on our screen and if we only need to modify a small part, how we can do that with any modification in activity? So, we need a fragment.
+                 </p>
+                 <p class="graf--p">
+                  Fragment provides us with 2 major things:
+                 </p>
+                 <ol>
+                  <li>
+                   Modularity
+                  </li>
+                  <li>
+                   Adaptability
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  Modularity
+                 </h4>
+                 <p class="graf--p">
+                  For example — we used Gmail application in our mobile phones, and also in tablets. How is the UI different? Depending on the screen size, it shows us like the image below.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android  Fragments and its Lifecycle" class="graf-image" src="/images/android_fragments_gmail_mindorks_image.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  The part in the tablet where the details and the list is showing, both are fragments running on a single activity. On a single activity, multiple fragments can be added and remove.
+                 </p>
+                 <h4 class="graf--h3">
+                  Adaptability
+                 </h4>
+                 <p class="graf--p">
+                  We can also take one example of WhatsApp, to understand it better. We see three tabs on WhatsApp, swiping which will give us another tab open up. Chat/Status/Calls — these three are the fragments which change in that particular area.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android  Fragments and its Lifecycle" class="graf-image" src="/images/android_fragments_whatsapp_mindroks_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  There are some points about fragments:
+                 </p>
+                 <ul>
+                  <li>
+                   A fragment has its layout and its behaviour with its lifecycle callbacks.
+                  </li>
+                  <li>
+                   You can add or remove fragments in the activity. Activity is running, which is in the resumed lifecycle state.
+                  </li>
+                  <li>
+                   You can combine multiple fragments in a single activity to build a multi-pane UI.
+                  </li>
+                  <li>
+                   A fragment can be reuse in multiple activities.
+                  </li>
+                  <li>
+                   A fragment life cycle is closely related to the lifecycle of its host activity which means when the activity is in the pause state, all the fragments available in the activity will also stop.
+                  </li>
+                  <li>
+                   Fragments added to the Android API in Android 3.0 which API version 11 to support flexible UI on large screens.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  The fragment has its lifecycle which runs under the activity lifecycle.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android  Fragments and its Lifecycle" class="graf-image" src="/images/android_fragments_lifecycle_mindorks_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  When fragment come up on the screen:-
+                 </p>
+                 <ol>
+                  <li>
+                   onAttach() — This method called first, To know that our fragment has been attached to an activity. We are passing the Activity that will host our fragment.
+                  </li>
+                  <li>
+                   onCreate() —  This method called when a fragment instance initializes, just after the onAttach where fragment attaches to the host activity.
+                  </li>
+                  <li>
+                   onCreateView() —  The method called when it’s time for the fragment to draw its user interface for the first time. To draw a UI for your fragment, you must return a View component from this method that is the root of your fragment’s layout. You can return null if the fragment does not provide a UI.
+                  </li>
+                  <li>
+                   onActivityCreated() — This method called when Activity completes its onCreate() method
+                  </li>
+                  <li>
+                   onStart() — This method called when a fragment is visible.
+                  </li>
+                  <li>
+                   onResume() — This method called when a fragment is visible and allowing the user to interact with it. Fragment resumes only after activity resumes.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  When fragment goes out off the screen:-
+                 </p>
+                 <ol>
+                  <li>
+                   onPause() — This method called when a fragment is not allowing the user to interact; the fragment will get change with other fragment or it gets removed from activity or fragment’s activity called a pause.
+                  </li>
+                  <li>
+                   onStop() — This method called when the fragment is no longer visible; the fragment will get change with other fragment or it gets removed from activity or fragment’s activity called stop.
+                  </li>
+                  <li>
+                   onDestroyView() —  This method called when the view and related resources created in onCreateView() are removed from the activity’s view hierarchy and destroyed.
+                  </li>
+                  <li>
+                   onDestroy() —  This method called when the fragment does its final clean up.
+                  </li>
+                  <li>
+                   onDetach() —  This method called when the fragment is detached from its host activity.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  This is all about how the fragment come up within the activity and goes out. Cool!! We had learnt about the Fragments.
+                 </p>
+                 <h4 class="graf--h3">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/android-viewpager-in-kotlin" target="_blank">
+                   In the next chapter, we are going to use it and develop an Intro Application.
+                  </a>
+                  <br/>
+                 </h4>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding the Application Lifecycle in Android" class="ui centered image" src="/images/understanding-the-application-lifecycle-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding the Application Lifecycle in Android
+           </div>
+           <div class="meta">
+            4th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Application life cycle in Android. We will learn how to make use of various application states that a particular application has in general.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Activity Lifecycle" class="ui centered image" src="/images/android-activity-lifecycle-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Activity Lifecycle
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about Activities in Android and the lifecycle of activity in detail. We will also see the real example use-cases of Activity Lifecycle
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Shared ViewModel in Android: Shared between Fragments" class="ui centered image" src="/images/shared-viewmodel-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Shared ViewModel in Android: Shared between Fragments
+           </div>
+           <div class="meta">
+            1st July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how we can use the ViewModel in our application to communicate between various fragments in our application. We say it as SharedViewModel.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to communicate between fragments?" class="ui centered image" src="/images/how-to-communicate-between-fragments-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to communicate between fragments?
+           </div>
+           <div class="meta">
+            15th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to communicate between various Fragments in our Activity. You can have more than one Fragments in your Activity and it becomes a necessary task to learn how to communicate between those Fragments. So, let's learn how we can do this.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Detecting and fixing memory leaks in android" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/detecting-and-fixing-memory-leaks-in-android.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Detecting and fixing memory leaks in android
+           </div>
+           <div class="meta">
+            27th August 2017
+           </div>
+           <div class="description">
+            Many a time we see ANR dialog while using android apps, lags in our apps, we also see OutOfMemoryError in Android Studio while building apps. All these kinds of stuff happen due to memory leaks.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="What is Android Jetpack and why should we use it?" class="ui centered image" src="/images/android-jetpack.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            What is Android Jetpack and why should we use it?
+           </div>
+           <div class="meta">
+            4th January 2019
+           </div>
+           <div class="description">
+            What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

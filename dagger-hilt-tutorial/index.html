@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Dagger Hilt Tutorial - Step by Step Guide
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/dagger-hilt-tutorial" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Dagger Hilt Tutorial - Step by Step Guide" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/dagger-hilt-tutorial" property="og:url"/>
+  <meta content="/images/banner-dagger-hilt-d089fd89370529ef.png" property="og:image"/>
+  <meta content="In this blog, we are going to see how to work with Dagger-Hilt, the new dependency injection library based on top of Dagger with a step by step guide. Dagger-Hilt is recommended by Google for dependency injection in Android." property="og:description"/>
+  <meta content="Dagger Hilt Tutorial - Step by Step Guide" property="twitter:title"/>
+  <meta content="In this blog, we are going to see how to work with Dagger-Hilt, the new dependency injection library based on top of Dagger with a step by step guide. Dagger-Hilt is recommended by Google for dependency injection in Android." name="twitter:description"/>
+  <meta content="/images/banner-dagger-hilt-d089fd89370529ef.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to see how to work with Dagger-Hilt, the new dependency injection library based on top of Dagger with a step by step guide. Dagger-Hilt is recommended by Google for dependency injection in Android." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:474,data:{id:474,title:"Dagger Hilt Tutorial - Step by Step Guide",description:"In this blog, we are going to see how to work with Dagger-Hilt, the new dependency injection library based on top of Dagger with a step by step guide. Dagger-Hilt is recommended by Google for dependency injection in Android.",text:'<h1 class="graf--h1">Dagger Hilt Tutorial - Step by Step Guide</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-dagger-hilt-d089fd89370529ef.png class=\'graf-image\' alt=\'Dagger Hilt Tutorial - Step by Step Guide\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Working on an Android project, we need to integrate a lot of different dependencies, and to manage these dependencies we use a dependency injection framework like Dagger.</p><p class="graf--p">But to setup and work with Dagger requires a large amount of boilerplate code and a very steep learning curve. It is like the raw version for Dagger without Android support. Then Dagger-Android came, which reduced the boilerplate code but was not successful.</p><p class="graf--p">Now, with Dagger-Hilt releasing as a part of Jetpack libraries, it is now the recommended way by Google to use it. According to Dagger-Hilt, it helps us:</p><ul><li>To make the dagger code easy and simple for developers.</li><li>To provide a different set of bindings for different build types.</li><li>To just take care of where to inject dependencies and rest all of the code generations happens by dagger itself by using annotations and thus removing all the boilerplate code.</li></ul><p class="graf--p">In this tutorial, we would learn:</p><ul><li>Understanding Dagger</li><li>Setting up a new project</li><li>Project Structure</li><li>Integrating Dagger-Hilt</li><li>WorkManager with Dagger-Hilt</li><li>Qualifiers</li></ul><p class="graf--p">So, let&#x27;s start learning.</p><h4 class="graf--h3">Understanding Dagger</h4><p class="graf--p">Before starting with Dagger-Hilt we need to understand Dagger basics. In this section, we will help you understand the Dagger and its terminologies.</p><p class="graf--p">Basically, to understand Dagger we have to understand the 4 major annotations,</p><ul><li>Module</li><li>Component</li><li>Provides</li><li>Inject</li></ul><p class="graf--p">To understand it better in a basic way, think module as a provider of dependency and consider an activity or any other class as a consumer. Now to provide dependency from provider to consumer we have a bridge between them, in Dagger, Component work as that specific bridge.</p><p class="graf--p">Now, a module is a class and we annotate it with @Module for Dagger to understand it as Module.</p><p class="graf--p">A component is an interface, which is annotated with @Component and takes modules in it. (But now, this annotation is not required in Dagger-Hilt)</p><p class="graf--p">Provides are annotation which is used in Module class to provide dependency and,</p><p class="graf--p">Inject is an annotation that is used to define a dependency inside the consumer.<br/></p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/explainer-dagger-b6ec004283d8c4b3.jpg class=\'graf-image\' alt=\'Dagger Hilt Tutorial - Step by Step Guide\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">It is highly recommended to know about raw Dagger before moving to Dagger-Hilt.  </p><p class="graf--p">If you are new to Dagger and want to understand these things in detail, I recommend you to watch this video. </p><iframe class=\'iframeContainer graf--iframe\' type="text/html" width="100%" height="100%" src="https://www.youtube.com/embed/Grzqz-B3NWU?autoplay=false&rel=0&modestbranding=https://mindorks.com" frameBorder="0"></iframe><p class="graf--p"></p><p class="graf--p">If you already know the basics of Dagger, you can skip the video.</p><h4 class="graf--h3">Setting up a new project</h4><p class="graf--p">Here, we are going to set up the Android Project.</p><p class="graf--p">Our final project can be found <a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/Dagger-Hilt-Tutorial">here.</a></p><p class="graf--p"><b class="graf--bold">Create a Project</b></p><ul><li>Start a new Android Studio Project</li><li>Select Empty Activity and Next</li><li>Name: Dagger-Hilt-Tutorial</li><li>Package name: com.mindorks.framework.mvvm</li><li>Language: Kotlin</li><li>Finish</li><li>Your starting project is ready now</li></ul><p class="graf--p"><b class="graf--bold">Add dependencies</b></p><p class="graf--p">Add the following dependencies in the app&#x27;s build.gradle file,</p><pre><code class="language-java graf graf--code">implementation "androidx.recyclerview:recyclerview:{latest-version}"\nimplementation \'android.arch.lifecycle:extensions:{latest-version}\'\nimplementation \'com.github.bumptech.glide:glide:{latest-version}\'\nimplementation \'androidx.activity:activity-ktx:{latest-version}\'</code></pre><p class="graf--p">Now our project is ready with dependencies.</p><h4 class="graf--h3"><b class="graf--bold">Project Structure</b></h4><p class="graf--p">For the project, we are going to follow a basic version of MVVM. Our package in the project will look like below:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/dagger-hilt-project-structure-16f36cc05b0cfdd4.png class=\'graf-image\' alt=\'Dagger Hilt Tutorial - Step by Step Guide\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">We need the enum to represent the UI State. We will create that in the utils package.</p><pre><code class="language-java graf graf--code">package com.mindorks.framework.mvvm.utils\n\nenum class Status {\n    SUCCESS,\n    ERROR,\n    LOADING\n}</code></pre><p class="graf--p">We need a utility class that will be responsible to communicate the current state of Network Call to the UI Layer. We are naming that as Resource. So, create a Kotlin data class Resource inside the same utils package and add the following code.</p><pre><code class="language-java graf graf--code">package com.mindorks.framework.mvvm.utils\n\ndata class Resource&lt;out T&gt;(val status: Status, val data: T?, val message: String?) {\n\n    companion object {\n\n        fun &lt;T&gt; success(data: T?): Resource&lt;T&gt; {\n            return Resource(Status.SUCCESS, data, null)\n        }\n\n        fun &lt;T&gt; error(msg: String, data: T?): Resource&lt;T&gt; {\n            return Resource(Status.ERROR, data, msg)\n        }\n\n        fun &lt;T&gt; loading(data: T?): Resource&lt;T&gt; {\n            return Resource(Status.LOADING, data, null)\n        }\n\n    }\n\n}</code></pre><p class="graf--p">Our utils package is ready now.</p><h4 class="graf--h3">Integrating Dagger-Hilt</h4><p class="graf--p">To setup Dagger in the project, we would add the following in the app&#x27;s build.gradle file,</p><pre><code class="language-java graf graf--code">implementation \'com.google.dagger:hilt-android:{latest-version}\'\nkapt \'com.google.dagger:hilt-android-compiler:{latest-version}\'</code></pre><p class="graf--p">Then as a next step, we will apply the <b class="graf--bold">dagger.hilt</b> plugin at the top of the app&#x27;s build.gradle as well like,</p><pre><code class="language-java graf graf--code">apply plugin: \'dagger.hilt.android.plugin\'</code></pre><p class="graf--p">and finally, we will add the following in the classpath of the project&#x27;s build.gradle like,</p><pre><code class="language-java graf graf--code">classpath "com.google.dagger:hilt-android-gradle-plugin:{latest-version}"</code></pre><p class="graf--p">This is the required setup to get started to use Dagger-Hilt in the project.</p><h4 class="graf--h3">Setting up Dagger-Hilt</h4><p class="graf--p">We will break the setting up dagger hilt in the project in steps.</p><p class="graf--p"><b class="graf--bold">Step 01.</b></p><p class="graf--p">We will first update our Application class App like,</p><pre><code class="language-java graf graf--code">class App : Application()</code></pre><p class="graf--p">and we will update the Manifest file like,</p><pre><code class="language-java graf graf--code">android:name=".App"</code></pre><p class="graf--p">Now, to begin working with Dagger we need to annotate the application class with <b class="graf--bold">@HiltAndroidApp</b>. The updated code will look like,</p><pre><code class="language-java graf graf--code">@HiltAndroidApp\nclass App : Application()</code></pre><p class="graf--p">If you are planning to use Dagger-Hilt in your app, the above mention step is a mandatory one. It generates all the component classes which we have to do manually while using Dagger.</p><p class="graf--p"><b class="graf--bold">Step 02.</b></p><p class="graf--p">Now, we will add the dependencies for Retrofit and <a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/kotlin-coroutines">Kotlin-Coroutines</a> in the app&#x27;s build.gradle like,</p><pre><code class="language-java graf graf--code">// Networking\nimplementation "com.squareup.retrofit2:retrofit:{latest-version}"\nimplementation "com.squareup.retrofit2:converter-moshi:{latest-version}"\nimplementation "com.squareup.okhttp3:okhttp:{latest-version}"\nimplementation "com.squareup.okhttp3:logging-interceptor:{latest-version}"\n\n// Coroutine\nimplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:{latest-version}"\nimplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:{latest-version}"\n</code></pre><p class="graf--p">Now, in the project what we will do is, we will do an API call and show a list of users. We will also use Kotlin-Coroutine for multithreading.</p><p class="graf--p">Now, we will create <b class="graf--bold">api</b>, <b class="graf--bold">model</b>, <b class="graf--bold">repository </b>packages inside data layer. It will have files like,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/sameple-ping-fb7ae59f52e75f47.png class=\'graf-image\' alt=\'Dagger Hilt Tutorial - Step by Step Guide\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Then, ApiService looks like,</p><pre><code class="language-java graf graf--code">interface ApiService {\n\n    @GET("users")\n    suspend fun getUsers(): Response&lt;List&lt;User&gt;&gt;\n\n}</code></pre><p class="graf--p">ApiHelper looks like,</p><pre><code class="language-java graf graf--code">interface ApiHelper {\n\n    suspend fun getUsers(): Response&lt;List&lt;User&gt;&gt;\n}</code></pre><p class="graf--p">and finally, in ApiHelperImpl we would inject ApiService in the constructor using <b class="graf--bold">@Inject</b> and implement ApiHelper.</p><pre><code class="language-java graf graf--code">class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : ApiHelper {\n\n    override suspend fun getUsers(): Response&lt;List&lt;User&gt;&gt; = apiService.getUsers()\n\n}</code></pre><p class="graf--p">Here, <b class="graf--bold">@Inject</b> is helping in passing the dependency required by ApiHelperImpl in the constructor itself.</p><p class="graf--p">The User data class looks like,</p><pre><code class="language-java graf graf--code">data class User(\n    @Json(name = "id")\n    val id: Int = 0,\n    @Json(name = "name")\n    val name: String = "",\n    @Json(name = "email")\n    val email: String = "",\n    @Json(name = "avatar")\n    val avatar: String = ""\n)</code></pre><p class="graf--p">and finally, in <b class="graf--bold">MainRepository</b> we will pass ApiHelper in the constructor of the repository. <b class="graf--bold">MainRepository</b> looks like,</p><pre><code class="language-java graf graf--code">class MainRepository @Inject constructor(private val apiHelper: ApiHelper) {\n\n    suspend fun getUsers() =  apiHelper.getUsers()\n\n}</code></pre><p class="graf--p">Now, if you can see we have passed <b class="graf--bold">ApiHelper</b> and <b class="graf--bold">ApiService</b> in <b class="graf--bold">MainRepository</b> and <b class="graf--bold">ApiHelperImpl</b> respectively. So, to inject everything in the constructor we also need to provide it using <b class="graf--bold">@Provide</b> annotation in Dagger. </p><p class="graf--p"><b class="graf--bold">Step 03.</b></p><p class="graf--p">Now, we will create a package<b class="graf--bold"> di -&gt; module</b> and inside it, we will create ApplicationModule. As you can see we are not creating ApplicationComponent as we will use the one provided by Dagger-Hilt itself.</p><p class="graf--p">We will create a class ApplicationModule and annotate it with <b class="graf--bold">@Module. </b>Using this annotation will make dagger understand that this class is a module.</p><pre><code class="language-java graf graf--code">@Module\nclass ApplicationModule { }</code></pre><p class="graf--p">Now, we will need to plug this module class in the specific component. In this case, we need to this at the application level so we will install it in ApplicationComponent like,</p><pre><code class="language-java graf graf--code">@Module\n@InstallIn(ApplicationComponent::class)\nclass ApplicationModule {}</code></pre><p class="graf--p">Here, you can see that we have used <b class="graf--bold">@InstallIn</b> annotation to install it in ApplicationComponent. ApplicationComponent is provided by Dagger-Hilt.</p><p class="graf--p">This means that the dependencies provided here will be used across the application. Let&#x27;s consider that we want to use at the activity level we install the module in,</p><pre><code class="language-java graf graf--code">@InstallIn(ActivityComponent::class)</code></pre><p class="graf--p">Similarly like ApplicationComponent/ActivityComponent, we have a different type of components like,</p><p class="graf--p">FragmentComponent for Fragments, ServiceComponent for Service, etc.</p><p class="graf--p"><b class="graf--bold">Step 04.</b></p><p class="graf--p">Now, inside ApplicationModule, we will provide all the dependencies one by one and the updated code of ApplicationModule class looks like,</p><pre><code class="language-java graf graf--code">@Module\n@InstallIn(ApplicationComponent::class)\nclass ApplicationModule {\n\n    @Provides\n    fun provideBaseUrl() = BuildConfig.BASE_URL\n\n    @Provides\n    @Singleton\n    fun provideOkHttpClient() = if (BuildConfig.DEBUG) {\n        val loggingInterceptor = HttpLoggingInterceptor()\n        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)\n        OkHttpClient.Builder()\n            .addInterceptor(loggingInterceptor)\n            .build()\n    } else OkHttpClient\n        .Builder()\n        .build()\n\n\n    @Provides\n    @Singleton\n    fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL: String): Retrofit =\n        Retrofit.Builder()\n            .addConverterFactory(MoshiConverterFactory.create())\n            .baseUrl(BASE_URL)\n            .client(okHttpClient)\n            .build()\n\n    @Provides\n    @Singleton\n    fun provideApiService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)\n\n    @Provides\n    @Singleton\n    fun provideApiHelper(apiHelper: ApiHelperImpl): ApiHelper = apiHelper\n\n}</code></pre><p class="graf--p">Here,  we have provided dependencies using <b class="graf--bold">@Provide</b> annotation, which would be accessed across the application.</p><p class="graf--p"><b class="graf--bold">@Singleton</b> annotation helps the instance to be created and used once across the app.</p><blockquote class="graf--blockquote">Similarly, like Singleton which stays till the application lifecycle, we also have @ActivityScoped, @FragmentScoped, etc in which dependencies are scoped till the lifecycle of Activity and Fragment.</blockquote><p class="graf--p">Now, if you remember in the last step, we passed <b class="graf--bold">ApiHelper</b> and <b class="graf--bold">ApiService</b> in <b class="graf--bold">MainRepository</b> and <b class="graf--bold">ApiHelperImpl</b> respectively, and to inject it successfully we need to provide these two dependencies. </p><p class="graf--p">In ApplicationModule, the last two functions i.e. <code class="graf--code-inline">provideApiService</code> and <code class="graf--code-inline">provideApiHelper</code> are providing the instance of <code class="graf--code-inline">ApiService</code> and <code class="graf--code-inline">ApiHelper</code>.</p><p class="graf--p">Also, for <b class="graf--bold">BASE_URL</b>, we will add the following in the <code class="graf--code-inline">defaultConfig</code> block in the app&#x27;s build.gradle file,</p><pre><code class="language-java graf graf--code">buildConfigField \'String\', \'BASE_URL\', "\\"https://5e510330f2c0d300147c034c.mockapi.io/\\""\n</code></pre><p class="graf--p"><b class="graf--bold">Step 05.</b></p><p class="graf--p">Now, since everything is setup, now we need to use/inject them in the Android classes. In our case, we need our activity to start using them.</p><p class="graf--p">So to make any Android class supported by Dagger-Hilt we use, </p><pre><code class="language-java graf graf--code">@AndroidEntryPoint</code></pre><p class="graf--p">So, in our code, we will create another package <b class="graf--bold">ui,</b> and inside it will create another sub-package called <b class="graf--bold">main</b> which will have MainActivity, MainViewModel, and MainAdapter to show the list of users.</p><p class="graf--p">Now, we will add the <code class="graf--code-inline">AndroidEntryPoint</code> Annotation in MainActivity like,</p><pre><code class="language-java graf graf--code">@AndroidEntryPoint\nclass MainActivity : AppCompatActivity() {}</code></pre><p class="graf--p">Here, <b class="graf--bold">@AndroidEntryPoint </b>means Dagger-Hilt can now inject dependencies in this class.</p><p class="graf--p"><b class="graf--bold">@AndroidEntryPoint</b> annotation can be used in,</p><ol type="1"><li>Activity</li><li>Fragment</li><li>View</li><li>Service</li><li>BroadcastReceiver</li></ol><blockquote class="graf--blockquote">Hilt currently only supports activities that extend <span class=""><code class="graf--code-inline"><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/androidx/activity/ComponentActivity">ComponentActivity</a></code></span> and fragments that extend androidx library <span class=""><code class="graf--code-inline"><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/androidx/fragment/app/Fragment">Fragment</a>.</code></span></blockquote><p class="graf--p"><b class="graf--bold">Step 06.</b></p><p class="graf--p">The MainActivity will look like,</p><pre><code class="language-java graf graf--code">@AndroidEntryPoint\nclass MainActivity : AppCompatActivity() {\n\n    private val mainViewModel : MainViewModel by viewModels()\n    private lateinit var adapter: MainAdapter\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        setupUI()\n        setupObserver()\n    }\n\n    private fun setupUI() {\n        recyclerView.layoutManager = LinearLayoutManager(this)\n        adapter = MainAdapter(arrayListOf())\n        recyclerView.addItemDecoration(\n            DividerItemDecoration(\n                recyclerView.context,\n                (recyclerView.layoutManager as LinearLayoutManager).orientation\n            )\n        )\n        recyclerView.adapter = adapter\n    }\n\n    private fun setupObserver() {\n        mainViewModel.users.observe(this, Observer {\n            when (it.status) {\n                Status.SUCCESS -&gt; {\n                    progressBar.visibility = View.GONE\n                    it.data?.let { users -&gt; renderList(users) }\n                    recyclerView.visibility = View.VISIBLE\n                }\n                Status.LOADING -&gt; {\n                    progressBar.visibility = View.VISIBLE\n                    recyclerView.visibility = View.GONE\n                }\n                Status.ERROR -&gt; {\n                    progressBar.visibility = View.GONE\n                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()\n                }\n            }\n        })\n    }\n\n    private fun renderList(users: List&lt;User&gt;) {\n        adapter.addData(users)\n        adapter.notifyDataSetChanged()\n    }\n\n}</code></pre><p class="graf--p">and the MainAdapter class looks like,</p><pre><code class="language-java graf graf--code">class MainAdapter(\n    private val users: ArrayList&lt;User&gt;\n) : RecyclerView.Adapter&lt;MainAdapter.DataViewHolder&gt;() {\n\n    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {\n        fun bind(user: User) {\n            itemView.textViewUserName.text = user.name\n            itemView.textViewUserEmail.text = user.email\n            Glide.with(itemView.imageViewAvatar.context)\n                .load(user.avatar)\n                .into(itemView.imageViewAvatar)\n        }\n    }\n\n    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =\n        DataViewHolder(\n            LayoutInflater.from(parent.context).inflate(\n                R.layout.item_layout, parent,\n                false\n            )\n        )\n\n    override fun getItemCount(): Int = users.size\n\n    override fun onBindViewHolder(holder: DataViewHolder, position: Int) =\n        holder.bind(users[position])\n\n    fun addData(list: List&lt;User&gt;) {\n        users.addAll(list)\n    }\n}</code></pre><p class="graf--p">Here, you can see MainViewModel being used to manage data changes.</p><p class="graf--p"><b class="graf--bold">Step 07.</b></p><p class="graf--p">Here, we want to pass the following in the constructor of ViewModel,</p><pre><code class="language-java graf graf--code">private val mainRepository: MainRepository\nprivate val networkHelper: NetworkHelper</code></pre><p class="graf--p">To pass this we need to first create a NetworkHelper like,</p><pre><code class="language-java graf graf--code">@Singleton\nclass NetworkHelper @Inject constructor(@ApplicationContext private val context: Context) {\n\n    fun isNetworkConnected(): Boolean {\n        var result = false\n        val connectivityManager =\n            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager\n        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) {\n            val networkCapabilities = connectivityManager.activeNetwork ?: return false\n            val activeNetwork =\n                connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false\n            result = when {\n                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -&gt; true\n                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -&gt; true\n                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -&gt; true\n                else -&gt; false\n            }\n        } else {\n            connectivityManager.run {\n                connectivityManager.activeNetworkInfo?.run {\n                    result = when (type) {\n                        ConnectivityManager.TYPE_WIFI -&gt; true\n                        ConnectivityManager.TYPE_MOBILE -&gt; true\n                        ConnectivityManager.TYPE_ETHERNET -&gt; true\n                        else -&gt; false\n                    }\n\n                }\n            }\n        }\n\n        return result\n    }\n}</code></pre><p class="graf--p">Here, you can see we are passing the context in the constructor of NetworkHelper. We are also annotating the context with <b class="graf--bold">@ApplicationContext</b> here which means that the <code class="graf--code-inline">context</code> we are going to use will be the <code class="graf--code-inline">context</code> of the application.</p><blockquote class="graf--blockquote">Note: If we want to apply context of the Activity, we can use <b class="graf--bold">@ActivityContext</b> which has to be provided in the module.</blockquote><p class="graf--p"><b class="graf--bold">Step 08.</b></p><p class="graf--p">Now, as we have to pass NetworkHelper and MainRepository in MainViewModel. ViewModels are not directly supported by Dagger-Hilt and to work with Dagger-Hilt in ViewModel we use Jetpack Extensions.</p><p class="graf--p">First, we need to setup the dependencies in gradle for Jetpack extensions.</p><p class="graf--p"> Let&#x27;s add the following in the app&#x27;s build.gradle like,</p><pre><code class="language-java graf graf--code">implementation \'androidx.hilt:hilt-lifecycle-viewmodel:{latest-version}\'\nkapt \'androidx.hilt:hilt-compiler:{latest-version}\'</code></pre><p class="graf--p">And to support kapt, we will add the support plugin for kapt like the following in app&#x27;s build.gradle,</p><pre><code class="language-java graf graf--code">apply plugin: \'kotlin-kapt\'</code></pre><p class="graf--p">Now, to pass NetworkHelper and MainRepository we won&#x27;t use ViewModelFactory here but will directly pass both of them and use the  @ViewModelInject annotation like,</p><pre><code class="language-java graf graf--code">class MainViewModel @ViewModelInject constructor(\n    private val mainRepository: MainRepository,\n    private val networkHelper: NetworkHelper\n) : ViewModel() {\n\n}</code></pre><p class="graf--p">Here, ViewModelInject annotation will inject the dependency using the constructor and now we will perform the operations inside MainViewModel like,</p><pre><code class="language-java graf graf--code">class MainViewModel @ViewModelInject constructor(\n    private val mainRepository: MainRepository,\n    private val networkHelper: NetworkHelper\n) : ViewModel() {\n\n    private val _users = MutableLiveData&lt;Resource&lt;List&lt;User&gt;&gt;&gt;()\n    val users: LiveData&lt;Resource&lt;List&lt;User&gt;&gt;&gt;\n        get() = _users\n\n    init {\n        fetchUsers()\n    }\n\n    private fun fetchUsers() {\n        viewModelScope.launch {\n            _users.postValue(Resource.loading(null))\n            if (networkHelper.isNetworkConnected()) {\n                mainRepository.getUsers().let {\n                    if (it.isSuccessful) {\n                        _users.postValue(Resource.success(it.body()))\n                    } else _users.postValue(Resource.error(it.errorBody().toString(), null))\n                }\n            } else _users.postValue(Resource.error("No internet connection", null))\n        }\n    }\n}</code></pre><p class="graf--p">Here, we are fetching the users in the init block and inside the viewModelScope, we will check for internet connectivity and if the connectivity is ok then we go through the API call or else we set the value to LiveData with an error.</p><p class="graf--p">This user LiveData is then observed in the MainActivity to display the items in the recyclerView.</p><p class="graf--p">If you see in the above steps, we get the instance of ViewModel by using <code class="graf--code-inline">by viewModels()</code></p><blockquote class="graf--blockquote">The ViewModel which is annotated by @ViewModelInject can only be reference by Views which are annotated by @AndroidEntryPoint</blockquote><p class="graf--p">As a final step, add the following permission in your Manifest file,</p><pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /&gt;\n&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</code></pre><p class="graf--p">Now, we are done setting up the project and if you run the project, you would see the list of users being populated in the recyclerView.</p><p class="graf--p">This way we can implement the dagger-hilt in our Android Project.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/Dagger-Hilt-Tutorial/">You can find the final project here.</a></p><p class="graf--p">Now, let&#x27;s learn about the more possibilities which can come during our Android App Development.</p><h4 class="graf--h3">WorkManger with Dagger-Hilt</h4><p class="graf--p">How we can work with Dagger-Hilt and WorkManager?</p><p class="graf--p">If we are using WorkManger, we use @WorkerInject to inject dependency in the constructor using the Jetpack Extensions. </p><p class="graf--p">We also need to add the following dependency for WorkManager,</p><pre><code class="language-java graf graf--code"> implementation \'androidx.hilt:hilt-work:{latest-version}\'</code></pre><h4 class="graf--h3">Qualifiers</h4><p class="graf--p">Consider an example where we have two functions returning strings values. But while providing it via Dagger, how would dagger know which class needs which string value as they both are of the same type. </p><p class="graf--p">To solve this issue, we use Qualifiers in Dagger.</p><p class="graf--p">Consider an example where we have to provide two different string one for an API key and another for some library initialization like,</p><pre><code class="language-java graf graf--code">@Provides\n@Singleton\nfun provideApiKey() = "My ApiKey"\n\n@Provides\n@Singleton\nfun provideLibraryKey() = "My Library Key"</code></pre><p class="graf--p">Here, the Dagger-Hilt would never build successfully as the dagger would consider both the same as they both have a string as a type and will throw an error as,</p><pre><code class="language-java graf graf--code">error: [Dagger/DuplicateBindings] java.lang.String is bound multiple times:</code></pre><p class="graf--p">Now, to provide different types of implementation of the same return type we would need Dagger-Hilt to provide multiple bindings using qualifiers.</p><blockquote class="graf--blockquote">A qualifier is an annotation that you use to identify a specific binding for a type when that type has multiple bindings defined.</blockquote><p class="graf--p">Now, to define a Qualifier we will create a file name qualifier.kt in <b class="graf--bold">di</b> package and update the file as,</p><pre><code class="language-java graf graf--code">@Qualifier\n@Retention(AnnotationRetention.BINARY)\nannotation class ApiKey\n\n@Qualifier\n@Retention(AnnotationRetention.BINARY)\nannotation class LibraryKey</code></pre><p class="graf--p">Here, we created two different annotations ApiKey and LibraryKey and both are marked as <b class="graf--bold">@Qualifier</b>.</p><p class="graf--p">These annotations will help us to differentiate both the implementation of <b class="graf--bold">ApiKey</b> and <b class="graf--bold">LibraryKey</b>.</p><p class="graf--p">Now, in ApplicationModule, we will update both the providers for the key by attaching the annotation we just created like,</p><pre><code class="language-java graf graf--code">@ApiKey\n@Provides\n@Singleton\nfun provideApiKey():String = "My ApiKey"\n\n@LibraryKey\n@Provides\n@Singleton\nfun provideLibraryKey():String = "My Library Key"</code></pre><p class="graf--p">Now, here you can see we have attached individual qualifiers to each String providers and now Dagger-Hilt will generate the code internally to provide these strings values.</p><p class="graf--p">Now, to inject them individually, we will go to MainActivity and inject the strings like,</p><pre><code class="language-java graf graf--code">@ApiKey\n@Inject\nlateinit var apiKey:String\n\n@LibraryKey\n@Inject\nlateinit var libraryKey:String</code></pre><p class="graf--p">And now, if we log them individually we will get,</p><pre><code class="language-java graf graf--code">/MainActivity: My ApiKey\n/MainActivity: My Library Key</code></pre><p class="graf--p">This is how you can provide multiple dependencies of the same type using qualifiers.</p><p class="graf--p">If you remember in NetworkHelper we used @ApplicationContext, which is also a type of Qualifier but provided by Dagger-Hilt itself.</p><p class="graf--p">This is how you can work with Dagger-Hilt, the new dependency injection library built on top of Dagger in your project.</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/banner-dagger-hilt-d089fd89370529ef.png",blog_url:"dagger-hilt-tutorial",likes:0,rank:0,category:1,published_at:"15th June 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:429,title:"Why do we use the Dependency Injection Framework like Dagger in Android?",description:"In this blog, we are going to see why do we use the Dependency Injection Framework like Dagger in Android. We will also see how can we give our configuration to the framework.",author:9959,img_url:"/images/dagger-banner-why.jpg",blog_url:"why-do-we-use-the-dependency-injection-framework-in-android",likes:0,rank:0,category:1,published_at:"28th April 2020",score:1.8798271417617798},{id:446,title:"Using Dagger in a Multi-Module Project",description:"In this blog, we are going to learn how we can use dagger in a multi-module architecture in our project for better dependency management.",author:9959,img_url:"/images/using-dagger-multi-module-banner-a470a36d17d373f4.png",blog_url:"dagger-in-a-multi-module-project",likes:0,rank:0,category:1,published_at:"17th May 2020",score:1.8798271417617798},{id:453,title:"Using Dagger in Dynamic Feature Module",description:"In this blog, we are going to learn how to use dagger in dynamic feature modules. ",author:9959,img_url:"/images/dynamic-feature-module-banner-f27f94e8e526888d.png",blog_url:"dagger-in-dynamic-feature-module",likes:0,rank:0,category:1,published_at:"18th May 2020",score:1.8798271417617798},{id:388,title:"Practical Guide To Solve OutOfMemoryError in Android Application",description:"In this blog, we will learn how to solve OutOfMemoryError in Android application. There can be many reasons for OutOfMemoryError in Android. We will look at these reasons and we will remove the error with the help of some practical examples.",author:17146,img_url:"/images/practical-guide-to-solve-out-of-memory-error-in-android-application-banner.jpg",blog_url:"practical-guide-to-solve-out-of-memory-error-in-android-application",likes:0,rank:0,category:1,published_at:"6th January 2020",score:1.301011562347412},{id:81,title:"Powerful Android ORM: greenDAO 3 Tutorial",description:"greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time.",author:2,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/powerful-android-orm-greendao-3-tutorial-cover.jpg",blog_url:"powerful-android-orm-greendao-3-tutorial",likes:1,rank:0,category:1,published_at:"13th February 2017",score:.8256809115409851},{id:268,title:"The powerful tool DiffUtil in RecyclerView - Android Tutorial",description:"In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details",author:9959,img_url:"/images/banner-diffutil.png",blog_url:"the-powerful-tool-diff-util-in-recyclerview-android-tutorial",likes:0,rank:0,category:1,published_at:"6th June 2019",score:.8256809115409851}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            15th June 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Dagger Hilt Tutorial - Step by Step Guide
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Dagger Hilt Tutorial - Step by Step Guide" class="graf-image" src="/images/banner-dagger-hilt-d089fd89370529ef.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Working on an Android project, we need to integrate a lot of different dependencies, and to manage these dependencies we use a dependency injection framework like Dagger.
+                 </p>
+                 <p class="graf--p">
+                  But to setup and work with Dagger requires a large amount of boilerplate code and a very steep learning curve. It is like the raw version for Dagger without Android support. Then Dagger-Android came, which reduced the boilerplate code but was not successful.
+                 </p>
+                 <p class="graf--p">
+                  Now, with Dagger-Hilt releasing as a part of Jetpack libraries, it is now the recommended way by Google to use it. According to Dagger-Hilt, it helps us:
+                 </p>
+                 <ul>
+                  <li>
+                   To make the dagger code easy and simple for developers.
+                  </li>
+                  <li>
+                   To provide a different set of bindings for different build types.
+                  </li>
+                  <li>
+                   To just take care of where to inject dependencies and rest all of the code generations happens by dagger itself by using annotations and thus removing all the boilerplate code.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  In this tutorial, we would learn:
+                 </p>
+                 <ul>
+                  <li>
+                   Understanding Dagger
+                  </li>
+                  <li>
+                   Setting up a new project
+                  </li>
+                  <li>
+                   Project Structure
+                  </li>
+                  <li>
+                   Integrating Dagger-Hilt
+                  </li>
+                  <li>
+                   WorkManager with Dagger-Hilt
+                  </li>
+                  <li>
+                   Qualifiers
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, let's start learning.
+                 </p>
+                 <h4 class="graf--h3">
+                  Understanding Dagger
+                 </h4>
+                 <p class="graf--p">
+                  Before starting with Dagger-Hilt we need to understand Dagger basics. In this section, we will help you understand the Dagger and its terminologies.
+                 </p>
+                 <p class="graf--p">
+                  Basically, to understand Dagger we have to understand the 4 major annotations,
+                 </p>
+                 <ul>
+                  <li>
+                   Module
+                  </li>
+                  <li>
+                   Component
+                  </li>
+                  <li>
+                   Provides
+                  </li>
+                  <li>
+                   Inject
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  To understand it better in a basic way, think module as a provider of dependency and consider an activity or any other class as a consumer. Now to provide dependency from provider to consumer we have a bridge between them, in Dagger, Component work as that specific bridge.
+                 </p>
+                 <p class="graf--p">
+                  Now, a module is a class and we annotate it with @Module for Dagger to understand it as Module.
+                 </p>
+                 <p class="graf--p">
+                  A component is an interface, which is annotated with @Component and takes modules in it. (But now, this annotation is not required in Dagger-Hilt)
+                 </p>
+                 <p class="graf--p">
+                  Provides are annotation which is used in Module class to provide dependency and,
+                 </p>
+                 <p class="graf--p">
+                  Inject is an annotation that is used to define a dependency inside the consumer.
+                  <br/>
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Dagger Hilt Tutorial - Step by Step Guide" class="graf-image" src="/images/explainer-dagger-b6ec004283d8c4b3.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  It is highly recommended to know about raw Dagger before moving to Dagger-Hilt.
+                 </p>
+                 <p class="graf--p">
+                  If you are new to Dagger and want to understand these things in detail, I recommend you to watch this video.
+                 </p>
+                 <iframe class="iframeContainer graf--iframe" frameborder="0" height="100%" src="https://www.youtube.com/embed/Grzqz-B3NWU?autoplay=false&amp;rel=0&amp;modestbranding=https://mindorks.com" type="text/html" width="100%">
+                 </iframe>
+                 <p class="graf--p">
+                 </p>
+                 <p class="graf--p">
+                  If you already know the basics of Dagger, you can skip the video.
+                 </p>
+                 <h4 class="graf--h3">
+                  Setting up a new project
+                 </h4>
+                 <p class="graf--p">
+                  Here, we are going to set up the Android Project.
+                 </p>
+                 <p class="graf--p">
+                  Our final project can be found
+                  <a class="markup--anchor" href="https://github.com/MindorksOpenSource/Dagger-Hilt-Tutorial" target="_blank">
+                   here.
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Create a Project
+                  </b>
+                 </p>
+                 <ul>
+                  <li>
+                   Start a new Android Studio Project
+                  </li>
+                  <li>
+                   Select Empty Activity and Next
+                  </li>
+                  <li>
+                   Name: Dagger-Hilt-Tutorial
+                  </li>
+                  <li>
+                   Package name: com.mindorks.framework.mvvm
+                  </li>
+                  <li>
+                   Language: Kotlin
+                  </li>
+                  <li>
+                   Finish
+                  </li>
+                  <li>
+                   Your starting project is ready now
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Add dependencies
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Add the following dependencies in the app's build.gradle file,
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation "androidx.recyclerview:recyclerview:{latest-version}"
+implementation 'android.arch.lifecycle:extensions:{latest-version}'
+implementation 'com.github.bumptech.glide:glide:{latest-version}'
+implementation 'androidx.activity:activity-ktx:{latest-version}'</code></pre>
+                 <p class="graf--p">
+                  Now our project is ready with dependencies.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Project Structure
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  For the project, we are going to follow a basic version of MVVM. Our package in the project will look like below:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Dagger Hilt Tutorial - Step by Step Guide" class="graf-image" src="/images/dagger-hilt-project-structure-16f36cc05b0cfdd4.png"/>
+                 </div>
+                 <p class="graf--p">
+                  We need the enum to represent the UI State. We will create that in the utils package.
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.framework.mvvm.utils
+
+enum class Status {
+    SUCCESS,
+    ERROR,
+    LOADING
+}</code></pre>
+                 <p class="graf--p">
+                  We need a utility class that will be responsible to communicate the current state of Network Call to the UI Layer. We are naming that as Resource. So, create a Kotlin data class Resource inside the same utils package and add the following code.
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.framework.mvvm.utils
+
+data class Resource&lt;out T&gt;(val status: Status, val data: T?, val message: String?) {
+
+    companion object {
+
+        fun &lt;T&gt; success(data: T?): Resource&lt;T&gt; {
+            return Resource(Status.SUCCESS, data, null)
+        }
+
+        fun &lt;T&gt; error(msg: String, data: T?): Resource&lt;T&gt; {
+            return Resource(Status.ERROR, data, msg)
+        }
+
+        fun &lt;T&gt; loading(data: T?): Resource&lt;T&gt; {
+            return Resource(Status.LOADING, data, null)
+        }
+
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Our utils package is ready now.
+                 </p>
+                 <h4 class="graf--h3">
+                  Integrating Dagger-Hilt
+                 </h4>
+                 <p class="graf--p">
+                  To setup Dagger in the project, we would add the following in the app's build.gradle file,
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation 'com.google.dagger:hilt-android:{latest-version}'
+kapt 'com.google.dagger:hilt-android-compiler:{latest-version}'</code></pre>
+                 <p class="graf--p">
+                  Then as a next step, we will apply the
+                  <b class="graf--bold">
+                   dagger.hilt
+                  </b>
+                  plugin at the top of the app's build.gradle as well like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">apply plugin: 'dagger.hilt.android.plugin'</code></pre>
+                 <p class="graf--p">
+                  and finally, we will add the following in the classpath of the project's build.gradle like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">classpath "com.google.dagger:hilt-android-gradle-plugin:{latest-version}"</code></pre>
+                 <p class="graf--p">
+                  This is the required setup to get started to use Dagger-Hilt in the project.
+                 </p>
+                 <h4 class="graf--h3">
+                  Setting up Dagger-Hilt
+                 </h4>
+                 <p class="graf--p">
+                  We will break the setting up dagger hilt in the project in steps.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 01.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  We will first update our Application class App like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class App : Application()</code></pre>
+                 <p class="graf--p">
+                  and we will update the Manifest file like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:name=".App"</code></pre>
+                 <p class="graf--p">
+                  Now, to begin working with Dagger we need to annotate the application class with
+                  <b class="graf--bold">
+                   @HiltAndroidApp
+                  </b>
+                  . The updated code will look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@HiltAndroidApp
+class App : Application()</code></pre>
+                 <p class="graf--p">
+                  If you are planning to use Dagger-Hilt in your app, the above mention step is a mandatory one. It generates all the component classes which we have to do manually while using Dagger.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 02.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Now, we will add the dependencies for Retrofit and
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/kotlin-coroutines" target="_blank">
+                   Kotlin-Coroutines
+                  </a>
+                  in the app's build.gradle like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Networking
+implementation "com.squareup.retrofit2:retrofit:{latest-version}"
+implementation "com.squareup.retrofit2:converter-moshi:{latest-version}"
+implementation "com.squareup.okhttp3:okhttp:{latest-version}"
+implementation "com.squareup.okhttp3:logging-interceptor:{latest-version}"
+
+// Coroutine
+implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:{latest-version}"
+implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:{latest-version}"
+</code></pre>
+                 <p class="graf--p">
+                  Now, in the project what we will do is, we will do an API call and show a list of users. We will also use Kotlin-Coroutine for multithreading.
+                 </p>
+                 <p class="graf--p">
+                  Now, we will create
+                  <b class="graf--bold">
+                   api
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   model
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   repository
+                  </b>
+                  packages inside data layer. It will have files like,
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Dagger Hilt Tutorial - Step by Step Guide" class="graf-image" src="/images/sameple-ping-fb7ae59f52e75f47.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Then, ApiService looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">interface ApiService {
+
+    @GET("users")
+    suspend fun getUsers(): Response&lt;List&lt;User&gt;&gt;
+
+}</code></pre>
+                 <p class="graf--p">
+                  ApiHelper looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">interface ApiHelper {
+
+    suspend fun getUsers(): Response&lt;List&lt;User&gt;&gt;
+}</code></pre>
+                 <p class="graf--p">
+                  and finally, in ApiHelperImpl we would inject ApiService in the constructor using
+                  <b class="graf--bold">
+                   @Inject
+                  </b>
+                  and implement ApiHelper.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ApiHelperImpl @Inject constructor(private val apiService: ApiService) : ApiHelper {
+
+    override suspend fun getUsers(): Response&lt;List&lt;User&gt;&gt; = apiService.getUsers()
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                  <b class="graf--bold">
+                   @Inject
+                  </b>
+                  is helping in passing the dependency required by ApiHelperImpl in the constructor itself.
+                 </p>
+                 <p class="graf--p">
+                  The User data class looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class User(
+    @Json(name = "id")
+    val id: Int = 0,
+    @Json(name = "name")
+    val name: String = "",
+    @Json(name = "email")
+    val email: String = "",
+    @Json(name = "avatar")
+    val avatar: String = ""
+)</code></pre>
+                 <p class="graf--p">
+                  and finally, in
+                  <b class="graf--bold">
+                   MainRepository
+                  </b>
+                  we will pass ApiHelper in the constructor of the repository.
+                  <b class="graf--bold">
+                   MainRepository
+                  </b>
+                  looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainRepository @Inject constructor(private val apiHelper: ApiHelper) {
+
+    suspend fun getUsers() =  apiHelper.getUsers()
+
+}</code></pre>
+                 <p class="graf--p">
+                  Now, if you can see we have passed
+                  <b class="graf--bold">
+                   ApiHelper
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   ApiService
+                  </b>
+                  in
+                  <b class="graf--bold">
+                   MainRepository
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   ApiHelperImpl
+                  </b>
+                  respectively. So, to inject everything in the constructor we also need to provide it using
+                  <b class="graf--bold">
+                   @Provide
+                  </b>
+                  annotation in Dagger.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 03.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Now, we will create a package
+                  <b class="graf--bold">
+                   di -&gt; module
+                  </b>
+                  and inside it, we will create ApplicationModule. As you can see we are not creating ApplicationComponent as we will use the one provided by Dagger-Hilt itself.
+                 </p>
+                 <p class="graf--p">
+                  We will create a class ApplicationModule and annotate it with
+                  <b class="graf--bold">
+                   @Module.
+                  </b>
+                  Using this annotation will make dagger understand that this class is a module.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+class ApplicationModule { }</code></pre>
+                 <p class="graf--p">
+                  Now, we will need to plug this module class in the specific component. In this case, we need to this at the application level so we will install it in ApplicationComponent like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+@InstallIn(ApplicationComponent::class)
+class ApplicationModule {}</code></pre>
+                 <p class="graf--p">
+                  Here, you can see that we have used
+                  <b class="graf--bold">
+                   @InstallIn
+                  </b>
+                  annotation to install it in ApplicationComponent. ApplicationComponent is provided by Dagger-Hilt.
+                 </p>
+                 <p class="graf--p">
+                  This means that the dependencies provided here will be used across the application. Let's consider that we want to use at the activity level we install the module in,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@InstallIn(ActivityComponent::class)</code></pre>
+                 <p class="graf--p">
+                  Similarly like ApplicationComponent/ActivityComponent, we have a different type of components like,
+                 </p>
+                 <p class="graf--p">
+                  FragmentComponent for Fragments, ServiceComponent for Service, etc.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 04.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Now, inside ApplicationModule, we will provide all the dependencies one by one and the updated code of ApplicationModule class looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+@InstallIn(ApplicationComponent::class)
+class ApplicationModule {
+
+    @Provides
+    fun provideBaseUrl() = BuildConfig.BASE_URL
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .build()
+    } else OkHttpClient
+        .Builder()
+        .build()
+
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL: String): Retrofit =
+        Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .build()
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideApiHelper(apiHelper: ApiHelperImpl): ApiHelper = apiHelper
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here,  we have provided dependencies using
+                  <b class="graf--bold">
+                   @Provide
+                  </b>
+                  annotation, which would be accessed across the application.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   @Singleton
+                  </b>
+                  annotation helps the instance to be created and used once across the app.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  Similarly, like Singleton which stays till the application lifecycle, we also have @ActivityScoped, @FragmentScoped, etc in which dependencies are scoped till the lifecycle of Activity and Fragment.
+                 </blockquote>
+                 <p class="graf--p">
+                  Now, if you remember in the last step, we passed
+                  <b class="graf--bold">
+                   ApiHelper
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   ApiService
+                  </b>
+                  in
+                  <b class="graf--bold">
+                   MainRepository
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   ApiHelperImpl
+                  </b>
+                  respectively, and to inject it successfully we need to provide these two dependencies.
+                 </p>
+                 <p class="graf--p">
+                  In ApplicationModule, the last two functions i.e.
+                  <code class="graf--code-inline">
+                   provideApiService
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   provideApiHelper
+                  </code>
+                  are providing the instance of
+                  <code class="graf--code-inline">
+                   ApiService
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   ApiHelper
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Also, for
+                  <b class="graf--bold">
+                   BASE_URL
+                  </b>
+                  , we will add the following in the
+                  <code class="graf--code-inline">
+                   defaultConfig
+                  </code>
+                  block in the app's build.gradle file,
+                 </p>
+                 <pre><code class="language-java graf graf--code">buildConfigField 'String', 'BASE_URL', "\"https://5e510330f2c0d300147c034c.mockapi.io/\""
+</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 05.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Now, since everything is setup, now we need to use/inject them in the Android classes. In our case, we need our activity to start using them.
+                 </p>
+                 <p class="graf--p">
+                  So to make any Android class supported by Dagger-Hilt we use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@AndroidEntryPoint</code></pre>
+                 <p class="graf--p">
+                  So, in our code, we will create another package
+                  <b class="graf--bold">
+                   ui,
+                  </b>
+                  and inside it will create another sub-package called
+                  <b class="graf--bold">
+                   main
+                  </b>
+                  which will have MainActivity, MainViewModel, and MainAdapter to show the list of users.
+                 </p>
+                 <p class="graf--p">
+                  Now, we will add the
+                  <code class="graf--code-inline">
+                   AndroidEntryPoint
+                  </code>
+                  Annotation in MainActivity like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                  <b class="graf--bold">
+                   @AndroidEntryPoint
+                  </b>
+                  means Dagger-Hilt can now inject dependencies in this class.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   @AndroidEntryPoint
+                  </b>
+                  annotation can be used in,
+                 </p>
+                 <ol type="1">
+                  <li>
+                   Activity
+                  </li>
+                  <li>
+                   Fragment
+                  </li>
+                  <li>
+                   View
+                  </li>
+                  <li>
+                   Service
+                  </li>
+                  <li>
+                   BroadcastReceiver
+                  </li>
+                 </ol>
+                 <blockquote class="graf--blockquote">
+                  Hilt currently only supports activities that extend
+                  <span class="">
+                   <code class="graf--code-inline">
+                    <a class="markup--anchor" href="https://developer.android.com/reference/androidx/activity/ComponentActivity" target="_blank">
+                     ComponentActivity
+                    </a>
+                   </code>
+                  </span>
+                  and fragments that extend androidx library
+                  <span class="">
+                   <code class="graf--code-inline">
+                    <a class="markup--anchor" href="https://developer.android.com/reference/androidx/fragment/app/Fragment" target="_blank">
+                     Fragment
+                    </a>
+                    .
+                   </code>
+                  </span>
+                 </blockquote>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 06.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  The MainActivity will look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+
+    private val mainViewModel : MainViewModel by viewModels()
+    private lateinit var adapter: MainAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        setupUI()
+        setupObserver()
+    }
+
+    private fun setupUI() {
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = MainAdapter(arrayListOf())
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                recyclerView.context,
+                (recyclerView.layoutManager as LinearLayoutManager).orientation
+            )
+        )
+        recyclerView.adapter = adapter
+    }
+
+    private fun setupObserver() {
+        mainViewModel.users.observe(this, Observer {
+            when (it.status) {
+                Status.SUCCESS -&gt; {
+                    progressBar.visibility = View.GONE
+                    it.data?.let { users -&gt; renderList(users) }
+                    recyclerView.visibility = View.VISIBLE
+                }
+                Status.LOADING -&gt; {
+                    progressBar.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                }
+                Status.ERROR -&gt; {
+                    progressBar.visibility = View.GONE
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        })
+    }
+
+    private fun renderList(users: List&lt;User&gt;) {
+        adapter.addData(users)
+        adapter.notifyDataSetChanged()
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  and the MainAdapter class looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainAdapter(
+    private val users: ArrayList&lt;User&gt;
+) : RecyclerView.Adapter&lt;MainAdapter.DataViewHolder&gt;() {
+
+    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(user: User) {
+            itemView.textViewUserName.text = user.name
+            itemView.textViewUserEmail.text = user.email
+            Glide.with(itemView.imageViewAvatar.context)
+                .load(user.avatar)
+                .into(itemView.imageViewAvatar)
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        DataViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_layout, parent,
+                false
+            )
+        )
+
+    override fun getItemCount(): Int = users.size
+
+    override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
+        holder.bind(users[position])
+
+    fun addData(list: List&lt;User&gt;) {
+        users.addAll(list)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, you can see MainViewModel being used to manage data changes.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 07.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Here, we want to pass the following in the constructor of ViewModel,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private val mainRepository: MainRepository
+private val networkHelper: NetworkHelper</code></pre>
+                 <p class="graf--p">
+                  To pass this we need to first create a NetworkHelper like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Singleton
+class NetworkHelper @Inject constructor(@ApplicationContext private val context: Context) {
+
+    fun isNetworkConnected(): Boolean {
+        var result = false
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) {
+            val networkCapabilities = connectivityManager.activeNetwork ?: return false
+            val activeNetwork =
+                connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+            result = when {
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -&gt; true
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -&gt; true
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -&gt; true
+                else -&gt; false
+            }
+        } else {
+            connectivityManager.run {
+                connectivityManager.activeNetworkInfo?.run {
+                    result = when (type) {
+                        ConnectivityManager.TYPE_WIFI -&gt; true
+                        ConnectivityManager.TYPE_MOBILE -&gt; true
+                        ConnectivityManager.TYPE_ETHERNET -&gt; true
+                        else -&gt; false
+                    }
+
+                }
+            }
+        }
+
+        return result
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, you can see we are passing the context in the constructor of NetworkHelper. We are also annotating the context with
+                  <b class="graf--bold">
+                   @ApplicationContext
+                  </b>
+                  here which means that the
+                  <code class="graf--code-inline">
+                   context
+                  </code>
+                  we are going to use will be the
+                  <code class="graf--code-inline">
+                   context
+                  </code>
+                  of the application.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  Note: If we want to apply context of the Activity, we can use
+                  <b class="graf--bold">
+                   @ActivityContext
+                  </b>
+                  which has to be provided in the module.
+                 </blockquote>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 08.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Now, as we have to pass NetworkHelper and MainRepository in MainViewModel. ViewModels are not directly supported by Dagger-Hilt and to work with Dagger-Hilt in ViewModel we use Jetpack Extensions.
+                 </p>
+                 <p class="graf--p">
+                  First, we need to setup the dependencies in gradle for Jetpack extensions.
+                 </p>
+                 <p class="graf--p">
+                  Let's add the following in the app's build.gradle like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation 'androidx.hilt:hilt-lifecycle-viewmodel:{latest-version}'
+kapt 'androidx.hilt:hilt-compiler:{latest-version}'</code></pre>
+                 <p class="graf--p">
+                  And to support kapt, we will add the support plugin for kapt like the following in app's build.gradle,
+                 </p>
+                 <pre><code class="language-java graf graf--code">apply plugin: 'kotlin-kapt'</code></pre>
+                 <p class="graf--p">
+                  Now, to pass NetworkHelper and MainRepository we won't use ViewModelFactory here but will directly pass both of them and use the  @ViewModelInject annotation like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainViewModel @ViewModelInject constructor(
+    private val mainRepository: MainRepository,
+    private val networkHelper: NetworkHelper
+) : ViewModel() {
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here, ViewModelInject annotation will inject the dependency using the constructor and now we will perform the operations inside MainViewModel like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainViewModel @ViewModelInject constructor(
+    private val mainRepository: MainRepository,
+    private val networkHelper: NetworkHelper
+) : ViewModel() {
+
+    private val _users = MutableLiveData&lt;Resource&lt;List&lt;User&gt;&gt;&gt;()
+    val users: LiveData&lt;Resource&lt;List&lt;User&gt;&gt;&gt;
+        get() = _users
+
+    init {
+        fetchUsers()
+    }
+
+    private fun fetchUsers() {
+        viewModelScope.launch {
+            _users.postValue(Resource.loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                mainRepository.getUsers().let {
+                    if (it.isSuccessful) {
+                        _users.postValue(Resource.success(it.body()))
+                    } else _users.postValue(Resource.error(it.errorBody().toString(), null))
+                }
+            } else _users.postValue(Resource.error("No internet connection", null))
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we are fetching the users in the init block and inside the viewModelScope, we will check for internet connectivity and if the connectivity is ok then we go through the API call or else we set the value to LiveData with an error.
+                 </p>
+                 <p class="graf--p">
+                  This user LiveData is then observed in the MainActivity to display the items in the recyclerView.
+                 </p>
+                 <p class="graf--p">
+                  If you see in the above steps, we get the instance of ViewModel by using
+                  <code class="graf--code-inline">
+                   by viewModels()
+                  </code>
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  The ViewModel which is annotated by @ViewModelInject can only be reference by Views which are annotated by @AndroidEntryPoint
+                 </blockquote>
+                 <p class="graf--p">
+                  As a final step, add the following permission in your Manifest file,
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /&gt;
+&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, we are done setting up the project and if you run the project, you would see the list of users being populated in the recyclerView.
+                 </p>
+                 <p class="graf--p">
+                  This way we can implement the dagger-hilt in our Android Project.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/MindorksOpenSource/Dagger-Hilt-Tutorial/" target="_blank">
+                   You can find the final project here.
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  Now, let's learn about the more possibilities which can come during our Android App Development.
+                 </p>
+                 <h4 class="graf--h3">
+                  WorkManger with Dagger-Hilt
+                 </h4>
+                 <p class="graf--p">
+                  How we can work with Dagger-Hilt and WorkManager?
+                 </p>
+                 <p class="graf--p">
+                  If we are using WorkManger, we use @WorkerInject to inject dependency in the constructor using the Jetpack Extensions.
+                 </p>
+                 <p class="graf--p">
+                  We also need to add the following dependency for WorkManager,
+                 </p>
+                 <pre><code class="language-java graf graf--code"> implementation 'androidx.hilt:hilt-work:{latest-version}'</code></pre>
+                 <h4 class="graf--h3">
+                  Qualifiers
+                 </h4>
+                 <p class="graf--p">
+                  Consider an example where we have two functions returning strings values. But while providing it via Dagger, how would dagger know which class needs which string value as they both are of the same type.
+                 </p>
+                 <p class="graf--p">
+                  To solve this issue, we use Qualifiers in Dagger.
+                 </p>
+                 <p class="graf--p">
+                  Consider an example where we have to provide two different string one for an API key and another for some library initialization like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Provides
+@Singleton
+fun provideApiKey() = "My ApiKey"
+
+@Provides
+@Singleton
+fun provideLibraryKey() = "My Library Key"</code></pre>
+                 <p class="graf--p">
+                  Here, the Dagger-Hilt would never build successfully as the dagger would consider both the same as they both have a string as a type and will throw an error as,
+                 </p>
+                 <pre><code class="language-java graf graf--code">error: [Dagger/DuplicateBindings] java.lang.String is bound multiple times:</code></pre>
+                 <p class="graf--p">
+                  Now, to provide different types of implementation of the same return type we would need Dagger-Hilt to provide multiple bindings using qualifiers.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  A qualifier is an annotation that you use to identify a specific binding for a type when that type has multiple bindings defined.
+                 </blockquote>
+                 <p class="graf--p">
+                  Now, to define a Qualifier we will create a file name qualifier.kt in
+                  <b class="graf--bold">
+                   di
+                  </b>
+                  package and update the file as,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ApiKey
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class LibraryKey</code></pre>
+                 <p class="graf--p">
+                  Here, we created two different annotations ApiKey and LibraryKey and both are marked as
+                  <b class="graf--bold">
+                   @Qualifier
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  These annotations will help us to differentiate both the implementation of
+                  <b class="graf--bold">
+                   ApiKey
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   LibraryKey
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Now, in ApplicationModule, we will update both the providers for the key by attaching the annotation we just created like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@ApiKey
+@Provides
+@Singleton
+fun provideApiKey():String = "My ApiKey"
+
+@LibraryKey
+@Provides
+@Singleton
+fun provideLibraryKey():String = "My Library Key"</code></pre>
+                 <p class="graf--p">
+                  Now, here you can see we have attached individual qualifiers to each String providers and now Dagger-Hilt will generate the code internally to provide these strings values.
+                 </p>
+                 <p class="graf--p">
+                  Now, to inject them individually, we will go to MainActivity and inject the strings like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@ApiKey
+@Inject
+lateinit var apiKey:String
+
+@LibraryKey
+@Inject
+lateinit var libraryKey:String</code></pre>
+                 <p class="graf--p">
+                  And now, if we log them individually we will get,
+                 </p>
+                 <pre><code class="language-java graf graf--code">/MainActivity: My ApiKey
+/MainActivity: My Library Key</code></pre>
+                 <p class="graf--p">
+                  This is how you can provide multiple dependencies of the same type using qualifiers.
+                 </p>
+                 <p class="graf--p">
+                  If you remember in NetworkHelper we used @ApplicationContext, which is also a type of Qualifier but provided by Dagger-Hilt itself.
+                 </p>
+                 <p class="graf--p">
+                  This is how you can work with Dagger-Hilt, the new dependency injection library built on top of Dagger in your project.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Why do we use the Dependency Injection Framework like Dagger in Android?" class="ui centered image" src="/images/dagger-banner-why.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Why do we use the Dependency Injection Framework like Dagger in Android?
+           </div>
+           <div class="meta">
+            28th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to see why do we use the Dependency Injection Framework like Dagger in Android. We will also see how can we give our configuration to the framework.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Dagger in a Multi-Module Project" class="ui centered image" src="/images/using-dagger-multi-module-banner-a470a36d17d373f4.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Dagger in a Multi-Module Project
+           </div>
+           <div class="meta">
+            17th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how we can use dagger in a multi-module architecture in our project for better dependency management.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Dagger in Dynamic Feature Module" class="ui centered image" src="/images/dynamic-feature-module-banner-f27f94e8e526888d.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Dagger in Dynamic Feature Module
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to use dagger in dynamic feature modules.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Practical Guide To Solve OutOfMemoryError in Android Application" class="ui centered image" src="/images/practical-guide-to-solve-out-of-memory-error-in-android-application-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Practical Guide To Solve OutOfMemoryError in Android Application
+           </div>
+           <div class="meta">
+            6th January 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to solve OutOfMemoryError in Android application. There can be many reasons for OutOfMemoryError in Android. We will look at these reasons and we will remove the error with the help of some practical examples.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Powerful Android ORM: greenDAO 3 Tutorial" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/powerful-android-orm-greendao-3-tutorial-cover.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Powerful Android ORM: greenDAO 3 Tutorial
+           </div>
+           <div class="meta">
+            13th February 2017
+           </div>
+           <div class="description">
+            greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="The powerful tool DiffUtil in RecyclerView - Android Tutorial" class="ui centered image" src="/images/banner-diffutil.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            The powerful tool DiffUtil in RecyclerView - Android Tutorial
+           </div>
+           <div class="meta">
+            6th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

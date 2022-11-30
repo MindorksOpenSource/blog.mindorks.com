@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Android Room Persistence Library in Kotlin
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-room-persistence-library-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Android Room Persistence Library in Kotlin" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-room-persistence-library-in-kotlin" property="og:url"/>
+  <meta content="/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png" property="og:image"/>
+  <meta content="Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class." property="og:description"/>
+  <meta content="Android Room Persistence Library in Kotlin" property="twitter:title"/>
+  <meta content="Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class." name="twitter:description"/>
+  <meta content="/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:209,data:{id:209,title:"Android Room Persistence Library in Kotlin",description:"Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class.",text:'<h4 class="graf--h3"><b class="graf--bold">Android Room</b> Persistence Library <b class="graf--bold">in Kotlin</b></h4><p class="graf--p">Welcome, here we are going to learn about the latest room in android. We are also going to use some of the newest android libraries like lifecycle.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png class=\'graf-image\' alt=\'Android Room Persistence Library in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In the earlier chapter, we have seen the implementation of SQLite Database which is a bit difficult task. But, to use the SQLite in the more natural way Google has provided us with a library called ROOM. This library is an abstraction layer over the SQLite Database. The Room is one of the components of <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/what-is-android-jetpack-and-why-should-we-use-it">Android Architecture Component</a>. </p><p class="graf--p">First, the terminologies; there are three significant annotations for using room:</p><ul><li>“@Entity”</li><li>“@Dao”</li><li>“@Database”</li></ul> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_room_terminologies_mindorks_image.png class=\'graf-image\' alt=\'Android Room Persistence Library in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><b class="graf--bold">a. “@Entity”</b>  Representation of table and columns become very easy; you have to annotate <i class="graf--italic">“@Entity”</i> to a class and name of the class becomes table name and, data members becomes the name of the columns. “<i class="graf--italic">@Entity</i>” class represent an entity in a table.</p><p class="graf--p">Example:</p><pre><code class="language-java graf graf--code">@Entity(tableName = “habitClass”)\ndata class Habit(@PrimaryKey @ColumnInfo(name = “habit”) \nval mHabit: String)</code></pre><p class="graf--p">Here, we have class <i class="graf--italic">Habit,</i> and the name of the table is <i class="graf--italic">habitClass.</i> We had made a single column <i class="graf--italic">habit,</i> and for that, we used “<i class="graf--italic">@ColumnInfo</i>” annotation and also made this a primary key by annotating “<i class="graf--italic">@PrimaryKey</i>” to it.</p><p class="graf--p"></p><p class="graf--p"><b class="graf--bold">b. “@Dao” — Data Access Object</b><br/>An Interface where we put all our SQL queries. We don’t require to write whole queries now; we need to make a method and annotate with specific annotations like “<i class="graf--italic">@Insert</i>”, “<i class="graf--italic">@Delete</i>”, “<i class="graf--italic">@Query(SELECT FROM</i> <i class="graf--italic">*)</i>”</p><pre><code class="language-java graf graf--code">@Dao\ninterface HabitDao {  \n@Insert \nfun insert(habit: Habits)  \n@Query("DELETE FROM habitClass") \nfun deleteAll()  \n@Query("SELECT * FROM habitClass ORDER BY habit ASC" ) \nfun getAllHabits() : List&lt;Habits&gt;\n}</code></pre><p class="graf--p">Here, we have an interface <i class="graf--italic">HabitDao</i> and some methods which we will call to perform our queries. To insert the data we annotated “<i class="graf--italic">@Insert</i>” to insert method. The room doesn’t give us annotations which can help us in deleting everything, so we have “<i class="graf--italic">@Query</i>” to do some custom queries.</p><p class="graf--p"><b class="graf--bold">c. “@Database”</b><br/>We need to create an abstract class (<i class="graf--italic">Room class</i>) which extends <i class="graf--italic">RoomDatabase</i>. It is a database layer over the <i class="graf--italic">SQLite </i>database; this helps us in all the work which we use to do in <i class="graf--italic">SQLiteOpenHelper </i>class. Room helps us with the compile-time checking of SQL statements; we need only a single instance for the whole app.</p><pre><code class="language-java graf graf--code">@Database(entities = arrayOf(Habit::class), version = 1)\nabstract class HabitRoomDatabase : RoomDatabase{\nabstract fun wordDao(): HabitDao\n}</code></pre><p class="graf--p">Here, we have a Room class <i class="graf--italic">HabitRoomDatabase </i>in which we had to declare all our entities and version of the database. <i class="graf--italic">getDatabase() </i>method will return the room database instance. If you want to modify the database do have a look at <a class="markup--anchor" target="_blank" href="https://developer.android.com/training/data-storage/room/migrating-db-versions">Migration</a>.</p><p class="graf--p">Firstly, add room dependencies.</p><pre><code class="language-java graf graf--code">dependencies {\n    implementation fileTree(dir: \'libs\', include: [\'*.jar\'])\n    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"\n    implementation \'androidx.appcompat:appcompat:1.0.2\'\n    implementation \'androidx.constraintlayout:constraintlayout:1.1.3\'\n    // Room dependencies\n    implementation \'androidx.room:room-runtime:2.0.0\'\n    kapt \'androidx.room:room-compiler:2.0.0\'\n}</code></pre><p class="graf--p">also, add ‘kapt’ plugin at the top of your build.gradle file</p><pre><code class="language-java graf graf--code">apply plugin: \'kotlin-kapt\'</code></pre><p class="graf--p">Let’s start with the Entity creation</p><pre><code class="language-java graf graf--code">@Entity(tableName = "MindOrksDb")\ndata class Chapter(\n    @PrimaryKey\n    @ColumnInfo(name = "chapterName") val chapterName: String\n)</code></pre><p class="graf--p">Now, we will create the DAO, database access object, it is an interface where we define all methods use to access database</p><pre><code class="language-java graf graf--code">@Dao\ninterface ChapterDao {\n    @Insert\n    fun insert(chapter: Chapter)\n   @Query("SELECT * FROM MindOrksDb ORDER BY chapterName ASC")\n    fun getAllChapter(): List&lt;Chapter&gt;\n}</code></pre><p class="graf--p">Now, we are ready to create the database. We have table info in Entity and CRUD methods in DAO interface.</p><pre><code class="language-java graf graf--code">@Database(entities = arrayOf(Chapter::class), version = 1)\nabstract class ChapterDatabase : RoomDatabase() {\n   abstract fun chapterDao(): ChapterDao\n   companion object {\n        private var INSTANCE: ChapterDatabase? = null\n       fun getDatabase(context: Context): ChapterDatabase? {\n            if (INSTANCE == null) {\n                synchronized(ChapterDatabase::class) {\n                    INSTANCE = Room.databaseBuilder(\n                        context.getApplicationContext(),\n                        ChapterDatabase::class.java, "chapter.db"\n                    ).build()\n                }\n            }\n            return INSTANCE\n        }\n    }\n}</code></pre><p class="graf--p">Let’s start with our MainActivity where user interaction has to be done, for that we need to create our main screen, activity_main.xml</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n   &lt;EditText\n        android:id="@+id/etEnterText"\n        android:layout_width="match_parent"\n        android:layout_height="wrap_content"\n        android:layout_marginStart="16dp"\n        android:layout_marginTop="16dp"\n        android:layout_marginEnd="16dp"\n        android:hint="Enter here"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n   &lt;Button\n        android:id="@+id/btnSave"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:layout_marginEnd="16dp"\n        android:text="Save to Database"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toEndOf="@+id/btnDisplay"\n        app:layout_constraintTop_toBottomOf="@+id/etEnterText" /&gt;\n   &lt;Button\n        android:id="@+id/btnDisplay"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:layout_marginStart="16dp"\n        android:text="Display"\n        app:layout_constraintEnd_toStartOf="@+id/btnSave"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toBottomOf="@+id/etEnterText" /&gt;\n   &lt;TextView\n        android:id="@+id/tvDatafromDb"\n        android:layout_width="match_parent"\n        android:layout_height="wrap_content"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toBottomOf="@+id/btnSave" /&gt;\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Now, In our MainActivity, let’s fill our database and get the data out of it</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n   private var chapterDatabase: ChapterDatabase? = null\n   override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        chapterDatabase = ChapterDatabase.getDatabase(this)!!\n       btnSave.setOnClickListener {\n            if (!etEnterText.text.toString().isEmpty()) {\n                val chapterObj = Chapter(etEnterText.text.toString())\n                InsertTask(this, chapterObj).execute()\n            }\n        }\n        btnDisplay.setOnClickListener {\n            GetDataFromDb(this).execute()\n        }\n    }\n   private class InsertTask(var context: MainActivity, var chapter: Chapter) : AsyncTask&lt;Void, Void, Boolean&gt;() {\n       override fun doInBackground(vararg params: Void?): Boolean {\n            context.chapterDatabase!!.chapterDao().insert(chapter)\n            return true\n        }\n       override fun onPostExecute(bool: Boolean?) {\n            if (bool!!) {\n                Toast.makeText(context, "Added to Database", Toast.LENGTH_LONG).show()\n            }\n        }\n    }\n   private class GetDataFromDb(var context: MainActivity) : AsyncTask&lt;Void, Void, List&lt;Chapter&gt;&gt;() {\n       override fun doInBackground(vararg params: Void?): List&lt;Chapter&gt; {\n            return context.chapterDatabase!!.chapterDao().getAllChapter()\n        }\n       override fun onPostExecute(chapterList: List&lt;Chapter&gt;?) {\n            if (chapterList!!.size &gt; 0) {\n                for (i in 0..chapterList.size - 1) {\n                    context.tvDatafromDb.append(chapterList[i].chapterName)\n                }\n            }\n        }\n    }\n}</code></pre><p class="graf--p">Here, we had used AsyncTask which is an Android inbuilt class used to do some operation on the background thread. We will be taking this in more detail in upcoming chapters.</p><p class="graf--p">Let’s run this application now and add some data to the database. We had finally implemented an application using Room database library.<br/></p><h4 class="graf--h3"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/android-searchview-in-room-database-in-kotlin">In the next chapter, we will be searching our data from the database.</a></h4>',author:14897,img_url:"/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png",blog_url:"android-room-persistence-library-in-kotlin",likes:0,rank:0,category:1,published_at:"9th January 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:447,title:"Introduction to Room Persistent Library in Android",description:"In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.",author:14040,img_url:"/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png",blog_url:"introduction-to-room-persistent-library-in-android",likes:0,rank:0,category:1,published_at:"18th May 2020",score:3.3169736862182617},{id:210,title:"Android SearchView in Room Database in Kotlin",description:"How to implement SearchView inside Room Database?",author:14897,img_url:"/images/android_searchview_in_room_database_mindorks_feature_image.png",blog_url:"android-searchview-in-room-database-in-kotlin",likes:0,rank:0,category:1,published_at:"9th January 2019",score:2.0366883277893066},{id:448,title:"Data Access Objects - DAO in Room",description:"In this blog, we are going to learn about Data Access Objects or DAO in Room Persistent Library.",author:14040,img_url:"/images/data-access-objects-dao-in-room-banner-509915bdcce194cb.png",blog_url:"data-access-objects-dao-in-room",likes:0,rank:0,category:1,published_at:"18th May 2020",score:1.8798271417617798},{id:449,title:"Entity Relationship in Room",description:"In this blog, we will learn how we can define the relationship between entities in Room persistence library.",author:14040,img_url:"/images/entity-relationship-in-room-banner-11049d4bd6be2248.png",blog_url:"entity-relationship-in-room",likes:0,rank:0,category:1,published_at:"18th May 2020",score:1.8798271417617798},{id:450,title:"How does Room work internally?",description:"In this blog, we are going to learn the working of Room with the help of an example.",author:14040,img_url:"/images/how-does-room-work-internally-banner-2a2f345225530f17.png",blog_url:"how-does-room-work-internally",likes:0,rank:0,category:1,published_at:"18th May 2020",score:1.8798271417617798},{id:451,title:"Using Room with LiveData and other third-party libraries",description:"In this blog, we will learn how to use Room with LiveData, RxJava and Coroutines.",author:14040,img_url:"/images/using-room-with-live-data-and-other-third-party-libraries-banner-b04ee19de235bb9c.png",blog_url:"using-room-with-live-data-and-other-third-party-libraries",likes:0,rank:0,category:1,published_at:"18th May 2020",score:1.8798271417617798}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            9th January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Android Room
+                  </b>
+                  Persistence Library
+                  <b class="graf--bold">
+                   in Kotlin
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Welcome, here we are going to learn about the latest room in android. We are also going to use some of the newest android libraries like lifecycle.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android Room Persistence Library in Kotlin" class="graf-image" src="/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In the earlier chapter, we have seen the implementation of SQLite Database which is a bit difficult task. But, to use the SQLite in the more natural way Google has provided us with a library called ROOM. This library is an abstraction layer over the SQLite Database. The Room is one of the components of
+                  <a class="markup--anchor" href="https://blog.mindorks.com/what-is-android-jetpack-and-why-should-we-use-it" target="_blank">
+                   Android Architecture Component
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  First, the terminologies; there are three significant annotations for using room:
+                 </p>
+                 <ul>
+                  <li>
+                   “@Entity”
+                  </li>
+                  <li>
+                   “@Dao”
+                  </li>
+                  <li>
+                   “@Database”
+                  </li>
+                 </ul>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android Room Persistence Library in Kotlin" class="graf-image" src="/images/android_room_terminologies_mindorks_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   a. “@Entity”
+                  </b>
+                  Representation of table and columns become very easy; you have to annotate
+                  <i class="graf--italic">
+                   “@Entity”
+                  </i>
+                  to a class and name of the class becomes table name and, data members becomes the name of the columns. “
+                  <i class="graf--italic">
+                   @Entity
+                  </i>
+                  ” class represent an entity in a table.
+                 </p>
+                 <p class="graf--p">
+                  Example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Entity(tableName = “habitClass”)
+data class Habit(@PrimaryKey @ColumnInfo(name = “habit”) 
+val mHabit: String)</code></pre>
+                 <p class="graf--p">
+                  Here, we have class
+                  <i class="graf--italic">
+                   Habit,
+                  </i>
+                  and the name of the table is
+                  <i class="graf--italic">
+                   habitClass.
+                  </i>
+                  We had made a single column
+                  <i class="graf--italic">
+                   habit,
+                  </i>
+                  and for that, we used “
+                  <i class="graf--italic">
+                   @ColumnInfo
+                  </i>
+                  ” annotation and also made this a primary key by annotating “
+                  <i class="graf--italic">
+                   @PrimaryKey
+                  </i>
+                  ” to it.
+                 </p>
+                 <p class="graf--p">
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   b. “@Dao” — Data Access Object
+                  </b>
+                  <br/>
+                  An Interface where we put all our SQL queries. We don’t require to write whole queries now; we need to make a method and annotate with specific annotations like “
+                  <i class="graf--italic">
+                   @Insert
+                  </i>
+                  ”, “
+                  <i class="graf--italic">
+                   @Delete
+                  </i>
+                  ”, “
+                  <i class="graf--italic">
+                   @Query(SELECT FROM
+                  </i>
+                  <i class="graf--italic">
+                   *)
+                  </i>
+                  ”
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Dao
+interface HabitDao {  
+@Insert 
+fun insert(habit: Habits)  
+@Query("DELETE FROM habitClass") 
+fun deleteAll()  
+@Query("SELECT * FROM habitClass ORDER BY habit ASC" ) 
+fun getAllHabits() : List&lt;Habits&gt;
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we have an interface
+                  <i class="graf--italic">
+                   HabitDao
+                  </i>
+                  and some methods which we will call to perform our queries. To insert the data we annotated “
+                  <i class="graf--italic">
+                   @Insert
+                  </i>
+                  ” to insert method. The room doesn’t give us annotations which can help us in deleting everything, so we have “
+                  <i class="graf--italic">
+                   @Query
+                  </i>
+                  ” to do some custom queries.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   c. “@Database”
+                  </b>
+                  <br/>
+                  We need to create an abstract class (
+                  <i class="graf--italic">
+                   Room class
+                  </i>
+                  ) which extends
+                  <i class="graf--italic">
+                   RoomDatabase
+                  </i>
+                  . It is a database layer over the
+                  <i class="graf--italic">
+                   SQLite
+                  </i>
+                  database; this helps us in all the work which we use to do in
+                  <i class="graf--italic">
+                   SQLiteOpenHelper
+                  </i>
+                  class. Room helps us with the compile-time checking of SQL statements; we need only a single instance for the whole app.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Database(entities = arrayOf(Habit::class), version = 1)
+abstract class HabitRoomDatabase : RoomDatabase{
+abstract fun wordDao(): HabitDao
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we have a Room class
+                  <i class="graf--italic">
+                   HabitRoomDatabase
+                  </i>
+                  in which we had to declare all our entities and version of the database.
+                  <i class="graf--italic">
+                   getDatabase()
+                  </i>
+                  method will return the room database instance. If you want to modify the database do have a look at
+                  <a class="markup--anchor" href="https://developer.android.com/training/data-storage/room/migrating-db-versions" target="_blank">
+                   Migration
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Firstly, add room dependencies.
+                 </p>
+                 <pre><code class="language-java graf graf--code">dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    // Room dependencies
+    implementation 'androidx.room:room-runtime:2.0.0'
+    kapt 'androidx.room:room-compiler:2.0.0'
+}</code></pre>
+                 <p class="graf--p">
+                  also, add ‘kapt’ plugin at the top of your build.gradle file
+                 </p>
+                 <pre><code class="language-java graf graf--code">apply plugin: 'kotlin-kapt'</code></pre>
+                 <p class="graf--p">
+                  Let’s start with the Entity creation
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Entity(tableName = "MindOrksDb")
+data class Chapter(
+    @PrimaryKey
+    @ColumnInfo(name = "chapterName") val chapterName: String
+)</code></pre>
+                 <p class="graf--p">
+                  Now, we will create the DAO, database access object, it is an interface where we define all methods use to access database
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Dao
+interface ChapterDao {
+    @Insert
+    fun insert(chapter: Chapter)
+   @Query("SELECT * FROM MindOrksDb ORDER BY chapterName ASC")
+    fun getAllChapter(): List&lt;Chapter&gt;
+}</code></pre>
+                 <p class="graf--p">
+                  Now, we are ready to create the database. We have table info in Entity and CRUD methods in DAO interface.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Database(entities = arrayOf(Chapter::class), version = 1)
+abstract class ChapterDatabase : RoomDatabase() {
+   abstract fun chapterDao(): ChapterDao
+   companion object {
+        private var INSTANCE: ChapterDatabase? = null
+       fun getDatabase(context: Context): ChapterDatabase? {
+            if (INSTANCE == null) {
+                synchronized(ChapterDatabase::class) {
+                    INSTANCE = Room.databaseBuilder(
+                        context.getApplicationContext(),
+                        ChapterDatabase::class.java, "chapter.db"
+                    ).build()
+                }
+            }
+            return INSTANCE
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Let’s start with our MainActivity where user interaction has to be done, for that we need to create our main screen, activity_main.xml
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+   &lt;EditText
+        android:id="@+id/etEnterText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Enter here"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+   &lt;Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Save to Database"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/etEnterText" /&gt;
+   &lt;Button
+        android:id="@+id/btnDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Display"
+        app:layout_constraintEnd_toStartOf="@+id/btnSave"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEnterText" /&gt;
+   &lt;TextView
+        android:id="@+id/tvDatafromDb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSave" /&gt;
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, In our MainActivity, let’s fill our database and get the data out of it
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+   private var chapterDatabase: ChapterDatabase? = null
+   override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        chapterDatabase = ChapterDatabase.getDatabase(this)!!
+       btnSave.setOnClickListener {
+            if (!etEnterText.text.toString().isEmpty()) {
+                val chapterObj = Chapter(etEnterText.text.toString())
+                InsertTask(this, chapterObj).execute()
+            }
+        }
+        btnDisplay.setOnClickListener {
+            GetDataFromDb(this).execute()
+        }
+    }
+   private class InsertTask(var context: MainActivity, var chapter: Chapter) : AsyncTask&lt;Void, Void, Boolean&gt;() {
+       override fun doInBackground(vararg params: Void?): Boolean {
+            context.chapterDatabase!!.chapterDao().insert(chapter)
+            return true
+        }
+       override fun onPostExecute(bool: Boolean?) {
+            if (bool!!) {
+                Toast.makeText(context, "Added to Database", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+   private class GetDataFromDb(var context: MainActivity) : AsyncTask&lt;Void, Void, List&lt;Chapter&gt;&gt;() {
+       override fun doInBackground(vararg params: Void?): List&lt;Chapter&gt; {
+            return context.chapterDatabase!!.chapterDao().getAllChapter()
+        }
+       override fun onPostExecute(chapterList: List&lt;Chapter&gt;?) {
+            if (chapterList!!.size &gt; 0) {
+                for (i in 0..chapterList.size - 1) {
+                    context.tvDatafromDb.append(chapterList[i].chapterName)
+                }
+            }
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we had used AsyncTask which is an Android inbuilt class used to do some operation on the background thread. We will be taking this in more detail in upcoming chapters.
+                 </p>
+                 <p class="graf--p">
+                  Let’s run this application now and add some data to the database. We had finally implemented an application using Room database library.
+                  <br/>
+                 </p>
+                 <h4 class="graf--h3">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/android-searchview-in-room-database-in-kotlin" target="_blank">
+                   In the next chapter, we will be searching our data from the database.
+                  </a>
+                 </h4>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Introduction to Room Persistent Library in Android" class="ui centered image" src="/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Introduction to Room Persistent Library in Android
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android SearchView in Room Database in Kotlin" class="ui centered image" src="/images/android_searchview_in_room_database_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android SearchView in Room Database in Kotlin
+           </div>
+           <div class="meta">
+            9th January 2019
+           </div>
+           <div class="description">
+            How to implement SearchView inside Room Database?
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Data Access Objects - DAO in Room" class="ui centered image" src="/images/data-access-objects-dao-in-room-banner-509915bdcce194cb.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Data Access Objects - DAO in Room
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn about Data Access Objects or DAO in Room Persistent Library.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Entity Relationship in Room" class="ui centered image" src="/images/entity-relationship-in-room-banner-11049d4bd6be2248.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Entity Relationship in Room
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how we can define the relationship between entities in Room persistence library.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How does Room work internally?" class="ui centered image" src="/images/how-does-room-work-internally-banner-2a2f345225530f17.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How does Room work internally?
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn the working of Room with the help of an example.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Room with LiveData and other third-party libraries" class="ui centered image" src="/images/using-room-with-live-data-and-other-third-party-libraries-banner-b04ee19de235bb9c.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Room with LiveData and other third-party libraries
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Room with LiveData, RxJava and Coroutines.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

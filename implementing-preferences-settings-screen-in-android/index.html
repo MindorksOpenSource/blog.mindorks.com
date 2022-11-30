@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Implementing Preferences Settings Screen in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/implementing-preferences-settings-screen-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Implementing Preferences Settings Screen in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/implementing-preferences-settings-screen-in-android" property="og:url"/>
+  <meta content="/images/implementing-preferences-settings-in-android-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to implement the Preferences Settings Screen in Android. Settings screen are used to change the functionality and behavior of a particular application without changing the system settings. For example, you can change the background of a particular application by using the Settings feature." property="og:description"/>
+  <meta content="Implementing Preferences Settings Screen in Android" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to implement the Preferences Settings Screen in Android. Settings screen are used to change the functionality and behavior of a particular application without changing the system settings. For example, you can change the background of a particular application by using the Settings feature." name="twitter:description"/>
+  <meta content="/images/implementing-preferences-settings-in-android-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to implement the Preferences Settings Screen in Android. Settings screen are used to change the functionality and behavior of a particular application without changing the system settings. For example, you can change the background of a particular application by using the Settings feature." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:272,data:{id:272,title:"Implementing Preferences Settings Screen in Android",description:"In this blog, we will learn how to implement the Preferences Settings Screen in Android. Settings screen are used to change the functionality and behavior of a particular application without changing the system settings. For example, you can change the background of a particular application by using the Settings feature.",text:'<h1 class="graf--h1">Implementing Preferences Settings Screen in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/implementing-preferences-settings-in-android-banner.png class=\'graf-image\' alt=\'Implementing Preferences Settings Screen in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">There are certain situations when you want to have some kind of Settings in your application apart from the Android default Settings. For example, if you want to increase the text size of the text present in your application and not to increase the text size of all the applications present in the mobile device. Other examples include taking the current address of the user or setting the notification sound to a particular ringtone of your own choice. In order to use this functionality in our application, we can use the feature of Settings which is a part of <a class="markup--anchor" target="_blank" href="https://developer.android.com/jetpack">Android Jetpack</a>.</p><p class="graf--p">Settings allow the users to change the behavior and functionality of a particular application instead of changing the behavior and functionality of all the applications present in the mobile device. Also, the users don’t access the Settings frequently, because they change the Settings once and they rarely need to go back and change it again. </p><p class="graf--p">Also, the user prefers to change the settings of the application by clicking on the Settings present inside navigation or is present in the menu item like below:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/implementing-preferences-settings-in-android-example2.png class=\'graf-image\' alt=\'Implementing Preferences Settings Screen in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><b class="graf--bold">Image Courtesy: Android Codelabs</b></p><p class="graf--p">If you are putting this Setting option anywhere in the application apart from the above mentioned two places, then it will result in bad user experience.</p><p class="graf--p">In this blog, we will learn how to implement Preference Settings in our application to change the behavior of our application. So, let’s get started.</p><h4 class="graf--h3">Creating a project with the Settings option</h4><p class="graf--p">Android Studio provides a shortcut for using the Settings feature in the menu item of your application. All you have to do is create a new project in Android Studio with Basic Activity template (not Empty Activity). The Basic Activity template includes a Setting option in the menu and a floating action button as shown below:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/implementing-preferences-settings-in-android-example1.jpg class=\'graf-image\' alt=\'Implementing Preferences Settings Screen in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Another way of creating a Setting Activity is to go to your Java/Kotlin code folder in your Android project and then <b class="graf--bold">right click &gt; new &gt; Activity &gt; Settings Activity</b>. By adding a Settings Activity, you will be given three options as below:</p><p class="graf--p">Here you will get options like:</p><ul><li><b class="graf--bold">General:</b> You can change the Display name. Other options available here are: Enable social recommendations and Add friends to messages.</li><li><b class="graf--bold">Notification:</b> Here you will we give with options to change the Ringtone of the notification along with vibrate option.</li><li><b class="graf--bold">Data &amp; sync:</b> Here you will find an option to set the sync frequency of your application.</li></ul><p class="graf--p">If your application needs one or all the above three mentioned features, then you can add a Settings Activity, but if you want some customized settings in your application, then you should be using the first option of using the Settings option in your application by creating a Basic Activity. In this blog, we will look at how to implement the Settings by using the Basic Activity.</p><h4 class="graf--h3">Adding xml for Settings</h4><p class="graf--p">Till now, we have added the Settings options in our application by using the Basic Activity. You can manually add the Settings option in the menu item in your application. Now, our next step is to add the UI for the Settings i.e. the UI of the page that will be opened after clicking on the Settings option.</p><p class="graf--p">Navigate to the <b class="graf--bold">res</b> folder and add an XML directory if not present with name <b class="graf--bold">xml</b>. Now, in the <b class="graf--bold"><i class="graf--italic">res/xml </i></b>folder, create an xml file named <i class="graf--italic"><b class="graf--bold">preference_main.xml</b>. </i>Here in the <b class="graf--bold"><i class="graf--italic">preference_main.xml</i></b>, we will add the options that will be shown to us when we click on the Settings option.</p><p class="graf--p">In the <b class="graf--bold"><i class="graf--italic">preference_main.xml</i></b> file, we can add the below properties:</p><ul><li><b class="graf--bold">EditTextPreference:</b> This is same as a normal EditText that can be used to collect some data from the user. It can be the name of the user or the name of the directory of the application where the user is storing some data of the app.</li><li><b class="graf--bold">CheckBoxPreference:</b> This is used to select more than one option at a time. One example of this can be checking the option of file uploading using wifi as well as the cellular data.</li><li><b class="graf--bold">RingtonePreference:</b> This can be used to change the ringtone of the notification that comes from the application. This option is also present in the default Settings Activity.</li><li><b class="graf--bold">SwitchPreference:</b> This is used to turn on or turn off a certain service in the application. One example of this can be turning the vibration on and off.</li><li><b class="graf--bold">Preference:</b> To add some TextView that is not clickable or to use the TextView to open into the browser, then you can use preference.</li><li><b class="graf--bold">List Preference:</b> This can be used to display a list of items and you can choose one of them.</li></ul><p class="graf--p">Before moving on to the xml code, you should know the concept of <b class="graf--bold"><i class="graf--italic">PreferenceScreen</i></b> and <b class="graf--bold"><i class="graf--italic">PreferenceCategory.</i></b></p><p class="graf--p">In the PreferenceScreen tag, all the preferences will be present i.e. it holds all the preferences that you are having in your application.</p><p class="graf--p">In the PrefernceCategory tag, you divide your preferences in a certain category and then display them together. For example, you can put the preferences for altering the media of an application in one category and about section in another category. This is the same as using categories in Navigation Drawer. This will help the user to have a clear vision of the functionality of the application.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/implementing-preferences-settings-in-android-example3.jpg class=\'graf-image\' alt=\'Implementing Preferences Settings Screen in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In the above image, the Screen related settings are put in one category and the System Font and System are put into some other category.</p><p class="graf--p">Now, let’s add the Preferences in our application:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"&gt;\n    &lt;PreferenceCategory android:title="General"&gt;\n        &lt;EditTextPreference\n            android:defaultValue="@string/default_gallery_storage"\n            android:key="@string/key_gallery_name"\n            android:summary="@string/default_gallery_storage"\n            android:title="@string/title_gallery_storage" /&gt;\n\n        &lt;CheckBoxPreference\n            android:defaultValue="true"\n            android:key="@string/key_upload_over_wifi"\n            android:summary="@string/summary_upload_over_wifi"\n            android:title="@string/title_auto_upload" /&gt;\n\n        &lt;ListPreference\n            android:defaultValue="3"\n            android:dialogTitle="@string/title_upload_quality"\n            android:entries="@array/pref_upload_quality_entries"\n            android:entryValues="@array/pref_upload_quality_values"\n            android:key="@string/key_upload_quality"\n            android:summary="@string/summary_upload_video_quality"\n            android:title="@string/title_upload_quality" /&gt;\n\n    &lt;/PreferenceCategory&gt;\n\n    &lt;PreferenceCategory android:title="@string/pref_title_notifications"&gt;\n\n        &lt;SwitchPreference\n            android:defaultValue="true"\n            android:key="@string/notifications_new_message"\n            android:title="@string/title_new_notification_sound" /&gt;\n\n        &lt;RingtonePreference\n            android:defaultValue="content://settings/system/notification_sound"\n            android:dependency="notifications_new_message"\n            android:key="@string/key_notifications_new_message_ringtone"\n            android:ringtoneType="notification"\n            android:summary="@string/summary_choose_ringtone"\n            android:title="@string/pref_title_ringtone" /&gt;\n\n        &lt;SwitchPreference\n            android:defaultValue="true"\n            android:key="@string/key_vibrate"\n            android:summary="@string/summary_vibrate"\n            android:title="@string/title_vibrate" /&gt;\n    &lt;/PreferenceCategory&gt;\n\n    &lt;PreferenceCategory android:title="@string/pref_header_about"&gt;\n\n        &lt;Preference\n            android:summary="@string/app_version"\n            android:title="@string/title_version" /&gt;\n\n        &lt;!-- preference opens url in browser --&gt;\n        &lt;Preference\n            android:summary="View Website"\n            android:title="Website"&gt;\n            &lt;intent\n                android:action="android.intent.action.VIEW"\n                android:data="@string/url_faq" /&gt;\n        &lt;/Preference&gt;\n\n    &lt;/PreferenceCategory&gt;\n\n&lt;/PreferenceScreen&gt;</code></pre><p class="graf--p">In order to add the ListPrefernce in your activity, you have to declare an array that can be displayed in the list. </p><p class="graf--p">Now to have the same UI for devices of different screen size and to have proper functioning of Settings in our application, make a class called <b class="graf--bold"><i class="graf--italic">AppCompatPreference.kt:</i></b></p><pre><code class="language-java graf graf--code">abstract class AppCompatPreferenceActivity : PreferenceActivity() {\n\n    private var mDelegate: AppCompatDelegate? = null\n\n    val supportActionBar: ActionBar?\n        get() = delegate?.supportActionBar\n\n    private val delegate: AppCompatDelegate?\n        get() {\n            if (mDelegate == null) {\n                mDelegate = AppCompatDelegate.create(this, null)\n            }\n            return mDelegate\n        }\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        delegate?.installViewFactory()\n        delegate?.onCreate(savedInstanceState)\n        super.onCreate(savedInstanceState)\n    }\n\n    override fun onPostCreate(savedInstanceState: Bundle?) {\n        super.onPostCreate(savedInstanceState)\n        delegate?.onPostCreate(savedInstanceState)\n    }\n\n    fun setSupportActionBar(toolbar: Toolbar?) {\n        delegate?.setSupportActionBar(toolbar)\n    }\n\n    override fun getMenuInflater(): MenuInflater? {\n        return delegate?.menuInflater\n    }\n\n    override fun setContentView(@LayoutRes layoutResID: Int) {\n        delegate?.setContentView(layoutResID)\n    }\n\n    override fun setContentView(view: View) {\n        delegate?.setContentView(view)\n    }\n\n    override fun setContentView(view: View, params: ViewGroup.LayoutParams) {\n        delegate?.setContentView(view, params)\n    }\n\n    override fun addContentView(view: View, params: ViewGroup.LayoutParams) {\n        delegate?.addContentView(view, params)\n    }\n\n    override fun onPostResume() {\n        super.onPostResume()\n        delegate?.onPostResume()\n    }\n\n    override fun onTitleChanged(title: CharSequence, color: Int) {\n        super.onTitleChanged(title, color)\n        delegate?.setTitle(title)\n    }\n\n    override fun onConfigurationChanged(newConfig: Configuration) {\n        super.onConfigurationChanged(newConfig)\n        delegate?.onConfigurationChanged(newConfig)\n    }\n\n    override fun onStop() {\n        super.onStop()\n        delegate?.onStop()\n    }\n\n    override fun onDestroy() {\n        super.onDestroy()\n        delegate?.onDestroy()\n    }\n\n    override fun invalidateOptionsMenu() {\n        delegate?.invalidateOptionsMenu()\n    }\n}</code></pre><p class="graf--p">Now we have to write the code to handle all the activities of Settings activity. Write the below code that corresponds to various activities of teh Settings Activity:</p><pre><code class="language-java graf graf--code">class SettingsActivity : AppCompatPreference() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        supportActionBar!!.setDisplayHomeAsUpEnabled(true)\n\n        // load settings fragment\n        fragmentManager.beginTransaction().replace(android.R.id.content, MainPreferenceFragment()).commit()\n    }\n\n    class MainPreferenceFragment : PreferenceFragment() {\n        override fun onCreate(savedInstanceState: Bundle?) {\n            super.onCreate(savedInstanceState)\n            addPreferencesFromResource(R.xml.pref_main)\n\n            // gallery EditText change listener\n            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_gallery_name)))\n\n            // notification preference change listener\n            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_notifications_new_message_ringtone)))\n        }\n    }\n\n    override fun onOptionsItemSelected(item: MenuItem): Boolean {\n        if (item.itemId == android.R.id.home) {\n            onBackPressed()\n        }\n        return super.onOptionsItemSelected(item)\n    }\n\n    companion object {\n        private val TAG = SettingsActivity::class.java!!.getSimpleName()\n\n        private fun bindPreferenceSummaryToValue(preference: Preference) {\n            preference.onPreferenceChangeListener = sBindPreferenceSummaryToValueListener\n\n            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,\n                    PreferenceManager\n                            .getDefaultSharedPreferences(preference.context)\n                            .getString(preference.key, ""))\n        }\n\n        private val sBindPreferenceSummaryToValueListener = Preference.OnPreferenceChangeListener { preference, newValue -&gt;\n            val stringValue = newValue.toString()\n\n            if (preference is ListPreference) {\n                // For list preferences, look up the correct display value in\n                // the preference\'s \'entries\' list.\n                val index = preference.findIndexOfValue(stringValue)\n\n                // Set the summary to reflect the new value.\n                preference.setSummary(\n                        if (index &gt;= 0)\n                            preference.entries[index]\n                        else\n                            null)\n\n            } else if (preference is RingtonePreference) {\n                // For ringtone preferences, look up the correct display value\n                // using RingtoneManager.\n                if (TextUtils.isEmpty(stringValue)) {\n                    // Empty values correspond to \'silent\' (no ringtone).\n                    preference.setSummary(R.string.pref_ringtone_silent)\n\n                } else {\n                    val ringtone = RingtoneManager.getRingtone(\n                            preference.getContext(), Uri.parse(stringValue))\n\n                    if (ringtone == null) {\n                        // Clear the summary if there was a lookup error.\n                        preference.setSummary(R.string.summary_choose_ringtone)\n                    } else {\n                        // Set the summary to reflect the new ringtone display\n                        // name.\n                        val name = ringtone.getTitle(preference.getContext())\n                        preference.setSummary(name)\n                    }\n                }\n\n            } else if (preference is EditTextPreference) {\n                if (preference.getKey() == "key_gallery_name") {\n                    // update the changed gallery name to summary filed\n                    preference.setSummary(stringValue)\n                }\n            } else {\n                preference.summary = stringValue\n            }\n            true\n        }\n    }\n}</code></pre><p class="graf--p">Finally connect your Settings Activity with the Settings option present in the menu item of MainActivity. Use the below code:</p><pre><code class="language-java graf graf--code">override fun onOptionsItemSelected(item: MenuItem): Boolean {\n    val id = item.itemId\n\n    if (id == R.id.action_settings) {\n        // launch settings activity\n        startActivity(Intent(this@MainActivity, SettingsActivity::class.java))\n        return true\n    }\n\n    return super.onOptionsItemSelected(item)\n}</code></pre><p class="graf--p">Run the application and try to explore the various options present on the Settings options. Also, try to add some more functionalities to the Settings Activity.</p><p class="graf--p">To learn more about the Settings Preferences in Android, go to the official website of <a class="markup--anchor" target="_blank" href="https://developer.android.com/guide/topics/ui/settings">Android Developer</a>. </p><p class="graf--p">Also, you can perform some codelabs i.e. hands-on experience with the Preference Settings at Google <a class="markup--anchor" target="_blank" href="https://codelabs.developers.google.com/codelabs/android-training-adding-settings-to-app/index.html?index=..%2F..android-training#0">Codelabs</a>.</p><p class="graf--p">That’s it for this blog. Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/implementing-preferences-settings-in-android-banner.png",blog_url:"implementing-preferences-settings-screen-in-android",likes:0,rank:0,category:1,published_at:"9th June 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:288,title:"Implementing Android Jetpack Preferences",description:"In this blog, we will learn how to implement Preferences in Android. Preferences are a part of Android Jetpack and are used to implement in-app settings. So, by using Preferences, you can change the behavior of your app without changing the system's settings. Let's get started.",author:14897,img_url:"/images/implementing-android-jetpack-preferences-banner.png",blog_url:"implementing-android-jetpack-preferences",likes:0,rank:0,category:1,published_at:"29th June 2019",score:4.385450839996338},{id:233,title:"Understanding Settings Panels in Android Q",description:"In this blog, we will understand the new setting panel which released in Android Q. With Google launching Android Q, Lot of exciting features has also popped up. One amazing feature is Location Service usage and few more.",author:14897,img_url:"/images/android-setting.png",blog_url:"understanding-settings-panel-in-android-q",likes:0,rank:0,category:1,published_at:"14th May 2019",score:2.805088996887207},{id:319,title:"How to implement Splash Screen in Android?",description:"In this blog, we will learn about two ways to implement the SplashScreen. One is by using Handler and other is by using RxJava.",author:9959,img_url:"/images/banner-splash-screen-in-android.png",blog_url:"how-to-implement-splash-screen-in-android",likes:0,rank:0,category:1,published_at:"23rd August 2019",score:2.805088996887207},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:1.598717212677002},{id:231,title:"Understanding and Implementing Permission in Android Q",description:"In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.",author:14897,img_url:"/images/location-permission.png",blog_url:"location-permissions-in-android-q",likes:0,rank:0,category:1,published_at:"11th May 2019",score:1.589539647102356},{id:252,title:"Implementing in-app updates on Android",description:"In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.",author:14897,img_url:"/images/in-app-updates-android-banner.png",blog_url:"implementing-in-app-updates-on-android",likes:0,rank:0,category:1,published_at:"25th May 2019",score:1.589539647102356}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            9th June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Implementing Preferences Settings Screen in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implementing Preferences Settings Screen in Android" class="graf-image" src="/images/implementing-preferences-settings-in-android-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  There are certain situations when you want to have some kind of Settings in your application apart from the Android default Settings. For example, if you want to increase the text size of the text present in your application and not to increase the text size of all the applications present in the mobile device. Other examples include taking the current address of the user or setting the notification sound to a particular ringtone of your own choice. In order to use this functionality in our application, we can use the feature of Settings which is a part of
+                  <a class="markup--anchor" href="https://developer.android.com/jetpack" target="_blank">
+                   Android Jetpack
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Settings allow the users to change the behavior and functionality of a particular application instead of changing the behavior and functionality of all the applications present in the mobile device. Also, the users don’t access the Settings frequently, because they change the Settings once and they rarely need to go back and change it again.
+                 </p>
+                 <p class="graf--p">
+                  Also, the user prefers to change the settings of the application by clicking on the Settings present inside navigation or is present in the menu item like below:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implementing Preferences Settings Screen in Android" class="graf-image" src="/images/implementing-preferences-settings-in-android-example2.png"/>
+                 </div>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Image Courtesy: Android Codelabs
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  If you are putting this Setting option anywhere in the application apart from the above mentioned two places, then it will result in bad user experience.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will learn how to implement Preference Settings in our application to change the behavior of our application. So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  Creating a project with the Settings option
+                 </h4>
+                 <p class="graf--p">
+                  Android Studio provides a shortcut for using the Settings feature in the menu item of your application. All you have to do is create a new project in Android Studio with Basic Activity template (not Empty Activity). The Basic Activity template includes a Setting option in the menu and a floating action button as shown below:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implementing Preferences Settings Screen in Android" class="graf-image" src="/images/implementing-preferences-settings-in-android-example1.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Another way of creating a Setting Activity is to go to your Java/Kotlin code folder in your Android project and then
+                  <b class="graf--bold">
+                   right click &gt; new &gt; Activity &gt; Settings Activity
+                  </b>
+                  . By adding a Settings Activity, you will be given three options as below:
+                 </p>
+                 <p class="graf--p">
+                  Here you will get options like:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    General:
+                   </b>
+                   You can change the Display name. Other options available here are: Enable social recommendations and Add friends to messages.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Notification:
+                   </b>
+                   Here you will we give with options to change the Ringtone of the notification along with vibrate option.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Data &amp; sync:
+                   </b>
+                   Here you will find an option to set the sync frequency of your application.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  If your application needs one or all the above three mentioned features, then you can add a Settings Activity, but if you want some customized settings in your application, then you should be using the first option of using the Settings option in your application by creating a Basic Activity. In this blog, we will look at how to implement the Settings by using the Basic Activity.
+                 </p>
+                 <h4 class="graf--h3">
+                  Adding xml for Settings
+                 </h4>
+                 <p class="graf--p">
+                  Till now, we have added the Settings options in our application by using the Basic Activity. You can manually add the Settings option in the menu item in your application. Now, our next step is to add the UI for the Settings i.e. the UI of the page that will be opened after clicking on the Settings option.
+                 </p>
+                 <p class="graf--p">
+                  Navigate to the
+                  <b class="graf--bold">
+                   res
+                  </b>
+                  folder and add an XML directory if not present with name
+                  <b class="graf--bold">
+                   xml
+                  </b>
+                  . Now, in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    res/xml
+                   </i>
+                  </b>
+                  folder, create an xml file named
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    preference_main.xml
+                   </b>
+                   .
+                  </i>
+                  Here in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    preference_main.xml
+                   </i>
+                  </b>
+                  , we will add the options that will be shown to us when we click on the Settings option.
+                 </p>
+                 <p class="graf--p">
+                  In the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    preference_main.xml
+                   </i>
+                  </b>
+                  file, we can add the below properties:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    EditTextPreference:
+                   </b>
+                   This is same as a normal EditText that can be used to collect some data from the user. It can be the name of the user or the name of the directory of the application where the user is storing some data of the app.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    CheckBoxPreference:
+                   </b>
+                   This is used to select more than one option at a time. One example of this can be checking the option of file uploading using wifi as well as the cellular data.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    RingtonePreference:
+                   </b>
+                   This can be used to change the ringtone of the notification that comes from the application. This option is also present in the default Settings Activity.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    SwitchPreference:
+                   </b>
+                   This is used to turn on or turn off a certain service in the application. One example of this can be turning the vibration on and off.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Preference:
+                   </b>
+                   To add some TextView that is not clickable or to use the TextView to open into the browser, then you can use preference.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    List Preference:
+                   </b>
+                   This can be used to display a list of items and you can choose one of them.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Before moving on to the xml code, you should know the concept of
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    PreferenceScreen
+                   </i>
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    PreferenceCategory.
+                   </i>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  In the PreferenceScreen tag, all the preferences will be present i.e. it holds all the preferences that you are having in your application.
+                 </p>
+                 <p class="graf--p">
+                  In the PrefernceCategory tag, you divide your preferences in a certain category and then display them together. For example, you can put the preferences for altering the media of an application in one category and about section in another category. This is the same as using categories in Navigation Drawer. This will help the user to have a clear vision of the functionality of the application.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implementing Preferences Settings Screen in Android" class="graf-image" src="/images/implementing-preferences-settings-in-android-example3.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  In the above image, the Screen related settings are put in one category and the System Font and System are put into some other category.
+                 </p>
+                 <p class="graf--p">
+                  Now, let’s add the Preferences in our application:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+    &lt;PreferenceCategory android:title="General"&gt;
+        &lt;EditTextPreference
+            android:defaultValue="@string/default_gallery_storage"
+            android:key="@string/key_gallery_name"
+            android:summary="@string/default_gallery_storage"
+            android:title="@string/title_gallery_storage" /&gt;
+
+        &lt;CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/key_upload_over_wifi"
+            android:summary="@string/summary_upload_over_wifi"
+            android:title="@string/title_auto_upload" /&gt;
+
+        &lt;ListPreference
+            android:defaultValue="3"
+            android:dialogTitle="@string/title_upload_quality"
+            android:entries="@array/pref_upload_quality_entries"
+            android:entryValues="@array/pref_upload_quality_values"
+            android:key="@string/key_upload_quality"
+            android:summary="@string/summary_upload_video_quality"
+            android:title="@string/title_upload_quality" /&gt;
+
+    &lt;/PreferenceCategory&gt;
+
+    &lt;PreferenceCategory android:title="@string/pref_title_notifications"&gt;
+
+        &lt;SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/notifications_new_message"
+            android:title="@string/title_new_notification_sound" /&gt;
+
+        &lt;RingtonePreference
+            android:defaultValue="content://settings/system/notification_sound"
+            android:dependency="notifications_new_message"
+            android:key="@string/key_notifications_new_message_ringtone"
+            android:ringtoneType="notification"
+            android:summary="@string/summary_choose_ringtone"
+            android:title="@string/pref_title_ringtone" /&gt;
+
+        &lt;SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_vibrate"
+            android:summary="@string/summary_vibrate"
+            android:title="@string/title_vibrate" /&gt;
+    &lt;/PreferenceCategory&gt;
+
+    &lt;PreferenceCategory android:title="@string/pref_header_about"&gt;
+
+        &lt;Preference
+            android:summary="@string/app_version"
+            android:title="@string/title_version" /&gt;
+
+        &lt;!-- preference opens url in browser --&gt;
+        &lt;Preference
+            android:summary="View Website"
+            android:title="Website"&gt;
+            &lt;intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/url_faq" /&gt;
+        &lt;/Preference&gt;
+
+    &lt;/PreferenceCategory&gt;
+
+&lt;/PreferenceScreen&gt;</code></pre>
+                 <p class="graf--p">
+                  In order to add the ListPrefernce in your activity, you have to declare an array that can be displayed in the list.
+                 </p>
+                 <p class="graf--p">
+                  Now to have the same UI for devices of different screen size and to have proper functioning of Settings in our application, make a class called
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    AppCompatPreference.kt:
+                   </i>
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">abstract class AppCompatPreferenceActivity : PreferenceActivity() {
+
+    private var mDelegate: AppCompatDelegate? = null
+
+    val supportActionBar: ActionBar?
+        get() = delegate?.supportActionBar
+
+    private val delegate: AppCompatDelegate?
+        get() {
+            if (mDelegate == null) {
+                mDelegate = AppCompatDelegate.create(this, null)
+            }
+            return mDelegate
+        }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        delegate?.installViewFactory()
+        delegate?.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        delegate?.onPostCreate(savedInstanceState)
+    }
+
+    fun setSupportActionBar(toolbar: Toolbar?) {
+        delegate?.setSupportActionBar(toolbar)
+    }
+
+    override fun getMenuInflater(): MenuInflater? {
+        return delegate?.menuInflater
+    }
+
+    override fun setContentView(@LayoutRes layoutResID: Int) {
+        delegate?.setContentView(layoutResID)
+    }
+
+    override fun setContentView(view: View) {
+        delegate?.setContentView(view)
+    }
+
+    override fun setContentView(view: View, params: ViewGroup.LayoutParams) {
+        delegate?.setContentView(view, params)
+    }
+
+    override fun addContentView(view: View, params: ViewGroup.LayoutParams) {
+        delegate?.addContentView(view, params)
+    }
+
+    override fun onPostResume() {
+        super.onPostResume()
+        delegate?.onPostResume()
+    }
+
+    override fun onTitleChanged(title: CharSequence, color: Int) {
+        super.onTitleChanged(title, color)
+        delegate?.setTitle(title)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        delegate?.onConfigurationChanged(newConfig)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        delegate?.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        delegate?.onDestroy()
+    }
+
+    override fun invalidateOptionsMenu() {
+        delegate?.invalidateOptionsMenu()
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now we have to write the code to handle all the activities of Settings activity. Write the below code that corresponds to various activities of teh Settings Activity:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class SettingsActivity : AppCompatPreference() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        // load settings fragment
+        fragmentManager.beginTransaction().replace(android.R.id.content, MainPreferenceFragment()).commit()
+    }
+
+    class MainPreferenceFragment : PreferenceFragment() {
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            addPreferencesFromResource(R.xml.pref_main)
+
+            // gallery EditText change listener
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_gallery_name)))
+
+            // notification preference change listener
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_notifications_new_message_ringtone)))
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    companion object {
+        private val TAG = SettingsActivity::class.java!!.getSimpleName()
+
+        private fun bindPreferenceSummaryToValue(preference: Preference) {
+            preference.onPreferenceChangeListener = sBindPreferenceSummaryToValueListener
+
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+                    PreferenceManager
+                            .getDefaultSharedPreferences(preference.context)
+                            .getString(preference.key, ""))
+        }
+
+        private val sBindPreferenceSummaryToValueListener = Preference.OnPreferenceChangeListener { preference, newValue -&gt;
+            val stringValue = newValue.toString()
+
+            if (preference is ListPreference) {
+                // For list preferences, look up the correct display value in
+                // the preference's 'entries' list.
+                val index = preference.findIndexOfValue(stringValue)
+
+                // Set the summary to reflect the new value.
+                preference.setSummary(
+                        if (index &gt;= 0)
+                            preference.entries[index]
+                        else
+                            null)
+
+            } else if (preference is RingtonePreference) {
+                // For ringtone preferences, look up the correct display value
+                // using RingtoneManager.
+                if (TextUtils.isEmpty(stringValue)) {
+                    // Empty values correspond to 'silent' (no ringtone).
+                    preference.setSummary(R.string.pref_ringtone_silent)
+
+                } else {
+                    val ringtone = RingtoneManager.getRingtone(
+                            preference.getContext(), Uri.parse(stringValue))
+
+                    if (ringtone == null) {
+                        // Clear the summary if there was a lookup error.
+                        preference.setSummary(R.string.summary_choose_ringtone)
+                    } else {
+                        // Set the summary to reflect the new ringtone display
+                        // name.
+                        val name = ringtone.getTitle(preference.getContext())
+                        preference.setSummary(name)
+                    }
+                }
+
+            } else if (preference is EditTextPreference) {
+                if (preference.getKey() == "key_gallery_name") {
+                    // update the changed gallery name to summary filed
+                    preference.setSummary(stringValue)
+                }
+            } else {
+                preference.summary = stringValue
+            }
+            true
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Finally connect your Settings Activity with the Settings option present in the menu item of MainActivity. Use the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    val id = item.itemId
+
+    if (id == R.id.action_settings) {
+        // launch settings activity
+        startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+        return true
+    }
+
+    return super.onOptionsItemSelected(item)
+}</code></pre>
+                 <p class="graf--p">
+                  Run the application and try to explore the various options present on the Settings options. Also, try to add some more functionalities to the Settings Activity.
+                 </p>
+                 <p class="graf--p">
+                  To learn more about the Settings Preferences in Android, go to the official website of
+                  <a class="markup--anchor" href="https://developer.android.com/guide/topics/ui/settings" target="_blank">
+                   Android Developer
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Also, you can perform some codelabs i.e. hands-on experience with the Preference Settings at Google
+                  <a class="markup--anchor" href="https://codelabs.developers.google.com/codelabs/android-training-adding-settings-to-app/index.html?index=..%2F..android-training#0" target="_blank">
+                   Codelabs
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  That’s it for this blog. Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Android Jetpack Preferences" class="ui centered image" src="/images/implementing-android-jetpack-preferences-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Android Jetpack Preferences
+           </div>
+           <div class="meta">
+            29th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Preferences in Android. Preferences are a part of Android Jetpack and are used to implement in-app settings. So, by using Preferences, you can change the behavior of your app without changing the system's settings. Let's get started.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Settings Panels in Android Q" class="ui centered image" src="/images/android-setting.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Settings Panels in Android Q
+           </div>
+           <div class="meta">
+            14th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new setting panel which released in Android Q. With Google launching Android Q, Lot of exciting features has also popped up. One amazing feature is Location Service usage and few more.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to implement Splash Screen in Android?" class="ui centered image" src="/images/banner-splash-screen-in-android.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to implement Splash Screen in Android?
+           </div>
+           <div class="meta">
+            23rd August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about two ways to implement the SplashScreen. One is by using Handler and other is by using RxJava.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding and Implementing Permission in Android Q" class="ui centered image" src="/images/location-permission.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding and Implementing Permission in Android Q
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing in-app updates on Android" class="ui centered image" src="/images/in-app-updates-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing in-app updates on Android
+           </div>
+           <div class="meta">
+            25th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

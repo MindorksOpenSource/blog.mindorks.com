@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Dependency Injection with Dagger2 Advance
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/dependency-injection-with-dagger2-advance" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Dependency Injection with Dagger2 Advance" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/dependency-injection-with-dagger2-advance" property="og:url"/>
+  <meta content="/images/DI_banner.jpg" property="og:image"/>
+  <meta content="It is an advanced version of dagger2 which will help in the interview." property="og:description"/>
+  <meta content="Dependency Injection with Dagger2 Advance" property="twitter:title"/>
+  <meta content="It is an advanced version of dagger2 which will help in the interview." name="twitter:description"/>
+  <meta content="/images/DI_banner.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="It is an advanced version of dagger2 which will help in the interview." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:363,data:{id:363,title:"Dependency Injection with Dagger2 Advance",description:"It is an advanced version of dagger2 which will help in the interview.",text:'<h1 class="graf--h1">Dependency Injection and Dagger2 Advance</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/DI_banner.jpg class=\'graf-image\' alt=\'Dependency Injection with Dagger2 Advance\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">This is a continuation of my Dependency Injection and Dagger2 blog but in an advanced version. To understand this blog it is mandatory to read the previous blog if you haven&#x27;t read it. Here, is the link</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/dependency-injection-with-dagger2">Dependency Injection and Dagger2</a></p><p class="graf--p">Here, we will read about Sub-Component, Qualifiers, Scopes, and Binds vs Provides, etc. Let&#x27;s see them one by one.</p><h4 class="graf--h3">Binds in Dagger2:</h4><p class="graf--p">Binds do the same as @Provides, it also creates the object to inject. Binds never create an implementation of a class or method, it just instantiates this method directly. Thus, we use abstract class and abstract method to use <b class="graf--bold">@Binds</b>. This provides better performance.</p><p class="graf--p">@Provides create first ModuleFactory class, then module and then create inject object whereas binds directly create inject object. It reduces the number of lines of code. </p><p class="graf--p">But the problem is-  Binds only accept a single argument with the return type. </p><p class="graf--p">The example is given below-</p><pre><code class="language-java graf graf--code">@Module\nabstract class PureMathModule{\n    @Binds\n    abstract Math provideMath(PureMath pureMath);\n}</code></pre><blockquote class="graf--blockquote">You can’t use @provide methods on the same module shown above. But we can use static provides method here.</blockquote><h4 class="graf--h3"><b class="graf--bold">How to implement Interface in Dagger2:</b></h4><p class="graf--p">Let’s suppose Math is an interface then we can’t @inject its method directly. But we can create a class that will implement this interface.</p><pre><code class="language-java graf graf--code">interface Math {\n    public void mathBook();\n}</code></pre><p class="graf--p">Let&#x27;s suppose we implement this interface in 2 classes:</p><pre><code class="language-java graf graf--code">public class PureMath implements Math\n{\n    @Inject\n    public PureMath(){ }\n    \n    @Override\n    public void mathBook(){ }\n}</code></pre><pre><code class="language-java graf graf--code">public class BusinessMath implements Math{\n    \n    @Inject\n    public BusinessMath(){ }\n    @Override\n    public void mathBook(){ }\n}</code></pre><p class="graf--p">Now, calling Math interface in Subject class as shown below:</p><pre><code class="language-java graf graf--code">public class Subject {\n    private Math math ;\n    @Inject\n    public Subject(Math math){}\n\n    public void read(){ }\n}</code></pre><p class="graf--p">Then, the Subject class will get confused about what Math child class should it inject in the Subject constructor. To resolve this problem we would create modules. The module will provide only that particular class which we want to call. As shown below:</p><pre><code class="language-java graf graf--code">@Module\npublic class PureMathModule{\n    @Provides\n    Math provideMath(PureMath pureMath){\n        return pureMath;\n    }\n}</code></pre><p class="graf--p">And now add a module in component:</p><pre><code class="language-java graf graf--code">@Component(modules = {ScienceModule.class, PureMathModule.class})\n public interface SubjectComponent{\n        Subject getSubject();\n\n        Void inject(SubjectActivity activity);\n        }</code></pre><p class="graf--p">We can’t use PureMathModule and BusinessMathModule in the same component then the same problem will arise. Throws a compile-time error Math binds multiple times. Now, the Subject class will automatically bind with the PureMathModule.</p><h4 class="graf--h3"><b class="graf--bold">Inject values at runtime with UI in Dagger2:</b> </h4><p class="graf--p">Suppose, if values are assigned through User Interface i.e. at run time then how it gets handled. Suppose, we have the book name at runtime. Let’s see by taking the previous example:</p><pre><code class="language-java graf graf--code">public class PureMath implements Math{ \n    private String bookName;\n\n    //here, must removed @Inject as the value is passed at the runtime\n    public PureMath(String bookName){\n        this.bookName = bookName;\n    }\n    @Override\n    public void mathBook(){ }\n}</code></pre><p class="graf--p">Now, create the provideBookName() method to provide the book name than with the component.</p><pre><code class="language-java graf graf--code">public class PureMathModule{\n    private String bookName;\n    public PureMathModule(String bookName){\n        this.bookName = bookName;\n    }\n    @Provides\n    String provideBookName(){\n        return bookName;\n    }\n\n    @Provides\n    Math provideMath(PureMath pureMath){\n        return pureMath;\n    }\n}</code></pre><pre><code class="language-java graf graf--code"></code></pre><p class="graf--p">Now, to call DaggerComponent we write-</p><pre><code class="language-java graf graf--code">DaggerSubjectComponent.builder()\n         .pureMathModule("Book Name")\n         .build()\n         .inject(this);</code></pre><blockquote class="graf--blockquote"><i class="graf--italic"><b class="graf--bold">The difference between DaggerComponent create() and in build() is -</b> create()  works when no runtime argument is passed into the constructor, else we use build() method. </i></blockquote><h4 class="graf--h3"><b class="graf--bold">Inject values By using @Component.Builder and @BindsInstance</b></h4><p class="graf--p">We can also pass our value to a builder directly by using a nested interface in our component. </p><p class="graf--p">But it has some rules to follow:</p><ul><li>Method that is bind with BindInstance must return the builder type. It should not have more than one parameter. If you want to bind more dependencies must create different methods for each dependency.</li><li>The builder must have at least one method which returns Component or super Component.</li></ul><p class="graf--p">An advantage of using Component. Builder is, if we forget to supply some dependency to the builder, it will blow up at runtime time.</p><p class="graf--p">Example as given below-</p><pre><code class="language-java graf graf--code">@Component(module = {ScienceModule.class, PureMathModule.class})\npublic interface SubjectComponent{\n        Subject getSubject();\n\n        Void inject(SubjectActivity activity);\n\n     // Here, by using normal java builder pattern, we are overriding builder definition here,\n     @Component.Builder\n     interface Builder{\n          \n     @BindsInstance\n     Builder bookName(String bookName);\n     \n        SubjectComponent build();\n        }\n        }</code></pre><p class="graf--p">Change in calling DaggerComponent:</p><pre><code class="language-java graf graf--code">DaggerSubjectComponent.builder()\n        .bookName(“Book Name”)\n        .build()\n        .inject(this);</code></pre><h4 class="graf--h3"><b class="graf--bold">Inject values by using @Component.Factory</b></h4><p class="graf--p">It works on the factory design pattern.</p><p class="graf--p">But it also has some rules to follow:</p><ul><li>Factory cannot have more than one method but accepts more than one parameter.</li><li>If you want to bind more than one dependencies than you don&#x27;t have to create methods for each dependency. You just pass a new parameter for each of them. This reduces the chaining of methods.</li><li>Your method must return the type of Component or supertype of Component.</li></ul><p class="graf--p">The main advantage of using @Component.Factory is, if we forget to supply some dependency to the factory, it will blow up at compile time. Remove chaining of methods.</p><p class="graf--p">Example as given below-</p><pre><code class="language-java graf graf--code">@Component(module = {ScienceModule.class, PureMathModule.class})\npublic interface SubjectComponent{\n     Subject getSubject();\n\n     Void inject(SubjectActivity activity);\n     \n     \n     @Component.Factory\n     interface Factory{\n          Factory  bookName(@BindsInstance String bookName);\n          SubjectComponent create();\n\n     }\n}</code></pre><p class="graf--p">Change in calling DaggerComponent:</p><pre><code class="language-java graf graf--code">DaggerSubjectComponent.factory()\n        .bookName(“Book Name”)\n        .create()\n        .inject(this);</code></pre><h4 class="graf--h3"><b class="graf--bold">@Name in Dagger:</b></h4><p class="graf--p">If we have to pass more than one parameter with the same data type then dagger doesn’t understand, so, we differentiate it with <b class="graf--bold">@Named(“ ”) </b>convention in Component as well as in Inject constructor also, for example.</p><pre><code class="language-java graf graf--code">@Component(module = {ScienceModule.class, PureMathModule.class})\npublic interface SubjectComponent{\n        Subject getSubject();\n\n        Void inject(SubjectActivity activity);\n\n          @Component.Builder\n          interface Builder{\n          @BindsInstance\n          Builder  bookName(@Named(“Name_One”) String bookName);\n          @BindsInstance\n          Builder  bookNameTwo(@Named(“Name_Two”) String bookNameTwo);\n\n          SubjectComponent build();\n        }\n        }</code></pre><h4 class="graf--h3"><b class="graf--bold">Scopes</b></h4><p class="graf--p">The scopes are java annotations.  It allows you to “preserve” the object instance and provide it as a “local singleton” for the duration of the scoped component.</p><h4 class="graf--h3"><b class="graf--bold">Singleton Scope: </b></h4><p class="graf--p">Singleton is a scope. It facilitates to create a single instance of the same class. It stays in memory until the application alive. Example-   In the component, we write-</p><pre><code class="language-java graf graf--code">@Singleton\n@Component(module = {ScienceModule.class, PureMathModule.class})\npublic interface SubjectComponent{\n     Subject getSubject();\n\n     Void inject(SubjectActivity activity);\n}</code></pre><p class="graf--p">If your class is not injected directly, it called from @provides method then <b class="graf--bold">@Singleton</b> should be written above provide method also. As shown below-</p><pre><code class="language-java graf graf--code">@Module\nclass ScienceModule{\n\n    @Singleton\n    @Provides\n    ScienceBook provideScienceBooks(){\n        //do something\n        return new  ScienceBook();\n    }\n}</code></pre><h4 class="graf--h3"><b class="graf--bold">Custom Scopes in dagger2:</b></h4><p class="graf--p">It is also called as local scopes. As Singleton scope object stays in memory until the application is alive. Thus, it may create a memory leak issue. So, we must create a custom scope to overcome this problem. Custom scope only exists with certain components of the app. It tells the object you are going to exist until that particular activity or component exists. Below code shows how to create a custom scope of Science class whose instance want to share across components:</p><pre><code class="language-java graf graf--code">@Scope\n@Retention(RetentionPolicy.RUNTIME)\npublic @interface ScienceScope {\n}</code></pre><p class="graf--p">Then use this scope in the above component class and providers:</p><pre><code class="language-java graf graf--code">@ScienceScope\n@Component(module = {ScienceModule.class, PureMathModule.class})</code></pre><h4 class="graf--h3"><b class="graf--bold">Qualifiers</b></h4><p class="graf--p">Qualifiers are annotations. As dagger understands only return type. So <b class="graf--bold">@Qualifier</b> is used to differentiate the instance of different methods with the same return type.  The example is given below-</p><p class="graf--p">Create a custom qualifier interface:</p><pre><code class="language-java graf graf--code">@Qualifier\n@Retention(RetentionPolicy.RUNTIME)\npublic @interface ScienceQualifier {\n}</code></pre><p class="graf--p">Now, use it in the module as shown below:</p><pre><code class="language-java graf graf--code">@Module\nclass ScienceModule{\n\n    @ScienceQualifier\n    @Singleton\n    @Provides\n    ScienceBook provideScienceBooks(){\n        //do something\n        return new  ScienceBook();\n    }\n}</code></pre><h4 class="graf--h3">Subcomponent in dagger2</h4><p class="graf--p">It inherits and extends the object of a parent component.  It divides the parent component objects into sub-objects and encapsulates them. Thus, it can be used by more than one scope. Below are the steps to create and use subcomponent:</p><ul><li>Let&#x27;s suppose we have a module for subcomponent:</li></ul><pre><code class="language-java graf graf--code">@Module\npublic class BookNameModule {\n    @Provides\n    public void getAllBooksName(){\n        //code to get all book’s name\n    }\n}</code></pre><ul><li>To create a subcomponent, you need to define Subcomponent. Builder interface providing builder method for each module and build a method that returns component.</li></ul><pre><code class="language-java graf graf--code">@BookScope\n@Subcomponent(modules = BookNameModule.class)\npublic interface BookSubComponent {\n\n    //defining parent dependent inject object, its optional. \n    public void inject(BookActivity activity);\n    \n    @Subcomponent.Builder\n    interface Builder {\n        Builder BookNameModule(BookNameModule module);\n        BookSubComponent build();\n    }\n}</code></pre><pre><code class="language-java graf graf--code"></code></pre><ul><li>Now defining parent component:</li></ul><pre><code class="language-java graf graf--code">@Singleton\n@Component(modules={BookModule.class})\npublic interface BookComponent {\n     // defining sub component builder and inject method   \n     BookSubComponent.Builder bookBuilder();\n     public void inject(MainActivity mainActivity);\n}</code></pre><ul><li>To injecting from parent component in MainActivity, we write this line in MainActivity class</li></ul><pre><code class="language-java graf graf--code">DaggerBookComponent.create().inject(this);</code></pre><ul><li>To inject object from sub-component:</li></ul><pre><code class="language-java graf graf--code">public class BookActivity extends AppCompatActivity {\n    @Inject\n    BookNameModule getAllBooksName;\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_main);\n\n    DaggerBookComponent.create().bookBuilder().build.inject(this);\n    }\n}</code></pre><p class="graf--p">Component builder method exposed in parent component also, so, we can inject objects from parent component too.</p><p class="graf--p">I hope this blog will help you to give a clear idea of Dagger2.</p><p class="graf--p"><i class="graf--italic">Do share this blog with your fellow developers to spread the knowledge.</i></p><p class="graf--p">Happy Learning!</p>',author:17193,img_url:"/images/DI_banner.jpg",blog_url:"dependency-injection-with-dagger2-advance",likes:0,rank:0,category:1,published_at:"17th October 2019"},author:{id:17193,name:"Vandana Srivastava",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghvg5lB_rDN2Gbfhbv4kUgB7nyiL7l_vN-M9ZK9o0A=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Android Developer | Technical Writer at MindOrks",fb_profile_url:"https://www.facebook.com/androidexpertvandana",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/ask_vandana",github_profile_url:"https://github.com/vandanasri",linkedin_profile_url:"https://www.linkedin.com/in/androidexpertvandana/"},isFetching:!1,similarBlogs:[{id:362,title:"Dependency Injection with Dagger2",description:"A detailed description of DI and dagger2",author:17193,img_url:"/images/DI_banner.jpg",blog_url:"dependency-injection-with-dagger2",likes:0,rank:0,category:1,published_at:"17th October 2019",score:9.178855895996094},{id:429,title:"Why do we use the Dependency Injection Framework like Dagger in Android?",description:"In this blog, we are going to see why do we use the Dependency Injection Framework like Dagger in Android. We will also see how can we give our configuration to the framework.",author:9959,img_url:"/images/dagger-banner-why.jpg",blog_url:"why-do-we-use-the-dependency-injection-framework-in-android",likes:0,rank:0,category:1,published_at:"28th April 2020",score:5.591822624206543}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Vandana Srivastava" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghvg5lB_rDN2Gbfhbv4kUgB7nyiL7l_vN-M9ZK9o0A=s96-c?sz=300"/>
+          <div class="content">
+           Vandana Srivastava
+           <div class="sub header" style="margin-top:5px">
+            17th October 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Dependency Injection and Dagger2 Advance
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Dependency Injection with Dagger2 Advance" class="graf-image" src="/images/DI_banner.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  This is a continuation of my Dependency Injection and Dagger2 blog but in an advanced version. To understand this blog it is mandatory to read the previous blog if you haven't read it. Here, is the link
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/dependency-injection-with-dagger2" target="_blank">
+                   Dependency Injection and Dagger2
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  Here, we will read about Sub-Component, Qualifiers, Scopes, and Binds vs Provides, etc. Let's see them one by one.
+                 </p>
+                 <h4 class="graf--h3">
+                  Binds in Dagger2:
+                 </h4>
+                 <p class="graf--p">
+                  Binds do the same as @Provides, it also creates the object to inject. Binds never create an implementation of a class or method, it just instantiates this method directly. Thus, we use abstract class and abstract method to use
+                  <b class="graf--bold">
+                   @Binds
+                  </b>
+                  . This provides better performance.
+                 </p>
+                 <p class="graf--p">
+                  @Provides create first ModuleFactory class, then module and then create inject object whereas binds directly create inject object. It reduces the number of lines of code.
+                 </p>
+                 <p class="graf--p">
+                  But the problem is-  Binds only accept a single argument with the return type.
+                 </p>
+                 <p class="graf--p">
+                  The example is given below-
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+abstract class PureMathModule{
+    @Binds
+    abstract Math provideMath(PureMath pureMath);
+}</code></pre>
+                 <blockquote class="graf--blockquote">
+                  You can’t use @provide methods on the same module shown above. But we can use static provides method here.
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   How to implement Interface in Dagger2:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Let’s suppose Math is an interface then we can’t @inject its method directly. But we can create a class that will implement this interface.
+                 </p>
+                 <pre><code class="language-java graf graf--code">interface Math {
+    public void mathBook();
+}</code></pre>
+                 <p class="graf--p">
+                  Let's suppose we implement this interface in 2 classes:
+                 </p>
+                 <pre><code class="language-java graf graf--code">public class PureMath implements Math
+{
+    @Inject
+    public PureMath(){ }
+    
+    @Override
+    public void mathBook(){ }
+}</code></pre>
+                 <pre><code class="language-java graf graf--code">public class BusinessMath implements Math{
+    
+    @Inject
+    public BusinessMath(){ }
+    @Override
+    public void mathBook(){ }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, calling Math interface in Subject class as shown below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">public class Subject {
+    private Math math ;
+    @Inject
+    public Subject(Math math){}
+
+    public void read(){ }
+}</code></pre>
+                 <p class="graf--p">
+                  Then, the Subject class will get confused about what Math child class should it inject in the Subject constructor. To resolve this problem we would create modules. The module will provide only that particular class which we want to call. As shown below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+public class PureMathModule{
+    @Provides
+    Math provideMath(PureMath pureMath){
+        return pureMath;
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  And now add a module in component:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Component(modules = {ScienceModule.class, PureMathModule.class})
+ public interface SubjectComponent{
+        Subject getSubject();
+
+        Void inject(SubjectActivity activity);
+        }</code></pre>
+                 <p class="graf--p">
+                  We can’t use PureMathModule and BusinessMathModule in the same component then the same problem will arise. Throws a compile-time error Math binds multiple times. Now, the Subject class will automatically bind with the PureMathModule.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Inject values at runtime with UI in Dagger2:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Suppose, if values are assigned through User Interface i.e. at run time then how it gets handled. Suppose, we have the book name at runtime. Let’s see by taking the previous example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">public class PureMath implements Math{ 
+    private String bookName;
+
+    //here, must removed @Inject as the value is passed at the runtime
+    public PureMath(String bookName){
+        this.bookName = bookName;
+    }
+    @Override
+    public void mathBook(){ }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, create the provideBookName() method to provide the book name than with the component.
+                 </p>
+                 <pre><code class="language-java graf graf--code">public class PureMathModule{
+    private String bookName;
+    public PureMathModule(String bookName){
+        this.bookName = bookName;
+    }
+    @Provides
+    String provideBookName(){
+        return bookName;
+    }
+
+    @Provides
+    Math provideMath(PureMath pureMath){
+        return pureMath;
+    }
+}</code></pre>
+                 <pre><code class="language-java graf graf--code"></code></pre>
+                 <p class="graf--p">
+                  Now, to call DaggerComponent we write-
+                 </p>
+                 <pre><code class="language-java graf graf--code">DaggerSubjectComponent.builder()
+         .pureMathModule("Book Name")
+         .build()
+         .inject(this);</code></pre>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    The difference between DaggerComponent create() and in build() is -
+                   </b>
+                   create()  works when no runtime argument is passed into the constructor, else we use build() method.
+                  </i>
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Inject values By using @Component.Builder and @BindsInstance
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  We can also pass our value to a builder directly by using a nested interface in our component.
+                 </p>
+                 <p class="graf--p">
+                  But it has some rules to follow:
+                 </p>
+                 <ul>
+                  <li>
+                   Method that is bind with BindInstance must return the builder type. It should not have more than one parameter. If you want to bind more dependencies must create different methods for each dependency.
+                  </li>
+                  <li>
+                   The builder must have at least one method which returns Component or super Component.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  An advantage of using Component. Builder is, if we forget to supply some dependency to the builder, it will blow up at runtime time.
+                 </p>
+                 <p class="graf--p">
+                  Example as given below-
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Component(module = {ScienceModule.class, PureMathModule.class})
+public interface SubjectComponent{
+        Subject getSubject();
+
+        Void inject(SubjectActivity activity);
+
+     // Here, by using normal java builder pattern, we are overriding builder definition here,
+     @Component.Builder
+     interface Builder{
+          
+     @BindsInstance
+     Builder bookName(String bookName);
+     
+        SubjectComponent build();
+        }
+        }</code></pre>
+                 <p class="graf--p">
+                  Change in calling DaggerComponent:
+                 </p>
+                 <pre><code class="language-java graf graf--code">DaggerSubjectComponent.builder()
+        .bookName(“Book Name”)
+        .build()
+        .inject(this);</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Inject values by using @Component.Factory
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  It works on the factory design pattern.
+                 </p>
+                 <p class="graf--p">
+                  But it also has some rules to follow:
+                 </p>
+                 <ul>
+                  <li>
+                   Factory cannot have more than one method but accepts more than one parameter.
+                  </li>
+                  <li>
+                   If you want to bind more than one dependencies than you don't have to create methods for each dependency. You just pass a new parameter for each of them. This reduces the chaining of methods.
+                  </li>
+                  <li>
+                   Your method must return the type of Component or supertype of Component.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  The main advantage of using @Component.Factory is, if we forget to supply some dependency to the factory, it will blow up at compile time. Remove chaining of methods.
+                 </p>
+                 <p class="graf--p">
+                  Example as given below-
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Component(module = {ScienceModule.class, PureMathModule.class})
+public interface SubjectComponent{
+     Subject getSubject();
+
+     Void inject(SubjectActivity activity);
+     
+     
+     @Component.Factory
+     interface Factory{
+          Factory  bookName(@BindsInstance String bookName);
+          SubjectComponent create();
+
+     }
+}</code></pre>
+                 <p class="graf--p">
+                  Change in calling DaggerComponent:
+                 </p>
+                 <pre><code class="language-java graf graf--code">DaggerSubjectComponent.factory()
+        .bookName(“Book Name”)
+        .create()
+        .inject(this);</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   @Name in Dagger:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  If we have to pass more than one parameter with the same data type then dagger doesn’t understand, so, we differentiate it with
+                  <b class="graf--bold">
+                   @Named(“ ”)
+                  </b>
+                  convention in Component as well as in Inject constructor also, for example.
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Component(module = {ScienceModule.class, PureMathModule.class})
+public interface SubjectComponent{
+        Subject getSubject();
+
+        Void inject(SubjectActivity activity);
+
+          @Component.Builder
+          interface Builder{
+          @BindsInstance
+          Builder  bookName(@Named(“Name_One”) String bookName);
+          @BindsInstance
+          Builder  bookNameTwo(@Named(“Name_Two”) String bookNameTwo);
+
+          SubjectComponent build();
+        }
+        }</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Scopes
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  The scopes are java annotations.  It allows you to “preserve” the object instance and provide it as a “local singleton” for the duration of the scoped component.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Singleton Scope:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Singleton is a scope. It facilitates to create a single instance of the same class. It stays in memory until the application alive. Example-   In the component, we write-
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Singleton
+@Component(module = {ScienceModule.class, PureMathModule.class})
+public interface SubjectComponent{
+     Subject getSubject();
+
+     Void inject(SubjectActivity activity);
+}</code></pre>
+                 <p class="graf--p">
+                  If your class is not injected directly, it called from @provides method then
+                  <b class="graf--bold">
+                   @Singleton
+                  </b>
+                  should be written above provide method also. As shown below-
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+class ScienceModule{
+
+    @Singleton
+    @Provides
+    ScienceBook provideScienceBooks(){
+        //do something
+        return new  ScienceBook();
+    }
+}</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Custom Scopes in dagger2:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  It is also called as local scopes. As Singleton scope object stays in memory until the application is alive. Thus, it may create a memory leak issue. So, we must create a custom scope to overcome this problem. Custom scope only exists with certain components of the app. It tells the object you are going to exist until that particular activity or component exists. Below code shows how to create a custom scope of Science class whose instance want to share across components:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Scope
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ScienceScope {
+}</code></pre>
+                 <p class="graf--p">
+                  Then use this scope in the above component class and providers:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@ScienceScope
+@Component(module = {ScienceModule.class, PureMathModule.class})</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Qualifiers
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Qualifiers are annotations. As dagger understands only return type. So
+                  <b class="graf--bold">
+                   @Qualifier
+                  </b>
+                  is used to differentiate the instance of different methods with the same return type.  The example is given below-
+                 </p>
+                 <p class="graf--p">
+                  Create a custom qualifier interface:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Qualifier
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ScienceQualifier {
+}</code></pre>
+                 <p class="graf--p">
+                  Now, use it in the module as shown below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+class ScienceModule{
+
+    @ScienceQualifier
+    @Singleton
+    @Provides
+    ScienceBook provideScienceBooks(){
+        //do something
+        return new  ScienceBook();
+    }
+}</code></pre>
+                 <h4 class="graf--h3">
+                  Subcomponent in dagger2
+                 </h4>
+                 <p class="graf--p">
+                  It inherits and extends the object of a parent component.  It divides the parent component objects into sub-objects and encapsulates them. Thus, it can be used by more than one scope. Below are the steps to create and use subcomponent:
+                 </p>
+                 <ul>
+                  <li>
+                   Let's suppose we have a module for subcomponent:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">@Module
+public class BookNameModule {
+    @Provides
+    public void getAllBooksName(){
+        //code to get all book’s name
+    }
+}</code></pre>
+                 <ul>
+                  <li>
+                   To create a subcomponent, you need to define Subcomponent. Builder interface providing builder method for each module and build a method that returns component.
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">@BookScope
+@Subcomponent(modules = BookNameModule.class)
+public interface BookSubComponent {
+
+    //defining parent dependent inject object, its optional. 
+    public void inject(BookActivity activity);
+    
+    @Subcomponent.Builder
+    interface Builder {
+        Builder BookNameModule(BookNameModule module);
+        BookSubComponent build();
+    }
+}</code></pre>
+                 <pre><code class="language-java graf graf--code"></code></pre>
+                 <ul>
+                  <li>
+                   Now defining parent component:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">@Singleton
+@Component(modules={BookModule.class})
+public interface BookComponent {
+     // defining sub component builder and inject method   
+     BookSubComponent.Builder bookBuilder();
+     public void inject(MainActivity mainActivity);
+}</code></pre>
+                 <ul>
+                  <li>
+                   To injecting from parent component in MainActivity, we write this line in MainActivity class
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">DaggerBookComponent.create().inject(this);</code></pre>
+                 <ul>
+                  <li>
+                   To inject object from sub-component:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">public class BookActivity extends AppCompatActivity {
+    @Inject
+    BookNameModule getAllBooksName;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+    DaggerBookComponent.create().bookBuilder().build.inject(this);
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Component builder method exposed in parent component also, so, we can inject objects from parent component too.
+                 </p>
+                 <p class="graf--p">
+                  I hope this blog will help you to give a clear idea of Dagger2.
+                 </p>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   Do share this blog with your fellow developers to spread the knowledge.
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning!
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Dependency Injection with Dagger2" class="ui centered image" src="/images/DI_banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Dependency Injection with Dagger2
+           </div>
+           <div class="meta">
+            17th October 2019
+           </div>
+           <div class="description">
+            A detailed description of DI and dagger2
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Why do we use the Dependency Injection Framework like Dagger in Android?" class="ui centered image" src="/images/dagger-banner-why.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Why do we use the Dependency Injection Framework like Dagger in Android?
+           </div>
+           <div class="meta">
+            28th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to see why do we use the Dependency Injection Framework like Dagger in Android. We will also see how can we give our configuration to the framework.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

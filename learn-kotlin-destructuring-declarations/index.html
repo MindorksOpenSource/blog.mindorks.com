@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Learn Kotlin- Destructuring Declarations
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/learn-kotlin-destructuring-declarations" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Learn Kotlin- Destructuring Declarations" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/learn-kotlin-destructuring-declarations" property="og:url"/>
+  <meta content="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png" property="og:image"/>
+  <meta content="Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment)." property="og:description"/>
+  <meta content="Learn Kotlin- Destructuring Declarations" property="twitter:title"/>
+  <meta content="Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment)." name="twitter:description"/>
+  <meta content="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment)." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:25,data:{id:25,title:"Learn Kotlin- Destructuring Declarations",description:"Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).",text:'<h1 class="graf--h1">Learn Kotlin- Destructuring Declarations</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png alt="Learn Kotlin Destructuring declarations" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><h2 class="graf--h2">Destructuring Declarations</h2><p class="graf--p">Destructuring Declarations is yet another important feature available in Kotlin. We can take advantage of this feature to write a better application.</p><h2 class="graf--h2">What is Destructuring?</h2><p class="graf--p"><b class="graf--bold">Destructuring</b> is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).</p><p class="graf--p">Sometimes it is convenient to <i class="graf--italic">destructure</i> an object into a number of variables, for example:</p><pre><code class="language-java graf graf--code">val (name, age) = developer</code></pre><p class="graf--p">Now, we can use name and age independently like below:</p><pre><code class="language-java graf graf--code">println(name)\nprintln(age)</code></pre><h2 class="graf--h2">Use-cases where we can use the Destructuring feature:</h2><ul><li><b class="graf--bold">Returning Two Values from a Function</b></li></ul><h3 class="graf--h3">Example</h3><pre><code class="language-java graf graf--code">data class Developer(val name: String, val age: Int)\nfun getDeveloper(): Developer {\n // some logic\n return Developer(name, age)\n}\n\n</code></pre><pre><code class="language-java graf graf--code">// Now, to use this function:\nval (name, age) = getDeveloper()</code></pre><ul><li><b class="graf--bold">Destructuring Declarations and Maps</b></li></ul><h3 class="graf--h3">Example</h3><pre><code class="language-java graf graf--code">for ((key, value) in map) {\n // do something with the key and the value\n}</code></pre><p class="graf--p">So use this <b class="graf--bold">Destructuring</b> feature, when it is required.</p>',author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png",blog_url:"learn-kotlin-destructuring-declarations",likes:1,rank:0,category:1,published_at:"22nd May 2017"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:22,title:"Learn Kotlin —  apply vs with\n",description:"There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png",blog_url:"learn-kotlin-apply-vs-with",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:1.3926827907562256},{id:24,title:"Learn Kotlin - Data Class",description:"We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png",blog_url:"learn-kotlin-data-class",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:1.3926827907562256},{id:62,title:"Learn Kotlin — Extension Functions",description:"As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png",blog_url:"learn-kotlin-extension-functions",likes:1,rank:0,category:1,published_at:"30th May 2017",score:1.3926827907562256},{id:348,title:"Learn Kotlin — Returns, Jumps & Labels",description:"In this blog, we will learn the concept of labels and jumps in Kotlin. We will see the types of jump expressions that are used in Kotlin.",author:14897,img_url:"/images/learn-kotlin-returns-jumps-and-labels-banner.png",blog_url:"learn-kotlin-returns-jumps-labels",likes:0,rank:0,category:1,published_at:"25th September 2019",score:1.3926827907562256},{id:350,title:"Learn Kotlin Visibility Modifiers — private, protected, internal, public",description:"In this blog, we will learn about visibility modifiers in Kotlin. In Kotlin, we have four visibility modifiers i.e. private, protected, internal, and public. We have created a detailed blog on the same.",author:17146,img_url:"/images/learn-kotlin-visibility-modifier-private-protected-internal-public-banner.png",blog_url:"learn-kotlin-visibility-modifiers-private-protected-internal-public",likes:0,rank:0,category:1,published_at:"29th September 2019",score:1.3926827907562256},{id:291,title:"Learn to write good code in Android: Starter Pattern",description:"In this blog, we will learn how to write good code in Android by using the Starter Pattern. Starter pattern is used to write codes in such a way that there is no bug or runtime error while launching an Activity. So, use Starter Pattern and stand out from the crowd.",author:14897,img_url:"/images/learn-to-write-good-code-in-android-starter-pattern-banner.png",blog_url:"learn-to-write-good-code-in-android-starter-pattern",likes:0,rank:0,category:1,published_at:"3rd July 2019",score:1.2449992895126343}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            22nd May 2017
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Learn Kotlin- Destructuring Declarations
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Learn Kotlin Destructuring declarations" class="graf-image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png"/>
+                 </div>
+                 <h2 class="graf--h2">
+                  Destructuring Declarations
+                 </h2>
+                 <p class="graf--p">
+                  Destructuring Declarations is yet another important feature available in Kotlin. We can take advantage of this feature to write a better application.
+                 </p>
+                 <h2 class="graf--h2">
+                  What is Destructuring?
+                 </h2>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Destructuring
+                  </b>
+                  is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).
+                 </p>
+                 <p class="graf--p">
+                  Sometimes it is convenient to
+                  <i class="graf--italic">
+                   destructure
+                  </i>
+                  an object into a number of variables, for example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">val (name, age) = developer</code></pre>
+                 <p class="graf--p">
+                  Now, we can use name and age independently like below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">println(name)
+println(age)</code></pre>
+                 <h2 class="graf--h2">
+                  Use-cases where we can use the Destructuring feature:
+                 </h2>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Returning Two Values from a Function
+                   </b>
+                  </li>
+                 </ul>
+                 <h3 class="graf--h3">
+                  Example
+                 </h3>
+                 <pre><code class="language-java graf graf--code">data class Developer(val name: String, val age: Int)
+fun getDeveloper(): Developer {
+ // some logic
+ return Developer(name, age)
+}
+
+</code></pre>
+                 <pre><code class="language-java graf graf--code">// Now, to use this function:
+val (name, age) = getDeveloper()</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Destructuring Declarations and Maps
+                   </b>
+                  </li>
+                 </ul>
+                 <h3 class="graf--h3">
+                  Example
+                 </h3>
+                 <pre><code class="language-java graf graf--code">for ((key, value) in map) {
+ // do something with the key and the value
+}</code></pre>
+                 <p class="graf--p">
+                  So use this
+                  <b class="graf--bold">
+                   Destructuring
+                  </b>
+                  feature, when it is required.
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin —  apply vs with
+" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin —  apply vs with
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin - Data Class" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin - Data Class
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin — Extension Functions" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin — Extension Functions
+           </div>
+           <div class="meta">
+            30th May 2017
+           </div>
+           <div class="description">
+            As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin — Returns, Jumps &amp; Labels" class="ui centered image" src="/images/learn-kotlin-returns-jumps-and-labels-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin — Returns, Jumps &amp; Labels
+           </div>
+           <div class="meta">
+            25th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn the concept of labels and jumps in Kotlin. We will see the types of jump expressions that are used in Kotlin.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin Visibility Modifiers — private, protected, internal, public" class="ui centered image" src="/images/learn-kotlin-visibility-modifier-private-protected-internal-public-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin Visibility Modifiers — private, protected, internal, public
+           </div>
+           <div class="meta">
+            29th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about visibility modifiers in Kotlin. In Kotlin, we have four visibility modifiers i.e. private, protected, internal, and public. We have created a detailed blog on the same.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn to write good code in Android: Starter Pattern" class="ui centered image" src="/images/learn-to-write-good-code-in-android-starter-pattern-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn to write good code in Android: Starter Pattern
+           </div>
+           <div class="meta">
+            3rd July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to write good code in Android by using the Starter Pattern. Starter pattern is used to write codes in such a way that there is no bug or runtime error while launching an Activity. So, use Starter Pattern and stand out from the crowd.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

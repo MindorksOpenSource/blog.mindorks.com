@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Learn Kotlin — Returns, Jumps &amp; Labels
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/learn-kotlin-returns-jumps-labels" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Learn Kotlin — Returns, Jumps &amp; Labels" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/learn-kotlin-returns-jumps-labels" property="og:url"/>
+  <meta content="/images/learn-kotlin-returns-jumps-and-labels-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn the concept of labels and jumps in Kotlin. We will see the types of jump expressions that are used in Kotlin." property="og:description"/>
+  <meta content="Learn Kotlin — Returns, Jumps &amp; Labels" property="twitter:title"/>
+  <meta content="In this blog, we will learn the concept of labels and jumps in Kotlin. We will see the types of jump expressions that are used in Kotlin." name="twitter:description"/>
+  <meta content="/images/learn-kotlin-returns-jumps-and-labels-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn the concept of labels and jumps in Kotlin. We will see the types of jump expressions that are used in Kotlin." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:348,data:{id:348,title:"Learn Kotlin — Returns, Jumps & Labels",description:"In this blog, we will learn the concept of labels and jumps in Kotlin. We will see the types of jump expressions that are used in Kotlin.",text:'<h1 class="graf--h1">Learn Kotlin — Returns, Jumps &amp; Labels</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/learn-kotlin-returns-jumps-and-labels-banner.png class=\'graf-image\' alt=\'Learn Kotlin — Returns, Jumps & Labels\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In this blog, we will learn about Jumps and Labels in Kotlin. In Kotlin there are three types of Jump expressions i.e.</p><ol><li>return</li><li>break</li><li>continue</li></ol><p class="graf--p">So, let’s start by having an intro of labels in Kotlin and then moving towards the Jump expressions.</p><h4 class="graf--h3">Labels</h4><p class="graf--p">Any expression written in Kotlin is called <b class="graf--bold">labels</b>. For example, if we are having a <i class="graf--italic">for-loop</i> in our Kotlin code then we can name that <i class="graf--italic">for-loop</i> expression as a label and will use the label name for the <i class="graf--italic">for-loop</i>. So, basically we are giving one name to the <i class="graf--italic">for-loop</i> and by doing so whenever we want to call the same <i class="graf--italic">for-loop</i>, we can just call it by the label name.</p><p class="graf--p"><b class="graf--bold">We can create a label by using an identifier followed by the “@” sign. For example, name@, loop@, xyz@, etc.</b></p><p class="graf--p">Following is an example of a label:</p><pre><code class="language-java graf graf--code">loop@ for (i in 1..10) {\n    // some code goes here\n}</code></pre><p class="graf--p">Here, in the above example, the name of the for loop is <b class="graf--bold"><i class="graf--italic">loop@</i></b>. Now, we can use the for loop by the label name i.e. by loop@.</p><h4 class="graf--h3">Jump Expressions</h4><p class="graf--p">Jump expressions are those expressions that are used to terminate the normal flow of code. For example, if you are executing a 100 line code then if after line number 25 you want to execute line number 57 then it can be done with the help of Jump expressions. As discussed earlier, there are 3 types of Jump expressions i.e. <b class="graf--bold">return, break, and continue</b>. Let’s have a look at them.</p><h4 class="graf--h3"><b class="graf--bold">Retur</b>n </h4><p class="graf--p">The return expression is used to return something from a function body. You can think of a function as a machine and the output of the machine is collected by the return statement.</p><p class="graf--p"><b class="graf--bold">Without a label, the return statement returns to the nearest enclosing function or anonymous function.</b></p><pre><code class="language-java graf graf--code">fun main(args: Array&lt;String&gt;) {\n    val myName = name()\n    println("Name = $myName")\n}\n\nfun name() : String {\n    return "MindOrks"\n}</code></pre><p class="graf--p">In the above example, the function <b class="graf--bold"><i class="graf--italic">name()</i></b>, returns a string having the value as “MindOrks” and this value is stored in the <b class="graf--bold"><i class="graf--italic">myName</i></b> variable. So, whenever the function name() is called then the string “MindOrks” will be returned.</p><p class="graf--p"><b class="graf--bold">While using a labelled return, the control of the program is returned to the specific line in the code. For example, if the length of the code is 100 and the return is at the 45th line then the rest of the code will not be executed.</b></p><pre><code class="language-java graf graf--code">fun foo() {\n    listOf(1, 2, 3, 4, 5).forEach lit@{\n        if (it == 3) return@lit // local return to the caller of the lambda, i.e. the forEach loop\n        print(it)\n    }\n    print(" done with explicit label")\n}</code></pre><p class="graf--p"><b class="graf--bold">Also, we can return some value from an anonymous function i.e. a function not having any name. The return statement in an anonymous function will return from the anonymous function itself.</b></p><pre><code class="language-java graf graf--code">fun foo() {\n    listOf(1, 2, 3, 4, 5).forEach(fun(value: Int) {\n        if (value == 3) return  // local return to the caller of the anonymous fun, i.e. the forEach loop\n        print(value)\n    })\n    print(" done with anonymous function")\n}</code></pre><h4 class="graf--h3"><b class="graf--bold">Break</b> </h4><p class="graf--p">A break statement is used to terminate the flow of a loop. If you are not using a label, then the break statement will terminate the nearest enclosing loop i.e. if you are having two nested <i class="graf--italic">for-loops</i> and the break statement is present in the inner <i class="graf--italic">for-loop</i> then the inner <i class="graf--italic">for-loop</i> will be terminated first and after that if another break is added then the outer <i class="graf--italic">for-loop</i> will also be terminated.</p><pre><code class="language-java graf graf--code">for (i in 1..100) { //loop 1\n    for (j in 1..100) { //loop 2\n        if ( j == 10) break\n    }\n}</code></pre><p class="graf--p">In the above example, if the value of j becomes 10, then loop 2 will be terminated due to the break statement and the execution of loop 1 will continue.</p><p class="graf--p">If we are using break with labels then this will terminate the loop marked with that label. For example,</p><pre><code class="language-java graf graf--code">loop@ for (i in 1..100) { //loop 1\n    for (j in 1..100) { // loop 2\n        if (j == 10) break@loop\n    }\n}</code></pre><p class="graf--p">In the above code, if the value of j becomes 10, then the outer loop or loop 1 will be terminated and no further loops will be executed.</p><h4><b class="graf--bold">Continue</b></h4><p class="graf--p">The continue statement is used to continue or proceed to the next iteration of the loop. For example, if we are having a <i class="graf--italic">for-loop</i> of 100 iterations and after some iteration, we used the continue statement, then at that time the rest of the code after the continue statement will not be executed and the next iteration will be started. For example,</p><pre><code class="language-java graf graf--code">for (i in 1..100) {\n    for (j in 1..100) {\n        if (j == 10) continue\n    }\n}</code></pre><p class="graf--p">In the above code, when the value of j becomes 10 then no further code will be executed and next iteration will be followed i.e. iteration for j = 11 will be done.</p><p class="graf--p">If we are using continue statement with some label, then it will proceed to the next iteration of that particular loop. For example,</p><pre><code class="language-java graf graf--code">loop@ for (i in 1..100) { // loop 1\n    for (j in 1..100) { // loop 2\n        if (j == 10) continue@loop\n    }\n}</code></pre><p class="graf--p">In the above code, if the value of j becomes 10, then the next iteration of the outer or the loop 1 will be done because after continue statement the @loop is called.</p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we learned about labels in Kotlin. We see how we can assign a name to some loop or statement in Kotlin with the help of labels. We also saw the 3 types of Jump expressions in Kotlin i.e. return, break, and continue.</p><p class="graf--p">Hope you learned something new today.</p><p class="graf--p">Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/">blogging website</a>.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://bootcamp.mindorks.com/">Apply Now: MindOrks Android Online Course and Learn Advanced Android</a></b></p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/learn-kotlin-returns-jumps-and-labels-banner.png",blog_url:"learn-kotlin-returns-jumps-labels",likes:0,rank:0,category:1,published_at:"25th September 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:22,title:"Learn Kotlin —  apply vs with\n",description:"There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png",blog_url:"learn-kotlin-apply-vs-with",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:1.3926827907562256},{id:24,title:"Learn Kotlin - Data Class",description:"We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png",blog_url:"learn-kotlin-data-class",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:1.3926827907562256},{id:25,title:"Learn Kotlin- Destructuring Declarations",description:"Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png",blog_url:"learn-kotlin-destructuring-declarations",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:1.3926827907562256},{id:62,title:"Learn Kotlin — Extension Functions",description:"As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png",blog_url:"learn-kotlin-extension-functions",likes:1,rank:0,category:1,published_at:"30th May 2017",score:1.3926827907562256},{id:350,title:"Learn Kotlin Visibility Modifiers — private, protected, internal, public",description:"In this blog, we will learn about visibility modifiers in Kotlin. In Kotlin, we have four visibility modifiers i.e. private, protected, internal, and public. We have created a detailed blog on the same.",author:17146,img_url:"/images/learn-kotlin-visibility-modifier-private-protected-internal-public-banner.png",blog_url:"learn-kotlin-visibility-modifiers-private-protected-internal-public",likes:0,rank:0,category:1,published_at:"29th September 2019",score:1.3926827907562256},{id:291,title:"Learn to write good code in Android: Starter Pattern",description:"In this blog, we will learn how to write good code in Android by using the Starter Pattern. Starter pattern is used to write codes in such a way that there is no bug or runtime error while launching an Activity. So, use Starter Pattern and stand out from the crowd.",author:14897,img_url:"/images/learn-to-write-good-code-in-android-starter-pattern-banner.png",blog_url:"learn-to-write-good-code-in-android-starter-pattern",likes:0,rank:0,category:1,published_at:"3rd July 2019",score:1.2449992895126343}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            25th September 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Learn Kotlin — Returns, Jumps &amp; Labels
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Learn Kotlin — Returns, Jumps &amp; Labels" class="graf-image" src="/images/learn-kotlin-returns-jumps-and-labels-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In this blog, we will learn about Jumps and Labels in Kotlin. In Kotlin there are three types of Jump expressions i.e.
+                 </p>
+                 <ol>
+                  <li>
+                   return
+                  </li>
+                  <li>
+                   break
+                  </li>
+                  <li>
+                   continue
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  So, let’s start by having an intro of labels in Kotlin and then moving towards the Jump expressions.
+                 </p>
+                 <h4 class="graf--h3">
+                  Labels
+                 </h4>
+                 <p class="graf--p">
+                  Any expression written in Kotlin is called
+                  <b class="graf--bold">
+                   labels
+                  </b>
+                  . For example, if we are having a
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  in our Kotlin code then we can name that
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  expression as a label and will use the label name for the
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  . So, basically we are giving one name to the
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  and by doing so whenever we want to call the same
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  , we can just call it by the label name.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   We can create a label by using an identifier followed by the “@” sign. For example, name@, loop@, xyz@, etc.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Following is an example of a label:
+                 </p>
+                 <pre><code class="language-java graf graf--code">loop@ for (i in 1..10) {
+    // some code goes here
+}</code></pre>
+                 <p class="graf--p">
+                  Here, in the above example, the name of the for loop is
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    loop@
+                   </i>
+                  </b>
+                  . Now, we can use the for loop by the label name i.e. by loop@.
+                 </p>
+                 <h4 class="graf--h3">
+                  Jump Expressions
+                 </h4>
+                 <p class="graf--p">
+                  Jump expressions are those expressions that are used to terminate the normal flow of code. For example, if you are executing a 100 line code then if after line number 25 you want to execute line number 57 then it can be done with the help of Jump expressions. As discussed earlier, there are 3 types of Jump expressions i.e.
+                  <b class="graf--bold">
+                   return, break, and continue
+                  </b>
+                  . Let’s have a look at them.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Retur
+                  </b>
+                  n
+                 </h4>
+                 <p class="graf--p">
+                  The return expression is used to return something from a function body. You can think of a function as a machine and the output of the machine is collected by the return statement.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Without a label, the return statement returns to the nearest enclosing function or anonymous function.
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun main(args: Array&lt;String&gt;) {
+    val myName = name()
+    println("Name = $myName")
+}
+
+fun name() : String {
+    return "MindOrks"
+}</code></pre>
+                 <p class="graf--p">
+                  In the above example, the function
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    name()
+                   </i>
+                  </b>
+                  , returns a string having the value as “MindOrks” and this value is stored in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    myName
+                   </i>
+                  </b>
+                  variable. So, whenever the function name() is called then the string “MindOrks” will be returned.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   While using a labelled return, the control of the program is returned to the specific line in the code. For example, if the length of the code is 100 and the return is at the 45th line then the rest of the code will not be executed.
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun foo() {
+    listOf(1, 2, 3, 4, 5).forEach lit@{
+        if (it == 3) return@lit // local return to the caller of the lambda, i.e. the forEach loop
+        print(it)
+    }
+    print(" done with explicit label")
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Also, we can return some value from an anonymous function i.e. a function not having any name. The return statement in an anonymous function will return from the anonymous function itself.
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun foo() {
+    listOf(1, 2, 3, 4, 5).forEach(fun(value: Int) {
+        if (value == 3) return  // local return to the caller of the anonymous fun, i.e. the forEach loop
+        print(value)
+    })
+    print(" done with anonymous function")
+}</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Break
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  A break statement is used to terminate the flow of a loop. If you are not using a label, then the break statement will terminate the nearest enclosing loop i.e. if you are having two nested
+                  <i class="graf--italic">
+                   for-loops
+                  </i>
+                  and the break statement is present in the inner
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  then the inner
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  will be terminated first and after that if another break is added then the outer
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  will also be terminated.
+                 </p>
+                 <pre><code class="language-java graf graf--code">for (i in 1..100) { //loop 1
+    for (j in 1..100) { //loop 2
+        if ( j == 10) break
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In the above example, if the value of j becomes 10, then loop 2 will be terminated due to the break statement and the execution of loop 1 will continue.
+                 </p>
+                 <p class="graf--p">
+                  If we are using break with labels then this will terminate the loop marked with that label. For example,
+                 </p>
+                 <pre><code class="language-java graf graf--code">loop@ for (i in 1..100) { //loop 1
+    for (j in 1..100) { // loop 2
+        if (j == 10) break@loop
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In the above code, if the value of j becomes 10, then the outer loop or loop 1 will be terminated and no further loops will be executed.
+                 </p>
+                 <h4>
+                  <b class="graf--bold">
+                   Continue
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  The continue statement is used to continue or proceed to the next iteration of the loop. For example, if we are having a
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  of 100 iterations and after some iteration, we used the continue statement, then at that time the rest of the code after the continue statement will not be executed and the next iteration will be started. For example,
+                 </p>
+                 <pre><code class="language-java graf graf--code">for (i in 1..100) {
+    for (j in 1..100) {
+        if (j == 10) continue
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In the above code, when the value of j becomes 10 then no further code will be executed and next iteration will be followed i.e. iteration for j = 11 will be done.
+                 </p>
+                 <p class="graf--p">
+                  If we are using continue statement with some label, then it will proceed to the next iteration of that particular loop. For example,
+                 </p>
+                 <pre><code class="language-java graf graf--code">loop@ for (i in 1..100) { // loop 1
+    for (j in 1..100) { // loop 2
+        if (j == 10) continue@loop
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In the above code, if the value of j becomes 10, then the next iteration of the outer or the loop 1 will be done because after continue statement the @loop is called.
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned about labels in Kotlin. We see how we can assign a name to some loop or statement in Kotlin with the help of labels. We also saw the 3 types of Jump expressions in Kotlin i.e. return, break, and continue.
+                 </p>
+                 <p class="graf--p">
+                  Hope you learned something new today.
+                 </p>
+                 <p class="graf--p">
+                  Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our
+                  <a class="markup--anchor" href="https://blog.mindorks.com/" target="_blank">
+                   blogging website
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://bootcamp.mindorks.com/" target="_blank">
+                    Apply Now: MindOrks Android Online Course and Learn Advanced Android
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin —  apply vs with
+" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin —  apply vs with
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin - Data Class" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin - Data Class
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin- Destructuring Declarations" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin- Destructuring Declarations
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin — Extension Functions" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin — Extension Functions
+           </div>
+           <div class="meta">
+            30th May 2017
+           </div>
+           <div class="description">
+            As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin Visibility Modifiers — private, protected, internal, public" class="ui centered image" src="/images/learn-kotlin-visibility-modifier-private-protected-internal-public-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin Visibility Modifiers — private, protected, internal, public
+           </div>
+           <div class="meta">
+            29th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about visibility modifiers in Kotlin. In Kotlin, we have four visibility modifiers i.e. private, protected, internal, and public. We have created a detailed blog on the same.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn to write good code in Android: Starter Pattern" class="ui centered image" src="/images/learn-to-write-good-code-in-android-starter-pattern-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn to write good code in Android: Starter Pattern
+           </div>
+           <div class="meta">
+            3rd July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to write good code in Android by using the Starter Pattern. Starter pattern is used to write codes in such a way that there is no bug or runtime error while launching an Activity. So, use Starter Pattern and stand out from the crowd.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

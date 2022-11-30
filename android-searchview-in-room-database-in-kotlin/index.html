@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Android SearchView in Room Database in Kotlin
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-searchview-in-room-database-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Android SearchView in Room Database in Kotlin" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-searchview-in-room-database-in-kotlin" property="og:url"/>
+  <meta content="/images/android_searchview_in_room_database_mindorks_feature_image.png" property="og:image"/>
+  <meta content="How to implement SearchView inside Room Database?" property="og:description"/>
+  <meta content="Android SearchView in Room Database in Kotlin" property="twitter:title"/>
+  <meta content="How to implement SearchView inside Room Database?" name="twitter:description"/>
+  <meta content="/images/android_searchview_in_room_database_mindorks_feature_image.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="How to implement SearchView inside Room Database?" name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:210,data:{id:210,title:"Android SearchView in Room Database in Kotlin",description:"How to implement SearchView inside Room Database?",text:'<h4 class="graf--h3">Android SearchView in Room Database</h4><p class="graf--p">Welcome, let’s extend our previous chapter where we learnt about Room Database, and here we are going to search the words from the database using SearchView.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_searchview_in_room_database_mindorks_feature_image.png class=\'graf-image\' alt=\'Android SearchView in Room Database in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Let’s start the implementation: firstly, add the dependencies and plugin for kapt</p><pre><code class="language-java graf graf--code">apply plugin: \'kotlin-kapt\'</code></pre><pre><code class="language-java graf graf--code">dependencies {\n    implementation fileTree(dir: \'libs\', include: [\'*.jar\'])\n    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"\n    implementation \'androidx.appcompat:appcompat:1.0.2\'\n    implementation \'androidx.constraintlayout:constraintlayout:1.1.3\'\n    implementation \'androidx.recyclerview:recyclerview:1.0.0\'\n    implementation \'androidx.lifecycle:lifecycle-livedata:2.0.0\'\n    // Room dependencies\n    implementation \'androidx.room:room-runtime:2.0.0\'\n    kapt \'androidx.room:room-compiler:2.0.0\'\n}</code></pre><p class="graf--p">Let’s create the table and fill it</p><pre><code class="language-java graf graf--code">@Entity(tableName = "MindOrksDb")\ndata class Chapter(\n    @PrimaryKey\n    @ColumnInfo(name = "chapterName") val chapterName: String\n) {\n    companion object {\n        fun populateData(): Array&lt;Chapter&gt; {\n            return arrayOf&lt;Chapter&gt;(\n                Chapter("MindOrks"),\n                Chapter("GetMeAnApp"),\n                Chapter("BestContentApp"),\n                Chapter("Hackerspace")\n            )\n        }\n    }\n}</code></pre><p class="graf--p">Our DAO(Database access object interface) where we develop methods use to insert and get the data</p><pre><code class="language-java graf graf--code">@Dao\ninterface ChapterDao {\n    @Insert\n    fun insert(chapter: Array&lt;Chapter&gt;)\n   @Query("SELECT * FROM MindOrksDb  WHERE chapterName LIKE :query")\n    fun getChapterName(query: String): LiveData&lt;List&lt;Chapter&gt;&gt;\n}</code></pre><p class="graf--p">Now, our database class, here we will create the database and also request to fill the database as soon as the database created. So that user can directly start searching when opening this app</p><pre><code class="language-java graf graf--code">@Database(entities = arrayOf(Chapter::class), version = 1)\nabstract class ChapterDatabase : RoomDatabase() {\n   abstract fun chapterDao(): ChapterDao\n   companion object {\n        private var INSTANCE: ChapterDatabase? = null\n       fun getDatabase(context: Context): ChapterDatabase? {\n            if (INSTANCE == null) {\n                synchronized(ChapterDatabase::class) {\n                    INSTANCE = Room.databaseBuilder(\n                            context.getApplicationContext(),\n                            ChapterDatabase::class.java, "chapter.db"\n                    ).addCallback(object : RoomDatabase.Callback() {\n                        override fun onCreate(db: SupportSQLiteDatabase) {\n                            super.onCreate(db)\n                            Executors.newSingleThreadScheduledExecutor().execute(object : Runnable {\n                                override fun run() {\n                                    getDatabase(context)!!.chapterDao().insert(Chapter.populateData())\n                                    Log.d("DatabaseFilled", "DatabaseFilled")\n                                }\n                            })\n                        }\n                    })\n                           .build()\n                }\n            }\n            return INSTANCE\n        }\n    }\n}</code></pre><p class="graf--p">Let’s get to the user side, will build our main screen layout</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n   &lt;ListView\n        android:id="@+id/lvSearchResult"\n        android:layout_width="match_parent"\n        android:layout_height="wrap_content" /&gt;\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">we will create the design of the item when a user starts typing and words coming at the bottom as a list</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    android:layout_width="match_parent"\n    android:layout_height="wrap_content"\n    android:layout_margin="8dp"\n    android:orientation="vertical"&gt;\n   &lt;TextView\n        android:id="@+id/tvSearch"\n        android:layout_width="match_parent"\n        android:layout_height="wrap_content" /&gt;\n&lt;/LinearLayout&gt;</code></pre><p class="graf--p">Let’s add the search buttonAdd search icon in the drawable from image assets. </p><p class="graf--p">Right click on drawable&gt;ImageAssets. Find the search icon and add it.</p><p class="graf--p">Let’s add a menu which will show our search icon. </p><p class="graf--p">Create a menu folder if not presented inside a res folder and add a search item</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;menu xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"&gt;\n    &lt;item\n        android:id="@+id/action_search"\n        android:icon="@drawable/ic_search_view"\n        android:title="Search"\n        app:actionViewClass="androidx.appcompat.widget.SearchView"\n        app:showAsAction="ifRoom|collapseActionView" /&gt;\n&lt;/menu&gt;</code></pre><p class="graf--p">Let’s get back to the MainActivity to implement the user interactionFirstly, create the database</p><pre><code class="language-java graf graf--code">private var chapterDatabase: ChapterDatabase? = null\n\noverride fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n    setContentView(R.layout.activity_main)\n    chapterDatabase = ChapterDatabase.getDatabase(this)!!\n}</code></pre><p class="graf--p">Overrides the options menu method to interact with the search icon which is on the menu. Now, how the search view listen when a user starts typing? </p><p class="graf--p">We need to set a listener called setOnQueryTextListener. Here, we will query the database whenever the user changes the texts.</p><pre><code class="language-java graf graf--code">override fun onCreateOptionsMenu(menu: Menu?): Boolean {\n   val inflater = menuInflater\n    inflater.inflate(R.menu.menu_searchview, menu)\n   val searchItem = menu!!.findItem(R.id.action_search)\n    searchView = searchItem.actionView as SearchView\n   searchView.setSubmitButtonEnabled(true)\n    searchView.setQueryHint("Search either - MindOrks, GetMeAnApp, BestContentApp, Hackerspace")\n   searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {\n       override fun onQueryTextChange(newText: String): Boolean {\n            return true\n        }\n       override fun onQueryTextSubmit(query: String): Boolean {\n            return true\n        }\n   })\n    return super.onCreateOptionsMenu(menu)\n}</code></pre><p class="graf--p">Create an Adapter class which will bind our data to the ListView. Here, we are linking the data to the listview</p><pre><code class="language-java graf graf--code">class SearchAdapter(contextt: Context, val layout: Int, val chapter: List&lt;Chapter&gt;) : ArrayAdapter&lt;Chapter&gt;(contextt, layout, chapter) {\n   override fun getCount(): Int {\n        return chapter.size\n    }\n   override fun getItem(position: Int): Chapter? {\n        return chapter.get(position)\n    }\n   override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {\n        var retView: View\n        var vi = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater\n       if (convertView == null) {\n            retView = vi.inflate(layout, null)\n        } else {\n            retView = convertView\n        }\n       var chapterItem = getItem(position)\n        val chapterName = retView.findViewById(R.id.tvSearch) as TextView\n        chapterName.text = chapterItem!!.chapterName\n       return retView\n    }\n}</code></pre><p class="graf--p">Let’s create a method to get the data from the database. As soon as we get the data, we will update our list view to display updated data to the user.</p><pre><code class="language-java graf graf--code">private fun getNamesFromDb(searchText: String) {\n    val searchTextQuery = "%$searchText%"\n    chapterDatabase!!.chapterDao().getChapterName(searchTextQuery)\n            .observe(this, object : Observer&lt;List&lt;Chapter&gt;&gt; {\n                override fun onChanged(chapter: List&lt;Chapter&gt;?) {\n                    if (chapter == null) {\n                        return\n                    }\n                    val adapter = SearchAdapter(\n                            this@MainActivity,\n                            R.layout.search_item,\n                            chapter\n                    )\n                    lvSearchResult.adapter = adapter\n                }\n            })\n}</code></pre><p class="graf--p">Now, we will call getNamesFromDb() method every time a user changes a text</p><pre><code class="language-java graf graf--code">searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {\n   override fun onQueryTextChange(newText: String): Boolean {\n        getNamesFromDb(newText)\n        return true\n    }\n   override fun onQueryTextSubmit(query: String): Boolean {\n        getNamesFromDb(query)\n        return true\n    }\n})</code></pre><p class="graf--p">So, this will be our MainActivity class</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n   private var chapterDatabase: ChapterDatabase? = null\n    private lateinit var searchView: SearchView\n   override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        chapterDatabase = ChapterDatabase.getDatabase(this)!!\n    }\n   override fun onCreateOptionsMenu(menu: Menu?): Boolean {\n       val inflater = menuInflater\n        inflater.inflate(R.menu.menu_searchview, menu)\n       val searchItem = menu!!.findItem(R.id.action_search)\n        searchView = searchItem.actionView as SearchView\n       searchView.setSubmitButtonEnabled(true)\n        searchView.setQueryHint("Search either - MindOrks, GetMeAnApp, BestContentApp, Hackerspace")\n       searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {\n           override fun onQueryTextChange(newText: String): Boolean {\n                getNamesFromDb(newText)\n                return true\n            }\n           override fun onQueryTextSubmit(query: String): Boolean {\n                getNamesFromDb(query)\n                return true\n            }\n       })\n        return super.onCreateOptionsMenu(menu)\n    }\n   private fun getNamesFromDb(searchText: String) {\n        val searchTextQuery = "%$searchText%"\n        chapterDatabase!!.chapterDao().getChapterName(searchTextQuery)\n                .observe(this, object : Observer&lt;List&lt;Chapter&gt;&gt; {\n                    override fun onChanged(chapter: List&lt;Chapter&gt;?) {\n                        if (chapter == null) {\n                            return\n                        }\n                        val adapter = SearchAdapter(\n                                this@MainActivity,\n                                R.layout.search_item,\n                                chapter\n                        )\n                        lvSearchResult.adapter = adapter\n                    }\n                })\n    }\n}</code></pre><p class="graf--p">Let’s try to run this application and try to find the words from it.</p><p class="graf--p">Try to explore more on this and share with us on our slack and twitter channel.</p><h4 class="graf--h3">New Chapters Coming Soon</h4>',author:14897,img_url:"/images/android_searchview_in_room_database_mindorks_feature_image.png",blog_url:"android-searchview-in-room-database-in-kotlin",likes:0,rank:0,category:1,published_at:"9th January 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:452,title:"Room Database Migrations",description:"In this blog, we will learn about the Room Database Migrations.",author:14040,img_url:"/images/banner-room-database-migrations-f92acbf19704674b.png",blog_url:"room-database-migrations",likes:0,rank:0,category:1,published_at:"18th May 2020",score:4.20841121673584},{id:208,title:"Android SQLite Database in Kotlin",description:"SQLite database helps us to store the data in the database. Android comes with the built-in implementation of SQLite Database.",author:14897,img_url:"/images/android_sqlite_database_kotlin_mindorks_feature_image.png",blog_url:"android-sqlite-database-in-kotlin",likes:0,rank:0,category:1,published_at:"7th January 2019",score:2.485445261001587},{id:368,title:"Firebase Realtime Database: Android Tutorial",description:"In this blog, we will learn about Firebase Realtime Database. With the help of an example, we will see why should we use Firebase Realtime Database in our project.",author:17146,img_url:"/images/firebase-realtime-database-android-tutorial-banner.png",blog_url:"firebase-realtime-database-android-tutorial",likes:0,rank:0,category:1,published_at:"5th November 2019",score:2.337761640548706},{id:377,title:"How to access SQLite Database in Android for Debugging?",description:"In this blog, we will learn how to access SQLite Database in Android for Debugging with the help of the Android Debug Database library. By using the Android Debug Database library, you can view/add/edit/delete values of the tables present in the database.",author:14897,img_url:"/images/how-to-access-sqlite-database-in-android-for-debugging-banner.png",blog_url:"how-to-access-sqlite-database-in-android-for-debugging",likes:0,rank:0,category:1,published_at:"13th November 2019",score:2.337761640548706},{id:209,title:"Android Room Persistence Library in Kotlin",description:"Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class.",author:14897,img_url:"/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png",blog_url:"android-room-persistence-library-in-kotlin",likes:0,rank:0,category:1,published_at:"9th January 2019",score:2.0366883277893066},{id:447,title:"Introduction to Room Persistent Library in Android",description:"In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.",author:14040,img_url:"/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png",blog_url:"introduction-to-room-persistent-library-in-android",likes:0,rank:0,category:1,published_at:"18th May 2020",score:1.8890047073364258}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            9th January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h4 class="graf--h3">
+                  Android SearchView in Room Database
+                 </h4>
+                 <p class="graf--p">
+                  Welcome, let’s extend our previous chapter where we learnt about Room Database, and here we are going to search the words from the database using SearchView.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android SearchView in Room Database in Kotlin" class="graf-image" src="/images/android_searchview_in_room_database_mindorks_feature_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Let’s start the implementation: firstly, add the dependencies and plugin for kapt
+                 </p>
+                 <pre><code class="language-java graf graf--code">apply plugin: 'kotlin-kapt'</code></pre>
+                 <pre><code class="language-java graf graf--code">dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.0.0'
+    // Room dependencies
+    implementation 'androidx.room:room-runtime:2.0.0'
+    kapt 'androidx.room:room-compiler:2.0.0'
+}</code></pre>
+                 <p class="graf--p">
+                  Let’s create the table and fill it
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Entity(tableName = "MindOrksDb")
+data class Chapter(
+    @PrimaryKey
+    @ColumnInfo(name = "chapterName") val chapterName: String
+) {
+    companion object {
+        fun populateData(): Array&lt;Chapter&gt; {
+            return arrayOf&lt;Chapter&gt;(
+                Chapter("MindOrks"),
+                Chapter("GetMeAnApp"),
+                Chapter("BestContentApp"),
+                Chapter("Hackerspace")
+            )
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Our DAO(Database access object interface) where we develop methods use to insert and get the data
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Dao
+interface ChapterDao {
+    @Insert
+    fun insert(chapter: Array&lt;Chapter&gt;)
+   @Query("SELECT * FROM MindOrksDb  WHERE chapterName LIKE :query")
+    fun getChapterName(query: String): LiveData&lt;List&lt;Chapter&gt;&gt;
+}</code></pre>
+                 <p class="graf--p">
+                  Now, our database class, here we will create the database and also request to fill the database as soon as the database created. So that user can directly start searching when opening this app
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Database(entities = arrayOf(Chapter::class), version = 1)
+abstract class ChapterDatabase : RoomDatabase() {
+   abstract fun chapterDao(): ChapterDao
+   companion object {
+        private var INSTANCE: ChapterDatabase? = null
+       fun getDatabase(context: Context): ChapterDatabase? {
+            if (INSTANCE == null) {
+                synchronized(ChapterDatabase::class) {
+                    INSTANCE = Room.databaseBuilder(
+                            context.getApplicationContext(),
+                            ChapterDatabase::class.java, "chapter.db"
+                    ).addCallback(object : RoomDatabase.Callback() {
+                        override fun onCreate(db: SupportSQLiteDatabase) {
+                            super.onCreate(db)
+                            Executors.newSingleThreadScheduledExecutor().execute(object : Runnable {
+                                override fun run() {
+                                    getDatabase(context)!!.chapterDao().insert(Chapter.populateData())
+                                    Log.d("DatabaseFilled", "DatabaseFilled")
+                                }
+                            })
+                        }
+                    })
+                           .build()
+                }
+            }
+            return INSTANCE
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Let’s get to the user side, will build our main screen layout
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+   &lt;ListView
+        android:id="@+id/lvSearchResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /&gt;
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  we will create the design of the item when a user starts typing and words coming at the bottom as a list
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="vertical"&gt;
+   &lt;TextView
+        android:id="@+id/tvSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /&gt;
+&lt;/LinearLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Let’s add the search buttonAdd search icon in the drawable from image assets.
+                 </p>
+                 <p class="graf--p">
+                  Right click on drawable&gt;ImageAssets. Find the search icon and add it.
+                 </p>
+                 <p class="graf--p">
+                  Let’s add a menu which will show our search icon.
+                 </p>
+                 <p class="graf--p">
+                  Create a menu folder if not presented inside a res folder and add a search item
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"&gt;
+    &lt;item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_view"
+        android:title="Search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" /&gt;
+&lt;/menu&gt;</code></pre>
+                 <p class="graf--p">
+                  Let’s get back to the MainActivity to implement the user interactionFirstly, create the database
+                 </p>
+                 <pre><code class="language-java graf graf--code">private var chapterDatabase: ChapterDatabase? = null
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    chapterDatabase = ChapterDatabase.getDatabase(this)!!
+}</code></pre>
+                 <p class="graf--p">
+                  Overrides the options menu method to interact with the search icon which is on the menu. Now, how the search view listen when a user starts typing?
+                 </p>
+                 <p class="graf--p">
+                  We need to set a listener called setOnQueryTextListener. Here, we will query the database whenever the user changes the texts.
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+   val inflater = menuInflater
+    inflater.inflate(R.menu.menu_searchview, menu)
+   val searchItem = menu!!.findItem(R.id.action_search)
+    searchView = searchItem.actionView as SearchView
+   searchView.setSubmitButtonEnabled(true)
+    searchView.setQueryHint("Search either - MindOrks, GetMeAnApp, BestContentApp, Hackerspace")
+   searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+       override fun onQueryTextChange(newText: String): Boolean {
+            return true
+        }
+       override fun onQueryTextSubmit(query: String): Boolean {
+            return true
+        }
+   })
+    return super.onCreateOptionsMenu(menu)
+}</code></pre>
+                 <p class="graf--p">
+                  Create an Adapter class which will bind our data to the ListView. Here, we are linking the data to the listview
+                 </p>
+                 <pre><code class="language-java graf graf--code">class SearchAdapter(contextt: Context, val layout: Int, val chapter: List&lt;Chapter&gt;) : ArrayAdapter&lt;Chapter&gt;(contextt, layout, chapter) {
+   override fun getCount(): Int {
+        return chapter.size
+    }
+   override fun getItem(position: Int): Chapter? {
+        return chapter.get(position)
+    }
+   override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        var retView: View
+        var vi = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+       if (convertView == null) {
+            retView = vi.inflate(layout, null)
+        } else {
+            retView = convertView
+        }
+       var chapterItem = getItem(position)
+        val chapterName = retView.findViewById(R.id.tvSearch) as TextView
+        chapterName.text = chapterItem!!.chapterName
+       return retView
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Let’s create a method to get the data from the database. As soon as we get the data, we will update our list view to display updated data to the user.
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun getNamesFromDb(searchText: String) {
+    val searchTextQuery = "%$searchText%"
+    chapterDatabase!!.chapterDao().getChapterName(searchTextQuery)
+            .observe(this, object : Observer&lt;List&lt;Chapter&gt;&gt; {
+                override fun onChanged(chapter: List&lt;Chapter&gt;?) {
+                    if (chapter == null) {
+                        return
+                    }
+                    val adapter = SearchAdapter(
+                            this@MainActivity,
+                            R.layout.search_item,
+                            chapter
+                    )
+                    lvSearchResult.adapter = adapter
+                }
+            })
+}</code></pre>
+                 <p class="graf--p">
+                  Now, we will call getNamesFromDb() method every time a user changes a text
+                 </p>
+                 <pre><code class="language-java graf graf--code">searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+   override fun onQueryTextChange(newText: String): Boolean {
+        getNamesFromDb(newText)
+        return true
+    }
+   override fun onQueryTextSubmit(query: String): Boolean {
+        getNamesFromDb(query)
+        return true
+    }
+})</code></pre>
+                 <p class="graf--p">
+                  So, this will be our MainActivity class
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+   private var chapterDatabase: ChapterDatabase? = null
+    private lateinit var searchView: SearchView
+   override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        chapterDatabase = ChapterDatabase.getDatabase(this)!!
+    }
+   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+       val inflater = menuInflater
+        inflater.inflate(R.menu.menu_searchview, menu)
+       val searchItem = menu!!.findItem(R.id.action_search)
+        searchView = searchItem.actionView as SearchView
+       searchView.setSubmitButtonEnabled(true)
+        searchView.setQueryHint("Search either - MindOrks, GetMeAnApp, BestContentApp, Hackerspace")
+       searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+           override fun onQueryTextChange(newText: String): Boolean {
+                getNamesFromDb(newText)
+                return true
+            }
+           override fun onQueryTextSubmit(query: String): Boolean {
+                getNamesFromDb(query)
+                return true
+            }
+       })
+        return super.onCreateOptionsMenu(menu)
+    }
+   private fun getNamesFromDb(searchText: String) {
+        val searchTextQuery = "%$searchText%"
+        chapterDatabase!!.chapterDao().getChapterName(searchTextQuery)
+                .observe(this, object : Observer&lt;List&lt;Chapter&gt;&gt; {
+                    override fun onChanged(chapter: List&lt;Chapter&gt;?) {
+                        if (chapter == null) {
+                            return
+                        }
+                        val adapter = SearchAdapter(
+                                this@MainActivity,
+                                R.layout.search_item,
+                                chapter
+                        )
+                        lvSearchResult.adapter = adapter
+                    }
+                })
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Let’s try to run this application and try to find the words from it.
+                 </p>
+                 <p class="graf--p">
+                  Try to explore more on this and share with us on our slack and twitter channel.
+                 </p>
+                 <h4 class="graf--h3">
+                  New Chapters Coming Soon
+                 </h4>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Room Database Migrations" class="ui centered image" src="/images/banner-room-database-migrations-f92acbf19704674b.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Room Database Migrations
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Room Database Migrations.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android SQLite Database in Kotlin" class="ui centered image" src="/images/android_sqlite_database_kotlin_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android SQLite Database in Kotlin
+           </div>
+           <div class="meta">
+            7th January 2019
+           </div>
+           <div class="description">
+            SQLite database helps us to store the data in the database. Android comes with the built-in implementation of SQLite Database.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Firebase Realtime Database: Android Tutorial" class="ui centered image" src="/images/firebase-realtime-database-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Firebase Realtime Database: Android Tutorial
+           </div>
+           <div class="meta">
+            5th November 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about Firebase Realtime Database. With the help of an example, we will see why should we use Firebase Realtime Database in our project.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to access SQLite Database in Android for Debugging?" class="ui centered image" src="/images/how-to-access-sqlite-database-in-android-for-debugging-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to access SQLite Database in Android for Debugging?
+           </div>
+           <div class="meta">
+            13th November 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to access SQLite Database in Android for Debugging with the help of the Android Debug Database library. By using the Android Debug Database library, you can view/add/edit/delete values of the tables present in the database.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Room Persistence Library in Kotlin" class="ui centered image" src="/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Room Persistence Library in Kotlin
+           </div>
+           <div class="meta">
+            9th January 2019
+           </div>
+           <div class="description">
+            Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Introduction to Room Persistent Library in Android" class="ui centered image" src="/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Introduction to Room Persistent Library in Android
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

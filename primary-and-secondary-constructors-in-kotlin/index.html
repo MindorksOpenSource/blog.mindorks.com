@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Primary and Secondary Constructors in Kotlin
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/primary-and-secondary-constructors-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Primary and Secondary Constructors in Kotlin" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/primary-and-secondary-constructors-in-kotlin" property="og:url"/>
+  <meta content="/images/primary-secondary-const-kotlin-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn about Primary and Secondary Constructors in Kotlin. Unlike other object-oriented languages, Kotlin has two types of constructors. So, in this blog, we will learn how to use them." property="og:description"/>
+  <meta content="Primary and Secondary Constructors in Kotlin" property="twitter:title"/>
+  <meta content="In this blog, we will learn about Primary and Secondary Constructors in Kotlin. Unlike other object-oriented languages, Kotlin has two types of constructors. So, in this blog, we will learn how to use them." name="twitter:description"/>
+  <meta content="/images/primary-secondary-const-kotlin-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about Primary and Secondary Constructors in Kotlin. Unlike other object-oriented languages, Kotlin has two types of constructors. So, in this blog, we will learn how to use them." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:246,data:{id:246,title:"Primary and Secondary Constructors in Kotlin",description:"In this blog, we will learn about Primary and Secondary Constructors in Kotlin. Unlike other object-oriented languages, Kotlin has two types of constructors. So, in this blog, we will learn how to use them.",text:'<h1 class="graf--h1">Primary and Secondary Constructors in Kotlin</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/primary-secondary-const-kotlin-banner.png class=\'graf-image\' alt=\'Primary and Secondary Constructors in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Before starting, let’s think of a situation where you and your friend are walking on a road and somebody calls you by your name. What will you do? You will immediately turn back and respond. This is called <b class="graf--bold">Constructor</b>. Here you are the class, with your name as the class name. Whenever someone calls you, with your name, you respond immediately. So, a Constructor is something that is called just after the creation of object i.e. whenever you are called by your name you will respond and this responding is the work that the constructor does.</p><p class="graf--p">So, in this blog, we will learn about constructors in Kotlin. We will cover <b class="graf--bold">Primary Constructors</b>, <b class="graf--bold">init()</b> block and <b class="graf--bold">Secondary Constructors</b>. So, let’s get started.</p><h4 class="graf--h3">What are Constructors?</h4><p class="graf--p">Before moving on to constructors, let’s take an example, suppose there is a class named <b class="graf--bold">Person, </b>then the properties of the class will be the <b class="graf--bold">name</b> of the person, <b class="graf--bold">age</b> of the person, the <b class="graf--bold">salary</b> of the person, etc. </p><p class="graf--p">So, properties are those things which help to identify you. For example, a person is identified by his name, age or place of living. There can be more than one property of a class and all of these properties must be initialized when an object is created and in order to initialize the properties of an object, we use Constructors.</p><p class="graf--p">A constructor is a type or kind of member function, which is used to initialize the properties of a class. Whenever you create an object of a class, then the constructor will be called first automatically and after that other methods will be called(on function call).</p><p class="graf--p">Let&#x27;s have an example, to understand it in a better way. Suppose you go to a Grocery shop and buy something and paid the bill. At this time, what you will expect from the shopkeeper is a carry bag. So, carry bag is a property here. Not only for you, everyone coming to the shop and buying something should get a carry bag. So, this step should be called automatically whenever a coustomer buys something. So, the activities that should be done whenever an object is created is put into the constructor and those activities include initialization of properties.</p><p class="graf--p">So, every class must have a constructor. If you are not defining the constructor, then the compiler will add constructor known as <b class="graf--bold"><i class="graf--italic">default constructor</i></b>.</p><p class="graf--p">Unlike Java, or any other object-oriented language, Kotlin has two types of constructor:</p><ol><li><b class="graf--bold">Primary Constructor</b></li><li><b class="graf--bold">Secondary Constructor</b></li></ol><p class="graf--p">But it is not necessary to add secondary constructor also. You can have one or both constructors at a time.</p><h4 class="graf--h3">Primary Constructor</h4><p class="graf--p">Unlike Java, you need not declare a constructor in the body of the class. Yeah, you read it right and this property should also be there in Java because writing the same name two times, one for the class name and then again for the constructor is not a good thing :) Anyways, jokes apart.</p><p class="graf--p">In Kotlin, you can declare the constructor in the class header itself:</p><pre><code class="language-java graf graf--code">class Person constructor(name: String, age: Int, salary: Int) {\n}</code></pre><p class="graf--p">Just like functions or methods, it takes a series of parameters with their type. These parameters initialize the variables present in the class.</p><p class="graf--p">If you are not having any annotations or modifiers(public, private, protected), then you can omit the <b class="graf--bold"><i class="graf--italic">constructor </i></b>keyword like this:</p><pre><code class="language-java graf graf--code">class Person (name: String, age: Int, salary: Int) {\n}</code></pre><p class="graf--p"><code class="graf--code-inline">By removing the constructor keyword, our code gets simplified and easy to understand.</code></p><h4 class="graf--h3">Initializer Block</h4><p class="graf--p">So, we have seen that primary constructor is used to initialize the member variables of a class. But we are not writing any code of initialization in the primary constructor, then how will our goal be achieved?</p><p class="graf--p">To achieve this task, we use an initializer block called <b class="graf--bold"><i class="graf--italic">init() </i></b>to initialize the member variables with the constructor variables. This <b class="graf--bold"><i class="graf--italic">init() </i></b>block is executed just after the creation of an object.</p><pre><code class="language-java graf graf--code">class Person(_name: String, _age: Int, _salary: Int) {\n    // Member Variables (Properties) of the class\n    var name: String\n    var age: Int \n    var salary: Int \n\n    // Initializer Block\n    init {\n        this.name = _name\n        this.age = _age \n        this.salary = _salary </code></pre><pre><code class="language-java graf graf--code">       println("Initialized a new Person object with Name = $name , age = $age and salary = $salary")\n    }\n}</code></pre><p class="graf--p"><b class="graf--bold"><i class="graf--italic">this</i></b> keyword is used to refer to the variables of the class or any block. If you have the same variable name in the class property and in the constructor then by using <b class="graf--bold"><i class="graf--italic">this</i></b> keyword you can remove the confusion of the compiler. If you are not using <b class="graf--bold"><i class="graf--italic">this </i></b>keyword then your code will look like <b class="graf--bold"><i class="graf--italic">name = name. </i></b>So, it is not clear that which name is referenced here. So, to avoid confusion, we use <b class="graf--bold"><i class="graf--italic">this</i> </b>keyword. </p><p class="graf--p">If you don&#x27;t want to use <b class="graf--bold"><i class="graf--italic">this </i></b>keyword, then you can initialize the variables of the class as follows:</p><pre><code class="language-java graf graf--code">class Person(_name: String, _age: Int, _salary: Int) {</code></pre><pre><code class="language-java graf graf--code">    var name: String</code></pre><pre><code class="language-java graf graf--code">    var age: Int</code></pre><pre><code class="language-java graf graf--code">    var salary: Int</code></pre><pre><code class="language-java graf graf--code">    init() {</code></pre><pre><code class="language-java graf graf--code">    println("Initialized a new Person object with name = $name , age = $age and salary = $salary")</code></pre><pre><code class="language-java graf graf--code">    }</code></pre><pre><code class="language-java graf graf--code">}</code></pre><p class="graf--p">To create an instance of the <b class="graf--bold">Person</b> class, you can use the following code:</p><pre><code class="language-java graf graf--code">val per = Person("Anonymous", 20, 50000)</code></pre><p class="graf--p">As soon as the instance of the class is created, the constructor of thr class will be called. In the above example, <b class="graf--bold"><i class="graf--italic">&quot;Anonymous&quot;</i></b> will be passed as <b class="graf--bold"><i class="graf--italic">_name</i></b>, <b class="graf--bold"><i class="graf--italic">20</i></b> will be pass as <b class="graf--bold"><i class="graf--italic">_age</i></b> and <b class="graf--bold">50000</b> will be passed as <b class="graf--bold"><i class="graf--italic">_salary</i></b>.</p><h4 class="graf--h3"><b class="graf--bold">Default values in constructor</b></h4><p class="graf--p">You need not pass all the parameters while declaring an object. You can put default values to parameters of the constructor as shown below:</p><pre><code class="language-java graf graf--code">class Person(var name: String = "Anonymous", var age: Int = 0, var salary: Int = 20000) {\n    // Initializer Block\n    init {\n        println("Initialized a new Person object with name = $name , age = $lastName" and salary = $salary)\n    }\n}</code></pre><p class="graf--p">Now, the following calls are valid:</p><pre><code class="language-java graf graf--code">//all the 3 values are passed\nval person1 = Person("Pubg", 25, 100000) \n//update name and take the default value of age and salary\nval person2 = Person("John")\n//take all default value\nval person3 = Person()</code></pre><h4 class="graf--h3">Secondary Constructor</h4><p class="graf--p">You can use one another constructor along with the primary constructor in Kotlin. Yeah, that&#x27;s a cool feature of Kotlin.</p><p class="graf--p">To do so you need to declare a secondary constructor using the <b class="graf--bold"><i class="graf--italic">constructor </i></b>keyword.</p><pre><code class="language-java graf graf--code">class Student (var name: String) {\n    init() {\n        println("Student has got a name as $name")\n    }\n\n    constructor(sectionName: String, id: Int) this(sectionName) {\n\n    }\n}</code></pre><p class="graf--p"><b class="graf--bold">Note: </b>You must call the primary constructor from the secondary constructor explicitly. Also, the property of the class can’t be declared inside the secondary constructor. For example, you can&#x27;t declare <b class="graf--bold"><i class="graf--italic">id</i></b> as the property of the class in the secondary constructor:</p><pre><code class="language-java graf graf--code">class Student (var name: String) {\n    init() {\n        println("Student has got a name as $name")\n    }\n</code></pre><pre><code class="language-java graf graf--code">    //this will give an error because here we are declaring a property id of the class in the secondary constructor, which is not allowed \n    constructor(sectionName: String, var id: Int) this(sectionName) {\n\n    }\n}</code></pre><p class="graf--p">If you want to use some property inside the secondary constructor, then declare the property inside the class and use it in the secondary constructor. By doing so, the declared variable will not be accessed inside the <b class="graf--bold"><i class="graf--italic">init() </i></b>block. Can you guess the reason???</p><pre><code class="language-java graf graf--code">class Student (var name: String) {\n\n    var id: Int = -1\n    init() {\n        println("Student has got a name as $name")\n    }\n    \n    constructor(secname: String, id: Int) this(secname) {\n        this.id = id\n    }\n}</code></pre><p class="graf--p">Yes, you are right. You can&#x27;t access the declared variable inside the <b class="graf--bold"><i class="graf--italic">init() </i></b>block because the <b class="graf--bold"><i class="graf--italic">init() </i></b>block is called just after the primary constructor is called and the primary constructor is called just after the creation of object and all the member variables and member function are created/declared/called after the primary constructor or you can simply say constructor. So, the variable will be declared after the execution of <b class="graf--bold"><i class="graf--italic">init() </i></b>block.</p><h4>Summary</h4><p class="graf--p">So, in this blog, we learned how to use the use of constructors in Kotlin. Also, we looked upon the types of Constructor i.e. Primary and Secondary Constructor. We learned that the primary constructor uses <b class="graf--bold"><i class="graf--italic">init()</i></b> block for its execution, while if you are using Secondary Constructor, then you must have to call Primary Constructor explicitly.</p><p class="graf--p">Hope you like this blog :)</p><p class="graf--p">Keep learning!</p><p class="graf--p"><b class="graf--bold">Team MindOrks</b></p>',author:14897,img_url:"/images/primary-secondary-const-kotlin-banner.png",blog_url:"primary-and-secondary-constructors-in-kotlin",likes:0,rank:0,category:1,published_at:"19th May 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:262,title:"Pair and Triple in Kotlin",description:"In this blog, we will learn how to use Pair and Triple in Kotlin. Pairs and Triples can be used in Kotlin to return two or three variables of same or different types of variables, respectively.",author:14897,img_url:"/images/pair-triple-kotlin-banner.png",blog_url:"pair-and-triple-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd June 2019",score:.417885422706604},{id:331,title:"Property, Getter, and Setter  - Kotlin",description:"In this blog, we will learn about Property, Getter, and Setter in Kotlin. We have a detailed explanation of Getter and Setter in this blog. ",author:14897,img_url:"/images/property-getter-setter-in-kotlin-banner.png",blog_url:"property-getter-and-setter-kotlin",likes:0,rank:0,category:1,published_at:"20th September 2019",score:.417885422706604},{id:390,title:"What is Flow in Kotlin and How to use it in Android Project?",description:"What is Flow in Kotlin and How to use it in Android Project? In this blog we will learn what is the need of Flow in Kotlin and its explaination.",author:9959,img_url:"/images/kotlin-flow-banner-image.png",blog_url:"what-is-flow-in-kotlin-and-how-to-use-it-in-android-project",likes:0,rank:0,category:1,published_at:"7th January 2020",score:.417885422706604},{id:427,title:"Difference between List and Array types in Kotlin",description:"In this blog, we will learn the difference between the List and the Array in Kotlin. We will see when to use List and when to use Array in Kotlin.",author:17146,img_url:"/images/difference-between-list-and-array-types-in-kotlin-banner.jpg",blog_url:"difference-between-list-and-array-types-in-kotlin",likes:0,rank:0,category:1,published_at:"27th April 2020",score:.417885422706604},{id:84,title:"Detecting and fixing memory leaks in android",description:"Many a time we see ANR dialog while using android apps, lags in our apps, we also see OutOfMemoryError in Android Studio while building apps. All these kinds of stuff happen due to memory leaks.",author:30,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/detecting-and-fixing-memory-leaks-in-android.jpg",blog_url:"detecting-and-fixing-memory-leaks-in-android",likes:1,rank:0,category:1,published_at:"27th August 2017",score:.2702019214630127},{id:195,title:"Android  Fragments and its Lifecycle",description:"Android Fragments",author:14897,img_url:"/images/android_fragments_mindorks_feature_image.png",blog_url:"android-fragments-and-its-lifecycle",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.2702019214630127}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            19th May 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Primary and Secondary Constructors in Kotlin
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Primary and Secondary Constructors in Kotlin" class="graf-image" src="/images/primary-secondary-const-kotlin-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Before starting, let’s think of a situation where you and your friend are walking on a road and somebody calls you by your name. What will you do? You will immediately turn back and respond. This is called
+                  <b class="graf--bold">
+                   Constructor
+                  </b>
+                  . Here you are the class, with your name as the class name. Whenever someone calls you, with your name, you respond immediately. So, a Constructor is something that is called just after the creation of object i.e. whenever you are called by your name you will respond and this responding is the work that the constructor does.
+                 </p>
+                 <p class="graf--p">
+                  So, in this blog, we will learn about constructors in Kotlin. We will cover
+                  <b class="graf--bold">
+                   Primary Constructors
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   init()
+                  </b>
+                  block and
+                  <b class="graf--bold">
+                   Secondary Constructors
+                  </b>
+                  . So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  What are Constructors?
+                 </h4>
+                 <p class="graf--p">
+                  Before moving on to constructors, let’s take an example, suppose there is a class named
+                  <b class="graf--bold">
+                   Person,
+                  </b>
+                  then the properties of the class will be the
+                  <b class="graf--bold">
+                   name
+                  </b>
+                  of the person,
+                  <b class="graf--bold">
+                   age
+                  </b>
+                  of the person, the
+                  <b class="graf--bold">
+                   salary
+                  </b>
+                  of the person, etc.
+                 </p>
+                 <p class="graf--p">
+                  So, properties are those things which help to identify you. For example, a person is identified by his name, age or place of living. There can be more than one property of a class and all of these properties must be initialized when an object is created and in order to initialize the properties of an object, we use Constructors.
+                 </p>
+                 <p class="graf--p">
+                  A constructor is a type or kind of member function, which is used to initialize the properties of a class. Whenever you create an object of a class, then the constructor will be called first automatically and after that other methods will be called(on function call).
+                 </p>
+                 <p class="graf--p">
+                  Let's have an example, to understand it in a better way. Suppose you go to a Grocery shop and buy something and paid the bill. At this time, what you will expect from the shopkeeper is a carry bag. So, carry bag is a property here. Not only for you, everyone coming to the shop and buying something should get a carry bag. So, this step should be called automatically whenever a coustomer buys something. So, the activities that should be done whenever an object is created is put into the constructor and those activities include initialization of properties.
+                 </p>
+                 <p class="graf--p">
+                  So, every class must have a constructor. If you are not defining the constructor, then the compiler will add constructor known as
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    default constructor
+                   </i>
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Unlike Java, or any other object-oriented language, Kotlin has two types of constructor:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    Primary Constructor
+                   </b>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Secondary Constructor
+                   </b>
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  But it is not necessary to add secondary constructor also. You can have one or both constructors at a time.
+                 </p>
+                 <h4 class="graf--h3">
+                  Primary Constructor
+                 </h4>
+                 <p class="graf--p">
+                  Unlike Java, you need not declare a constructor in the body of the class. Yeah, you read it right and this property should also be there in Java because writing the same name two times, one for the class name and then again for the constructor is not a good thing :) Anyways, jokes apart.
+                 </p>
+                 <p class="graf--p">
+                  In Kotlin, you can declare the constructor in the class header itself:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Person constructor(name: String, age: Int, salary: Int) {
+}</code></pre>
+                 <p class="graf--p">
+                  Just like functions or methods, it takes a series of parameters with their type. These parameters initialize the variables present in the class.
+                 </p>
+                 <p class="graf--p">
+                  If you are not having any annotations or modifiers(public, private, protected), then you can omit the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    constructor
+                   </i>
+                  </b>
+                  keyword like this:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Person (name: String, age: Int, salary: Int) {
+}</code></pre>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   By removing the constructor keyword, our code gets simplified and easy to understand.
+                  </code>
+                 </p>
+                 <h4 class="graf--h3">
+                  Initializer Block
+                 </h4>
+                 <p class="graf--p">
+                  So, we have seen that primary constructor is used to initialize the member variables of a class. But we are not writing any code of initialization in the primary constructor, then how will our goal be achieved?
+                 </p>
+                 <p class="graf--p">
+                  To achieve this task, we use an initializer block called
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    init()
+                   </i>
+                  </b>
+                  to initialize the member variables with the constructor variables. This
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    init()
+                   </i>
+                  </b>
+                  block is executed just after the creation of an object.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Person(_name: String, _age: Int, _salary: Int) {
+    // Member Variables (Properties) of the class
+    var name: String
+    var age: Int 
+    var salary: Int 
+
+    // Initializer Block
+    init {
+        this.name = _name
+        this.age = _age 
+        this.salary = _salary </code></pre>
+                 <pre><code class="language-java graf graf--code">       println("Initialized a new Person object with Name = $name , age = $age and salary = $salary")
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    this
+                   </i>
+                  </b>
+                  keyword is used to refer to the variables of the class or any block. If you have the same variable name in the class property and in the constructor then by using
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    this
+                   </i>
+                  </b>
+                  keyword you can remove the confusion of the compiler. If you are not using
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    this
+                   </i>
+                  </b>
+                  keyword then your code will look like
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    name = name.
+                   </i>
+                  </b>
+                  So, it is not clear that which name is referenced here. So, to avoid confusion, we use
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    this
+                   </i>
+                  </b>
+                  keyword.
+                 </p>
+                 <p class="graf--p">
+                  If you don't want to use
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    this
+                   </i>
+                  </b>
+                  keyword, then you can initialize the variables of the class as follows:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Person(_name: String, _age: Int, _salary: Int) {</code></pre>
+                 <pre><code class="language-java graf graf--code">    var name: String</code></pre>
+                 <pre><code class="language-java graf graf--code">    var age: Int</code></pre>
+                 <pre><code class="language-java graf graf--code">    var salary: Int</code></pre>
+                 <pre><code class="language-java graf graf--code">    init() {</code></pre>
+                 <pre><code class="language-java graf graf--code">    println("Initialized a new Person object with name = $name , age = $age and salary = $salary")</code></pre>
+                 <pre><code class="language-java graf graf--code">    }</code></pre>
+                 <pre><code class="language-java graf graf--code">}</code></pre>
+                 <p class="graf--p">
+                  To create an instance of the
+                  <b class="graf--bold">
+                   Person
+                  </b>
+                  class, you can use the following code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">val per = Person("Anonymous", 20, 50000)</code></pre>
+                 <p class="graf--p">
+                  As soon as the instance of the class is created, the constructor of thr class will be called. In the above example,
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    "Anonymous"
+                   </i>
+                  </b>
+                  will be passed as
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    _name
+                   </i>
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    20
+                   </i>
+                  </b>
+                  will be pass as
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    _age
+                   </i>
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   50000
+                  </b>
+                  will be passed as
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    _salary
+                   </i>
+                  </b>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Default values in constructor
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  You need not pass all the parameters while declaring an object. You can put default values to parameters of the constructor as shown below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Person(var name: String = "Anonymous", var age: Int = 0, var salary: Int = 20000) {
+    // Initializer Block
+    init {
+        println("Initialized a new Person object with name = $name , age = $lastName" and salary = $salary)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, the following calls are valid:
+                 </p>
+                 <pre><code class="language-java graf graf--code">//all the 3 values are passed
+val person1 = Person("Pubg", 25, 100000) 
+//update name and take the default value of age and salary
+val person2 = Person("John")
+//take all default value
+val person3 = Person()</code></pre>
+                 <h4 class="graf--h3">
+                  Secondary Constructor
+                 </h4>
+                 <p class="graf--p">
+                  You can use one another constructor along with the primary constructor in Kotlin. Yeah, that's a cool feature of Kotlin.
+                 </p>
+                 <p class="graf--p">
+                  To do so you need to declare a secondary constructor using the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    constructor
+                   </i>
+                  </b>
+                  keyword.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Student (var name: String) {
+    init() {
+        println("Student has got a name as $name")
+    }
+
+    constructor(sectionName: String, id: Int) this(sectionName) {
+
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note:
+                  </b>
+                  You must call the primary constructor from the secondary constructor explicitly. Also, the property of the class can’t be declared inside the secondary constructor. For example, you can't declare
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    id
+                   </i>
+                  </b>
+                  as the property of the class in the secondary constructor:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Student (var name: String) {
+    init() {
+        println("Student has got a name as $name")
+    }
+</code></pre>
+                 <pre><code class="language-java graf graf--code">    //this will give an error because here we are declaring a property id of the class in the secondary constructor, which is not allowed 
+    constructor(sectionName: String, var id: Int) this(sectionName) {
+
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  If you want to use some property inside the secondary constructor, then declare the property inside the class and use it in the secondary constructor. By doing so, the declared variable will not be accessed inside the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    init()
+                   </i>
+                  </b>
+                  block. Can you guess the reason???
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Student (var name: String) {
+
+    var id: Int = -1
+    init() {
+        println("Student has got a name as $name")
+    }
+    
+    constructor(secname: String, id: Int) this(secname) {
+        this.id = id
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Yes, you are right. You can't access the declared variable inside the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    init()
+                   </i>
+                  </b>
+                  block because the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    init()
+                   </i>
+                  </b>
+                  block is called just after the primary constructor is called and the primary constructor is called just after the creation of object and all the member variables and member function are created/declared/called after the primary constructor or you can simply say constructor. So, the variable will be declared after the execution of
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    init()
+                   </i>
+                  </b>
+                  block.
+                 </p>
+                 <h4>
+                  Summary
+                 </h4>
+                 <p class="graf--p">
+                  So, in this blog, we learned how to use the use of constructors in Kotlin. Also, we looked upon the types of Constructor i.e. Primary and Secondary Constructor. We learned that the primary constructor uses
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    init()
+                   </i>
+                  </b>
+                  block for its execution, while if you are using Secondary Constructor, then you must have to call Primary Constructor explicitly.
+                 </p>
+                 <p class="graf--p">
+                  Hope you like this blog :)
+                 </p>
+                 <p class="graf--p">
+                  Keep learning!
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Pair and Triple in Kotlin" class="ui centered image" src="/images/pair-triple-kotlin-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Pair and Triple in Kotlin
+           </div>
+           <div class="meta">
+            3rd June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Pair and Triple in Kotlin. Pairs and Triples can be used in Kotlin to return two or three variables of same or different types of variables, respectively.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Property, Getter, and Setter  - Kotlin" class="ui centered image" src="/images/property-getter-setter-in-kotlin-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Property, Getter, and Setter  - Kotlin
+           </div>
+           <div class="meta">
+            20th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about Property, Getter, and Setter in Kotlin. We have a detailed explanation of Getter and Setter in this blog.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="What is Flow in Kotlin and How to use it in Android Project?" class="ui centered image" src="/images/kotlin-flow-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            What is Flow in Kotlin and How to use it in Android Project?
+           </div>
+           <div class="meta">
+            7th January 2020
+           </div>
+           <div class="description">
+            What is Flow in Kotlin and How to use it in Android Project? In this blog we will learn what is the need of Flow in Kotlin and its explaination.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Difference between List and Array types in Kotlin" class="ui centered image" src="/images/difference-between-list-and-array-types-in-kotlin-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Difference between List and Array types in Kotlin
+           </div>
+           <div class="meta">
+            27th April 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn the difference between the List and the Array in Kotlin. We will see when to use List and when to use Array in Kotlin.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Detecting and fixing memory leaks in android" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/detecting-and-fixing-memory-leaks-in-android.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Detecting and fixing memory leaks in android
+           </div>
+           <div class="meta">
+            27th August 2017
+           </div>
+           <div class="description">
+            Many a time we see ANR dialog while using android apps, lags in our apps, we also see OutOfMemoryError in Android Studio while building apps. All these kinds of stuff happen due to memory leaks.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android  Fragments and its Lifecycle" class="ui centered image" src="/images/android_fragments_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android  Fragments and its Lifecycle
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android Fragments
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

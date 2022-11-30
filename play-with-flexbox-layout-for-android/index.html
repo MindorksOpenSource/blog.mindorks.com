@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Play with Flexbox-Layout for Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/play-with-flexbox-layout-for-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Play with Flexbox-Layout for Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/play-with-flexbox-layout-for-android" property="og:url"/>
+  <meta content="/images/flexbox_feature_image.jpg" property="og:image"/>
+  <meta content="Learn about Google's library Flexbox layout for Android. FlexboxLayout is a library project which brings the similar capabilities of CSS Flexible Box Layout Module to Android." property="og:description"/>
+  <meta content="Play with Flexbox-Layout for Android" property="twitter:title"/>
+  <meta content="Learn about Google's library Flexbox layout for Android. FlexboxLayout is a library project which brings the similar capabilities of CSS Flexible Box Layout Module to Android." name="twitter:description"/>
+  <meta content="/images/flexbox_feature_image.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="Learn about Google's library Flexbox layout for Android. FlexboxLayout is a library project which brings the similar capabilities of CSS Flexible Box Layout Module to Android." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:215,data:{id:215,title:"Play with Flexbox-Layout for Android",description:"Learn about Google's library Flexbox layout for Android. FlexboxLayout is a library project which brings the similar capabilities of CSS Flexible Box Layout Module to Android.",text:'<h1 class="graf--h1">Play with Flexbox-Layout for Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/flexbox_feature_image.jpg class=\'graf-image\' alt=\'Play with Flexbox-Layout for Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Website UI looks awesome always but can we achieve the same in Android with existing layouts!! Now, we have ConstraintLayout to build a complex layout but Google has done one step ahead; <br/>Google has come up with the <a class="markup--anchor" target="_blank" href="https://github.com/google/flexbox-layout">open source library called flexbox-layout</a> which gives us the same power from <a class="markup--anchor" target="_blank" href="https://www.w3.org/TR/css-flexbox-1/">CSS Flexible Layout module</a>. </p><h4 class="graf--h3">Let’s have a look around this library, how can we use it and also create a sample flexbox application</h4><p class="graf--p">Before beginning with the attributes let’s have a look at an example where flexbox-layout is useful:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/flexbox_layout_flexwrap.png class=\'graf-image\' alt=\'Play with Flexbox-Layout for Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">The Flexbox-Layout(Flexible box layout) is a kind of advanced linear layout where we have child arranged in a direction, but if the room is not available for a child, it goes to the next line. This is called wrap, and this can be achieved with a simple code</p><pre><code class="language-java graf graf--code">aap:flexWrap=”wrap”</code></pre><p class="graf--p">Before, to achieve such conditions we need to depend on the screen size, we also need to create multiple DP-bucket layouts (such as layout-600dp, layout-720dp, layout-1020dp) to handle screen orientations, screen sizes etc.</p><p class="graf--p">If there are some white spaces left at the end, we can fix this with the attribute</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/flexbox_layout_flex_grow.png class=\'graf-image\' alt=\'Play with Flexbox-Layout for Android\' />\n\t\t\t\t\t\t\t\t</div ><pre><code class="language-java graf graf--code">app:layout_flexgrow="1"</code></pre><p class="graf--p">This will work similar to the weight we have in linear layouts. </p><p class="graf--p">This also has an integration with the recycler view which gives us a FlexboxLayoutManager. We can have flexible items in a recycler view through flexbox-layout. </p><p class="graf--p">We will be discussing some of the attributes for flexbox-layout. Here is the list of all the flexbox-layout attributes:</p><pre><code class="language-java graf graf--code">* &lt;ul&gt; \n * &lt;li&gt;{@code flexDirection}&lt;/li&gt; \n * &lt;li&gt;{@code flexWrap}&lt;/li&gt; \n * &lt;li&gt;{@code justifyContent}&lt;/li&gt; \n * &lt;li&gt;{@code alignItems}&lt;/li&gt; \n * &lt;li&gt;{@code alignContent}&lt;/li&gt;\n * &lt;li&gt;{@code showDivider}&lt;/li&gt; \n * &lt;li&gt;{@code showDividerHorizontal}&lt;/li&gt; \n * &lt;li&gt;{@code showDividerVertical}&lt;/li&gt; \n * &lt;li&gt;{@code dividerDrawable}&lt;/li&gt; \n * &lt;li&gt;{@code dividerDrawableHorizontal}&lt;/li&gt; \n * &lt;li&gt;{@code dividerDrawableVertical}&lt;/li&gt; \n * &lt;li&gt;{@code maxLine}&lt;/li&gt; \n* &lt;/ul&gt;</code></pre><p class="graf--p">And for the children of the FlexboxLayout, you can use:</p><pre><code class="language-java graf graf--code">* &lt;ul&gt; \n * &lt;li&gt;{@code layout_order}&lt;/li&gt; \n * &lt;li&gt;{@code layout_flexGrow}&lt;/li&gt; \n * &lt;li&gt;{@code layout_flexShrink}&lt;/li&gt; \n * &lt;li&gt;{@code layout_flexBasisPercent}&lt;/li&gt; \n * &lt;li&gt;{@code layout_alignSelf}&lt;/li&gt; \n * &lt;li&gt;{@code layout_minWidth}&lt;/li&gt; \n * &lt;li&gt;{@code layout_minHeight}&lt;/li&gt; \n * &lt;li&gt;{@code layout_maxWidth}&lt;/li&gt; \n * &lt;li&gt;{@code layout_maxHeight}&lt;/li&gt; \n * &lt;li&gt;{@code layout_wrapBefore}&lt;/li&gt; \n* &lt;/ul&gt;</code></pre><h4 class="graf--h3">flexDirection </h4><p class="graf--p">how the items inside flexbox will arrange. It has 4 values</p><ul><li>row (default)</li><li>row_reverse</li><li>column</li><li>column_reverse</li></ul><h4 class="graf--h3">flexWrap</h4><p class="graf--p">wrapping up the children inside the flex container. It has 3 values</p><ul><li>nowrap (default)</li><li>wrap</li><li>wrap_reverse</li></ul><h4 class="graf--h3">justifyContent</h4><p class="graf--p">setting the alignment. It has 5 values</p><ul><li>flex_start (default)</li><li>flex_end</li><li>centre</li><li>space_between</li><li>space_around</li></ul><p class="graf--p">There are much more attributes left. You can take a look at here — <a class="markup--anchor" target="_blank" href="https://github.com/google/flexbox-layout">https://github.com/google/flexbox-layout</a></p><h4 class="graf--h3">Let’s build the sample app</h4><p class="graf--p">In this application, we will pass a number to the editText and based on it we will create them inside a flexbox. Flexbox will help us to handle the size and alignment of the text view.</p><p class="graf--p">Add the following dependency to your <code class="graf--code-inline">build.gradle</code> file:</p><pre><code class="language-java graf graf--code">dependencies {\n    implementation \'com.google.android:flexbox:1.1.0\'\n}</code></pre><p class="graf--p">Adding the flexbox to the layout</p><pre><code class="language-java graf graf--code">&lt;com.google.android.flexbox.FlexboxLayout\n    android:id="@+id/flexboxlayout"\n    android:layout_width="wrap_content"\n    android:layout_height="wrap_content"\n    app:flexDirection="row"\n    app:flexWrap="wrap"\n    app:justifyContent="center"/&gt;</code></pre><p class="graf--p">We had set the <b class="graf--bold">flexDirection</b> to the <i class="graf--italic">row </i>because we need the text view to be in a horizontal line. We had also set the <b class="graf--bold">flexWrap</b> to wrap because we want if the number of text view increases it should come in the next line. And, lastly, setting <b class="graf--bold">justifyContent</b> to centre, all the text view come in the centre of the flexbox.</p><p class="graf--p">In the kotlin class, we will have an edit text where we will enter the number and will create text view inside the flexbox layout of the same number.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/flexbox_layout_sample_app_gif.gif class=\'graf-image\' alt=\'Play with Flexbox-Layout for Android\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Whole code can be found here in GitHub <a class="markup--anchor" target="_blank" href="https://github.com/anandwana001/sampleflexbox">https://github.com/anandwana001/sampleflexbox</a></h4><p class="graf--p"></p>',author:7037,img_url:"/images/flexbox_feature_image.jpg",blog_url:"play-with-flexbox-layout-for-android",likes:0,rank:0,category:1,published_at:"26th January 2019"},author:{id:7037,name:"Akshay Nandwana",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GiDsAWzvupQvqATref9yg6PTnKUQlIj1HUifUpcpSE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Learn -> Expertise -> Share ",fb_profile_url:"https://www.facebook.com/anandwana001",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/akshay81844",github_profile_url:"https://github.com/anandwana001",linkedin_profile_url:"https://in.linkedin.com/in/anandwana001"},isFetching:!1,similarBlogs:[{id:250,title:"Using Exoplayer to play Video and Audio in Android like a Pro",description:"In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.",author:14897,img_url:"/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png",blog_url:"using-exoplayer-to-play-video-and-audio-in-android-like-a-pro",likes:0,rank:0,category:1,published_at:"24th May 2019",score:3.138566493988037},{id:359,title:"Using MediaPlayer to play an Audio File in Android",description:"In this blog, we will learn how to use MediaPlayer to play an audio file in Android. We will learn about different states present in the MediaPlayer and will also implement it. So, feel the music.",author:17146,img_url:"/images/using-mediaplayer-to-play-an-audio-file-in-android-banner.png",blog_url:"using-mediaplayer-to-play-an-audio-file-in-android",likes:0,rank:0,category:1,published_at:"10th October 2019",score:3.138566493988037},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.01835518702864647},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.01835518702864647},{id:284,title:"Animation in Android - Android Tutorial",description:"In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.",author:14897,img_url:"/images/animation-in-android-banner.png",blog_url:"animation-in-android-tutorial",likes:0,rank:0,category:1,published_at:"24th June 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Akshay Nandwana" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GiDsAWzvupQvqATref9yg6PTnKUQlIj1HUifUpcpSE=s96-c?sz=300"/>
+          <div class="content">
+           Akshay Nandwana
+           <div class="sub header" style="margin-top:5px">
+            26th January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Play with Flexbox-Layout for Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Play with Flexbox-Layout for Android" class="graf-image" src="/images/flexbox_feature_image.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Website UI looks awesome always but can we achieve the same in Android with existing layouts!! Now, we have ConstraintLayout to build a complex layout but Google has done one step ahead;
+                  <br/>
+                  Google has come up with the
+                  <a class="markup--anchor" href="https://github.com/google/flexbox-layout" target="_blank">
+                   open source library called flexbox-layout
+                  </a>
+                  which gives us the same power from
+                  <a class="markup--anchor" href="https://www.w3.org/TR/css-flexbox-1/" target="_blank">
+                   CSS Flexible Layout module
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  Let’s have a look around this library, how can we use it and also create a sample flexbox application
+                 </h4>
+                 <p class="graf--p">
+                  Before beginning with the attributes let’s have a look at an example where flexbox-layout is useful:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Play with Flexbox-Layout for Android" class="graf-image" src="/images/flexbox_layout_flexwrap.png"/>
+                 </div>
+                 <p class="graf--p">
+                  The Flexbox-Layout(Flexible box layout) is a kind of advanced linear layout where we have child arranged in a direction, but if the room is not available for a child, it goes to the next line. This is called wrap, and this can be achieved with a simple code
+                 </p>
+                 <pre><code class="language-java graf graf--code">aap:flexWrap=”wrap”</code></pre>
+                 <p class="graf--p">
+                  Before, to achieve such conditions we need to depend on the screen size, we also need to create multiple DP-bucket layouts (such as layout-600dp, layout-720dp, layout-1020dp) to handle screen orientations, screen sizes etc.
+                 </p>
+                 <p class="graf--p">
+                  If there are some white spaces left at the end, we can fix this with the attribute
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Play with Flexbox-Layout for Android" class="graf-image" src="/images/flexbox_layout_flex_grow.png"/>
+                 </div>
+                 <pre><code class="language-java graf graf--code">app:layout_flexgrow="1"</code></pre>
+                 <p class="graf--p">
+                  This will work similar to the weight we have in linear layouts.
+                 </p>
+                 <p class="graf--p">
+                  This also has an integration with the recycler view which gives us a FlexboxLayoutManager. We can have flexible items in a recycler view through flexbox-layout.
+                 </p>
+                 <p class="graf--p">
+                  We will be discussing some of the attributes for flexbox-layout. Here is the list of all the flexbox-layout attributes:
+                 </p>
+                 <pre><code class="language-java graf graf--code">* &lt;ul&gt; 
+ * &lt;li&gt;{@code flexDirection}&lt;/li&gt; 
+ * &lt;li&gt;{@code flexWrap}&lt;/li&gt; 
+ * &lt;li&gt;{@code justifyContent}&lt;/li&gt; 
+ * &lt;li&gt;{@code alignItems}&lt;/li&gt; 
+ * &lt;li&gt;{@code alignContent}&lt;/li&gt;
+ * &lt;li&gt;{@code showDivider}&lt;/li&gt; 
+ * &lt;li&gt;{@code showDividerHorizontal}&lt;/li&gt; 
+ * &lt;li&gt;{@code showDividerVertical}&lt;/li&gt; 
+ * &lt;li&gt;{@code dividerDrawable}&lt;/li&gt; 
+ * &lt;li&gt;{@code dividerDrawableHorizontal}&lt;/li&gt; 
+ * &lt;li&gt;{@code dividerDrawableVertical}&lt;/li&gt; 
+ * &lt;li&gt;{@code maxLine}&lt;/li&gt; 
+* &lt;/ul&gt;</code></pre>
+                 <p class="graf--p">
+                  And for the children of the FlexboxLayout, you can use:
+                 </p>
+                 <pre><code class="language-java graf graf--code">* &lt;ul&gt; 
+ * &lt;li&gt;{@code layout_order}&lt;/li&gt; 
+ * &lt;li&gt;{@code layout_flexGrow}&lt;/li&gt; 
+ * &lt;li&gt;{@code layout_flexShrink}&lt;/li&gt; 
+ * &lt;li&gt;{@code layout_flexBasisPercent}&lt;/li&gt; 
+ * &lt;li&gt;{@code layout_alignSelf}&lt;/li&gt; 
+ * &lt;li&gt;{@code layout_minWidth}&lt;/li&gt; 
+ * &lt;li&gt;{@code layout_minHeight}&lt;/li&gt; 
+ * &lt;li&gt;{@code layout_maxWidth}&lt;/li&gt; 
+ * &lt;li&gt;{@code layout_maxHeight}&lt;/li&gt; 
+ * &lt;li&gt;{@code layout_wrapBefore}&lt;/li&gt; 
+* &lt;/ul&gt;</code></pre>
+                 <h4 class="graf--h3">
+                  flexDirection
+                 </h4>
+                 <p class="graf--p">
+                  how the items inside flexbox will arrange. It has 4 values
+                 </p>
+                 <ul>
+                  <li>
+                   row (default)
+                  </li>
+                  <li>
+                   row_reverse
+                  </li>
+                  <li>
+                   column
+                  </li>
+                  <li>
+                   column_reverse
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  flexWrap
+                 </h4>
+                 <p class="graf--p">
+                  wrapping up the children inside the flex container. It has 3 values
+                 </p>
+                 <ul>
+                  <li>
+                   nowrap (default)
+                  </li>
+                  <li>
+                   wrap
+                  </li>
+                  <li>
+                   wrap_reverse
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  justifyContent
+                 </h4>
+                 <p class="graf--p">
+                  setting the alignment. It has 5 values
+                 </p>
+                 <ul>
+                  <li>
+                   flex_start (default)
+                  </li>
+                  <li>
+                   flex_end
+                  </li>
+                  <li>
+                   centre
+                  </li>
+                  <li>
+                   space_between
+                  </li>
+                  <li>
+                   space_around
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  There are much more attributes left. You can take a look at here —
+                  <a class="markup--anchor" href="https://github.com/google/flexbox-layout" target="_blank">
+                   https://github.com/google/flexbox-layout
+                  </a>
+                 </p>
+                 <h4 class="graf--h3">
+                  Let’s build the sample app
+                 </h4>
+                 <p class="graf--p">
+                  In this application, we will pass a number to the editText and based on it we will create them inside a flexbox. Flexbox will help us to handle the size and alignment of the text view.
+                 </p>
+                 <p class="graf--p">
+                  Add the following dependency to your
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">dependencies {
+    implementation 'com.google.android:flexbox:1.1.0'
+}</code></pre>
+                 <p class="graf--p">
+                  Adding the flexbox to the layout
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;com.google.android.flexbox.FlexboxLayout
+    android:id="@+id/flexboxlayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:flexDirection="row"
+    app:flexWrap="wrap"
+    app:justifyContent="center"/&gt;</code></pre>
+                 <p class="graf--p">
+                  We had set the
+                  <b class="graf--bold">
+                   flexDirection
+                  </b>
+                  to the
+                  <i class="graf--italic">
+                   row
+                  </i>
+                  because we need the text view to be in a horizontal line. We had also set the
+                  <b class="graf--bold">
+                   flexWrap
+                  </b>
+                  to wrap because we want if the number of text view increases it should come in the next line. And, lastly, setting
+                  <b class="graf--bold">
+                   justifyContent
+                  </b>
+                  to centre, all the text view come in the centre of the flexbox.
+                 </p>
+                 <p class="graf--p">
+                  In the kotlin class, we will have an edit text where we will enter the number and will create text view inside the flexbox layout of the same number.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Play with Flexbox-Layout for Android" class="graf-image" src="/images/flexbox_layout_sample_app_gif.gif"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Whole code can be found here in GitHub
+                  <a class="markup--anchor" href="https://github.com/anandwana001/sampleflexbox" target="_blank">
+                   https://github.com/anandwana001/sampleflexbox
+                  </a>
+                 </h4>
+                 <p class="graf--p">
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Exoplayer to play Video and Audio in Android like a Pro" class="ui centered image" src="/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Exoplayer to play Video and Audio in Android like a Pro
+           </div>
+           <div class="meta">
+            24th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using MediaPlayer to play an Audio File in Android" class="ui centered image" src="/images/using-mediaplayer-to-play-an-audio-file-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using MediaPlayer to play an Audio File in Android
+           </div>
+           <div class="meta">
+            10th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use MediaPlayer to play an audio file in Android. We will learn about different states present in the MediaPlayer and will also implement it. So, feel the music.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Animation in Android - Android Tutorial" class="ui centered image" src="/images/animation-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Animation in Android - Android Tutorial
+           </div>
+           <div class="meta">
+            24th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

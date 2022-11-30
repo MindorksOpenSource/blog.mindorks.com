@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   The powerful tool DiffUtil in RecyclerView - Android Tutorial
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/the-powerful-tool-diff-util-in-recyclerview-android-tutorial" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="The powerful tool DiffUtil in RecyclerView - Android Tutorial" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/the-powerful-tool-diff-util-in-recyclerview-android-tutorial" property="og:url"/>
+  <meta content="/images/banner-diffutil.png" property="og:image"/>
+  <meta content="In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details" property="og:description"/>
+  <meta content="The powerful tool DiffUtil in RecyclerView - Android Tutorial" property="twitter:title"/>
+  <meta content="In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details" name="twitter:description"/>
+  <meta content="/images/banner-diffutil.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details" name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:268,data:{id:268,title:"The powerful tool DiffUtil in RecyclerView - Android Tutorial",description:"In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details",text:'<h1 class="graf--h1">T<b class="graf--bold">he powerful tool DiffUtil in RecyclerView - Android Tutorial</b></h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-diffutil.png class=\'graf-image\' alt=\'The powerful tool DiffUtil in RecyclerView - Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Ever built a List in Android ? What did you use for it? ListView or RecyclerView. If you are living in 2019, I am pretty sure you might have used RecyclerView.  In this blog, we will talk more about updating the recyclerview using DiffUtils</p><h4 class="graf--h3">What is RecyclerView ? </h4><p class="graf--p">RecyclerView is flexible and efficient version of ListView. It is an container for rendering larger data set of views that can be recycled and scrolled very efficiently.</p><p class="graf--p">Before discussing Diff Util, let&#x27;s discuss the RecyclerView Implementation,</p><p class="graf--p">Lets create an Activity MainActivity and add the following in the activity_main.xml file,</p><pre><code class="language-java graf graf--code">&lt;androidx.constraintlayout.widget.ConstraintLayout\n xmlns:android="http://schemas.android.com/apk/res/android"\n        xmlns:tools="http://schemas.android.com/tools"\n        xmlns:app="http://schemas.android.com/apk/res-auto"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent"\n        tools:context=".MainActivity"&gt;\n\n    &lt;androidx.recyclerview.widget.RecyclerView\n            android:layout_width="match_parent"\n            android:layout_height="match_parent"\n            android:id="@+id/recycler_view"\n            app:layout_constraintBottom_toBottomOf="parent"\n            app:layout_constraintLeft_toLeftOf="parent"\n            app:layout_constraintRight_toRightOf="parent"\n            app:layout_constraintTop_toTopOf="parent"/&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Now, lets create a data model class and a Data Source ,</p><pre><code class="language-java graf graf--code">data class Rating(val rateIndex: Int, val ratingValue: Int, val name: String)</code></pre><p class="graf--p">and the data source looks like,</p><pre><code class="language-java graf graf--code">object DataSource {\n\n    val ratingList: List&lt;Rating&gt;\n        get() {\n            val ratings = ArrayList&lt;Rating&gt;()\n            ratings.add(Rating(1, 10, "Mindorks"))\n            ratings.add(Rating(2, 12, "AfterAcademy"))\n            ratings.add(Rating(3, 5, "blog.mindorks.com"))\n            return ratings\n        }\n}</code></pre><p class="graf--p">Now, to set the list in RecyclerView, lets create an adapter,</p><pre><code class="language-java graf graf--code">class RatingAdapter : RecyclerView.Adapter&lt;RatingAdapter.ViewHolder&gt;() {\n\n    private val ratings = ArrayList&lt;Rating&gt;()\n\n\n    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {\n        val inflater = LayoutInflater.from(parent.context)\n        val view = inflater.inflate(R.layout.item_rating, parent, false)\n        return ViewHolder(view)\n    }\n\n    override fun onBindViewHolder(holder: ViewHolder, position: Int) {\n        val rating = ratings[position]\n        holder.name_text.text = rating.name\n    }\n\n    fun setData(ratings: List&lt;Rating&gt;) {\n       ratings.clear()\n       ratings.addAll(ratings)\n       \n    }\n\n    override fun getItemCount(): Int {\n        return ratings.size\n    }\n\n    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {\n\n        val name_text: TextView = itemView.findViewById(R.id.name_text)\n\n    }\n}</code></pre><p class="graf--p">and now, let&#x27;s supply the data from DataSource, in MainActivity,</p><pre><code class="language-java graf graf--code">private fun setList() {\n    val ratingAdapter = RatingAdapter()\n    recycler_view.layoutManager = LinearLayoutManager(this)\n    recycler_view.itemAnimator = DefaultItemAnimator()\n    recycler_view.adapter = ratingAdapter\n    ratingAdapter.setData(DataSource.ratingList)\n\n}</code></pre><p class="graf--p">and after running the app, we will see the List in the MainActivity.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/list-output.png class=\'graf-image\' alt=\'The powerful tool DiffUtil in RecyclerView - Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Now, what if we have to update the list with new set of data ?</h4><p class="graf--p">We will call the,</p><pre><code class="language-java graf graf--code">adapter.setData(/** new data**/)</code></pre><p class="graf--p">and call from MainActivity,</p><pre><code class="language-java graf graf--code">adapter.notifyDataSetChanged()</code></pre><p class="graf--p">This will update the recyclerview with the new set of data.</p><p class="graf--p">But if notifyDataSetChanged was doing the work for you, why was DiffUtils was need?</p><p class="graf--p">Let&#x27;s discuss that now,</p><ul><li>Using notifyDataSetChanged() , there is no way for the RecyclerView to know what the actual changes  are there. So, all the visible views are recreated again. This is a very expensive operation.</li><li>In this process, the new instance is created of the adapter. Which makes the process very heavy.</li></ul><p class="graf--p">To over come this, Android Launched DiffUtils as part of support library.</p><blockquote class="graf--blockquote"><i class="graf--italic">DiffUtil is a utility class that can calculate the difference between two lists and output a list of update operations that converts the first list into the second one. </i>DiffUtils is based on <span class=""><a class="markup--anchor" target="_blank" href="https://en.wikipedia.org/wiki/Diff_utility#cite_note-8">Eugene Myers’ algorithm</a></span>.</blockquote><ul><li>DiffUtils is used to know the updats made in the RecyclerView Adapter.</li></ul><p class="graf--p">DiffUtil uses these methods to notify the RecyclerView for any changes in the data set:</p><ul><li><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter.html#notifyItemMoved%28int,%20int%29">notifyItemMoved</a></li><li><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter.html#notifyItemRangeChanged%28int,%20int%29">notifyItemRangeChanged</a></li><li><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter.html#notifyItemRangeInserted%28int,%20int%29">notifyItemRangeInserted</a></li><li><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter.html#notifyItemRangeRemoved%28int,%20int%29">notifyItemRangeRemoved</a></li></ul><p class="graf--p">Compared to <b class="graf--bold"><i class="graf--italic">notifyDataSetChanged()</i></b> , these methods are far more efficient.</p><p class="graf--p">But to make DiffUtils working in the project, we have to pass the information regarding the old and new list. This is done using <b class="graf--bold">DiffUtil.Callback</b> .</p><p class="graf--p">We will create a class,</p><pre><code class="language-java graf graf--code">class RatingDiffCallback(private val oldList: List&lt;Rating&gt;, private val newList: List&lt;Rating&gt;) : DiffUtil.Callback() {\n\n    override fun getOldListSize(): Int = oldList.size\n\n    override fun getNewListSize(): Int = newList.size\n\n    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {\n        return oldList[oldItemPosition].rateIndex === newList.get(newItemPosition).rateIndex\n    }\n\n    override fun areContentsTheSame(oldPosition: Int, newPosition: Int): Boolean {\n        val (_, value, name) = oldList[oldPosition]\n        val (_, value1, name1) = newList[newPosition]\n\n        return name == name1 && value == value1\n    }\n\n    @Nullable\n    override fun getChangePayload(oldPosition: Int, newPosition: Int): Any? {\n        return super.getChangePayload(oldPosition, newPosition)\n    }\n}</code></pre><p class="graf--p">Here,</p><p class="graf--p"><b class="graf--bold">getOldListSize<i class="graf--italic">() :</i></b> It returns the size of the old list.</p><p class="graf--p"><b class="graf--bold">getNewListSize<i class="graf--italic">() :</i></b> Returns the size of the new list</p><p class="graf--p"><b class="graf--bold">areItemsTheSame( oldPosition:Int ,  newPosition:Int)<i class="graf--italic"> :</i></b> Called by the DiffUtil to decide whether two object represent the same Item in the old and new list.</p><p class="graf--p"><b class="graf--bold">areContentsTheSame( oldPosition:Int,  newPosition:Int) <i class="graf--italic">:</i></b> Checks whether two items have the same data.You can change its behavior depending on your UI. This method is called by DiffUtil only if <i class="graf--italic">areItemsTheSame</i> returns true. In our example, we are comparing the name and value for the specific item.</p><p class="graf--p"><b class="graf--bold">getChangePayload(oldPosition:Int ,  newPosition:Int)<i class="graf--italic"> :</i></b> If areItemTheSame return true and areContentsTheSame returns false DiffUtil calls this method to get a payload about the change.</p><p class="graf--p">Now, to make use of this, we replace the setData in Adapter,</p><pre><code class="language-java graf graf--code">fun setData(newRating: List&lt;Rating&gt;) {\n    val diffCallback = RatingDiffCallback(ratings, newRating)\n    val diffResult = DiffUtil.calculateDiff(diffCallback)\n    ratings.clear()\n    ratings.addAll(newRating)\n    diffResult.dispatchUpdatesTo(this)\n}\n</code></pre><p class="graf--p">Here, we pass both old and new list in RatingDiffCallback and then we calculate the difference.</p><p class="graf--p">After we know the difference, we update the ratings array list and notify the adapter via <i class="graf--italic">dispatchUpdatesTo</i> .</p><p class="graf--p">This will update the old list with the new list. This is how you can update the list.</p><h4 class="graf--h3">Why should we use DiffUtils?</h4><p class="graf--p">1. Here is the performance chart which illustrates that using DiffUtil is better in a case of RecyclerView. These results are based on Nexus 5X with M-</p><ul><li><b class="graf--bold">100 items and 10 modifications: avg: 0.39 ms, median: 0.35 ms</b></li><li><b class="graf--bold">100 items and 100 modifications: 3.82 ms, median: 3.75 ms</b></li><li><b class="graf--bold">100 items and 100 modifications</b> <b class="graf--bold"><i class="graf--italic">without moves</i>: 2.09 ms, median: 2.06 ms</b></li><li><b class="graf--bold">1000 items and 50 modifications: avg: 4.67 ms, median: 4.59 ms</b></li><li><b class="graf--bold">1000 items and 50 modifications</b> <b class="graf--bold"><i class="graf--italic">without moves</i>: avg: 3.59 ms, median: 3.50 ms</b></li><li><b class="graf--bold">1000 items and 200 modifications: 27.07 ms, median: 26.92 ms</b></li><li><b class="graf--bold">1000 items and 200 modifications</b> <b class="graf--bold"><i class="graf--italic">without moves</i>: 13.54 ms, median: 13.36 ms</b></li></ul><blockquote class="graf--blockquote">Note:  The maximum size of the list can be 2^26 because of the provided constraint. </blockquote><p class="graf--p">This is how you can use DiffUtils to update the list in RecyclerView.</p><p class="graf--p">Happy Learning</p><p class="graf--p">Team MindOrks :)</p>',author:9959,img_url:"/images/banner-diffutil.png",blog_url:"the-powerful-tool-diff-util-in-recyclerview-android-tutorial",likes:0,rank:0,category:1,published_at:"6th June 2019"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:454,title:"How does RecyclerView work internally?",description:"In this blog, we are going to talk about how recyclerView works internally and how the recycling of views happen. We would also discuss the benefit of using viewholders in recyclerView.",author:9959,img_url:"/images/banner-recyclerview-working-3a65a777947be8b6.png",blog_url:"how-does-recyclerview-work-internally",likes:0,rank:0,category:1,published_at:"20th May 2020",score:2.7959113121032715},{id:358,title:"Java Tutorial For Beginners - Learn Java From Basics",description:"In this blog, we will learn how to get started with Java from basics. ",author:9959,img_url:"/images/java-basics.png",blog_url:"java-tutorial-for-beginners-learn-java-from-basics",likes:0,rank:0,category:1,published_at:"8th October 2019",score:.8256809115409851},{id:420,title:"Using WebViews in Flutter: Tutorial",description:"In this blog, we will learn how to use WebViews in Flutter. WebViews are very important to open some web pages inside your application.",author:17146,img_url:"/images/using-webviews-in-flutter-tutorial-banner.jpg",blog_url:"using-webviews-in-flutter-tutorial",likes:0,rank:0,category:9,published_at:"20th April 2020",score:.8256809115409851},{id:474,title:"Dagger Hilt Tutorial - Step by Step Guide",description:"In this blog, we are going to see how to work with Dagger-Hilt, the new dependency injection library based on top of Dagger with a step by step guide. Dagger-Hilt is recommended by Google for dependency injection in Android.",author:9959,img_url:"/images/banner-dagger-hilt-d089fd89370529ef.png",blog_url:"dagger-hilt-tutorial",likes:0,rank:0,category:1,published_at:"15th June 2020",score:.8256809115409851},{id:510,title:"Jetpack Compose Tutorial - Step by Step Guide",description:"In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI. We will go through this tutorial to learn Jetpack Compose for Android by example.",author:14897,img_url:"/images/banner-jetpack-compose-tutorial-713779506dbc7754.jpg",blog_url:"jetpack-compose-tutorial",likes:0,rank:0,category:1,published_at:"5th November 2020",score:.8256809115409851}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            6th June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  T
+                  <b class="graf--bold">
+                   he powerful tool DiffUtil in RecyclerView - Android Tutorial
+                  </b>
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="The powerful tool DiffUtil in RecyclerView - Android Tutorial" class="graf-image" src="/images/banner-diffutil.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Ever built a List in Android ? What did you use for it? ListView or RecyclerView. If you are living in 2019, I am pretty sure you might have used RecyclerView.  In this blog, we will talk more about updating the recyclerview using DiffUtils
+                 </p>
+                 <h4 class="graf--h3">
+                  What is RecyclerView ?
+                 </h4>
+                 <p class="graf--p">
+                  RecyclerView is flexible and efficient version of ListView. It is an container for rendering larger data set of views that can be recycled and scrolled very efficiently.
+                 </p>
+                 <p class="graf--p">
+                  Before discussing Diff Util, let's discuss the RecyclerView Implementation,
+                 </p>
+                 <p class="graf--p">
+                  Lets create an Activity MainActivity and add the following in the activity_main.xml file,
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;androidx.constraintlayout.widget.ConstraintLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"&gt;
+
+    &lt;androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recycler_view"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, lets create a data model class and a Data Source ,
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class Rating(val rateIndex: Int, val ratingValue: Int, val name: String)</code></pre>
+                 <p class="graf--p">
+                  and the data source looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">object DataSource {
+
+    val ratingList: List&lt;Rating&gt;
+        get() {
+            val ratings = ArrayList&lt;Rating&gt;()
+            ratings.add(Rating(1, 10, "Mindorks"))
+            ratings.add(Rating(2, 12, "AfterAcademy"))
+            ratings.add(Rating(3, 5, "blog.mindorks.com"))
+            return ratings
+        }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, to set the list in RecyclerView, lets create an adapter,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class RatingAdapter : RecyclerView.Adapter&lt;RatingAdapter.ViewHolder&gt;() {
+
+    private val ratings = ArrayList&lt;Rating&gt;()
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.item_rating, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val rating = ratings[position]
+        holder.name_text.text = rating.name
+    }
+
+    fun setData(ratings: List&lt;Rating&gt;) {
+       ratings.clear()
+       ratings.addAll(ratings)
+       
+    }
+
+    override fun getItemCount(): Int {
+        return ratings.size
+    }
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        val name_text: TextView = itemView.findViewById(R.id.name_text)
+
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  and now, let's supply the data from DataSource, in MainActivity,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun setList() {
+    val ratingAdapter = RatingAdapter()
+    recycler_view.layoutManager = LinearLayoutManager(this)
+    recycler_view.itemAnimator = DefaultItemAnimator()
+    recycler_view.adapter = ratingAdapter
+    ratingAdapter.setData(DataSource.ratingList)
+
+}</code></pre>
+                 <p class="graf--p">
+                  and after running the app, we will see the List in the MainActivity.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="The powerful tool DiffUtil in RecyclerView - Android Tutorial" class="graf-image" src="/images/list-output.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Now, what if we have to update the list with new set of data ?
+                 </h4>
+                 <p class="graf--p">
+                  We will call the,
+                 </p>
+                 <pre><code class="language-java graf graf--code">adapter.setData(/** new data**/)</code></pre>
+                 <p class="graf--p">
+                  and call from MainActivity,
+                 </p>
+                 <pre><code class="language-java graf graf--code">adapter.notifyDataSetChanged()</code></pre>
+                 <p class="graf--p">
+                  This will update the recyclerview with the new set of data.
+                 </p>
+                 <p class="graf--p">
+                  But if notifyDataSetChanged was doing the work for you, why was DiffUtils was need?
+                 </p>
+                 <p class="graf--p">
+                  Let's discuss that now,
+                 </p>
+                 <ul>
+                  <li>
+                   Using notifyDataSetChanged() , there is no way for the RecyclerView to know what the actual changes  are there. So, all the visible views are recreated again. This is a very expensive operation.
+                  </li>
+                  <li>
+                   In this process, the new instance is created of the adapter. Which makes the process very heavy.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  To over come this, Android Launched DiffUtils as part of support library.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   DiffUtil is a utility class that can calculate the difference between two lists and output a list of update operations that converts the first list into the second one.
+                  </i>
+                  DiffUtils is based on
+                  <span class="">
+                   <a class="markup--anchor" href="https://en.wikipedia.org/wiki/Diff_utility#cite_note-8" target="_blank">
+                    Eugene Myers’ algorithm
+                   </a>
+                  </span>
+                  .
+                 </blockquote>
+                 <ul>
+                  <li>
+                   DiffUtils is used to know the updats made in the RecyclerView Adapter.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  DiffUtil uses these methods to notify the RecyclerView for any changes in the data set:
+                 </p>
+                 <ul>
+                  <li>
+                   <a class="markup--anchor" href="https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter.html#notifyItemMoved%28int,%20int%29" target="_blank">
+                    notifyItemMoved
+                   </a>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter.html#notifyItemRangeChanged%28int,%20int%29" target="_blank">
+                    notifyItemRangeChanged
+                   </a>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter.html#notifyItemRangeInserted%28int,%20int%29" target="_blank">
+                    notifyItemRangeInserted
+                   </a>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://developer.android.com/reference/android/support/v7/widget/RecyclerView.Adapter.html#notifyItemRangeRemoved%28int,%20int%29" target="_blank">
+                    notifyItemRangeRemoved
+                   </a>
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Compared to
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    notifyDataSetChanged()
+                   </i>
+                  </b>
+                  , these methods are far more efficient.
+                 </p>
+                 <p class="graf--p">
+                  But to make DiffUtils working in the project, we have to pass the information regarding the old and new list. This is done using
+                  <b class="graf--bold">
+                   DiffUtil.Callback
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  We will create a class,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class RatingDiffCallback(private val oldList: List&lt;Rating&gt;, private val newList: List&lt;Rating&gt;) : DiffUtil.Callback() {
+
+    override fun getOldListSize(): Int = oldList.size
+
+    override fun getNewListSize(): Int = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].rateIndex === newList.get(newItemPosition).rateIndex
+    }
+
+    override fun areContentsTheSame(oldPosition: Int, newPosition: Int): Boolean {
+        val (_, value, name) = oldList[oldPosition]
+        val (_, value1, name1) = newList[newPosition]
+
+        return name == name1 &amp;&amp; value == value1
+    }
+
+    @Nullable
+    override fun getChangePayload(oldPosition: Int, newPosition: Int): Any? {
+        return super.getChangePayload(oldPosition, newPosition)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   getOldListSize
+                   <i class="graf--italic">
+                    () :
+                   </i>
+                  </b>
+                  It returns the size of the old list.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   getNewListSize
+                   <i class="graf--italic">
+                    () :
+                   </i>
+                  </b>
+                  Returns the size of the new list
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   areItemsTheSame( oldPosition:Int ,  newPosition:Int)
+                   <i class="graf--italic">
+                    :
+                   </i>
+                  </b>
+                  Called by the DiffUtil to decide whether two object represent the same Item in the old and new list.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   areContentsTheSame( oldPosition:Int,  newPosition:Int)
+                   <i class="graf--italic">
+                    :
+                   </i>
+                  </b>
+                  Checks whether two items have the same data.You can change its behavior depending on your UI. This method is called by DiffUtil only if
+                  <i class="graf--italic">
+                   areItemsTheSame
+                  </i>
+                  returns true. In our example, we are comparing the name and value for the specific item.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   getChangePayload(oldPosition:Int ,  newPosition:Int)
+                   <i class="graf--italic">
+                    :
+                   </i>
+                  </b>
+                  If areItemTheSame return true and areContentsTheSame returns false DiffUtil calls this method to get a payload about the change.
+                 </p>
+                 <p class="graf--p">
+                  Now, to make use of this, we replace the setData in Adapter,
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun setData(newRating: List&lt;Rating&gt;) {
+    val diffCallback = RatingDiffCallback(ratings, newRating)
+    val diffResult = DiffUtil.calculateDiff(diffCallback)
+    ratings.clear()
+    ratings.addAll(newRating)
+    diffResult.dispatchUpdatesTo(this)
+}
+</code></pre>
+                 <p class="graf--p">
+                  Here, we pass both old and new list in RatingDiffCallback and then we calculate the difference.
+                 </p>
+                 <p class="graf--p">
+                  After we know the difference, we update the ratings array list and notify the adapter via
+                  <i class="graf--italic">
+                   dispatchUpdatesTo
+                  </i>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  This will update the old list with the new list. This is how you can update the list.
+                 </p>
+                 <h4 class="graf--h3">
+                  Why should we use DiffUtils?
+                 </h4>
+                 <p class="graf--p">
+                  1. Here is the performance chart which illustrates that using DiffUtil is better in a case of RecyclerView. These results are based on Nexus 5X with M-
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    100 items and 10 modifications: avg: 0.39 ms, median: 0.35 ms
+                   </b>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    100 items and 100 modifications: 3.82 ms, median: 3.75 ms
+                   </b>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    100 items and 100 modifications
+                   </b>
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     without moves
+                    </i>
+                    : 2.09 ms, median: 2.06 ms
+                   </b>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    1000 items and 50 modifications: avg: 4.67 ms, median: 4.59 ms
+                   </b>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    1000 items and 50 modifications
+                   </b>
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     without moves
+                    </i>
+                    : avg: 3.59 ms, median: 3.50 ms
+                   </b>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    1000 items and 200 modifications: 27.07 ms, median: 26.92 ms
+                   </b>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    1000 items and 200 modifications
+                   </b>
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     without moves
+                    </i>
+                    : 13.54 ms, median: 13.36 ms
+                   </b>
+                  </li>
+                 </ul>
+                 <blockquote class="graf--blockquote">
+                  Note:  The maximum size of the list can be 2^26 because of the provided constraint.
+                 </blockquote>
+                 <p class="graf--p">
+                  This is how you can use DiffUtils to update the list in RecyclerView.
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks :)
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How does RecyclerView work internally?" class="ui centered image" src="/images/banner-recyclerview-working-3a65a777947be8b6.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How does RecyclerView work internally?
+           </div>
+           <div class="meta">
+            20th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to talk about how recyclerView works internally and how the recycling of views happen. We would also discuss the benefit of using viewholders in recyclerView.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Java Tutorial For Beginners - Learn Java From Basics" class="ui centered image" src="/images/java-basics.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Java Tutorial For Beginners - Learn Java From Basics
+           </div>
+           <div class="meta">
+            8th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to get started with Java from basics.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using WebViews in Flutter: Tutorial" class="ui centered image" src="/images/using-webviews-in-flutter-tutorial-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using WebViews in Flutter: Tutorial
+           </div>
+           <div class="meta">
+            20th April 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use WebViews in Flutter. WebViews are very important to open some web pages inside your application.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Dagger Hilt Tutorial - Step by Step Guide" class="ui centered image" src="/images/banner-dagger-hilt-d089fd89370529ef.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Dagger Hilt Tutorial - Step by Step Guide
+           </div>
+           <div class="meta">
+            15th June 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to see how to work with Dagger-Hilt, the new dependency injection library based on top of Dagger with a step by step guide. Dagger-Hilt is recommended by Google for dependency injection in Android.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Jetpack Compose Tutorial - Step by Step Guide" class="ui centered image" src="/images/banner-jetpack-compose-tutorial-713779506dbc7754.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Jetpack Compose Tutorial - Step by Step Guide
+           </div>
+           <div class="meta">
+            5th November 2020
+           </div>
+           <div class="description">
+            In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI. We will go through this tutorial to learn Jetpack Compose for Android by example.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Android User Interface — View Components
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-user-interface-view-components" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Android User Interface — View Components" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-user-interface-view-components" property="og:url"/>
+  <meta content="/images/android-user-interface-view-components-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started." property="og:description"/>
+  <meta content="Android User Interface — View Components" property="twitter:title"/>
+  <meta content="In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started." name="twitter:description"/>
+  <meta content="/images/android-user-interface-view-components-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:190,data:{id:190,title:"Android User Interface — View Components",description:"In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started.",text:'<h1 class="graf--h1">Android User Interface — XML and View Components</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-user-interface-view-components-banner.png class=\'graf-image\' alt=\'Android User Interface — View Components\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">The Android application having an excellent UI will have a large number of users because usually, people get attracted towards the look and feel of the application. So, to make the UI of the application good, we need to learn about XML(Extensible Markup Language) and View components in Android. So, in this blog, we will learn about User Interface(UI) in Android. Here, we are going to start with <b class="graf--bold">XML</b> (extensible markup language) and design a screen and understand what the different types of View Components Android Studio provided to us. So, let&#x27;s start with View.</p><h4 class="graf--h3">View</h4><p class="graf--p">The view is the component which Android provides us to design the layouts of the app. So, we can understand view as a rectangular area which is going to contain some element inside it. </p><p class="graf--p">A <i class="graf--italic">View</i> is a superclass for all the UI components. You can also check out the official documentation of View, <i class="graf--italic"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/android/view/View">here</a></b></i>. </p><p class="graf--p">What are these UI components that we can use in our application? Let&#x27;s make a small list of some of the view components:</p><ul><li><b class="graf--bold">TextView:</b> To add some text in your application.</li><li><b class="graf--bold">EditText:</b> This is used when you want to take some input from the users.</li><li><b class="graf--bold">ImageView:</b> To add some image in the application.</li><li><b class="graf--bold">ProgressBar:</b> To show the progress to something. For example, the loading screen.</li><li><b class="graf--bold">Button:</b> Buttons are used to trigger some action on the click of the button. It can be starting a new activity or something else.</li><li><b class="graf--bold">ImageButton:</b> It is used to make a clickable image.</li><li><b class="graf--bold">CheckBox:</b> CheckBox is used to select some options out of many available options.</li><li><b class="graf--bold">DatePicker:</b> To select some particular date.</li></ul><p class="graf--p">These are some of the UI components that are available for our use.</p><p class="graf--p">A group of view is known as <b class="graf--bold"><i class="graf--italic">ViewGroup</i></b>. The Top-level ViewGroup is a parent, and under it, all the view and other view groups are its children. <b class="graf--bold"><i class="graf--italic">For example</i></b>, under a LinearLayout, you can add two Buttons and one EditText. Here, LinearLayout is the parent view and the Buttons and EditTexts are the children.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_user_interface_viewgroup_mindorks_image.png class=\'graf-image\' alt=\'Android User Interface — View Components\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Create User Interface</h4><p class="graf--p">You can edit the layout file that is available to you like activity_main.xml or you can create one layout file by going <b class="graf--bold">app &gt; res &gt; layout &gt; right-click &gt; New &gt; Layout resource file</b> and then enter the file name and click on <b class="graf--bold">OK</b>.</p><p class="graf--p">You can find your existing XML files in <b class="graf--bold">app &gt; res &gt; layout &gt; your_xml_files</b>.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_user_interface_palette_mindorks_image.png class=\'graf-image\' alt=\'Android User Interface — View Components\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">You can see a palette of components which divided into different sections like widget, text, layouts etc. Either you can add the elements by dragging and dropping the elements or you can write the code for those elements. There are two options that are available when you open an XML file i.e. <b class="graf--bold">Design</b> and <b class="graf--bold">Text</b>. In the <i class="graf--italic">Design</i> part, you can drag and drop the elements you want to use, while in the <i class="graf--italic">Text</i> part, you can write the code for those elements.</p><p class="graf--p">Here is an example of drag and drop:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_user_interface_view_mindorks_gif.gif class=\'graf-image\' alt=\'Android User Interface — View Components\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">You can customise elements property like colour, size, text etc. </p><p class="graf--p">Let&#x27;s discuss some of the view customisations:</p><p class="graf--p"><b class="graf--bold">Width and Height of a View</b></p><ol><li><b class="graf--bold">wrap_content: </b>This will wrap the content of a view. <b class="graf--bold"><i class="graf--italic">For example</i></b>, if you are using LinearLayout and the LinearLayout consists of two buttons and you are using the height of the LinearLayout as wrap_content, then the height of the LinearLayout will be equal to the length under which both the buttons are present i.e. the LinearLayout is wrapping the contents present in it.</li><li><b class="graf--bold">match_parent</b>: If a view is using match_parent, then it will get the same size as its parent is having. <b class="graf--bold"><i class="graf--italic">For example</i></b>, if LinearLayout is the parent view and the height of LinearLayout is 80dp, then if we are using Button inside the LinearLayout with height as match_parent, then the height of the Button will also be 80dp i.e. matching the parent.</li></ol><p class="graf--p"><b class="graf--bold">Resources</b></p><p class="graf--p">Resources is something that you will use in your application. <b class="graf--bold"><i class="graf--italic">For example</i></b>, it can be the images or the layout files or some string values or something else. Following are the folders that are present inside the <b class="graf--bold">res</b> folder:</p><ul><li><b class="graf--bold">Drawable: </b>here, we put all our graphics, vector images, custom drawings.</li><li><b class="graf--bold">Layout</b> - here, we put all our screen layout files. example: <i class="graf--italic">activity_main.xml</i></li><li><b class="graf--bold">Mipmap</b> - here, we put the images which are used to make the logo of the application.</li><li><b class="graf--bold">Values</b> - this folder contains four default files. colors.xml, dimens.xml, strings.xml, style.xml. </li></ul><p class="graf--p">To arrange the code in a better way, Android Studio provides us with this feasibility where we can define all our colours, strings, sizes and styles at one place and use them wherever we need it. <b class="graf--bold"><i class="graf--italic">For example</i></b>:</p><pre><code class="language-java graf graf--code">// colors.xml - you can define all your colors here\n&lt;color name="colorPrimary"&gt;#EFC455&lt;/color&gt;</code></pre><pre><code class="language-java graf graf--code">// dimens.xml - you can define all the size here\n&lt;dimen name="height"&gt;150dp&lt;/dimen&gt;</code></pre><pre><code class="language-java graf graf--code">// strings.xml - you can define all the strings here\n&lt;string name="app_name"&gt;MindOrks&lt;/string&gt;</code></pre><pre><code class="language-java graf graf--code">// styles.xml - you can define all the styles here\n&lt;style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar"&gt;\n    &lt;item name="colorPrimary"&gt;@color/colorPrimary&lt;/item&gt;\n&lt;/style&gt;</code></pre><p class="graf--p"><b class="graf--bold">Size</b></p><p class="graf--p">Every measurement has a particular unit like Km for distance, L for liquids, etc. Similarly, Android also has its own measurement system. </p><ul><li>For text size, we use &quot;<b class="graf--bold">sp</b>&quot; (<b class="graf--bold">Scale Independent Pixels).</b></li><li>For views other than text, we use &quot;<b class="graf--bold">dp</b>&quot; (<b class="graf--bold">Density Independent Pixel).</b></li></ul><p class="graf--p">Now, suppose you are using some 20px * 20px image in your application. That image might look good in small mobile devices but for large-screen mobile devices that image might not look good due to low resolution. So, you have to use different resolutions of images for different mobile screen. So to store these images separately, Android Studio has separate folders. All you need to do is put the images in these folders with the same name and Android will do the rest for you. The following folders are present in Android Studio:</p><ul><li><b class="graf--bold">ldpi:</b> resources of low-density (~ 120dpi)</li><li><b class="graf--bold">mdpi: </b>resource of medium-density (~ 160dpi)</li><li><b class="graf--bold">hdpi:</b> resources of high-density (~ 240dpi)</li><li><b class="graf--bold">xhdpi:</b> resources of extra-high-density (~ 320dpi)</li><li><b class="graf--bold">xxhdpi:</b> resources of extra-extra-high-density (~ 480dpi)</li><li><b class="graf--bold">xxxhdpi:</b> resources of extra-extra-extra-high-density (~ 640dpi)</li></ul><p class="graf--p">We only need to put things in those folders and Android System automatically take stuff from here based on the resolution of the mobile screen on which the application is running.</p><p class="graf--p">You can find these folders under the res folder(open the project in Project or Package or Project Files view). </p><h4 class="graf--h3">Example</h4><p class="graf--p">Here, in this example, we will create a one activity application and we will add one Button with some text on it. When you click on the button, then the text and the colour of the button will be changed. For better understanding, we will store all the texts in <b class="graf--bold"><i class="graf--italic">strings.xml</i></b> file and all the colours in <b class="graf--bold"><i class="graf--italic">colors.xml</i></b> file.</p><p class="graf--p">Create a project in Android Studio. After creating the project, go to <b class="graf--bold">res &gt; values &gt; strings.xml</b> and add the below lines:</p><pre><code class="language-java graf graf--code">&lt;string name="text_before"&gt;Click Me&lt;/string&gt;\n&lt;string name="text_after"&gt;MindOrks!&lt;/string&gt;</code></pre><p class="graf--p">Now go to <b class="graf--bold">res &gt; values &gt; colors.xml</b> and add the below two colours:</p><pre><code class="language-java graf graf--code">&lt;color name="backgroundButtonBefore"&gt;#4285F4&lt;/color&gt;\n&lt;color name="backgroundButtonAfter"&gt;#34A853&lt;/color&gt;</code></pre><p class="graf--p">Now, in the <b class="graf--bold"><i class="graf--italic">activity_main.xml</i></b> file, add the below code:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n\n    &lt;Button\n        android:id="@+id/button"\n        android:layout_width="160dp"\n        android:layout_height="80dp"\n        android:background="@color/backgroundButtonBefore"\n        android:text="@string/text_before"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Now, we are done with the layout file. Here, you can notice how we have used the text and colours that are stored in their respective files.</p><p class="graf--p">Now, open the <b class="graf--bold"><i class="graf--italic">MainActivity.kt</i></b> file and add the below code:</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n    \n    // variable for button\n    private lateinit var button: Button\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        // connecting the variable with its id\n        button = findViewById(R.id.button)\n\n        // using setOnClickListener()\n        button.setOnClickListener {\n            // changing the backgroundColor\n            button.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundButtonAfter))\n            // changing the text of the button\n            button.setText(R.string.text_after)\n        }\n    }\n}</code></pre><p class="graf--p">Now, run the application in our mobile device or on the Android Emulator and you will see something like below:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-user-interface-view-components-example-output.jpg class=\'graf-image\' alt=\'Android User Interface — View Components\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Try to experiment with this application by using various other views in your application like TextView, EditText, etc. These views will only be clear to you if you use them in your application. </p><p class="graf--p">That&#x27;s it for this blog. Hope you learned something new today.</p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b>  </p>',author:14897,img_url:"/images/android-user-interface-view-components-banner.png",blog_url:"android-user-interface-view-components",likes:0,rank:0,category:1,published_at:"3rd January 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:211,title:"What are Android Architecture Components?",description:"What are Android Architecture Components? As the Android Jetpack components are a collection of libraries that are individually adoptable and built to work together while taking advantage of Kotlin language features that make us more productive.These software components have been arranged in 4 categories in which one of the categories is Architecture Components. ",author:30,img_url:"/images/android-architecture-components.png",blog_url:"what-are-android-architecture-components",likes:0,rank:0,category:1,published_at:"11th January 2019",score:4.294234275817871},{id:312,title:"Easy SMS Verification in Android: SMS User Consent API",description:"In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt. ",author:14897,img_url:"/images/easy-sms-verification-android-sms-user-consent-api-banner.png",blog_url:"easy-sms-verification-in-android-sms-user-consent-api",likes:0,rank:0,category:1,published_at:"9th August 2019",score:4.294234275817871},{id:486,title:"RecyclerView Multiple View Types in Android",description:"In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project.",author:17146,img_url:"/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png",blog_url:"recyclerview-multiple-view-types-in-android",likes:0,rank:0,category:1,published_at:"22nd June 2020",score:2.5465610027313232},{id:239,title:"Create your own Custom View",description:"In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views.",author:14897,img_url:"/images/custom-view.jpg",blog_url:"create-your-own-custom-view",likes:0,rank:0,category:1,published_at:"17th May 2019",score:2.5373833179473877},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            3rd January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Android User Interface — XML and View Components
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android User Interface — View Components" class="graf-image" src="/images/android-user-interface-view-components-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  The Android application having an excellent UI will have a large number of users because usually, people get attracted towards the look and feel of the application. So, to make the UI of the application good, we need to learn about XML(Extensible Markup Language) and View components in Android. So, in this blog, we will learn about User Interface(UI) in Android. Here, we are going to start with
+                  <b class="graf--bold">
+                   XML
+                  </b>
+                  (extensible markup language) and design a screen and understand what the different types of View Components Android Studio provided to us. So, let's start with View.
+                 </p>
+                 <h4 class="graf--h3">
+                  View
+                 </h4>
+                 <p class="graf--p">
+                  The view is the component which Android provides us to design the layouts of the app. So, we can understand view as a rectangular area which is going to contain some element inside it.
+                 </p>
+                 <p class="graf--p">
+                  A
+                  <i class="graf--italic">
+                   View
+                  </i>
+                  is a superclass for all the UI components. You can also check out the official documentation of View,
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    <a class="markup--anchor" href="https://developer.android.com/reference/android/view/View" target="_blank">
+                     here
+                    </a>
+                   </b>
+                  </i>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  What are these UI components that we can use in our application? Let's make a small list of some of the view components:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    TextView:
+                   </b>
+                   To add some text in your application.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    EditText:
+                   </b>
+                   This is used when you want to take some input from the users.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    ImageView:
+                   </b>
+                   To add some image in the application.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    ProgressBar:
+                   </b>
+                   To show the progress to something. For example, the loading screen.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Button:
+                   </b>
+                   Buttons are used to trigger some action on the click of the button. It can be starting a new activity or something else.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    ImageButton:
+                   </b>
+                   It is used to make a clickable image.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    CheckBox:
+                   </b>
+                   CheckBox is used to select some options out of many available options.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    DatePicker:
+                   </b>
+                   To select some particular date.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  These are some of the UI components that are available for our use.
+                 </p>
+                 <p class="graf--p">
+                  A group of view is known as
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    ViewGroup
+                   </i>
+                  </b>
+                  . The Top-level ViewGroup is a parent, and under it, all the view and other view groups are its children.
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    For example
+                   </i>
+                  </b>
+                  , under a LinearLayout, you can add two Buttons and one EditText. Here, LinearLayout is the parent view and the Buttons and EditTexts are the children.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android User Interface — View Components" class="graf-image" src="/images/android_user_interface_viewgroup_mindorks_image.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Create User Interface
+                 </h4>
+                 <p class="graf--p">
+                  You can edit the layout file that is available to you like activity_main.xml or you can create one layout file by going
+                  <b class="graf--bold">
+                   app &gt; res &gt; layout &gt; right-click &gt; New &gt; Layout resource file
+                  </b>
+                  and then enter the file name and click on
+                  <b class="graf--bold">
+                   OK
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  You can find your existing XML files in
+                  <b class="graf--bold">
+                   app &gt; res &gt; layout &gt; your_xml_files
+                  </b>
+                  .
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android User Interface — View Components" class="graf-image" src="/images/android_user_interface_palette_mindorks_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  You can see a palette of components which divided into different sections like widget, text, layouts etc. Either you can add the elements by dragging and dropping the elements or you can write the code for those elements. There are two options that are available when you open an XML file i.e.
+                  <b class="graf--bold">
+                   Design
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   Text
+                  </b>
+                  . In the
+                  <i class="graf--italic">
+                   Design
+                  </i>
+                  part, you can drag and drop the elements you want to use, while in the
+                  <i class="graf--italic">
+                   Text
+                  </i>
+                  part, you can write the code for those elements.
+                 </p>
+                 <p class="graf--p">
+                  Here is an example of drag and drop:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android User Interface — View Components" class="graf-image" src="/images/android_user_interface_view_mindorks_gif.gif"/>
+                 </div>
+                 <p class="graf--p">
+                  You can customise elements property like colour, size, text etc.
+                 </p>
+                 <p class="graf--p">
+                  Let's discuss some of the view customisations:
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Width and Height of a View
+                  </b>
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    wrap_content:
+                   </b>
+                   This will wrap the content of a view.
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     For example
+                    </i>
+                   </b>
+                   , if you are using LinearLayout and the LinearLayout consists of two buttons and you are using the height of the LinearLayout as wrap_content, then the height of the LinearLayout will be equal to the length under which both the buttons are present i.e. the LinearLayout is wrapping the contents present in it.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    match_parent
+                   </b>
+                   : If a view is using match_parent, then it will get the same size as its parent is having.
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     For example
+                    </i>
+                   </b>
+                   , if LinearLayout is the parent view and the height of LinearLayout is 80dp, then if we are using Button inside the LinearLayout with height as match_parent, then the height of the Button will also be 80dp i.e. matching the parent.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Resources
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Resources is something that you will use in your application.
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    For example
+                   </i>
+                  </b>
+                  , it can be the images or the layout files or some string values or something else. Following are the folders that are present inside the
+                  <b class="graf--bold">
+                   res
+                  </b>
+                  folder:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Drawable:
+                   </b>
+                   here, we put all our graphics, vector images, custom drawings.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Layout
+                   </b>
+                   - here, we put all our screen layout files. example:
+                   <i class="graf--italic">
+                    activity_main.xml
+                   </i>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Mipmap
+                   </b>
+                   - here, we put the images which are used to make the logo of the application.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Values
+                   </b>
+                   - this folder contains four default files. colors.xml, dimens.xml, strings.xml, style.xml.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  To arrange the code in a better way, Android Studio provides us with this feasibility where we can define all our colours, strings, sizes and styles at one place and use them wherever we need it.
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    For example
+                   </i>
+                  </b>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">// colors.xml - you can define all your colors here
+&lt;color name="colorPrimary"&gt;#EFC455&lt;/color&gt;</code></pre>
+                 <pre><code class="language-java graf graf--code">// dimens.xml - you can define all the size here
+&lt;dimen name="height"&gt;150dp&lt;/dimen&gt;</code></pre>
+                 <pre><code class="language-java graf graf--code">// strings.xml - you can define all the strings here
+&lt;string name="app_name"&gt;MindOrks&lt;/string&gt;</code></pre>
+                 <pre><code class="language-java graf graf--code">// styles.xml - you can define all the styles here
+&lt;style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar"&gt;
+    &lt;item name="colorPrimary"&gt;@color/colorPrimary&lt;/item&gt;
+&lt;/style&gt;</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Size
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Every measurement has a particular unit like Km for distance, L for liquids, etc. Similarly, Android also has its own measurement system.
+                 </p>
+                 <ul>
+                  <li>
+                   For text size, we use "
+                   <b class="graf--bold">
+                    sp
+                   </b>
+                   " (
+                   <b class="graf--bold">
+                    Scale Independent Pixels).
+                   </b>
+                  </li>
+                  <li>
+                   For views other than text, we use "
+                   <b class="graf--bold">
+                    dp
+                   </b>
+                   " (
+                   <b class="graf--bold">
+                    Density Independent Pixel).
+                   </b>
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Now, suppose you are using some 20px * 20px image in your application. That image might look good in small mobile devices but for large-screen mobile devices that image might not look good due to low resolution. So, you have to use different resolutions of images for different mobile screen. So to store these images separately, Android Studio has separate folders. All you need to do is put the images in these folders with the same name and Android will do the rest for you. The following folders are present in Android Studio:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    ldpi:
+                   </b>
+                   resources of low-density (~ 120dpi)
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    mdpi:
+                   </b>
+                   resource of medium-density (~ 160dpi)
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    hdpi:
+                   </b>
+                   resources of high-density (~ 240dpi)
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    xhdpi:
+                   </b>
+                   resources of extra-high-density (~ 320dpi)
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    xxhdpi:
+                   </b>
+                   resources of extra-extra-high-density (~ 480dpi)
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    xxxhdpi:
+                   </b>
+                   resources of extra-extra-extra-high-density (~ 640dpi)
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  We only need to put things in those folders and Android System automatically take stuff from here based on the resolution of the mobile screen on which the application is running.
+                 </p>
+                 <p class="graf--p">
+                  You can find these folders under the res folder(open the project in Project or Package or Project Files view).
+                 </p>
+                 <h4 class="graf--h3">
+                  Example
+                 </h4>
+                 <p class="graf--p">
+                  Here, in this example, we will create a one activity application and we will add one Button with some text on it. When you click on the button, then the text and the colour of the button will be changed. For better understanding, we will store all the texts in
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    strings.xml
+                   </i>
+                  </b>
+                  file and all the colours in
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    colors.xml
+                   </i>
+                  </b>
+                  file.
+                 </p>
+                 <p class="graf--p">
+                  Create a project in Android Studio. After creating the project, go to
+                  <b class="graf--bold">
+                   res &gt; values &gt; strings.xml
+                  </b>
+                  and add the below lines:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;string name="text_before"&gt;Click Me&lt;/string&gt;
+&lt;string name="text_after"&gt;MindOrks!&lt;/string&gt;</code></pre>
+                 <p class="graf--p">
+                  Now go to
+                  <b class="graf--bold">
+                   res &gt; values &gt; colors.xml
+                  </b>
+                  and add the below two colours:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;color name="backgroundButtonBefore"&gt;#4285F4&lt;/color&gt;
+&lt;color name="backgroundButtonAfter"&gt;#34A853&lt;/color&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    activity_main.xml
+                   </i>
+                  </b>
+                  file, add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+
+    &lt;Button
+        android:id="@+id/button"
+        android:layout_width="160dp"
+        android:layout_height="80dp"
+        android:background="@color/backgroundButtonBefore"
+        android:text="@string/text_before"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, we are done with the layout file. Here, you can notice how we have used the text and colours that are stored in their respective files.
+                 </p>
+                 <p class="graf--p">
+                  Now, open the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MainActivity.kt
+                   </i>
+                  </b>
+                  file and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+    
+    // variable for button
+    private lateinit var button: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // connecting the variable with its id
+        button = findViewById(R.id.button)
+
+        // using setOnClickListener()
+        button.setOnClickListener {
+            // changing the backgroundColor
+            button.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundButtonAfter))
+            // changing the text of the button
+            button.setText(R.string.text_after)
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, run the application in our mobile device or on the Android Emulator and you will see something like below:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android User Interface — View Components" class="graf-image" src="/images/android-user-interface-view-components-example-output.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Try to experiment with this application by using various other views in your application like TextView, EditText, etc. These views will only be clear to you if you use them in your application.
+                 </p>
+                 <p class="graf--p">
+                  That's it for this blog. Hope you learned something new today.
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="What are Android Architecture Components?" class="ui centered image" src="/images/android-architecture-components.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            What are Android Architecture Components?
+           </div>
+           <div class="meta">
+            11th January 2019
+           </div>
+           <div class="description">
+            What are Android Architecture Components? As the Android Jetpack components are a collection of libraries that are individually adoptable and built to work together while taking advantage of Kotlin language features that make us more productive.These software components have been arranged in 4 categories in which one of the categories is Architecture Components.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Easy SMS Verification in Android: SMS User Consent API" class="ui centered image" src="/images/easy-sms-verification-android-sms-user-consent-api-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Easy SMS Verification in Android: SMS User Consent API
+           </div>
+           <div class="meta">
+            9th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="RecyclerView Multiple View Types in Android" class="ui centered image" src="/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            RecyclerView Multiple View Types in Android
+           </div>
+           <div class="meta">
+            22nd June 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Create your own Custom View" class="ui centered image" src="/images/custom-view.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Create your own Custom View
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Operator Overloading in Kotlin
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/operator-overloading-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Operator Overloading in Kotlin" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/operator-overloading-in-kotlin" property="og:url"/>
+  <meta content="/images/banner-operator-overloading-in-kotlin-659e3bba16039cdd.jpg" property="og:image"/>
+  <meta content="In this tutorial, we are going to learn about the Operator Overloading in Kotlin with the help of an example." property="og:description"/>
+  <meta content="Operator Overloading in Kotlin" property="twitter:title"/>
+  <meta content="In this tutorial, we are going to learn about the Operator Overloading in Kotlin with the help of an example." name="twitter:description"/>
+  <meta content="/images/banner-operator-overloading-in-kotlin-659e3bba16039cdd.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this tutorial, we are going to learn about the Operator Overloading in Kotlin with the help of an example." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:456,data:{id:456,title:"Operator Overloading in Kotlin",description:"In this tutorial, we are going to learn about the Operator Overloading in Kotlin with the help of an example.",text:'<h1 class="graf--h1">Operator Overloading in Kotlin</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-operator-overloading-in-kotlin-659e3bba16039cdd.jpg class=\'graf-image\' alt=\'Operator Overloading in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In this tutorial, we are going to learn Operator Overloading in Kotlin by covering the following:</p><ol type="1"><li>What is Operator Overloading?</li><li>Learning it with the help of an example.</li></ol><h4 class="graf--h3">What is Operator Overloading?</h4><p class="graf--p">The operator is basically a symbol for performing a certain operation on one or more operands. Generally, we perform operations or actions through the function, but we can also perform operations by the symbols. Those symbols are operators.</p><p class="graf--p">These all symbols(operators) have corresponding functions. When we use the symbol, internally the corresponding function to that symbol gets executed.</p><p class="graf--p">All operators have their corresponding functions, hence, in simple words, we can say they have their default behaviors. Kotlin language gives us the opportunity to modify the default behaviors of some of the operators.</p><p class="graf--p">Now we come to know that, what an awesome language Kotlin is!</p><p class="graf--p">Remember the symbolic representation of the operator and it’s corresponding function’s name both are fixed.</p><h4 class="graf--h3">Learning it with the help of an example</h4><p class="graf--p">We have data class <i class="graf--italic"><code class="graf--code-inline">Pen</code></i> having a property <i class="graf--italic"><code class="graf--code-inline">inkColor</code></i> and method <i class="graf--italic"><code class="graf--code-inline">showInkColor()</code></i></p><pre><code class="language-java graf graf--code">data class Pen(val inkColor:String){\n    fun showInkColor(){ println(inkColor)}\n}</code></pre><p class="graf--p">and one extension method <i class="graf--italic"><code class="graf--code-inline">combine()</code> </i></p><pre><code class="language-java graf graf--code">fun Pen.combine(otherPen: Pen):Pen{\n    val ink = "$inkColor, ${otherPen.inkColor}"\n    return Pen(inkColor = ink)\n}</code></pre><p class="graf--p">this extension function returns us new <i class="graf--italic"><code class="graf--code-inline">Pen</code></i> having colors from both <i class="graf--italic"><code class="graf--code-inline">Pens</code></i>.</p><p class="graf--p">Our code that uses the above data class and extension method is</p><pre><code class="language-java graf graf--code">fun main() {\n    val bluePen = Pen(inkColor = "Blue")\n    bluePen.showInkColor()\n\n    val blackPen = Pen(inkColor = "Black")\n    blackPen.showInkColor()\n\n    val blueBlackPen = bluePen.combine(blackPen)\n    blueBlackPen.showInkColor()\n}</code></pre><p class="graf--p">We would like to improve the readability of our code by using operator overloading. We indirectly come to know the use of operator overloading is. let’s highlight it. <b class="graf--bold">Operator overloading improves code readability.</b></p><p class="graf--p">We can apply the Operator overloading with the member function and extension function.</p><p class="graf--p">In our example, we are applying it with extension function <i class="graf--italic">combine()</i>. So, we will first look at operators that Kotlin allows us to overload, and depending upon our code suitability and use case we need to choose one operator. For our case, the <i class="graf--italic"><b class="graf--bold">+</b></i> operator makes sense. Also, note down the corresponding method name for this operator. the corresponding method name is <i class="graf--italic"><b class="graf--bold">plus().</b></i> Now, we are just a few steps away from using operator overloading.</p><p class="graf--p"><b class="graf--bold">Change the method name to the operator corresponding method name.</b></p><p class="graf--p">In our case, the corresponding method name of <b class="graf--bold"><i class="graf--italic">+</i></b> operator is <b class="graf--bold"><i class="graf--italic">plus()</i></b>. Hence, refactoring method name this</p><pre><code class="language-java graf graf--code">fun Pen.combine(otherPen: Pen):Pen{\n    val ink = "$inkColor, ${otherPen.inkColor}"\n    return Pen(inkColor = ink)\n}</code></pre><p class="graf--p">to </p><pre><code class="language-java graf graf--code">fun Pen.plus(otherPen: Pen):Pen{\n    val ink = "$inkColor, ${otherPen.inkColor}"\n    return Pen(inkColor = ink)\n}</code></pre><p class="graf--p"><b class="graf--bold">Use <i class="graf--italic">operator</i> modifier before the <i class="graf--italic">fun</i> keyword in a method declaration</b></p><p class="graf--p">changing this </p><pre><code class="language-java graf graf--code">fun Pen.plus(otherPen: Pen):Pen{\n    val ink = "$inkColor, ${otherPen.inkColor}"\n    return Pen(inkColor = ink)\n}</code></pre><p class="graf--p">to </p><pre><code class="language-java graf graf--code">operator fun Pen.plus(otherPen: Pen):Pen{\n    val ink = "$inkColor, ${otherPen.inkColor}"\n    return Pen(inkColor = ink)\n}</code></pre><p class="graf--p"><b class="graf--bold">Use operator(symbol) at the place where that method is calling</b></p><p class="graf--p">change this</p><pre><code class="language-java graf graf--code">val blueBlackPen = bluePen.plus(blackPen)</code></pre><p class="graf--p">to</p><pre><code class="language-java graf graf--code">val blueBlackPen = bluePen + blackPen</code></pre><p class="graf--p">the default behavior of <b class="graf--bold">+</b> operator is changed.</p><p class="graf--p">Congratulations! we have successfully implemented an Operator overloading.</p><p class="graf--p">Our whole code is</p><pre><code class="language-java graf graf--code">fun main() {\n    val bluePen = Pen(inkColor = "Blue")\n    bluePen.showInkColor()\n\n    val blackPen = Pen(inkColor = "Black")\n    blackPen.showInkColor()\n\n    val blueBlackPen = bluePen + blackPen\n    blueBlackPen.showInkColor()\n}\n\n operator fun Pen.plus(otherPen: Pen):Pen{\n     val ink = "$inkColor, ${otherPen.inkColor}"\n     return Pen(inkColor = ink)\n }\n\n data class Pen(val inkColor:String){\n     fun showInkColor(){ println(inkColor)}\n }</code></pre><p class="graf--p">Output:</p><pre><code class="language-java graf graf--code">Blue\nBlack\nBlue, Black</code></pre><p class="graf--p">For further reading about Operator overloading, please refer to the <a class="markup--anchor" target="_blank" href="https://kotlinlang.org/docs/reference/operator-overloading.html">official documentation</a>.</p><p class="graf--p"><b class="graf--bold">Do share this blog and you can reach out to me on</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://twitter.com/Avhad3">Twitter</a></b> <b class="graf--bold">and</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/sagar-avhad-a2112468/">Linkedin</a>.</b></p>',author:5648,img_url:"/images/banner-operator-overloading-in-kotlin-659e3bba16039cdd.jpg",blog_url:"operator-overloading-in-kotlin",likes:0,rank:0,category:1,published_at:"21st May 2020"},author:{id:5648,name:"Sagar Avhad",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GhJFptSj0qN8EPQZwe2cfMliq6Pw-4u8wWF7cbijA=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Android developer",fb_profile_url:"https://www.facebook.com/sagar.avhad.9279",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/Avhad3",github_profile_url:"https://github.com/SagarKisanAvhad",linkedin_profile_url:"https://www.linkedin.com/in/sagar-avhad-a2112468/"},isFetching:!1,similarBlogs:[{id:22,title:"Learn Kotlin —  apply vs with\n",description:"There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png",blog_url:"learn-kotlin-apply-vs-with",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:24,title:"Learn Kotlin - Data Class",description:"We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png",blog_url:"learn-kotlin-data-class",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:25,title:"Learn Kotlin- Destructuring Declarations",description:"Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png",blog_url:"learn-kotlin-destructuring-declarations",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:62,title:"Learn Kotlin — Extension Functions",description:"As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png",blog_url:"learn-kotlin-extension-functions",likes:1,rank:0,category:1,published_at:"30th May 2017",score:.1476835161447525},{id:194,title:"Android WebView — in kotlin",description:"Android WebView",author:14897,img_url:"/images/android_webview_mindorks_feature_image.png",blog_url:"android-webview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1476835161447525},{id:196,title:"Android ViewPager in Kotlin",description:"Android ViewPager",author:14897,img_url:"/images/android_viewpager_mindorks_feature_image.png",blog_url:"android-viewpager-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1476835161447525}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Sagar Avhad" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GhJFptSj0qN8EPQZwe2cfMliq6Pw-4u8wWF7cbijA=s96-c?sz=300"/>
+          <div class="content">
+           Sagar Avhad
+           <div class="sub header" style="margin-top:5px">
+            21st May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Operator Overloading in Kotlin
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Operator Overloading in Kotlin" class="graf-image" src="/images/banner-operator-overloading-in-kotlin-659e3bba16039cdd.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  In this tutorial, we are going to learn Operator Overloading in Kotlin by covering the following:
+                 </p>
+                 <ol type="1">
+                  <li>
+                   What is Operator Overloading?
+                  </li>
+                  <li>
+                   Learning it with the help of an example.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  What is Operator Overloading?
+                 </h4>
+                 <p class="graf--p">
+                  The operator is basically a symbol for performing a certain operation on one or more operands. Generally, we perform operations or actions through the function, but we can also perform operations by the symbols. Those symbols are operators.
+                 </p>
+                 <p class="graf--p">
+                  These all symbols(operators) have corresponding functions. When we use the symbol, internally the corresponding function to that symbol gets executed.
+                 </p>
+                 <p class="graf--p">
+                  All operators have their corresponding functions, hence, in simple words, we can say they have their default behaviors. Kotlin language gives us the opportunity to modify the default behaviors of some of the operators.
+                 </p>
+                 <p class="graf--p">
+                  Now we come to know that, what an awesome language Kotlin is!
+                 </p>
+                 <p class="graf--p">
+                  Remember the symbolic representation of the operator and it’s corresponding function’s name both are fixed.
+                 </p>
+                 <h4 class="graf--h3">
+                  Learning it with the help of an example
+                 </h4>
+                 <p class="graf--p">
+                  We have data class
+                  <i class="graf--italic">
+                   <code class="graf--code-inline">
+                    Pen
+                   </code>
+                  </i>
+                  having a property
+                  <i class="graf--italic">
+                   <code class="graf--code-inline">
+                    inkColor
+                   </code>
+                  </i>
+                  and method
+                  <i class="graf--italic">
+                   <code class="graf--code-inline">
+                    showInkColor()
+                   </code>
+                  </i>
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class Pen(val inkColor:String){
+    fun showInkColor(){ println(inkColor)}
+}</code></pre>
+                 <p class="graf--p">
+                  and one extension method
+                  <i class="graf--italic">
+                   <code class="graf--code-inline">
+                    combine()
+                   </code>
+                  </i>
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun Pen.combine(otherPen: Pen):Pen{
+    val ink = "$inkColor, ${otherPen.inkColor}"
+    return Pen(inkColor = ink)
+}</code></pre>
+                 <p class="graf--p">
+                  this extension function returns us new
+                  <i class="graf--italic">
+                   <code class="graf--code-inline">
+                    Pen
+                   </code>
+                  </i>
+                  having colors from both
+                  <i class="graf--italic">
+                   <code class="graf--code-inline">
+                    Pens
+                   </code>
+                  </i>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Our code that uses the above data class and extension method is
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun main() {
+    val bluePen = Pen(inkColor = "Blue")
+    bluePen.showInkColor()
+
+    val blackPen = Pen(inkColor = "Black")
+    blackPen.showInkColor()
+
+    val blueBlackPen = bluePen.combine(blackPen)
+    blueBlackPen.showInkColor()
+}</code></pre>
+                 <p class="graf--p">
+                  We would like to improve the readability of our code by using operator overloading. We indirectly come to know the use of operator overloading is. let’s highlight it.
+                  <b class="graf--bold">
+                   Operator overloading improves code readability.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  We can apply the Operator overloading with the member function and extension function.
+                 </p>
+                 <p class="graf--p">
+                  In our example, we are applying it with extension function
+                  <i class="graf--italic">
+                   combine()
+                  </i>
+                  . So, we will first look at operators that Kotlin allows us to overload, and depending upon our code suitability and use case we need to choose one operator. For our case, the
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    +
+                   </b>
+                  </i>
+                  operator makes sense. Also, note down the corresponding method name for this operator. the corresponding method name is
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    plus().
+                   </b>
+                  </i>
+                  Now, we are just a few steps away from using operator overloading.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Change the method name to the operator corresponding method name.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  In our case, the corresponding method name of
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    +
+                   </i>
+                  </b>
+                  operator is
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    plus()
+                   </i>
+                  </b>
+                  . Hence, refactoring method name this
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun Pen.combine(otherPen: Pen):Pen{
+    val ink = "$inkColor, ${otherPen.inkColor}"
+    return Pen(inkColor = ink)
+}</code></pre>
+                 <p class="graf--p">
+                  to
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun Pen.plus(otherPen: Pen):Pen{
+    val ink = "$inkColor, ${otherPen.inkColor}"
+    return Pen(inkColor = ink)
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Use
+                   <i class="graf--italic">
+                    operator
+                   </i>
+                   modifier before the
+                   <i class="graf--italic">
+                    fun
+                   </i>
+                   keyword in a method declaration
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  changing this
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun Pen.plus(otherPen: Pen):Pen{
+    val ink = "$inkColor, ${otherPen.inkColor}"
+    return Pen(inkColor = ink)
+}</code></pre>
+                 <p class="graf--p">
+                  to
+                 </p>
+                 <pre><code class="language-java graf graf--code">operator fun Pen.plus(otherPen: Pen):Pen{
+    val ink = "$inkColor, ${otherPen.inkColor}"
+    return Pen(inkColor = ink)
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Use operator(symbol) at the place where that method is calling
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  change this
+                 </p>
+                 <pre><code class="language-java graf graf--code">val blueBlackPen = bluePen.plus(blackPen)</code></pre>
+                 <p class="graf--p">
+                  to
+                 </p>
+                 <pre><code class="language-java graf graf--code">val blueBlackPen = bluePen + blackPen</code></pre>
+                 <p class="graf--p">
+                  the default behavior of
+                  <b class="graf--bold">
+                   +
+                  </b>
+                  operator is changed.
+                 </p>
+                 <p class="graf--p">
+                  Congratulations! we have successfully implemented an Operator overloading.
+                 </p>
+                 <p class="graf--p">
+                  Our whole code is
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun main() {
+    val bluePen = Pen(inkColor = "Blue")
+    bluePen.showInkColor()
+
+    val blackPen = Pen(inkColor = "Black")
+    blackPen.showInkColor()
+
+    val blueBlackPen = bluePen + blackPen
+    blueBlackPen.showInkColor()
+}
+
+ operator fun Pen.plus(otherPen: Pen):Pen{
+     val ink = "$inkColor, ${otherPen.inkColor}"
+     return Pen(inkColor = ink)
+ }
+
+ data class Pen(val inkColor:String){
+     fun showInkColor(){ println(inkColor)}
+ }</code></pre>
+                 <p class="graf--p">
+                  Output:
+                 </p>
+                 <pre><code class="language-java graf graf--code">Blue
+Black
+Blue, Black</code></pre>
+                 <p class="graf--p">
+                  For further reading about Operator overloading, please refer to the
+                  <a class="markup--anchor" href="https://kotlinlang.org/docs/reference/operator-overloading.html" target="_blank">
+                   official documentation
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Do share this blog and you can reach out to me on
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://twitter.com/Avhad3" target="_blank">
+                    Twitter
+                   </a>
+                  </b>
+                  <b class="graf--bold">
+                   and
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://www.linkedin.com/in/sagar-avhad-a2112468/" target="_blank">
+                    Linkedin
+                   </a>
+                   .
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin —  apply vs with
+" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin —  apply vs with
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin - Data Class" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin - Data Class
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin- Destructuring Declarations" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin- Destructuring Declarations
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin — Extension Functions" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin — Extension Functions
+           </div>
+           <div class="meta">
+            30th May 2017
+           </div>
+           <div class="description">
+            As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android WebView — in kotlin" class="ui centered image" src="/images/android_webview_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android WebView — in kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android WebView
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android ViewPager in Kotlin" class="ui centered image" src="/images/android_viewpager_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android ViewPager in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android ViewPager
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

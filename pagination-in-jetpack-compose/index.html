@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Pagination in Jetpack Compose
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/pagination-in-jetpack-compose" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Pagination in Jetpack Compose" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/pagination-in-jetpack-compose" property="og:url"/>
+  <meta content="/images/jetpack-compose-pagination-banner-b806521cd4f325b6.jpg" property="og:image"/>
+  <meta content="In this blog, we will learn how to build pagination using the paging library in Jetpack Compose. We will learn how to load data from API and show it in the paginated list." property="og:description"/>
+  <meta content="Pagination in Jetpack Compose" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to build pagination using the paging library in Jetpack Compose. We will learn how to load data from API and show it in the paginated list." name="twitter:description"/>
+  <meta content="/images/jetpack-compose-pagination-banner-b806521cd4f325b6.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to build pagination using the paging library in Jetpack Compose. We will learn how to load data from API and show it in the paginated list." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:511,data:{id:511,title:"Pagination in Jetpack Compose",description:"In this blog, we will learn how to build pagination using the paging library in Jetpack Compose. We will learn how to load data from API and show it in the paginated list.",text:'<h1 class="graf--h1">Pagination in Jetpack Compose</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/jetpack-compose-pagination-banner-b806521cd4f325b6.jpg alt="Jetpack Compose Pagination Banner" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">With Jetpack compose coming into the Android world, we have a lot of things to learn while implementing Compose. One of the important features in Android while building a list is pagination.</p><p class="graf--p">Pagination in a typical XML world has been eased out by Paging libraries like <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/paging-3-tutorial">Paging 3</a> which we can use with RecyclerViews to build paginated lists.</p><p class="graf--p">In this blog, we are going to understand and implement the paging library with <b class="graf--bold">Jetpack Compose</b> and build a paginated list.</p><p class="graf--p">We will learning and,</p><ul><li>Understanding Pagination</li><li>Implementing Pagination in Jetpack Compose</li><li>Handling Loading State in Jetpack Compose Pagination</li></ul><h2 class="graf--h2">Understanding Pagination</h2><p class="graf--p">Pagination basically means that loading a large list of data in parts. </p><p class="graf--p">Consider an example for a &quot;<b class="graf--bold"><i class="graf--italic">Search performed on Google</i></b>&quot; you would see a lot of results coming up. But not all the items/links are shown on the first page itself. You need to change pages and navigate to other pages as well to see all the data related to that search.</p><p class="graf--p">This is a classic example of Pagination.</p><p class="graf--p">Let&#x27;s see the above concept in use in Jetpack Compose.</p><h2 class="graf--h2">Implementing Pagination in Jetpack Compose</h2><p class="graf--p">In this example, we are going to do an API call with specific page numbers.</p><h3 class="graf--h3">Step 01:</h3><p class="graf--p">The API we are going to call is,</p><pre><code class="language-java graf graf--code">https://picsum.photos/v2/list?page=1&limit=100</code></pre><p class="graf--p">Here, the page number will keep on changing, and based on that new set of data would be loaded from the API.</p><p class="graf--p">The response of the API looks like,</p><pre><code class="language-java graf graf--code">[\n{\n    "id":"0",\n    "author":"Alejandro Escamilla",\n    "width":5616,\n    "height":3744,\n    "url":"https://unsplash.com/photos/yC-Yzbqy7PY",\n    "download_url":"https://picsum.photos/id/0/5616/3744"\n},\n{\n    "id":"1",\n    "author":"Alejandro Escamilla",\n    "width":5616,\n    "height":3744,\n    "url":"https://unsplash.com/photos/LNRyGwIJr5c",\n    "download_url":"https://picsum.photos/id/1/5616/3744"\n}\n]</code></pre><p class="graf--p">Let&#x27;s call the corresponding data class for the individual item <code class="graf--code-inline">Photo </code>and it looks like,</p><pre><code class="language-java graf graf--code">data class Photo(\n    @SerializedName("author")\n    val author: String = "",\n    @SerializedName("width")\n    val width: Int = 0,\n    @SerializedName("download_url")\n    val downloadUrl: String = "",\n    @SerializedName("id")\n    val id: String = "",\n    @SerializedName("url")\n    val url: String = "",\n    @SerializedName("height")\n    val height: Int = 0\n)</code></pre><p class="graf--p">We would be using the following libraries for the project.</p><ul><li>Retrofit</li><li>Gson</li><li>Coroutines and Flow.</li></ul><h3 class="graf--h3"><b class="graf--bold">Step 02:</b></h3><p class="graf--p">Let us add the required dependency for the project for compose and pagination.</p><pre><code class="language-java graf graf--code">// Compose\nimplementation "androidx.compose.ui:ui:1.0.0-alpha07"\nimplementation "androidx.compose.material:material:1.0.0-alpha07"\nimplementation "androidx.compose.foundation:foundation:1.0.0-alpha07"\nimplementation "androidx.ui:ui-tooling:1.0.0-alpha07"\n\n// Paging\nimplementation "androidx.paging:paging-compose:1.0.0-alpha02"</code></pre><p class="graf--p">We have added the compose and paging libraries here. To make compose working in the project we also need to add up in <code class="graf--code-inline">android {}</code> in the build.gradle of the app like,</p><pre><code class="language-java graf graf--code">compileOptions {\n    sourceCompatibility JavaVersion.VERSION_1_8\n    targetCompatibility JavaVersion.VERSION_1_8\n}\nkotlinOptions {\n    jvmTarget = "1.8"\n    useIR = true\n}\n\ncomposeOptions {\n    kotlinCompilerVersion \'1.4.0\'\n    kotlinCompilerExtensionVersion \'1.0.0-alpha05\'\n}\n\nbuildFeatures {\n    compose true\n}</code></pre><h3 class="graf--h3"><b class="graf--bold">Step 03:</b></h3><p class="graf--p">Now, after updating the gradle we need to create a package called data.</p><p class="graf--p">First, we will create the <b class="graf--bold">PhotoApiService </b>interface to hold the endpoints to make the API call,</p><pre><code class="language-java graf graf--code">interface PhotoApiService {\n\n    @GET("list")\n    suspend fun getPhotos(\n        @Query("page") pageNumber: Int,\n        @Query("limit") limit: Int = 100\n    ): List&lt;Photo&gt;\n\n}</code></pre><p class="graf--p">Our <b class="graf--bold">getPhotos </b>function will have the endpoint &quot;<b class="graf--bold">list</b>&quot; and will return a list of Photo.</p><p class="graf--p">Then, we will create another interface called <b class="graf--bold">PhotoRepository </b>and it will look like,</p><pre><code class="language-java graf graf--code">interface PhotoRepository {\n\n    suspend fun getPhotos(page:Int): List&lt;Photo&gt;\n\n}</code></pre><p class="graf--p">and we would also have its implementation called <b class="graf--bold">IPhotoRepository </b>like,</p><pre><code class="language-java graf graf--code">class IPhotoRepository (private val apiService: PhotoApiService) : PhotoRepository {\n\n    override suspend fun getPhotos(page:Int): List&lt;Photo&gt; {\n        return apiService.getPhotos(page)\n    }\n\n}</code></pre><p class="graf--p">Lastly, to do network calls we also need the implementation of Retrofit. Let&#x27;s create an object called <b class="graf--bold">RetrofitBuilder </b>like,</p><pre><code class="language-java graf graf--code">object RetrofitBuilder {\n\n    private const val BASE_URL = "https://picsum.photos/v2/"\n\n    private fun getRetrofit(): Retrofit {\n        return Retrofit.Builder()\n            .baseUrl(BASE_URL)\n            .addConverterFactory(GsonConverterFactory.create())\n            .build()\n    }\n\n    val apiService: PhotoApiService = getRetrofit().create(PhotoApiService::class.java)\n\n}</code></pre><h3 class="graf--h3">Step 04:</h3><p class="graf--p">Now, we also need a data source that would be responsible for doing the pagination.  Let&#x27;s call it <b class="graf--bold"><i class="graf--italic">PhotoSource </i></b>and it will look like,</p><pre><code class="language-java graf graf--code">class PhotoSource(private val photoRepository: PhotoRepository) : PagingSource&lt;Int, Photo&gt;() {\n\n    override suspend fun load(params: LoadParams&lt;Int&gt;): LoadResult&lt;Int, Photo&gt; {\n       \n    }\n}</code></pre><p class="graf--p">Here, <b class="graf--bold">PhotoSource </b>implements <b class="graf--bold">PagingSource </b>which will provide us the stream of data, in our case the list of <b class="graf--bold">photos</b>.</p><p class="graf--p">It also implements a <b class="graf--bold"><i class="graf--italic">suspend </i></b>function <b class="graf--bold"><i class="graf--italic">load </i></b>which would be responsible for loading data if the API call is successful or would load error if some unwanted result comes up.</p><p class="graf--p">Inside the load function, let us get the current page from <b class="graf--bold">params </b>parameter like,</p><pre><code class="language-java graf graf--code">val page = params.key ?: 1</code></pre><p class="graf--p">Here, if the<i class="graf--italic"> params.key</i> returns <i class="graf--italic">null </i>then we return 1 as default value. Now, by using the <i class="graf--italic">PhotoRepository </i>which we have in the constructor of the <i class="graf--italic">PhotoSource </i>we will call <i class="graf--italic"><b class="graf--bold">getPhotos </b></i>like,</p><pre><code class="language-java graf graf--code">val photoResponse = photoRepository.getPhotos(page)</code></pre><p class="graf--p">Now, this is the response i.e the list of photos from the URL. Let us return the value like, </p><pre><code class="language-java graf graf--code">LoadResult.Page(\n    data = photoResponse,\n    prevKey = if (page == 1) null else page - 1,\n    nextKey = page.plus(1)\n)</code></pre><p class="graf--p">where, we pass the data and along with it we pass the previous key and the next key.</p><p class="graf--p">Now, our PhotoSource class looks like,</p><pre><code class="language-java graf graf--code">class PhotoSource (private val photoRepository: PhotoRepository) :PagingSource&lt;Int, Photo&gt;() {\n\n    override suspend fun load(params: LoadParams&lt;Int&gt;): LoadResult&lt;Int, Photo&gt; {\n        return try {\n            val page = params.key ?: 1\n            val photoResponse = photoRepository.getPhotos(page)\n            LoadResult.Page(\n                data = photoResponse,\n                prevKey = if (page == 1) null else page - 1,\n                nextKey = page.plus(1)\n            )\n\n        } catch (e: Exception) {\n            LoadResult.Error(e)\n        }\n    }\n}</code></pre><p class="graf--p">When we get an exception, we load the error result like how we did in the catch block.</p><h3 class="graf--h3">Step 05:</h3><p class="graf--p">Now, since we are done setting up the <i class="graf--italic">PhotoSource</i>, let us quickly create a <i class="graf--italic">MainActivity </i>in which we are going to set up the Pagination UI using compose.</p><p class="graf--p">Our empty MainActivity looks like,</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContent { \n            //We will write our composable here\n        }\n    }\n}</code></pre><p class="graf--p">Here, we won&#x27;t have an XML file rather we will create the UI using Compose and add it inside the setContent.</p><p class="graf--p">We will also create a MainViewModel class which would be responsible for loading the data from PhotoSource. MainViewModel looks like,</p><pre><code class="language-java graf graf--code">class MainViewModel(private val photoRepository: PhotoRepository) : ViewModel() {\n\n\n}</code></pre><p class="graf--p"><i class="graf--italic">MainViewModel </i>takes <i class="graf--italic">PhotoRepository </i>as a constructor parameter which we would pass from MainActivity.</p><p class="graf--p">Now, let us initialize the MainViewModel in our activity. First, let&#x27;s create a new <b class="graf--bold"><i class="graf--italic">lateinit </i></b>variable called ViewModel of type MainViewModel like,</p><pre><code class="language-java graf graf--code"> private lateinit var viewModel: MainViewModel </code></pre><p class="graf--p">Now, let us create a new function called setupViewModel() and call it in onCreate of the activity before setContent{} like,</p><pre><code class="language-java graf graf--code">override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n    setupViewModel()\n    setContent { \n        \n    }\n}</code></pre><p class="graf--p">Inside the setupViewModel, we need to initialize the ViewModel with and pass PhotoRepository to the constructor of the ViewModel. Now the function looks like,</p><pre><code class="language-java graf graf--code">private fun setupViewModel() {\n    viewModel = ViewModelProvider(\n        this,\n        ViewModelFactory(IPhotoRepository(RetrofitBuilder.apiService),)\n    )[MainViewModel::class.java]\n}</code></pre><p class="graf--p">where <b class="graf--bold"><i class="graf--italic">ViewModelFactory </i></b>is responsible for passing constructor parameters to the ViewModel. It looks like,</p><pre><code class="language-java graf graf--code">class ViewModelFactory(private val photoRepository: PhotoRepository) :\n    ViewModelProvider.Factory {\n\n    override fun &lt;T : ViewModel?&gt; create(modelClass: Class&lt;T&gt;): T {\n        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {\n            return MainViewModel(photoRepository) as T\n        }\n    }\n}</code></pre><p class="graf--p">Now, since we are done setting up with ViewModel and the activity. Let us get the data from PhotoSource in the ViewModel.</p><h3 class="graf--h3">Step 06.</h3><p class="graf--p">Now inside our MainViewModel, let&#x27;s create an object of Pager inside the getPhotoPagination function like,</p><pre><code class="language-java graf graf--code">fun getPhotoPagination(): Flow&lt;PagingData&lt;Photo&gt;&gt; {\n    return Pager(PagingConfig(pageSize = 20)) {\n        PhotoSource(photoRepository)\n    }.flow\n}</code></pre><p class="graf--p">Here, what we did is inside the Pager, we create a config for the pager to configure its loading behavior. We also passed pageSize which is responsible which defines the number of items to be loaded at once.</p><p class="graf--p">Lastly, we converted it as flow. So, the getPhotoPagination() function returns a Flow of PagingData of type Photo.</p><h3 class="graf--h3">Step 07:</h3><p class="graf--p">Since we are done fetching the PagingData, let us load this to our Composable UI. Inside the <i class="graf--italic">setContent {} </i>of <i class="graf--italic">MainActivity </i>let us create a composable called PhotoUI, like</p><pre><code class="language-java graf graf--code">@Composable\nfun PhotoUI(viewModel: LandingViewModel) {\n    \n}</code></pre><p class="graf--p">Now, inside this, we are going to design our List UI to load the pagination data.</p><p class="graf--p">Firstly, let us get the photos paginated data here inside the PhotoUI composable like,</p><pre><code class="language-java graf graf--code">val photos = viewModel.getPhotoPagination().collectAsLazyPagingItems()</code></pre><p class="graf--p">We are using the getPhotoPagination function of the ViewModel and converting it to PagingItem by using <b class="graf--bold">collectAsLazyPagingItem </b>extension function. It returns of type,</p><pre><code class="language-java graf graf--code">LazyPagingItems&lt;Photo&gt;</code></pre><p class="graf--p">i.e. the photos are of type LazyPagingItems.</p><p class="graf--p">Now, as the last step, we need to load this paginated data into the list. To do that we will use LazyColumn like,</p><pre><code class="language-java graf graf--code">LazyColumn(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {\n\n    \n}</code></pre><p class="graf--p">Inside the LazyColumn, we are going to load the data. Now to load the data inside it, we use <b class="graf--bold"><i class="graf--italic">items </i></b>that load the <b class="graf--bold"><i class="graf--italic">LazyPagingItems</i></b>. So, we already have photos variable which we are of type LazyPagingItems.</p><p class="graf--p">To load that we add the following inside the LazyColumn,</p><pre><code class="language-java graf graf--code">items(photos) { photo -&gt; }</code></pre><p class="graf--p">Now, inside this block, we get the items i.e photos in our case individually. We just need to design a UI for this.</p><p class="graf--p">Now, the photo item has <b class="graf--bold"><i class="graf--italic">downloadUrl </i></b>as a parameter which we are going to load using Coil library like,</p><blockquote class="graf--blockquote"><a class="markup--anchor" target="_blank" href="https://github.com/hi-manshu/ComposePictures/blob/master/core/src/main/java/com/himanshoe/core/common/CoilImage.kt">To check the implementation of Coil in compose click here</a></blockquote><pre><code class="language-java graf graf--code">items(photos) { photo -&gt;\n    Box {\n        photo?.downloadUrl?.let {\n            CoilImage(\n                model = it,\n                modifier = Modifier.fillMaxWidth()\n                    .border(\n                        width = 4.dp,\n                        color = Color.White,\n                        shape = RoundedCornerShape(0.dp)\n                    )\n            )\n        }\n        BasicText(\n            style = TextStyle(fontWeight = FontWeight.Bold),\n            text = "Clicked by: " + photo?.author.toString(),\n            modifier = Modifier.padding(top = 8.dp, start = 4.dp)\n                .background(color = Color.White)\n                .padding(4.dp)\n        )\n    }\n}</code></pre><p class="graf--p">Here, we first used a container Box to hold Image and BasicText. And then we loaded the downloadUrl as Image and the author of the Image in a BasicText like above.</p><p class="graf--p">This BasicText will come as an overlay on top of the Image.</p><p class="graf--p">Now, when you run the App you see the following output,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/output-6c609fa813711fbf.png alt="Output" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So, this is how you can build the Pagination in Jetpack Compose.</p><h3 class="graf--h3">Handling Loading State in Jetpack Compose Pagination</h3><p class="graf--p">Now consider that, if while loading we want to show a loading UI when the data is being loaded, we can show it as well inside the LazyColumn like,</p><pre><code class="language-java graf graf--code">photos.apply {\n    when {\n        loadState.refresh is LoadState.Loading -&gt; item {\n            showProgress()\n        }\n        loadState.append is LoadState.Loading -&gt; {\n            item { showProgress() }\n        }\n    }\n}</code></pre><p class="graf--p">where photos are the LazyPagingItems which we got from the ViewModel<b class="graf--bold">. </b></p><p class="graf--p">In similar ways, we can also show the error state as well.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/hi-manshu/ComposePictures">To check out the complete project with a detailed implementation of Jetpack Compose with other jetpack libraries click here.</a></p><p class="graf--p">This is all about how you can show a paginated list using compose&#x27;s paging library.</p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/user/profile/id/9959">Himanshu Singh</a></span></b></p><p class="graf--p"><b class="graf--bold">Show your love by sharing this blog with your fellow developers.</b></p>',author:9959,img_url:"/images/jetpack-compose-pagination-banner-b806521cd4f325b6.jpg",blog_url:"pagination-in-jetpack-compose",likes:0,rank:0,category:1,published_at:"26th November 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:367,title:"Using Jetpack Compose to build UI in Android",description:"In this blog, we will build and learn how to Use Jetpack Compose to build UI in Android. We will learn how to setup and work with it. We will also discuss how to make few other components as well",author:9959,img_url:"/images/banner_jetpack.png",blog_url:"using-jetpack-compose-to-build-ui-in-android",likes:0,rank:0,category:1,published_at:"25th October 2019",score:3.9975550174713135},{id:432,title:"State Management in Jetpack Compose",description:"In this blog, we are going to learn how to manage state in Jetpack Compose. We will also see different ways to handle state with examples.",author:9959,img_url:"/images/state-management-compose-android-min.jpg",blog_url:"state-management-in-jetpack-compose",likes:0,rank:0,category:1,published_at:"2nd May 2020",score:3.9975550174713135},{id:440,title:"Using Constraint layout in Jetpack Compose",description:"In this blog, we are going to learn how to use constraint layout in Jetpack Compose to design our UI.",author:9959,img_url:"/images/constraint-layout-compose-bannerr.png",blog_url:"constraint-layout-in-jetpack-compose",likes:0,rank:0,category:1,published_at:"11th May 2020",score:3.9975550174713135},{id:510,title:"Jetpack Compose Tutorial - Step by Step Guide",description:"In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI. We will go through this tutorial to learn Jetpack Compose for Android by example.",author:14897,img_url:"/images/banner-jetpack-compose-tutorial-713779506dbc7754.jpg",blog_url:"jetpack-compose-tutorial",likes:0,rank:0,category:1,published_at:"5th November 2020",score:3.9975550174713135},{id:512,title:"Jetpack Compose: Navigation",description:"In this blog, we will learn how to navigate between different composable using Jetpack Navigation.",author:17146,img_url:"/images/banner-jetpack-compose-navigation-657edc7b323cafdf.png",blog_url:"jetpack-compose-navigation",likes:0,rank:0,category:1,published_at:"4th December 2020",score:3.9975550174713135},{id:206,title:"What is Android Jetpack and why should we use it?",description:"What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.",author:30,img_url:"/images/android-jetpack.png",blog_url:"what-is-android-jetpack-and-why-should-we-use-it",likes:0,rank:0,category:1,published_at:"4th January 2019",score:1.668971061706543}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            26th November 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Pagination in Jetpack Compose
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Jetpack Compose Pagination Banner" class="graf-image" src="/images/jetpack-compose-pagination-banner-b806521cd4f325b6.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  With Jetpack compose coming into the Android world, we have a lot of things to learn while implementing Compose. One of the important features in Android while building a list is pagination.
+                 </p>
+                 <p class="graf--p">
+                  Pagination in a typical XML world has been eased out by Paging libraries like
+                  <a class="markup--anchor" href="https://blog.mindorks.com/paging-3-tutorial" target="_blank">
+                   Paging 3
+                  </a>
+                  which we can use with RecyclerViews to build paginated lists.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we are going to understand and implement the paging library with
+                  <b class="graf--bold">
+                   Jetpack Compose
+                  </b>
+                  and build a paginated list.
+                 </p>
+                 <p class="graf--p">
+                  We will learning and,
+                 </p>
+                 <ul>
+                  <li>
+                   Understanding Pagination
+                  </li>
+                  <li>
+                   Implementing Pagination in Jetpack Compose
+                  </li>
+                  <li>
+                   Handling Loading State in Jetpack Compose Pagination
+                  </li>
+                 </ul>
+                 <h2 class="graf--h2">
+                  Understanding Pagination
+                 </h2>
+                 <p class="graf--p">
+                  Pagination basically means that loading a large list of data in parts.
+                 </p>
+                 <p class="graf--p">
+                  Consider an example for a "
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Search performed on Google
+                   </i>
+                  </b>
+                  " you would see a lot of results coming up. But not all the items/links are shown on the first page itself. You need to change pages and navigate to other pages as well to see all the data related to that search.
+                 </p>
+                 <p class="graf--p">
+                  This is a classic example of Pagination.
+                 </p>
+                 <p class="graf--p">
+                  Let's see the above concept in use in Jetpack Compose.
+                 </p>
+                 <h2 class="graf--h2">
+                  Implementing Pagination in Jetpack Compose
+                 </h2>
+                 <p class="graf--p">
+                  In this example, we are going to do an API call with specific page numbers.
+                 </p>
+                 <h3 class="graf--h3">
+                  Step 01:
+                 </h3>
+                 <p class="graf--p">
+                  The API we are going to call is,
+                 </p>
+                 <pre><code class="language-java graf graf--code">https://picsum.photos/v2/list?page=1&amp;limit=100</code></pre>
+                 <p class="graf--p">
+                  Here, the page number will keep on changing, and based on that new set of data would be loaded from the API.
+                 </p>
+                 <p class="graf--p">
+                  The response of the API looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">[
+{
+    "id":"0",
+    "author":"Alejandro Escamilla",
+    "width":5616,
+    "height":3744,
+    "url":"https://unsplash.com/photos/yC-Yzbqy7PY",
+    "download_url":"https://picsum.photos/id/0/5616/3744"
+},
+{
+    "id":"1",
+    "author":"Alejandro Escamilla",
+    "width":5616,
+    "height":3744,
+    "url":"https://unsplash.com/photos/LNRyGwIJr5c",
+    "download_url":"https://picsum.photos/id/1/5616/3744"
+}
+]</code></pre>
+                 <p class="graf--p">
+                  Let's call the corresponding data class for the individual item
+                  <code class="graf--code-inline">
+                   Photo
+                  </code>
+                  and it looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class Photo(
+    @SerializedName("author")
+    val author: String = "",
+    @SerializedName("width")
+    val width: Int = 0,
+    @SerializedName("download_url")
+    val downloadUrl: String = "",
+    @SerializedName("id")
+    val id: String = "",
+    @SerializedName("url")
+    val url: String = "",
+    @SerializedName("height")
+    val height: Int = 0
+)</code></pre>
+                 <p class="graf--p">
+                  We would be using the following libraries for the project.
+                 </p>
+                 <ul>
+                  <li>
+                   Retrofit
+                  </li>
+                  <li>
+                   Gson
+                  </li>
+                  <li>
+                   Coroutines and Flow.
+                  </li>
+                 </ul>
+                 <h3 class="graf--h3">
+                  <b class="graf--bold">
+                   Step 02:
+                  </b>
+                 </h3>
+                 <p class="graf--p">
+                  Let us add the required dependency for the project for compose and pagination.
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Compose
+implementation "androidx.compose.ui:ui:1.0.0-alpha07"
+implementation "androidx.compose.material:material:1.0.0-alpha07"
+implementation "androidx.compose.foundation:foundation:1.0.0-alpha07"
+implementation "androidx.ui:ui-tooling:1.0.0-alpha07"
+
+// Paging
+implementation "androidx.paging:paging-compose:1.0.0-alpha02"</code></pre>
+                 <p class="graf--p">
+                  We have added the compose and paging libraries here. To make compose working in the project we also need to add up in
+                  <code class="graf--code-inline">
+                   android {}
+                  </code>
+                  in the build.gradle of the app like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+kotlinOptions {
+    jvmTarget = "1.8"
+    useIR = true
+}
+
+composeOptions {
+    kotlinCompilerVersion '1.4.0'
+    kotlinCompilerExtensionVersion '1.0.0-alpha05'
+}
+
+buildFeatures {
+    compose true
+}</code></pre>
+                 <h3 class="graf--h3">
+                  <b class="graf--bold">
+                   Step 03:
+                  </b>
+                 </h3>
+                 <p class="graf--p">
+                  Now, after updating the gradle we need to create a package called data.
+                 </p>
+                 <p class="graf--p">
+                  First, we will create the
+                  <b class="graf--bold">
+                   PhotoApiService
+                  </b>
+                  interface to hold the endpoints to make the API call,
+                 </p>
+                 <pre><code class="language-java graf graf--code">interface PhotoApiService {
+
+    @GET("list")
+    suspend fun getPhotos(
+        @Query("page") pageNumber: Int,
+        @Query("limit") limit: Int = 100
+    ): List&lt;Photo&gt;
+
+}</code></pre>
+                 <p class="graf--p">
+                  Our
+                  <b class="graf--bold">
+                   getPhotos
+                  </b>
+                  function will have the endpoint "
+                  <b class="graf--bold">
+                   list
+                  </b>
+                  " and will return a list of Photo.
+                 </p>
+                 <p class="graf--p">
+                  Then, we will create another interface called
+                  <b class="graf--bold">
+                   PhotoRepository
+                  </b>
+                  and it will look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">interface PhotoRepository {
+
+    suspend fun getPhotos(page:Int): List&lt;Photo&gt;
+
+}</code></pre>
+                 <p class="graf--p">
+                  and we would also have its implementation called
+                  <b class="graf--bold">
+                   IPhotoRepository
+                  </b>
+                  like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class IPhotoRepository (private val apiService: PhotoApiService) : PhotoRepository {
+
+    override suspend fun getPhotos(page:Int): List&lt;Photo&gt; {
+        return apiService.getPhotos(page)
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Lastly, to do network calls we also need the implementation of Retrofit. Let's create an object called
+                  <b class="graf--bold">
+                   RetrofitBuilder
+                  </b>
+                  like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">object RetrofitBuilder {
+
+    private const val BASE_URL = "https://picsum.photos/v2/"
+
+    private fun getRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    val apiService: PhotoApiService = getRetrofit().create(PhotoApiService::class.java)
+
+}</code></pre>
+                 <h3 class="graf--h3">
+                  Step 04:
+                 </h3>
+                 <p class="graf--p">
+                  Now, we also need a data source that would be responsible for doing the pagination.  Let's call it
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    PhotoSource
+                   </i>
+                  </b>
+                  and it will look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class PhotoSource(private val photoRepository: PhotoRepository) : PagingSource&lt;Int, Photo&gt;() {
+
+    override suspend fun load(params: LoadParams&lt;Int&gt;): LoadResult&lt;Int, Photo&gt; {
+       
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                  <b class="graf--bold">
+                   PhotoSource
+                  </b>
+                  implements
+                  <b class="graf--bold">
+                   PagingSource
+                  </b>
+                  which will provide us the stream of data, in our case the list of
+                  <b class="graf--bold">
+                   photos
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  It also implements a
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    suspend
+                   </i>
+                  </b>
+                  function
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    load
+                   </i>
+                  </b>
+                  which would be responsible for loading data if the API call is successful or would load error if some unwanted result comes up.
+                 </p>
+                 <p class="graf--p">
+                  Inside the load function, let us get the current page from
+                  <b class="graf--bold">
+                   params
+                  </b>
+                  parameter like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val page = params.key ?: 1</code></pre>
+                 <p class="graf--p">
+                  Here, if the
+                  <i class="graf--italic">
+                   params.key
+                  </i>
+                  returns
+                  <i class="graf--italic">
+                   null
+                  </i>
+                  then we return 1 as default value. Now, by using the
+                  <i class="graf--italic">
+                   PhotoRepository
+                  </i>
+                  which we have in the constructor of the
+                  <i class="graf--italic">
+                   PhotoSource
+                  </i>
+                  we will call
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    getPhotos
+                   </b>
+                  </i>
+                  like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val photoResponse = photoRepository.getPhotos(page)</code></pre>
+                 <p class="graf--p">
+                  Now, this is the response i.e the list of photos from the URL. Let us return the value like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">LoadResult.Page(
+    data = photoResponse,
+    prevKey = if (page == 1) null else page - 1,
+    nextKey = page.plus(1)
+)</code></pre>
+                 <p class="graf--p">
+                  where, we pass the data and along with it we pass the previous key and the next key.
+                 </p>
+                 <p class="graf--p">
+                  Now, our PhotoSource class looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class PhotoSource (private val photoRepository: PhotoRepository) :PagingSource&lt;Int, Photo&gt;() {
+
+    override suspend fun load(params: LoadParams&lt;Int&gt;): LoadResult&lt;Int, Photo&gt; {
+        return try {
+            val page = params.key ?: 1
+            val photoResponse = photoRepository.getPhotos(page)
+            LoadResult.Page(
+                data = photoResponse,
+                prevKey = if (page == 1) null else page - 1,
+                nextKey = page.plus(1)
+            )
+
+        } catch (e: Exception) {
+            LoadResult.Error(e)
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  When we get an exception, we load the error result like how we did in the catch block.
+                 </p>
+                 <h3 class="graf--h3">
+                  Step 05:
+                 </h3>
+                 <p class="graf--p">
+                  Now, since we are done setting up the
+                  <i class="graf--italic">
+                   PhotoSource
+                  </i>
+                  , let us quickly create a
+                  <i class="graf--italic">
+                   MainActivity
+                  </i>
+                  in which we are going to set up the Pagination UI using compose.
+                 </p>
+                 <p class="graf--p">
+                  Our empty MainActivity looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent { 
+            //We will write our composable here
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we won't have an XML file rather we will create the UI using Compose and add it inside the setContent.
+                 </p>
+                 <p class="graf--p">
+                  We will also create a MainViewModel class which would be responsible for loading the data from PhotoSource. MainViewModel looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainViewModel(private val photoRepository: PhotoRepository) : ViewModel() {
+
+
+}</code></pre>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   MainViewModel
+                  </i>
+                  takes
+                  <i class="graf--italic">
+                   PhotoRepository
+                  </i>
+                  as a constructor parameter which we would pass from MainActivity.
+                 </p>
+                 <p class="graf--p">
+                  Now, let us initialize the MainViewModel in our activity. First, let's create a new
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    lateinit
+                   </i>
+                  </b>
+                  variable called ViewModel of type MainViewModel like,
+                 </p>
+                 <pre><code class="language-java graf graf--code"> private lateinit var viewModel: MainViewModel </code></pre>
+                 <p class="graf--p">
+                  Now, let us create a new function called setupViewModel() and call it in onCreate of the activity before setContent{} like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setupViewModel()
+    setContent { 
+        
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Inside the setupViewModel, we need to initialize the ViewModel with and pass PhotoRepository to the constructor of the ViewModel. Now the function looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun setupViewModel() {
+    viewModel = ViewModelProvider(
+        this,
+        ViewModelFactory(IPhotoRepository(RetrofitBuilder.apiService),)
+    )[MainViewModel::class.java]
+}</code></pre>
+                 <p class="graf--p">
+                  where
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    ViewModelFactory
+                   </i>
+                  </b>
+                  is responsible for passing constructor parameters to the ViewModel. It looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ViewModelFactory(private val photoRepository: PhotoRepository) :
+    ViewModelProvider.Factory {
+
+    override fun &lt;T : ViewModel?&gt; create(modelClass: Class&lt;T&gt;): T {
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            return MainViewModel(photoRepository) as T
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, since we are done setting up with ViewModel and the activity. Let us get the data from PhotoSource in the ViewModel.
+                 </p>
+                 <h3 class="graf--h3">
+                  Step 06.
+                 </h3>
+                 <p class="graf--p">
+                  Now inside our MainViewModel, let's create an object of Pager inside the getPhotoPagination function like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun getPhotoPagination(): Flow&lt;PagingData&lt;Photo&gt;&gt; {
+    return Pager(PagingConfig(pageSize = 20)) {
+        PhotoSource(photoRepository)
+    }.flow
+}</code></pre>
+                 <p class="graf--p">
+                  Here, what we did is inside the Pager, we create a config for the pager to configure its loading behavior. We also passed pageSize which is responsible which defines the number of items to be loaded at once.
+                 </p>
+                 <p class="graf--p">
+                  Lastly, we converted it as flow. So, the getPhotoPagination() function returns a Flow of PagingData of type Photo.
+                 </p>
+                 <h3 class="graf--h3">
+                  Step 07:
+                 </h3>
+                 <p class="graf--p">
+                  Since we are done fetching the PagingData, let us load this to our Composable UI. Inside the
+                  <i class="graf--italic">
+                   setContent {}
+                  </i>
+                  of
+                  <i class="graf--italic">
+                   MainActivity
+                  </i>
+                  let us create a composable called PhotoUI, like
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun PhotoUI(viewModel: LandingViewModel) {
+    
+}</code></pre>
+                 <p class="graf--p">
+                  Now, inside this, we are going to design our List UI to load the pagination data.
+                 </p>
+                 <p class="graf--p">
+                  Firstly, let us get the photos paginated data here inside the PhotoUI composable like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val photos = viewModel.getPhotoPagination().collectAsLazyPagingItems()</code></pre>
+                 <p class="graf--p">
+                  We are using the getPhotoPagination function of the ViewModel and converting it to PagingItem by using
+                  <b class="graf--bold">
+                   collectAsLazyPagingItem
+                  </b>
+                  extension function. It returns of type,
+                 </p>
+                 <pre><code class="language-java graf graf--code">LazyPagingItems&lt;Photo&gt;</code></pre>
+                 <p class="graf--p">
+                  i.e. the photos are of type LazyPagingItems.
+                 </p>
+                 <p class="graf--p">
+                  Now, as the last step, we need to load this paginated data into the list. To do that we will use LazyColumn like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">LazyColumn(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+
+    
+}</code></pre>
+                 <p class="graf--p">
+                  Inside the LazyColumn, we are going to load the data. Now to load the data inside it, we use
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    items
+                   </i>
+                  </b>
+                  that load the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    LazyPagingItems
+                   </i>
+                  </b>
+                  . So, we already have photos variable which we are of type LazyPagingItems.
+                 </p>
+                 <p class="graf--p">
+                  To load that we add the following inside the LazyColumn,
+                 </p>
+                 <pre><code class="language-java graf graf--code">items(photos) { photo -&gt; }</code></pre>
+                 <p class="graf--p">
+                  Now, inside this block, we get the items i.e photos in our case individually. We just need to design a UI for this.
+                 </p>
+                 <p class="graf--p">
+                  Now, the photo item has
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    downloadUrl
+                   </i>
+                  </b>
+                  as a parameter which we are going to load using Coil library like,
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <a class="markup--anchor" href="https://github.com/hi-manshu/ComposePictures/blob/master/core/src/main/java/com/himanshoe/core/common/CoilImage.kt" target="_blank">
+                   To check the implementation of Coil in compose click here
+                  </a>
+                 </blockquote>
+                 <pre><code class="language-java graf graf--code">items(photos) { photo -&gt;
+    Box {
+        photo?.downloadUrl?.let {
+            CoilImage(
+                model = it,
+                modifier = Modifier.fillMaxWidth()
+                    .border(
+                        width = 4.dp,
+                        color = Color.White,
+                        shape = RoundedCornerShape(0.dp)
+                    )
+            )
+        }
+        BasicText(
+            style = TextStyle(fontWeight = FontWeight.Bold),
+            text = "Clicked by: " + photo?.author.toString(),
+            modifier = Modifier.padding(top = 8.dp, start = 4.dp)
+                .background(color = Color.White)
+                .padding(4.dp)
+        )
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we first used a container Box to hold Image and BasicText. And then we loaded the downloadUrl as Image and the author of the Image in a BasicText like above.
+                 </p>
+                 <p class="graf--p">
+                  This BasicText will come as an overlay on top of the Image.
+                 </p>
+                 <p class="graf--p">
+                  Now, when you run the App you see the following output,
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Output" class="graf-image" src="/images/output-6c609fa813711fbf.png"/>
+                 </div>
+                 <p class="graf--p">
+                  So, this is how you can build the Pagination in Jetpack Compose.
+                 </p>
+                 <h3 class="graf--h3">
+                  Handling Loading State in Jetpack Compose Pagination
+                 </h3>
+                 <p class="graf--p">
+                  Now consider that, if while loading we want to show a loading UI when the data is being loaded, we can show it as well inside the LazyColumn like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">photos.apply {
+    when {
+        loadState.refresh is LoadState.Loading -&gt; item {
+            showProgress()
+        }
+        loadState.append is LoadState.Loading -&gt; {
+            item { showProgress() }
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  where photos are the LazyPagingItems which we got from the ViewModel
+                  <b class="graf--bold">
+                   .
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  In similar ways, we can also show the error state as well.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/hi-manshu/ComposePictures" target="_blank">
+                   To check out the complete project with a detailed implementation of Jetpack Compose with other jetpack libraries click here.
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  This is all about how you can show a paginated list using compose's paging library.
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://blog.mindorks.com/user/profile/id/9959" target="_blank">
+                     Himanshu Singh
+                    </a>
+                   </span>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Show your love by sharing this blog with your fellow developers.
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Jetpack Compose to build UI in Android" class="ui centered image" src="/images/banner_jetpack.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Jetpack Compose to build UI in Android
+           </div>
+           <div class="meta">
+            25th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will build and learn how to Use Jetpack Compose to build UI in Android. We will learn how to setup and work with it. We will also discuss how to make few other components as well
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="State Management in Jetpack Compose" class="ui centered image" src="/images/state-management-compose-android-min.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            State Management in Jetpack Compose
+           </div>
+           <div class="meta">
+            2nd May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to manage state in Jetpack Compose. We will also see different ways to handle state with examples.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Constraint layout in Jetpack Compose" class="ui centered image" src="/images/constraint-layout-compose-bannerr.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Constraint layout in Jetpack Compose
+           </div>
+           <div class="meta">
+            11th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to use constraint layout in Jetpack Compose to design our UI.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Jetpack Compose Tutorial - Step by Step Guide" class="ui centered image" src="/images/banner-jetpack-compose-tutorial-713779506dbc7754.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Jetpack Compose Tutorial - Step by Step Guide
+           </div>
+           <div class="meta">
+            5th November 2020
+           </div>
+           <div class="description">
+            In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI. We will go through this tutorial to learn Jetpack Compose for Android by example.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Jetpack Compose: Navigation" class="ui centered image" src="/images/banner-jetpack-compose-navigation-657edc7b323cafdf.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Jetpack Compose: Navigation
+           </div>
+           <div class="meta">
+            4th December 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to navigate between different composable using Jetpack Navigation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="What is Android Jetpack and why should we use it?" class="ui centered image" src="/images/android-jetpack.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            What is Android Jetpack and why should we use it?
+           </div>
+           <div class="meta">
+            4th January 2019
+           </div>
+           <div class="description">
+            What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

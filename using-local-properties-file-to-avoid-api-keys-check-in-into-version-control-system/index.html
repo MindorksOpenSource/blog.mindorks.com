@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Using local.properties file to avoid API Keys check-in into Version Control System
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/using-local-properties-file-to-avoid-api-keys-check-in-into-version-control-system" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Using local.properties file to avoid API Keys check-in into Version Control System" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/using-local-properties-file-to-avoid-api-keys-check-in-into-version-control-system" property="og:url"/>
+  <meta content="/images/using-localproperties-banner-image.png" property="og:image"/>
+  <meta content="This blog describes how to use the local.properties file in the Android Gradle system to avoid local or user-specific information such as API keys to be checked into the Version Control System." property="og:description"/>
+  <meta content="Using local.properties file to avoid API Keys check-in into Version Control System" property="twitter:title"/>
+  <meta content="This blog describes how to use the local.properties file in the Android Gradle system to avoid local or user-specific information such as API keys to be checked into the Version Control System." name="twitter:description"/>
+  <meta content="/images/using-localproperties-banner-image.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="This blog describes how to use the local.properties file in the Android Gradle system to avoid local or user-specific information such as API keys to be checked into the Version Control System." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:411,data:{id:411,title:"Using local.properties file to avoid API Keys check-in into Version Control System",description:"This blog describes how to use the local.properties file in the Android Gradle system to avoid local or user-specific information such as API keys to be checked into the Version Control System.",text:'<h1 class="graf--h1">Using local.properties file to avoid API Keys check-in into Version Control System</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=\n/images/using-localproperties-banner-image.png class=\'graf-image\' alt=\'Using local.properties file to avoid API Keys check-in into Version Control System\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">One of the best benefits of being an Android Developer is that we can create and contribute to open source projects! We can share our code with millions of developers around the globe. Thanks to code hosting platforms like GitHub! </p><p class="graf--p">Now, when we make our code available as public repositories, we should ensure we take care of some things such as the sharing of private API keys, restricted URLs, etc., How can we achieve this by using the “local.properties” file in our root project? Let’s find out in this article.</p><p class="graf--p">Welcome to our <b class="graf--bold">MindOrks</b> blog on Using local.properties file to avoid API Keys check-in into Version Control System.</p><p class="graf--p">Every time, we create a new project in Android Studio, we see a file created with the name “local.properties” containing the following content:</p><pre><code class="language-java graf graf--code">## This file is automatically generated by Android Studio.\n# Do not modify this file -- YOUR CHANGES WILL BE ERASED!\n#\n# This file should *NOT* be checked into Version Control Systems,\n# as it contains information specific to your local configuration.\n#\n# Location of the SDK. This is only used by Gradle.\n# For customization when using a Version Control System, please read the\n# header note.\nsdk.dir=The Sdk Directory path</code></pre><p class="graf--p">So local.properties is a file that is generated by Android Studio and it is recommended not to include this in the version control system.</p><p class="graf--p">So, if we take a look at our gitignore files in general, we have:</p><pre><code class="language-java graf graf--code">*.iml\n.gradle\n/local.properties\n/.idea\n/.idea/caches\n/.idea/libraries\n/.idea/modules.xml\n/.idea/workspace.xml\n/.idea/navEditor.xml\n/.idea/assetWizardSettings.xml\n.DS_Store\n/build\n/captures\n.externalNativeBuild\n.cxx\n/buildSrc/build/*</code></pre><p class="graf--p">We can see that local.properties file is excluded in the version control system.</p><p class="graf--p"><b class="graf--bold">Tip: </b>Updating the gitignore files with the relevant extensions and file folders is really important for creating an open-source project. Since the “local.properties” file is not shared in the version control system, we can use this for declaring our local user-specific variables or private variables such as API keys or restricted base URLs, etc.,</p><p class="graf--p">Let’s take a use case. Let’s consider our recently released open-source project on <a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/ridesharing-uber-lyft-app">GitHub</a>:</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/ridesharing-uber-lyft-app">https://github.com/MindorksOpenSource/ridesharing-uber-lyft-app</a></p><p class="graf--p">This project helps to build a ride-sharing Android Taxi Clone App like Uber, Lyft. You can fork it and learn many awesome functionalities. Please go through the <b class="graf--bold">Readme</b> file for details of the project.</p><p class="graf--p">Now, since our use case is a ride-sharing application, we will be using google maps in it. To use Google Maps, the developer should have an associated API Key. Let’s see how we can achieve this by using “local.properties” file.</p><p class="graf--p">First of all, let’s append a parameter in the local.properties file:</p><pre><code class="language-java graf graf--code">sdk.dir=The sdk directory //already existing parameter\napiKey = Your MAPS API Key</code></pre><p class="graf--p">Now, let’s extract this value and use it in our app-level Gradle file through a variable. </p><pre><code class="language-java graf graf--code">def localProperties = new Properties()\nlocalProperties.load(new FileInputStream(rootProject.file("local.properties")))</code></pre><pre><code class="language-java graf graf--code">android {\n ......\n}</code></pre><p class="graf--p">In order to access our API key, we can use: </p><pre><code class="language-java graf graf--code">localProperties[\'apiKey\'] (or) \nlocalProperties.getProperty("apiKey")</code></pre><p class="graf--p">There are some files that get generated during build time such as gradleResValues.xml, BuildConfig.java, etc. Let’s make the use of these files to store the value of our API key. How can we add values to files that are generated during the build process? We shall use our buildTypes section in our app-level build.gradle file</p><pre><code class="language-java graf graf--code">android {\n    .....\n    buildTypes {\n        debug {\n            resValue("string", "google_maps_key", localProperties[\'apiKey\'])\n        }\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile(\'proguard-android-optimize.txt\'), \'proguard-rules.pro\'\n        }\n    }\n}</code></pre><p class="graf--p">Now once we add this in our build.gradle file, we rebuild our project and we can see a file named gradleResValues.xml is generated in the res(generated) folder.</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;resources&gt;\n\n    &lt;!-- Automatically generated file. DO NOT MODIFY --&gt;\n\n    &lt;!-- Values from build type: debug --&gt;\n    &lt;string name="google_maps_key" translatable="false"&gt;MAPS_API_KEY&lt;/string&gt;\n\n&lt;/resources&gt;</code></pre><p class="graf--p">In order to use this value inside the application, we can try extracting the values like follows:</p><pre><code class="language-java graf graf--code">resources.getString(R.string.google_maps_key)</code></pre><p class="graf--p">If we wish to store the value in the BuildConfig.java file, we can replace the resValue with buildConfigField in the app-level build.gradle file as follows:</p><pre><code class="language-java graf graf--code">android {\n    .....\n    buildTypes {\n        debug {\n            buildConfigField("String", "API_KEY", "\\"" + localProperties[\'apiKey\'] + "\\"")\n        }\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile(\'proguard-android-optimize.txt\'), \'proguard-rules.pro\'\n        }\n    }\n}</code></pre><p class="graf--p">After changing the build.gradle file, let’s rebuild the project and take a look at our BuildConfig.java file:</p><pre><code class="language-java graf graf--code">// Fields from build type: debug\npublic static final String API_KEY = your api key;</code></pre><p class="graf--p">Now, we can access this parameter anywhere in the code like </p><pre><code class="language-java graf graf--code">BuildConfig.API_KEY</code></pre><p class="graf--p">Now, you can happily share this code as a public repository by adding a TODO statement in the readme file that the required build config parameters or the gradleResValuess.xml parameters should be declared in the local.properties file in order to access them. Since this local.properties file is not a part of the version control system as discussed earlier, the values of these user-specific fields will never be shared by the other developers accessing the public repo!</p><p class="graf--p">This way, we can avoid the concept of hardcoding strings at the app-level code and make use of local.properties file to declare local, user-specific parameters or restricted URLs.</p><p class="graf--p">We hope that this article has helped you understand how to use the local.properties file in the most effective way for specific use cases.</p><p class="graf--p">Thank you so much for your time.</p><p class="graf--p">Keep Learning, Keep Sharing!</p><p class="graf--p">Team MindOrks.</p>',author:3003,img_url:"/images/using-localproperties-banner-image.png",blog_url:"using-local-properties-file-to-avoid-api-keys-check-in-into-version-control-system",likes:0,rank:0,category:1,published_at:"3rd April 2020"},author:{id:3003,name:"Dheeraj Sree",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GjgIa8i5nbsErNPLwYbB8IfsQ1U_M-Men0xdzE9PRQ=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Android Developer @DeloitteDigital",fb_profile_url:"https://www.facebook.com/sri.dheeraj",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/AndraDheeraj",github_profile_url:"https://github.com/asdheeraj",linkedin_profile_url:"https://www.linkedin.com/in/dheerajsree/"},isFetching:!1,similarBlogs:[{id:352,title:"Securing API Keys using Android NDK (Native Development Kit)",description:"In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.",author:17146,img_url:"/images/securing-api-keys-using-android-ndk-banner.png",blog_url:"securing-api-keys-using-android-ndk",likes:0,rank:0,category:1,published_at:"2nd October 2019",score:6.372190952301025},{id:380,title:"Understanding Storage System To Store Data In Android",description:"In this blog, we will understand about the Android Storage System. We will learn about the Internal Storage, External Storage, Shared Preference, Database, and Shared Storage. We will also learn when to use which storage system in Android.",author:17146,img_url:"/images/understanding-storage-system-to-store-data-in-android-banner.png",blog_url:"understanding-storage-system-to-store-data-in-android",likes:0,rank:0,category:1,published_at:"17th December 2019",score:4.2850565910339355},{id:462,title:"Understanding Touch Control and Events in Android",description:"In this blog, we are going to understand how to work with touch control and events in android. We are going to learn how it works with view groups and their children.",author:9959,img_url:"/images/understand-touch-control-event-04c9289a59e970da.png",blog_url:"touch-control-and-events-in-android",likes:0,rank:0,category:1,published_at:"28th May 2020",score:4.2850565910339355},{id:332,title:"How to convert a Kotlin source file to a Java source file?",description:"In this blog, we will learn how to convert a Kotlin source file to a Java source file. We will do the file conversion by two methods. So, let's see how.",author:14897,img_url:"/images/how-to-convert-a-kotlin-source-file-to-a-java-source-file-banner.png",blog_url:"how-to-convert-a-kotlin-source-file-to-a-java-source-file",likes:0,rank:0,category:1,published_at:"21st September 2019",score:3.7596542835235596},{id:303,title:"How to check the visibility of software keyboard in Android?",description:"In this blog, we will learn how to check the visibility of software keyboard in Android.",author:14897,img_url:"/images/how-to-check-the-visibility-of-software-keyboard-in-android-banner.png",blog_url:"how-to-check-the-visibility-of-software-keyboard-in-android",likes:0,rank:0,category:1,published_at:"27th July 2019",score:3.587033748626709},{id:414,title:"How to check if a lateinit variable has been initialized?",description:"In this blog, we will learn how to check if a lateinit variable has been initialized in Kotlin?",author:17146,img_url:"/images/how-to-check-if-a-lateinit-variable-has-been-initialized-banner.png",blog_url:"how-to-check-if-a-lateinit-variable-has-been-initialized",likes:0,rank:0,category:1,published_at:"6th April 2020",score:3.587033748626709}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Dheeraj Sree" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GjgIa8i5nbsErNPLwYbB8IfsQ1U_M-Men0xdzE9PRQ=s96-c?sz=300"/>
+          <div class="content">
+           Dheeraj Sree
+           <div class="sub header" style="margin-top:5px">
+            3rd April 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Using local.properties file to avoid API Keys check-in into Version Control System
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using local.properties file to avoid API Keys check-in into Version Control System" class="graf-image" src="/images/using-localproperties-banner-image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  One of the best benefits of being an Android Developer is that we can create and contribute to open source projects! We can share our code with millions of developers around the globe. Thanks to code hosting platforms like GitHub!
+                 </p>
+                 <p class="graf--p">
+                  Now, when we make our code available as public repositories, we should ensure we take care of some things such as the sharing of private API keys, restricted URLs, etc., How can we achieve this by using the “local.properties” file in our root project? Let’s find out in this article.
+                 </p>
+                 <p class="graf--p">
+                  Welcome to our
+                  <b class="graf--bold">
+                   MindOrks
+                  </b>
+                  blog on Using local.properties file to avoid API Keys check-in into Version Control System.
+                 </p>
+                 <p class="graf--p">
+                  Every time, we create a new project in Android Studio, we see a file created with the name “local.properties” containing the following content:
+                 </p>
+                 <pre><code class="language-java graf graf--code">## This file is automatically generated by Android Studio.
+# Do not modify this file -- YOUR CHANGES WILL BE ERASED!
+#
+# This file should *NOT* be checked into Version Control Systems,
+# as it contains information specific to your local configuration.
+#
+# Location of the SDK. This is only used by Gradle.
+# For customization when using a Version Control System, please read the
+# header note.
+sdk.dir=The Sdk Directory path</code></pre>
+                 <p class="graf--p">
+                  So local.properties is a file that is generated by Android Studio and it is recommended not to include this in the version control system.
+                 </p>
+                 <p class="graf--p">
+                  So, if we take a look at our gitignore files in general, we have:
+                 </p>
+                 <pre><code class="language-java graf graf--code">*.iml
+.gradle
+/local.properties
+/.idea
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+/buildSrc/build/*</code></pre>
+                 <p class="graf--p">
+                  We can see that local.properties file is excluded in the version control system.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Tip:
+                  </b>
+                  Updating the gitignore files with the relevant extensions and file folders is really important for creating an open-source project. Since the “local.properties” file is not shared in the version control system, we can use this for declaring our local user-specific variables or private variables such as API keys or restricted base URLs, etc.,
+                 </p>
+                 <p class="graf--p">
+                  Let’s take a use case. Let’s consider our recently released open-source project on
+                  <a class="markup--anchor" href="https://github.com/MindorksOpenSource/ridesharing-uber-lyft-app" target="_blank">
+                   GitHub
+                  </a>
+                  :
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/MindorksOpenSource/ridesharing-uber-lyft-app" target="_blank">
+                   https://github.com/MindorksOpenSource/ridesharing-uber-lyft-app
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  This project helps to build a ride-sharing Android Taxi Clone App like Uber, Lyft. You can fork it and learn many awesome functionalities. Please go through the
+                  <b class="graf--bold">
+                   Readme
+                  </b>
+                  file for details of the project.
+                 </p>
+                 <p class="graf--p">
+                  Now, since our use case is a ride-sharing application, we will be using google maps in it. To use Google Maps, the developer should have an associated API Key. Let’s see how we can achieve this by using “local.properties” file.
+                 </p>
+                 <p class="graf--p">
+                  First of all, let’s append a parameter in the local.properties file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">sdk.dir=The sdk directory //already existing parameter
+apiKey = Your MAPS API Key</code></pre>
+                 <p class="graf--p">
+                  Now, let’s extract this value and use it in our app-level Gradle file through a variable.
+                 </p>
+                 <pre><code class="language-java graf graf--code">def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))</code></pre>
+                 <pre><code class="language-java graf graf--code">android {
+ ......
+}</code></pre>
+                 <p class="graf--p">
+                  In order to access our API key, we can use:
+                 </p>
+                 <pre><code class="language-java graf graf--code">localProperties['apiKey'] (or) 
+localProperties.getProperty("apiKey")</code></pre>
+                 <p class="graf--p">
+                  There are some files that get generated during build time such as gradleResValues.xml, BuildConfig.java, etc. Let’s make the use of these files to store the value of our API key. How can we add values to files that are generated during the build process? We shall use our buildTypes section in our app-level build.gradle file
+                 </p>
+                 <pre><code class="language-java graf graf--code">android {
+    .....
+    buildTypes {
+        debug {
+            resValue("string", "google_maps_key", localProperties['apiKey'])
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now once we add this in our build.gradle file, we rebuild our project and we can see a file named gradleResValues.xml is generated in the res(generated) folder.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;resources&gt;
+
+    &lt;!-- Automatically generated file. DO NOT MODIFY --&gt;
+
+    &lt;!-- Values from build type: debug --&gt;
+    &lt;string name="google_maps_key" translatable="false"&gt;MAPS_API_KEY&lt;/string&gt;
+
+&lt;/resources&gt;</code></pre>
+                 <p class="graf--p">
+                  In order to use this value inside the application, we can try extracting the values like follows:
+                 </p>
+                 <pre><code class="language-java graf graf--code">resources.getString(R.string.google_maps_key)</code></pre>
+                 <p class="graf--p">
+                  If we wish to store the value in the BuildConfig.java file, we can replace the resValue with buildConfigField in the app-level build.gradle file as follows:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android {
+    .....
+    buildTypes {
+        debug {
+            buildConfigField("String", "API_KEY", "\"" + localProperties['apiKey'] + "\"")
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  After changing the build.gradle file, let’s rebuild the project and take a look at our BuildConfig.java file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Fields from build type: debug
+public static final String API_KEY = your api key;</code></pre>
+                 <p class="graf--p">
+                  Now, we can access this parameter anywhere in the code like
+                 </p>
+                 <pre><code class="language-java graf graf--code">BuildConfig.API_KEY</code></pre>
+                 <p class="graf--p">
+                  Now, you can happily share this code as a public repository by adding a TODO statement in the readme file that the required build config parameters or the gradleResValuess.xml parameters should be declared in the local.properties file in order to access them. Since this local.properties file is not a part of the version control system as discussed earlier, the values of these user-specific fields will never be shared by the other developers accessing the public repo!
+                 </p>
+                 <p class="graf--p">
+                  This way, we can avoid the concept of hardcoding strings at the app-level code and make use of local.properties file to declare local, user-specific parameters or restricted URLs.
+                 </p>
+                 <p class="graf--p">
+                  We hope that this article has helped you understand how to use the local.properties file in the most effective way for specific use cases.
+                 </p>
+                 <p class="graf--p">
+                  Thank you so much for your time.
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning, Keep Sharing!
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks.
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Securing API Keys using Android NDK (Native Development Kit)" class="ui centered image" src="/images/securing-api-keys-using-android-ndk-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Securing API Keys using Android NDK (Native Development Kit)
+           </div>
+           <div class="meta">
+            2nd October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Storage System To Store Data In Android" class="ui centered image" src="/images/understanding-storage-system-to-store-data-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Storage System To Store Data In Android
+           </div>
+           <div class="meta">
+            17th December 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand about the Android Storage System. We will learn about the Internal Storage, External Storage, Shared Preference, Database, and Shared Storage. We will also learn when to use which storage system in Android.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Touch Control and Events in Android" class="ui centered image" src="/images/understand-touch-control-event-04c9289a59e970da.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Touch Control and Events in Android
+           </div>
+           <div class="meta">
+            28th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to understand how to work with touch control and events in android. We are going to learn how it works with view groups and their children.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to convert a Kotlin source file to a Java source file?" class="ui centered image" src="/images/how-to-convert-a-kotlin-source-file-to-a-java-source-file-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to convert a Kotlin source file to a Java source file?
+           </div>
+           <div class="meta">
+            21st September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to convert a Kotlin source file to a Java source file. We will do the file conversion by two methods. So, let's see how.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to check the visibility of software keyboard in Android?" class="ui centered image" src="/images/how-to-check-the-visibility-of-software-keyboard-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to check the visibility of software keyboard in Android?
+           </div>
+           <div class="meta">
+            27th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to check the visibility of software keyboard in Android.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to check if a lateinit variable has been initialized?" class="ui centered image" src="/images/how-to-check-if-a-lateinit-variable-has-been-initialized-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to check if a lateinit variable has been initialized?
+           </div>
+           <div class="meta">
+            6th April 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to check if a lateinit variable has been initialized in Kotlin?
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   What is Lint? What is it used for?
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/what-is-lint-what-is-it-used-for" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="What is Lint? What is it used for?" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/what-is-lint-what-is-it-used-for" property="og:url"/>
+  <meta content="/images/what-is-lint-usage-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn about Lint. Lint is a code scanning tool present in Android Studio that identifies the error in our code and suggests some changes in our code. Before publishing our app, we should use lint for our project. In this blog we will learn how to use lint in a more smarter way." property="og:description"/>
+  <meta content="What is Lint? What is it used for?" property="twitter:title"/>
+  <meta content="In this blog, we will learn about Lint. Lint is a code scanning tool present in Android Studio that identifies the error in our code and suggests some changes in our code. Before publishing our app, we should use lint for our project. In this blog we will learn how to use lint in a more smarter way." name="twitter:description"/>
+  <meta content="/images/what-is-lint-usage-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about Lint. Lint is a code scanning tool present in Android Studio that identifies the error in our code and suggests some changes in our code. Before publishing our app, we should use lint for our project. In this blog we will learn how to use lint in a more smarter way." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:255,data:{id:255,title:"What is Lint? What is it used for?",description:"In this blog, we will learn about Lint. Lint is a code scanning tool present in Android Studio that identifies the error in our code and suggests some changes in our code. Before publishing our app, we should use lint for our project. In this blog we will learn how to use lint in a more smarter way.",text:'<h1 class="graf--h1">What is Lint? What is it used for?</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/what-is-lint-usage-banner.png class=\'graf-image\' alt=\'What is Lint? What is it used for?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">As an Android Developer, we all use Android Studio for developing our applications. There are many other editors that can be used for Android app development but the best part that attracts me to use Android Studio is the support that it provides to the Android developers. The support can be in the form of auto-suggestion or it can be of the form of showing errors in our code(in all the files present in our project).</p><p class="graf--p">So, in this blog, we will see one of the best features of Android Studio that helps us to improve our way of writing errorless code and that feature is Lint. The topics that will be discussed in this blog are:</p><ul><li>What is Lint?</li><li>Configuration of lint</li><li>Helping Lint</li><li>Using Baseline</li><li>Manually run inspections</li><li>Conclusion</li></ul><p class="graf--p">So, Let’s get started.</p><h4 class="graf--h3">What is Lint?</h4><p class="graf--p">Lint is a code scanning tool provided by the Android Studio to identify, suggest and correct the wrong or the risky code present in the project.</p><blockquote class="graf--blockquote"><b class="graf--bold">Lint is like a full-fledged stack analysis framework</b></blockquote><p class="graf--p">We all have been using the Lint since we started using the Android Studio because by default Android studio provides the support for Lint in our every project. The problems detected in your code by the Lint will be reported to you with some suggestions and a warning level. You can use the suggestion to correct your code. The best part of Lint is that you can use Lint as per your need. If you want to see a particular type of error in your project then the Lint will only show you that type of error. Lint is customizable in nature. By default Android Studio runs the inspection process whenever you build your project but apart from this, you can inspect your code with the help of Lint manually or from the command line.</p><p class="graf--p">The following image shows the working of Lint:</p><p class="graf--p"><b class="graf--bold"><i class="graf--italic">Picture courtesy: Android Developer website</i></b></p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/what-is-lint-working.png class=\'graf-image\' alt=\'What is Lint? What is it used for?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">The whole process of lint can be summarized in three steps:</p><ol><li><b class="graf--bold">Making lint.xml file:</b> You can customize the Lint checks in the <b class="graf--bold"><i class="graf--italic">lint.xml</i></b> file. In this file, you can write the checks that you want to include and ignore the checks that you don’t want to include. For example, if you want to check the issue of unused variable and don’t want to check for naming issues then you can do this is lint.xml file. Apart from this, you can customize the Lint checks manually also. We will see how to do manual Lint checks in the next part of this blog.</li><li><b class="graf--bold">Application source file:</b> The next step is to select the source files on which you want to perform the Lint check. It can be your <b class="graf--bold">.java</b> file or <b class="graf--bold">.kt </b>file or any <b class="graf--bold">xml</b> file of your project.</li><li><b class="graf--bold">The Lint tool:</b> Finally, the lint tool takes the source and lint.xml files and checks for structural code problems and suggest some improvements in the code if any. It is suggested to use the lint suggestion before publishing our app.</li></ol><h4 class="graf--h3">When to use Lint?</h4><p class="graf--p">If you want to publish your app on the play store or any app store then you would like to have an error free app. For this purpose, you have to perform so many testing on your app manually. But if you want to get rid of some of the manual testing,  you can use Lint in your project. You can inspect each and every file of your code to find some error and Lint will identify the errors and suggest some answers. That errors or warnings can be of:</p><ul><li>Unused variables</li><li>Unhanded exceptions</li><li>Imports that are not used in the project, and many more</li></ul><p class="graf--p">So, before publishing your app, you should use Lint to inspect your code fully.</p><p class="graf--p">Also, you can configure lint checking for different levels of your project:</p><ul><li>Globally (entire project)</li><li>Project module</li><li>Production module</li><li>Test module</li><li>Open files</li><li>Class hierarchy</li><li>Version Control System (VCS) scopes</li></ul><h4 class="graf--h3">Configuration of Lint</h4><p class="graf--p">In order to use Lint or simply run inspections in your project, you can add Lint inspection in the lint.xml file or you can manually select the list of issues to be configured by the lint in your project by using Android Studio.</p><ul><li><b class="graf--bold">Configure the lint file: </b>In order to specify manual checks in your app, add the list of issues to be configured in the lint.xml file. If you are making a new lint.xml file then make sure to put it into the root directory of your Android project.</li></ul><p class="graf--p">Following is an example of lint.xml file:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="UTF-8"?&gt;\n&lt;lint&gt;\n    &lt;!-- Disable the given check in this project --&gt;\n    &lt;issue id="IconMissingDensityFolder" severity="ignore" /&gt;\n\n    &lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&gt;\n    &lt;issue id="ObsoleteLayoutParam"&gt;\n        &lt;ignore path="res/layout/activation.xml" /&gt;\n        &lt;ignore path="res/layout-xlarge/activation.xml" /&gt;\n    &lt;/issue&gt;\n\n    &lt;!-- Ignore the UselessLeaf issue in the specified file --&gt;\n    &lt;issue id="UselessLeaf"&gt;\n        &lt;ignore path="res/layout/main.xml" /&gt;\n    &lt;/issue&gt;\n\n    &lt;!-- Change the severity of hardcoded strings to "error" --&gt;\n    &lt;issue id="HardcodedText" severity="error" /&gt;\n&lt;/lint&gt;</code></pre><ul><li><b class="graf--bold">Configure the lint manually: </b>By default, lint checks for a number of issues but not all the issues. This is not done because if you will run all the issue check that lint can check for, then the performance of the Android Studio will be slowed down. So, only a limited number of lint checks are used in Android Studio by default. But you can add more checks and remove checks from the lint by following the steps below:</li></ul><p class="graf--p">Go to <b class="graf--bold"><i class="graf--italic">Files &gt; Settings &gt; Editor &gt; Inspections</i></b> and then check the issue checks that you want to be performed by the lint</p><h4 class="graf--h3">Helping Lint</h4><p class="graf--p">There are many times when you are writing a risky or error full code but the lint is not showing any error or warning to your code. For example, write the below code in Android Studio:</p><pre><code class="language-java graf graf--code">fun updateUi() {\n    // code goes here\n    networkRequest()\n}\n\nfun networkRequest() {\n    // code goes here    \n}</code></pre><p class="graf--p">The above lines of code will not show you some error, but logically it should show some error because, during the update of UI, network request should not be called. So, what you can do here is to help the lint.</p><blockquote class="graf--blockquote">Help Lint helps you</blockquote><p class="graf--p">Yes, if you will help the lint then lint will also help you. So, in order to help the lint understand the code in a more precise way, always try to use annotations in your project. Now write the same some that you have written previously and then check for error:</p><pre><code class="language-java graf graf--code">@UiThread\nfun updateUi() {\n    // code goes here\n    networkRequest()\n}\n\n@WorkerThread\nfun networkRequest() {\n    // code goes here\n}</code></pre><p class="graf--p">So, help Lint by using Annotations in your code.</p><h4 class="graf--h3">Using Baseline</h4><p class="graf--p">If you are working on a very big project and interested in finding the future errors that might come while adding some more codes to your project then you can add a baseline to your project and by doing so the lint will generate the errors that have occurred after that baseline. So, lint will ignore the previous code issues and will warn you only about the new lines of code added after the baseline.</p><p class="graf--p">To add a baseline in your project, add the below line in your project’s <b class="graf--bold"><i class="graf--italic">build.gradle </i></b>file:</p><pre><code class="language-java graf graf--code">android {\n  lintOptions {\n    baseline file("lint-baseline.xml")\n  }\n}</code></pre><p class="graf--p">This will create a <b class="graf--bold">lint-baseline.xml</b> that will establish a baseline of your project. To add another baseline, delete the file and the lint again. </p><p class="graf--p">Another thing that you can do here is, you can enable any type of issue check here only. For example, in order to enable the<i class="graf--italic"> Kotlin Interoperability</i> check, write the below code:</p><pre><code class="language-java graf graf--code">android {\n  lintOptions {\n    baseline file("lint-baseline.xml")\n  }\n}</code></pre><pre><code class="language-java graf graf--code">enable "Interoperability"</code></pre><h4 class="graf--h3">Manually run inspections</h4><p class="graf--p">In order to manually inspect a file in Android Studio, follow the below steps:</p><p class="graf--p"><b class="graf--bold">Step 1: </b>Go to the file you want to inspect.</p><p class="graf--p"><b class="graf--bold">Step 2: </b>Right click and then go to <b class="graf--bold">Analyze &gt; Inspect Code. </b>Below window will be opened:</p><p class="graf--p">Picture courtesy: Android Developer website</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/what-is-lint-inspection-options.jpg class=\'graf-image\' alt=\'What is Lint? What is it used for?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here you can select your inspection scope i.e. whole project or module or simply a file. After selecting the scope click on <b class="graf--bold">OK. </b></p><p class="graf--p">The following window will be opened:</p><p class="graf--p">Picture courtesy: Android Developer website</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/what-is-lint-inspection-results.jpg class=\'graf-image\' alt=\'What is Lint? What is it used for?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">A list of error categories, types and issues will be there. You can view the inspection result by expanding the error in the left pane tree view.</p><p class="graf--p">In the other pane i.e. the right pane displays the inspection report for the selected error.</p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we learned how to use the Lint in Android Studio. We saw that if we want to analyze our code then we need not do it manually. Android Studio provides a code checking tool Lint, that helps us to clean our code and use the necessary and right code for Application development.</p><p class="graf--p">So, use Lint for the removal of various types of error in your project and also help the lint to help you.</p><p class="graf--p">Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks.</b></p>',author:14897,img_url:"/images/what-is-lint-usage-banner.png",blog_url:"what-is-lint-what-is-it-used-for",likes:0,rank:0,category:1,published_at:"27th May 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:null,isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            27th May 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  What is Lint? What is it used for?
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="What is Lint? What is it used for?" class="graf-image" src="/images/what-is-lint-usage-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  As an Android Developer, we all use Android Studio for developing our applications. There are many other editors that can be used for Android app development but the best part that attracts me to use Android Studio is the support that it provides to the Android developers. The support can be in the form of auto-suggestion or it can be of the form of showing errors in our code(in all the files present in our project).
+                 </p>
+                 <p class="graf--p">
+                  So, in this blog, we will see one of the best features of Android Studio that helps us to improve our way of writing errorless code and that feature is Lint. The topics that will be discussed in this blog are:
+                 </p>
+                 <ul>
+                  <li>
+                   What is Lint?
+                  </li>
+                  <li>
+                   Configuration of lint
+                  </li>
+                  <li>
+                   Helping Lint
+                  </li>
+                  <li>
+                   Using Baseline
+                  </li>
+                  <li>
+                   Manually run inspections
+                  </li>
+                  <li>
+                   Conclusion
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, Let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  What is Lint?
+                 </h4>
+                 <p class="graf--p">
+                  Lint is a code scanning tool provided by the Android Studio to identify, suggest and correct the wrong or the risky code present in the project.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   Lint is like a full-fledged stack analysis framework
+                  </b>
+                 </blockquote>
+                 <p class="graf--p">
+                  We all have been using the Lint since we started using the Android Studio because by default Android studio provides the support for Lint in our every project. The problems detected in your code by the Lint will be reported to you with some suggestions and a warning level. You can use the suggestion to correct your code. The best part of Lint is that you can use Lint as per your need. If you want to see a particular type of error in your project then the Lint will only show you that type of error. Lint is customizable in nature. By default Android Studio runs the inspection process whenever you build your project but apart from this, you can inspect your code with the help of Lint manually or from the command line.
+                 </p>
+                 <p class="graf--p">
+                  The following image shows the working of Lint:
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Picture courtesy: Android Developer website
+                   </i>
+                  </b>
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="What is Lint? What is it used for?" class="graf-image" src="/images/what-is-lint-working.png"/>
+                 </div>
+                 <p class="graf--p">
+                  The whole process of lint can be summarized in three steps:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    Making lint.xml file:
+                   </b>
+                   You can customize the Lint checks in the
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     lint.xml
+                    </i>
+                   </b>
+                   file. In this file, you can write the checks that you want to include and ignore the checks that you don’t want to include. For example, if you want to check the issue of unused variable and don’t want to check for naming issues then you can do this is lint.xml file. Apart from this, you can customize the Lint checks manually also. We will see how to do manual Lint checks in the next part of this blog.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Application source file:
+                   </b>
+                   The next step is to select the source files on which you want to perform the Lint check. It can be your
+                   <b class="graf--bold">
+                    .java
+                   </b>
+                   file or
+                   <b class="graf--bold">
+                    .kt
+                   </b>
+                   file or any
+                   <b class="graf--bold">
+                    xml
+                   </b>
+                   file of your project.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    The Lint tool:
+                   </b>
+                   Finally, the lint tool takes the source and lint.xml files and checks for structural code problems and suggest some improvements in the code if any. It is suggested to use the lint suggestion before publishing our app.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  When to use Lint?
+                 </h4>
+                 <p class="graf--p">
+                  If you want to publish your app on the play store or any app store then you would like to have an error free app. For this purpose, you have to perform so many testing on your app manually. But if you want to get rid of some of the manual testing,  you can use Lint in your project. You can inspect each and every file of your code to find some error and Lint will identify the errors and suggest some answers. That errors or warnings can be of:
+                 </p>
+                 <ul>
+                  <li>
+                   Unused variables
+                  </li>
+                  <li>
+                   Unhanded exceptions
+                  </li>
+                  <li>
+                   Imports that are not used in the project, and many more
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, before publishing your app, you should use Lint to inspect your code fully.
+                 </p>
+                 <p class="graf--p">
+                  Also, you can configure lint checking for different levels of your project:
+                 </p>
+                 <ul>
+                  <li>
+                   Globally (entire project)
+                  </li>
+                  <li>
+                   Project module
+                  </li>
+                  <li>
+                   Production module
+                  </li>
+                  <li>
+                   Test module
+                  </li>
+                  <li>
+                   Open files
+                  </li>
+                  <li>
+                   Class hierarchy
+                  </li>
+                  <li>
+                   Version Control System (VCS) scopes
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Configuration of Lint
+                 </h4>
+                 <p class="graf--p">
+                  In order to use Lint or simply run inspections in your project, you can add Lint inspection in the lint.xml file or you can manually select the list of issues to be configured by the lint in your project by using Android Studio.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Configure the lint file:
+                   </b>
+                   In order to specify manual checks in your app, add the list of issues to be configured in the lint.xml file. If you are making a new lint.xml file then make sure to put it into the root directory of your Android project.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Following is an example of lint.xml file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;lint&gt;
+    &lt;!-- Disable the given check in this project --&gt;
+    &lt;issue id="IconMissingDensityFolder" severity="ignore" /&gt;
+
+    &lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&gt;
+    &lt;issue id="ObsoleteLayoutParam"&gt;
+        &lt;ignore path="res/layout/activation.xml" /&gt;
+        &lt;ignore path="res/layout-xlarge/activation.xml" /&gt;
+    &lt;/issue&gt;
+
+    &lt;!-- Ignore the UselessLeaf issue in the specified file --&gt;
+    &lt;issue id="UselessLeaf"&gt;
+        &lt;ignore path="res/layout/main.xml" /&gt;
+    &lt;/issue&gt;
+
+    &lt;!-- Change the severity of hardcoded strings to "error" --&gt;
+    &lt;issue id="HardcodedText" severity="error" /&gt;
+&lt;/lint&gt;</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Configure the lint manually:
+                   </b>
+                   By default, lint checks for a number of issues but not all the issues. This is not done because if you will run all the issue check that lint can check for, then the performance of the Android Studio will be slowed down. So, only a limited number of lint checks are used in Android Studio by default. But you can add more checks and remove checks from the lint by following the steps below:
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Go to
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Files &gt; Settings &gt; Editor &gt; Inspections
+                   </i>
+                  </b>
+                  and then check the issue checks that you want to be performed by the lint
+                 </p>
+                 <h4 class="graf--h3">
+                  Helping Lint
+                 </h4>
+                 <p class="graf--p">
+                  There are many times when you are writing a risky or error full code but the lint is not showing any error or warning to your code. For example, write the below code in Android Studio:
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun updateUi() {
+    // code goes here
+    networkRequest()
+}
+
+fun networkRequest() {
+    // code goes here    
+}</code></pre>
+                 <p class="graf--p">
+                  The above lines of code will not show you some error, but logically it should show some error because, during the update of UI, network request should not be called. So, what you can do here is to help the lint.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  Help Lint helps you
+                 </blockquote>
+                 <p class="graf--p">
+                  Yes, if you will help the lint then lint will also help you. So, in order to help the lint understand the code in a more precise way, always try to use annotations in your project. Now write the same some that you have written previously and then check for error:
+                 </p>
+                 <pre><code class="language-java graf graf--code">@UiThread
+fun updateUi() {
+    // code goes here
+    networkRequest()
+}
+
+@WorkerThread
+fun networkRequest() {
+    // code goes here
+}</code></pre>
+                 <p class="graf--p">
+                  So, help Lint by using Annotations in your code.
+                 </p>
+                 <h4 class="graf--h3">
+                  Using Baseline
+                 </h4>
+                 <p class="graf--p">
+                  If you are working on a very big project and interested in finding the future errors that might come while adding some more codes to your project then you can add a baseline to your project and by doing so the lint will generate the errors that have occurred after that baseline. So, lint will ignore the previous code issues and will warn you only about the new lines of code added after the baseline.
+                 </p>
+                 <p class="graf--p">
+                  To add a baseline in your project, add the below line in your project’s
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android {
+  lintOptions {
+    baseline file("lint-baseline.xml")
+  }
+}</code></pre>
+                 <p class="graf--p">
+                  This will create a
+                  <b class="graf--bold">
+                   lint-baseline.xml
+                  </b>
+                  that will establish a baseline of your project. To add another baseline, delete the file and the lint again.
+                 </p>
+                 <p class="graf--p">
+                  Another thing that you can do here is, you can enable any type of issue check here only. For example, in order to enable the
+                  <i class="graf--italic">
+                   Kotlin Interoperability
+                  </i>
+                  check, write the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android {
+  lintOptions {
+    baseline file("lint-baseline.xml")
+  }
+}</code></pre>
+                 <pre><code class="language-java graf graf--code">enable "Interoperability"</code></pre>
+                 <h4 class="graf--h3">
+                  Manually run inspections
+                 </h4>
+                 <p class="graf--p">
+                  In order to manually inspect a file in Android Studio, follow the below steps:
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 1:
+                  </b>
+                  Go to the file you want to inspect.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step 2:
+                  </b>
+                  Right click and then go to
+                  <b class="graf--bold">
+                   Analyze &gt; Inspect Code.
+                  </b>
+                  Below window will be opened:
+                 </p>
+                 <p class="graf--p">
+                  Picture courtesy: Android Developer website
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="What is Lint? What is it used for?" class="graf-image" src="/images/what-is-lint-inspection-options.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Here you can select your inspection scope i.e. whole project or module or simply a file. After selecting the scope click on
+                  <b class="graf--bold">
+                   OK.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  The following window will be opened:
+                 </p>
+                 <p class="graf--p">
+                  Picture courtesy: Android Developer website
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="What is Lint? What is it used for?" class="graf-image" src="/images/what-is-lint-inspection-results.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  A list of error categories, types and issues will be there. You can view the inspection result by expanding the error in the left pane tree view.
+                 </p>
+                 <p class="graf--p">
+                  In the other pane i.e. the right pane displays the inspection report for the selected error.
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how to use the Lint in Android Studio. We saw that if we want to analyze our code then we need not do it manually. Android Studio provides a code checking tool Lint, that helps us to clean our code and use the necessary and right code for Application development.
+                 </p>
+                 <p class="graf--p">
+                  So, use Lint for the removal of various types of error in your project and also help the lint to help you.
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks.
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

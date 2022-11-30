@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Better Logging in Android Using Timber
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/logging-using-timber" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Better Logging in Android Using Timber" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/logging-using-timber" property="og:url"/>
+  <meta content="/images/timber-logging.jpg" property="og:image"/>
+  <meta content="In this blog, we will be learning about a third party library which we use to log in android studio. " property="og:description"/>
+  <meta content="Better Logging in Android Using Timber" property="twitter:title"/>
+  <meta content="In this blog, we will be learning about a third party library which we use to log in android studio. " name="twitter:description"/>
+  <meta content="/images/timber-logging.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will be learning about a third party library which we use to log in android studio. " name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:256,data:{id:256,title:"Better Logging in Android Using Timber",description:"In this blog, we will be learning about a third party library which we use to log in android studio. ",text:'<h1 class="graf--h1"><b class="graf--bold">Better Logging in Android Using Timber</b></h1><p class="graf--p"></p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/timber-logging.jpg class=\'graf-image\' alt=\'Better Logging in Android Using Timber\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">If you are reading this, you are an Android developer or inspiring to be one. In this blog, we will talk about one of the most widely used libraries, Timber for Android. Timber is used for better logging in Android. As an Android developer, we use a lot of <b class="graf--bold">Log</b> statement in our project to generate outputs and we can use it to check if the required output is printed in Terminal or not.</p><p class="graf--p"><br/>Log are of types like VERBOSE, DEBUG, WARN, INFO, ERROR and we should only limit the use of Log in development (Staging) build and not the production build. This is because we can have a threat to expose some sort of sensitive information.Now, let us see a few ways how can we use the Log in our Android project.</p><h4>1. First, we create a singleton class,</h4><pre><code class="language-java graf graf--code">object LogUtil {\n    \n    fun DEBUG(key: String, message: String) {\n        if (BuildConfig.DEBUG)\n            Log.d(key, message)\n    }\n}</code></pre><ul><li>Here, LogUtil is a Singleton class. It contains a function DEBUG() and it will run only when the app is in debug mode.</li></ul><p class="graf--p">To run this in Activity file,</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    val TAG = MainActivity::class.java.simpleName\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        \n        //It will only run in debug mode\n        LogUtil.DEBUG(TAG,"We are in MainActivity")\n    }\n}</code></pre><p class="graf--p">This is one way to use Log in our project.</p><h4>2. The second way to do is, we use Log directly in our files like,</h4><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    val TAG = MainActivity::class.java.simpleName\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        Log.d(TAG,"We are in MainActivity")\n    }\n}</code></pre><p class="graf--p">In this code snippet we have used the Log directly and to make sure we are not using this in production we remove it using proguard-rules,</p><pre><code class="language-java graf graf--code">-assumenosideeffects class android.util.Log {\n    public static *** d(...);\n    public static *** v(...);\n    public static *** e(...);\n}</code></pre><ul><li>Here, we remove Log.d, Log.e and Log.e using the proguard-rules.</li></ul><blockquote class="graf--blockquote"><b class="graf--bold">The last way to hide Log from Release build, deleting all the Log statement manually.</b></blockquote><p class="graf--p">This can be a tedious task right? Let me take a moment and let me introduce you to <a class="markup--anchor" target="_blank" href="https://github.com/JakeWharton/timber/">Timber</a>.Timber is an open-source library made by Jake Wharton. It simplifies the process of Logging your statements. It will automatically handle your debug/release issue by itself. Let us discuss integrating and using Timber.Add the following in build.gradle,</p><pre><code class="language-java graf graf--code">implementation \'com.jakewharton.timber:timber:4.7.1\'</code></pre><p class="graf--p">Now, in your application class, we have to Initialize Timber,</p><pre><code class="language-java graf graf--code">class App : Application() {\n\n    override fun onCreate() {\n        super.onCreate()\n        if (BuildConfig.DEBUG) {\n            Timber.plant(Timber.DebugTree())\n        }\n    }\n}</code></pre><blockquote class="graf--blockquote">We can also create our own tree by extending <b class="graf--bold">Timber.Tree</b></blockquote><p class="graf--p">Now, in your View files replace your Log statement with,</p><pre><code class="language-java graf graf--code">Timber.e("Your Error Message")</code></pre><pre><code class="language-java graf graf--code">Timber.d("Your Debug Message")</code></pre><p class="graf--p">Here, you can see we are not passing <b class="graf--bold">TAG </b>like above examples as Timber detects the Class name automatically for you.Now, Let us consider an example where we don’t want to pass the class name as the tag and want a custom tag name.For that, we can use,</p><pre><code class="language-java graf graf--code">Timber.tag("Mindorks Tag").e("Error Caught By Mindorks");</code></pre><p class="graf--p">That is it, how we can improve our logging skills using Timber.</p><p class="graf--p">Happy Coding :)</p><p class="graf--p"><b class="graf--bold">Team Mindorks.</b></p>',author:9959,img_url:"/images/timber-logging.jpg",blog_url:"logging-using-timber",likes:0,rank:0,category:1,published_at:"30th May 2019"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:296,title:"How to enable logging in OkHttp ?",description:"In this blog, we will learn about how to log your API calls better using OkHttp . We will learn how to create our own custom Interceptor and log more.",author:9959,img_url:"/images/enable-logging-okhttp-banner.png",blog_url:"how-to-enable-logging-in-okhttp",likes:0,rank:0,category:1,published_at:"16th July 2019",score:3.1293888092041016},{id:351,title:"Using Android Sensors: Android Tutorial",description:"In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.",author:14897,img_url:"/images/using-android-sensors-android-tutorial-banner.png",blog_url:"using-android-sensors-android-tutorial",likes:0,rank:0,category:1,published_at:"30th September 2019",score:.3374535143375397},{id:234,title:"Push Notifications in Android Using FCM",description:"In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.",author:14897,img_url:"/images/fcm.jpg",blog_url:"pushing-notifications-in-android-using-fcm",likes:0,rank:0,category:1,published_at:"15th May 2019",score:.3282759189605713},{id:238,title:"Using Custom and Downloadable Fonts in Android",description:"In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.",author:14897,img_url:"/images/downloadable-font-banner.png",blog_url:"using-custom-and-downloadable-fonts-in-android",likes:0,rank:0,category:1,published_at:"16th May 2019",score:.3282759189605713},{id:244,title:"Using Swipe-to-refresh in Android Application",description:"In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.",author:14897,img_url:"/images/swipe-to-refresh-banner.png",blog_url:"using-swipe-to-refresh-in-android-application",likes:0,rank:0,category:1,published_at:"21st May 2019",score:.3282759189605713},{id:250,title:"Using Exoplayer to play Video and Audio in Android like a Pro",description:"In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.",author:14897,img_url:"/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png",blog_url:"using-exoplayer-to-play-video-and-audio-in-android-like-a-pro",likes:0,rank:0,category:1,published_at:"24th May 2019",score:.3282759189605713}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            30th May 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  <b class="graf--bold">
+                   Better Logging in Android Using Timber
+                  </b>
+                 </h1>
+                 <p class="graf--p">
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Better Logging in Android Using Timber" class="graf-image" src="/images/timber-logging.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  If you are reading this, you are an Android developer or inspiring to be one. In this blog, we will talk about one of the most widely used libraries, Timber for Android. Timber is used for better logging in Android. As an Android developer, we use a lot of
+                  <b class="graf--bold">
+                   Log
+                  </b>
+                  statement in our project to generate outputs and we can use it to check if the required output is printed in Terminal or not.
+                 </p>
+                 <p class="graf--p">
+                  <br/>
+                  Log are of types like VERBOSE, DEBUG, WARN, INFO, ERROR and we should only limit the use of Log in development (Staging) build and not the production build. This is because we can have a threat to expose some sort of sensitive information.Now, let us see a few ways how can we use the Log in our Android project.
+                 </p>
+                 <h4>
+                  1. First, we create a singleton class,
+                 </h4>
+                 <pre><code class="language-java graf graf--code">object LogUtil {
+    
+    fun DEBUG(key: String, message: String) {
+        if (BuildConfig.DEBUG)
+            Log.d(key, message)
+    }
+}</code></pre>
+                 <ul>
+                  <li>
+                   Here, LogUtil is a Singleton class. It contains a function DEBUG() and it will run only when the app is in debug mode.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  To run this in Activity file,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    val TAG = MainActivity::class.java.simpleName
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        
+        //It will only run in debug mode
+        LogUtil.DEBUG(TAG,"We are in MainActivity")
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  This is one way to use Log in our project.
+                 </p>
+                 <h4>
+                  2. The second way to do is, we use Log directly in our files like,
+                 </h4>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    val TAG = MainActivity::class.java.simpleName
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        Log.d(TAG,"We are in MainActivity")
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In this code snippet we have used the Log directly and to make sure we are not using this in production we remove it using proguard-rules,
+                 </p>
+                 <pre><code class="language-java graf graf--code">-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** e(...);
+}</code></pre>
+                 <ul>
+                  <li>
+                   Here, we remove Log.d, Log.e and Log.e using the proguard-rules.
+                  </li>
+                 </ul>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   The last way to hide Log from Release build, deleting all the Log statement manually.
+                  </b>
+                 </blockquote>
+                 <p class="graf--p">
+                  This can be a tedious task right? Let me take a moment and let me introduce you to
+                  <a class="markup--anchor" href="https://github.com/JakeWharton/timber/" target="_blank">
+                   Timber
+                  </a>
+                  .Timber is an open-source library made by Jake Wharton. It simplifies the process of Logging your statements. It will automatically handle your debug/release issue by itself. Let us discuss integrating and using Timber.Add the following in build.gradle,
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation 'com.jakewharton.timber:timber:4.7.1'</code></pre>
+                 <p class="graf--p">
+                  Now, in your application class, we have to Initialize Timber,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class App : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+    }
+}</code></pre>
+                 <blockquote class="graf--blockquote">
+                  We can also create our own tree by extending
+                  <b class="graf--bold">
+                   Timber.Tree
+                  </b>
+                 </blockquote>
+                 <p class="graf--p">
+                  Now, in your View files replace your Log statement with,
+                 </p>
+                 <pre><code class="language-java graf graf--code">Timber.e("Your Error Message")</code></pre>
+                 <pre><code class="language-java graf graf--code">Timber.d("Your Debug Message")</code></pre>
+                 <p class="graf--p">
+                  Here, you can see we are not passing
+                  <b class="graf--bold">
+                   TAG
+                  </b>
+                  like above examples as Timber detects the Class name automatically for you.Now, Let us consider an example where we don’t want to pass the class name as the tag and want a custom tag name.For that, we can use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">Timber.tag("Mindorks Tag").e("Error Caught By Mindorks");</code></pre>
+                 <p class="graf--p">
+                  That is it, how we can improve our logging skills using Timber.
+                 </p>
+                 <p class="graf--p">
+                  Happy Coding :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team Mindorks.
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to enable logging in OkHttp ?" class="ui centered image" src="/images/enable-logging-okhttp-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to enable logging in OkHttp ?
+           </div>
+           <div class="meta">
+            16th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about how to log your API calls better using OkHttp . We will learn how to create our own custom Interceptor and log more.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Android Sensors: Android Tutorial" class="ui centered image" src="/images/using-android-sensors-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Android Sensors: Android Tutorial
+           </div>
+           <div class="meta">
+            30th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Push Notifications in Android Using FCM" class="ui centered image" src="/images/fcm.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Push Notifications in Android Using FCM
+           </div>
+           <div class="meta">
+            15th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Custom and Downloadable Fonts in Android" class="ui centered image" src="/images/downloadable-font-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Custom and Downloadable Fonts in Android
+           </div>
+           <div class="meta">
+            16th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Swipe-to-refresh in Android Application" class="ui centered image" src="/images/swipe-to-refresh-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Swipe-to-refresh in Android Application
+           </div>
+           <div class="meta">
+            21st May 2019
+           </div>
+           <div class="description">
+            In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Exoplayer to play Video and Audio in Android like a Pro" class="ui centered image" src="/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Exoplayer to play Video and Audio in Android like a Pro
+           </div>
+           <div class="meta">
+            24th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

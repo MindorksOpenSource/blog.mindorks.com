@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Understanding the Scoped Storage in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/understanding-the-scoped-storage-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Understanding the Scoped Storage in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/understanding-the-scoped-storage-in-android" property="og:url"/>
+  <meta content="/images/understanding-the-scoped-storage-in-android-banner.png" property="og:image"/>
+  <meta content="In this blog, we will understand the concept of Scoped Storage in Android. It was introduced with Android 10 and it provides limited and the required storage access to the application. Let's learn more about it." property="og:description"/>
+  <meta content="Understanding the Scoped Storage in Android" property="twitter:title"/>
+  <meta content="In this blog, we will understand the concept of Scoped Storage in Android. It was introduced with Android 10 and it provides limited and the required storage access to the application. Let's learn more about it." name="twitter:description"/>
+  <meta content="/images/understanding-the-scoped-storage-in-android-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will understand the concept of Scoped Storage in Android. It was introduced with Android 10 and it provides limited and the required storage access to the application. Let's learn more about it." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:373,data:{id:373,title:"Understanding the Scoped Storage in Android",description:"In this blog, we will understand the concept of Scoped Storage in Android. It was introduced with Android 10 and it provides limited and the required storage access to the application. Let's learn more about it.",text:'<h1 class="graf--h1">Understanding the Scoped Storage in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understanding-the-scoped-storage-in-android-banner.png class=\'graf-image\' alt=\'Understanding the Scoped Storage in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">With the introduction of Android 10, many new features were introduced and Scoped Storage is one of them. In this blog, we will understand how to prepare your Android apps for Scoped Storage. So, let&#x27;s get started. The following is the timeline of this blog:</p><ul><li>The Problem</li><li>The Solution - Scoped Storage</li><li>Key features of Scoped Storage</li><li>Download Collection</li><li>Special App Access</li><li>What if you don&#x27;t want to use Scoped Storage?</li><li>Conclusion</li></ul><h4 class="graf--h3">The Problem</h4><p class="graf--p">Before Android 10, we have a concept of Shared Storage. Every application in the device has some private storage in the internal memory and you can find this in android/data/your_package_name directory. Apart from this internal storage, the rest of the storage is called the Shared Storage i.e. every application with the storage permission can access this part of the memory. This includes media collections and other files of different applications. But the problem is that the application having the storage permission doesn&#x27;t require the access of all of these files. All they want is to perform some small operation over some small part of the memory and that&#x27;s it. For example, some application just needs to select a user image to upload it as the profile picture and nothing else. So, why to provide them with the full access to that Shared Storage? </p><p class="graf--p">Also, the second problem is that when the application is having such a wide writing capability on the storage then the files generated by the application gets scattered and when the user uninstalls the application then the files generated by the application remains in the storage only and are not deleted and takes a lot of space.</p><p class="graf--p">So, we need some kind of mechanism, with the help of which the apps can get the specific access they need without getting such a broad reading and writing power that they don&#x27;t actually need. This can be done with the help of Scoped Storage. Let&#x27;s learn about it.</p><h4 class="graf--h3">The  Solution - Scoped Storage</h4><p class="graf--p">The idea of the Scoped Storage is to compartmentalize the storage into specified collections to limit the access to broad storage. There are certain principles on which the Scoped Storage is based on:</p><ul><li><b class="graf--bold">Better Attribution:</b> Better attribution means the system knows which file is generated by which application. The benefit of doing this is, you will have better management of files of a particular application. Also, when you uninstall an application from the device then all the contents related to the app will also be removed unless the user explicitly wants to keep it.</li><li><b class="graf--bold">App data protection: </b>As we know that the internal storage of the app is private and can&#x27;t be accessed by other applications. But the external storage is accessed by applications with storage permission. With the help of Scoped Storage, the data in the external storage can not be easily accessed by other applications.</li></ul><p class="graf--p">So, using these principles, the Scoped Storage came with Android 10 and have some key features.</p><h4 class="graf--h3">Key features of Scoped Storage</h4><p class="graf--p">Some of the key features of Scoped Storage are:</p><ul><li><b class="graf--bold">Unrestricted access:</b> Every application has unrestricted access to its own storage i.e. internal as well as external storage. So, with Android 10, you don&#x27;t need to provide storage permission to write files to your own app directory on the SD card.</li><li><b class="graf--bold">Unrestricted media:</b> You have unrestricted access to contribute files to the media collections and downloads of your own app. So, no need to take permission if you want to save any image, video, or any other media file in media collection. You can read or write media files created by you but to read the media file of other application, you need to get the &quot;READ_EXTERNAL_STORAGE&quot; permission from the user. Also, the &quot;WRITE_EXTERNAL_STORAGE&quot; permission will be deprecated in the next Android release and you will get the read access if you used the &quot;WRITE_EXTERNAL_STORAGE&quot;. You have to explicitly ask the user to edit the media files that are not contributed by your application. </li><li><b class="graf--bold">Organized collection:</b> Here, in Scoped Storage, we have an organized media collection like for images, videos, etc and downloads collection for non-media files.</li><li><b class="graf--bold">Media location metadata:</b> There is new permission introduced in Android 10 i.e. ACCESS_MEDIA_LOCATION. If you want to get the location of the media then you have to take this permission. For example, sometimes the picture taken by a camera also shows the location of the picture that was taken. So, if you want to show that location then you have to take this permission. It is runtime permission, so you need to declare this in your manifest file and from the MediaStore object, call the setRequireOriginal(), passing the URI of the image.</li></ul><pre><code class="language-java graf graf--code">// Get location data from the ExifInterface class.\nval photoUri = MediaStore.setRequireOriginal(photoUri)\ncontentResolver.openInputStream(photoUri).use { stream -&gt;\n    ExifInterface(stream).run {\n        // If lat/long is null, fall back to the coordinates (0, 0).\n        val latLong = ?: doubleArrayOf(0.0, 0.0)\n    }\n}</code></pre><ul><li><b class="graf--bold">System Picker:</b> In order to access other files except for these media files, we have to use System Picker which is accessed using the Storage Access Framework.</li><li><b class="graf--bold">Read/write from outside:</b> To read and write any files outside the collection, you need to use the System Picker.</li></ul><p class="graf--p"><b class="graf--bold">NOTE: If you are using Scoped Storage, then you should move all your media files or all files that are present in the Shared Storage to your app&#x27;s directory. Otherwise, you will lose access to those files.</b></p><h4 class="graf--h3">Download Collection</h4><p class="graf--p">We have seen how to edit and read media collection in Scoped Storage. For other files that are not media files like PDF or doc, Android 10 has a collection called Download Collection. Just like the Media Collection, you don&#x27;t require to have any permission for editing or reading non-media files in the Download Collection of yours app.</p><p class="graf--p">But in Media Collection we have seen that the &quot;READ_EXTERNAL_STORAGE&quot; permission gives the read access to all the media files contributed by other application. While in Download Collection, to read the non-media files created by other applications, you need to use the System Picker with Storage Access Framework API. This will allow the user to explicitly provide some permission to the app. If the user grants the access then you have the full access to those files i.e. you can read, write or even delete the non-media files.  </p><h4 class="graf--h3">Special App Access</h4><p class="graf--p">By using the Scoped Storage, your app will be allowed to use some limited storage. If you want to have broad access to shared storage, then your app can be given special access. So, you have to prove that your app needs full access to shared storage by submitting a declaration form to Google Play Console. After this, if your user grants the permission to have a broad access then you will get an unfiltered view of MediaStore that include non-media file. However, your app will not have access to external app directories.</p><h4 class="graf--h3">What if you don&#x27;t want to use Scoped Storage in Android 10?</h4><p class="graf--p">If you are not comfortable with the Scoped Storage then you can use the previously used method of using the storage permission by using using a flag called <b class="graf--bold"><i class="graf--italic">requestLegacyExternalStorage</i></b> in your manifest file.</p><pre><code class="language-java graf graf--code">&lt;manifest ... &gt;\n  &lt;!-- This attribute is "false" by default on apps targeting\n       Android 10 or higher. --&gt;\n  &lt;application android:requestLegacyExternalStorage="true" ... &gt;\n    ...\n  &lt;/application&gt;\n&lt;/manifest&gt;</code></pre><p class="graf--p">However, in future versions of Android, this permission will not be available.</p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we understand the concept of Scoped Storage which was introduced in Android 10. You should start using Scoped Storage ASAP becuase it is going to be compulsory in next release of Android. That&#x27;s it from this blog.</p><p class="graf--p">Hope you learned something new today.</p><p class="graf--p">Have a look at our Android tutorials <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://mindorks.com/android-tutorial">here</a></b>.</p><p class="graf--p">Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/">blogging website</a>.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://bootcamp.mindorks.com/">Apply Now: MindOrks Android Online Course and Learn Advanced Android</a></b></p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/understanding-the-scoped-storage-in-android-banner.png",blog_url:"understanding-the-scoped-storage-in-android",likes:0,rank:0,category:1,published_at:"1st November 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:380,title:"Understanding Storage System To Store Data In Android",description:"In this blog, we will understand about the Android Storage System. We will learn about the Internal Storage, External Storage, Shared Preference, Database, and Shared Storage. We will also learn when to use which storage system in Android.",author:17146,img_url:"/images/understanding-storage-system-to-store-data-in-android-banner.png",blog_url:"understanding-storage-system-to-store-data-in-android",likes:0,rank:0,category:1,published_at:"17th December 2019",score:4.823657989501953},{id:407,title:"Using Scoped Functions in Kotlin - let, run, with, also, apply",description:"In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply.",author:3003,img_url:"/images/using-scoped-functions-banner-image.png",blog_url:"using-scoped-functions-in-kotlin-let-run-with-also-apply",likes:0,rank:0,category:1,published_at:"16th March 2020",score:4.2850565910339355},{id:216,title:"Understanding Density Independence Pixel: sp, dp, dip in Android",description:"What is the best measurement unit for designing for Android Screen? Density Independent Pixel, Scaled Independent Pixels, Density Pixels or Pixels.",author:7037,img_url:"/images/understanding_density_independent_pixel.jpg",blog_url:"understanding-density-independent-pixel-sp-dp-dip-in-android",likes:0,rank:0,category:1,published_at:"31st January 2019",score:.5386013984680176},{id:231,title:"Understanding and Implementing Permission in Android Q",description:"In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.",author:14897,img_url:"/images/location-permission.png",blog_url:"location-permissions-in-android-q",likes:0,rank:0,category:1,published_at:"11th May 2019",score:.5386013984680176},{id:233,title:"Understanding Settings Panels in Android Q",description:"In this blog, we will understand the new setting panel which released in Android Q. With Google launching Android Q, Lot of exciting features has also popped up. One amazing feature is Location Service usage and few more.",author:14897,img_url:"/images/android-setting.png",blog_url:"understanding-settings-panel-in-android-q",likes:0,rank:0,category:1,published_at:"14th May 2019",score:.5386013984680176},{id:243,title:"Understanding Multidex in Android",description:"In this blog, we will learn how to use Multidex in Android. Basically, Multidex is used when we want to add more than 64K methods in our Android project. If we don't use any Multidex for the project having more than 64K methods, then we will encounter DEX error. So, in this blog, we will learn how to use Multidex.",author:14897,img_url:"/images/understanding-multidex-banner-img.png",blog_url:"understanding-multidex-in-android",likes:0,rank:0,category:1,published_at:"18th May 2019",score:.5386013984680176}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            1st November 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Understanding the Scoped Storage in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding the Scoped Storage in Android" class="graf-image" src="/images/understanding-the-scoped-storage-in-android-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  With the introduction of Android 10, many new features were introduced and Scoped Storage is one of them. In this blog, we will understand how to prepare your Android apps for Scoped Storage. So, let's get started. The following is the timeline of this blog:
+                 </p>
+                 <ul>
+                  <li>
+                   The Problem
+                  </li>
+                  <li>
+                   The Solution - Scoped Storage
+                  </li>
+                  <li>
+                   Key features of Scoped Storage
+                  </li>
+                  <li>
+                   Download Collection
+                  </li>
+                  <li>
+                   Special App Access
+                  </li>
+                  <li>
+                   What if you don't want to use Scoped Storage?
+                  </li>
+                  <li>
+                   Conclusion
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  The Problem
+                 </h4>
+                 <p class="graf--p">
+                  Before Android 10, we have a concept of Shared Storage. Every application in the device has some private storage in the internal memory and you can find this in android/data/your_package_name directory. Apart from this internal storage, the rest of the storage is called the Shared Storage i.e. every application with the storage permission can access this part of the memory. This includes media collections and other files of different applications. But the problem is that the application having the storage permission doesn't require the access of all of these files. All they want is to perform some small operation over some small part of the memory and that's it. For example, some application just needs to select a user image to upload it as the profile picture and nothing else. So, why to provide them with the full access to that Shared Storage?
+                 </p>
+                 <p class="graf--p">
+                  Also, the second problem is that when the application is having such a wide writing capability on the storage then the files generated by the application gets scattered and when the user uninstalls the application then the files generated by the application remains in the storage only and are not deleted and takes a lot of space.
+                 </p>
+                 <p class="graf--p">
+                  So, we need some kind of mechanism, with the help of which the apps can get the specific access they need without getting such a broad reading and writing power that they don't actually need. This can be done with the help of Scoped Storage. Let's learn about it.
+                 </p>
+                 <h4 class="graf--h3">
+                  The  Solution - Scoped Storage
+                 </h4>
+                 <p class="graf--p">
+                  The idea of the Scoped Storage is to compartmentalize the storage into specified collections to limit the access to broad storage. There are certain principles on which the Scoped Storage is based on:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Better Attribution:
+                   </b>
+                   Better attribution means the system knows which file is generated by which application. The benefit of doing this is, you will have better management of files of a particular application. Also, when you uninstall an application from the device then all the contents related to the app will also be removed unless the user explicitly wants to keep it.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    App data protection:
+                   </b>
+                   As we know that the internal storage of the app is private and can't be accessed by other applications. But the external storage is accessed by applications with storage permission. With the help of Scoped Storage, the data in the external storage can not be easily accessed by other applications.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, using these principles, the Scoped Storage came with Android 10 and have some key features.
+                 </p>
+                 <h4 class="graf--h3">
+                  Key features of Scoped Storage
+                 </h4>
+                 <p class="graf--p">
+                  Some of the key features of Scoped Storage are:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Unrestricted access:
+                   </b>
+                   Every application has unrestricted access to its own storage i.e. internal as well as external storage. So, with Android 10, you don't need to provide storage permission to write files to your own app directory on the SD card.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Unrestricted media:
+                   </b>
+                   You have unrestricted access to contribute files to the media collections and downloads of your own app. So, no need to take permission if you want to save any image, video, or any other media file in media collection. You can read or write media files created by you but to read the media file of other application, you need to get the "READ_EXTERNAL_STORAGE" permission from the user. Also, the "WRITE_EXTERNAL_STORAGE" permission will be deprecated in the next Android release and you will get the read access if you used the "WRITE_EXTERNAL_STORAGE". You have to explicitly ask the user to edit the media files that are not contributed by your application.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Organized collection:
+                   </b>
+                   Here, in Scoped Storage, we have an organized media collection like for images, videos, etc and downloads collection for non-media files.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Media location metadata:
+                   </b>
+                   There is new permission introduced in Android 10 i.e. ACCESS_MEDIA_LOCATION. If you want to get the location of the media then you have to take this permission. For example, sometimes the picture taken by a camera also shows the location of the picture that was taken. So, if you want to show that location then you have to take this permission. It is runtime permission, so you need to declare this in your manifest file and from the MediaStore object, call the setRequireOriginal(), passing the URI of the image.
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">// Get location data from the ExifInterface class.
+val photoUri = MediaStore.setRequireOriginal(photoUri)
+contentResolver.openInputStream(photoUri).use { stream -&gt;
+    ExifInterface(stream).run {
+        // If lat/long is null, fall back to the coordinates (0, 0).
+        val latLong = ?: doubleArrayOf(0.0, 0.0)
+    }
+}</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    System Picker:
+                   </b>
+                   In order to access other files except for these media files, we have to use System Picker which is accessed using the Storage Access Framework.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Read/write from outside:
+                   </b>
+                   To read and write any files outside the collection, you need to use the System Picker.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   NOTE: If you are using Scoped Storage, then you should move all your media files or all files that are present in the Shared Storage to your app's directory. Otherwise, you will lose access to those files.
+                  </b>
+                 </p>
+                 <h4 class="graf--h3">
+                  Download Collection
+                 </h4>
+                 <p class="graf--p">
+                  We have seen how to edit and read media collection in Scoped Storage. For other files that are not media files like PDF or doc, Android 10 has a collection called Download Collection. Just like the Media Collection, you don't require to have any permission for editing or reading non-media files in the Download Collection of yours app.
+                 </p>
+                 <p class="graf--p">
+                  But in Media Collection we have seen that the "READ_EXTERNAL_STORAGE" permission gives the read access to all the media files contributed by other application. While in Download Collection, to read the non-media files created by other applications, you need to use the System Picker with Storage Access Framework API. This will allow the user to explicitly provide some permission to the app. If the user grants the access then you have the full access to those files i.e. you can read, write or even delete the non-media files.
+                 </p>
+                 <h4 class="graf--h3">
+                  Special App Access
+                 </h4>
+                 <p class="graf--p">
+                  By using the Scoped Storage, your app will be allowed to use some limited storage. If you want to have broad access to shared storage, then your app can be given special access. So, you have to prove that your app needs full access to shared storage by submitting a declaration form to Google Play Console. After this, if your user grants the permission to have a broad access then you will get an unfiltered view of MediaStore that include non-media file. However, your app will not have access to external app directories.
+                 </p>
+                 <h4 class="graf--h3">
+                  What if you don't want to use Scoped Storage in Android 10?
+                 </h4>
+                 <p class="graf--p">
+                  If you are not comfortable with the Scoped Storage then you can use the previously used method of using the storage permission by using using a flag called
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    requestLegacyExternalStorage
+                   </i>
+                  </b>
+                  in your manifest file.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;manifest ... &gt;
+  &lt;!-- This attribute is "false" by default on apps targeting
+       Android 10 or higher. --&gt;
+  &lt;application android:requestLegacyExternalStorage="true" ... &gt;
+    ...
+  &lt;/application&gt;
+&lt;/manifest&gt;</code></pre>
+                 <p class="graf--p">
+                  However, in future versions of Android, this permission will not be available.
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we understand the concept of Scoped Storage which was introduced in Android 10. You should start using Scoped Storage ASAP becuase it is going to be compulsory in next release of Android. That's it from this blog.
+                 </p>
+                 <p class="graf--p">
+                  Hope you learned something new today.
+                 </p>
+                 <p class="graf--p">
+                  Have a look at our Android tutorials
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://mindorks.com/android-tutorial" target="_blank">
+                    here
+                   </a>
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our
+                  <a class="markup--anchor" href="https://blog.mindorks.com/" target="_blank">
+                   blogging website
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://bootcamp.mindorks.com/" target="_blank">
+                    Apply Now: MindOrks Android Online Course and Learn Advanced Android
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Storage System To Store Data In Android" class="ui centered image" src="/images/understanding-storage-system-to-store-data-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Storage System To Store Data In Android
+           </div>
+           <div class="meta">
+            17th December 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand about the Android Storage System. We will learn about the Internal Storage, External Storage, Shared Preference, Database, and Shared Storage. We will also learn when to use which storage system in Android.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="ui centered image" src="/images/using-scoped-functions-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Scoped Functions in Kotlin - let, run, with, also, apply
+           </div>
+           <div class="meta">
+            16th March 2020
+           </div>
+           <div class="description">
+            In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Density Independence Pixel: sp, dp, dip in Android" class="ui centered image" src="/images/understanding_density_independent_pixel.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Density Independence Pixel: sp, dp, dip in Android
+           </div>
+           <div class="meta">
+            31st January 2019
+           </div>
+           <div class="description">
+            What is the best measurement unit for designing for Android Screen? Density Independent Pixel, Scaled Independent Pixels, Density Pixels or Pixels.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding and Implementing Permission in Android Q" class="ui centered image" src="/images/location-permission.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding and Implementing Permission in Android Q
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Settings Panels in Android Q" class="ui centered image" src="/images/android-setting.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Settings Panels in Android Q
+           </div>
+           <div class="meta">
+            14th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new setting panel which released in Android Q. With Google launching Android Q, Lot of exciting features has also popped up. One amazing feature is Location Service usage and few more.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Multidex in Android" class="ui centered image" src="/images/understanding-multidex-banner-img.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Multidex in Android
+           </div>
+           <div class="meta">
+            18th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Multidex in Android. Basically, Multidex is used when we want to add more than 64K methods in our Android project. If we don't use any Multidex for the project having more than 64K methods, then we will encounter DEX error. So, in this blog, we will learn how to use Multidex.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

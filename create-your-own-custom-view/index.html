@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Create your own Custom View
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/create-your-own-custom-view" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Create your own Custom View" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/create-your-own-custom-view" property="og:url"/>
+  <meta content="/images/custom-view.jpg" property="og:image"/>
+  <meta content="In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views." property="og:description"/>
+  <meta content="Create your own Custom View" property="twitter:title"/>
+  <meta content="In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views." name="twitter:description"/>
+  <meta content="/images/custom-view.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:239,data:{id:239,title:"Create your own Custom View",description:"In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views.",text:'<h1 class="graf--h1">Create your own Custom View</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/custom-view.jpg class=\'graf-image\' alt=\'Create your own Custom View\' />\n\t\t\t\t\t\t\t\t</div ><blockquote class="graf--blockquote">Custom Views is just a way to make an android developer a painter. </blockquote><p class="graf--p">When you need to create some custom and reuse the views when it is not provided by the Android Ecosystem. Custom Views can be used as widgets like TextView, EditText etc. In this blog we will talk about the aspect of how can we create our own Custom View.Custom Views can be of few types,</p><ul><li>Custom Views: Where we draw everything</li><li>Custom View Groups: Where we use existing widgets to form an inflatable xml file</li></ul><p class="graf--p">So, before all of these <b class="graf--bold">Why should we use Custom Views?</b></p><ol><li>To make the UI component re-usable</li><li>Add new interaction which is not provided by the Android Ecosystem.</li></ol><blockquote class="graf--blockquote"><i class="graf--italic"><b class="graf--bold">PS : Custom Views can also be a pain to make as it can be difficult to make.</b></i></blockquote><h4 class="graf--h3">How does Android Draw the UI?</h4> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/layer.jpg class=\'graf-image\' alt=\'Create your own Custom View\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here,1.  At first onMeasure() gets called where Android measures the UI from top to bottom. First, it takes the parents container. their children and so on. In onMeasure() children get the constraints provided by their parents. 2. Then, onLayout() is called to plot the positions of the Widgets3.and finally in onDraw() the UI gets rendered.</p><h4 class="graf--h3">Steps to Create a Custom View</h4><ol><li>By Extending an Existing Widget Class (eg. Button, TextView)</li><li>By Extending the View Class (eg.  View)</li></ol><p class="graf--p">To start with a custom view, we will create a class<br/></p><pre><code class="language-java graf graf--code">class MyCustomView :View</code></pre><p class="graf--p">and to start with drawing your views we need to override atleast one <b class="graf--bold"><i class="graf--italic">constructor.</i></b></p><pre><code class="language-java graf graf--code">class MyCustomView(context: Context) : View(context)</code></pre><ul><li>The constructor needs the basic activity context to draw</li></ul><pre><code class="language-java graf graf--code">class MyCustomView(context: Context, attrs: AttributeSet) : View(context, attrs)</code></pre><ul><li>The constructor creates a new view instance from XML</li></ul><pre><code class="language-java graf graf--code">class MyCustomView(context: Context, attrs: AttributeSet, defstyleAttr:Int) : View(context, attrs, defstyeAttr)</code></pre><ul><li>The constructor also takes the design attribute</li></ul><pre><code class="language-java graf graf--code">class MyCustomView(context: Context, attrs: AttributeSet, defstyleAttr:Int, defStyleRes:Int) : View(context, attrs, defstyeAttr,defStyleRes)</code></pre><ul><li>This constructor takes theme attribute as well</li></ul><p class="graf--p">and we generally use,</p><pre><code class="language-java graf graf--code">class MyCustomView(context: Context, attrs: AttributeSet) : View(context, attrs)</code></pre><p class="graf--p">to start with.</p><p class="graf--p">and to use the view we have to add in the XML,</p><pre><code class="language-java graf graf--code">&lt;com.yourpackagename.MyCustomView\n   android:id="@+id/customview"\n   android:layout_width="match_parent"\n   android:layout_height="match_parent"\n   android:layout_centerInParent="true"/&gt;</code></pre><p class="graf--p">We have succesfully create a custom view without doing anything on the UI. Now, to draw something on the UI, we need to over ride the <b class="graf--bold"><i class="graf--italic">onDraw()</i></b> method</p><pre><code class="language-java graf graf--code">override fun onDraw(canvas: Canvas) {\n  // call the super method to keep any drawing from the parent side.\n  super.onDraw(canvas)\n}</code></pre><p class="graf--p">and all drawing of UI goes here.1. As we need paint to draw in real life in CustomView Drawing we need paint as well. (Paint object)2. A mobile Screen in Android should be considered as a big canvas where things are drawn based on coordinates and point system.</p><blockquote class="graf--blockquote"><i class="graf--italic">Let&#x27;s first draw a line,</i></blockquote><p class="graf--p">in Geometry to draw a line we need at least two points. Same is the case in CustomViews.</p><pre><code class="language-java graf graf--code">canvas.drawLine(x1, y1, x2, y2,paint)</code></pre><p class="graf--p">where, paint is an object which provides the required beautification of the View. Like color, width etc</p><pre><code class="language-java graf graf--code">val paint =  Paint(Paint.ANTI_ALIAS_FLAG);\npaint.setColor(Color.BLACK);\npaint.setStyle(Style.STROKE);\npaint.setStrokeWidth(2);</code></pre><p class="graf--p">and in OnDraw,</p><pre><code class="language-java graf graf--code">override fun onDraw(canvas: Canvas) {\n  // call the super method to keep any drawing from the parent side.\n  super.onDraw(canvas)\n canvas.drawLine(x1,y1,x2,y2,paint)\n}</code></pre><p class="graf--p">where, (x1,y1) and (x2,y2) are two points on canvas.</p><ul><li>In a mobile screen, top left corner is (0,0) and bottom right corner is (width, height) co-ordinates like mentioned below.</li></ul> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/point.jpg class=\'graf-image\' alt=\'Create your own Custom View\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">and now when we re-run the app we will see a line drawn in the screen. In the same way, we can create circles, rectangle, round rectangle, etc using,</p><ul><li>canvas.drawCircle(....)</li><li>canvas.drawRect(....)</li><li>canvas.drawRoundRect(....)</li></ul><p class="graf--p">and lot more.Now, let&#x27; s say we have a use case where we have to change the position of the line on a button click. That means we have to change the current state of the View or Update the view.</p><p class="graf--p">To update the view or re-draw the view we have to use <b class="graf--bold"><i class="graf--italic">invalidate()</i></b></p><pre><code class="language-java graf graf--code">public void onClick() {\n    //new position\n    invalidate()\n}</code></pre><p class="graf--p">Here, invalidate() tells the view that we don&#x27;t need the current view and we have to update the view by giving the new configuration.</p><blockquote class="graf--blockquote">PS: Call <b class="graf--bold">invalidate()</b> only when needed. It is an expensive process.</blockquote><p class="graf--p">Now, We have a complete CustomView which can be used in production. But when we create a more complex custom View like a  progress bar or anything, we need to make it responsive. To make a view responsive we use <b class="graf--bold"><i class="graf--italic">onMeasure()</i></b></p><h4 class="graf--h3">Let&#x27;s talk about onMeasure() more in detail,</h4><ul><li>To specify the whole measurement layout of the XML, child and parent container set the dimensions. The child uses <b class="graf--bold">LayoutParams() </b>to update the parent that they want the required params and we set the parameter by <b class="graf--bold">setLayoutParams()</b> </li><li>Sometimes, parent container has to decide how big it wants the child to be it can be done in the following way,</li></ul><pre><code class="language-java graf graf--code">override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {\n    super.onMeasure(widthMeasureSpec, heightMeasureSpec)\n    size = Math.min(measuredWidth, measuredHeight)\n    setMeasuredDimension(newsize, newsize)\n}</code></pre><p class="graf--p">Here, size is the minimum size of the device and <b class="graf--bold">setMeasuredDimension()</b> calls and implements the new dimensions to the view.Now, in<b class="graf--bold"> onMeasure() </b>we get widthMeasureSpec and heightMeasureSpec as parameter. These parameters are made of Size and Mode of Measure Spec.</p><pre><code class="language-java graf graf--code">int mode = MeasureSpec.getMode(widthMeasureSpec);\nint size = MeasureSpec.getSize(widthMeasureSpec);</code></pre><p class="graf--p">Modes can be of the following type,</p><ul><li><b class="graf--bold">MeasureSpec.Exactly</b> : It specifies our view should be of Exact size specified in XML like <b class="graf--bold">layout_width = &quot;100dp&quot;</b></li><li><b class="graf--bold">MeasureSpec.AT_MOST</b> : It specifies our view can be at max as possible while using <b class="graf--bold">wrap_content</b></li><li><b class="graf--bold">MeasureSpec.UNSPECIFIED</b> : It can take as much space the view wants.</li></ul><blockquote class="graf--blockquote"><i class="graf--italic">We have to specify the max size we want.</i></blockquote><h4 class="graf--h3">It is not mandatory to implement all onMeasure, onLayout, onDraw to draw your own customview.</h4><p class="graf--p"></p><h4 class="graf--h3">Just Like CustomViews, we have CustomViewGroups</h4><p class="graf--p">CustomViewGroups are XML UIs which in inflated in class file and not drawn from Scratch using,</p><pre><code class="language-java graf graf--code">val inflater =  context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater\ninflater.inflate(R.layout.view_color_options, this, true);</code></pre><p class="graf--p"></p><p class="graf--p">That&#x27;s all in this blog. Using the above knowledge youc an make your own custom views. Refer <a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/RadialProgressBar">here</a> for an implementation of CustomView as open source library</p><p class="graf--p"><b class="graf--bold">Happy learning</b></p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:14897,img_url:"/images/custom-view.jpg",blog_url:"create-your-own-custom-view",likes:0,rank:0,category:1,published_at:"17th May 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:88,title:"How to create multiple apk files for android application",description:"Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.",author:30,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg",blog_url:"how-to-create-multiple-apk-files-for-android-application",likes:0,rank:0,category:1,published_at:"30th August 2017",score:2.5373833179473877},{id:190,title:"Android User Interface — View Components",description:"In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started.",author:14897,img_url:"/images/android-user-interface-view-components-banner.png",blog_url:"android-user-interface-view-components",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:2.5373833179473877},{id:302,title:"How to create a Transparent Activity in Android?",description:"In this blog, we will learn how to create a Transparent activity in Android. By using Transparent activity, your app will be launched but nothing will be displayed in the background of the window.",author:14897,img_url:"/images/transparent-activity-in-android-banner.png",blog_url:"how-to-create-a-transparent-activity-in-android",likes:0,rank:0,category:1,published_at:"22nd July 2019",score:2.5373833179473877},{id:323,title:"How to create a singleton class in Kotlin?",description:"In this blog, we will learn how to create a singleton class in Kotlin? If you don't know anything about the singleton class then don't worry, we will cover every part of the singleton class.",author:17146,img_url:"/images/how-to-make-a-singleton-class-in-kotlin-banner.png",blog_url:"how-to-create-a-singleton-class-in-kotlin",likes:0,rank:0,category:1,published_at:"4th September 2019",score:2.5373833179473877},{id:486,title:"RecyclerView Multiple View Types in Android",description:"In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project.",author:17146,img_url:"/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png",blog_url:"recyclerview-multiple-view-types-in-android",likes:0,rank:0,category:1,published_at:"22nd June 2020",score:2.5373833179473877},{id:217,title:"Android Browser: Let’s Launch Chrome Custom Tabs with Kotlin",description:"Google had launched a library called chrome custom tabs. As a developer, we have an option to open an in-app browser for better user experience. Chrome Custom Tabs helps us to open web URLs within the context of our app using an installed chrome browser.",author:7037,img_url:"/images/Powerpuff_girls_characters.jpg",blog_url:"android-browser-lets-launch-chrome-custom-tabs-with-kotlin",likes:0,rank:0,category:1,published_at:"11th February 2019",score:2.0073940753936768}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            17th May 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Create your own Custom View
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Create your own Custom View" class="graf-image" src="/images/custom-view.jpg"/>
+                 </div>
+                 <blockquote class="graf--blockquote">
+                  Custom Views is just a way to make an android developer a painter.
+                 </blockquote>
+                 <p class="graf--p">
+                  When you need to create some custom and reuse the views when it is not provided by the Android Ecosystem. Custom Views can be used as widgets like TextView, EditText etc. In this blog we will talk about the aspect of how can we create our own Custom View.Custom Views can be of few types,
+                 </p>
+                 <ul>
+                  <li>
+                   Custom Views: Where we draw everything
+                  </li>
+                  <li>
+                   Custom View Groups: Where we use existing widgets to form an inflatable xml file
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, before all of these
+                  <b class="graf--bold">
+                   Why should we use Custom Views?
+                  </b>
+                 </p>
+                 <ol>
+                  <li>
+                   To make the UI component re-usable
+                  </li>
+                  <li>
+                   Add new interaction which is not provided by the Android Ecosystem.
+                  </li>
+                 </ol>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    PS : Custom Views can also be a pain to make as it can be difficult to make.
+                   </b>
+                  </i>
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  How does Android Draw the UI?
+                 </h4>
+                 <div class="graf-image graf-caption">
+                  <img alt="Create your own Custom View" class="graf-image" src="/images/layer.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Here,1.  At first onMeasure() gets called where Android measures the UI from top to bottom. First, it takes the parents container. their children and so on. In onMeasure() children get the constraints provided by their parents. 2. Then, onLayout() is called to plot the positions of the Widgets3.and finally in onDraw() the UI gets rendered.
+                 </p>
+                 <h4 class="graf--h3">
+                  Steps to Create a Custom View
+                 </h4>
+                 <ol>
+                  <li>
+                   By Extending an Existing Widget Class (eg. Button, TextView)
+                  </li>
+                  <li>
+                   By Extending the View Class (eg.  View)
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  To start with a custom view, we will create a class
+                  <br/>
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MyCustomView :View</code></pre>
+                 <p class="graf--p">
+                  and to start with drawing your views we need to override atleast one
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    constructor.
+                   </i>
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MyCustomView(context: Context) : View(context)</code></pre>
+                 <ul>
+                  <li>
+                   The constructor needs the basic activity context to draw
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">class MyCustomView(context: Context, attrs: AttributeSet) : View(context, attrs)</code></pre>
+                 <ul>
+                  <li>
+                   The constructor creates a new view instance from XML
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">class MyCustomView(context: Context, attrs: AttributeSet, defstyleAttr:Int) : View(context, attrs, defstyeAttr)</code></pre>
+                 <ul>
+                  <li>
+                   The constructor also takes the design attribute
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">class MyCustomView(context: Context, attrs: AttributeSet, defstyleAttr:Int, defStyleRes:Int) : View(context, attrs, defstyeAttr,defStyleRes)</code></pre>
+                 <ul>
+                  <li>
+                   This constructor takes theme attribute as well
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  and we generally use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MyCustomView(context: Context, attrs: AttributeSet) : View(context, attrs)</code></pre>
+                 <p class="graf--p">
+                  to start with.
+                 </p>
+                 <p class="graf--p">
+                  and to use the view we have to add in the XML,
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;com.yourpackagename.MyCustomView
+   android:id="@+id/customview"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:layout_centerInParent="true"/&gt;</code></pre>
+                 <p class="graf--p">
+                  We have succesfully create a custom view without doing anything on the UI. Now, to draw something on the UI, we need to over ride the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    onDraw()
+                   </i>
+                  </b>
+                  method
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onDraw(canvas: Canvas) {
+  // call the super method to keep any drawing from the parent side.
+  super.onDraw(canvas)
+}</code></pre>
+                 <p class="graf--p">
+                  and all drawing of UI goes here.1. As we need paint to draw in real life in CustomView Drawing we need paint as well. (Paint object)2. A mobile Screen in Android should be considered as a big canvas where things are drawn based on coordinates and point system.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   Let's first draw a line,
+                  </i>
+                 </blockquote>
+                 <p class="graf--p">
+                  in Geometry to draw a line we need at least two points. Same is the case in CustomViews.
+                 </p>
+                 <pre><code class="language-java graf graf--code">canvas.drawLine(x1, y1, x2, y2,paint)</code></pre>
+                 <p class="graf--p">
+                  where, paint is an object which provides the required beautification of the View. Like color, width etc
+                 </p>
+                 <pre><code class="language-java graf graf--code">val paint =  Paint(Paint.ANTI_ALIAS_FLAG);
+paint.setColor(Color.BLACK);
+paint.setStyle(Style.STROKE);
+paint.setStrokeWidth(2);</code></pre>
+                 <p class="graf--p">
+                  and in OnDraw,
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onDraw(canvas: Canvas) {
+  // call the super method to keep any drawing from the parent side.
+  super.onDraw(canvas)
+ canvas.drawLine(x1,y1,x2,y2,paint)
+}</code></pre>
+                 <p class="graf--p">
+                  where, (x1,y1) and (x2,y2) are two points on canvas.
+                 </p>
+                 <ul>
+                  <li>
+                   In a mobile screen, top left corner is (0,0) and bottom right corner is (width, height) co-ordinates like mentioned below.
+                  </li>
+                 </ul>
+                 <div class="graf-image graf-caption">
+                  <img alt="Create your own Custom View" class="graf-image" src="/images/point.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  and now when we re-run the app we will see a line drawn in the screen. In the same way, we can create circles, rectangle, round rectangle, etc using,
+                 </p>
+                 <ul>
+                  <li>
+                   canvas.drawCircle(....)
+                  </li>
+                  <li>
+                   canvas.drawRect(....)
+                  </li>
+                  <li>
+                   canvas.drawRoundRect(....)
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  and lot more.Now, let' s say we have a use case where we have to change the position of the line on a button click. That means we have to change the current state of the View or Update the view.
+                 </p>
+                 <p class="graf--p">
+                  To update the view or re-draw the view we have to use
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    invalidate()
+                   </i>
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">public void onClick() {
+    //new position
+    invalidate()
+}</code></pre>
+                 <p class="graf--p">
+                  Here, invalidate() tells the view that we don't need the current view and we have to update the view by giving the new configuration.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  PS: Call
+                  <b class="graf--bold">
+                   invalidate()
+                  </b>
+                  only when needed. It is an expensive process.
+                 </blockquote>
+                 <p class="graf--p">
+                  Now, We have a complete CustomView which can be used in production. But when we create a more complex custom View like a  progress bar or anything, we need to make it responsive. To make a view responsive we use
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    onMeasure()
+                   </i>
+                  </b>
+                 </p>
+                 <h4 class="graf--h3">
+                  Let's talk about onMeasure() more in detail,
+                 </h4>
+                 <ul>
+                  <li>
+                   To specify the whole measurement layout of the XML, child and parent container set the dimensions. The child uses
+                   <b class="graf--bold">
+                    LayoutParams()
+                   </b>
+                   to update the parent that they want the required params and we set the parameter by
+                   <b class="graf--bold">
+                    setLayoutParams()
+                   </b>
+                  </li>
+                  <li>
+                   Sometimes, parent container has to decide how big it wants the child to be it can be done in the following way,
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+    super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+    size = Math.min(measuredWidth, measuredHeight)
+    setMeasuredDimension(newsize, newsize)
+}</code></pre>
+                 <p class="graf--p">
+                  Here, size is the minimum size of the device and
+                  <b class="graf--bold">
+                   setMeasuredDimension()
+                  </b>
+                  calls and implements the new dimensions to the view.Now, in
+                  <b class="graf--bold">
+                   onMeasure()
+                  </b>
+                  we get widthMeasureSpec and heightMeasureSpec as parameter. These parameters are made of Size and Mode of Measure Spec.
+                 </p>
+                 <pre><code class="language-java graf graf--code">int mode = MeasureSpec.getMode(widthMeasureSpec);
+int size = MeasureSpec.getSize(widthMeasureSpec);</code></pre>
+                 <p class="graf--p">
+                  Modes can be of the following type,
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    MeasureSpec.Exactly
+                   </b>
+                   : It specifies our view should be of Exact size specified in XML like
+                   <b class="graf--bold">
+                    layout_width = "100dp"
+                   </b>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    MeasureSpec.AT_MOST
+                   </b>
+                   : It specifies our view can be at max as possible while using
+                   <b class="graf--bold">
+                    wrap_content
+                   </b>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    MeasureSpec.UNSPECIFIED
+                   </b>
+                   : It can take as much space the view wants.
+                  </li>
+                 </ul>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   We have to specify the max size we want.
+                  </i>
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  It is not mandatory to implement all onMeasure, onLayout, onDraw to draw your own customview.
+                 </h4>
+                 <p class="graf--p">
+                 </p>
+                 <h4 class="graf--h3">
+                  Just Like CustomViews, we have CustomViewGroups
+                 </h4>
+                 <p class="graf--p">
+                  CustomViewGroups are XML UIs which in inflated in class file and not drawn from Scratch using,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val inflater =  context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+inflater.inflate(R.layout.view_color_options, this, true);</code></pre>
+                 <p class="graf--p">
+                 </p>
+                 <p class="graf--p">
+                  That's all in this blog. Using the above knowledge youc an make your own custom views. Refer
+                  <a class="markup--anchor" href="https://github.com/MindorksOpenSource/RadialProgressBar" target="_blank">
+                   here
+                  </a>
+                  for an implementation of CustomView as open source library
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Happy learning
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to create multiple apk files for android application" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to create multiple apk files for android application
+           </div>
+           <div class="meta">
+            30th August 2017
+           </div>
+           <div class="description">
+            Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android User Interface — View Components" class="ui centered image" src="/images/android-user-interface-view-components-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android User Interface — View Components
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to create a Transparent Activity in Android?" class="ui centered image" src="/images/transparent-activity-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to create a Transparent Activity in Android?
+           </div>
+           <div class="meta">
+            22nd July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to create a Transparent activity in Android. By using Transparent activity, your app will be launched but nothing will be displayed in the background of the window.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to create a singleton class in Kotlin?" class="ui centered image" src="/images/how-to-make-a-singleton-class-in-kotlin-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to create a singleton class in Kotlin?
+           </div>
+           <div class="meta">
+            4th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to create a singleton class in Kotlin? If you don't know anything about the singleton class then don't worry, we will cover every part of the singleton class.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="RecyclerView Multiple View Types in Android" class="ui centered image" src="/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            RecyclerView Multiple View Types in Android
+           </div>
+           <div class="meta">
+            22nd June 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Browser: Let’s Launch Chrome Custom Tabs with Kotlin" class="ui centered image" src="/images/Powerpuff_girls_characters.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Browser: Let’s Launch Chrome Custom Tabs with Kotlin
+           </div>
+           <div class="meta">
+            11th February 2019
+           </div>
+           <div class="description">
+            Google had launched a library called chrome custom tabs. As a developer, we have an option to open an in-app browser for better user experience. Chrome Custom Tabs helps us to open web URLs within the context of our app using an installed chrome browser.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

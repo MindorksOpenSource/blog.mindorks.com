@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Parallax Effect in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/parallax-effect-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Parallax Effect in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/parallax-effect-in-android" property="og:url"/>
+  <meta content="/images/banner-parallax-effect-in-android-99c329c41708e008.jpg" property="og:image"/>
+  <meta content="This blog demonstrates what is Parallax and implementing the Parallax effect in Android App." property="og:description"/>
+  <meta content="Parallax Effect in Android" property="twitter:title"/>
+  <meta content="This blog demonstrates what is Parallax and implementing the Parallax effect in Android App." name="twitter:description"/>
+  <meta content="/images/banner-parallax-effect-in-android-99c329c41708e008.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="This blog demonstrates what is Parallax and implementing the Parallax effect in Android App." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:461,data:{id:461,title:"Parallax Effect in Android",description:"This blog demonstrates what is Parallax and implementing the Parallax effect in Android App.",text:'<h1 class="graf--h1">Parallax Effect in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-parallax-effect-in-android-99c329c41708e008.jpg class=\'graf-image\' alt=\'Parallax Effect in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In recent times, every application in Android is giving more importance to user experience. An app with a good user experience will have good user ratings and popularity. To provide users with a good experience, many effects are available in the UI/UX space. One such effect is Parallax. Let’s understand what this is about and also an app sample to know how to use it.</p><p class="graf--p">This blog covers,</p><ul><li>What is Parallax?</li><li>Implementing the Parallax effect in Android App</li></ul><h4 class="graf--h3">What is Parallax?</h4><p class="graf--p">Parallax sounds like a mathematical word. Yes, this technique has been derived from the Mathematical principle itself. It&#x27;s a technique in computer graphics and web design, where background images move by the camera slower than foreground images, creating an illusion of depth in a 2D scene and adding to the immersion. Parallax scrolling can be a really interesting technique to use to give parts of your app a bit more life and character. It&#x27;s not restricted to android/web-apps. Most of the gaming applications use this effect to give an effect of objects moving back with only one object in focus.</p><p class="graf--p">Parallax in Android will come under material design scroll animations. Some designs include a parallax scroll effect with a header image, along with Tabs. We will look into the same type of parallax example in this blog.</p><h4 class="graf--h3"><b class="graf--bold">Implementing the Parallax effect in Android App</b></h4><p class="graf--p">Let’s first create a new project</p><ul><li>Start a new Android project</li><li>Select Empty Activity and Next</li><li>Name: ParallaxAndroid</li><li>Package name: com.mindorks.example.parallax</li><li>Language: Kotlin</li><li>Finish</li></ul><p class="graf--p">Let’s add the required dependencies.</p><pre><code class="language-java graf graf--code">implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"\nimplementation \'androidx.recyclerview:recyclerview:1.1.0\'\nimplementation \'com.google.android.material:material:1.2.0-alpha06\'</code></pre><p class="graf--p">Now, the project is ready. </p><p class="graf--p">Here, we will be creating an app to display a list of books with a parallax scrolling effect. Let&#x27;s start with the XML layout. Firstly we need to have a collapsing toolbar layout which we can add to the main activity XML. Collapsing toolbar layout is like a FrameLayout. Whatever element was added in the last, those elements will be placed at the top. This positioning is very important to get parallax to work properly.</p><p class="graf--p">Let&#x27;s see the skeleton of the activity_main.xml and then later add the required element code.</p><pre><code class="language-java graf graf--code">&lt;androidx.coordinatorlayout.widget.CoordinatorLayout&gt;\n&lt;com.google.android.material.appbar.AppBarLayout&gt;\n    &lt;com.google.android.material.appbar.CollapsingToolbarLayout&gt;\n        &lt;ImageView/&gt;\n        &lt;android.appcompat.widget.Toolbar /&gt;\n        &lt;com.google.android.material.tabs.TabLayout/&gt;\n    &lt;/com.google.android.material.appbar.CollapsingToolbarLayout&gt;\n&lt;/com.google.android.material.appbar.AppBarLayout&gt;\n&lt;androidx.viewpager.widget.ViewPager/&gt;\n&lt;/androidx.coordinatorlayout.widget.CoordinatorLayout&gt; </code></pre><p class="graf--p">Our activity_main.xml will look like, </p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.coordinatorlayout.widget.CoordinatorLayout\n    xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    tools:context=".MainActivity"&gt;\n\n    &lt;com.google.android.material.appbar.AppBarLayout\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"\n        android:fitsSystemWindows="true"&gt;\n\n        &lt;include layout="@layout/toolbar"/&gt;\n\n        &lt;com.google.android.material.tabs.TabLayout\n            android:id="@+id/tabs"\n            android:layout_width="match_parent"\n            android:layout_height="wrap_content"\n            app:tabGravity="fill"\n            app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"\n            app:tabSelectedTextColor="@android:color/black"\n            app:tabBackground="@android:color/holo_orange_dark"\n            app:tabTextColor="@android:color/white"\n            app:tabIndicatorColor="@android:color/white"\n            app:tabMode="fixed" /&gt;\n\n    &lt;/com.google.android.material.appbar.AppBarLayout&gt;\n\n    &lt;androidx.viewpager.widget.ViewPager\n        android:id="@+id/viewPager"\n        android:layout_width="match_parent"\n        android:layout_height="wrap_content"\n        android:layout_marginTop="15dp"\n        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/&gt;\n\n&lt;/androidx.coordinatorlayout.widget.CoordinatorLayout&gt;</code></pre><p class="graf--p">I have added the <code class="graf--code-inline">toolbar</code> layout separately and included here for better readability.</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="UTF-8"?&gt;\n&lt;com.google.android.material.appbar.CollapsingToolbarLayout\n    android:id="@+id/collapsing_toolbar"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    android:fitsSystemWindows="true"\n    app:contentScrim="@android:color/holo_orange_dark"\n    app:expandedTitleMarginEnd="64dp"\n    app:expandedTitleMarginStart="48dp"\n    app:layout_scrollFlags="scroll|exitUntilCollapsed"\n    xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"&gt;\n\n    &lt;ImageView\n        android:src="@drawable/books"\n        app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"\n        android:layout_width="wrap_content"\n        android:layout_height="160dp"\n        android:scaleType="centerCrop"\n        app:layout_collapseMode="parallax"\n        android:minHeight="50dp" /&gt;\n\n    &lt;androidx.appcompat.widget.Toolbar\n        android:id="@+id/toolbar"\n        android:contentDescription="@string/books"\n        android:layout_width="match_parent"\n        app:title="@string/app_name"\n        app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium"\n        app:titleTextColor="@android:color/white"\n        android:layout_height="?attr/actionBarSize"\n        app:layout_scrollFlags="scroll|enterAlways" /&gt;\n&lt;/com.google.android.material.appbar.CollapsingToolbarLayout&gt;</code></pre><p class="graf--p"><b class="graf--bold">Note:</b> In the above layout, we have added these attributes:</p><p class="graf--p"><b class="graf--bold">For the CollapsingToolbarLayout:</b></p><p class="graf--p"><code class="graf--code-inline">app:layout_scrollFlags=&quot;scroll|exitUntilCollapsed&quot;</code></p><p class="graf--p"><b class="graf--bold">For the ImageView:</b></p><p class="graf--p"><code class="graf--code-inline">app:layout_scrollFlags=&quot;scroll|enterAlways|enterAlwaysCollapsed&quot;</code></p><p class="graf--p"><code class="graf--code-inline">app:layout_collapseMode=&quot;parallax&quot;</code></p><p class="graf--p"><b class="graf--bold">For the Toolbar:</b></p><p class="graf--p"><code class="graf--code-inline">app:layout_scrollFlags=&quot;scroll|enterAlways&quot;</code></p><p class="graf--p">Our layout now will look like this</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/image_parallax-a075b0e011b4302a.png class=\'graf-image\' alt=\'Parallax Effect in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">We will have to set up the viewpager and tabs in our <code class="graf--code-inline">MainActivity</code>. As we have added tabs in our layout we will need a <code class="graf--code-inline">ViewPager</code> for it to work. Also, we will set up a<i class="graf--italic"> </i><code class="graf--code-inline">Fragment</code><i class="graf--italic"> </i>that loads <code class="graf--code-inline">Recyclerview</code> and an adapter which will load items in the<i class="graf--italic"> </i><code class="graf--code-inline">RecyclerView</code><i class="graf--italic">.</i><br/>In the activity, I am taking care of setting up the view pager and tabs and loading the fragment for the viewpager. Here I am loading 3 tabs and loading one fragment. I have defined these attributes in the <code class="graf--code-inline">ScreenSlidePagerAdapter</code>.</p><pre><code class="language-java graf graf--code">class MainActivity : FragmentActivity() {\n\n    private lateinit var mPager: ViewPager\n    private lateinit var tabLayout : TabLayout\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        mPager = findViewById(R.id.viewPager)\n        tabLayout = findViewById(R.id.tabs)\n        tabLayout.setupWithViewPager(mPager)\n\n        val pagerAdapter = ScreenSlidePagerAdapter(supportFragmentManager)\n        mPager.adapter = pagerAdapter\n    }\n\n    override fun onBackPressed() {\n        if (mPager.currentItem == 0) {\n            // If the user is currently looking at the first step, allow the system to handle the\n            // Back button. This calls finish() on this activity and pops the back stack.\n            super.onBackPressed()\n        } else {\n            // Otherwise, select the previous step.\n            mPager.currentItem = mPager.currentItem - 1\n        }\n    }\n\n    private inner class ScreenSlidePagerAdapter(fm: FragmentManager) :\n        FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {\n        override fun getCount(): Int = 3\n        override fun getItem(position: Int): Fragment = BooksFragment().newInstance()\n        override fun getPageTitle(position: Int): CharSequence? {\n            var title  = ""\n            when(position) {\n                0 -&gt; title ="Tech"\n                1 -&gt; title = "Novels"\n                2 -&gt; title = "Motivational"\n            }\n            return title\n        }\n    }\n}</code></pre><p class="graf--p">Create a fragment <code class="graf--code-inline">BooksFragment</code> which will load the <code class="graf--code-inline">Recyclerview</code>. </p><pre><code class="language-java graf graf--code">class BooksFragment : Fragment() {\n\n    fun newInstance(): BooksFragment {\n        return BooksFragment()\n    }\n\n    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {\n        val view : View? = inflater.inflate(R.layout.books_fragment, container, false)\n        val rvBooks : RecyclerView = view!!.findViewById(R.id.rvBooksList)\n        rvBooks.layoutManager = LinearLayoutManager(activity);\n        val recyclerAdapter = BooksRecyclerAdapter(Util().getBooks())\n        rvBooks.adapter = recyclerAdapter\n        return view\n    }\n}</code></pre><p class="graf--p">We need an adapter for recyclerview to load each item. Create <code class="graf--code-inline">BooksRecyclerAdapter</code><i class="graf--italic"> </i>and extend the class <code class="graf--code-inline">RecyclerView.Adaper&lt;ViewHolder&gt;</code> as shown below.</p><pre><code class="language-java graf graf--code">class BooksRecyclerAdapter(private val mBooks: List&lt;Books&gt;) : RecyclerView.Adapter&lt;ViewHolder&gt;() {\n\n    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {\n        val titleTextView: TextView = itemView.findViewById(R.id.text_title)\n        val authorTextView: TextView = itemView.findViewById(R.id.text_author)\n        val subTitleTextView: TextView = itemView.findViewById(R.id.text_subtitle)\n    }\n\n    override fun onCreateViewHolder(\n        parent: ViewGroup,\n        viewType: Int): ViewHolder {\n        val context: Context = parent.context\n        val inflater = LayoutInflater.from(context)\n        val booksView: View = inflater.inflate(R.layout.item_books, parent, false)\n        return ViewHolder(booksView)\n    }\n\n    override fun onBindViewHolder(\n        viewHolder: ViewHolder,\n        position: Int) {\n        val titleTextView: TextView = viewHolder.titleTextView\n        titleTextView.text = mBooks[position].title\n        val authorTextView: TextView = viewHolder.authorTextView\n        authorTextView.text = mBooks[position].author\n        val subTitleTextView: TextView = viewHolder.subTitleTextView\n        subTitleTextView.text = mBooks[position].subtitle\n    }\n\n    override fun getItemCount(): Int {\n        return mBooks.size\n    }\n}</code></pre><p class="graf--p">These are the main layouts and Kotlin files required for adding a parallax effect to your app. You can get the complete project for your reference in Github <span class=""><a class="markup--anchor" target="_blank" href="https://github.com/ShweV/ParallaxAndroid">here</a></span>. The final output of this app will look like this.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/parallax_gif-339c2c0f765f0d6c.gif class=\'graf-image\' alt=\'Parallax Effect in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">You can customize the scroll speed and other attributes by setting them in <code class="graf--code-inline">ImageView</code> of the toolbar layout. The conclusion is, the Android support library has many such utilities that help us make our app better in all the ways. We need to explore them and utilize them in making better usable apps.</p><p class="graf--p"><i class="graf--italic">Keep Learning, Keep Exploring, Keep Growing</i></p><p class="graf--p"><i class="graf--italic">Thank you.</i></p>',author:17597,img_url:"/images/banner-parallax-effect-in-android-99c329c41708e008.jpg",blog_url:"parallax-effect-in-android",likes:0,rank:0,category:1,published_at:"28th May 2020"},author:{id:17597,name:"Shwetha Vasudev",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GhaMhnt96YUNN_sGizdGjFBXFnoCGRejMHnpG_Id84=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"An Android Engineer with enthusiasm and eager to learn and explore new technologies. ",fb_profile_url:"https://www.facebook.com/shwetha.vasudev/",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/ShwethaV9",github_profile_url:"https://github.com/ShweV",linkedin_profile_url:"https://www.linkedin.com/in/shwetha-vasudev-61383659"},isFetching:!1,similarBlogs:[{id:402,title:"Using Shimmer Effect Placeholder in Android",description:"In this blog, we will demonstrate how to use Shimmer in your Android application. We will be fetching the data from the API using the Fast-Android-Networking and then displaying the data in the RecyclerView. So let’s get started!",author:14897,img_url:"/images/banner-shimmer-effect.jpg",blog_url:"using-shimmer-effect-placeholder-in-android",likes:0,rank:0,category:1,published_at:"9th March 2020",score:4.294234275817871},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.01835518702864647},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.01835518702864647},{id:284,title:"Animation in Android - Android Tutorial",description:"In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.",author:14897,img_url:"/images/animation-in-android-banner.png",blog_url:"animation-in-android-tutorial",likes:0,rank:0,category:1,published_at:"24th June 2019",score:.01835518702864647},{id:297,title:"Integrating Android Google’s reCAPTCHA in Android App",description:"In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.",author:17146,img_url:"/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png",blog_url:"integrating-android-google-re-captcha-in-android-app",likes:0,rank:0,category:1,published_at:"18th July 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Shwetha Vasudev" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GhaMhnt96YUNN_sGizdGjFBXFnoCGRejMHnpG_Id84=s96-c?sz=300"/>
+          <div class="content">
+           Shwetha Vasudev
+           <div class="sub header" style="margin-top:5px">
+            28th May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Parallax Effect in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Parallax Effect in Android" class="graf-image" src="/images/banner-parallax-effect-in-android-99c329c41708e008.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  In recent times, every application in Android is giving more importance to user experience. An app with a good user experience will have good user ratings and popularity. To provide users with a good experience, many effects are available in the UI/UX space. One such effect is Parallax. Let’s understand what this is about and also an app sample to know how to use it.
+                 </p>
+                 <p class="graf--p">
+                  This blog covers,
+                 </p>
+                 <ul>
+                  <li>
+                   What is Parallax?
+                  </li>
+                  <li>
+                   Implementing the Parallax effect in Android App
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  What is Parallax?
+                 </h4>
+                 <p class="graf--p">
+                  Parallax sounds like a mathematical word. Yes, this technique has been derived from the Mathematical principle itself. It's a technique in computer graphics and web design, where background images move by the camera slower than foreground images, creating an illusion of depth in a 2D scene and adding to the immersion. Parallax scrolling can be a really interesting technique to use to give parts of your app a bit more life and character. It's not restricted to android/web-apps. Most of the gaming applications use this effect to give an effect of objects moving back with only one object in focus.
+                 </p>
+                 <p class="graf--p">
+                  Parallax in Android will come under material design scroll animations. Some designs include a parallax scroll effect with a header image, along with Tabs. We will look into the same type of parallax example in this blog.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Implementing the Parallax effect in Android App
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Let’s first create a new project
+                 </p>
+                 <ul>
+                  <li>
+                   Start a new Android project
+                  </li>
+                  <li>
+                   Select Empty Activity and Next
+                  </li>
+                  <li>
+                   Name: ParallaxAndroid
+                  </li>
+                  <li>
+                   Package name: com.mindorks.example.parallax
+                  </li>
+                  <li>
+                   Language: Kotlin
+                  </li>
+                  <li>
+                   Finish
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Let’s add the required dependencies.
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+implementation 'androidx.recyclerview:recyclerview:1.1.0'
+implementation 'com.google.android.material:material:1.2.0-alpha06'</code></pre>
+                 <p class="graf--p">
+                  Now, the project is ready.
+                 </p>
+                 <p class="graf--p">
+                  Here, we will be creating an app to display a list of books with a parallax scrolling effect. Let's start with the XML layout. Firstly we need to have a collapsing toolbar layout which we can add to the main activity XML. Collapsing toolbar layout is like a FrameLayout. Whatever element was added in the last, those elements will be placed at the top. This positioning is very important to get parallax to work properly.
+                 </p>
+                 <p class="graf--p">
+                  Let's see the skeleton of the activity_main.xml and then later add the required element code.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;androidx.coordinatorlayout.widget.CoordinatorLayout&gt;
+&lt;com.google.android.material.appbar.AppBarLayout&gt;
+    &lt;com.google.android.material.appbar.CollapsingToolbarLayout&gt;
+        &lt;ImageView/&gt;
+        &lt;android.appcompat.widget.Toolbar /&gt;
+        &lt;com.google.android.material.tabs.TabLayout/&gt;
+    &lt;/com.google.android.material.appbar.CollapsingToolbarLayout&gt;
+&lt;/com.google.android.material.appbar.AppBarLayout&gt;
+&lt;androidx.viewpager.widget.ViewPager/&gt;
+&lt;/androidx.coordinatorlayout.widget.CoordinatorLayout&gt; </code></pre>
+                 <p class="graf--p">
+                  Our activity_main.xml will look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity"&gt;
+
+    &lt;com.google.android.material.appbar.AppBarLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:fitsSystemWindows="true"&gt;
+
+        &lt;include layout="@layout/toolbar"/&gt;
+
+        &lt;com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:tabSelectedTextColor="@android:color/black"
+            app:tabBackground="@android:color/holo_orange_dark"
+            app:tabTextColor="@android:color/white"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabMode="fixed" /&gt;
+
+    &lt;/com.google.android.material.appbar.AppBarLayout&gt;
+
+    &lt;androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/&gt;
+
+&lt;/androidx.coordinatorlayout.widget.CoordinatorLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  I have added the
+                  <code class="graf--code-inline">
+                   toolbar
+                  </code>
+                  layout separately and included here for better readability.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;com.google.android.material.appbar.CollapsingToolbarLayout
+    android:id="@+id/collapsing_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    app:contentScrim="@android:color/holo_orange_dark"
+    app:expandedTitleMarginEnd="64dp"
+    app:expandedTitleMarginStart="48dp"
+    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"&gt;
+
+    &lt;ImageView
+        android:src="@drawable/books"
+        app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+        android:layout_width="wrap_content"
+        android:layout_height="160dp"
+        android:scaleType="centerCrop"
+        app:layout_collapseMode="parallax"
+        android:minHeight="50dp" /&gt;
+
+    &lt;androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:contentDescription="@string/books"
+        android:layout_width="match_parent"
+        app:title="@string/app_name"
+        app:titleTextAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:titleTextColor="@android:color/white"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_scrollFlags="scroll|enterAlways" /&gt;
+&lt;/com.google.android.material.appbar.CollapsingToolbarLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note:
+                  </b>
+                  In the above layout, we have added these attributes:
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   For the CollapsingToolbarLayout:
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                  </code>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   For the ImageView:
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+                  </code>
+                 </p>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   app:layout_collapseMode="parallax"
+                  </code>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   For the Toolbar:
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   app:layout_scrollFlags="scroll|enterAlways"
+                  </code>
+                 </p>
+                 <p class="graf--p">
+                  Our layout now will look like this
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Parallax Effect in Android" class="graf-image" src="/images/image_parallax-a075b0e011b4302a.png"/>
+                 </div>
+                 <p class="graf--p">
+                  We will have to set up the viewpager and tabs in our
+                  <code class="graf--code-inline">
+                   MainActivity
+                  </code>
+                  . As we have added tabs in our layout we will need a
+                  <code class="graf--code-inline">
+                   ViewPager
+                  </code>
+                  for it to work. Also, we will set up a
+                  <i class="graf--italic">
+                  </i>
+                  <code class="graf--code-inline">
+                   Fragment
+                  </code>
+                  <i class="graf--italic">
+                  </i>
+                  that loads
+                  <code class="graf--code-inline">
+                   Recyclerview
+                  </code>
+                  and an adapter which will load items in the
+                  <i class="graf--italic">
+                  </i>
+                  <code class="graf--code-inline">
+                   RecyclerView
+                  </code>
+                  <i class="graf--italic">
+                   .
+                  </i>
+                  <br/>
+                  In the activity, I am taking care of setting up the view pager and tabs and loading the fragment for the viewpager. Here I am loading 3 tabs and loading one fragment. I have defined these attributes in the
+                  <code class="graf--code-inline">
+                   ScreenSlidePagerAdapter
+                  </code>
+                  .
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : FragmentActivity() {
+
+    private lateinit var mPager: ViewPager
+    private lateinit var tabLayout : TabLayout
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        mPager = findViewById(R.id.viewPager)
+        tabLayout = findViewById(R.id.tabs)
+        tabLayout.setupWithViewPager(mPager)
+
+        val pagerAdapter = ScreenSlidePagerAdapter(supportFragmentManager)
+        mPager.adapter = pagerAdapter
+    }
+
+    override fun onBackPressed() {
+        if (mPager.currentItem == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed()
+        } else {
+            // Otherwise, select the previous step.
+            mPager.currentItem = mPager.currentItem - 1
+        }
+    }
+
+    private inner class ScreenSlidePagerAdapter(fm: FragmentManager) :
+        FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+        override fun getCount(): Int = 3
+        override fun getItem(position: Int): Fragment = BooksFragment().newInstance()
+        override fun getPageTitle(position: Int): CharSequence? {
+            var title  = ""
+            when(position) {
+                0 -&gt; title ="Tech"
+                1 -&gt; title = "Novels"
+                2 -&gt; title = "Motivational"
+            }
+            return title
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Create a fragment
+                  <code class="graf--code-inline">
+                   BooksFragment
+                  </code>
+                  which will load the
+                  <code class="graf--code-inline">
+                   Recyclerview
+                  </code>
+                  .
+                 </p>
+                 <pre><code class="language-java graf graf--code">class BooksFragment : Fragment() {
+
+    fun newInstance(): BooksFragment {
+        return BooksFragment()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view : View? = inflater.inflate(R.layout.books_fragment, container, false)
+        val rvBooks : RecyclerView = view!!.findViewById(R.id.rvBooksList)
+        rvBooks.layoutManager = LinearLayoutManager(activity);
+        val recyclerAdapter = BooksRecyclerAdapter(Util().getBooks())
+        rvBooks.adapter = recyclerAdapter
+        return view
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  We need an adapter for recyclerview to load each item. Create
+                  <code class="graf--code-inline">
+                   BooksRecyclerAdapter
+                  </code>
+                  <i class="graf--italic">
+                  </i>
+                  and extend the class
+                  <code class="graf--code-inline">
+                   RecyclerView.Adaper&lt;ViewHolder&gt;
+                  </code>
+                  as shown below.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class BooksRecyclerAdapter(private val mBooks: List&lt;Books&gt;) : RecyclerView.Adapter&lt;ViewHolder&gt;() {
+
+    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
+        val titleTextView: TextView = itemView.findViewById(R.id.text_title)
+        val authorTextView: TextView = itemView.findViewById(R.id.text_author)
+        val subTitleTextView: TextView = itemView.findViewById(R.id.text_subtitle)
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int): ViewHolder {
+        val context: Context = parent.context
+        val inflater = LayoutInflater.from(context)
+        val booksView: View = inflater.inflate(R.layout.item_books, parent, false)
+        return ViewHolder(booksView)
+    }
+
+    override fun onBindViewHolder(
+        viewHolder: ViewHolder,
+        position: Int) {
+        val titleTextView: TextView = viewHolder.titleTextView
+        titleTextView.text = mBooks[position].title
+        val authorTextView: TextView = viewHolder.authorTextView
+        authorTextView.text = mBooks[position].author
+        val subTitleTextView: TextView = viewHolder.subTitleTextView
+        subTitleTextView.text = mBooks[position].subtitle
+    }
+
+    override fun getItemCount(): Int {
+        return mBooks.size
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  These are the main layouts and Kotlin files required for adding a parallax effect to your app. You can get the complete project for your reference in Github
+                  <span class="">
+                   <a class="markup--anchor" href="https://github.com/ShweV/ParallaxAndroid" target="_blank">
+                    here
+                   </a>
+                  </span>
+                  . The final output of this app will look like this.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Parallax Effect in Android" class="graf-image" src="/images/parallax_gif-339c2c0f765f0d6c.gif"/>
+                 </div>
+                 <p class="graf--p">
+                  You can customize the scroll speed and other attributes by setting them in
+                  <code class="graf--code-inline">
+                   ImageView
+                  </code>
+                  of the toolbar layout. The conclusion is, the Android support library has many such utilities that help us make our app better in all the ways. We need to explore them and utilize them in making better usable apps.
+                 </p>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   Keep Learning, Keep Exploring, Keep Growing
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   Thank you.
+                  </i>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Shimmer Effect Placeholder in Android" class="ui centered image" src="/images/banner-shimmer-effect.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Shimmer Effect Placeholder in Android
+           </div>
+           <div class="meta">
+            9th March 2020
+           </div>
+           <div class="description">
+            In this blog, we will demonstrate how to use Shimmer in your Android application. We will be fetching the data from the API using the Fast-Android-Networking and then displaying the data in the RecyclerView. So let’s get started!
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Animation in Android - Android Tutorial" class="ui centered image" src="/images/animation-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Animation in Android - Android Tutorial
+           </div>
+           <div class="meta">
+            24th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Android Google’s reCAPTCHA in Android App" class="ui centered image" src="/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Android Google’s reCAPTCHA in Android App
+           </div>
+           <div class="meta">
+            18th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

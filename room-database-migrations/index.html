@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Room Database Migrations
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/room-database-migrations" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Room Database Migrations" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/room-database-migrations" property="og:url"/>
+  <meta content="/images/banner-room-database-migrations-f92acbf19704674b.png" property="og:image"/>
+  <meta content="In this blog, we will learn about the Room Database Migrations." property="og:description"/>
+  <meta content="Room Database Migrations" property="twitter:title"/>
+  <meta content="In this blog, we will learn about the Room Database Migrations." name="twitter:description"/>
+  <meta content="/images/banner-room-database-migrations-f92acbf19704674b.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about the Room Database Migrations." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:452,data:{id:452,title:"Room Database Migrations",description:"In this blog, we will learn about the Room Database Migrations.",text:'<h1 class="graf--h1">Room Database Migrations</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-room-database-migrations-f92acbf19704674b.png class=\'graf-image\' alt=\'Room Database Migrations\' />\n\t\t\t\t\t\t\t\t</div ><blockquote class="graf--blockquote"><i class="graf--italic"><b class="graf--bold">Note:</b> This article is part of the advanced Room series which covers all the details about the Room persistence library. You can read all the articles here:</i></blockquote><ul><li><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/introduction-to-room-persistent-library-in-android">Introduction to Room Persistent Library in Android</a></li><li><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/data-access-objects-dao-in-room">Data Access Objects - DAO in Room</a></li><li><span class=""><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/entity-relationship-in-room">Entity Relationship in Room</a></span></li><li><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/how-does-room-work-internally">How does Room work internally?</a></li><li><b class="graf--bold">Room Database Migrations [You are here]</b></li><li><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/using-room-with-live-data-and-other-third-party-libraries">Using Room with LiveData and other third-party libraries</a></li></ul><p class="graf--p">So, let&#x27;s get started.</p><p class="graf--p">Database migration is a very important concept in any application development. As we add and change features in your app, we have to update the schema of our database. Whenever there is a change in the schema of any of our tables, we need to write a migration for the existing application if we don’t want our users to lose all of their existing data.</p><p class="graf--p">For example, we can consider a table named <code class="graf--code-inline"><code class="graf--code-inline">users</code></code> which contains information of users and it has 3 columns named <code class="graf--code-inline"><code class="graf--code-inline">uid</code></code>, <code class="graf--code-inline"><code class="graf--code-inline">first_name</code></code> and <code class="graf--code-inline"><code class="graf--code-inline">last_name</code></code>. Now if we add a new column for <code class="graf--code-inline"><code class="graf--code-inline">age</code></code>, we need to write a migration for altering the current table schema — i.e., adding a new column named <code class="graf--code-inline"><code class="graf--code-inline">age</code></code>.</p><p class="graf--p">The <a class="markup--anchor" target="_blank" href="https://developer.android.com/training/data-storage/room">Room persistence library</a> allows us to write <code class="graf--code-inline"><code class="graf--code-inline"><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/androidx/room/migration/Migration">Migration</a></code></code> classes to preserve user data in this manner. Each <code class="graf--code-inline"><code class="graf--code-inline"><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/androidx/room/migration/Migration">Migration</a></code></code> class specifies a <code class="graf--code-inline"><code class="graf--code-inline">startVersion</code></code> and <code class="graf--code-inline"><code class="graf--code-inline">endVersion</code></code>. At runtime, Room runs each Migration class&#x27;s <code class="graf--code-inline">migrate()</code> method, using the correct order to migrate the database to a later version.</p><pre><code class="language-java graf graf--code">val MIGRATION_1_2 = object : Migration(1, 2) {\n    override fun migrate(database: SupportSQLiteDatabase) {\n        database.execSQL("ALTER TABLE users ADD COLUMN age INTEGER")\n    }\n}</code></pre><p class="graf--p">Now we have created the migration object <code class="graf--code-inline"><code class="graf--code-inline">MIGRATION_1_2</code></code>, we need to add it in the database configuration using database builder.</p><pre><code class="language-java graf graf--code">Room.databaseBuilder(\n    applicationContext, \n    UserDatabase::class.java, \n    "users-db"\n).addMigrations(MIGRATION_1_2)\n.build()</code></pre><h4 class="graf--h3"><b class="graf--bold">Gracefully handle missing migration paths</b></h4><p class="graf--p">After updating our database’s schemas, it’s possible that some on-device databases could still use an older schema version. If Room cannot find a migration rule for upgrading that device’s database from the older version to the current version, it throws an <code class="graf--code-inline"><code class="graf--code-inline"><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/java/lang/IllegalStateException">IllegalStateException</a></code></code> which makes our app to crash.</p><p class="graf--p">To prevent the app from crashing when this situation occurs, call the <code class="graf--code-inline"><code class="graf--code-inline">fallbackToDestructiveMigration()</code></code> builder method when creating the database.</p><pre><code class="language-java graf graf--code">Room.databaseBuilder(\n    applicationContext, \n    UserDatabase::class.java, \n    "users-db"\n).fallbackToDestructiveMigration()\n.build()</code></pre><p class="graf--p">The destructive recreation fallback logic includes several additional options:</p><ul><li>If errors occur in specific versions of your schema history that you cannot solve with migration paths, use <code class="graf--code-inline"><code class="graf--code-inline"><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/androidx/room/RoomDatabase.Builder#fallbacktodestructivemigrationfrom">fallbackToDestructiveMigrationFrom()</a></code></code>. This method indicates that you&#x27;d like Room to use the fallback logic only in cases where the database attempts to migrate from one of those problematic versions.</li><li>To perform a destructive recreation only when attempting a schema downgrade, use <code class="graf--code-inline"><code class="graf--code-inline"><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/androidx/room/RoomDatabase.Builder#fallbacktodestructivemigrationondowngrade">fallbackToDestructiveMigrationOnDowngrade()</a></code></code> instead.</li></ul><p class="graf--p">This is how migration is done using Room. Hope you enjoyed this blog. In the next blog, we are going to learn: <span class=""><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/using-room-with-live-data-and-other-third-party-libraries">Using Room with LiveData and other third-party libraries</a>.</span></p><p class="graf--p">You can also connect with me on <span class=""><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/deepanshu42/">LinkedIn</a></span>, <span class=""><a class="markup--anchor" target="_blank" href="https://twitter.com/deep1743">Twitter</a></span>, <span class=""><a class="markup--anchor" target="_blank" href="https://www.facebook.com/deepanshu42">Facebook</a></span> and <span class=""><a class="markup--anchor" target="_blank" href="https://github.com/deepanshu42">Github</a></span>. </p><p class="graf--p">Thank You!!!</p>',author:14040,img_url:"/images/banner-room-database-migrations-f92acbf19704674b.png",blog_url:"room-database-migrations",likes:0,rank:0,category:1,published_at:"18th May 2020"},author:{id:14040,name:"Deepanshu",google_profile_pic:"https://lh6.googleusercontent.com/-0TQ3Ffy_SrU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmSiX_h9XkfKNdYgwBAOyAwFkDZSw/s96-c/photo.jpg?sz=300",fb_profile_pic:null,profile_tagline:"Software Engineer - Android",fb_profile_url:"https://www.facebook.com/deepanshu42",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/deep1743",github_profile_url:"https://github.com/deepanshu42",linkedin_profile_url:"https://www.linkedin.com/in/deepanshu42/"},isFetching:!1,similarBlogs:[{id:210,title:"Android SearchView in Room Database in Kotlin",description:"How to implement SearchView inside Room Database?",author:14897,img_url:"/images/android_searchview_in_room_database_mindorks_feature_image.png",blog_url:"android-searchview-in-room-database-in-kotlin",likes:0,rank:0,category:1,published_at:"9th January 2019",score:4.20841121673584},{id:208,title:"Android SQLite Database in Kotlin",description:"SQLite database helps us to store the data in the database. Android comes with the built-in implementation of SQLite Database.",author:14897,img_url:"/images/android_sqlite_database_kotlin_mindorks_feature_image.png",blog_url:"android-sqlite-database-in-kotlin",likes:0,rank:0,category:1,published_at:"7th January 2019",score:2.3285839557647705},{id:368,title:"Firebase Realtime Database: Android Tutorial",description:"In this blog, we will learn about Firebase Realtime Database. With the help of an example, we will see why should we use Firebase Realtime Database in our project.",author:17146,img_url:"/images/firebase-realtime-database-android-tutorial-banner.png",blog_url:"firebase-realtime-database-android-tutorial",likes:0,rank:0,category:1,published_at:"5th November 2019",score:2.3285839557647705},{id:377,title:"How to access SQLite Database in Android for Debugging?",description:"In this blog, we will learn how to access SQLite Database in Android for Debugging with the help of the Android Debug Database library. By using the Android Debug Database library, you can view/add/edit/delete values of the tables present in the database.",author:14897,img_url:"/images/how-to-access-sqlite-database-in-android-for-debugging-banner.png",blog_url:"how-to-access-sqlite-database-in-android-for-debugging",likes:0,rank:0,category:1,published_at:"13th November 2019",score:2.3285839557647705},{id:209,title:"Android Room Persistence Library in Kotlin",description:"Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class.",author:14897,img_url:"/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png",blog_url:"android-room-persistence-library-in-kotlin",likes:0,rank:0,category:1,published_at:"9th January 2019",score:1.8798271417617798},{id:447,title:"Introduction to Room Persistent Library in Android",description:"In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.",author:14040,img_url:"/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png",blog_url:"introduction-to-room-persistent-library-in-android",likes:0,rank:0,category:1,published_at:"18th May 2020",score:1.8798271417617798}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Deepanshu" class="ui circular image" src="https://lh6.googleusercontent.com/-0TQ3Ffy_SrU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmSiX_h9XkfKNdYgwBAOyAwFkDZSw/s96-c/photo.jpg?sz=300"/>
+          <div class="content">
+           Deepanshu
+           <div class="sub header" style="margin-top:5px">
+            18th May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Room Database Migrations
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Room Database Migrations" class="graf-image" src="/images/banner-room-database-migrations-f92acbf19704674b.png"/>
+                 </div>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    Note:
+                   </b>
+                   This article is part of the advanced Room series which covers all the details about the Room persistence library. You can read all the articles here:
+                  </i>
+                 </blockquote>
+                 <ul>
+                  <li>
+                   <a class="markup--anchor" href="https://blog.mindorks.com/introduction-to-room-persistent-library-in-android" target="_blank">
+                    Introduction to Room Persistent Library in Android
+                   </a>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://blog.mindorks.com/data-access-objects-dao-in-room" target="_blank">
+                    Data Access Objects - DAO in Room
+                   </a>
+                  </li>
+                  <li>
+                   <span class="">
+                    <a class="markup--anchor" href="https://blog.mindorks.com/entity-relationship-in-room" target="_blank">
+                     Entity Relationship in Room
+                    </a>
+                   </span>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://blog.mindorks.com/how-does-room-work-internally" target="_blank">
+                    How does Room work internally?
+                   </a>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Room Database Migrations [You are here]
+                   </b>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://blog.mindorks.com/using-room-with-live-data-and-other-third-party-libraries" target="_blank">
+                    Using Room with LiveData and other third-party libraries
+                   </a>
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, let's get started.
+                 </p>
+                 <p class="graf--p">
+                  Database migration is a very important concept in any application development. As we add and change features in your app, we have to update the schema of our database. Whenever there is a change in the schema of any of our tables, we need to write a migration for the existing application if we don’t want our users to lose all of their existing data.
+                 </p>
+                 <p class="graf--p">
+                  For example, we can consider a table named
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    users
+                   </code>
+                  </code>
+                  which contains information of users and it has 3 columns named
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    uid
+                   </code>
+                  </code>
+                  ,
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    first_name
+                   </code>
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    last_name
+                   </code>
+                  </code>
+                  . Now if we add a new column for
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    age
+                   </code>
+                  </code>
+                  , we need to write a migration for altering the current table schema — i.e., adding a new column named
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    age
+                   </code>
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  The
+                  <a class="markup--anchor" href="https://developer.android.com/training/data-storage/room" target="_blank">
+                   Room persistence library
+                  </a>
+                  allows us to write
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    <a class="markup--anchor" href="https://developer.android.com/reference/androidx/room/migration/Migration" target="_blank">
+                     Migration
+                    </a>
+                   </code>
+                  </code>
+                  classes to preserve user data in this manner. Each
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    <a class="markup--anchor" href="https://developer.android.com/reference/androidx/room/migration/Migration" target="_blank">
+                     Migration
+                    </a>
+                   </code>
+                  </code>
+                  class specifies a
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    startVersion
+                   </code>
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    endVersion
+                   </code>
+                  </code>
+                  . At runtime, Room runs each Migration class's
+                  <code class="graf--code-inline">
+                   migrate()
+                  </code>
+                  method, using the correct order to migrate the database to a later version.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val MIGRATION_1_2 = object : Migration(1, 2) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("ALTER TABLE users ADD COLUMN age INTEGER")
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now we have created the migration object
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    MIGRATION_1_2
+                   </code>
+                  </code>
+                  , we need to add it in the database configuration using database builder.
+                 </p>
+                 <pre><code class="language-java graf graf--code">Room.databaseBuilder(
+    applicationContext, 
+    UserDatabase::class.java, 
+    "users-db"
+).addMigrations(MIGRATION_1_2)
+.build()</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Gracefully handle missing migration paths
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  After updating our database’s schemas, it’s possible that some on-device databases could still use an older schema version. If Room cannot find a migration rule for upgrading that device’s database from the older version to the current version, it throws an
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    <a class="markup--anchor" href="https://developer.android.com/reference/java/lang/IllegalStateException" target="_blank">
+                     IllegalStateException
+                    </a>
+                   </code>
+                  </code>
+                  which makes our app to crash.
+                 </p>
+                 <p class="graf--p">
+                  To prevent the app from crashing when this situation occurs, call the
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    fallbackToDestructiveMigration()
+                   </code>
+                  </code>
+                  builder method when creating the database.
+                 </p>
+                 <pre><code class="language-java graf graf--code">Room.databaseBuilder(
+    applicationContext, 
+    UserDatabase::class.java, 
+    "users-db"
+).fallbackToDestructiveMigration()
+.build()</code></pre>
+                 <p class="graf--p">
+                  The destructive recreation fallback logic includes several additional options:
+                 </p>
+                 <ul>
+                  <li>
+                   If errors occur in specific versions of your schema history that you cannot solve with migration paths, use
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     <a class="markup--anchor" href="https://developer.android.com/reference/androidx/room/RoomDatabase.Builder#fallbacktodestructivemigrationfrom" target="_blank">
+                      fallbackToDestructiveMigrationFrom()
+                     </a>
+                    </code>
+                   </code>
+                   . This method indicates that you'd like Room to use the fallback logic only in cases where the database attempts to migrate from one of those problematic versions.
+                  </li>
+                  <li>
+                   To perform a destructive recreation only when attempting a schema downgrade, use
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     <a class="markup--anchor" href="https://developer.android.com/reference/androidx/room/RoomDatabase.Builder#fallbacktodestructivemigrationondowngrade" target="_blank">
+                      fallbackToDestructiveMigrationOnDowngrade()
+                     </a>
+                    </code>
+                   </code>
+                   instead.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  This is how migration is done using Room. Hope you enjoyed this blog. In the next blog, we are going to learn:
+                  <span class="">
+                   <a class="markup--anchor" href="https://blog.mindorks.com/using-room-with-live-data-and-other-third-party-libraries" target="_blank">
+                    Using Room with LiveData and other third-party libraries
+                   </a>
+                   .
+                  </span>
+                 </p>
+                 <p class="graf--p">
+                  You can also connect with me on
+                  <span class="">
+                   <a class="markup--anchor" href="https://www.linkedin.com/in/deepanshu42/" target="_blank">
+                    LinkedIn
+                   </a>
+                  </span>
+                  ,
+                  <span class="">
+                   <a class="markup--anchor" href="https://twitter.com/deep1743" target="_blank">
+                    Twitter
+                   </a>
+                  </span>
+                  ,
+                  <span class="">
+                   <a class="markup--anchor" href="https://www.facebook.com/deepanshu42" target="_blank">
+                    Facebook
+                   </a>
+                  </span>
+                  and
+                  <span class="">
+                   <a class="markup--anchor" href="https://github.com/deepanshu42" target="_blank">
+                    Github
+                   </a>
+                  </span>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Thank You!!!
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android SearchView in Room Database in Kotlin" class="ui centered image" src="/images/android_searchview_in_room_database_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android SearchView in Room Database in Kotlin
+           </div>
+           <div class="meta">
+            9th January 2019
+           </div>
+           <div class="description">
+            How to implement SearchView inside Room Database?
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android SQLite Database in Kotlin" class="ui centered image" src="/images/android_sqlite_database_kotlin_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android SQLite Database in Kotlin
+           </div>
+           <div class="meta">
+            7th January 2019
+           </div>
+           <div class="description">
+            SQLite database helps us to store the data in the database. Android comes with the built-in implementation of SQLite Database.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Firebase Realtime Database: Android Tutorial" class="ui centered image" src="/images/firebase-realtime-database-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Firebase Realtime Database: Android Tutorial
+           </div>
+           <div class="meta">
+            5th November 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about Firebase Realtime Database. With the help of an example, we will see why should we use Firebase Realtime Database in our project.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to access SQLite Database in Android for Debugging?" class="ui centered image" src="/images/how-to-access-sqlite-database-in-android-for-debugging-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to access SQLite Database in Android for Debugging?
+           </div>
+           <div class="meta">
+            13th November 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to access SQLite Database in Android for Debugging with the help of the Android Debug Database library. By using the Android Debug Database library, you can view/add/edit/delete values of the tables present in the database.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Room Persistence Library in Kotlin" class="ui centered image" src="/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Room Persistence Library in Kotlin
+           </div>
+           <div class="meta">
+            9th January 2019
+           </div>
+           <div class="description">
+            Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Introduction to Room Persistent Library in Android" class="ui centered image" src="/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Introduction to Room Persistent Library in Android
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

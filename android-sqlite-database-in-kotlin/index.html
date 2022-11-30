@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Android SQLite Database in Kotlin
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-sqlite-database-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Android SQLite Database in Kotlin" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-sqlite-database-in-kotlin" property="og:url"/>
+  <meta content="/images/android_sqlite_database_kotlin_mindorks_feature_image.png" property="og:image"/>
+  <meta content="SQLite database helps us to store the data in the database. Android comes with the built-in implementation of SQLite Database." property="og:description"/>
+  <meta content="Android SQLite Database in Kotlin" property="twitter:title"/>
+  <meta content="SQLite database helps us to store the data in the database. Android comes with the built-in implementation of SQLite Database." name="twitter:description"/>
+  <meta content="/images/android_sqlite_database_kotlin_mindorks_feature_image.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="SQLite database helps us to store the data in the database. Android comes with the built-in implementation of SQLite Database." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:208,data:{id:208,title:"Android SQLite Database in Kotlin",description:"SQLite database helps us to store the data in the database. Android comes with the built-in implementation of SQLite Database.",text:'<h3 class="graf--h2">Android SQLite Database in Kotlin</h3><p class="graf--p">The name of the database in Android is SQLite. SQLite is the name of the opensource SQL database that stores the data in the text file in the device. Android has its implementation. </p><p class="graf--p">Here, We will be learning about SQLite Database and we will also implement an application.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_sqlite_database_kotlin_mindorks_feature_image.png class=\'graf-image\' alt=\'Android SQLite Database in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Let’s start with the implementation:We will be developing an app where a user can store a string, and it will display on the TextView on screen.Let’s first create our main screen</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n   &lt;TextView\n        android:id="@+id/tvDisplayName"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:layout_marginTop="16dp"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toBottomOf="@+id/etName" /&gt;\n   &lt;EditText\n        android:id="@+id/etName"\n        android:layout_width="match_parent"\n        android:layout_height="wrap_content"\n        android:layout_marginStart="8dp"\n        android:layout_marginTop="16dp"\n        android:layout_marginEnd="8dp"\n        android:ems="10"\n        android:inputType="textPersonName"\n        android:text="Name"\n        app:layout_constraintBottom_toTopOf="@+id/tvDisplayName"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n   &lt;Button\n        android:id="@+id/btnAddToDb"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="Add to database"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toEndOf="@+id/btnShowDatafromDb" /&gt;\n   &lt;Button\n        android:id="@+id/btnShowDatafromDb"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="Show Data"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toStartOf="@+id/btnAddToDb"\n        app:layout_constraintStart_toStartOf="parent" /&gt;\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Android provides us with the SQLiteOpenHelper class which helps us to interact with the SQLite Database. This class includes methods like create, insert, delete and update for data CRUD.</p><p class="graf--p">Let’s create a class called Name which will act as our model class</p><pre><code class="language-java graf graf--code">class Name {\n   var id: Int = 0\n    var userName: String? = null\n   constructor(id: Int, userName: String) {\n        this.id = id\n        this.userName = userName\n    }\n   constructor(userName: String) {\n        this.userName = userName\n    }\n}</code></pre><p class="graf--p">Let’s crea.te an OpenHelper class</p><pre><code class="language-java graf graf--code">class MindOrksDBOpenHelper(context: Context,\n                           factory: SQLiteDatabase.CursorFactory?) :\n        SQLiteOpenHelper(context, DATABASE_NAME,\n                factory, DATABASE_VERSION) {\n   override fun onCreate(db: SQLiteDatabase) {\n        val CREATE_PRODUCTS_TABLE = ("CREATE TABLE " +\n                TABLE_NAME + "("\n                + COLUMN_ID + " INTEGER PRIMARY KEY," +\n                COLUMN_NAME\n                + " TEXT" + ")")\n        db.execSQL(CREATE_PRODUCTS_TABLE)\n    }\n   override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {\n        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)\n        onCreate(db)\n    }\n   fun addName(name: Name) {\n        val values = ContentValues()\n        values.put(COLUMN_NAME, name.userName)\n       val db = this.writableDatabase\n        db.insert(TABLE_NAME, null, values)\n        db.close()\n    }\n   fun getAllName(): Cursor? {\n        val db = this.readableDatabase\n        return db.rawQuery("SELECT * FROM $TABLE_NAME", null)\n    }\n   companion object {\n       private val DATABASE_VERSION = 1\n        private val DATABASE_NAME = "mindorksName.db"\n        val TABLE_NAME = "name"\n       val COLUMN_ID = "_id"\n        val COLUMN_NAME = "username"\n    }\n}</code></pre><p class="graf--p">Now, we will implement our add to database button</p><pre><code class="language-java graf graf--code">btnAddToDb.setOnClickListener {\n    val dbHandler = MindOrksDBOpenHelper(this, null)\n    val user = Name(etName.text.toString())\n    dbHandler.addName(user)\n    Toast.makeText(this, etName.text.toString() + "Added to database", Toast.LENGTH_LONG).show()\n}</code></pre><p class="graf--p">and also, our get all names from database button</p><pre><code class="language-java graf graf--code">btnShowDatafromDb.setOnClickListener {\n    tvDisplayName.text = ""\n    val dbHandler = MindOrksDBOpenHelper(this, null)\n    val cursor = dbHandler.getAllName()\n    cursor!!.moveToFirst()\n    tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))\n    while (cursor.moveToNext()) {\n        tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))\n        tvDisplayName.append("\\n")\n    }\n    cursor.close()\n}\nclass MainActivity : AppCompatActivity() {\n   override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n       btnAddToDb.setOnClickListener {\n            val dbHandler = MindOrksDBOpenHelper(this, null)\n            val user = Name(etName.text.toString())\n            dbHandler.addName(user)\n            Toast.makeText(this, etName.text.toString() + "Added to database", Toast.LENGTH_LONG).show()\n        }\n       btnShowDatafromDb.setOnClickListener {\n            tvDisplayName.text = ""\n            val dbHandler = MindOrksDBOpenHelper(this, null)\n            val cursor = dbHandler.getAllName()\n            cursor!!.moveToFirst()\n            tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))\n            while (cursor.moveToNext()) {\n                tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))\n                tvDisplayName.append("\\n")\n            }\n            cursor.close()\n        }\n    }\n}</code></pre><p class="graf--p">Let’s try to run this app. Great Work!! You are saving the data in the database and showing it on the screen. Try to implement the delete query and explore more on this. Let us know on our slack and twitter channel.</p><h4 class="graf--h3"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/android-room-persistence-library-in-kotlin">In the next chapter, we will be discussing the latest Room in Android and also some latest concepts.</a></h4>',author:14897,img_url:"/images/android_sqlite_database_kotlin_mindorks_feature_image.png",blog_url:"android-sqlite-database-in-kotlin",likes:0,rank:0,category:1,published_at:"7th January 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:377,title:"How to access SQLite Database in Android for Debugging?",description:"In this blog, we will learn how to access SQLite Database in Android for Debugging with the help of the Android Debug Database library. By using the Android Debug Database library, you can view/add/edit/delete values of the tables present in the database.",author:14897,img_url:"/images/how-to-access-sqlite-database-in-android-for-debugging-banner.png",blog_url:"how-to-access-sqlite-database-in-android-for-debugging",likes:0,rank:0,category:1,published_at:"13th November 2019",score:6.6228179931640625},{id:210,title:"Android SearchView in Room Database in Kotlin",description:"How to implement SearchView inside Room Database?",author:14897,img_url:"/images/android_searchview_in_room_database_mindorks_feature_image.png",blog_url:"android-searchview-in-room-database-in-kotlin",likes:0,rank:0,category:1,published_at:"9th January 2019",score:2.485445261001587},{id:368,title:"Firebase Realtime Database: Android Tutorial",description:"In this blog, we will learn about Firebase Realtime Database. With the help of an example, we will see why should we use Firebase Realtime Database in our project.",author:17146,img_url:"/images/firebase-realtime-database-android-tutorial-banner.png",blog_url:"firebase-realtime-database-android-tutorial",likes:0,rank:0,category:1,published_at:"5th November 2019",score:2.337761640548706},{id:452,title:"Room Database Migrations",description:"In this blog, we will learn about the Room Database Migrations.",author:14040,img_url:"/images/banner-room-database-migrations-f92acbf19704674b.png",blog_url:"room-database-migrations",likes:0,rank:0,category:1,published_at:"18th May 2020",score:2.3285839557647705},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.16603870689868927},{id:194,title:"Android WebView — in kotlin",description:"Android WebView",author:14897,img_url:"/images/android_webview_mindorks_feature_image.png",blog_url:"android-webview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            7th January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h3 class="graf--h2">
+                  Android SQLite Database in Kotlin
+                 </h3>
+                 <p class="graf--p">
+                  The name of the database in Android is SQLite. SQLite is the name of the opensource SQL database that stores the data in the text file in the device. Android has its implementation.
+                 </p>
+                 <p class="graf--p">
+                  Here, We will be learning about SQLite Database and we will also implement an application.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android SQLite Database in Kotlin" class="graf-image" src="/images/android_sqlite_database_kotlin_mindorks_feature_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Let’s start with the implementation:We will be developing an app where a user can store a string, and it will display on the TextView on screen.Let’s first create our main screen
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+   &lt;TextView
+        android:id="@+id/tvDisplayName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etName" /&gt;
+   &lt;EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/tvDisplayName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+   &lt;Button
+        android:id="@+id/btnAddToDb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add to database"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnShowDatafromDb" /&gt;
+   &lt;Button
+        android:id="@+id/btnShowDatafromDb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Data"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddToDb"
+        app:layout_constraintStart_toStartOf="parent" /&gt;
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Android provides us with the SQLiteOpenHelper class which helps us to interact with the SQLite Database. This class includes methods like create, insert, delete and update for data CRUD.
+                 </p>
+                 <p class="graf--p">
+                  Let’s create a class called Name which will act as our model class
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Name {
+   var id: Int = 0
+    var userName: String? = null
+   constructor(id: Int, userName: String) {
+        this.id = id
+        this.userName = userName
+    }
+   constructor(userName: String) {
+        this.userName = userName
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Let’s crea.te an OpenHelper class
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MindOrksDBOpenHelper(context: Context,
+                           factory: SQLiteDatabase.CursorFactory?) :
+        SQLiteOpenHelper(context, DATABASE_NAME,
+                factory, DATABASE_VERSION) {
+   override fun onCreate(db: SQLiteDatabase) {
+        val CREATE_PRODUCTS_TABLE = ("CREATE TABLE " +
+                TABLE_NAME + "("
+                + COLUMN_ID + " INTEGER PRIMARY KEY," +
+                COLUMN_NAME
+                + " TEXT" + ")")
+        db.execSQL(CREATE_PRODUCTS_TABLE)
+    }
+   override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME)
+        onCreate(db)
+    }
+   fun addName(name: Name) {
+        val values = ContentValues()
+        values.put(COLUMN_NAME, name.userName)
+       val db = this.writableDatabase
+        db.insert(TABLE_NAME, null, values)
+        db.close()
+    }
+   fun getAllName(): Cursor? {
+        val db = this.readableDatabase
+        return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
+    }
+   companion object {
+       private val DATABASE_VERSION = 1
+        private val DATABASE_NAME = "mindorksName.db"
+        val TABLE_NAME = "name"
+       val COLUMN_ID = "_id"
+        val COLUMN_NAME = "username"
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, we will implement our add to database button
+                 </p>
+                 <pre><code class="language-java graf graf--code">btnAddToDb.setOnClickListener {
+    val dbHandler = MindOrksDBOpenHelper(this, null)
+    val user = Name(etName.text.toString())
+    dbHandler.addName(user)
+    Toast.makeText(this, etName.text.toString() + "Added to database", Toast.LENGTH_LONG).show()
+}</code></pre>
+                 <p class="graf--p">
+                  and also, our get all names from database button
+                 </p>
+                 <pre><code class="language-java graf graf--code">btnShowDatafromDb.setOnClickListener {
+    tvDisplayName.text = ""
+    val dbHandler = MindOrksDBOpenHelper(this, null)
+    val cursor = dbHandler.getAllName()
+    cursor!!.moveToFirst()
+    tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))
+    while (cursor.moveToNext()) {
+        tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))
+        tvDisplayName.append("\n")
+    }
+    cursor.close()
+}
+class MainActivity : AppCompatActivity() {
+   override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+       btnAddToDb.setOnClickListener {
+            val dbHandler = MindOrksDBOpenHelper(this, null)
+            val user = Name(etName.text.toString())
+            dbHandler.addName(user)
+            Toast.makeText(this, etName.text.toString() + "Added to database", Toast.LENGTH_LONG).show()
+        }
+       btnShowDatafromDb.setOnClickListener {
+            tvDisplayName.text = ""
+            val dbHandler = MindOrksDBOpenHelper(this, null)
+            val cursor = dbHandler.getAllName()
+            cursor!!.moveToFirst()
+            tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))
+            while (cursor.moveToNext()) {
+                tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))
+                tvDisplayName.append("\n")
+            }
+            cursor.close()
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Let’s try to run this app. Great Work!! You are saving the data in the database and showing it on the screen. Try to implement the delete query and explore more on this. Let us know on our slack and twitter channel.
+                 </p>
+                 <h4 class="graf--h3">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/android-room-persistence-library-in-kotlin" target="_blank">
+                   In the next chapter, we will be discussing the latest Room in Android and also some latest concepts.
+                  </a>
+                 </h4>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to access SQLite Database in Android for Debugging?" class="ui centered image" src="/images/how-to-access-sqlite-database-in-android-for-debugging-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to access SQLite Database in Android for Debugging?
+           </div>
+           <div class="meta">
+            13th November 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to access SQLite Database in Android for Debugging with the help of the Android Debug Database library. By using the Android Debug Database library, you can view/add/edit/delete values of the tables present in the database.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android SearchView in Room Database in Kotlin" class="ui centered image" src="/images/android_searchview_in_room_database_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android SearchView in Room Database in Kotlin
+           </div>
+           <div class="meta">
+            9th January 2019
+           </div>
+           <div class="description">
+            How to implement SearchView inside Room Database?
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Firebase Realtime Database: Android Tutorial" class="ui centered image" src="/images/firebase-realtime-database-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Firebase Realtime Database: Android Tutorial
+           </div>
+           <div class="meta">
+            5th November 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about Firebase Realtime Database. With the help of an example, we will see why should we use Firebase Realtime Database in our project.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Room Database Migrations" class="ui centered image" src="/images/banner-room-database-migrations-f92acbf19704674b.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Room Database Migrations
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Room Database Migrations.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android WebView — in kotlin" class="ui centered image" src="/images/android_webview_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android WebView — in kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android WebView
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

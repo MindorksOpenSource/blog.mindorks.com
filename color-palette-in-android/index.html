@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Color Palette API in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/color-palette-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Color Palette API in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/color-palette-in-android" property="og:url"/>
+  <meta content="/images/color-pallete-api.png" property="og:image"/>
+  <meta content="In this blog, we will learn about the Color Palette API in Android. Here we will see how can we generate dynamic colors based on an image." property="og:description"/>
+  <meta content="Color Palette API in Android" property="twitter:title"/>
+  <meta content="In this blog, we will learn about the Color Palette API in Android. Here we will see how can we generate dynamic colors based on an image." name="twitter:description"/>
+  <meta content="/images/color-pallete-api.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about the Color Palette API in Android. Here we will see how can we generate dynamic colors based on an image." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:304,data:{id:304,title:"Color Palette API in Android",description:"In this blog, we will learn about the Color Palette API in Android. Here we will see how can we generate dynamic colors based on an image.",text:'<h1 class="graf--h1">Color Palette API in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/color-pallete-api.png class=\'graf-image\' alt=\'Color Palette API in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">While designing the App, the most important thing to look out for is color combination. In Android, we have an API called Color Palette API which helps us to extract colors out of an Image.</p><p class="graf--p">To understand the use of API, let me help you with an example. We have to make a app&#x27;s UI where the background changes from dark to light images based on location and time. So, we need to update the icons based on the background image&#x27;s color of the app.  But how do we know what is the color on the image ? Here, Color Palatter API is useful.</p><p class="graf--p">To start using the API, we add the following in build.gradle of the app,</p><pre><code class="language-java graf graf--code">android {\n  compileSdkVersion 28\n  ...\n}\n\ndependencies {\n  ...\n  implementation \'com.android.support:palette-v7:28.0.0\'\n}</code></pre><p class="graf--p">Now, we have to create a palatte object instance to access the color in the image. We can generate the palatte instance syncronously as well as asyncronously.  In Syncronous generation, it works on the same thread but in Asyncronous, it works on different thread.</p><p class="graf--p">To generate palatte in both ways, we use</p><pre><code class="language-java graf graf--code">// Generate palette synchronously and return it\nfun createPaletteSync(bitmap: Bitmap): Palette = Palette.from(bitmap).generate()\n\n// Generate palette asynchronously and use it on a different\n// thread using onGenerated()\nfun createPaletteAsync(bitmap: Bitmap) {\n    Palette.from(bitmap).generate { palette -&gt;\n        // Use generated instance\n    }\n}</code></pre><p class="graf--p">The palette allows you to customize your palette by choosing how many colors are in the resulting palette or how many color should be generated.</p><p class="graf--p">Generally, the default value is 16 colors, but the maximum it can go is upto 24-32 colors. And with more color the palette takes more time to generate !</p><p class="graf--p">The palette API generate a set of color profiles to choose color from. They are,</p><ul><li>Light Vibrant</li><li>Vibrant</li><li>Dark Vibrant</li><li>Light Muted</li><li>Muted</li><li>Dark Muted</li></ul><p class="graf--p">and to get color from each profile we just user, get{profileName}color(). For eg. <i class="graf--italic">getVibrantColor() </i> and in Kotlin we use <i class="graf--italic">vibrantColor</i>.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=https://developer.android.com/training/material/images/palette-library-color-profiles_2-1_2x.png class=\'graf-image\' alt=\'Color Palette API in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Src: Android Developer Page</p><p class="graf--p">Now, to generate the color combination for your android theme like discussed above in the example we use something called <b class="graf--bold">swatch. </b>In swatch, we use color from bodyTextColor and titleTextColor to design good color schemes based on the image</p><p class="graf--p">to get the color from vibrantSwatch we use,</p><pre><code class="language-java graf graf--code">val vibrant = myPalette.vibrantSwatch\nval titleColor = vibrant?.titleTextColor</code></pre><p class="graf--p">and similarly for other swatches as well.</p><p class="graf--p">To get all colors in a palette, the <code class="graf--code-inline"><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/androidx/palette/graphics/Palette.html#getSwatches()">getSwatches()</a></code> method returns the list of all swatches generated from an provided image, including the standard six color profiles like vibrantSwatch etc.</p><p class="graf--p">To customise the palette,</p><ul><li>addFilter() . - Filter defines the color we can don&#x27;t want to choose.</li><li>maximumColorCount() - It let us know the maximum number of color we can take from the palette</li><li>setRegion() - It helps us to choose the region of the bitmap we want to generate the color from. </li></ul><p class="graf--p"></p><p class="graf--p">To understand the basic usage of palette check out this library : <a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/ViewColorGenerator">ViewColorGenerator</a>.</p><p class="graf--p"></p><p class="graf--p">Happy learning</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p><p class="graf--p"></p>',author:9959,img_url:"/images/color-pallete-api.png",blog_url:"color-palette-in-android",likes:0,rank:0,category:1,published_at:"24th July 2019"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:312,title:"Easy SMS Verification in Android: SMS User Consent API",description:"In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt. ",author:14897,img_url:"/images/easy-sms-verification-android-sms-user-consent-api-banner.png",blog_url:"easy-sms-verification-in-android-sms-user-consent-api",likes:0,rank:0,category:1,published_at:"9th August 2019",score:1.7772136926651},{id:352,title:"Securing API Keys using Android NDK (Native Development Kit)",description:"In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.",author:17146,img_url:"/images/securing-api-keys-using-android-ndk-banner.png",blog_url:"securing-api-keys-using-android-ndk",likes:0,rank:0,category:1,published_at:"2nd October 2019",score:1.7772136926651},{id:392,title:"Understanding Canvas API in Android",description:"In this blog, we will see how we can use canvas to draw our own custom shape and drawings .",author:9959,img_url:"/images/canvas-api-banner.png",blog_url:"understanding-canvas-api-in-android",likes:0,rank:0,category:1,published_at:"17th February 2020",score:1.7772136926651},{id:466,title:"Auto Backup API in Android",description:"Android provides a very handy API to deal with user's local data backups. We'll learn how to enable, customize, use and test Android's Auto Backup API.",author:18510,img_url:"/images/android-auto-backup-banner-70b0b8fb204b0731.png",blog_url:"android-auto-backup-api",likes:0,rank:0,category:1,published_at:"3rd June 2020",score:1.7772136926651},{id:489,title:"Understanding ImageDecoder API in Android",description:"In this blog, we are going to see how we can use ImageDecoder API in Android with its use-case. We will also see how to handle errors and transformations.",author:9959,img_url:"/images/image-decoder-banner-e9cba586f624d6a6.png",blog_url:"imagedecoder-in-android",likes:0,rank:0,category:1,published_at:"24th June 2020",score:1.7772136926651},{id:269,title:"Using Fused Location API To Fetch Current Location",description:"In this blog, we will learn how to update the location using the GPS of a mobile device. We will perform an example to check the current location of the user.",author:14897,img_url:"/images/using-gps-location-manager-in-android-android-tutorial-banner.jpg",blog_url:"using-gps-location-manager-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"7th June 2019",score:1.768036127090454}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            24th July 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Color Palette API in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Color Palette API in Android" class="graf-image" src="/images/color-pallete-api.png"/>
+                 </div>
+                 <p class="graf--p">
+                  While designing the App, the most important thing to look out for is color combination. In Android, we have an API called Color Palette API which helps us to extract colors out of an Image.
+                 </p>
+                 <p class="graf--p">
+                  To understand the use of API, let me help you with an example. We have to make a app's UI where the background changes from dark to light images based on location and time. So, we need to update the icons based on the background image's color of the app.  But how do we know what is the color on the image ? Here, Color Palatter API is useful.
+                 </p>
+                 <p class="graf--p">
+                  To start using the API, we add the following in build.gradle of the app,
+                 </p>
+                 <pre><code class="language-java graf graf--code">android {
+  compileSdkVersion 28
+  ...
+}
+
+dependencies {
+  ...
+  implementation 'com.android.support:palette-v7:28.0.0'
+}</code></pre>
+                 <p class="graf--p">
+                  Now, we have to create a palatte object instance to access the color in the image. We can generate the palatte instance syncronously as well as asyncronously.  In Syncronous generation, it works on the same thread but in Asyncronous, it works on different thread.
+                 </p>
+                 <p class="graf--p">
+                  To generate palatte in both ways, we use
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Generate palette synchronously and return it
+fun createPaletteSync(bitmap: Bitmap): Palette = Palette.from(bitmap).generate()
+
+// Generate palette asynchronously and use it on a different
+// thread using onGenerated()
+fun createPaletteAsync(bitmap: Bitmap) {
+    Palette.from(bitmap).generate { palette -&gt;
+        // Use generated instance
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  The palette allows you to customize your palette by choosing how many colors are in the resulting palette or how many color should be generated.
+                 </p>
+                 <p class="graf--p">
+                  Generally, the default value is 16 colors, but the maximum it can go is upto 24-32 colors. And with more color the palette takes more time to generate !
+                 </p>
+                 <p class="graf--p">
+                  The palette API generate a set of color profiles to choose color from. They are,
+                 </p>
+                 <ul>
+                  <li>
+                   Light Vibrant
+                  </li>
+                  <li>
+                   Vibrant
+                  </li>
+                  <li>
+                   Dark Vibrant
+                  </li>
+                  <li>
+                   Light Muted
+                  </li>
+                  <li>
+                   Muted
+                  </li>
+                  <li>
+                   Dark Muted
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  and to get color from each profile we just user, get{profileName}color(). For eg.
+                  <i class="graf--italic">
+                   getVibrantColor()
+                  </i>
+                  and in Kotlin we use
+                  <i class="graf--italic">
+                   vibrantColor
+                  </i>
+                  .
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Color Palette API in Android" class="graf-image" src="https://developer.android.com/training/material/images/palette-library-color-profiles_2-1_2x.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Src: Android Developer Page
+                 </p>
+                 <p class="graf--p">
+                  Now, to generate the color combination for your android theme like discussed above in the example we use something called
+                  <b class="graf--bold">
+                   swatch.
+                  </b>
+                  In swatch, we use color from bodyTextColor and titleTextColor to design good color schemes based on the image
+                 </p>
+                 <p class="graf--p">
+                  to get the color from vibrantSwatch we use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val vibrant = myPalette.vibrantSwatch
+val titleColor = vibrant?.titleTextColor</code></pre>
+                 <p class="graf--p">
+                  and similarly for other swatches as well.
+                 </p>
+                 <p class="graf--p">
+                  To get all colors in a palette, the
+                  <code class="graf--code-inline">
+                   <a class="markup--anchor" href="https://developer.android.com/reference/androidx/palette/graphics/Palette.html#getSwatches()" target="_blank">
+                    getSwatches()
+                   </a>
+                  </code>
+                  method returns the list of all swatches generated from an provided image, including the standard six color profiles like vibrantSwatch etc.
+                 </p>
+                 <p class="graf--p">
+                  To customise the palette,
+                 </p>
+                 <ul>
+                  <li>
+                   addFilter() . - Filter defines the color we can don't want to choose.
+                  </li>
+                  <li>
+                   maximumColorCount() - It let us know the maximum number of color we can take from the palette
+                  </li>
+                  <li>
+                   setRegion() - It helps us to choose the region of the bitmap we want to generate the color from.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                 </p>
+                 <p class="graf--p">
+                  To understand the basic usage of palette check out this library :
+                  <a class="markup--anchor" href="https://github.com/MindorksOpenSource/ViewColorGenerator" target="_blank">
+                   ViewColorGenerator
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                 </p>
+                 <p class="graf--p">
+                  Happy learning
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Easy SMS Verification in Android: SMS User Consent API" class="ui centered image" src="/images/easy-sms-verification-android-sms-user-consent-api-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Easy SMS Verification in Android: SMS User Consent API
+           </div>
+           <div class="meta">
+            9th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Securing API Keys using Android NDK (Native Development Kit)" class="ui centered image" src="/images/securing-api-keys-using-android-ndk-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Securing API Keys using Android NDK (Native Development Kit)
+           </div>
+           <div class="meta">
+            2nd October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Canvas API in Android" class="ui centered image" src="/images/canvas-api-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Canvas API in Android
+           </div>
+           <div class="meta">
+            17th February 2020
+           </div>
+           <div class="description">
+            In this blog, we will see how we can use canvas to draw our own custom shape and drawings .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Auto Backup API in Android" class="ui centered image" src="/images/android-auto-backup-banner-70b0b8fb204b0731.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Auto Backup API in Android
+           </div>
+           <div class="meta">
+            3rd June 2020
+           </div>
+           <div class="description">
+            Android provides a very handy API to deal with user's local data backups. We'll learn how to enable, customize, use and test Android's Auto Backup API.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding ImageDecoder API in Android" class="ui centered image" src="/images/image-decoder-banner-e9cba586f624d6a6.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding ImageDecoder API in Android
+           </div>
+           <div class="meta">
+            24th June 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to see how we can use ImageDecoder API in Android with its use-case. We will also see how to handle errors and transformations.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Fused Location API To Fetch Current Location" class="ui centered image" src="/images/using-gps-location-manager-in-android-android-tutorial-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Fused Location API To Fetch Current Location
+           </div>
+           <div class="meta">
+            7th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to update the location using the GPS of a mobile device. We will perform an example to check the current location of the user.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

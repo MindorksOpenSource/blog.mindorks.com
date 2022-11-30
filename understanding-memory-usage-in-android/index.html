@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Understanding Memory Usage In Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/understanding-memory-usage-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Understanding Memory Usage In Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/understanding-memory-usage-in-android" property="og:url"/>
+  <meta content="/images/understaing-android-memory-usage-banner.png" property="og:image"/>
+  <meta content="In this blog, we will understand the Android memory usage. We will see how the memory usage of your application can increase or decrease your users. The blog contains detailed information about memory usage in Android." property="og:description"/>
+  <meta content="Understanding Memory Usage In Android" property="twitter:title"/>
+  <meta content="In this blog, we will understand the Android memory usage. We will see how the memory usage of your application can increase or decrease your users. The blog contains detailed information about memory usage in Android." name="twitter:description"/>
+  <meta content="/images/understaing-android-memory-usage-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will understand the Android memory usage. We will see how the memory usage of your application can increase or decrease your users. The blog contains detailed information about memory usage in Android." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:329,data:{id:329,title:"Understanding Memory Usage In Android",description:"In this blog, we will understand the Android memory usage. We will see how the memory usage of your application can increase or decrease your users. The blog contains detailed information about memory usage in Android.",text:'<h1 class="graf--h1">Understanding Memory Usage In Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-banner.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Memory plays an important role in making an Android application famous. Less the memory requirement of an application, faster the app will run on a particular device. These things come into play when we are using an entry-level device. And we know that most of the Android users are using the entry-level devices. So, to have a better user experience and to strengthen the Android ecosystem, you must understand the memory usage of your application.</p><p class="graf--p">So, in this blog, we will understand the Android memory usage. The whole blog can be divided into five parts:</p><ol><li>Why care about memory usage?</li><li>How memory use impacts a device?</li><li>Evaluating application memory impact.</li><li>Reducing your application’s memory impact.</li><li>Closing notes.</li></ol><p class="graf--p">So, let’s get started.</p><h4 class="graf--h3">Why care about memory usage?</h4><p class="graf--p">Before understanding the memory usage of your application, we should know why to care about memory usage? </p><p class="graf--p">So, basically, there are three types of Android devices i.e. <b class="graf--bold">entry-level devices</b>, <b class="graf--bold">mid-tier devices</b>, and <b class="graf--bold">premium devices</b>. Out of these three types of devices, the entry-level devices have low memory and it can run only those applications that require low memory. So, if the memory usage of application increases then it will be difficult for the entry-level devices to run that application and as a result, you will lose your users. Since entry-level devices are large in number so this memory problem is affecting a large group of users. This will affect the Android ecosystem(i.e. a collection of apps, devices, and users).</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-android-ecosystem.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So, Android app developers have a role to play when they are developing their application to do whatever they can, to be efficient in the memory use and to reduce the memory use.</p><h4 class="graf--h3">How memory use impacts a device?</h4><p class="graf--p">In this section, we will see how high memory requirement impact a device. In general, the memory of the Android device is divided into pages and each page is around 4 kilobytes. There are three types of pages:</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-android-memory.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><ol><li><b class="graf--bold">Used Pages:</b> These are the pages that are currently being used by the processes.</li><li><b class="graf--bold">Cached Pages:</b> These are the pages that the processes are using but some part of the memory is also present in the main memory. So, to have a fast retrieval of data, we use cached pages.</li><li><b class="graf--bold">Free Pages:</b> These are the pages that are free i.e. these are the memory space that can be used to store something in the future.</li></ol><p class="graf--p">Now, let’s see what is the impact of memory pressure on devices. The following graph shows the memory usage during the course of time. So, in the beginning, there is nothing to run but with the due course of time, we started using more applications and this, in turn, use more and more memory over time.</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-2gb-memory-pressure.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">From the above graph, we can see that in the beginning, when the device started running then there is a lot of free memory available. But when we start using other applications then the free memory is being used and to avoid something bad that can happen due to low memory, the kernel performs an operation called <b class="graf--bold">kswapd</b>. </p><p class="graf--p">In the process of <b class="graf--bold">kswapd</b>, if the memory of the device goes down the <b class="graf--bold">kswapd threshold</b>, then the Linux kernel starts finding some more free memory. So, what is does is, it reclaims the cached pages and make it free. But the problem here is that if an app wants to reclaim the memory present in the cached pages then it will take some time because at present there is nothing in the cached page and data will be loaded from the device storage.</p><p class="graf--p">But what if we continue using more and more application. In this case, due to the process of <b class="graf--bold">kswapd</b>, more cache memory will be cleared and a time will come when the device starts to thrash. And this is a very bad thing because the device will be completely locked up.</p><p class="graf--p">In Android, we have a process called <b class="graf--bold">low memory killer</b>, and this will pick a process from the device and will completely kill that process. By doing so, you will get back all the memory that the process was using. But what if the <b class="graf--bold">low memory killer</b>, kills the process that the user cares about?</p><p class="graf--p">In Android, we have a priority list of applications and based on that priority list we remove the app when the <b class="graf--bold">low memory killer</b> comes into play. Following is the priority list in Android:</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-priority-level.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So, whenever the low memory killer comes into play, then it first deletes the cached applications. Even after that, the memory usage keeps on increasing then the low memory killer kills the previously opened applications. So, now if the user wants to open the previously opened applications then it will take some time to launch that application because it is not present in the cached memory. Again if the memory usage keeps on increasing, then the home application will be killed and after that service, perceptible, foreground and persistent apps will be stopped or killed. Again, if the memory usage keeps on increasing, then the system app will be stopped and your phone will be rebooted :( This is the worst user experience that we can have in low memory devices or entry-level devices.</p><p class="graf--p">The example that we took was a 2GB device. The situation becomes worse when you are having a 512MB device.</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-512mb-memory-pressure.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In the above example, we have very less memory and due to this the <b class="graf--bold">kswapd</b> and <b class="graf--bold">low memory killer</b> will come into play very earlier. So, low memory killer will always be active and this will result in bad user experience and we should try our best to develop an application which can perform well in low memory situations also.</p><h4 class="graf--h3">Evaluating application memory impact</h4><p class="graf--p">In this section, we understand how to know what is the memory impact of our application on some devices, maybe on some entry-level devices.</p><p class="graf--p">In the above section, we have seen that the memory of the device is divided into pages and the Linux kernel system keep a track of the pages used by a  certain application.</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-app-storage.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">But the situation gets worse when the application starts using some shared memory. For example, you can have an application that calls the Google Play Services and this, in turn, result in page sharing between these two applications. </p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-shared-memory.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So, the problem that arises here is how to deal with this shared memory. Is the application responsible for the shared memory or the Google Play Service is responsible for this shared memory? There are a few different ways, that can be used to deal with these situations:</p><ol><li><b class="graf--bold">RSS (Resident Set Size):</b> In this method, the application is responsible for all the shared memory i.e. in our example the Google Play Service will have to do nothing and the app that is using the Google Play Service will be responsible for memory sharing.</li><li><b class="graf--bold">USS (Unique Shared Set):</b> Here, the application is not responsible for any of the shared pages.</li><li><b class="graf--bold">PSS (Proportional Set Size):</b> Here, the app will be responsible for that number of pages that are proportional to the number of processes sharing the shared memory. For example, if the shared memory contains 4 pages and the memory is shared among two processes then the app will be responsible for only two pages. If the shared page is 4 and the number of sharing processes will be 3 then the app will handle 4/3 pages.</li></ol><p class="graf--p">So, which method to choose from the above? The choice depends on the usage of shared memory. For example, if the shared memory is being used by the application only then we should use the RSS approach. While, if the shared memory is taken by the Google Play Services then we should use the USS approach.</p><p class="graf--p"><b class="graf--bold">But in general, it is very difficult to find if the app will require shared memory or not. So, we use the Proportional Set Size method. PSS avoids over-counting or under-counting the overall impact of shared pages on a device.</b></p><p class="graf--p">So, we can use PSS to find your application’s memory impact and to find the PSS value of your application, you can run the below command:</p><pre><code class="language-java graf graf--code">abd shell dumpsys meminfo -s [process]</code></pre><p class="graf--p">Here, your process name can be <b class="graf--bold"><i class="graf--italic">com.example.android.example</i></b>.</p><p class="graf--p">So, when you run the above command then you will get something like below and the total value here is the PSS value of your process.</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-pss-value.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">The point that needs to be noted here is that there are various other factors that are responsible for the performance of the app. They are:</p><ol><li>The application use case</li><li>The platform configuration</li><li>The device memory pressure</li></ol><p class="graf--p">You shouldn’t only depend on the PSS value. But you should also care about the application use-case. For example, in the following graph, there are various use-cases of the Gmail application. You can see that you can’t compare the PSS value of point a with point b because these points are in different use-case.</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-gmail-usecase.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Also, your device performance will be dependent on platform configuration i.e. the premium device can perform more in comparison with the entry-level devices. Also, it depends on the Android version. So, when you are testing an application, then you should use a particular device and a particular Android version.</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-app-performance-in-various-device.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Lastly, the impact of memory depends on memory pressure. For example, in the below figure, we stared the chrome application and since there is no memory pressure the PSS value is constant but eventually when the pressure on the device increases that is more and more applications are in use, then kswapd comes into role and some of the cached pages will be killed and there will be a decrease in the PSS value.</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-device-memory-pressure.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So, it is advised to use some devices that are having enough memory(RAM) so that the high-pressure memory doesn’t come into play.</p><h4 class="graf--h3">Reducing your application’s memory impact</h4><p class="graf--p">Till now, we have seen how memory use impacts a device. Also, we saw how to evaluate the application’s memory impact. Now, it’s time to find ways that can be used to reduce your application’s memory impact. Let’s see how we can do this.</p><p class="graf--p">The very first tip to reduce your application’s memory impact can be checking the Android Studio’s memory profiler.</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-android-studio-memory-profiler.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">This will give you a ton of information i.e. you will come to know about your java object, where are they allocated, what’s holding on to them and almost everything that you can find about your Java object.</p><p class="graf--p">While finding the PSS value, we only considered the Java heap. But what about other factors that are responsible for reducing your application’s memory impact.</p><p class="graf--p">Image source: Google I/O 18</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/understaing-android-memory-usage-pss-more-details.png class=\'graf-image\' alt=\'Understanding Memory Usage In Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">These things depend on the Android platform. To get full information of the PSS value, you can use <b class="graf--bold"><i class="graf--italic">-a</i></b> in the <b class="graf--bold"><i class="graf--italic">dumpsys</i></b> command:</p><pre><code class="language-java graf graf--code">dumpsys meminfo -a</code></pre><p class="graf--p">This will give a much more detailed breakdown of the PSS value. It will also show you the breakdown of different categories of memory like private, clean, share, dirty and so on.</p><p class="graf--p">If the above information is not useful then you can use <b class="graf--bold"><i class="graf--italic">showmap</i></b> in your application and this will give more breakdown of your memory mapping. These platform commands can be used but the problem here is that:</p><ol><li>These tools aren’t well supported</li><li>The user interface is clumsy</li><li>You need deep platform expertise</li><li>May need a rooted device</li></ol><p class="graf--p">So, the idea here is that the information shown to you is not that useful or you need to be an expert to understand those reports. So, this is not going to be a good tool. What to do next? Is there any way? Yes, if you want to improve your overall memory use then you can do two things:</p><ol><li><b class="graf--bold">Profile your Java heap:</b> You can profile your Java heap with the help of Android Studio Profiler. Since the allocations that are outside the Java heap are tied to Java allocation. So, your application will be calling the Android framework, the Android framework is calling into the native libraries and this is doing native allocations. The lifetime of these will be tied to Java objects. So, just profile your Java heap.</li><li><b class="graf--bold">Reduce your APK size:</b> You can reduce the APK size of your application because there are a lot of things that are present in APK and this, in turn, affects the runtime. So, try to reduce the APK size of your application. To reduce the APK size, you can visit the <a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/performance/reduce-apk-size">Android developer website</a>.</li></ol><h4 class="graf--h3">Closing Notes</h4><p class="graf--p">In this blog, we understand Android Memory usage. We saw how the memory use can impact a device and at last, we saw how to reduce your application’s memory impact. One thing that can be noted here is that you have to compromise between memory usage and user satisfaction because if your application is using very low memory then the features of the app will be less. Similarly, when the features are high then the memory use is also high. Also, with due respect of time, the size of the app increases i.e. the app size in 2017 will not be same in 2019. So, these things also come into play.</p><p class="graf--p">Hope you learned something new today.</p><p class="graf--p">Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/">blogging website</a>.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://bootcamp.mindorks.com/">Apply Now: MindOrks Android Online Course and Learn Advanced Android</a></b></p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/understaing-android-memory-usage-banner.png",blog_url:"understanding-memory-usage-in-android",likes:0,rank:0,category:1,published_at:"17th September 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:84,title:"Detecting and fixing memory leaks in android",description:"Many a time we see ANR dialog while using android apps, lags in our apps, we also see OutOfMemoryError in Android Studio while building apps. All these kinds of stuff happen due to memory leaks.",author:30,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/detecting-and-fixing-memory-leaks-in-android.jpg",blog_url:"detecting-and-fixing-memory-leaks-in-android",likes:1,rank:0,category:1,published_at:"27th August 2017",score:2.805088996887207},{id:370,title:"How to use Memory Heap Dumps data?",description:"In this blog, we will learn how to use memory heap dump data to identify memory leaks in our application. A memory leak occurs when an object is present in the memory and that object is not being used in the program.",author:17146,img_url:"/images/how-to-use-memory-heap-dumps-data-banner.png",blog_url:"how-to-use-memory-heap-dumps-data",likes:0,rank:0,category:1,published_at:"28th October 2019",score:2.7959113121032715},{id:216,title:"Understanding Density Independence Pixel: sp, dp, dip in Android",description:"What is the best measurement unit for designing for Android Screen? Density Independent Pixel, Scaled Independent Pixels, Density Pixels or Pixels.",author:7037,img_url:"/images/understanding_density_independent_pixel.jpg",blog_url:"understanding-density-independent-pixel-sp-dp-dip-in-android",likes:0,rank:0,category:1,published_at:"31st January 2019",score:.5386013984680176},{id:231,title:"Understanding and Implementing Permission in Android Q",description:"In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.",author:14897,img_url:"/images/location-permission.png",blog_url:"location-permissions-in-android-q",likes:0,rank:0,category:1,published_at:"11th May 2019",score:.5386013984680176},{id:233,title:"Understanding Settings Panels in Android Q",description:"In this blog, we will understand the new setting panel which released in Android Q. With Google launching Android Q, Lot of exciting features has also popped up. One amazing feature is Location Service usage and few more.",author:14897,img_url:"/images/android-setting.png",blog_url:"understanding-settings-panel-in-android-q",likes:0,rank:0,category:1,published_at:"14th May 2019",score:.5386013984680176},{id:243,title:"Understanding Multidex in Android",description:"In this blog, we will learn how to use Multidex in Android. Basically, Multidex is used when we want to add more than 64K methods in our Android project. If we don't use any Multidex for the project having more than 64K methods, then we will encounter DEX error. So, in this blog, we will learn how to use Multidex.",author:14897,img_url:"/images/understanding-multidex-banner-img.png",blog_url:"understanding-multidex-in-android",likes:0,rank:0,category:1,published_at:"18th May 2019",score:.5386013984680176}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            17th September 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Understanding Memory Usage In Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Memory plays an important role in making an Android application famous. Less the memory requirement of an application, faster the app will run on a particular device. These things come into play when we are using an entry-level device. And we know that most of the Android users are using the entry-level devices. So, to have a better user experience and to strengthen the Android ecosystem, you must understand the memory usage of your application.
+                 </p>
+                 <p class="graf--p">
+                  So, in this blog, we will understand the Android memory usage. The whole blog can be divided into five parts:
+                 </p>
+                 <ol>
+                  <li>
+                   Why care about memory usage?
+                  </li>
+                  <li>
+                   How memory use impacts a device?
+                  </li>
+                  <li>
+                   Evaluating application memory impact.
+                  </li>
+                  <li>
+                   Reducing your application’s memory impact.
+                  </li>
+                  <li>
+                   Closing notes.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  Why care about memory usage?
+                 </h4>
+                 <p class="graf--p">
+                  Before understanding the memory usage of your application, we should know why to care about memory usage?
+                 </p>
+                 <p class="graf--p">
+                  So, basically, there are three types of Android devices i.e.
+                  <b class="graf--bold">
+                   entry-level devices
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   mid-tier devices
+                  </b>
+                  , and
+                  <b class="graf--bold">
+                   premium devices
+                  </b>
+                  . Out of these three types of devices, the entry-level devices have low memory and it can run only those applications that require low memory. So, if the memory usage of application increases then it will be difficult for the entry-level devices to run that application and as a result, you will lose your users. Since entry-level devices are large in number so this memory problem is affecting a large group of users. This will affect the Android ecosystem(i.e. a collection of apps, devices, and users).
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-android-ecosystem.png"/>
+                 </div>
+                 <p class="graf--p">
+                  So, Android app developers have a role to play when they are developing their application to do whatever they can, to be efficient in the memory use and to reduce the memory use.
+                 </p>
+                 <h4 class="graf--h3">
+                  How memory use impacts a device?
+                 </h4>
+                 <p class="graf--p">
+                  In this section, we will see how high memory requirement impact a device. In general, the memory of the Android device is divided into pages and each page is around 4 kilobytes. There are three types of pages:
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-android-memory.png"/>
+                 </div>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    Used Pages:
+                   </b>
+                   These are the pages that are currently being used by the processes.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Cached Pages:
+                   </b>
+                   These are the pages that the processes are using but some part of the memory is also present in the main memory. So, to have a fast retrieval of data, we use cached pages.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Free Pages:
+                   </b>
+                   These are the pages that are free i.e. these are the memory space that can be used to store something in the future.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  Now, let’s see what is the impact of memory pressure on devices. The following graph shows the memory usage during the course of time. So, in the beginning, there is nothing to run but with the due course of time, we started using more applications and this, in turn, use more and more memory over time.
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-2gb-memory-pressure.png"/>
+                 </div>
+                 <p class="graf--p">
+                  From the above graph, we can see that in the beginning, when the device started running then there is a lot of free memory available. But when we start using other applications then the free memory is being used and to avoid something bad that can happen due to low memory, the kernel performs an operation called
+                  <b class="graf--bold">
+                   kswapd
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  In the process of
+                  <b class="graf--bold">
+                   kswapd
+                  </b>
+                  , if the memory of the device goes down the
+                  <b class="graf--bold">
+                   kswapd threshold
+                  </b>
+                  , then the Linux kernel starts finding some more free memory. So, what is does is, it reclaims the cached pages and make it free. But the problem here is that if an app wants to reclaim the memory present in the cached pages then it will take some time because at present there is nothing in the cached page and data will be loaded from the device storage.
+                 </p>
+                 <p class="graf--p">
+                  But what if we continue using more and more application. In this case, due to the process of
+                  <b class="graf--bold">
+                   kswapd
+                  </b>
+                  , more cache memory will be cleared and a time will come when the device starts to thrash. And this is a very bad thing because the device will be completely locked up.
+                 </p>
+                 <p class="graf--p">
+                  In Android, we have a process called
+                  <b class="graf--bold">
+                   low memory killer
+                  </b>
+                  , and this will pick a process from the device and will completely kill that process. By doing so, you will get back all the memory that the process was using. But what if the
+                  <b class="graf--bold">
+                   low memory killer
+                  </b>
+                  , kills the process that the user cares about?
+                 </p>
+                 <p class="graf--p">
+                  In Android, we have a priority list of applications and based on that priority list we remove the app when the
+                  <b class="graf--bold">
+                   low memory killer
+                  </b>
+                  comes into play. Following is the priority list in Android:
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-priority-level.png"/>
+                 </div>
+                 <p class="graf--p">
+                  So, whenever the low memory killer comes into play, then it first deletes the cached applications. Even after that, the memory usage keeps on increasing then the low memory killer kills the previously opened applications. So, now if the user wants to open the previously opened applications then it will take some time to launch that application because it is not present in the cached memory. Again if the memory usage keeps on increasing, then the home application will be killed and after that service, perceptible, foreground and persistent apps will be stopped or killed. Again, if the memory usage keeps on increasing, then the system app will be stopped and your phone will be rebooted :( This is the worst user experience that we can have in low memory devices or entry-level devices.
+                 </p>
+                 <p class="graf--p">
+                  The example that we took was a 2GB device. The situation becomes worse when you are having a 512MB device.
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-512mb-memory-pressure.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In the above example, we have very less memory and due to this the
+                  <b class="graf--bold">
+                   kswapd
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   low memory killer
+                  </b>
+                  will come into play very earlier. So, low memory killer will always be active and this will result in bad user experience and we should try our best to develop an application which can perform well in low memory situations also.
+                 </p>
+                 <h4 class="graf--h3">
+                  Evaluating application memory impact
+                 </h4>
+                 <p class="graf--p">
+                  In this section, we understand how to know what is the memory impact of our application on some devices, maybe on some entry-level devices.
+                 </p>
+                 <p class="graf--p">
+                  In the above section, we have seen that the memory of the device is divided into pages and the Linux kernel system keep a track of the pages used by a  certain application.
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-app-storage.png"/>
+                 </div>
+                 <p class="graf--p">
+                  But the situation gets worse when the application starts using some shared memory. For example, you can have an application that calls the Google Play Services and this, in turn, result in page sharing between these two applications.
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-shared-memory.png"/>
+                 </div>
+                 <p class="graf--p">
+                  So, the problem that arises here is how to deal with this shared memory. Is the application responsible for the shared memory or the Google Play Service is responsible for this shared memory? There are a few different ways, that can be used to deal with these situations:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    RSS (Resident Set Size):
+                   </b>
+                   In this method, the application is responsible for all the shared memory i.e. in our example the Google Play Service will have to do nothing and the app that is using the Google Play Service will be responsible for memory sharing.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    USS (Unique Shared Set):
+                   </b>
+                   Here, the application is not responsible for any of the shared pages.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    PSS (Proportional Set Size):
+                   </b>
+                   Here, the app will be responsible for that number of pages that are proportional to the number of processes sharing the shared memory. For example, if the shared memory contains 4 pages and the memory is shared among two processes then the app will be responsible for only two pages. If the shared page is 4 and the number of sharing processes will be 3 then the app will handle 4/3 pages.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  So, which method to choose from the above? The choice depends on the usage of shared memory. For example, if the shared memory is being used by the application only then we should use the RSS approach. While, if the shared memory is taken by the Google Play Services then we should use the USS approach.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   But in general, it is very difficult to find if the app will require shared memory or not. So, we use the Proportional Set Size method. PSS avoids over-counting or under-counting the overall impact of shared pages on a device.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  So, we can use PSS to find your application’s memory impact and to find the PSS value of your application, you can run the below command:
+                 </p>
+                 <pre><code class="language-java graf graf--code">abd shell dumpsys meminfo -s [process]</code></pre>
+                 <p class="graf--p">
+                  Here, your process name can be
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    com.example.android.example
+                   </i>
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  So, when you run the above command then you will get something like below and the total value here is the PSS value of your process.
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-pss-value.png"/>
+                 </div>
+                 <p class="graf--p">
+                  The point that needs to be noted here is that there are various other factors that are responsible for the performance of the app. They are:
+                 </p>
+                 <ol>
+                  <li>
+                   The application use case
+                  </li>
+                  <li>
+                   The platform configuration
+                  </li>
+                  <li>
+                   The device memory pressure
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  You shouldn’t only depend on the PSS value. But you should also care about the application use-case. For example, in the following graph, there are various use-cases of the Gmail application. You can see that you can’t compare the PSS value of point a with point b because these points are in different use-case.
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-gmail-usecase.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Also, your device performance will be dependent on platform configuration i.e. the premium device can perform more in comparison with the entry-level devices. Also, it depends on the Android version. So, when you are testing an application, then you should use a particular device and a particular Android version.
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-app-performance-in-various-device.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Lastly, the impact of memory depends on memory pressure. For example, in the below figure, we stared the chrome application and since there is no memory pressure the PSS value is constant but eventually when the pressure on the device increases that is more and more applications are in use, then kswapd comes into role and some of the cached pages will be killed and there will be a decrease in the PSS value.
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-device-memory-pressure.png"/>
+                 </div>
+                 <p class="graf--p">
+                  So, it is advised to use some devices that are having enough memory(RAM) so that the high-pressure memory doesn’t come into play.
+                 </p>
+                 <h4 class="graf--h3">
+                  Reducing your application’s memory impact
+                 </h4>
+                 <p class="graf--p">
+                  Till now, we have seen how memory use impacts a device. Also, we saw how to evaluate the application’s memory impact. Now, it’s time to find ways that can be used to reduce your application’s memory impact. Let’s see how we can do this.
+                 </p>
+                 <p class="graf--p">
+                  The very first tip to reduce your application’s memory impact can be checking the Android Studio’s memory profiler.
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-android-studio-memory-profiler.png"/>
+                 </div>
+                 <p class="graf--p">
+                  This will give you a ton of information i.e. you will come to know about your java object, where are they allocated, what’s holding on to them and almost everything that you can find about your Java object.
+                 </p>
+                 <p class="graf--p">
+                  While finding the PSS value, we only considered the Java heap. But what about other factors that are responsible for reducing your application’s memory impact.
+                 </p>
+                 <p class="graf--p">
+                  Image source: Google I/O 18
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Memory Usage In Android" class="graf-image" src="/images/understaing-android-memory-usage-pss-more-details.png"/>
+                 </div>
+                 <p class="graf--p">
+                  These things depend on the Android platform. To get full information of the PSS value, you can use
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    -a
+                   </i>
+                  </b>
+                  in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    dumpsys
+                   </i>
+                  </b>
+                  command:
+                 </p>
+                 <pre><code class="language-java graf graf--code">dumpsys meminfo -a</code></pre>
+                 <p class="graf--p">
+                  This will give a much more detailed breakdown of the PSS value. It will also show you the breakdown of different categories of memory like private, clean, share, dirty and so on.
+                 </p>
+                 <p class="graf--p">
+                  If the above information is not useful then you can use
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    showmap
+                   </i>
+                  </b>
+                  in your application and this will give more breakdown of your memory mapping. These platform commands can be used but the problem here is that:
+                 </p>
+                 <ol>
+                  <li>
+                   These tools aren’t well supported
+                  </li>
+                  <li>
+                   The user interface is clumsy
+                  </li>
+                  <li>
+                   You need deep platform expertise
+                  </li>
+                  <li>
+                   May need a rooted device
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  So, the idea here is that the information shown to you is not that useful or you need to be an expert to understand those reports. So, this is not going to be a good tool. What to do next? Is there any way? Yes, if you want to improve your overall memory use then you can do two things:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    Profile your Java heap:
+                   </b>
+                   You can profile your Java heap with the help of Android Studio Profiler. Since the allocations that are outside the Java heap are tied to Java allocation. So, your application will be calling the Android framework, the Android framework is calling into the native libraries and this is doing native allocations. The lifetime of these will be tied to Java objects. So, just profile your Java heap.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Reduce your APK size:
+                   </b>
+                   You can reduce the APK size of your application because there are a lot of things that are present in APK and this, in turn, affects the runtime. So, try to reduce the APK size of your application. To reduce the APK size, you can visit the
+                   <a class="markup--anchor" href="https://developer.android.com/topic/performance/reduce-apk-size" target="_blank">
+                    Android developer website
+                   </a>
+                   .
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  Closing Notes
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we understand Android Memory usage. We saw how the memory use can impact a device and at last, we saw how to reduce your application’s memory impact. One thing that can be noted here is that you have to compromise between memory usage and user satisfaction because if your application is using very low memory then the features of the app will be less. Similarly, when the features are high then the memory use is also high. Also, with due respect of time, the size of the app increases i.e. the app size in 2017 will not be same in 2019. So, these things also come into play.
+                 </p>
+                 <p class="graf--p">
+                  Hope you learned something new today.
+                 </p>
+                 <p class="graf--p">
+                  Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our
+                  <a class="markup--anchor" href="https://blog.mindorks.com/" target="_blank">
+                   blogging website
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://bootcamp.mindorks.com/" target="_blank">
+                    Apply Now: MindOrks Android Online Course and Learn Advanced Android
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Detecting and fixing memory leaks in android" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/detecting-and-fixing-memory-leaks-in-android.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Detecting and fixing memory leaks in android
+           </div>
+           <div class="meta">
+            27th August 2017
+           </div>
+           <div class="description">
+            Many a time we see ANR dialog while using android apps, lags in our apps, we also see OutOfMemoryError in Android Studio while building apps. All these kinds of stuff happen due to memory leaks.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to use Memory Heap Dumps data?" class="ui centered image" src="/images/how-to-use-memory-heap-dumps-data-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to use Memory Heap Dumps data?
+           </div>
+           <div class="meta">
+            28th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use memory heap dump data to identify memory leaks in our application. A memory leak occurs when an object is present in the memory and that object is not being used in the program.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Density Independence Pixel: sp, dp, dip in Android" class="ui centered image" src="/images/understanding_density_independent_pixel.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Density Independence Pixel: sp, dp, dip in Android
+           </div>
+           <div class="meta">
+            31st January 2019
+           </div>
+           <div class="description">
+            What is the best measurement unit for designing for Android Screen? Density Independent Pixel, Scaled Independent Pixels, Density Pixels or Pixels.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding and Implementing Permission in Android Q" class="ui centered image" src="/images/location-permission.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding and Implementing Permission in Android Q
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Settings Panels in Android Q" class="ui centered image" src="/images/android-setting.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Settings Panels in Android Q
+           </div>
+           <div class="meta">
+            14th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new setting panel which released in Android Q. With Google launching Android Q, Lot of exciting features has also popped up. One amazing feature is Location Service usage and few more.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Multidex in Android" class="ui centered image" src="/images/understanding-multidex-banner-img.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Multidex in Android
+           </div>
+           <div class="meta">
+            18th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Multidex in Android. Basically, Multidex is used when we want to add more than 64K methods in our Android project. If we don't use any Multidex for the project having more than 64K methods, then we will encounter DEX error. So, in this blog, we will learn how to use Multidex.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

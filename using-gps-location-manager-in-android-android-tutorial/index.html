@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Using Fused Location API To Fetch Current Location
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/using-gps-location-manager-in-android-android-tutorial" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Using Fused Location API To Fetch Current Location" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/using-gps-location-manager-in-android-android-tutorial" property="og:url"/>
+  <meta content="/images/using-gps-location-manager-in-android-android-tutorial-banner.jpg" property="og:image"/>
+  <meta content="In this blog, we will learn how to update the location using the GPS of a mobile device. We will perform an example to check the current location of the user." property="og:description"/>
+  <meta content="Using Fused Location API To Fetch Current Location" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to update the location using the GPS of a mobile device. We will perform an example to check the current location of the user." name="twitter:description"/>
+  <meta content="/images/using-gps-location-manager-in-android-android-tutorial-banner.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to update the location using the GPS of a mobile device. We will perform an example to check the current location of the user." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:269,data:{id:269,title:"Using Fused Location API To Fetch Current Location",description:"In this blog, we will learn how to update the location using the GPS of a mobile device. We will perform an example to check the current location of the user.",text:'<h1 class="graf--h1">Using Fused Location API To Fetch Current Location</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-gps-location-manager-in-android-android-tutorial-banner.jpg class=\'graf-image\' alt=\'Using Fused Location API To Fetch Current Location\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">After booking an Uber cab, have you noticed the movement of cabs on the roads while coming to your address? There are various applications that use some kind of location services. Using GPS to update the location is a very cool feature. That moving icon of a car(in case of Uber) looks very cool and being an Android developer, we all have thought of using these type of features in our mobile application but ended up with some kind of error while integrating this feature.</p><p class="graf--p">So, don’t worry, in this blog we will learn how to use <b class="graf--bold">Fused Location API </b>to get the accurate location of your Android device by making use of your phone’s own GPS. We will show the current location of the mobile using the GPS and whenever the location of the phone will be updated then the updated location will be shown on the app. So, let’s get started.</p><h4 class="graf--h3">Before moving forward</h4><p class="graf--p">Before moving forward to the coding part, we need to understand the location permissions. </p><p class="graf--p"><b class="graf--bold">Location Permissions</b></p><p class="graf--p">If you want to get the current location of your user, then you have to add the location permission to your application. Android provides the following location permission:</p><ol><li><b class="graf--bold"><code class="graf--code-inline">ACCESS_COARSE_LOCATION</code>: </b> By adding this in your application, allows you to use WIFI or mobile cell data(or both) to determine the device’s location. The approximation by using this permission is close to the city level.</li><li><b class="graf--bold"><code class="graf--code-inline">ACCESS_FINE_LOCATION</code></b>:  This uses your GPS as well as WIFI and mobile data to get the most precise location as possible. By using this, you will get a precise location of your user.</li><li><b class="graf--bold"><code class="graf--code-inline">ACCESS_BACKGROUND_LOCATION</code>: </b>This permission was introduced in Android 10. So, for Android 10 or higher, if you want to access the user&#x27;s location in the background, then along with any of the above two permissions, you need to add the ACCESS_BACKGROUND_LOCATION permission also.</li></ol><blockquote class="graf--blockquote">Also, one thing to be noted here is that we are using dangerous permission, so we need to explicitly ask the user to grant permissions. <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/implementing-easy-permissions-in-android-android-tutorial">Learn more about permissions from our blog.</a></b></blockquote><p class="graf--p">So, we are done with the pre-requisite and now we will learn how to get the current location with the help of an example.</p><p class="graf--p"><span class=""><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/Fused-Location-API-Example">Find the whole project on MindOrksOpenSource page.</a></b></span></p><h4 class="graf--h3">Example</h4><p class="graf--p">In this example, we will use <b class="graf--bold">Fused Location API </b>to get the changed location or you may say, get the current location of a user. We will be using <code class="graf--code-inline">LocationRequest</code> that are used to request quality of service for location updates from the <code class="graf--code-inline">FusedLocationProviderApi</code>.</p><p class="graf--p">Apart from getting the updated location, the <code class="graf--code-inline">LocationRequest</code> includes various methods for retrieving locations like a pro. Some of the methods are:</p><ul><li><b class="graf--bold">setInterval(long millis):</b> This is used to set the desired interval after which you want to check for a location update. It is in milliseconds.</li><li><b class="graf--bold">setFastestInterval(long millis):</b> This is used to set the fastest interval for a location update. This might be faster than your <code class="graf--code-inline">setInterval(long)</code> in many cases because if other applications on the device are triggering location updates at an interval lesser than your interval then it will use that update. </li><li><b class="graf--bold">setSmallestDisplacement(float smallestDisplacementMeters):</b> This will set the minimum displacement between location updates i.e. the smallest displacement required for a location update. It is in meters and the default value of this is 0.</li><li><b class="graf--bold">setPriority(int priority):</b> This is used to set the priority of location received. It can be <code class="graf--code-inline">PRIORITY_BALANCED_POWER_ACCURACY</code>(for accuracy up to <b class="graf--bold">block</b> level) or it can be <code class="graf--code-inline">PRIORITY_HIGH_ACCURACY</code>(to get the most accurate result) or it can be <code class="graf--code-inline">PRIORITY_LOW_POWER</code>(to get the accuracy up to <b class="graf--bold">city</b> level) or it can be <code class="graf--code-inline">PRIORITY_NO_POWER</code>(to get the most accurate information without providing some additional power).</li></ul><p class="graf--p">Get the full list of available methods from <a class="markup--anchor" target="_blank" href="https://developers.google.com/android/reference/com/google/android/gms/location/LocationRequest.html#public-method-summary">here</a>.</p><p class="graf--p">Now, follow the below steps to get your current location using Fused Location Provider:</p><p class="graf--p"><b class="graf--bold">Create a Project</b></p><ul><li>Start a new Android Studio Project</li><li>Select Empty Activity and Next</li><li>Name: Fused-Location-API-Example</li><li>Package name: com.mindorks.example.fusedlocation</li><li>Language: Kotlin</li><li>Finish</li><li>Your starting project is ready now</li></ul><p class="graf--p"><b class="graf--bold">Add dependencies</b></p><p class="graf--p">In order to use the Fused Location API, you need to add the dependency of location. So, in your app-level <code class="graf--code-inline">build.gradle</code> file, add the below dependency:</p><pre><code class="language-java graf graf--code">dependencies {\n    ...\n    implementation \'com.google.android.gms:play-services-location:17.0.0\'\n}</code></pre><p class="graf--p">Sync the project.</p><p class="graf--p"><b class="graf--bold">Adding Permissions</b></p><p class="graf--p">To use location services, you need to add permission for location in the <code class="graf--code-inline">AndroidManifest.xml</code> file. You can either use <code class="graf--code-inline">ACCESS_COARSE_LOCATION</code> or <code class="graf--code-inline">ACCESS_FINE_LOCATION</code>, based on your use:</p><pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /&gt;</code></pre><p class="graf--p"><b class="graf--bold">Making layout file</b></p><p class="graf--p">In this project, we will be having two TextViews, one for latitude and one for longitude. The current location of the user will be displayed in these TextViews. So, the code for the <code class="graf--code-inline">activity_main.xml</code> file will be:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n\n    &lt;LinearLayout\n        android:id="@+id/linearLayout"\n        android:layout_width="match_parent"\n        android:layout_height="wrap_content"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent"\n        android:orientation="vertical"&gt;\n        &lt;TextView\n            android:id="@+id/latTextView"\n            android:layout_width="match_parent"\n            android:layout_height="60sp"\n            android:text="@string/default_lat"\n            android:gravity="center"\n            android:layout_marginBottom="8dp"\n            android:textColor="@color/colorBlack"/&gt;\n        &lt;TextView\n            android:id="@+id/lngTextView"\n            android:layout_width="match_parent"\n            android:layout_height="60sp"\n            android:text="@string/default_lng"\n            android:gravity="center"\n            android:layout_marginBottom="8dp"\n            android:textColor="@color/colorBlack"/&gt;\n    &lt;/LinearLayout&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;\n</code></pre><p class="graf--p">Now, we are done with all the dependencies and layout part. </p><p class="graf--p"><b class="graf--bold">Taking permission from the user</b></p><p class="graf--p">Since we are using a dangerous permission of location, so we need to explicitly ask for permission. Also, before getting the current location of the user, the following cases may arise:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-gps-location-manager-in-android-android-tutorial-permission-logic.jpg class=\'graf-image\' alt=\'Using Fused Location API To Fetch Current Location\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">We need to write the function for all these permission checks. So, make a package in the root directory and create an object class in that package.</p><ul><li>Package name: com.mindorks.example.fusedlocation.utils</li><li>Object class name: PermissionUtils</li></ul><p class="graf--p">Add the below code in the <code class="graf--code-inline">PermissionUtils.kt</code> file:</p><pre><code class="language-java graf graf--code">object PermissionUtils {\n    /**\n     * Function to request permission from the user\n     */\n    fun requestAccessFineLocationPermission(activity: AppCompatActivity, requestId: Int) {\n        ActivityCompat.requestPermissions(\n            activity,\n            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),\n            requestId\n        )\n    }\n\n    /**\n     * Function to check if the location permissions are granted or not\n     */\n    fun isAccessFineLocationGranted(context: Context): Boolean {\n        return ContextCompat\n            .checkSelfPermission(\n                context,\n                Manifest.permission.ACCESS_FINE_LOCATION\n            ) == PackageManager.PERMISSION_GRANTED\n    }\n\n    /**\n     * Function to check if location of the device is enabled or not\n     */\n    fun isLocationEnabled(context: Context): Boolean {\n        val locationManager: LocationManager =\n            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager\n        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)\n                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)\n    }\n\n    /**\n     * Function to show the "enable GPS" Dialog box\n     */\n    fun showGPSNotEnabledDialog(context: Context) {\n        AlertDialog.Builder(context)\n            .setTitle(context.getString(R.string.enable_gps))\n            .setMessage(context.getString(R.string.required_for_this_app))\n            .setCancelable(false)\n            .setPositiveButton(context.getString(R.string.enable_now)) { _, _ -&gt;\n                context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))\n            }\n            .show()\n    }\n}</code></pre><p class="graf--p"><b class="graf--bold">Writing code for <code class="graf--code-inline">MainActivity.kt</code> file</b></p><p class="graf--p">Now, in the MainActivity.kt file, override the <code class="graf--code-inline">onStart()</code> method and check if permissions are granted or not using the <code class="graf--code-inline">PermissionUtils</code> class and if the permission is granted and the GPS is enabled in the device, then call the <code class="graf--code-inline">setUpLocationListener()</code> function that is responsible for getting the current location. The following is the code of <code class="graf--code-inline">onStart()</code>:</p><pre><code class="language-java graf graf--code">override fun onStart() {\n    super.onStart()\n    when {\n        PermissionUtils.isAccessFineLocationGranted(this) -&gt; {\n            when {\n                PermissionUtils.isLocationEnabled(this) -&gt; {\n                    setUpLocationListener()\n                }\n                else -&gt; {\n                    PermissionUtils.showGPSNotEnabledDialog(this)\n                }\n            }\n        }\n        else -&gt; {\n            PermissionUtils.requestAccessFineLocationPermission(\n                    this,\n                    LOCATION_PERMISSION_REQUEST_CODE\n            )\n        }\n    }\n}</code></pre><p class="graf--p">now, make a function named <code class="graf--code-inline">setUpLocationListener()</code>. In the function, create an instance of the Fused Location Provider client.</p><pre><code class="language-java graf graf--code">private fun setUpLocationListener() {\n    val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)\n}</code></pre><p class="graf--p">Now, we need to define the type of location request that we want i.e. we can set the desired level of accuracy of location, the desired interval of location update, desired priority, etc. All these settings can be done by using the <code class="graf--code-inline">LocationRequest</code> data object. So, we can add the below code:</p><pre><code class="language-java graf graf--code">// for getting the current location update after every 2 seconds with high accuracy\nval locationRequest = LocationRequest().setInterval(2000).setFastestInterval(2000)\n        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)</code></pre><p class="graf--p">Now, all we need to do is call the <code class="graf--code-inline">requestLocationUpdates()</code> method and pass the <code class="graf--code-inline">LocationRequest</code> and a <code class="graf--code-inline">LocationCallback. </code>After that, the onLocationResult will be invoked and it contains a list of locations. You can get the latitude and longitude from this location variable and use it as per your choice. Here, we are updating our TextView with this latitude and longitude. So, the final code of <code class="graf--code-inline">setUpLocationListener()</code> will be:</p><pre><code class="language-java graf graf--code">private fun setUpLocationListener() {\n    val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)\n    // for getting the current location update after every 2 seconds with high accuracy\n    val locationRequest = LocationRequest().setInterval(2000).setFastestInterval(2000)\n            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)\n    fusedLocationProviderClient.requestLocationUpdates(\n            locationRequest,\n            object : LocationCallback() {\n                override fun onLocationResult(locationResult: LocationResult) {\n                    super.onLocationResult(locationResult)\n                    for (location in locationResult.locations) {\n                        latTextView.text = location.latitude.toString()\n                        lngTextView.text = location.longitude.toString()\n                    }\n                    // Few more things we can do here:\n                    // For example: Update the location of user on server\n                }\n            },\n            Looper.myLooper()\n    )\n}</code></pre><p class="graf--p">Finally, add the callback for the result from requesting permissions:</p><pre><code class="language-java graf graf--code">override fun onRequestPermissionsResult(\n        requestCode: Int,\n        permissions: Array&lt;out String&gt;,\n        grantResults: IntArray\n) {\n    super.onRequestPermissionsResult(requestCode, permissions, grantResults)\n    when (requestCode) {\n        LOCATION_PERMISSION_REQUEST_CODE -&gt; {\n            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {\n                when {\n                    PermissionUtils.isLocationEnabled(this) -&gt; {\n                        setUpLocationListener()\n                    }\n                    else -&gt; {\n                        PermissionUtils.showGPSNotEnabledDialog(this)\n                    }\n                }\n            } else {\n                Toast.makeText(\n                        this,\n                        getString(R.string.location_permission_not_granted),\n                        Toast.LENGTH_LONG\n                ).show()\n            }\n        }\n    }\n}</code></pre><p class="graf--p">That&#x27;s it. </p><p class="graf--p"><b class="graf--bold">Run the application</b></p><p class="graf--p">Run the application on your device and try to verify all the cases of permission and also try to change the location of your device to find if the location is updating on the TextView or not.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/Fused-Location-API-Example">Find the whole project on MindOrksOpenSource page.</a></b></p><h4 class="graf--h3">Summary</h4><p class="graf--p">In this blog, we learned how to display the changed location of the user in your app. We have used the Fused Location API for the same purpose. </p><p class="graf--p">You can use this concept while making some ride-sharing application. <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/ridesharing-uber-lyft-app">Learn how to build a ride-sharing Android app like Uber, Lyft with MindOrks open-Source Project.</a></b></p><p class="graf--p">Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/using-gps-location-manager-in-android-android-tutorial-banner.jpg",blog_url:"using-gps-location-manager-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"7th June 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:352,title:"Securing API Keys using Android NDK (Native Development Kit)",description:"In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.",author:17146,img_url:"/images/securing-api-keys-using-android-ndk-banner.png",blog_url:"securing-api-keys-using-android-ndk",likes:0,rank:0,category:1,published_at:"2nd October 2019",score:2.08713436126709},{id:411,title:"Using local.properties file to avoid API Keys check-in into Version Control System",description:"This blog describes how to use the local.properties file in the Android Gradle system to avoid local or user-specific information such as API keys to be checked into the Version Control System.",author:3003,img_url:"/images/using-localproperties-banner-image.png",blog_url:"using-local-properties-file-to-avoid-api-keys-check-in-into-version-control-system",likes:0,rank:0,category:1,published_at:"3rd April 2020",score:2.08713436126709},{id:304,title:"Color Palette API in Android",description:"In this blog, we will learn about the Color Palette API in Android. Here we will see how can we generate dynamic colors based on an image.",author:9959,img_url:"/images/color-pallete-api.png",blog_url:"color-palette-in-android",likes:0,rank:0,category:1,published_at:"24th July 2019",score:1.768036127090454},{id:312,title:"Easy SMS Verification in Android: SMS User Consent API",description:"In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt. ",author:14897,img_url:"/images/easy-sms-verification-android-sms-user-consent-api-banner.png",blog_url:"easy-sms-verification-in-android-sms-user-consent-api",likes:0,rank:0,category:1,published_at:"9th August 2019",score:1.768036127090454},{id:392,title:"Understanding Canvas API in Android",description:"In this blog, we will see how we can use canvas to draw our own custom shape and drawings .",author:9959,img_url:"/images/canvas-api-banner.png",blog_url:"understanding-canvas-api-in-android",likes:0,rank:0,category:1,published_at:"17th February 2020",score:1.768036127090454},{id:466,title:"Auto Backup API in Android",description:"Android provides a very handy API to deal with user's local data backups. We'll learn how to enable, customize, use and test Android's Auto Backup API.",author:18510,img_url:"/images/android-auto-backup-banner-70b0b8fb204b0731.png",blog_url:"android-auto-backup-api",likes:0,rank:0,category:1,published_at:"3rd June 2020",score:1.768036127090454}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            7th June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Using Fused Location API To Fetch Current Location
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Fused Location API To Fetch Current Location" class="graf-image" src="/images/using-gps-location-manager-in-android-android-tutorial-banner.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  After booking an Uber cab, have you noticed the movement of cabs on the roads while coming to your address? There are various applications that use some kind of location services. Using GPS to update the location is a very cool feature. That moving icon of a car(in case of Uber) looks very cool and being an Android developer, we all have thought of using these type of features in our mobile application but ended up with some kind of error while integrating this feature.
+                 </p>
+                 <p class="graf--p">
+                  So, don’t worry, in this blog we will learn how to use
+                  <b class="graf--bold">
+                   Fused Location API
+                  </b>
+                  to get the accurate location of your Android device by making use of your phone’s own GPS. We will show the current location of the mobile using the GPS and whenever the location of the phone will be updated then the updated location will be shown on the app. So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  Before moving forward
+                 </h4>
+                 <p class="graf--p">
+                  Before moving forward to the coding part, we need to understand the location permissions.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Location Permissions
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  If you want to get the current location of your user, then you have to add the location permission to your application. Android provides the following location permission:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    <code class="graf--code-inline">
+                     ACCESS_COARSE_LOCATION
+                    </code>
+                    :
+                   </b>
+                   By adding this in your application, allows you to use WIFI or mobile cell data(or both) to determine the device’s location. The approximation by using this permission is close to the city level.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    <code class="graf--code-inline">
+                     ACCESS_FINE_LOCATION
+                    </code>
+                   </b>
+                   :  This uses your GPS as well as WIFI and mobile data to get the most precise location as possible. By using this, you will get a precise location of your user.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    <code class="graf--code-inline">
+                     ACCESS_BACKGROUND_LOCATION
+                    </code>
+                    :
+                   </b>
+                   This permission was introduced in Android 10. So, for Android 10 or higher, if you want to access the user's location in the background, then along with any of the above two permissions, you need to add the ACCESS_BACKGROUND_LOCATION permission also.
+                  </li>
+                 </ol>
+                 <blockquote class="graf--blockquote">
+                  Also, one thing to be noted here is that we are using dangerous permission, so we need to explicitly ask the user to grant permissions.
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://blog.mindorks.com/implementing-easy-permissions-in-android-android-tutorial" target="_blank">
+                    Learn more about permissions from our blog.
+                   </a>
+                  </b>
+                 </blockquote>
+                 <p class="graf--p">
+                  So, we are done with the pre-requisite and now we will learn how to get the current location with the help of an example.
+                 </p>
+                 <p class="graf--p">
+                  <span class="">
+                   <b class="graf--bold">
+                    <a class="markup--anchor" href="https://github.com/MindorksOpenSource/Fused-Location-API-Example" target="_blank">
+                     Find the whole project on MindOrksOpenSource page.
+                    </a>
+                   </b>
+                  </span>
+                 </p>
+                 <h4 class="graf--h3">
+                  Example
+                 </h4>
+                 <p class="graf--p">
+                  In this example, we will use
+                  <b class="graf--bold">
+                   Fused Location API
+                  </b>
+                  to get the changed location or you may say, get the current location of a user. We will be using
+                  <code class="graf--code-inline">
+                   LocationRequest
+                  </code>
+                  that are used to request quality of service for location updates from the
+                  <code class="graf--code-inline">
+                   FusedLocationProviderApi
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Apart from getting the updated location, the
+                  <code class="graf--code-inline">
+                   LocationRequest
+                  </code>
+                  includes various methods for retrieving locations like a pro. Some of the methods are:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    setInterval(long millis):
+                   </b>
+                   This is used to set the desired interval after which you want to check for a location update. It is in milliseconds.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    setFastestInterval(long millis):
+                   </b>
+                   This is used to set the fastest interval for a location update. This might be faster than your
+                   <code class="graf--code-inline">
+                    setInterval(long)
+                   </code>
+                   in many cases because if other applications on the device are triggering location updates at an interval lesser than your interval then it will use that update.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    setSmallestDisplacement(float smallestDisplacementMeters):
+                   </b>
+                   This will set the minimum displacement between location updates i.e. the smallest displacement required for a location update. It is in meters and the default value of this is 0.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    setPriority(int priority):
+                   </b>
+                   This is used to set the priority of location received. It can be
+                   <code class="graf--code-inline">
+                    PRIORITY_BALANCED_POWER_ACCURACY
+                   </code>
+                   (for accuracy up to
+                   <b class="graf--bold">
+                    block
+                   </b>
+                   level) or it can be
+                   <code class="graf--code-inline">
+                    PRIORITY_HIGH_ACCURACY
+                   </code>
+                   (to get the most accurate result) or it can be
+                   <code class="graf--code-inline">
+                    PRIORITY_LOW_POWER
+                   </code>
+                   (to get the accuracy up to
+                   <b class="graf--bold">
+                    city
+                   </b>
+                   level) or it can be
+                   <code class="graf--code-inline">
+                    PRIORITY_NO_POWER
+                   </code>
+                   (to get the most accurate information without providing some additional power).
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Get the full list of available methods from
+                  <a class="markup--anchor" href="https://developers.google.com/android/reference/com/google/android/gms/location/LocationRequest.html#public-method-summary" target="_blank">
+                   here
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Now, follow the below steps to get your current location using Fused Location Provider:
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Create a Project
+                  </b>
+                 </p>
+                 <ul>
+                  <li>
+                   Start a new Android Studio Project
+                  </li>
+                  <li>
+                   Select Empty Activity and Next
+                  </li>
+                  <li>
+                   Name: Fused-Location-API-Example
+                  </li>
+                  <li>
+                   Package name: com.mindorks.example.fusedlocation
+                  </li>
+                  <li>
+                   Language: Kotlin
+                  </li>
+                  <li>
+                   Finish
+                  </li>
+                  <li>
+                   Your starting project is ready now
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Add dependencies
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  In order to use the Fused Location API, you need to add the dependency of location. So, in your app-level
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  file, add the below dependency:
+                 </p>
+                 <pre><code class="language-java graf graf--code">dependencies {
+    ...
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+}</code></pre>
+                 <p class="graf--p">
+                  Sync the project.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Adding Permissions
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  To use location services, you need to add permission for location in the
+                  <code class="graf--code-inline">
+                   AndroidManifest.xml
+                  </code>
+                  file. You can either use
+                  <code class="graf--code-inline">
+                   ACCESS_COARSE_LOCATION
+                  </code>
+                  or
+                  <code class="graf--code-inline">
+                   ACCESS_FINE_LOCATION
+                  </code>
+                  , based on your use:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /&gt;</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Making layout file
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  In this project, we will be having two TextViews, one for latitude and one for longitude. The current location of the user will be displayed in these TextViews. So, the code for the
+                  <code class="graf--code-inline">
+                   activity_main.xml
+                  </code>
+                  file will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+
+    &lt;LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"&gt;
+        &lt;TextView
+            android:id="@+id/latTextView"
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:text="@string/default_lat"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorBlack"/&gt;
+        &lt;TextView
+            android:id="@+id/lngTextView"
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:text="@string/default_lng"
+            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/colorBlack"/&gt;
+    &lt;/LinearLayout&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
+</code></pre>
+                 <p class="graf--p">
+                  Now, we are done with all the dependencies and layout part.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Taking permission from the user
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Since we are using a dangerous permission of location, so we need to explicitly ask for permission. Also, before getting the current location of the user, the following cases may arise:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Fused Location API To Fetch Current Location" class="graf-image" src="/images/using-gps-location-manager-in-android-android-tutorial-permission-logic.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  We need to write the function for all these permission checks. So, make a package in the root directory and create an object class in that package.
+                 </p>
+                 <ul>
+                  <li>
+                   Package name: com.mindorks.example.fusedlocation.utils
+                  </li>
+                  <li>
+                   Object class name: PermissionUtils
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Add the below code in the
+                  <code class="graf--code-inline">
+                   PermissionUtils.kt
+                  </code>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">object PermissionUtils {
+    /**
+     * Function to request permission from the user
+     */
+    fun requestAccessFineLocationPermission(activity: AppCompatActivity, requestId: Int) {
+        ActivityCompat.requestPermissions(
+            activity,
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            requestId
+        )
+    }
+
+    /**
+     * Function to check if the location permissions are granted or not
+     */
+    fun isAccessFineLocationGranted(context: Context): Boolean {
+        return ContextCompat
+            .checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    /**
+     * Function to check if location of the device is enabled or not
+     */
+    fun isLocationEnabled(context: Context): Boolean {
+        val locationManager: LocationManager =
+            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    /**
+     * Function to show the "enable GPS" Dialog box
+     */
+    fun showGPSNotEnabledDialog(context: Context) {
+        AlertDialog.Builder(context)
+            .setTitle(context.getString(R.string.enable_gps))
+            .setMessage(context.getString(R.string.required_for_this_app))
+            .setCancelable(false)
+            .setPositiveButton(context.getString(R.string.enable_now)) { _, _ -&gt;
+                context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
+            .show()
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Writing code for
+                   <code class="graf--code-inline">
+                    MainActivity.kt
+                   </code>
+                   file
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Now, in the MainActivity.kt file, override the
+                  <code class="graf--code-inline">
+                   onStart()
+                  </code>
+                  method and check if permissions are granted or not using the
+                  <code class="graf--code-inline">
+                   PermissionUtils
+                  </code>
+                  class and if the permission is granted and the GPS is enabled in the device, then call the
+                  <code class="graf--code-inline">
+                   setUpLocationListener()
+                  </code>
+                  function that is responsible for getting the current location. The following is the code of
+                  <code class="graf--code-inline">
+                   onStart()
+                  </code>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onStart() {
+    super.onStart()
+    when {
+        PermissionUtils.isAccessFineLocationGranted(this) -&gt; {
+            when {
+                PermissionUtils.isLocationEnabled(this) -&gt; {
+                    setUpLocationListener()
+                }
+                else -&gt; {
+                    PermissionUtils.showGPSNotEnabledDialog(this)
+                }
+            }
+        }
+        else -&gt; {
+            PermissionUtils.requestAccessFineLocationPermission(
+                    this,
+                    LOCATION_PERMISSION_REQUEST_CODE
+            )
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  now, make a function named
+                  <code class="graf--code-inline">
+                   setUpLocationListener()
+                  </code>
+                  . In the function, create an instance of the Fused Location Provider client.
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun setUpLocationListener() {
+    val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+}</code></pre>
+                 <p class="graf--p">
+                  Now, we need to define the type of location request that we want i.e. we can set the desired level of accuracy of location, the desired interval of location update, desired priority, etc. All these settings can be done by using the
+                  <code class="graf--code-inline">
+                   LocationRequest
+                  </code>
+                  data object. So, we can add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// for getting the current location update after every 2 seconds with high accuracy
+val locationRequest = LocationRequest().setInterval(2000).setFastestInterval(2000)
+        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)</code></pre>
+                 <p class="graf--p">
+                  Now, all we need to do is call the
+                  <code class="graf--code-inline">
+                   requestLocationUpdates()
+                  </code>
+                  method and pass the
+                  <code class="graf--code-inline">
+                   LocationRequest
+                  </code>
+                  and a
+                  <code class="graf--code-inline">
+                   LocationCallback.
+                  </code>
+                  After that, the onLocationResult will be invoked and it contains a list of locations. You can get the latitude and longitude from this location variable and use it as per your choice. Here, we are updating our TextView with this latitude and longitude. So, the final code of
+                  <code class="graf--code-inline">
+                   setUpLocationListener()
+                  </code>
+                  will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun setUpLocationListener() {
+    val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+    // for getting the current location update after every 2 seconds with high accuracy
+    val locationRequest = LocationRequest().setInterval(2000).setFastestInterval(2000)
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+    fusedLocationProviderClient.requestLocationUpdates(
+            locationRequest,
+            object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
+                    super.onLocationResult(locationResult)
+                    for (location in locationResult.locations) {
+                        latTextView.text = location.latitude.toString()
+                        lngTextView.text = location.longitude.toString()
+                    }
+                    // Few more things we can do here:
+                    // For example: Update the location of user on server
+                }
+            },
+            Looper.myLooper()
+    )
+}</code></pre>
+                 <p class="graf--p">
+                  Finally, add the callback for the result from requesting permissions:
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array&lt;out String&gt;,
+        grantResults: IntArray
+) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    when (requestCode) {
+        LOCATION_PERMISSION_REQUEST_CODE -&gt; {
+            if (grantResults.isNotEmpty() &amp;&amp; grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                when {
+                    PermissionUtils.isLocationEnabled(this) -&gt; {
+                        setUpLocationListener()
+                    }
+                    else -&gt; {
+                        PermissionUtils.showGPSNotEnabledDialog(this)
+                    }
+                }
+            } else {
+                Toast.makeText(
+                        this,
+                        getString(R.string.location_permission_not_granted),
+                        Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  That's it.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Run the application
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Run the application on your device and try to verify all the cases of permission and also try to change the location of your device to find if the location is updating on the TextView or not.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://github.com/MindorksOpenSource/Fused-Location-API-Example" target="_blank">
+                    Find the whole project on MindOrksOpenSource page.
+                   </a>
+                  </b>
+                 </p>
+                 <h4 class="graf--h3">
+                  Summary
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how to display the changed location of the user in your app. We have used the Fused Location API for the same purpose.
+                 </p>
+                 <p class="graf--p">
+                  You can use this concept while making some ride-sharing application.
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://github.com/MindorksOpenSource/ridesharing-uber-lyft-app" target="_blank">
+                    Learn how to build a ride-sharing Android app like Uber, Lyft with MindOrks open-Source Project.
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Securing API Keys using Android NDK (Native Development Kit)" class="ui centered image" src="/images/securing-api-keys-using-android-ndk-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Securing API Keys using Android NDK (Native Development Kit)
+           </div>
+           <div class="meta">
+            2nd October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using local.properties file to avoid API Keys check-in into Version Control System" class="ui centered image" src="/images/using-localproperties-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using local.properties file to avoid API Keys check-in into Version Control System
+           </div>
+           <div class="meta">
+            3rd April 2020
+           </div>
+           <div class="description">
+            This blog describes how to use the local.properties file in the Android Gradle system to avoid local or user-specific information such as API keys to be checked into the Version Control System.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Color Palette API in Android" class="ui centered image" src="/images/color-pallete-api.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Color Palette API in Android
+           </div>
+           <div class="meta">
+            24th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Color Palette API in Android. Here we will see how can we generate dynamic colors based on an image.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Easy SMS Verification in Android: SMS User Consent API" class="ui centered image" src="/images/easy-sms-verification-android-sms-user-consent-api-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Easy SMS Verification in Android: SMS User Consent API
+           </div>
+           <div class="meta">
+            9th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Canvas API in Android" class="ui centered image" src="/images/canvas-api-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Canvas API in Android
+           </div>
+           <div class="meta">
+            17th February 2020
+           </div>
+           <div class="description">
+            In this blog, we will see how we can use canvas to draw our own custom shape and drawings .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Auto Backup API in Android" class="ui centered image" src="/images/android-auto-backup-banner-70b0b8fb204b0731.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Auto Backup API in Android
+           </div>
+           <div class="meta">
+            3rd June 2020
+           </div>
+           <div class="description">
+            Android provides a very handy API to deal with user's local data backups. We'll learn how to enable, customize, use and test Android's Auto Backup API.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   LiveData vs ObservableField in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/livedata-vs-observable-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="LiveData vs ObservableField in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/livedata-vs-observable-in-android" property="og:url"/>
+  <meta content="/images/livedata-vs-observablefield.png" property="og:image"/>
+  <meta content="In this blog, we will talk about LiveData vs ObservableField in Android. We will also talk about the differences and also compare them." property="og:description"/>
+  <meta content="LiveData vs ObservableField in Android" property="twitter:title"/>
+  <meta content="In this blog, we will talk about LiveData vs ObservableField in Android. We will also talk about the differences and also compare them." name="twitter:description"/>
+  <meta content="/images/livedata-vs-observablefield.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will talk about LiveData vs ObservableField in Android. We will also talk about the differences and also compare them." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:261,data:{id:261,title:"LiveData vs ObservableField in Android",description:"In this blog, we will talk about LiveData vs ObservableField in Android. We will also talk about the differences and also compare them.",text:'<h1 class="graf--h1">LiveData vs ObservableField in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/livedata-vs-observablefield.png class=\'graf-image\' alt=\'LiveData vs ObservableField in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Ever received data from API and used the data to perform some action. We have done it using multiple ways, either just calling the API in the Fragment or Activity class and on its successful response we have just performed the action. Just wondering if we have to perform  &quot;n&quot; number of API call, the View file (Activity/Fragment) will be loaded with lots of API calls</p><p class="graf--p">With the evolution of Android, there has a lot of patterns being followed like MVVM or MVP to remove the dependency(API calls) from View file.</p><p class="graf--p">In Google IO 2017, they launched the new form of Architecture on top of MVVM called <a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/libraries/architecture/index.html">Android Architecture Components</a>. It contains a lot of amazing new features but one of them was LiveData.</p><blockquote class="graf--blockquote"><code class="graf--code-inline"><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/androidx/lifecycle/LiveData.html">LiveData</a></code> is an observable data holder class which just observes the changes in the View layer and updates the view.</blockquote><p class="graf--p">But, before this there is a <b class="graf--bold"><i class="graf--italic">ObservableField</i></b> on similar grounds like Livedata and it was also a type of Data holder which can be observed to the get the data.</p><h4 class="graf--h3">Now, let&#x27;s understand ObservableField and why LiveData was required even when ObservableField was present.</h4><p class="graf--p"></p><p class="graf--p">So , let&#x27;s consider an example. We have an API Call from which we get some response and we have to show that reponse in our Activity.</p><pre><code class="language-java graf graf--code">public final ObservableField&lt;String&gt; userName = new ObservableField&lt;&gt;();</code></pre><p class="graf--p">Now, let&#x27;s add a callback to listen for changes to the Observable,</p><pre><code class="language-java graf graf--code">userNameField.addOnPropertyChangedCallback(userNameCallback);</code></pre><p class="graf--p">Here, the nameFieldCallback looks like,</p><pre><code class="language-java graf graf--code">OnPropertyChangedCallback userNameCallback = new OnPropertyChangedCallback() {\n        @Override\n        public void onPropertyChanged(Observable observable, int i) {\n            //do the task here.\n            userName.set(/ **your data** /);\n\n        }\n    };\n}</code></pre><p class="graf--p">and to get the value from ObservableField, we use</p><pre><code class="language-java graf graf--code">userName.get()</code></pre><p class="graf--p">So, to observe the name field we need to call the following function from our View file.</p><pre><code class="language-java graf graf--code">public String getName (){\n    return userName.get();\n}</code></pre><h4 class="graf--h3">Now, let&#x27;s discuss the LiveData</h4><p class="graf--p">Now, LiveData is similar to ObservableField, a data holder. Let us use the above example to demonstrate LiveData.</p><p class="graf--p">We will declare the livedata using the following in ViewModel,</p><pre><code class="language-java graf graf--code">private MutableLiveData&lt;String&gt; name;</code></pre><p class="graf--p">Now, to set the data in the LiveData, we use</p><pre><code class="language-java graf graf--code">name.setValue(/** your data **/)</code></pre><p class="graf--p">and to return the liveData to get observed in View,</p><pre><code class="language-java graf graf--code">public LiveData&lt;String&gt; getName(){\n    return name;\n}</code></pre><p class="graf--p">Now, in the View(Activity/Fragment) file to observe it, we use,</p><pre><code class="language-java graf graf--code">mViewModel.getName().observe(this, name -&gt; {\n    //do your taks\n}</code></pre><p class="graf--p">Here, we are observing the changes made to the LiveData.</p><h4 class="graf--h3">But what exactly is the difference between ObservableField and LiveData?</h4><ul><li>ObservableField &lt;T&gt; is not Lifecycle aware but LiveData is. That means LiveData will only update app component observers that are in an active lifecycle state and not which are inactive.</li><li>We have to do manual handling of Lifecycle awareness in ObservableField</li></ul><h4 class="graf--h3">What are the benefits of Using LiveData?</h4><ul><li><b class="graf--bold">No memory Leaks</b> : As the observers are bound to the lifecycle of the app, when not required the it is destroyed</li><li><b class="graf--bold">No Crashes due to Stopped Activity :</b>  As the Activity is not in use, so is the LiveData. So the data streaming stops which stops the crashes in the back stack.</li><li><b class="graf--bold">Configuration Changes :</b> It handles the latest data when view is recreated due to screen rotation. </li></ul><p class="graf--p">Happy Coding :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks.</b></p><p class="graf--p"></p>',author:9959,img_url:"/images/livedata-vs-observablefield.png",blog_url:"livedata-vs-observable-in-android",likes:0,rank:0,category:1,published_at:"3rd June 2019"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:285,title:"LiveData setValue vs postValue in Android",description:"In this blog, we will learn about LiveData and the methods that are used to update the value of the LiveData i.e. setValue() method and postValue() method. We will look at the difference between these two methods. So, let's get started.",author:14897,img_url:"/images/livedata-setvalue-vs-postvalue-in-android-banner-af8979eb8ed68f99.png",blog_url:"livedata-setvalue-vs-postvalue-in-android",likes:0,rank:0,category:1,published_at:"27th June 2019",score:2.337761640548706},{id:316,title:"Understanding LiveData in Android",description:"In this blog, we will learn about LiveData which is used to notify the observers associated with it if there is a change in the LiveData. Normally, the UI elements are notified when there is a change in data. Also, only that observers will be notified that are in Live state. So, let's explore this.",author:14897,img_url:"/images/understanding-livedata-in-android-banner-0664fcf3fef607cc.png",blog_url:"understanding-livedata-in-android",likes:0,rank:0,category:1,published_at:"21st August 2019",score:2.337761640548706},{id:451,title:"Using Room with LiveData and other third-party libraries",description:"In this blog, we will learn how to use Room with LiveData, RxJava and Coroutines.",author:14040,img_url:"/images/using-room-with-live-data-and-other-third-party-libraries-banner-b04ee19de235bb9c.png",blog_url:"using-room-with-live-data-and-other-third-party-libraries",likes:0,rank:0,category:1,published_at:"18th May 2020",score:2.3285839557647705},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.01835518702864647},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            3rd June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  LiveData vs ObservableField in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="LiveData vs ObservableField in Android" class="graf-image" src="/images/livedata-vs-observablefield.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Ever received data from API and used the data to perform some action. We have done it using multiple ways, either just calling the API in the Fragment or Activity class and on its successful response we have just performed the action. Just wondering if we have to perform  "n" number of API call, the View file (Activity/Fragment) will be loaded with lots of API calls
+                 </p>
+                 <p class="graf--p">
+                  With the evolution of Android, there has a lot of patterns being followed like MVVM or MVP to remove the dependency(API calls) from View file.
+                 </p>
+                 <p class="graf--p">
+                  In Google IO 2017, they launched the new form of Architecture on top of MVVM called
+                  <a class="markup--anchor" href="https://developer.android.com/topic/libraries/architecture/index.html" target="_blank">
+                   Android Architecture Components
+                  </a>
+                  . It contains a lot of amazing new features but one of them was LiveData.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <code class="graf--code-inline">
+                   <a class="markup--anchor" href="https://developer.android.com/reference/androidx/lifecycle/LiveData.html" target="_blank">
+                    LiveData
+                   </a>
+                  </code>
+                  is an observable data holder class which just observes the changes in the View layer and updates the view.
+                 </blockquote>
+                 <p class="graf--p">
+                  But, before this there is a
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    ObservableField
+                   </i>
+                  </b>
+                  on similar grounds like Livedata and it was also a type of Data holder which can be observed to the get the data.
+                 </p>
+                 <h4 class="graf--h3">
+                  Now, let's understand ObservableField and why LiveData was required even when ObservableField was present.
+                 </h4>
+                 <p class="graf--p">
+                 </p>
+                 <p class="graf--p">
+                  So , let's consider an example. We have an API Call from which we get some response and we have to show that reponse in our Activity.
+                 </p>
+                 <pre><code class="language-java graf graf--code">public final ObservableField&lt;String&gt; userName = new ObservableField&lt;&gt;();</code></pre>
+                 <p class="graf--p">
+                  Now, let's add a callback to listen for changes to the Observable,
+                 </p>
+                 <pre><code class="language-java graf graf--code">userNameField.addOnPropertyChangedCallback(userNameCallback);</code></pre>
+                 <p class="graf--p">
+                  Here, the nameFieldCallback looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">OnPropertyChangedCallback userNameCallback = new OnPropertyChangedCallback() {
+        @Override
+        public void onPropertyChanged(Observable observable, int i) {
+            //do the task here.
+            userName.set(/ **your data** /);
+
+        }
+    };
+}</code></pre>
+                 <p class="graf--p">
+                  and to get the value from ObservableField, we use
+                 </p>
+                 <pre><code class="language-java graf graf--code">userName.get()</code></pre>
+                 <p class="graf--p">
+                  So, to observe the name field we need to call the following function from our View file.
+                 </p>
+                 <pre><code class="language-java graf graf--code">public String getName (){
+    return userName.get();
+}</code></pre>
+                 <h4 class="graf--h3">
+                  Now, let's discuss the LiveData
+                 </h4>
+                 <p class="graf--p">
+                  Now, LiveData is similar to ObservableField, a data holder. Let us use the above example to demonstrate LiveData.
+                 </p>
+                 <p class="graf--p">
+                  We will declare the livedata using the following in ViewModel,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private MutableLiveData&lt;String&gt; name;</code></pre>
+                 <p class="graf--p">
+                  Now, to set the data in the LiveData, we use
+                 </p>
+                 <pre><code class="language-java graf graf--code">name.setValue(/** your data **/)</code></pre>
+                 <p class="graf--p">
+                  and to return the liveData to get observed in View,
+                 </p>
+                 <pre><code class="language-java graf graf--code">public LiveData&lt;String&gt; getName(){
+    return name;
+}</code></pre>
+                 <p class="graf--p">
+                  Now, in the View(Activity/Fragment) file to observe it, we use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">mViewModel.getName().observe(this, name -&gt; {
+    //do your taks
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we are observing the changes made to the LiveData.
+                 </p>
+                 <h4 class="graf--h3">
+                  But what exactly is the difference between ObservableField and LiveData?
+                 </h4>
+                 <ul>
+                  <li>
+                   ObservableField &lt;T&gt; is not Lifecycle aware but LiveData is. That means LiveData will only update app component observers that are in an active lifecycle state and not which are inactive.
+                  </li>
+                  <li>
+                   We have to do manual handling of Lifecycle awareness in ObservableField
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  What are the benefits of Using LiveData?
+                 </h4>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    No memory Leaks
+                   </b>
+                   : As the observers are bound to the lifecycle of the app, when not required the it is destroyed
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    No Crashes due to Stopped Activity :
+                   </b>
+                   As the Activity is not in use, so is the LiveData. So the data streaming stops which stops the crashes in the back stack.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Configuration Changes :
+                   </b>
+                   It handles the latest data when view is recreated due to screen rotation.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Happy Coding :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="LiveData setValue vs postValue in Android" class="ui centered image" src="/images/livedata-setvalue-vs-postvalue-in-android-banner-af8979eb8ed68f99.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            LiveData setValue vs postValue in Android
+           </div>
+           <div class="meta">
+            27th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about LiveData and the methods that are used to update the value of the LiveData i.e. setValue() method and postValue() method. We will look at the difference between these two methods. So, let's get started.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding LiveData in Android" class="ui centered image" src="/images/understanding-livedata-in-android-banner-0664fcf3fef607cc.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding LiveData in Android
+           </div>
+           <div class="meta">
+            21st August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about LiveData which is used to notify the observers associated with it if there is a change in the LiveData. Normally, the UI elements are notified when there is a change in data. Also, only that observers will be notified that are in Live state. So, let's explore this.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Room with LiveData and other third-party libraries" class="ui centered image" src="/images/using-room-with-live-data-and-other-third-party-libraries-banner-b04ee19de235bb9c.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Room with LiveData and other third-party libraries
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Room with LiveData, RxJava and Coroutines.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

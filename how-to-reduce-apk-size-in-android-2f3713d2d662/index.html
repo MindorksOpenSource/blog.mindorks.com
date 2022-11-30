@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   How to reduce APK size in Android?
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/how-to-reduce-apk-size-in-android-2f3713d2d662" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="How to reduce APK size in Android?" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/how-to-reduce-apk-size-in-android-2f3713d2d662" property="og:url"/>
+  <meta content="/images/optimize-android-apk-banner-c07d71b4b0c45adc.png" property="og:image"/>
+  <meta content="Bloated APKs have a higher chance of uninstalls or getting rejected by the customers. This blog describes how to optimize apk size in Android." property="og:description"/>
+  <meta content="How to reduce APK size in Android?" property="twitter:title"/>
+  <meta content="Bloated APKs have a higher chance of uninstalls or getting rejected by the customers. This blog describes how to optimize apk size in Android." name="twitter:description"/>
+  <meta content="/images/optimize-android-apk-banner-c07d71b4b0c45adc.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="Bloated APKs have a higher chance of uninstalls or getting rejected by the customers. This blog describes how to optimize apk size in Android." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:493,data:{id:493,title:"How to reduce APK size in Android?",description:"Bloated APKs have a higher chance of uninstalls or getting rejected by the customers. This blog describes how to optimize apk size in Android.",text:'<h1 class="graf--h1">How to reduce APK size in Android?</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/optimize-android-apk-banner-c07d71b4b0c45adc.png class=\'graf-image\' alt=\'How to reduce APK size in Android?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">No user would like to download a large APK as it might consume most of his Network/Wifi Bandwidth, also most importantly, space inside the mobile device.</p><p class="graf--p">The size of your APK has an impact on how fast your app loads, how much memory it uses, and how much power it consumes.</p><p class="graf--p">It&#x27;s important to optimize the size of the app since mobiles are always memory and space constraint devices. So, what are the various ways in which we can improve our apk size in Android-Development? Let’s go ahead and learn in this article.</p><p class="graf--p">Welcome to our <b class="graf--bold">MindOrks</b> blog on Reducing application size in Android.</p><h4 class="graf--h3">Understanding Android App Bundles</h4><p class="graf--p">An <i class="graf--italic"><a class="markup--anchor" target="_blank" href="https://medium.com/mindorks/android-app-bundle-6c65ce8105a1">Android App Bundle</a></i> is a publishing format that includes all your app’s compiled code and resources, and defers APK generation and signing to Google Play.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-app-bundle-404b5e3c390bcfc4.png class=\'graf-image\' alt=\'How to reduce APK size in Android?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Google Play uses your app bundle to generate and serve optimized APKs for each device configuration, so only the code and resources that are needed for a specific device are downloaded to run your app. You no longer have to build, sign, and manage multiple APKs to optimize support for different devices, and users get smaller, more optimized downloads.</p><p class="graf--p"><b class="graf--bold">App Bundles are Publishing formats</b></p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-app-bundle-format-681d008a836edc17.png class=\'graf-image\' alt=\'How to reduce APK size in Android?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><i class="graf--italic">Image Credit: Google Android Official Website.</i></p><p class="graf--p"><b class="graf--bold">Android App Bundles — File Targeting and Serving</b></p><ul><li>How do these Android App bundles help in File targeting? It&#x27;s simple, let&#x27;s say we have hdpi, xhdpi, xxhdpi resources in our application. Based on the device on which the application is being downloaded, if it&#x27;s a hdpi device (for example), only the resources from hdpi will be installed on the device.</li><li>If the application is targeting multiple languages (English, Spanish, French, etc.), only the specific string resources will be downloaded onto the device.</li><li>This helps in saving the space on the device&#x27;s memory.</li></ul><p class="graf--p"><b class="graf--bold">Building the Android App Bundle</b></p><ul><li>Building the Android app bundle is straight forward. Just select the Build option from the Android Studio menu and select Build Bundles</li></ul> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/building-android-app-bundle-241b0cc6d4549512.png class=\'graf-image\' alt=\'How to reduce APK size in Android?\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Android Size Analyser</h4><p class="graf--p">In order to understand which files are actually taking up more space in the application, use the Android Size Analyser plugin inside Android Studio. For installing the plugin</p><ol type="1"><li>Select <b class="graf--bold">File &gt; Settings</b> (or on Mac, <b class="graf--bold">Android Studio &gt; Preferences</b>.)</li><li>Select the <b class="graf--bold">Plugins</b> section in the left panel.</li><li>Click the <b class="graf--bold">Marketplace</b> tab.</li><li>Search for the “Android Size Analyzer” plugin.</li><li>Click the <b class="graf--bold">Install</b> button for the analyzer plugin.</li></ol> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-size-analyser-plugin-afe0145971455d5c.png class=\'graf-image\' alt=\'How to reduce APK size in Android?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Restart the IDE after installing the plugin. Now, to analyze the application, go to <b class="graf--bold">Analyze &gt; Analyze App Size</b> from the menu bar. We will get a window something similar to this:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-size-analyser-result-02ddb14a466a5c65.png class=\'graf-image\' alt=\'How to reduce APK size in Android?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">The recommendations can help us in reducing the app size in a much better way.</p><h4 class="graf--h3">Remove Unused Resources</h4><p class="graf--p">As we have already discussed the size of the apk has an impact on how fast the app loads, how much memory it uses, and how much memory power it consumes. Hence, one of the main things that can be implemented to reduce apk size is to remove unused resources in the application.</p><p class="graf--p">Also, it is advised to use scalable drawable objects(importing vector assets) instead of other image formats like PNG, JPEG, etc.</p><p class="graf--p">Using Vector Drawable is one of the best ways to reduce the size significantly.</p><h4 class="graf--h3">Using Lint</h4><p class="graf--p">Lint actually helps in generating warnings or unused code inside the application. So this can actually help in removing the same thereby helping in reducing the size of the application.</p><h4 class="graf--h3">Reduce libraries size</h4><p class="graf--p">Check if you can reduce the size when it comes to the usage of libraries. For example, use only specific libraries of Google Play Services. Compile only which is required.</p><h4 class="graf--h3">Reuse Code</h4><p class="graf--p">Object-Oriented Programming has solved a lot of problems in the programming world. Try reusing the code as much as possible instead of repetitive code. Repetitive code also leads to increased file size thereby effecting the Apk size.</p><h4 class="graf--h3">Compress PNG and JPEG files</h4><p class="graf--p">If using PNG and JPEG files is something mandatory in your project, you can compress them using image quality tools like TinyPNG.</p><p class="graf--p">In most of the applications, Images are used to convey messages or improve the UX. But the biggest drawback here might be using a lot of images that can bloat up the size of the app. Ensure that the Image Compression techniques are understood and implemented to reduce the size of the apk before releasing the app to the play store.</p><p class="graf--p">To learn more about Image Compression in Android, you can refer our <span class=""><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/understanding-image-compression-in-android">MindOrks article</a></span> on the same.</p><h4 class="graf--h3">Use WebP file format</h4><p class="graf--p">As we have seen in the image shared for the Android Analyser plugin above, one of the recommendations was to change the PNG file to a WebP file format.</p><h4 class="graf--h3">Use Proguard</h4><p class="graf--p">Every time we build a new project, we see the following piece of code in the app-level build.gradle file</p><pre><code class="language-java graf graf--code">buildTypes {\n    release {\n        minifyEnabled false\n        proguardFiles getDefaultProguardFile(\'proguard-android-optimize.txt\'), \'proguard-rules.pro\'\n    }\n}</code></pre><p class="graf--p">ProGuard makes the following impact on our project,</p><ul><li>It reduces the size of the application.</li><li>It removes the unused classes and methods that contribute to the 64K method counts limit of an Android application.</li><li>It makes the application difficult to reverse engineer by obfuscating the code.</li></ul><p class="graf--p">To learn more about Proguard, you can refer our <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/applying-proguard-in-an-android-application">MindOrks article</a> on the same.</p><h4 class="graf--h3">Create Multiple APKs</h4><p class="graf--p">If we are not using App Bundles, we can go with the traditional way. We can create multiple APKs similar to App Bundle. Multiple apk is mainly used to generate specific APKs for different screen densities and different CPU architecture.</p><p class="graf--p">To learn more about it, you can refer to our <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/how-to-create-multiple-apk-files-for-android-application">MindOrks article</a> on the same.</p><h4 class="graf--h3">ShrinkResources</h4><p class="graf--p">Reduce resources where ever possible. Using <b class="graf--bold"><i class="graf--italic">shrinkResources</i></b> attribute in the Gradle will remove all the resources which are not being used anywhere in the project. Enable this in your app-level build.gradle file by adding below line:</p><pre><code class="language-java graf graf--code">buildTypes {\n    release {\n        ........\n        shrinkResources true\n        ........\n    }\n}</code></pre><h4 class="graf--h3">ResConfigs</h4><p class="graf--p">Remove the localized resources which are not needed by using <b class="graf--bold"><i class="graf--italic">resConfigs</i></b>. All the support libraries may have localized folders for the other languages which we don’t need.</p><p class="graf--p">The Gradle resource shrinker removes only resources that are not referenced by your app code, which means it will not remove alternative resources(device/location-specific) for different device configurations. If necessary, you can use the Android Gradle plugin’s <code class="graf--code-inline">resConfigs</code> property to remove alternative resource files that your app does not need.</p><p class="graf--p">The following snippet shows how to limit your language resources to just English and French:</p><pre><code class="language-java graf graf--code">android {\n    defaultConfig {\n        ...\n        resConfigs "en", "fr"\n    }\n}</code></pre><p class="graf--p">As discussed, having unused language resources only swells the apk size. Hence it is important to remove unused files and resources.</p><h4 class="graf--h3">DebugImplementation</h4><p class="graf--p">Remove any debug library you have in the app. It can be done by using <b class="graf--bold"><i class="graf--italic">debugImplementation</i></b> while building testing debug apk.</p><p class="graf--p">Like we at MindOrks use the library <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/amitshekhariitbhu/Android-Debug-Database">Android Debug Database</a></b> for debugging database.</p><pre><code class="language-java graf graf--code">debugImplementation \'com.amitshekhar.android:debug-db:1.0.1\'</code></pre><h4 class="graf--h3">Use R8 to reduce APK size</h4><p class="graf--p">R8 shrinking is a process in which we reduce the amount of code of our application and by doing so, the APK size automatically gets reduced. R8 does most of the work as Proguard. Why do we need to prefer it? The reason is it works with Proguard rules and shrinks the code faster while improving the output size.</p><p class="graf--p">To learn more about using R8 to optimize apk size, you can refer our <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/using-r8-to-reduce-apk-size-in-android">MindOrks article</a> on the same.</p><p class="graf--p">Whats better finally than understanding and implementing these steps in our applications to deliver an optimized apk to our customers!</p><p class="graf--p">That’s all about this article.</p><p class="graf--p">We hope that this article has been of some help in understanding different methods to reduce app size in Android.</p><p class="graf--p">Thank you so much for your time!</p><p class="graf--p">Keep Learning, Keep Sharing, Keep Supporting!</p><p class="graf--p">Team MindOrks!</p><p class="graf--p"><b class="graf--bold">Also, Let’s connect on</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://twitter.com/AndraDheeraj">Twitter</a>,</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/dheerajsree/">Linkedin</a>,</b> <b class="graf--bold">and</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/asdheeraj">Github</a></b></p>',author:3003,img_url:"/images/optimize-android-apk-banner-c07d71b4b0c45adc.png",blog_url:"how-to-reduce-apk-size-in-android-2f3713d2d662",likes:0,rank:0,category:1,published_at:"6th August 2020"},author:{id:3003,name:"Dheeraj Sree",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GjgIa8i5nbsErNPLwYbB8IfsQ1U_M-Men0xdzE9PRQ=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Android Developer @DeloitteDigital",fb_profile_url:"https://www.facebook.com/sri.dheeraj",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/AndraDheeraj",github_profile_url:"https://github.com/asdheeraj",linkedin_profile_url:"https://www.linkedin.com/in/dheerajsree/"},isFetching:!1,similarBlogs:[{id:372,title:"Using R8 to reduce APK size in Android",description:"In this blog, we will learn how to reduce the APK size in Android by using R8. Small-sized applications are more likely to be downloaded by the users as compared to the large sized APKs. So, let's find how to reduce the APK size.",author:17146,img_url:"/images/using-r8-to-reduce-apk-size-in-android-banner.png",blog_url:"using-r8-to-reduce-apk-size-in-android",likes:0,rank:0,category:1,published_at:"30th October 2019",score:10.312633514404297},{id:88,title:"How to create multiple apk files for android application",description:"Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.",author:30,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg",blog_url:"how-to-create-multiple-apk-files-for-android-application",likes:0,rank:0,category:1,published_at:"30th August 2017",score:3.138566493988037},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.01835518702864647},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.01835518702864647},{id:284,title:"Animation in Android - Android Tutorial",description:"In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.",author:14897,img_url:"/images/animation-in-android-banner.png",blog_url:"animation-in-android-tutorial",likes:0,rank:0,category:1,published_at:"24th June 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Dheeraj Sree" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GjgIa8i5nbsErNPLwYbB8IfsQ1U_M-Men0xdzE9PRQ=s96-c?sz=300"/>
+          <div class="content">
+           Dheeraj Sree
+           <div class="sub header" style="margin-top:5px">
+            6th August 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  How to reduce APK size in Android?
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to reduce APK size in Android?" class="graf-image" src="/images/optimize-android-apk-banner-c07d71b4b0c45adc.png"/>
+                 </div>
+                 <p class="graf--p">
+                  No user would like to download a large APK as it might consume most of his Network/Wifi Bandwidth, also most importantly, space inside the mobile device.
+                 </p>
+                 <p class="graf--p">
+                  The size of your APK has an impact on how fast your app loads, how much memory it uses, and how much power it consumes.
+                 </p>
+                 <p class="graf--p">
+                  It's important to optimize the size of the app since mobiles are always memory and space constraint devices. So, what are the various ways in which we can improve our apk size in Android-Development? Let’s go ahead and learn in this article.
+                 </p>
+                 <p class="graf--p">
+                  Welcome to our
+                  <b class="graf--bold">
+                   MindOrks
+                  </b>
+                  blog on Reducing application size in Android.
+                 </p>
+                 <h4 class="graf--h3">
+                  Understanding Android App Bundles
+                 </h4>
+                 <p class="graf--p">
+                  An
+                  <i class="graf--italic">
+                   <a class="markup--anchor" href="https://medium.com/mindorks/android-app-bundle-6c65ce8105a1" target="_blank">
+                    Android App Bundle
+                   </a>
+                  </i>
+                  is a publishing format that includes all your app’s compiled code and resources, and defers APK generation and signing to Google Play.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to reduce APK size in Android?" class="graf-image" src="/images/android-app-bundle-404b5e3c390bcfc4.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Google Play uses your app bundle to generate and serve optimized APKs for each device configuration, so only the code and resources that are needed for a specific device are downloaded to run your app. You no longer have to build, sign, and manage multiple APKs to optimize support for different devices, and users get smaller, more optimized downloads.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   App Bundles are Publishing formats
+                  </b>
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to reduce APK size in Android?" class="graf-image" src="/images/android-app-bundle-format-681d008a836edc17.png"/>
+                 </div>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   Image Credit: Google Android Official Website.
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Android App Bundles — File Targeting and Serving
+                  </b>
+                 </p>
+                 <ul>
+                  <li>
+                   How do these Android App bundles help in File targeting? It's simple, let's say we have hdpi, xhdpi, xxhdpi resources in our application. Based on the device on which the application is being downloaded, if it's a hdpi device (for example), only the resources from hdpi will be installed on the device.
+                  </li>
+                  <li>
+                   If the application is targeting multiple languages (English, Spanish, French, etc.), only the specific string resources will be downloaded onto the device.
+                  </li>
+                  <li>
+                   This helps in saving the space on the device's memory.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Building the Android App Bundle
+                  </b>
+                 </p>
+                 <ul>
+                  <li>
+                   Building the Android app bundle is straight forward. Just select the Build option from the Android Studio menu and select Build Bundles
+                  </li>
+                 </ul>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to reduce APK size in Android?" class="graf-image" src="/images/building-android-app-bundle-241b0cc6d4549512.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Android Size Analyser
+                 </h4>
+                 <p class="graf--p">
+                  In order to understand which files are actually taking up more space in the application, use the Android Size Analyser plugin inside Android Studio. For installing the plugin
+                 </p>
+                 <ol type="1">
+                  <li>
+                   Select
+                   <b class="graf--bold">
+                    File &gt; Settings
+                   </b>
+                   (or on Mac,
+                   <b class="graf--bold">
+                    Android Studio &gt; Preferences
+                   </b>
+                   .)
+                  </li>
+                  <li>
+                   Select the
+                   <b class="graf--bold">
+                    Plugins
+                   </b>
+                   section in the left panel.
+                  </li>
+                  <li>
+                   Click the
+                   <b class="graf--bold">
+                    Marketplace
+                   </b>
+                   tab.
+                  </li>
+                  <li>
+                   Search for the “Android Size Analyzer” plugin.
+                  </li>
+                  <li>
+                   Click the
+                   <b class="graf--bold">
+                    Install
+                   </b>
+                   button for the analyzer plugin.
+                  </li>
+                 </ol>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to reduce APK size in Android?" class="graf-image" src="/images/android-size-analyser-plugin-afe0145971455d5c.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Restart the IDE after installing the plugin. Now, to analyze the application, go to
+                  <b class="graf--bold">
+                   Analyze &gt; Analyze App Size
+                  </b>
+                  from the menu bar. We will get a window something similar to this:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to reduce APK size in Android?" class="graf-image" src="/images/android-size-analyser-result-02ddb14a466a5c65.png"/>
+                 </div>
+                 <p class="graf--p">
+                  The recommendations can help us in reducing the app size in a much better way.
+                 </p>
+                 <h4 class="graf--h3">
+                  Remove Unused Resources
+                 </h4>
+                 <p class="graf--p">
+                  As we have already discussed the size of the apk has an impact on how fast the app loads, how much memory it uses, and how much memory power it consumes. Hence, one of the main things that can be implemented to reduce apk size is to remove unused resources in the application.
+                 </p>
+                 <p class="graf--p">
+                  Also, it is advised to use scalable drawable objects(importing vector assets) instead of other image formats like PNG, JPEG, etc.
+                 </p>
+                 <p class="graf--p">
+                  Using Vector Drawable is one of the best ways to reduce the size significantly.
+                 </p>
+                 <h4 class="graf--h3">
+                  Using Lint
+                 </h4>
+                 <p class="graf--p">
+                  Lint actually helps in generating warnings or unused code inside the application. So this can actually help in removing the same thereby helping in reducing the size of the application.
+                 </p>
+                 <h4 class="graf--h3">
+                  Reduce libraries size
+                 </h4>
+                 <p class="graf--p">
+                  Check if you can reduce the size when it comes to the usage of libraries. For example, use only specific libraries of Google Play Services. Compile only which is required.
+                 </p>
+                 <h4 class="graf--h3">
+                  Reuse Code
+                 </h4>
+                 <p class="graf--p">
+                  Object-Oriented Programming has solved a lot of problems in the programming world. Try reusing the code as much as possible instead of repetitive code. Repetitive code also leads to increased file size thereby effecting the Apk size.
+                 </p>
+                 <h4 class="graf--h3">
+                  Compress PNG and JPEG files
+                 </h4>
+                 <p class="graf--p">
+                  If using PNG and JPEG files is something mandatory in your project, you can compress them using image quality tools like TinyPNG.
+                 </p>
+                 <p class="graf--p">
+                  In most of the applications, Images are used to convey messages or improve the UX. But the biggest drawback here might be using a lot of images that can bloat up the size of the app. Ensure that the Image Compression techniques are understood and implemented to reduce the size of the apk before releasing the app to the play store.
+                 </p>
+                 <p class="graf--p">
+                  To learn more about Image Compression in Android, you can refer our
+                  <span class="">
+                   <a class="markup--anchor" href="https://blog.mindorks.com/understanding-image-compression-in-android" target="_blank">
+                    MindOrks article
+                   </a>
+                  </span>
+                  on the same.
+                 </p>
+                 <h4 class="graf--h3">
+                  Use WebP file format
+                 </h4>
+                 <p class="graf--p">
+                  As we have seen in the image shared for the Android Analyser plugin above, one of the recommendations was to change the PNG file to a WebP file format.
+                 </p>
+                 <h4 class="graf--h3">
+                  Use Proguard
+                 </h4>
+                 <p class="graf--p">
+                  Every time we build a new project, we see the following piece of code in the app-level build.gradle file
+                 </p>
+                 <pre><code class="language-java graf graf--code">buildTypes {
+    release {
+        minifyEnabled false
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  ProGuard makes the following impact on our project,
+                 </p>
+                 <ul>
+                  <li>
+                   It reduces the size of the application.
+                  </li>
+                  <li>
+                   It removes the unused classes and methods that contribute to the 64K method counts limit of an Android application.
+                  </li>
+                  <li>
+                   It makes the application difficult to reverse engineer by obfuscating the code.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  To learn more about Proguard, you can refer our
+                  <a class="markup--anchor" href="https://blog.mindorks.com/applying-proguard-in-an-android-application" target="_blank">
+                   MindOrks article
+                  </a>
+                  on the same.
+                 </p>
+                 <h4 class="graf--h3">
+                  Create Multiple APKs
+                 </h4>
+                 <p class="graf--p">
+                  If we are not using App Bundles, we can go with the traditional way. We can create multiple APKs similar to App Bundle. Multiple apk is mainly used to generate specific APKs for different screen densities and different CPU architecture.
+                 </p>
+                 <p class="graf--p">
+                  To learn more about it, you can refer to our
+                  <a class="markup--anchor" href="https://blog.mindorks.com/how-to-create-multiple-apk-files-for-android-application" target="_blank">
+                   MindOrks article
+                  </a>
+                  on the same.
+                 </p>
+                 <h4 class="graf--h3">
+                  ShrinkResources
+                 </h4>
+                 <p class="graf--p">
+                  Reduce resources where ever possible. Using
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    shrinkResources
+                   </i>
+                  </b>
+                  attribute in the Gradle will remove all the resources which are not being used anywhere in the project. Enable this in your app-level build.gradle file by adding below line:
+                 </p>
+                 <pre><code class="language-java graf graf--code">buildTypes {
+    release {
+        ........
+        shrinkResources true
+        ........
+    }
+}</code></pre>
+                 <h4 class="graf--h3">
+                  ResConfigs
+                 </h4>
+                 <p class="graf--p">
+                  Remove the localized resources which are not needed by using
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    resConfigs
+                   </i>
+                  </b>
+                  . All the support libraries may have localized folders for the other languages which we don’t need.
+                 </p>
+                 <p class="graf--p">
+                  The Gradle resource shrinker removes only resources that are not referenced by your app code, which means it will not remove alternative resources(device/location-specific) for different device configurations. If necessary, you can use the Android Gradle plugin’s
+                  <code class="graf--code-inline">
+                   resConfigs
+                  </code>
+                  property to remove alternative resource files that your app does not need.
+                 </p>
+                 <p class="graf--p">
+                  The following snippet shows how to limit your language resources to just English and French:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android {
+    defaultConfig {
+        ...
+        resConfigs "en", "fr"
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  As discussed, having unused language resources only swells the apk size. Hence it is important to remove unused files and resources.
+                 </p>
+                 <h4 class="graf--h3">
+                  DebugImplementation
+                 </h4>
+                 <p class="graf--p">
+                  Remove any debug library you have in the app. It can be done by using
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    debugImplementation
+                   </i>
+                  </b>
+                  while building testing debug apk.
+                 </p>
+                 <p class="graf--p">
+                  Like we at MindOrks use the library
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://github.com/amitshekhariitbhu/Android-Debug-Database" target="_blank">
+                    Android Debug Database
+                   </a>
+                  </b>
+                  for debugging database.
+                 </p>
+                 <pre><code class="language-java graf graf--code">debugImplementation 'com.amitshekhar.android:debug-db:1.0.1'</code></pre>
+                 <h4 class="graf--h3">
+                  Use R8 to reduce APK size
+                 </h4>
+                 <p class="graf--p">
+                  R8 shrinking is a process in which we reduce the amount of code of our application and by doing so, the APK size automatically gets reduced. R8 does most of the work as Proguard. Why do we need to prefer it? The reason is it works with Proguard rules and shrinks the code faster while improving the output size.
+                 </p>
+                 <p class="graf--p">
+                  To learn more about using R8 to optimize apk size, you can refer our
+                  <a class="markup--anchor" href="https://blog.mindorks.com/using-r8-to-reduce-apk-size-in-android" target="_blank">
+                   MindOrks article
+                  </a>
+                  on the same.
+                 </p>
+                 <p class="graf--p">
+                  Whats better finally than understanding and implementing these steps in our applications to deliver an optimized apk to our customers!
+                 </p>
+                 <p class="graf--p">
+                  That’s all about this article.
+                 </p>
+                 <p class="graf--p">
+                  We hope that this article has been of some help in understanding different methods to reduce app size in Android.
+                 </p>
+                 <p class="graf--p">
+                  Thank you so much for your time!
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning, Keep Sharing, Keep Supporting!
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks!
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Also, Let’s connect on
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://twitter.com/AndraDheeraj" target="_blank">
+                    Twitter
+                   </a>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://www.linkedin.com/in/dheerajsree/" target="_blank">
+                    Linkedin
+                   </a>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   and
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://github.com/asdheeraj" target="_blank">
+                    Github
+                   </a>
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using R8 to reduce APK size in Android" class="ui centered image" src="/images/using-r8-to-reduce-apk-size-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using R8 to reduce APK size in Android
+           </div>
+           <div class="meta">
+            30th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to reduce the APK size in Android by using R8. Small-sized applications are more likely to be downloaded by the users as compared to the large sized APKs. So, let's find how to reduce the APK size.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to create multiple apk files for android application" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to create multiple apk files for android application
+           </div>
+           <div class="meta">
+            30th August 2017
+           </div>
+           <div class="description">
+            Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Animation in Android - Android Tutorial" class="ui centered image" src="/images/animation-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Animation in Android - Android Tutorial
+           </div>
+           <div class="meta">
+            24th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

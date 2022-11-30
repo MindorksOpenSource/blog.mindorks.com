@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   What is Flow in Kotlin and How to use it in Android Project?
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/what-is-flow-in-kotlin-and-how-to-use-it-in-android-project" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="What is Flow in Kotlin and How to use it in Android Project?" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/what-is-flow-in-kotlin-and-how-to-use-it-in-android-project" property="og:url"/>
+  <meta content="/images/kotlin-flow-banner-image.png" property="og:image"/>
+  <meta content="What is Flow in Kotlin and How to use it in Android Project? In this blog we will learn what is the need of Flow in Kotlin and its explaination." property="og:description"/>
+  <meta content="What is Flow in Kotlin and How to use it in Android Project?" property="twitter:title"/>
+  <meta content="What is Flow in Kotlin and How to use it in Android Project? In this blog we will learn what is the need of Flow in Kotlin and its explaination." name="twitter:description"/>
+  <meta content="/images/kotlin-flow-banner-image.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="What is Flow in Kotlin and How to use it in Android Project? In this blog we will learn what is the need of Flow in Kotlin and its explaination." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:390,data:{id:390,title:"What is Flow in Kotlin and How to use it in Android Project?",description:"What is Flow in Kotlin and How to use it in Android Project? In this blog we will learn what is the need of Flow in Kotlin and its explaination.",text:'<h1 class="graf--h1">What is Flow in Kotlin and how to use it in Android Project?</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/kotlin-flow-banner-image.png class=\'graf-image\' alt=\'What is Flow in Kotlin and How to use it in Android Project?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">If you are an Android developer and looking to build an app asynchronously you might be using RxJava as it has an operator for almost everything. RxJava has become one of the most important things to know in Android. </p><p class="graf--p">But with Kotlin a lot of people tend to use Co-routines. With Kotlin Coroutine 1.2.0 alpha release Jetbrains came up with Flow API as part of it. With Flow in Kotlin now you can handle a stream of data that emits values sequentially.  </p><blockquote class="graf--blockquote">In Kotlin, Coroutine is just the scheduler part of RxJava but now with Flow APIs coming along side it, it can be alternative to RxJava in Android </blockquote><p class="graf--p">In this blog, we will see how Flow APIs work in Kotlin and how can we start using it in our android projects. We will cover the following topics,</p><ul><li>What is Flow APIs in Kotlin Coroutines?</li><li>Start Integrating Flow APIs in your project</li><li>Builders in Flows</li><li>Few examples using Flow Operators.</li></ul><p class="graf--p">Let&#x27;s discuss them one by one.</p><h4 class="graf--h3">What is Flow APIs in Kotlin Coroutines?</h4><p class="graf--p">Flow API in Kotlin is a better way to handle the stream of data asynchronously that executes sequentially. </p><p class="graf--p">So, in RxJava, Observables type is an example of a structure that represents a stream of items. Its body does not get executed until it is subscribed to by a subscriber. and once it is subscribed, subscriber starts getting the data items emitted. Similarly, Flow works on the same condition where the code inside a <i class="graf--italic">flow</i> builder does not run until the <i class="graf--italic">flow</i> is collected.</p><h4 class="graf--h3">Start Integrating Flow APIs in your project</h4><p class="graf--p">Let us create an android project and then let&#x27;s start integrating the Kotlin Flow APIs.</p><h4 class="graf--h3">Step 01.</h4><p class="graf--p">Add the following in the app&#x27;s <b class="graf--bold">build.gradle,</b></p><pre><code class="language-java graf graf--code">implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"\nimplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3"</code></pre><p class="graf--p">and in the project&#x27;s <b class="graf--bold">build.gradle </b>add,</p><pre><code class="language-java graf graf--code">classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61"</code></pre><h4 class="graf--h3">Step 02.</h4><p class="graf--p">In MainActivity&#x27;s layout file let&#x27;s create a UI that will have a button.</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout \n    xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n\n\n    &lt;Button\n        android:id="@+id/button"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        app:layout_constraintBottom_toBottomOf="parent"\n        android:text="Launch Kotlin Flow"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><h4 class="graf--h3">Step 03.</h4><p class="graf--p">Now, let&#x27;s begin the implementation of Flow APIs in MainActivity. In <b class="graf--bold">onCreate</b>() function of Activity lets add two function like,</p><pre><code class="language-java graf graf--code">override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n    setContentView(R.layout.activity_main)\n    setupFlow()\n    setupClicks()\n}</code></pre><p class="graf--p">Here, <b class="graf--bold">setupFlow</b>() is the function where we will define the flow and <b class="graf--bold">setupClicks</b>() is the function where we will click the button to display the data which is emitted from the flow.</p><p class="graf--p">We will declare a lateinit variable of Flow of Int type,</p><pre><code class="language-java graf graf--code">lateinit var flow: Flow&lt;Int&gt;</code></pre><h4 class="graf--h3">Step 04.</h4><p class="graf--p">Now, in <b class="graf--bold">setupFlow</b>() I will emit items after 500milliseconds delay.</p><pre><code class="language-java graf graf--code">fun setupFlow(){\n    flow = flow {\n        Log.d(TAG, "Start flow")\n        (0..10).forEach {\n            // Emit items with 500 milliseconds delay\n            delay(500)\n            Log.d(TAG, "Emitting $it")\n            emit(it)\n\n        }\n    }.flowOn(Dispatchers.Default)\n}</code></pre><p class="graf--p">Here,</p><ul><li>We will emit numbers from 0 to 10 at <b class="graf--bold">500ms</b> delay.</li><li>To emit the number we will use <b class="graf--bold">emit() </b>which collects the value emitted<i class="graf--italic">. </i>It is part of FlowCollector which can be used as a receiver.</li><li>and, at last, we use <b class="graf--bold">flowOn</b> operator which means that shall be used to change the context of the flow emission. Here, we can use different Dispatchers like IO, Default, etc.</li></ul><blockquote class="graf--blockquote"><i class="graf--italic"><b class="graf--bold">flowOn() is like subscribeOn() in RxJava</b></i></blockquote><h4 class="graf--h3">Step 05.</h4><p class="graf--p">Now, we need to write <b class="graf--bold">setupClicks()</b> function where we need to print the values which we will emit from the flow.</p><pre><code class="language-java graf graf--code">private fun setupClicks() {\n    button.setOnClickListener {\n        CoroutineScope(Dispatchers.Main).launch {\n            flow.collect {\n                Log.d(TAG, it.toString())\n            }\n        }\n    }\n}</code></pre><p class="graf--p">When we click the button we will print the values one by one.</p><p class="graf--p">Here, </p><ul><li><b class="graf--bold">flow.collect </b>now will start extracting/collection the value from the flow on the Main thread as  <b class="graf--bold">Dispatchers.Main</b> is used in launch coroutine builder in CoroutineScope</li><li>Now, the screen looks like,</li></ul> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/screen-ui-kotlin-flow.png class=\'graf-image\' alt=\'What is Flow in Kotlin and How to use it in Android Project?\' />\n\t\t\t\t\t\t\t\t</div ><ul><li>And the output which will be printed in Logcat is,</li></ul><pre><code class="language-java graf graf--code">D/MainActivity: Start flow\nD/MainActivity: Emitting 0\nD/MainActivity: 0\nD/MainActivity: Emitting 1\nD/MainActivity: 1\nD/MainActivity: Emitting 2\nD/MainActivity: 2\nD/MainActivity: Emitting 3\nD/MainActivity: 3\nD/MainActivity: Emitting 4\nD/MainActivity: 4\nD/MainActivity: Emitting 5\nD/MainActivity: 5\nD/MainActivity: Emitting 6\nD/MainActivity: 6\nD/MainActivity: Emitting 7\nD/MainActivity: 7\nD/MainActivity: Emitting 8\nD/MainActivity: 8\nD/MainActivity: Emitting 9\nD/MainActivity: 9\nD/MainActivity: Emitting 10\nD/MainActivity: 10</code></pre><p class="graf--p">As you can see Flow starts only when the button is clicked as it prints <b class="graf--bold"><i class="graf--italic">Start Flow </i></b>and then starts emitting. This is what I meant by <b class="graf--bold"><i class="graf--italic">Flows are cold.</i></b></p><p class="graf--p">Let&#x27;s say we update the <b class="graf--bold">setupFlow</b>() function like,</p><pre><code class="language-java graf graf--code">private fun setupFlow() {\n    flow = flow {\n        Log.d(TAG, "Start flow")\n        (0..10).forEach {\n            // Emit items with 500 milliseconds delay\n            delay(500)\n            Log.d(TAG, "Emitting $it")\n            emit(it)\n        }\n    }.map {\n        it * it\n    }.flowOn(Dispatchers.Default)\n}</code></pre><p class="graf--p">Here you can see we added map operator which will take each and every item will square itself and print the value.  </p><p class="graf--p">Anything, written above <b class="graf--bold">flowOn</b> will run in background thread. </p><h4 class="graf--h3"><b class="graf--bold">Builders in Flow</b></h4><p class="graf--p">Flow builders are nothing but the way to build Flows. There are 4 types of flow builders,</p><ul><li><b class="graf--bold">flowOf() - </b>It is used to create flow from a given set of values. For Eg. </li></ul><pre><code class="language-java graf graf--code">flowOf(4, 2, 5, 1, 7).onEach { delay(400) }.flowOn(Dispatchers.Default)</code></pre><p class="graf--p">Here<b class="graf--bold">, flowOf() </b>takes fixed values and prints each of them after a delay of 400ms. When we attach a collector to the flow, we get the output</p><pre><code class="language-java graf graf--code">D/MainActivity: 4\nD/MainActivity: 2\nD/MainActivity: 5\nD/MainActivity: 1\nD/MainActivity: 7</code></pre><ul><li><b class="graf--bold">asFlow() - </b>It is an extension function that helps to convert type into flows. For Eg,</li></ul><pre><code class="language-java graf graf--code">(1..5).asFlow().onEach{ delay(300)}.flowOn(Dispatchers.Default)</code></pre><p class="graf--p">Here,  we converted a range of values from 1 to 5 as flow and emitted each of them at a delay of 300ms. When we attach a collector to the flow, we get the output,</p><pre><code class="language-java graf graf--code">D/MainActivity: 1\nD/MainActivity: 2\nD/MainActivity: 3\nD/MainActivity: 4\nD/MainActivity: 5</code></pre><p class="graf--p">The output is the number being printed from 1 to 5, whichever were present in the range.</p><ul><li><b class="graf--bold">flow{} - </b>This example has been explained in the Android Example above. This is a builder function to construct arbitrary flows.</li><li><b class="graf--bold">channelFlow{}</b> - This builder creates cold-flow with the elements using <b class="graf--bold">send </b>provided by the builder itself. For Example,</li></ul><pre><code class="language-java graf graf--code">channelFlow {\n    (0..10).forEach {\n        send(it)\n    }\n}.flowOn(Dispatchers.Default)</code></pre><p class="graf--p">This will print, </p><pre><code class="language-java graf graf--code">D/MainActivity: 0\nD/MainActivity: 1\nD/MainActivity: 2\nD/MainActivity: 3\nD/MainActivity: 4\nD/MainActivity: 5\nD/MainActivity: 6\nD/MainActivity: 7\nD/MainActivity: 8\nD/MainActivity: 9\nD/MainActivity: 10</code></pre><blockquote class="graf--blockquote"><i class="graf--italic"><b class="graf--bold">flowOn() is like subscribeOn() in RxJava</b></i></blockquote><p class="graf--p"><b class="graf--bold">Now, finally, let&#x27;s discuss how to use an operator of Flow in your project</b></p><h4 class="graf--h3"><b class="graf--bold">Zip Operator</b></h4><p class="graf--p">If you remember from above Android Example, we have two functions <b class="graf--bold">setupFlow</b>() and <b class="graf--bold">setupClicks</b>(). We will modify both functions in MainActivity.</p><p class="graf--p">First, we will declare two lateinit variables of Flow of String type,</p><pre><code class="language-java graf graf--code">lateinit var flowOne: Flow&lt;String&gt;\nlateinit var flowTwo: Flow&lt;String&gt;</code></pre><p class="graf--p">Now, the two functions <b class="graf--bold">setupFlow</b>() and <b class="graf--bold">setupClicks</b>() will be called in onCreate() of MainActivity.</p><pre><code class="language-java graf graf--code">override fun onCreate(savedInstanceState: Bundle?) {\n    ...\n    setupFlow()\n    setupClicks()\n\n}</code></pre><p class="graf--p">and in the setupFlow() we will initialize two flows to the two variables,</p><pre><code class="language-java graf graf--code">private fun setupFlow() {\n    flowOne = flowOf("Himanshu", "Amit", "Janishar").flowOn(Dispatchers.Default)\n    flowTwo = flowOf("Singh", "Shekhar", "Ali").flowOn(Dispatchers.Default)\n\n}</code></pre><p class="graf--p">and in <b class="graf--bold">setupClicks</b>() we will zip both the flows using zip operator,</p><pre><code class="language-java graf graf--code">private fun setupClicks() {\n    button.setOnClickListener {\n        CoroutineScope(Dispatchers.Main).launch {\n            flowOne.zip(flowTwo)\n            { firstString, secondString -&gt;\n                "$firstString $secondString"\n            }.collect {\n                Log.d(TAG, it)\n            }\n        }\n    }\n}</code></pre><p class="graf--p">Here,</p><ul><li>when the button is clicked the scope is launched.</li><li><b class="graf--bold">flowOne</b> is zipped with <b class="graf--bold">flowTwo</b> to give a pair of values that we have created a string and,</li><li>then we collect it and print it in Logcat. The resulting output will be,</li></ul><pre><code class="language-java graf graf--code">D/MainActivity: Himanshu Singh\nD/MainActivity: Amit Shekhar\nD/MainActivity: Janishar Ali</code></pre><blockquote class="graf--blockquote"><b class="graf--bold">Note: Consider if both flows doesn&#x27;t have the same number of item, then the flow will stop as soon as one of the flow completes.</b></blockquote><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/amitshekhariitbhu/Learn-Kotlin-Flow">To checkout the project , click here</a></b></p><p class="graf--p">Happy learning.</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p><p class="graf--p">',author:9959,img_url:"/images/kotlin-flow-banner-image.png",blog_url:"what-is-flow-in-kotlin-and-how-to-use-it-in-android-project",likes:0,rank:0,category:1,published_at:"7th January 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:446,title:"Using Dagger in a Multi-Module Project",description:"In this blog, we are going to learn how we can use dagger in a multi-module architecture in our project for better dependency management.",author:9959,img_url:"/images/using-dagger-multi-module-banner-a470a36d17d373f4.png",blog_url:"dagger-in-a-multi-module-project",likes:0,rank:0,category:1,published_at:"17th May 2020",score:3.587033748626709},{id:206,title:"What is Android Jetpack and why should we use it?",description:"What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.",author:30,img_url:"/images/android-jetpack.png",blog_url:"what-is-android-jetpack-and-why-should-we-use-it",likes:0,rank:0,category:1,published_at:"4th January 2019",score:2.1592068672180176},{id:458,title:"GradientDrawable - When and How to use it in Android",description:"In this blog we are going to learn about using GradientDrawable in Android. We will begin with the need for using GradientDrawable by taking examples. Then we will see what all can be done using GradientDrawable. Finally we will look at the major components of GradientDrawable.",author:18588,img_url:"/images/gradientdrawable-in-android-banner-f13813e58e29912b.jpg",blog_url:"gradient-drawable-in-android",likes:0,rank:0,category:1,published_at:"25th May 2020",score:2.1592068672180176},{id:371,title:"How to encrypt data safely on device and use the AndroidKeystore?",description:"In this blog, we will learn how to encrypt data safely in Android device and how to use Androidkeystore. We will learn about key encryption, file encryption, and how to encrypt SharedPreferences.",author:14897,img_url:"/images/how-to-encrypt-data-safely-on-a-device-and-use-the-androidkeystore-banner.png",blog_url:"how-to-encrypt-data-safely-on-device-and-use-the-androidkeystore",likes:0,rank:0,category:1,published_at:"28th October 2019",score:2.150029182434082},{id:429,title:"Why do we use the Dependency Injection Framework like Dagger in Android?",description:"In this blog, we are going to see why do we use the Dependency Injection Framework like Dagger in Android. We will also see how can we give our configuration to the framework.",author:9959,img_url:"/images/dagger-banner-why.jpg",blog_url:"why-do-we-use-the-dependency-injection-framework-in-android",likes:0,rank:0,category:1,published_at:"28th April 2020",score:1.8890047073364258},{id:370,title:"How to use Memory Heap Dumps data?",description:"In this blog, we will learn how to use memory heap dump data to identify memory leaks in our application. A memory leak occurs when an object is present in the memory and that object is not being used in the program.",author:17146,img_url:"/images/how-to-use-memory-heap-dumps-data-banner.png",blog_url:"how-to-use-memory-heap-dumps-data",likes:0,rank:0,category:1,published_at:"28th October 2019",score:1.8798271417617798}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            7th January 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  What is Flow in Kotlin and how to use it in Android Project?
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="What is Flow in Kotlin and How to use it in Android Project?" class="graf-image" src="/images/kotlin-flow-banner-image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  If you are an Android developer and looking to build an app asynchronously you might be using RxJava as it has an operator for almost everything. RxJava has become one of the most important things to know in Android.
+                 </p>
+                 <p class="graf--p">
+                  But with Kotlin a lot of people tend to use Co-routines. With Kotlin Coroutine 1.2.0 alpha release Jetbrains came up with Flow API as part of it. With Flow in Kotlin now you can handle a stream of data that emits values sequentially.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  In Kotlin, Coroutine is just the scheduler part of RxJava but now with Flow APIs coming along side it, it can be alternative to RxJava in Android
+                 </blockquote>
+                 <p class="graf--p">
+                  In this blog, we will see how Flow APIs work in Kotlin and how can we start using it in our android projects. We will cover the following topics,
+                 </p>
+                 <ul>
+                  <li>
+                   What is Flow APIs in Kotlin Coroutines?
+                  </li>
+                  <li>
+                   Start Integrating Flow APIs in your project
+                  </li>
+                  <li>
+                   Builders in Flows
+                  </li>
+                  <li>
+                   Few examples using Flow Operators.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Let's discuss them one by one.
+                 </p>
+                 <h4 class="graf--h3">
+                  What is Flow APIs in Kotlin Coroutines?
+                 </h4>
+                 <p class="graf--p">
+                  Flow API in Kotlin is a better way to handle the stream of data asynchronously that executes sequentially.
+                 </p>
+                 <p class="graf--p">
+                  So, in RxJava, Observables type is an example of a structure that represents a stream of items. Its body does not get executed until it is subscribed to by a subscriber. and once it is subscribed, subscriber starts getting the data items emitted. Similarly, Flow works on the same condition where the code inside a
+                  <i class="graf--italic">
+                   flow
+                  </i>
+                  builder does not run until the
+                  <i class="graf--italic">
+                   flow
+                  </i>
+                  is collected.
+                 </p>
+                 <h4 class="graf--h3">
+                  Start Integrating Flow APIs in your project
+                 </h4>
+                 <p class="graf--p">
+                  Let us create an android project and then let's start integrating the Kotlin Flow APIs.
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 01.
+                 </h4>
+                 <p class="graf--p">
+                  Add the following in the app's
+                  <b class="graf--bold">
+                   build.gradle,
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
+implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.3"</code></pre>
+                 <p class="graf--p">
+                  and in the project's
+                  <b class="graf--bold">
+                   build.gradle
+                  </b>
+                  add,
+                 </p>
+                 <pre><code class="language-java graf graf--code">classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.61"</code></pre>
+                 <h4 class="graf--h3">
+                  Step 02.
+                 </h4>
+                 <p class="graf--p">
+                  In MainActivity's layout file let's create a UI that will have a button.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+
+
+    &lt;Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Launch Kotlin Flow"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <h4 class="graf--h3">
+                  Step 03.
+                 </h4>
+                 <p class="graf--p">
+                  Now, let's begin the implementation of Flow APIs in MainActivity. In
+                  <b class="graf--bold">
+                   onCreate
+                  </b>
+                  () function of Activity lets add two function like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    setupFlow()
+    setupClicks()
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                  <b class="graf--bold">
+                   setupFlow
+                  </b>
+                  () is the function where we will define the flow and
+                  <b class="graf--bold">
+                   setupClicks
+                  </b>
+                  () is the function where we will click the button to display the data which is emitted from the flow.
+                 </p>
+                 <p class="graf--p">
+                  We will declare a lateinit variable of Flow of Int type,
+                 </p>
+                 <pre><code class="language-java graf graf--code">lateinit var flow: Flow&lt;Int&gt;</code></pre>
+                 <h4 class="graf--h3">
+                  Step 04.
+                 </h4>
+                 <p class="graf--p">
+                  Now, in
+                  <b class="graf--bold">
+                   setupFlow
+                  </b>
+                  () I will emit items after 500milliseconds delay.
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun setupFlow(){
+    flow = flow {
+        Log.d(TAG, "Start flow")
+        (0..10).forEach {
+            // Emit items with 500 milliseconds delay
+            delay(500)
+            Log.d(TAG, "Emitting $it")
+            emit(it)
+
+        }
+    }.flowOn(Dispatchers.Default)
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                 </p>
+                 <ul>
+                  <li>
+                   We will emit numbers from 0 to 10 at
+                   <b class="graf--bold">
+                    500ms
+                   </b>
+                   delay.
+                  </li>
+                  <li>
+                   To emit the number we will use
+                   <b class="graf--bold">
+                    emit()
+                   </b>
+                   which collects the value emitted
+                   <i class="graf--italic">
+                    .
+                   </i>
+                   It is part of FlowCollector which can be used as a receiver.
+                  </li>
+                  <li>
+                   and, at last, we use
+                   <b class="graf--bold">
+                    flowOn
+                   </b>
+                   operator which means that shall be used to change the context of the flow emission. Here, we can use different Dispatchers like IO, Default, etc.
+                  </li>
+                 </ul>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    flowOn() is like subscribeOn() in RxJava
+                   </b>
+                  </i>
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  Step 05.
+                 </h4>
+                 <p class="graf--p">
+                  Now, we need to write
+                  <b class="graf--bold">
+                   setupClicks()
+                  </b>
+                  function where we need to print the values which we will emit from the flow.
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun setupClicks() {
+    button.setOnClickListener {
+        CoroutineScope(Dispatchers.Main).launch {
+            flow.collect {
+                Log.d(TAG, it.toString())
+            }
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  When we click the button we will print the values one by one.
+                 </p>
+                 <p class="graf--p">
+                  Here,
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    flow.collect
+                   </b>
+                   now will start extracting/collection the value from the flow on the Main thread as
+                   <b class="graf--bold">
+                    Dispatchers.Main
+                   </b>
+                   is used in launch coroutine builder in CoroutineScope
+                  </li>
+                  <li>
+                   Now, the screen looks like,
+                  </li>
+                 </ul>
+                 <div class="graf-image graf-caption">
+                  <img alt="What is Flow in Kotlin and How to use it in Android Project?" class="graf-image" src="/images/screen-ui-kotlin-flow.png"/>
+                 </div>
+                 <ul>
+                  <li>
+                   And the output which will be printed in Logcat is,
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">D/MainActivity: Start flow
+D/MainActivity: Emitting 0
+D/MainActivity: 0
+D/MainActivity: Emitting 1
+D/MainActivity: 1
+D/MainActivity: Emitting 2
+D/MainActivity: 2
+D/MainActivity: Emitting 3
+D/MainActivity: 3
+D/MainActivity: Emitting 4
+D/MainActivity: 4
+D/MainActivity: Emitting 5
+D/MainActivity: 5
+D/MainActivity: Emitting 6
+D/MainActivity: 6
+D/MainActivity: Emitting 7
+D/MainActivity: 7
+D/MainActivity: Emitting 8
+D/MainActivity: 8
+D/MainActivity: Emitting 9
+D/MainActivity: 9
+D/MainActivity: Emitting 10
+D/MainActivity: 10</code></pre>
+                 <p class="graf--p">
+                  As you can see Flow starts only when the button is clicked as it prints
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Start Flow
+                   </i>
+                  </b>
+                  and then starts emitting. This is what I meant by
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Flows are cold.
+                   </i>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Let's say we update the
+                  <b class="graf--bold">
+                   setupFlow
+                  </b>
+                  () function like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun setupFlow() {
+    flow = flow {
+        Log.d(TAG, "Start flow")
+        (0..10).forEach {
+            // Emit items with 500 milliseconds delay
+            delay(500)
+            Log.d(TAG, "Emitting $it")
+            emit(it)
+        }
+    }.map {
+        it * it
+    }.flowOn(Dispatchers.Default)
+}</code></pre>
+                 <p class="graf--p">
+                  Here you can see we added map operator which will take each and every item will square itself and print the value.
+                 </p>
+                 <p class="graf--p">
+                  Anything, written above
+                  <b class="graf--bold">
+                   flowOn
+                  </b>
+                  will run in background thread.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Builders in Flow
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Flow builders are nothing but the way to build Flows. There are 4 types of flow builders,
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    flowOf() -
+                   </b>
+                   It is used to create flow from a given set of values. For Eg.
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">flowOf(4, 2, 5, 1, 7).onEach { delay(400) }.flowOn(Dispatchers.Default)</code></pre>
+                 <p class="graf--p">
+                  Here
+                  <b class="graf--bold">
+                   , flowOf()
+                  </b>
+                  takes fixed values and prints each of them after a delay of 400ms. When we attach a collector to the flow, we get the output
+                 </p>
+                 <pre><code class="language-java graf graf--code">D/MainActivity: 4
+D/MainActivity: 2
+D/MainActivity: 5
+D/MainActivity: 1
+D/MainActivity: 7</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    asFlow() -
+                   </b>
+                   It is an extension function that helps to convert type into flows. For Eg,
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">(1..5).asFlow().onEach{ delay(300)}.flowOn(Dispatchers.Default)</code></pre>
+                 <p class="graf--p">
+                  Here,  we converted a range of values from 1 to 5 as flow and emitted each of them at a delay of 300ms. When we attach a collector to the flow, we get the output,
+                 </p>
+                 <pre><code class="language-java graf graf--code">D/MainActivity: 1
+D/MainActivity: 2
+D/MainActivity: 3
+D/MainActivity: 4
+D/MainActivity: 5</code></pre>
+                 <p class="graf--p">
+                  The output is the number being printed from 1 to 5, whichever were present in the range.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    flow{} -
+                   </b>
+                   This example has been explained in the Android Example above. This is a builder function to construct arbitrary flows.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    channelFlow{}
+                   </b>
+                   - This builder creates cold-flow with the elements using
+                   <b class="graf--bold">
+                    send
+                   </b>
+                   provided by the builder itself. For Example,
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">channelFlow {
+    (0..10).forEach {
+        send(it)
+    }
+}.flowOn(Dispatchers.Default)</code></pre>
+                 <p class="graf--p">
+                  This will print,
+                 </p>
+                 <pre><code class="language-java graf graf--code">D/MainActivity: 0
+D/MainActivity: 1
+D/MainActivity: 2
+D/MainActivity: 3
+D/MainActivity: 4
+D/MainActivity: 5
+D/MainActivity: 6
+D/MainActivity: 7
+D/MainActivity: 8
+D/MainActivity: 9
+D/MainActivity: 10</code></pre>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    flowOn() is like subscribeOn() in RxJava
+                   </b>
+                  </i>
+                 </blockquote>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Now, finally, let's discuss how to use an operator of Flow in your project
+                  </b>
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Zip Operator
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  If you remember from above Android Example, we have two functions
+                  <b class="graf--bold">
+                   setupFlow
+                  </b>
+                  () and
+                  <b class="graf--bold">
+                   setupClicks
+                  </b>
+                  (). We will modify both functions in MainActivity.
+                 </p>
+                 <p class="graf--p">
+                  First, we will declare two lateinit variables of Flow of String type,
+                 </p>
+                 <pre><code class="language-java graf graf--code">lateinit var flowOne: Flow&lt;String&gt;
+lateinit var flowTwo: Flow&lt;String&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, the two functions
+                  <b class="graf--bold">
+                   setupFlow
+                  </b>
+                  () and
+                  <b class="graf--bold">
+                   setupClicks
+                  </b>
+                  () will be called in onCreate() of MainActivity.
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onCreate(savedInstanceState: Bundle?) {
+    ...
+    setupFlow()
+    setupClicks()
+
+}</code></pre>
+                 <p class="graf--p">
+                  and in the setupFlow() we will initialize two flows to the two variables,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun setupFlow() {
+    flowOne = flowOf("Himanshu", "Amit", "Janishar").flowOn(Dispatchers.Default)
+    flowTwo = flowOf("Singh", "Shekhar", "Ali").flowOn(Dispatchers.Default)
+
+}</code></pre>
+                 <p class="graf--p">
+                  and in
+                  <b class="graf--bold">
+                   setupClicks
+                  </b>
+                  () we will zip both the flows using zip operator,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun setupClicks() {
+    button.setOnClickListener {
+        CoroutineScope(Dispatchers.Main).launch {
+            flowOne.zip(flowTwo)
+            { firstString, secondString -&gt;
+                "$firstString $secondString"
+            }.collect {
+                Log.d(TAG, it)
+            }
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                 </p>
+                 <ul>
+                  <li>
+                   when the button is clicked the scope is launched.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    flowOne
+                   </b>
+                   is zipped with
+                   <b class="graf--bold">
+                    flowTwo
+                   </b>
+                   to give a pair of values that we have created a string and,
+                  </li>
+                  <li>
+                   then we collect it and print it in Logcat. The resulting output will be,
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">D/MainActivity: Himanshu Singh
+D/MainActivity: Amit Shekhar
+D/MainActivity: Janishar Ali</code></pre>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   Note: Consider if both flows doesn't have the same number of item, then the flow will stop as soon as one of the flow completes.
+                  </b>
+                 </blockquote>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://github.com/amitshekhariitbhu/Learn-Kotlin-Flow" target="_blank">
+                    To checkout the project , click here
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Happy learning.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Dagger in a Multi-Module Project" class="ui centered image" src="/images/using-dagger-multi-module-banner-a470a36d17d373f4.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Dagger in a Multi-Module Project
+           </div>
+           <div class="meta">
+            17th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how we can use dagger in a multi-module architecture in our project for better dependency management.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="What is Android Jetpack and why should we use it?" class="ui centered image" src="/images/android-jetpack.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            What is Android Jetpack and why should we use it?
+           </div>
+           <div class="meta">
+            4th January 2019
+           </div>
+           <div class="description">
+            What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="GradientDrawable - When and How to use it in Android" class="ui centered image" src="/images/gradientdrawable-in-android-banner-f13813e58e29912b.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            GradientDrawable - When and How to use it in Android
+           </div>
+           <div class="meta">
+            25th May 2020
+           </div>
+           <div class="description">
+            In this blog we are going to learn about using GradientDrawable in Android. We will begin with the need for using GradientDrawable by taking examples. Then we will see what all can be done using GradientDrawable. Finally we will look at the major components of GradientDrawable.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to encrypt data safely on device and use the AndroidKeystore?" class="ui centered image" src="/images/how-to-encrypt-data-safely-on-a-device-and-use-the-androidkeystore-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to encrypt data safely on device and use the AndroidKeystore?
+           </div>
+           <div class="meta">
+            28th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to encrypt data safely in Android device and how to use Androidkeystore. We will learn about key encryption, file encryption, and how to encrypt SharedPreferences.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Why do we use the Dependency Injection Framework like Dagger in Android?" class="ui centered image" src="/images/dagger-banner-why.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Why do we use the Dependency Injection Framework like Dagger in Android?
+           </div>
+           <div class="meta">
+            28th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to see why do we use the Dependency Injection Framework like Dagger in Android. We will also see how can we give our configuration to the framework.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to use Memory Heap Dumps data?" class="ui centered image" src="/images/how-to-use-memory-heap-dumps-data-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to use Memory Heap Dumps data?
+           </div>
+           <div class="meta">
+            28th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use memory heap dump data to identify memory leaks in our application. A memory leak occurs when an object is present in the memory and that object is not being used in the program.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

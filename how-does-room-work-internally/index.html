@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   How does Room work internally?
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/how-does-room-work-internally" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="How does Room work internally?" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/how-does-room-work-internally" property="og:url"/>
+  <meta content="/images/how-does-room-work-internally-banner-2a2f345225530f17.png" property="og:image"/>
+  <meta content="In this blog, we are going to learn the working of Room with the help of an example." property="og:description"/>
+  <meta content="How does Room work internally?" property="twitter:title"/>
+  <meta content="In this blog, we are going to learn the working of Room with the help of an example." name="twitter:description"/>
+  <meta content="/images/how-does-room-work-internally-banner-2a2f345225530f17.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to learn the working of Room with the help of an example." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:450,data:{id:450,title:"How does Room work internally?",description:"In this blog, we are going to learn the working of Room with the help of an example.",text:'<h1 class="graf--h1">How does Room work internally?</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/how-does-room-work-internally-banner-2a2f345225530f17.png class=\'graf-image\' alt=\'How does Room work internally?\' />\n\t\t\t\t\t\t\t\t</div ><blockquote class="graf--blockquote"><i class="graf--italic"><b class="graf--bold">Note:</b> This article is part of the advanced Room series which covers all the details about the Room persistence library. You can read all the articles here:</i></blockquote><ul><li><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/introduction-to-room-persistent-library-in-android">Introduction to Room Persistent Library in Android</a></li><li><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/data-access-objects-dao-in-room">Data Access Objects - DAO in Room</a></li><li><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/entity-relationship-in-room">Entity Relationship in Room</a></li><li><b class="graf--bold">How does Room work internally? [You are here]</b></li><li><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/room-database-migrations">Room Database Migrations</a></li><li><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/using-room-with-live-data-and-other-third-party-libraries">Using Room with LiveData and other third-party libraries</a></li></ul><p class="graf--p">So, let&#x27;s get started.</p><p class="graf--p">In the previous articles, we discussed how we can use Room library (part of Google’s <a class="markup--anchor" target="_blank" href="https://developer.android.com/jetpack">Jetpack</a> project) to create relational persistence in Android applications. Room makes it very easy for a developer to setup a database and start using it in production.</p><p class="graf--p">In this article, we are going to focus on how Room accomplishes all these things. </p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/deepanshu42/room-example-app">You can find the project that is going to be used in the blog from here.</a></p><p class="graf--p">We are going to use this project as a reference for explaining how Room actually does everything. Following are the highlights of our project:</p><ul><li>It has a single database(<b class="graf--bold">UserDatabase</b>) which contains only one table/entity(<b class="graf--bold">User</b>).</li></ul><pre><code class="language-java graf graf--code">@Database(entities = [User::class], version = 1)\nabstract class UserDatabase : RoomDatabase() {\n abstract fun userDao(): UserDao\n}</code></pre><ul><li><b class="graf--bold">User</b> table has 3 columns: <b class="graf--bold">uid</b>, <b class="graf--bold">first name</b> and <b class="graf--bold">last name</b></li></ul><pre><code class="language-java graf graf--code">@Entity(tableName = USERS_TABLE)\ndata class User(\n    @PrimaryKey val uid: Int,\n    @ColumnInfo(name = FIRST_NAME_COLUMN) val firstName: String?,\n    @ColumnInfo(name = LAST_NAME_COLUMN) val lastName: String?\n)</code></pre><ul><li><b class="graf--bold">UserDao</b> is the interface through which our application interacts with the database.</li></ul><pre><code class="language-java graf graf--code">@Dao\ninterface UserDao {\n    @Query("SELECT * FROM $USERS_TABLE")\n    fun getAll(): List&lt;User&gt;\n\n    @Insert\n    fun insertAll(vararg users: User)\n\n    @Delete\n    fun delete(user: User)\n}</code></pre><h4 class="graf--h3"><b class="graf--bold">Internal Working of Room</b></h4><p class="graf--p">After creating a Room Database, the first time you compile your code, Room autogenerates implementation of your <code class="graf--code-inline"><code class="graf--code-inline">@Database</code></code> and <code class="graf--code-inline"><code class="graf--code-inline">@Dao</code></code> annotated classes. In the above example, implementation of <code class="graf--code-inline"><code class="graf--code-inline">UserDatabase</code></code> and <code class="graf--code-inline"><code class="graf--code-inline">UserDao</code></code> is autogenerated by Room annotation processor.</p><blockquote class="graf--blockquote"><i class="graf--italic"><b class="graf--bold">Note:</b></i> <i class="graf--italic">You can find the autogenerated code in build/generated/source/kapt/ folder.</i></blockquote><p class="graf--p">In our example, the implementation of <code class="graf--code-inline"><code class="graf--code-inline">UserDatabase</code></code> is named as <code class="graf--code-inline"><code class="graf--code-inline">UserDatabase_Impl</code></code> and implementation of <code class="graf--code-inline"><code class="graf--code-inline">UserDao</code></code> is named as <code class="graf--code-inline"><code class="graf--code-inline">UserDao_Impl</code></code>. These are the classes where actual processing happens. Let’s discuss both of the implementations individually.</p><h4 class="graf--h3"><b class="graf--bold">UserDatabase_Impl</b></h4><p class="graf--p">An overview of <b class="graf--bold">UserDatabase_Impl</b> looks like this:</p><pre><code class="language-java graf graf--code">public final class UserDatabase_Impl extends UserDatabase {\n  private volatile UserDao _userDao;\n\n  @Override\n  protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration configuration) {\n    //Implementation\n  }\n\n  @Override\n  protected InvalidationTracker createInvalidationTracker() {\n    //Implementation\n  }\n\n  @Override\n  public void clearAllTables() {\n    //Implementation\n  }\n\n  @Override\n  public UserDao userDao() {\n    //Implementation\n  }\n}</code></pre><ul><li><code class="graf--code-inline"><code class="graf--code-inline">createOpenHelper()</code></code> is invoked when you build instance of your database using <code class="graf--code-inline"><code class="graf--code-inline">Room.databaseBuilder().build()</code></code>. It creates and returns an instance of <code class="graf--code-inline"><code class="graf--code-inline">SupportSQLiteOpenHelper</code></code> which is a helper class for managing database creation and version management.</li><li><code class="graf--code-inline"><code class="graf--code-inline">createInvalidationTracker()</code></code> creates an invalidation tracker which keeps a list of tables modified by queries and notifies its callbacks about these tables.</li><li><code class="graf--code-inline"><code class="graf--code-inline">clearAllTables()</code></code> implements the behaviour of deleting data from all the tables of the specified database.</li><li><code class="graf--code-inline"><code class="graf--code-inline">userDao()</code></code> creates(if not exists) and returns the instance of <code class="graf--code-inline"><code class="graf--code-inline">UserDao_Impl</code></code> for interacting with the <code class="graf--code-inline"><code class="graf--code-inline">users</code></code> table.</li></ul><h4 class="graf--h3"><b class="graf--bold">UserDao_Impl</b></h4><p class="graf--p">UserDao_Impl implements all the methods in UserDao. The overview of UserDao_Impl looks like this:</p><pre><code class="language-java graf graf--code">public final class UserDao_Impl implements UserDao {\n  private final RoomDatabase __db;\n\n  private final EntityInsertionAdapter&lt;User&gt; __insertionAdapterOfUser;\n\n  private final EntityDeletionOrUpdateAdapter&lt;User&gt; __deletionAdapterOfUser;\n\n  public UserDao_Impl(RoomDatabase __db) {\n    this.__db = __db;\n    this.__insertionAdapterOfUser = new EntityInsertionAdapter&lt;User&gt;(__db) {\n      //Implementation\n    };\n    this.__deletionAdapterOfUser = new EntityDeletionOrUpdateAdapter&lt;User&gt;(__db) {\n      //Implementation\n    };\n  }\n\n  @Override\n  public void insertAll(final User... users) {\n    //Implementation\n  }\n\n  @Override\n  public void delete(final User user) {\n    //Implementation\n  }\n\n  @Override\n  public List&lt;User&gt; getAll() {\n    //Implementation\n  }\n\n  @Override\n  public List&lt;User&gt; loadAllByIds(final int[] userIds) {\n    //Implementation\n  }\n\n  @Override\n  public User findByName(final String first, final String last) {\n    //Implementation\n  }\n}</code></pre><p class="graf--p">In the above example, <code class="graf--code-inline">UserDao_Impl</code> has 3 fields: <b class="graf--bold">__db, __insertionAdapterOfUser</b> and <b class="graf--bold">__deletionAdapterOfUser.</b></p><ul><li><b class="graf--bold">__db</b> is an instance of RoomDatabase which is used for multiple purposes like transaction and querying the database.</li><li><b class="graf--bold">__insertionAdapterOfUser</b> is an instance of EntityInsertionAdapter used for inserting entities into a table. This is used in the <code class="graf--code-inline"><code class="graf--code-inline">insertAll()</code></code> method.</li><li><b class="graf--bold">__deletionAdapterOfUser</b> is an instance of EntityDeletionOrUpdateAdapter used to update/delete entities from a table. This is used in <code class="graf--code-inline"><code class="graf--code-inline">delete()</code></code> method.</li></ul><h4 class="graf--h3"><b class="graf--bold">Building the RoomDatabase</b></h4><p class="graf--p">Till now, we have understood what happens after our project is successfully compiled. Also, we know that we need an instance of <code class="graf--code-inline"><code class="graf--code-inline">UserDatabase</code></code> which gives us an instance of <code class="graf--code-inline"><code class="graf--code-inline">UserDao</code></code> in order to perform any database related operations.</p><p class="graf--p">To get an instance of <code class="graf--code-inline"><code class="graf--code-inline">UserDatabase</code>,</code> Room provides us with a builder method named <code class="graf--code-inline"><code class="graf--code-inline">Room.databaseBuilder</code></code> which gives us an instance of <code class="graf--code-inline"><code class="graf--code-inline">RoomDatabase.Builder</code></code>. We can use this instance to get <code class="graf--code-inline"><code class="graf--code-inline">UserDatabase</code></code> by invoking the <code class="graf--code-inline"><code class="graf--code-inline">build()</code></code> method.</p><pre><code class="language-java graf graf--code">val userDatabase = Room.databaseBuilder(\n    applicationContext,\n    UserDatabase::class.java,\n    "users-db"\n).build()</code></pre><p class="graf--p">We can use this builder to configure our database like</p><ul><li><code class="graf--code-inline"><code class="graf--code-inline">createFromAsset()</code>/<code class="graf--code-inline">createFromFile()</code></code> to create and open database from an asset(located in the application ‘assets/’ folder)/a pre-packaged database file.</li><li><code class="graf--code-inline"><code class="graf--code-inline">addMigrations()</code></code> to add database migration from one version to another. A migration is needed whenever we are changing the version of our database even if there is no change in the schema of both versions.</li><li><code class="graf--code-inline"><code class="graf--code-inline">allowMainThreadQueries()</code></code> to allow making database queries from main thread. By default, Room doesn’t allow this.</li><li><code class="graf--code-inline"><code class="graf--code-inline">fallbackToDestructiveMigration()</code></code> allows Room to destructively recreate database tables if migration is not found.</li></ul><p class="graf--p">There are also many other methods provided in <code class="graf--code-inline"><code class="graf--code-inline">RoomDatabase.Builder</code></code> for database configuration.</p><p class="graf--p">Once we invoke <code class="graf--code-inline"><code class="graf--code-inline">build()</code></code> method on this <code class="graf--code-inline"><code class="graf--code-inline">RoomDatabase.Builder</code></code> instance, Room validates and creates an instance of the autogenerated implementation of <code class="graf--code-inline"><code class="graf--code-inline">UserDatabase::<b class="graf--bold">class</b>.java</code></code> — i.e., <code class="graf--code-inline"><code class="graf--code-inline">UserDatabase_Impl</code></code>. After the creation of <code class="graf--code-inline"><code class="graf--code-inline">UserDatabase_Impl</code></code>, <code class="graf--code-inline"><code class="graf--code-inline">init()</code></code> method is invoked on the database by passing the database configuration which in turn invokes the <code class="graf--code-inline"><code class="graf--code-inline">createOpenHelper()</code></code> method of <code class="graf--code-inline"><code class="graf--code-inline">UserDatabase_Impl</code></code>.Now we are going to discuss the implementation of some important methods in UserDatabase_Impl and UserDao_Impl discussed earlier.</p><h4 class="graf--h3"><b class="graf--bold">userDao() in</b> <code class="graf--code-inline"><code class="graf--code-inline">UserDatabase_Impl</code></code></h4><pre><code class="language-java graf graf--code">@Override\npublic UserDao userDao() {\n  if (_userDao != null) {\n    return _userDao;\n  } else {\n    synchronized(this) {\n      if(_userDao == null) {\n        _userDao = new UserDao_Impl(this);\n      }\n      return _userDao;\n    }\n  } \n}</code></pre><p class="graf--p">It lazily creates the implementation of <code class="graf--code-inline">UserDao</code> — i.e., <code class="graf--code-inline"><code class="graf--code-inline">UserDao_Impl</code></code> and returns it whenever <code class="graf--code-inline"><code class="graf--code-inline">userDao()</code></code> is invoked. As we can see, it passes the instance of <code class="graf--code-inline"><code class="graf--code-inline">RoomDatabase</code></code> in <code class="graf--code-inline"><code class="graf--code-inline">UserDao_Impl</code>’s</code> constructor.</p><h4 class="graf--h3"><b class="graf--bold">insertAll() in</b> <b class="graf--bold"><code class="graf--code-inline"><code class="graf--code-inline">UserDao_Impl</code></code></b></h4><pre><code class="language-java graf graf--code">@Override\npublic void insertAll(final User... users) {\n  __db.assertNotSuspendingTransaction();\n  __db.beginTransaction();\n  try {\n    __insertionAdapterOfUser.insert(users);\n    __db.setTransactionSuccessful();\n  } finally {\n    __db.endTransaction();\n  }\n}</code></pre><p class="graf--p">It uses <b class="graf--bold">__db</b> for creating the transaction and <b class="graf--bold">__insertionAdapterOfUser</b> for insertion.</p><h4 class="graf--h3"><b class="graf--bold">delete() in</b> <b class="graf--bold"><code class="graf--code-inline"><code class="graf--code-inline">UserDao_Impl</code></code></b></h4><pre><code class="language-java graf graf--code">@Override\npublic void delete(final User user) {\n  __db.assertNotSuspendingTransaction();\n  __db.beginTransaction();\n  try {\n    __deletionAdapterOfUser.handle(user);\n    __db.setTransactionSuccessful();\n  } finally {\n    __db.endTransaction();\n  }\n}</code></pre><p class="graf--p">It uses <b class="graf--bold">__db</b> for creating the transaction and <b class="graf--bold">__deletionAdapterOfUser</b> for deletion.</p><h4 class="graf--h3"><b class="graf--bold">getAll() in</b> <b class="graf--bold"><code class="graf--code-inline"><code class="graf--code-inline">UserDao_Impl</code></code></b></h4><pre><code class="language-java graf graf--code">@Override\npublic List&lt;User&gt; getAll() {\n  final String _sql = "SELECT * FROM users";\n  final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);\n  __db.assertNotSuspendingTransaction();\n  final Cursor _cursor = DBUtil.query(__db, _statement, false, null);\n  try {\n    final int _cursorIndexOfUid = CursorUtil.getColumnIndexOrThrow(_cursor, "uid");\n    final int _cursorIndexOfFirstName = CursorUtil.getColumnIndexOrThrow(_cursor, "first_name");\n    final int _cursorIndexOfLastName = CursorUtil.getColumnIndexOrThrow(_cursor, "last_name");\n    final List&lt;User&gt; _result = new ArrayList&lt;User&gt;(_cursor.getCount());\n    while(_cursor.moveToNext()) {\n      final User _item;\n      final int _tmpUid;\n      _tmpUid = _cursor.getInt(_cursorIndexOfUid);\n      final String _tmpFirstName;\n      _tmpFirstName = _cursor.getString(_cursorIndexOfFirstName);\n      final String _tmpLastName;\n      _tmpLastName = _cursor.getString(_cursorIndexOfLastName);\n      _item = new User(_tmpUid,_tmpFirstName,_tmpLastName);\n      _result.add(_item);\n    }\n    return _result;\n  } finally {\n    _cursor.close();\n    _statement.release();\n  }\n}</code></pre><p class="graf--p">As we can see, it creates a <code class="graf--code-inline"><code class="graf--code-inline">RoomSQLiteQuery</code></code> object from the query specified in <code class="graf--code-inline"><code class="graf--code-inline">@Query</code></code> annotation. It then simply creates a <b class="graf--bold">cursor</b> to fetch data from the database.</p><p class="graf--p">This is enough to get a basic understanding of how Room works internally. Hope you enjoyed this blog. In the next blog, we are going to learn <span class=""><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/room-database-migrations">Room Database Migrations</a>.</span></p><p class="graf--p">You can also connect with me on <span class=""><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/deepanshu42/">LinkedIn</a></span>, <span class=""><a class="markup--anchor" target="_blank" href="https://twitter.com/deep1743">Twitter</a></span>, <span class=""><a class="markup--anchor" target="_blank" href="https://www.facebook.com/deepanshu42">Facebook</a></span> and <span class=""><a class="markup--anchor" target="_blank" href="https://github.com/deepanshu42">Github</a></span>. </p><p class="graf--p">Thank You!!!</p>',author:14040,img_url:"/images/how-does-room-work-internally-banner-2a2f345225530f17.png",blog_url:"how-does-room-work-internally",likes:0,rank:0,category:1,published_at:"18th May 2020"},author:{id:14040,name:"Deepanshu",google_profile_pic:"https://lh6.googleusercontent.com/-0TQ3Ffy_SrU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmSiX_h9XkfKNdYgwBAOyAwFkDZSw/s96-c/photo.jpg?sz=300",fb_profile_pic:null,profile_tagline:"Software Engineer - Android",fb_profile_url:"https://www.facebook.com/deepanshu42",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/deep1743",github_profile_url:"https://github.com/deepanshu42",linkedin_profile_url:"https://www.linkedin.com/in/deepanshu42/"},isFetching:!1,similarBlogs:[{id:454,title:"How does RecyclerView work internally?",description:"In this blog, we are going to talk about how recyclerView works internally and how the recycling of views happen. We would also discuss the benefit of using viewholders in recyclerView.",author:9959,img_url:"/images/banner-recyclerview-working-3a65a777947be8b6.png",blog_url:"how-does-recyclerview-work-internally",likes:0,rank:0,category:1,published_at:"20th May 2020",score:9.951828002929688},{id:328,title:"Integrating Work Manager - Android Tutorial",description:"In this blog, we will talk about how to integrate the work manager in your android project and much more advanced feature and customization which makes your life easy in scheduling tasks.",author:9959,img_url:"/images/integrating-work-manager-in-android.png",blog_url:"integrating-work-manager-in-android",likes:0,rank:0,category:1,published_at:"16th September 2019",score:2.5373833179473877},{id:209,title:"Android Room Persistence Library in Kotlin",description:"Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class.",author:14897,img_url:"/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png",blog_url:"android-room-persistence-library-in-kotlin",likes:0,rank:0,category:1,published_at:"9th January 2019",score:1.8798271417617798},{id:210,title:"Android SearchView in Room Database in Kotlin",description:"How to implement SearchView inside Room Database?",author:14897,img_url:"/images/android_searchview_in_room_database_mindorks_feature_image.png",blog_url:"android-searchview-in-room-database-in-kotlin",likes:0,rank:0,category:1,published_at:"9th January 2019",score:1.8798271417617798},{id:447,title:"Introduction to Room Persistent Library in Android",description:"In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.",author:14040,img_url:"/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png",blog_url:"introduction-to-room-persistent-library-in-android",likes:0,rank:0,category:1,published_at:"18th May 2020",score:1.8798271417617798},{id:448,title:"Data Access Objects - DAO in Room",description:"In this blog, we are going to learn about Data Access Objects or DAO in Room Persistent Library.",author:14040,img_url:"/images/data-access-objects-dao-in-room-banner-509915bdcce194cb.png",blog_url:"data-access-objects-dao-in-room",likes:0,rank:0,category:1,published_at:"18th May 2020",score:1.8798271417617798}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Deepanshu" class="ui circular image" src="https://lh6.googleusercontent.com/-0TQ3Ffy_SrU/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmSiX_h9XkfKNdYgwBAOyAwFkDZSw/s96-c/photo.jpg?sz=300"/>
+          <div class="content">
+           Deepanshu
+           <div class="sub header" style="margin-top:5px">
+            18th May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  How does Room work internally?
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="How does Room work internally?" class="graf-image" src="/images/how-does-room-work-internally-banner-2a2f345225530f17.png"/>
+                 </div>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    Note:
+                   </b>
+                   This article is part of the advanced Room series which covers all the details about the Room persistence library. You can read all the articles here:
+                  </i>
+                 </blockquote>
+                 <ul>
+                  <li>
+                   <a class="markup--anchor" href="https://blog.mindorks.com/introduction-to-room-persistent-library-in-android" target="_blank">
+                    Introduction to Room Persistent Library in Android
+                   </a>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://blog.mindorks.com/data-access-objects-dao-in-room" target="_blank">
+                    Data Access Objects - DAO in Room
+                   </a>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://blog.mindorks.com/entity-relationship-in-room" target="_blank">
+                    Entity Relationship in Room
+                   </a>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    How does Room work internally? [You are here]
+                   </b>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://blog.mindorks.com/room-database-migrations" target="_blank">
+                    Room Database Migrations
+                   </a>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://blog.mindorks.com/using-room-with-live-data-and-other-third-party-libraries" target="_blank">
+                    Using Room with LiveData and other third-party libraries
+                   </a>
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, let's get started.
+                 </p>
+                 <p class="graf--p">
+                  In the previous articles, we discussed how we can use Room library (part of Google’s
+                  <a class="markup--anchor" href="https://developer.android.com/jetpack" target="_blank">
+                   Jetpack
+                  </a>
+                  project) to create relational persistence in Android applications. Room makes it very easy for a developer to setup a database and start using it in production.
+                 </p>
+                 <p class="graf--p">
+                  In this article, we are going to focus on how Room accomplishes all these things.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/deepanshu42/room-example-app" target="_blank">
+                   You can find the project that is going to be used in the blog from here.
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  We are going to use this project as a reference for explaining how Room actually does everything. Following are the highlights of our project:
+                 </p>
+                 <ul>
+                  <li>
+                   It has a single database(
+                   <b class="graf--bold">
+                    UserDatabase
+                   </b>
+                   ) which contains only one table/entity(
+                   <b class="graf--bold">
+                    User
+                   </b>
+                   ).
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">@Database(entities = [User::class], version = 1)
+abstract class UserDatabase : RoomDatabase() {
+ abstract fun userDao(): UserDao
+}</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    User
+                   </b>
+                   table has 3 columns:
+                   <b class="graf--bold">
+                    uid
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    first name
+                   </b>
+                   and
+                   <b class="graf--bold">
+                    last name
+                   </b>
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">@Entity(tableName = USERS_TABLE)
+data class User(
+    @PrimaryKey val uid: Int,
+    @ColumnInfo(name = FIRST_NAME_COLUMN) val firstName: String?,
+    @ColumnInfo(name = LAST_NAME_COLUMN) val lastName: String?
+)</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    UserDao
+                   </b>
+                   is the interface through which our application interacts with the database.
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">@Dao
+interface UserDao {
+    @Query("SELECT * FROM $USERS_TABLE")
+    fun getAll(): List&lt;User&gt;
+
+    @Insert
+    fun insertAll(vararg users: User)
+
+    @Delete
+    fun delete(user: User)
+}</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Internal Working of Room
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  After creating a Room Database, the first time you compile your code, Room autogenerates implementation of your
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    @Database
+                   </code>
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    @Dao
+                   </code>
+                  </code>
+                  annotated classes. In the above example, implementation of
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDatabase
+                   </code>
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDao
+                   </code>
+                  </code>
+                  is autogenerated by Room annotation processor.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    Note:
+                   </b>
+                  </i>
+                  <i class="graf--italic">
+                   You can find the autogenerated code in build/generated/source/kapt/ folder.
+                  </i>
+                 </blockquote>
+                 <p class="graf--p">
+                  In our example, the implementation of
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDatabase
+                   </code>
+                  </code>
+                  is named as
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDatabase_Impl
+                   </code>
+                  </code>
+                  and implementation of
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDao
+                   </code>
+                  </code>
+                  is named as
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDao_Impl
+                   </code>
+                  </code>
+                  . These are the classes where actual processing happens. Let’s discuss both of the implementations individually.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   UserDatabase_Impl
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  An overview of
+                  <b class="graf--bold">
+                   UserDatabase_Impl
+                  </b>
+                  looks like this:
+                 </p>
+                 <pre><code class="language-java graf graf--code">public final class UserDatabase_Impl extends UserDatabase {
+  private volatile UserDao _userDao;
+
+  @Override
+  protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration configuration) {
+    //Implementation
+  }
+
+  @Override
+  protected InvalidationTracker createInvalidationTracker() {
+    //Implementation
+  }
+
+  @Override
+  public void clearAllTables() {
+    //Implementation
+  }
+
+  @Override
+  public UserDao userDao() {
+    //Implementation
+  }
+}</code></pre>
+                 <ul>
+                  <li>
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     createOpenHelper()
+                    </code>
+                   </code>
+                   is invoked when you build instance of your database using
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     Room.databaseBuilder().build()
+                    </code>
+                   </code>
+                   . It creates and returns an instance of
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     SupportSQLiteOpenHelper
+                    </code>
+                   </code>
+                   which is a helper class for managing database creation and version management.
+                  </li>
+                  <li>
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     createInvalidationTracker()
+                    </code>
+                   </code>
+                   creates an invalidation tracker which keeps a list of tables modified by queries and notifies its callbacks about these tables.
+                  </li>
+                  <li>
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     clearAllTables()
+                    </code>
+                   </code>
+                   implements the behaviour of deleting data from all the tables of the specified database.
+                  </li>
+                  <li>
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     userDao()
+                    </code>
+                   </code>
+                   creates(if not exists) and returns the instance of
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     UserDao_Impl
+                    </code>
+                   </code>
+                   for interacting with the
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     users
+                    </code>
+                   </code>
+                   table.
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   UserDao_Impl
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  UserDao_Impl implements all the methods in UserDao. The overview of UserDao_Impl looks like this:
+                 </p>
+                 <pre><code class="language-java graf graf--code">public final class UserDao_Impl implements UserDao {
+  private final RoomDatabase __db;
+
+  private final EntityInsertionAdapter&lt;User&gt; __insertionAdapterOfUser;
+
+  private final EntityDeletionOrUpdateAdapter&lt;User&gt; __deletionAdapterOfUser;
+
+  public UserDao_Impl(RoomDatabase __db) {
+    this.__db = __db;
+    this.__insertionAdapterOfUser = new EntityInsertionAdapter&lt;User&gt;(__db) {
+      //Implementation
+    };
+    this.__deletionAdapterOfUser = new EntityDeletionOrUpdateAdapter&lt;User&gt;(__db) {
+      //Implementation
+    };
+  }
+
+  @Override
+  public void insertAll(final User... users) {
+    //Implementation
+  }
+
+  @Override
+  public void delete(final User user) {
+    //Implementation
+  }
+
+  @Override
+  public List&lt;User&gt; getAll() {
+    //Implementation
+  }
+
+  @Override
+  public List&lt;User&gt; loadAllByIds(final int[] userIds) {
+    //Implementation
+  }
+
+  @Override
+  public User findByName(final String first, final String last) {
+    //Implementation
+  }
+}</code></pre>
+                 <p class="graf--p">
+                  In the above example,
+                  <code class="graf--code-inline">
+                   UserDao_Impl
+                  </code>
+                  has 3 fields:
+                  <b class="graf--bold">
+                   __db, __insertionAdapterOfUser
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   __deletionAdapterOfUser.
+                  </b>
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    __db
+                   </b>
+                   is an instance of RoomDatabase which is used for multiple purposes like transaction and querying the database.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    __insertionAdapterOfUser
+                   </b>
+                   is an instance of EntityInsertionAdapter used for inserting entities into a table. This is used in the
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     insertAll()
+                    </code>
+                   </code>
+                   method.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    __deletionAdapterOfUser
+                   </b>
+                   is an instance of EntityDeletionOrUpdateAdapter used to update/delete entities from a table. This is used in
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     delete()
+                    </code>
+                   </code>
+                   method.
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Building the RoomDatabase
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Till now, we have understood what happens after our project is successfully compiled. Also, we know that we need an instance of
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDatabase
+                   </code>
+                  </code>
+                  which gives us an instance of
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDao
+                   </code>
+                  </code>
+                  in order to perform any database related operations.
+                 </p>
+                 <p class="graf--p">
+                  To get an instance of
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDatabase
+                   </code>
+                   ,
+                  </code>
+                  Room provides us with a builder method named
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    Room.databaseBuilder
+                   </code>
+                  </code>
+                  which gives us an instance of
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    RoomDatabase.Builder
+                   </code>
+                  </code>
+                  . We can use this instance to get
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDatabase
+                   </code>
+                  </code>
+                  by invoking the
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    build()
+                   </code>
+                  </code>
+                  method.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val userDatabase = Room.databaseBuilder(
+    applicationContext,
+    UserDatabase::class.java,
+    "users-db"
+).build()</code></pre>
+                 <p class="graf--p">
+                  We can use this builder to configure our database like
+                 </p>
+                 <ul>
+                  <li>
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     createFromAsset()
+                    </code>
+                    /
+                    <code class="graf--code-inline">
+                     createFromFile()
+                    </code>
+                   </code>
+                   to create and open database from an asset(located in the application ‘assets/’ folder)/a pre-packaged database file.
+                  </li>
+                  <li>
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     addMigrations()
+                    </code>
+                   </code>
+                   to add database migration from one version to another. A migration is needed whenever we are changing the version of our database even if there is no change in the schema of both versions.
+                  </li>
+                  <li>
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     allowMainThreadQueries()
+                    </code>
+                   </code>
+                   to allow making database queries from main thread. By default, Room doesn’t allow this.
+                  </li>
+                  <li>
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     fallbackToDestructiveMigration()
+                    </code>
+                   </code>
+                   allows Room to destructively recreate database tables if migration is not found.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  There are also many other methods provided in
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    RoomDatabase.Builder
+                   </code>
+                  </code>
+                  for database configuration.
+                 </p>
+                 <p class="graf--p">
+                  Once we invoke
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    build()
+                   </code>
+                  </code>
+                  method on this
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    RoomDatabase.Builder
+                   </code>
+                  </code>
+                  instance, Room validates and creates an instance of the autogenerated implementation of
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDatabase::
+                    <b class="graf--bold">
+                     class
+                    </b>
+                    .java
+                   </code>
+                  </code>
+                  — i.e.,
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDatabase_Impl
+                   </code>
+                  </code>
+                  . After the creation of
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDatabase_Impl
+                   </code>
+                  </code>
+                  ,
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    init()
+                   </code>
+                  </code>
+                  method is invoked on the database by passing the database configuration which in turn invokes the
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    createOpenHelper()
+                   </code>
+                  </code>
+                  method of
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDatabase_Impl
+                   </code>
+                  </code>
+                  .Now we are going to discuss the implementation of some important methods in UserDatabase_Impl and UserDao_Impl discussed earlier.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   userDao() in
+                  </b>
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDatabase_Impl
+                   </code>
+                  </code>
+                 </h4>
+                 <pre><code class="language-java graf graf--code">@Override
+public UserDao userDao() {
+  if (_userDao != null) {
+    return _userDao;
+  } else {
+    synchronized(this) {
+      if(_userDao == null) {
+        _userDao = new UserDao_Impl(this);
+      }
+      return _userDao;
+    }
+  } 
+}</code></pre>
+                 <p class="graf--p">
+                  It lazily creates the implementation of
+                  <code class="graf--code-inline">
+                   UserDao
+                  </code>
+                  — i.e.,
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDao_Impl
+                   </code>
+                  </code>
+                  and returns it whenever
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    userDao()
+                   </code>
+                  </code>
+                  is invoked. As we can see, it passes the instance of
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    RoomDatabase
+                   </code>
+                  </code>
+                  in
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    UserDao_Impl
+                   </code>
+                   ’s
+                  </code>
+                  constructor.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   insertAll() in
+                  </b>
+                  <b class="graf--bold">
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     UserDao_Impl
+                    </code>
+                   </code>
+                  </b>
+                 </h4>
+                 <pre><code class="language-java graf graf--code">@Override
+public void insertAll(final User... users) {
+  __db.assertNotSuspendingTransaction();
+  __db.beginTransaction();
+  try {
+    __insertionAdapterOfUser.insert(users);
+    __db.setTransactionSuccessful();
+  } finally {
+    __db.endTransaction();
+  }
+}</code></pre>
+                 <p class="graf--p">
+                  It uses
+                  <b class="graf--bold">
+                   __db
+                  </b>
+                  for creating the transaction and
+                  <b class="graf--bold">
+                   __insertionAdapterOfUser
+                  </b>
+                  for insertion.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   delete() in
+                  </b>
+                  <b class="graf--bold">
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     UserDao_Impl
+                    </code>
+                   </code>
+                  </b>
+                 </h4>
+                 <pre><code class="language-java graf graf--code">@Override
+public void delete(final User user) {
+  __db.assertNotSuspendingTransaction();
+  __db.beginTransaction();
+  try {
+    __deletionAdapterOfUser.handle(user);
+    __db.setTransactionSuccessful();
+  } finally {
+    __db.endTransaction();
+  }
+}</code></pre>
+                 <p class="graf--p">
+                  It uses
+                  <b class="graf--bold">
+                   __db
+                  </b>
+                  for creating the transaction and
+                  <b class="graf--bold">
+                   __deletionAdapterOfUser
+                  </b>
+                  for deletion.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   getAll() in
+                  </b>
+                  <b class="graf--bold">
+                   <code class="graf--code-inline">
+                    <code class="graf--code-inline">
+                     UserDao_Impl
+                    </code>
+                   </code>
+                  </b>
+                 </h4>
+                 <pre><code class="language-java graf graf--code">@Override
+public List&lt;User&gt; getAll() {
+  final String _sql = "SELECT * FROM users";
+  final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+  __db.assertNotSuspendingTransaction();
+  final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+  try {
+    final int _cursorIndexOfUid = CursorUtil.getColumnIndexOrThrow(_cursor, "uid");
+    final int _cursorIndexOfFirstName = CursorUtil.getColumnIndexOrThrow(_cursor, "first_name");
+    final int _cursorIndexOfLastName = CursorUtil.getColumnIndexOrThrow(_cursor, "last_name");
+    final List&lt;User&gt; _result = new ArrayList&lt;User&gt;(_cursor.getCount());
+    while(_cursor.moveToNext()) {
+      final User _item;
+      final int _tmpUid;
+      _tmpUid = _cursor.getInt(_cursorIndexOfUid);
+      final String _tmpFirstName;
+      _tmpFirstName = _cursor.getString(_cursorIndexOfFirstName);
+      final String _tmpLastName;
+      _tmpLastName = _cursor.getString(_cursorIndexOfLastName);
+      _item = new User(_tmpUid,_tmpFirstName,_tmpLastName);
+      _result.add(_item);
+    }
+    return _result;
+  } finally {
+    _cursor.close();
+    _statement.release();
+  }
+}</code></pre>
+                 <p class="graf--p">
+                  As we can see, it creates a
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    RoomSQLiteQuery
+                   </code>
+                  </code>
+                  object from the query specified in
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    @Query
+                   </code>
+                  </code>
+                  annotation. It then simply creates a
+                  <b class="graf--bold">
+                   cursor
+                  </b>
+                  to fetch data from the database.
+                 </p>
+                 <p class="graf--p">
+                  This is enough to get a basic understanding of how Room works internally. Hope you enjoyed this blog. In the next blog, we are going to learn
+                  <span class="">
+                   <a class="markup--anchor" href="https://blog.mindorks.com/room-database-migrations" target="_blank">
+                    Room Database Migrations
+                   </a>
+                   .
+                  </span>
+                 </p>
+                 <p class="graf--p">
+                  You can also connect with me on
+                  <span class="">
+                   <a class="markup--anchor" href="https://www.linkedin.com/in/deepanshu42/" target="_blank">
+                    LinkedIn
+                   </a>
+                  </span>
+                  ,
+                  <span class="">
+                   <a class="markup--anchor" href="https://twitter.com/deep1743" target="_blank">
+                    Twitter
+                   </a>
+                  </span>
+                  ,
+                  <span class="">
+                   <a class="markup--anchor" href="https://www.facebook.com/deepanshu42" target="_blank">
+                    Facebook
+                   </a>
+                  </span>
+                  and
+                  <span class="">
+                   <a class="markup--anchor" href="https://github.com/deepanshu42" target="_blank">
+                    Github
+                   </a>
+                  </span>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Thank You!!!
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How does RecyclerView work internally?" class="ui centered image" src="/images/banner-recyclerview-working-3a65a777947be8b6.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How does RecyclerView work internally?
+           </div>
+           <div class="meta">
+            20th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to talk about how recyclerView works internally and how the recycling of views happen. We would also discuss the benefit of using viewholders in recyclerView.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Work Manager - Android Tutorial" class="ui centered image" src="/images/integrating-work-manager-in-android.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Work Manager - Android Tutorial
+           </div>
+           <div class="meta">
+            16th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how to integrate the work manager in your android project and much more advanced feature and customization which makes your life easy in scheduling tasks.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Room Persistence Library in Kotlin" class="ui centered image" src="/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Room Persistence Library in Kotlin
+           </div>
+           <div class="meta">
+            9th January 2019
+           </div>
+           <div class="description">
+            Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android SearchView in Room Database in Kotlin" class="ui centered image" src="/images/android_searchview_in_room_database_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android SearchView in Room Database in Kotlin
+           </div>
+           <div class="meta">
+            9th January 2019
+           </div>
+           <div class="description">
+            How to implement SearchView inside Room Database?
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Introduction to Room Persistent Library in Android" class="ui centered image" src="/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Introduction to Room Persistent Library in Android
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Data Access Objects - DAO in Room" class="ui centered image" src="/images/data-access-objects-dao-in-room-banner-509915bdcce194cb.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Data Access Objects - DAO in Room
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn about Data Access Objects or DAO in Room Persistent Library.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

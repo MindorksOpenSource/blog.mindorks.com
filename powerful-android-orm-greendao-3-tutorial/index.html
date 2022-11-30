@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Powerful Android ORM: greenDAO 3 Tutorial
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/powerful-android-orm-greendao-3-tutorial" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Powerful Android ORM: greenDAO 3 Tutorial" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/powerful-android-orm-greendao-3-tutorial" property="og:url"/>
+  <meta content="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/powerful-android-orm-greendao-3-tutorial-cover.jpg" property="og:image"/>
+  <meta content="greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time." property="og:description"/>
+  <meta content="Powerful Android ORM: greenDAO 3 Tutorial" property="twitter:title"/>
+  <meta content="greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time." name="twitter:description"/>
+  <meta content="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/powerful-android-orm-greendao-3-tutorial-cover.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:81,data:{id:81,title:"Powerful Android ORM: greenDAO 3 Tutorial",description:"greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time.",text:"<h1><strong>Powerful Android ORM: greenDAO 3 Tutorial</strong></h1>\n<br/>\n<img src=\"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/powerful-android-orm-greendao-3-tutorial-cover.jpg\" style=\"float:none;height: auto;width: 100%\"/>\n<br/>\n<br/>\n<p style='font-size:16px;'>Persisting data is an essential requirement of any application. In Android, we can persist data generally by three modes. </p>\n<ol>\n   <li><strong>SQLite</strong></li>\n   <li><strong>SharedPreferences</strong></li>\n   <li><strong>File System</strong></li>\n</ol>\n<p style='font-size:16px;'>The simplest way to persist data is by using the SQLite database and working through SqliteOpenHelper. This approach requires writing raw queries and manipulation through cursors. It becomes difficult to manage when code base becomes large and it is also prone to manual errors. The solution to this is using Data Access Objects or DAOs. In this article, we will explore the data persistence through DAOs using greenDAO.</p>\n<p style='font-size:16px;'>greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time. greenDAO frees you from writing SQL and parsing query results, which are quite tedious and time-consuming tasks, by mapping Java objects to database tables (called ORM “object/relational mapping”). This way you can store, update, delete, and query for Java objects using a simple object-oriented API.</p>\n<p style='font-size:16px;'><strong>greenDAO 3 uses Annotation Processing to generate the DAO classes.</strong></p>\n<p style='font-size:16px;'>Let’s go through an active example to setup and get going with greenDAO 3. We will follow a stepwise process for the sake of this tutorial.</p>\n<br/>\n<h3>STEP 1:</h3>\n<p style='font-size:16px;'>Provide the Gradle dependency in app/build.gradle.</p>\n<p style='font-size:16px;'><code>compile 'org.greenrobot:greendao:3.2.2'</code></p>\n<br/>\n<h3>STEP 2:</h3>\n<p style='font-size:16px;'>Provide the greenDAO Gradle plugin for the Annotation processing in the project’s build.gradle.</p>\n<p style='font-size:16px;'><code>classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'</code></p>\n<p style='font-size:16px;'>Then use this plugin in the app/build.gradle, below com.android.application plugin</p>\n<p style='font-size:16px;'><code>apply plugin: 'org.greenrobot.greendao'</code></p>\n<br/>\n<h3>STEP 3:</h3>\n<p style='font-size:16px;'>GreenDAO requires us to create the schema of the table in the form of a class with greenDAO annotations. Let’s create a user table with few properties.</p>\n<p style='font-size:16px;'>Create a class <code>User.java</code></p>\n<p style='font-size:16px;'>\n<pre>\n<code class='language-java'>\n@Entity(nameInDb = \"user\")\npublic class User {\n\n    @Id(autoincrement = true)\n    private Long id;\n\n    @Property(nameInDb = \"name\")\n    private String name;\n\n    @Property(nameInDb = \"created_at\")\n    private String createdAt;\n\n    @Property(nameInDb = \"updated_at\")\n    private String updatedAt;\n}\n</code>\n</pre>\n</p>\n<p style='font-size:16px;'>When you build the project, it will generate getter, setters, and constructors for this class.</p>\n<ol>\n   <li><strong>@Entity</strong>: It defines the table name in the database.</li>\n   <li><strong>@Id</strong>: It defines the primary key of the table.</li>\n   <li><strong>@Property</strong>: It defines the row name in the user table.</li>\n</ol>\n<br/>\n<h3>STEP 4:</h3>\n<p style='font-size:16px;'>Explore the DAO generated classes at app/build/generated/source/greendao. We can see few classes in this folder.</p>\n<p style='font-size:16px;'>1. <strong>DaoMaster</strong>: This class defines the methods for database creation and manipulation.</p>\n<p style='font-size:16px;'>2. <strong>DaoSession</strong>: This class provides the DAO classes for accessing the database tables.</p>\n<p style='font-size:16px;'>3. <strong>UserDao</strong>: This class wraps the User table and defines the Queries for it.</p>\n<br/>\n<h3>STEP 5:</h3>\n<p style='font-size:16px;'>To use the database we need to construct the DaoSession Object.</p>\n<p style='font-size:16px;'>Create A class <code>DemoApp</code> which extends <code>android.app.Application</code> and mention it in the <code>AndroidManifest.xml</code></p>\n<p style='font-size:16px;'>\n<pre>\n<code class='language-java'>\npublic class DemoApp extends Application {\n\n    private DaoSession mDaoSession;\n\n    @Override\n    public void onCreate() {\n        super.onCreate();\n        mDaoSession = new DaoMaster(\n                new DaoMaster.DevOpenHelper(this, \"greendao_demo.db\").getWritableDb()).newSession();\n\n        // USER CREATION FOR DEMO PURPOSE\n        if(mDaoSession.getUserDao().loadAll().size() == 0){\n            mDaoSession.getUserDao().insert(new User(1L, \"Janishar Ali\",\"\", \"\"));\n        }\n    }\n\n    public DaoSession getDaoSession() {\n        return mDaoSession;\n    }\n}\n</code>\n</pre>\n</p>\n<p style='font-size:16px;'>In <code>AndroidManifest.xml</code> add <code>android:name=\".DemoApp\"</code>:</p>\n<p style='font-size:16px;'>\n<pre>\n<code class='language-groovy'>\napplication\n    ...\n    android:name=\".DemoApp\"\n    ...\n</application>\n</code>\n</pre>\n</p>\n<br/>\n<h3>STEP 6:</h3>\n<p style='font-size:16px;'>Test user table in MainActivity.java</p>\n<p style='font-size:16px;'>\n<pre>\n<code class='language-java'>\npublic class MainActivity extends AppCompatActivity {\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_main);\n\n        TextView textView = (TextView) findViewById(R.id.text);\n\n        // Put this in a different thread or use AsyncSession in greenDAO.\n        // For Demo purpose, this query is made on main thread but it should in a different thread.\n        User user = ((DemoApp)getApplication()).getDaoSession().getUserDao().load(1L);\n\n        if(user != null){\n            textView.setText(user.getName());\n        }\n    }\n}\n</code>\n</pre>\n</p>\n<p style='font-size:16px;'>You can see the user name appear in the <code>main_activity</code> textview.</p>\n<br/>\n<h3>STEP 7:</h3>\n<p style='font-size:16px;'>You should not use DevOpenHelper, as we have used in the DemoApp DaoSession creation. This is because with a new app version, you would want to modify the database schema or alter the table. For this purpose provide a custom OpenHelper to the DaoMaster.</p>\n<p style='font-size:16px;'>Create a class <code>DbOpenHelper</code></p>\n<p style='font-size:16px;'>\n<pre>\n<code class='language-java'>\npublic class DbOpenHelper extends DaoMaster.OpenHelper {\n\n    public DbOpenHelper(Context context, String name) {\n        super(context, name);\n    }\n\n    @Override\n    public void onUpgrade(Database db, int oldVersion, int newVersion) {\n        super.onUpgrade(db, oldVersion, newVersion);\n        Log.d(\"DEBUG\", \"DB_OLD_VERSION : \" + oldVersion + \", DB_NEW_VERSION : \" + newVersion);\n        switch (oldVersion) {\n            case 1:\n            case 2:\n                //db.execSQL(\"ALTER TABLE \" + UserDao.TABLENAME + \" ADD COLUMN \" + UserDao.Properties.Name.columnName + \" TEXT DEFAULT 'DEFAULT_VAL'\");\n        }\n    }\n}\n</code>\n</pre>\n</p>\n<p style='font-size:16px;'>Modify the <code>DemoApp</code> <code>onCreate</code> method and use <code>DbOpenHelper</code> class:</p>\n<p style='font-size:16px;'>\n<pre>\n<code class='language-java'>\n    @Override\n    public void onCreate() {\n        super.onCreate();\n        mDaoSession =\n                new DaoMaster(new DbOpenHelper(this, \"greendao_demo.db\").getWritableDb()).newSession();\n\n        // USER CREATION FOR DEMO PURPOSE\n        if(mDaoSession.getUserDao().loadAll().size() == 0){\n            mDaoSession.getUserDao().insert(new User(1L, \"Janishar Ali\",\"\", \"\"));\n        }\n    }\n</code>\n</pre>\n</p>\n<p style='font-size:16px;'>Reinstall the App and now the custom <code>OpenHelper(DbOpenHelper)</code> will be used.</p>\n<br/>\n<h3>STEP 8:</h3>\n<p style='font-size:16px;'>You will need to specify the schema version of the database so that you can get the old version and new version when the app is upgraded. To specify this add greendao schema in the <code>app/build.gradle</code>.</p>\n<p style='font-size:16px;'>\n<pre>\n<code class='language-groovy'>\nandroid {\n\t...\n}\n\ngreendao {\n    schemaVersion 1\n}\n</code>\n</pre>\n</p>\n<p style='font-size:16px;'>When you upgrade the schema in the new app version, increase this schema Version. You should handle the upgrade code in <code>onUpgrade</code> method of the <code>DbOpenHelper</code> class.</p>\n<p style='font-size:16px;'><em>This completes the basic setup and usage of greenDAO. You can also work with joins and relations with greenDAO.</em></p>\n<p style='font-size:16px;'>See this project <a href=\"https://github.com/MindorksOpenSource/android-mvp-architecture\" target=\"_blank\" >android-mvp-architecture</a> to find greenDAO3 complete use with RxJava</p>\n<br/>\n<p style='font-size:16px;'><a href=\"https://mindorks.com/blogs\" target=\"_blank\" >Check out all the Mindorks best articles here.</a></p>\n<br/>\n<p style='font-size:16px;'><strong>Thanks for reading this article. Be sure to share this article if you found it helpful. It would let others get this article and spread the knowledge.</strong></p>\n<p style='font-size:16px;'>Also, Let’s become friends on <a href=\"https://twitter.com/janisharali\" target=\"_blank\" ><strong>Twitter</strong></a><strong>,</strong> <a href=\"https://www.linkedin.com/in/janishar-ali-8135a451/\" target=\"_blank\" ><strong>Linkedin</strong></a><strong>,</strong> <a href=\"https://github.com/janishar\" target=\"_blank\" ><strong>Github</strong></a><strong>,</strong> and <a href=\"https://www.facebook.com/janishar.ali\" target=\"_blank\" ><strong>Facebook</strong></a><strong>.</strong></p>\n<blockquote><em>Learning is a journey, let’s learn together!</em></blockquote>",author:2,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/powerful-android-orm-greendao-3-tutorial-cover.jpg",blog_url:"powerful-android-orm-greendao-3-tutorial",likes:1,rank:0,category:1,published_at:"13th February 2017"},author:{id:2,name:"Janishar Ali",google_profile_pic:"https://lh3.googleusercontent.com/a/ALm5wu2_9IxVVzEJ_-xyN8atf9sc3IKm6Jc6ZTDM1pe6ZrY=s96-c?sz=300",fb_profile_pic:"https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=1556704281041365&height=300&width=300&ext=1623652492&hash=AeTIBgZmbmS197UcpCg",profile_tagline:"Co-Founder at MindOrks, AfterAcademy, CuriousJr | Disrupting EdTech",fb_profile_url:"https://www.facebook.com/janishar.ali",google_plus_profile_url:"https://plus.google.com/+JanisharAli",twitter_profile_url:"https://twitter.com/janisharali",github_profile_url:"https://github.com/janishar",linkedin_profile_url:"https://www.linkedin.com/in/janishar-ali"},isFetching:!1,similarBlogs:[{id:268,title:"The powerful tool DiffUtil in RecyclerView - Android Tutorial",description:"In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details",author:9959,img_url:"/images/banner-diffutil.png",blog_url:"the-powerful-tool-diff-util-in-recyclerview-android-tutorial",likes:0,rank:0,category:1,published_at:"6th June 2019",score:5.119915008544922},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.8440361022949219},{id:284,title:"Animation in Android - Android Tutorial",description:"In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.",author:14897,img_url:"/images/animation-in-android-banner.png",blog_url:"animation-in-android-tutorial",likes:0,rank:0,category:1,published_at:"24th June 2019",score:.8440361022949219},{id:351,title:"Using Android Sensors: Android Tutorial",description:"In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.",author:14897,img_url:"/images/using-android-sensors-android-tutorial-banner.png",blog_url:"using-android-sensors-android-tutorial",likes:0,rank:0,category:1,published_at:"30th September 2019",score:.8440361022949219},{id:357,title:"Getting started with Android NDK: Android Tutorial",description:"In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.",author:14897,img_url:"/images/getting-started-with-android-ndk-android-tutorial-banner.png",blog_url:"getting-started-with-android-ndk-android-tutorial",likes:0,rank:0,category:1,published_at:"9th October 2019",score:.8440361022949219},{id:281,title:"Building Android applications with Gradle — Tutorial",description:"In this blog, we will learn how to use Gradle in Android to build some applications. We will learn some Gradle commands that can be used to perform various Gradle functions using the command line and not the Android Studio. Also, we will learn gradlew tasks and build variants. ",author:14897,img_url:"/images/building-android-applications-with-gradle-banner.png",blog_url:"building-android-applications-with-gradle-tutorial",likes:0,rank:0,category:1,published_at:"20th June 2019",score:.8348584771156311}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Janishar Ali" class="ui circular image" src="https://lh3.googleusercontent.com/a/ALm5wu2_9IxVVzEJ_-xyN8atf9sc3IKm6Jc6ZTDM1pe6ZrY=s96-c?sz=300"/>
+          <div class="content">
+           Janishar Ali
+           <div class="sub header" style="margin-top:5px">
+            13th February 2017
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1>
+                  <strong>
+                   Powerful Android ORM: greenDAO 3 Tutorial
+                  </strong>
+                 </h1>
+                 <br/>
+                 <img src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/powerful-android-orm-greendao-3-tutorial-cover.jpg" style="float:none;height:auto;width:100%"/>
+                 <br/>
+                 <br/>
+                 <p style="font-size:16px">
+                  Persisting data is an essential requirement of any application. In Android, we can persist data generally by three modes.
+                 </p>
+                 <ol>
+                  <li>
+                   <strong>
+                    SQLite
+                   </strong>
+                  </li>
+                  <li>
+                   <strong>
+                    SharedPreferences
+                   </strong>
+                  </li>
+                  <li>
+                   <strong>
+                    File System
+                   </strong>
+                  </li>
+                 </ol>
+                 <p style="font-size:16px">
+                  The simplest way to persist data is by using the SQLite database and working through SqliteOpenHelper. This approach requires writing raw queries and manipulation through cursors. It becomes difficult to manage when code base becomes large and it is also prone to manual errors. The solution to this is using Data Access Objects or DAOs. In this article, we will explore the data persistence through DAOs using greenDAO.
+                 </p>
+                 <p style="font-size:16px">
+                  greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time. greenDAO frees you from writing SQL and parsing query results, which are quite tedious and time-consuming tasks, by mapping Java objects to database tables (called ORM “object/relational mapping”). This way you can store, update, delete, and query for Java objects using a simple object-oriented API.
+                 </p>
+                 <p style="font-size:16px">
+                  <strong>
+                   greenDAO 3 uses Annotation Processing to generate the DAO classes.
+                  </strong>
+                 </p>
+                 <p style="font-size:16px">
+                  Let’s go through an active example to setup and get going with greenDAO 3. We will follow a stepwise process for the sake of this tutorial.
+                 </p>
+                 <br/>
+                 <h3>
+                  STEP 1:
+                 </h3>
+                 <p style="font-size:16px">
+                  Provide the Gradle dependency in app/build.gradle.
+                 </p>
+                 <p style="font-size:16px">
+                  <code>
+                   compile 'org.greenrobot:greendao:3.2.2'
+                  </code>
+                 </p>
+                 <br/>
+                 <h3>
+                  STEP 2:
+                 </h3>
+                 <p style="font-size:16px">
+                  Provide the greenDAO Gradle plugin for the Annotation processing in the project’s build.gradle.
+                 </p>
+                 <p style="font-size:16px">
+                  <code>
+                   classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'
+                  </code>
+                 </p>
+                 <p style="font-size:16px">
+                  Then use this plugin in the app/build.gradle, below com.android.application plugin
+                 </p>
+                 <p style="font-size:16px">
+                  <code>
+                   apply plugin: 'org.greenrobot.greendao'
+                  </code>
+                 </p>
+                 <br/>
+                 <h3>
+                  STEP 3:
+                 </h3>
+                 <p style="font-size:16px">
+                  GreenDAO requires us to create the schema of the table in the form of a class with greenDAO annotations. Let’s create a user table with few properties.
+                 </p>
+                 <p style="font-size:16px">
+                  Create a class
+                  <code>
+                   User.java
+                  </code>
+                 </p>
+                 <p style="font-size:16px">
+                  <pre>
+<code class="language-java">
+@Entity(nameInDb = "user")
+public class User {
+
+    @Id(autoincrement = true)
+    private Long id;
+
+    @Property(nameInDb = "name")
+    private String name;
+
+    @Property(nameInDb = "created_at")
+    private String createdAt;
+
+    @Property(nameInDb = "updated_at")
+    private String updatedAt;
+}
+</code>
+</pre>
+                 </p>
+                 <p style="font-size:16px">
+                  When you build the project, it will generate getter, setters, and constructors for this class.
+                 </p>
+                 <ol>
+                  <li>
+                   <strong>
+                    @Entity
+                   </strong>
+                   : It defines the table name in the database.
+                  </li>
+                  <li>
+                   <strong>
+                    @Id
+                   </strong>
+                   : It defines the primary key of the table.
+                  </li>
+                  <li>
+                   <strong>
+                    @Property
+                   </strong>
+                   : It defines the row name in the user table.
+                  </li>
+                 </ol>
+                 <br/>
+                 <h3>
+                  STEP 4:
+                 </h3>
+                 <p style="font-size:16px">
+                  Explore the DAO generated classes at app/build/generated/source/greendao. We can see few classes in this folder.
+                 </p>
+                 <p style="font-size:16px">
+                  1.
+                  <strong>
+                   DaoMaster
+                  </strong>
+                  : This class defines the methods for database creation and manipulation.
+                 </p>
+                 <p style="font-size:16px">
+                  2.
+                  <strong>
+                   DaoSession
+                  </strong>
+                  : This class provides the DAO classes for accessing the database tables.
+                 </p>
+                 <p style="font-size:16px">
+                  3.
+                  <strong>
+                   UserDao
+                  </strong>
+                  : This class wraps the User table and defines the Queries for it.
+                 </p>
+                 <br/>
+                 <h3>
+                  STEP 5:
+                 </h3>
+                 <p style="font-size:16px">
+                  To use the database we need to construct the DaoSession Object.
+                 </p>
+                 <p style="font-size:16px">
+                  Create A class
+                  <code>
+                   DemoApp
+                  </code>
+                  which extends
+                  <code>
+                   android.app.Application
+                  </code>
+                  and mention it in the
+                  <code>
+                   AndroidManifest.xml
+                  </code>
+                 </p>
+                 <p style="font-size:16px">
+                  <pre>
+<code class="language-java">
+public class DemoApp extends Application {
+
+    private DaoSession mDaoSession;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mDaoSession = new DaoMaster(
+                new DaoMaster.DevOpenHelper(this, "greendao_demo.db").getWritableDb()).newSession();
+
+        // USER CREATION FOR DEMO PURPOSE
+        if(mDaoSession.getUserDao().loadAll().size() == 0){
+            mDaoSession.getUserDao().insert(new User(1L, "Janishar Ali","", ""));
+        }
+    }
+
+    public DaoSession getDaoSession() {
+        return mDaoSession;
+    }
+}
+</code>
+</pre>
+                 </p>
+                 <p style="font-size:16px">
+                  In
+                  <code>
+                   AndroidManifest.xml
+                  </code>
+                  add
+                  <code>
+                   android:name=".DemoApp"
+                  </code>
+                  :
+                 </p>
+                 <p style="font-size:16px">
+                  <pre>
+<code class="language-groovy">
+application
+    ...
+    android:name=".DemoApp"
+    ...
+
+</code>
+</pre>
+                 </p>
+                 <br/>
+                 <h3>
+                  STEP 6:
+                 </h3>
+                 <p style="font-size:16px">
+                  Test user table in MainActivity.java
+                 </p>
+                 <p style="font-size:16px">
+                  <pre>
+<code class="language-java">
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView textView = (TextView) findViewById(R.id.text);
+
+        // Put this in a different thread or use AsyncSession in greenDAO.
+        // For Demo purpose, this query is made on main thread but it should in a different thread.
+        User user = ((DemoApp)getApplication()).getDaoSession().getUserDao().load(1L);
+
+        if(user != null){
+            textView.setText(user.getName());
+        }
+    }
+}
+</code>
+</pre>
+                 </p>
+                 <p style="font-size:16px">
+                  You can see the user name appear in the
+                  <code>
+                   main_activity
+                  </code>
+                  textview.
+                 </p>
+                 <br/>
+                 <h3>
+                  STEP 7:
+                 </h3>
+                 <p style="font-size:16px">
+                  You should not use DevOpenHelper, as we have used in the DemoApp DaoSession creation. This is because with a new app version, you would want to modify the database schema or alter the table. For this purpose provide a custom OpenHelper to the DaoMaster.
+                 </p>
+                 <p style="font-size:16px">
+                  Create a class
+                  <code>
+                   DbOpenHelper
+                  </code>
+                 </p>
+                 <p style="font-size:16px">
+                  <pre>
+<code class="language-java">
+public class DbOpenHelper extends DaoMaster.OpenHelper {
+
+    public DbOpenHelper(Context context, String name) {
+        super(context, name);
+    }
+
+    @Override
+    public void onUpgrade(Database db, int oldVersion, int newVersion) {
+        super.onUpgrade(db, oldVersion, newVersion);
+        Log.d("DEBUG", "DB_OLD_VERSION : " + oldVersion + ", DB_NEW_VERSION : " + newVersion);
+        switch (oldVersion) {
+            case 1:
+            case 2:
+                //db.execSQL("ALTER TABLE " + UserDao.TABLENAME + " ADD COLUMN " + UserDao.Properties.Name.columnName + " TEXT DEFAULT 'DEFAULT_VAL'");
+        }
+    }
+}
+</code>
+</pre>
+                 </p>
+                 <p style="font-size:16px">
+                  Modify the
+                  <code>
+                   DemoApp
+                  </code>
+                  <code>
+                   onCreate
+                  </code>
+                  method and use
+                  <code>
+                   DbOpenHelper
+                  </code>
+                  class:
+                 </p>
+                 <p style="font-size:16px">
+                  <pre>
+<code class="language-java">
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mDaoSession =
+                new DaoMaster(new DbOpenHelper(this, "greendao_demo.db").getWritableDb()).newSession();
+
+        // USER CREATION FOR DEMO PURPOSE
+        if(mDaoSession.getUserDao().loadAll().size() == 0){
+            mDaoSession.getUserDao().insert(new User(1L, "Janishar Ali","", ""));
+        }
+    }
+</code>
+</pre>
+                 </p>
+                 <p style="font-size:16px">
+                  Reinstall the App and now the custom
+                  <code>
+                   OpenHelper(DbOpenHelper)
+                  </code>
+                  will be used.
+                 </p>
+                 <br/>
+                 <h3>
+                  STEP 8:
+                 </h3>
+                 <p style="font-size:16px">
+                  You will need to specify the schema version of the database so that you can get the old version and new version when the app is upgraded. To specify this add greendao schema in the
+                  <code>
+                   app/build.gradle
+                  </code>
+                  .
+                 </p>
+                 <p style="font-size:16px">
+                  <pre>
+<code class="language-groovy">
+android {
+	...
+}
+
+greendao {
+    schemaVersion 1
+}
+</code>
+</pre>
+                 </p>
+                 <p style="font-size:16px">
+                  When you upgrade the schema in the new app version, increase this schema Version. You should handle the upgrade code in
+                  <code>
+                   onUpgrade
+                  </code>
+                  method of the
+                  <code>
+                   DbOpenHelper
+                  </code>
+                  class.
+                 </p>
+                 <p style="font-size:16px">
+                  <em>
+                   This completes the basic setup and usage of greenDAO. You can also work with joins and relations with greenDAO.
+                  </em>
+                 </p>
+                 <p style="font-size:16px">
+                  See this project
+                  <a href="https://github.com/MindorksOpenSource/android-mvp-architecture" target="_blank">
+                   android-mvp-architecture
+                  </a>
+                  to find greenDAO3 complete use with RxJava
+                 </p>
+                 <br/>
+                 <p style="font-size:16px">
+                  <a href="https://mindorks.com/blogs" target="_blank">
+                   Check out all the Mindorks best articles here.
+                  </a>
+                 </p>
+                 <br/>
+                 <p style="font-size:16px">
+                  <strong>
+                   Thanks for reading this article. Be sure to share this article if you found it helpful. It would let others get this article and spread the knowledge.
+                  </strong>
+                 </p>
+                 <p style="font-size:16px">
+                  Also, Let’s become friends on
+                  <a href="https://twitter.com/janisharali" target="_blank">
+                   <strong>
+                    Twitter
+                   </strong>
+                  </a>
+                  <strong>
+                   ,
+                  </strong>
+                  <a href="https://www.linkedin.com/in/janishar-ali-8135a451/" target="_blank">
+                   <strong>
+                    Linkedin
+                   </strong>
+                  </a>
+                  <strong>
+                   ,
+                  </strong>
+                  <a href="https://github.com/janishar" target="_blank">
+                   <strong>
+                    Github
+                   </strong>
+                  </a>
+                  <strong>
+                   ,
+                  </strong>
+                  and
+                  <a href="https://www.facebook.com/janishar.ali" target="_blank">
+                   <strong>
+                    Facebook
+                   </strong>
+                  </a>
+                  <strong>
+                   .
+                  </strong>
+                 </p>
+                 <blockquote>
+                  <em>
+                   Learning is a journey, let’s learn together!
+                  </em>
+                 </blockquote>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="The powerful tool DiffUtil in RecyclerView - Android Tutorial" class="ui centered image" src="/images/banner-diffutil.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            The powerful tool DiffUtil in RecyclerView - Android Tutorial
+           </div>
+           <div class="meta">
+            6th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Animation in Android - Android Tutorial" class="ui centered image" src="/images/animation-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Animation in Android - Android Tutorial
+           </div>
+           <div class="meta">
+            24th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Android Sensors: Android Tutorial" class="ui centered image" src="/images/using-android-sensors-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Android Sensors: Android Tutorial
+           </div>
+           <div class="meta">
+            30th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Android NDK: Android Tutorial" class="ui centered image" src="/images/getting-started-with-android-ndk-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Android NDK: Android Tutorial
+           </div>
+           <div class="meta">
+            9th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Building Android applications with Gradle — Tutorial" class="ui centered image" src="/images/building-android-applications-with-gradle-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Building Android applications with Gradle — Tutorial
+           </div>
+           <div class="meta">
+            20th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Gradle in Android to build some applications. We will learn some Gradle commands that can be used to perform various Gradle functions using the command line and not the Android Studio. Also, we will learn gradlew tasks and build variants.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

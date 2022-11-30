@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Exception Handling in Kotlin Coroutines
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/exception-handling-in-kotlin-coroutines" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Exception Handling in Kotlin Coroutines" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/exception-handling-in-kotlin-coroutines" property="og:url"/>
+  <meta content="/images/exception-handling-kotlin-banner.png" property="og:image"/>
+  <meta content="In this blog, we are going to talk about how we can handle exceptions while using Kotlin Coroutines. We will discuss various ways to handle it efficiently in our Android project." property="og:description"/>
+  <meta content="Exception Handling in Kotlin Coroutines" property="twitter:title"/>
+  <meta content="In this blog, we are going to talk about how we can handle exceptions while using Kotlin Coroutines. We will discuss various ways to handle it efficiently in our Android project." name="twitter:description"/>
+  <meta content="/images/exception-handling-kotlin-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to talk about how we can handle exceptions while using Kotlin Coroutines. We will discuss various ways to handle it efficiently in our Android project." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:425,data:{id:425,title:"Exception Handling in Kotlin Coroutines",description:"In this blog, we are going to talk about how we can handle exceptions while using Kotlin Coroutines. We will discuss various ways to handle it efficiently in our Android project.",text:'<h1 class="graf--h1">Exception Handling in Kotlin Coroutines</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/exception-handling-kotlin-banner.png class=\'graf-image\' alt=\'Exception Handling in Kotlin Coroutines\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Coroutines have become a new way for us to do asynchronous programming in Android using Kotlin. When building a production-ready app,  we want to handle all our exceptions properly for users to have a smooth experience while using our app.</p><p class="graf--p">In this blog, we are going to talk about how we can handle exceptions properly in an android project when we are using Kotlin coroutines in the project. <a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/kotlin-coroutines">If you want to master Kotlin coroutines, you can learn it from here.</a></p><p class="graf--p">We are going to divide this blog into the following sections,</p><ul><li>What are the exceptions?</li><li>How do we handle exceptions in a general way?</li><li>How do we handle exceptions in Kotlin Coroutines efficiently?</li></ul><h4 class="graf--h3">What are the exceptions?</h4><p class="graf--p">Exceptions are the unexpected events that come up while running or performing any program. Due to exceptions,  the execution is disturbed and the expected flow of the application is not executed.</p><p class="graf--p">That is why we need to handle the exceptions in our code to execute the proper flow of the app.</p><h4 class="graf--h3">How do we handle exceptions in a general way?</h4><p class="graf--p">A generic way to handle exception in kotlin is to use a try-catch block. Where we write our code which might throw an exception in the try block, and if there is any exception generated, then the exception is caught in the catch block.</p><p class="graf--p">Let us understand by example,</p><pre><code class="language-java graf graf--code">try {\n    val solution = 5 / 0\n    val addition = 2 + 5\n    Log.d("MainActivity", solution.toString())\n    Log.d("MainActivity", addition.toString())\n} catch (e: Exception) {\n    Log.e("MainActivity", e.toString())\n}</code></pre><p class="graf--p">In this above code, we are trying to first divide <code class="graf--code-inline">5</code> by <code class="graf--code-inline">0</code> and also we want to add two numbers <code class="graf--code-inline">2,5</code>. Then we want to print the solution in <code class="graf--code-inline">Logcat</code>. When we run the app,  the proper flow should be first we get the value in the solution variable and then assign the sum in addition variable. Later, we want to print the values in the <code class="graf--code-inline">Log</code> statement.  </p><p class="graf--p">But, when we run the app we would see the following output,</p><pre><code class="language-java graf graf--code">E/MainActivity: java.lang.ArithmeticException: divide by zero</code></pre><p class="graf--p">Here, the <code class="graf--code-inline">solution</code> and <code class="graf--code-inline">addition</code> variables are not printed but the <code class="graf--code-inline">Log</code> statement in the <code class="graf--code-inline">catch</code> block is printed with an <code class="graf--code-inline">Arithmetic</code> <code class="graf--code-inline">Exception</code>. The reason here is, that any number can&#x27;t be <code class="graf--code-inline">divided</code> by <code class="graf--code-inline">0</code>. So, when we got the exception you can see that no step was performed below the first line and it directly went to <code class="graf--code-inline">catch</code> block. </p><p class="graf--p">The above code is an example of how an exception occurs and how we can handle it.</p><h4 class="graf--h3">How do we handle exceptions in Kotlin Coroutines efficiently?</h4><p class="graf--p">Now, we are going to discuss how we can handle exception efficiently while using Kotlin Coroutines in our project. There are the following ways to handle exceptions,</p><ul><li>Generic way</li><li>Using CoroutineExceptionHandler</li><li>Using SupervisorScope</li></ul><p class="graf--p">To discuss this further, we will use an example of fetching a list of users.  We would have an interface,</p><pre><code class="language-java graf graf--code">interface ApiService {\n\n    @GET("users")\n    suspend fun getUsers(): List&lt;ApiUser&gt;\n\n    @GET("more-users")\n    suspend fun getMoreUsers(): List&lt;ApiUser&gt;\n\n    @GET("error")\n    suspend fun getUsersWithError(): List&lt;ApiUser&gt;\n\n}</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/amitshekhariitbhu/Learn-Kotlin-Coroutines">The code has been taken from this project, for complete implementation, you should check the project.</a></p><p class="graf--p">Here, we have three different <code class="graf--code-inline">suspend</code> functions that we would use to fetch a list of users. If you notice, here only the first two functions i.e. <code class="graf--code-inline">getUsers()</code> and <code class="graf--code-inline">getMoreUsers()</code> will return a list but the third function, <code class="graf--code-inline">getUserWithError()</code> will throw an Exception,</p><pre><code class="language-java graf graf--code">retrofit2.HttpException: HTTP 404 Not Found</code></pre><p class="graf--p">We have intentionally created the <code class="graf--code-inline">getUserWithError()</code>  to throw an Exception for the sake of understanding.</p><p class="graf--p">Now, let&#x27;s discuss the ways to handle the exception using Kotlin Coroutines properly in our code.</p><h4 class="graf--h3"> 1. Generic Way</h4><p class="graf--p">Let us consider we have a ViewModel, <code class="graf--code-inline">TryCatchViewModel</code> (<a class="markup--anchor" target="_blank" href="https://github.com/amitshekhariitbhu/Learn-Kotlin-Coroutines">present in the project</a>)  and I want to do my API call in the ViewModel.</p><pre><code class="language-java graf graf--code">class TryCatchViewModel(\n    private val apiHelper: ApiHelper,\n    private val dbHelper: DatabaseHelper\n) : ViewModel() {\n\n    private val users = MutableLiveData&lt;Resource&lt;List&lt;ApiUser&gt;&gt;&gt;()\n\n    fun fetchUsers() {\n        viewModelScope.launch {\n            users.postValue(Resource.loading(null))\n            try {\n                val usersFromApi = apiHelper.getUsers()\n                users.postValue(Resource.success(usersFromApi))\n            } catch (e: Exception) {\n                users.postValue(Resource.error("Something Went Wrong", null))\n            }\n        }\n    }\n\n    fun getUsers(): LiveData&lt;Resource&lt;List&lt;ApiUser&gt;&gt;&gt; {\n        return users\n    }\n}</code></pre><p class="graf--p">This will return a list of users in my activity without any exception. Now, let&#x27;s say we introduce an exception in our <code class="graf--code-inline">fetchUsers()</code> function. We will modify the code like,</p><pre><code class="language-java graf graf--code">fun fetchUsers() {\n    viewModelScope.launch {\n        users.postValue(Resource.loading(null))\n        try {\n            val moreUsersFromApi = apiHelper.getUsersWithError()\n            val usersFromApi = apiHelper.getUsers()\n            \n            val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()\n            allUsersFromApi.addAll(usersFromApi)\n            allUsersFromApi.addAll(moreUsersFromApi)\n\n            users.postValue(Resource.success(allUsersFromApi))\n        } catch (e: Exception) {\n            users.postValue(Resource.error("Something Went Wrong", null))\n        }\n    }\n}</code></pre><p class="graf--p">Here, you can see that we are fetching users from two different sources and now the flow of execution should be, first, we first get the output from <code class="graf--code-inline">apiHelper.getUsersWithError()</code> and then from <code class="graf--code-inline">apiHelper.getUsers()</code></p><p class="graf--p">Now, both should be added to the <code class="graf--code-inline">mutableList</code> and then we change the <code class="graf--code-inline">livedata</code> by adding the list to it.</p><p class="graf--p">We have all of this code inside the <code class="graf--code-inline">try-catch block</code> to handle the exception we might get. If we don&#x27;t use a try-catch block then our app would crash when an exception occurs.</p><p class="graf--p">But, when we run this, we directly jump to the catch block as we get the <code class="graf--code-inline">404 Not found exception</code>. So, what happened there,</p><p class="graf--p">We the execution reached the <code class="graf--code-inline">getUsersWithError()</code> it got the exception, and it terminated the execution at that point and went to <code class="graf--code-inline">catch block</code> directly. </p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/scope-error-diagram.png class=\'graf-image\' alt=\'Exception Handling in Kotlin Coroutines\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">If you see in the above image, you would see that, if in the scope any of the children get an exception then the following children will <code class="graf--code-inline">not be executed</code> and the execution would be <code class="graf--code-inline">terminated</code>.</p><p class="graf--p">Now, let&#x27;s say we want the execution to still continue even when we get an exception. Then we would have to update the code with individual <code class="graf--code-inline">try-catch block</code> like,</p><pre><code class="language-java graf graf--code">fun fetchUsers() {\n    viewModelScope.launch {\n        users.postValue(Resource.loading(null))\n        try {\n            val moreUsersFromApi = try {\n                apiHelper.getUsersWithError()\n            } catch (e: Exception) {\n                emptyList&lt;ApiUser&gt;()\n            }\n            val usersFromApi = try {\n                apiHelper.getUsers()\n            } catch (e: Exception) {\n                emptyList&lt;ApiUser&gt;()\n            }\n\n            val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()\n            allUsersFromApi.addAll(usersFromApi)\n            allUsersFromApi.addAll(moreUsersFromApi)\n\n            users.postValue(Resource.success(allUsersFromApi))\n        } catch (e: Exception) {\n            users.postValue(Resource.error("Something Went Wrong", null))\n        }\n    }\n}</code></pre><p class="graf--p">Here, we have added an individual exception to both API calls so that, if there is an exception, then an empty list is assigned to the variable and the execution continues.</p><p class="graf--p">This is an example when we are executing the tasks in a sequential manner.</p><h4 class="graf--h3">2. Using CoroutineExceptionHandler</h4><p class="graf--p">If you consider the above example, you can see we are wrapping our code inside a try-catch exception. But, when we are working with coroutines we can handle an exception using a global coroutine exception handler called <code class="graf--code-inline">CoroutineExceptionHandler</code>. </p><p class="graf--p">To use it, first, we create an exception handler in our ViewModel,</p><pre><code class="language-java graf graf--code">private val exceptionHandler = CoroutineExceptionHandler {   context, exception -&gt;\n    )\n}</code></pre><p class="graf--p">and then we attach the handler to the ViewModelScope.</p><p class="graf--p">So, our code looks like,</p><pre><code class="language-java graf graf--code">class ExceptionHandlerViewModel(\n    private val apiHelper: ApiHelper,\n    private val dbHelper: DatabaseHelper\n) : ViewModel() {\n\n    private val users = MutableLiveData&lt;Resource&lt;List&lt;ApiUser&gt;&gt;&gt;()\n\n    private val exceptionHandler = CoroutineExceptionHandler { _, exception -&gt;\n        users.postValue(Resource.error("Something Went Wrong", null))\n    }\n\n    fun fetchUsers() {\n        viewModelScope.launch(exceptionHandler) {\n            users.postValue(Resource.loading(null))\n            val usersFromApi = apiHelper.getUsers()\n            users.postValue(Resource.success(usersFromApi))\n        }\n    }\n\n    fun getUsers(): LiveData&lt;Resource&lt;List&lt;ApiUser&gt;&gt;&gt; {\n        return users\n    }\n\n}</code></pre><p class="graf--p">Here, we have created and <code class="graf--code-inline">exceptionHandler</code> and attached it to the coroutine.  So, now let&#x27;s say we introduce an exception in <code class="graf--code-inline">fetchUsers()</code> function.</p><pre><code class="language-java graf graf--code">fun fetchUsers() {\n    viewModelScope.launch(exceptionHandler) {\n        users.postValue(Resource.loading(null))\n        \n        val usersFromApi = apiHelper.getUsers()\n        val moreUsersFromApi = apiHelper.getUsersWithError()\n        \n        val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()\n        allUsersFromApi.addAll(usersFromApi)\n        allUsersFromApi.addAll(moreUsersFromApi)\n        \n        users.postValue(Resource.success(usersFromApi))\n    }\n}</code></pre><p class="graf--p">Here, we have added <code class="graf--code-inline">getUsersWithError()</code> and it will throw an exception and handle will be given to the handler.</p><p class="graf--p">Now, notice that here we have not added a try-catch block and the exception would be handled in <code class="graf--code-inline">CoroutineExceptionHandler</code> as it works as a global exception handler for coroutine.</p><h4 class="graf--h3">3. Using SupervisorScope</h4><p class="graf--p">When we get an exception, we don&#x27;t want the execution of our task to be terminated. But, till now what we have seen is that whenever we get an exception our execution fails and the task is terminated.</p><p class="graf--p">Till now, we saw how to keep the task going in sequential execution, in this section we are going to see how the task keeps executing in parallel execution.</p><p class="graf--p">So, before starting with <code class="graf--code-inline">supervisorScope</code>, let us understand the problem with parallel execution,</p><p class="graf--p">Let&#x27;s say we do a parallel execution like,</p><pre><code class="language-java graf graf--code">private fun fetchUsers() {\n    viewModelScope.launch {\n        users.postValue(Resource.loading(null))\n        try {\n                val usersWithErrorFromApiDeferred = async { apiHelper.getUsersWithError() }\n                val moreUsersFromApiDeferred = async { apiHelper.getMoreUsers() }\n\n                val usersWithErrorFromApi = usersWithErrorFromApiDeferred.await()\n                val moreUsersFromApi = moreUsersFromApiDeferred.await()\n\n                val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()\n                allUsersFromApi.addAll(usersWithErrorFromApi)\n                allUsersFromApi.addAll(moreUsersFromApi)\n\n                users.postValue(Resource.success(allUsersFromApi))\n\n        } catch (e: Exception) {\n            users.postValue(Resource.error("Something Went Wrong", null))\n        }\n    }\n}</code></pre><p class="graf--p">Here, an exception will occur when <code class="graf--code-inline">getUsersWithError()</code> is called and this will lead to the crash of our android application and the execution of our task would be terminated. </p><p class="graf--p">To overcome the crash of our application, we would run the code inside <code class="graf--code-inline">coroutineScope</code> so that, if the exception occurs the app would not crash. So, the code would look like,</p><pre><code class="language-java graf graf--code">private fun fetchUsers() {\n    viewModelScope.launch {\n        users.postValue(Resource.loading(null))\n        try {\n         \n            coroutineScope {\n                val usersWithErrorFromApiDeferred = async { apiHelper.getUsersWithError() }\n                val moreUsersFromApiDeferred = async { apiHelper.getMoreUsers() }\n\n                val usersWithErrorFromApi = usersWithErrorFromApiDeferred.await()\n                val moreUsersFromApi = moreUsersFromApiDeferred.await()\n\n                val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()\n                allUsersFromApi.addAll(usersWithErrorFromApi)\n                allUsersFromApi.addAll(moreUsersFromApi)\n\n                users.postValue(Resource.success(allUsersFromApi))\n            }\n        } catch (e: Exception) {\n            users.postValue(Resource.error("Something Went Wrong", null))\n        }\n    }\n}</code></pre><p class="graf--p">Here, in this, execution where we are doing parallel execution inside <code class="graf--code-inline">coroutineScope</code>, which is inside the try block. We would get an exception from <code class="graf--code-inline">getUsersWithError()</code> and once the exception occurs the execution will stop and it will move to the catch block.</p><p class="graf--p">The execution of the task will stop when an exception has occurred.</p><p class="graf--p">So, to overcome execution failure we can use <code class="graf--code-inline">supervisorScope</code> in our task.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/supervisoor-job-banner.png class=\'graf-image\' alt=\'Exception Handling in Kotlin Coroutines\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So, while using <code class="graf--code-inline">supervisorScope</code>, when any one of the children throws an exception, then the other children would keep on executing.</p><p class="graf--p">Let&#x27;s consider the example, in our<code class="graf--code-inline"> fetchUsers()</code> function,</p><pre><code class="language-java graf graf--code">fun fetchUsers() {\n    viewModelScope.launch {\n        users.postValue(Resource.loading(null))\n        try {\n          \n            supervisorScope {\n                val usersFromApiDeferred = async { apiHelper.getUsersWithError() }\n                val moreUsersFromApiDeferred = async { apiHelper.getMoreUsers() }\n\n                val usersFromApi = try {\n                    usersFromApiDeferred.await()\n                } catch (e: Exception) {\n                    emptyList&lt;ApiUser&gt;()\n                }\n\n                val moreUsersFromApi = try {\n                    moreUsersFromApiDeferred.await()\n                } catch (e: Exception) {\n                    emptyList&lt;ApiUser&gt;()\n                }\n\n                val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()\n                allUsersFromApi.addAll(usersFromApi)\n                allUsersFromApi.addAll(moreUsersFromApi)\n\n                users.postValue(Resource.success(allUsersFromApi))\n            }\n        } catch (e: Exception) {\n            users.postValue(Resource.error("Something Went Wrong", null))\n        }\n    }\n}</code></pre><p class="graf--p">In the above code, we have <code class="graf--code-inline">getUsersWithError(),</code> and as we till now know that it will throw an error.</p><p class="graf--p">Here, in <code class="graf--code-inline">supervisorScope</code> we have two jobs running parallel in which one child will throw an exception but the execution of the task will still happen.</p><p class="graf--p">We are using <code class="graf--code-inline">async</code> here, which returns a <code class="graf--code-inline"><code class="graf--code-inline">Deferred</code> </code>that will deliver the result later. So, when we get the result using <code class="graf--code-inline">await(),</code> we are using the try-catch block as an expression so that if an exception occurs, an empty list is returned, but the execution will be completed and we would get a list of users. The output would be,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/list-of-users-output.png class=\'graf-image\' alt=\'Exception Handling in Kotlin Coroutines\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So, this is how we can handle exceptions and still keep the execution going.</p><p class="graf--p"><b class="graf--bold">Conclusion:</b></p><ul><li>While <b class="graf--bold">NOT</b> using <code class="graf--code-inline">async</code>, we can go ahead with the <code class="graf--code-inline">try-catch</code> or the <code class="graf--code-inline">CoroutineExceptionHandler</code> and achieve anything based on our use-cases.</li><li>While using <code class="graf--code-inline">async</code>, in addition to <code class="graf--code-inline">try-catch</code>, we have two options: <code class="graf--code-inline">coroutineScope</code> and <code class="graf--code-inline">supervisorScope</code>.</li><li>With <code class="graf--code-inline">async</code>, use <code class="graf--code-inline">supervisorScope</code> with the individual <code class="graf--code-inline">try-catch</code> for each task in addition to the top-level <code class="graf--code-inline">try-catch</code>, when you want to continue with other tasks if one or some of them have failed.</li><li>With <code class="graf--code-inline">async</code>, use <code class="graf--code-inline">coroutineScope</code> with the top-level <code class="graf--code-inline">try-catch</code>, when you do <b class="graf--bold">NOT</b> want to continue with other tasks if any of them have failed.</li></ul><blockquote class="graf--blockquote"><i class="graf--italic">The major difference is that a coroutineScope will cancel whenever any of its children fail. If we want to continue with the other tasks even when one fails, we go with the supervisorScope. A supervisorScope won’t cancel other children when one of them fails.</i></blockquote><p class="graf--p">This is how we can handle an exception efficiently while using Kotlin Coroutines in our project. We should always handle exceptions properly in our project to help our users have a smoother experience using our product.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/amitshekhariitbhu/Learn-Kotlin-Coroutines">You can find the complete project here</a>.</p><p class="graf--p">Happy learning.</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/exception-handling-kotlin-banner.png",blog_url:"exception-handling-in-kotlin-coroutines",likes:0,rank:0,category:1,published_at:"25th April 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:305,title:"Error Handling in RxJava",description:"In this blog, we will learn how to handle errors in RxJava. We would be understanding various ways to handle the error and will also see a real-life example for better understanding.",author:9959,img_url:"/images/error-handling-banner.png",blog_url:"error-handling-in-rxjava",likes:0,rank:0,category:1,published_at:"25th July 2019",score:3.587033748626709},{id:417,title:"Using Retrofit with Kotlin Coroutines in Android",description:"In this blog, we are going to understand how to use Retrofit with Kotlin Coroutines in Android. Also, we will be understanding the suspend keyword and using LifeCycle scopes for Kotlin Coroutines.",author:3003,img_url:"/images/retrofit-kotlin-coroutines-banner.png",blog_url:"using-retrofit-with-kotlin-coroutines-in-android",likes:0,rank:0,category:1,published_at:"12th April 2020",score:2.1550776958465576},{id:22,title:"Learn Kotlin —  apply vs with\n",description:"There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png",blog_url:"learn-kotlin-apply-vs-with",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:24,title:"Learn Kotlin - Data Class",description:"We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png",blog_url:"learn-kotlin-data-class",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:25,title:"Learn Kotlin- Destructuring Declarations",description:"Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png",blog_url:"learn-kotlin-destructuring-declarations",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:62,title:"Learn Kotlin — Extension Functions",description:"As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png",blog_url:"learn-kotlin-extension-functions",likes:1,rank:0,category:1,published_at:"30th May 2017",score:.1476835161447525}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            25th April 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Exception Handling in Kotlin Coroutines
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Exception Handling in Kotlin Coroutines" class="graf-image" src="/images/exception-handling-kotlin-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Coroutines have become a new way for us to do asynchronous programming in Android using Kotlin. When building a production-ready app,  we want to handle all our exceptions properly for users to have a smooth experience while using our app.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we are going to talk about how we can handle exceptions properly in an android project when we are using Kotlin coroutines in the project.
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/kotlin-coroutines" target="_blank">
+                   If you want to master Kotlin coroutines, you can learn it from here.
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  We are going to divide this blog into the following sections,
+                 </p>
+                 <ul>
+                  <li>
+                   What are the exceptions?
+                  </li>
+                  <li>
+                   How do we handle exceptions in a general way?
+                  </li>
+                  <li>
+                   How do we handle exceptions in Kotlin Coroutines efficiently?
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  What are the exceptions?
+                 </h4>
+                 <p class="graf--p">
+                  Exceptions are the unexpected events that come up while running or performing any program. Due to exceptions,  the execution is disturbed and the expected flow of the application is not executed.
+                 </p>
+                 <p class="graf--p">
+                  That is why we need to handle the exceptions in our code to execute the proper flow of the app.
+                 </p>
+                 <h4 class="graf--h3">
+                  How do we handle exceptions in a general way?
+                 </h4>
+                 <p class="graf--p">
+                  A generic way to handle exception in kotlin is to use a try-catch block. Where we write our code which might throw an exception in the try block, and if there is any exception generated, then the exception is caught in the catch block.
+                 </p>
+                 <p class="graf--p">
+                  Let us understand by example,
+                 </p>
+                 <pre><code class="language-java graf graf--code">try {
+    val solution = 5 / 0
+    val addition = 2 + 5
+    Log.d("MainActivity", solution.toString())
+    Log.d("MainActivity", addition.toString())
+} catch (e: Exception) {
+    Log.e("MainActivity", e.toString())
+}</code></pre>
+                 <p class="graf--p">
+                  In this above code, we are trying to first divide
+                  <code class="graf--code-inline">
+                   5
+                  </code>
+                  by
+                  <code class="graf--code-inline">
+                   0
+                  </code>
+                  and also we want to add two numbers
+                  <code class="graf--code-inline">
+                   2,5
+                  </code>
+                  . Then we want to print the solution in
+                  <code class="graf--code-inline">
+                   Logcat
+                  </code>
+                  . When we run the app,  the proper flow should be first we get the value in the solution variable and then assign the sum in addition variable. Later, we want to print the values in the
+                  <code class="graf--code-inline">
+                   Log
+                  </code>
+                  statement.
+                 </p>
+                 <p class="graf--p">
+                  But, when we run the app we would see the following output,
+                 </p>
+                 <pre><code class="language-java graf graf--code">E/MainActivity: java.lang.ArithmeticException: divide by zero</code></pre>
+                 <p class="graf--p">
+                  Here, the
+                  <code class="graf--code-inline">
+                   solution
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   addition
+                  </code>
+                  variables are not printed but the
+                  <code class="graf--code-inline">
+                   Log
+                  </code>
+                  statement in the
+                  <code class="graf--code-inline">
+                   catch
+                  </code>
+                  block is printed with an
+                  <code class="graf--code-inline">
+                   Arithmetic
+                  </code>
+                  <code class="graf--code-inline">
+                   Exception
+                  </code>
+                  . The reason here is, that any number can't be
+                  <code class="graf--code-inline">
+                   divided
+                  </code>
+                  by
+                  <code class="graf--code-inline">
+                   0
+                  </code>
+                  . So, when we got the exception you can see that no step was performed below the first line and it directly went to
+                  <code class="graf--code-inline">
+                   catch
+                  </code>
+                  block.
+                 </p>
+                 <p class="graf--p">
+                  The above code is an example of how an exception occurs and how we can handle it.
+                 </p>
+                 <h4 class="graf--h3">
+                  How do we handle exceptions in Kotlin Coroutines efficiently?
+                 </h4>
+                 <p class="graf--p">
+                  Now, we are going to discuss how we can handle exception efficiently while using Kotlin Coroutines in our project. There are the following ways to handle exceptions,
+                 </p>
+                 <ul>
+                  <li>
+                   Generic way
+                  </li>
+                  <li>
+                   Using CoroutineExceptionHandler
+                  </li>
+                  <li>
+                   Using SupervisorScope
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  To discuss this further, we will use an example of fetching a list of users.  We would have an interface,
+                 </p>
+                 <pre><code class="language-java graf graf--code">interface ApiService {
+
+    @GET("users")
+    suspend fun getUsers(): List&lt;ApiUser&gt;
+
+    @GET("more-users")
+    suspend fun getMoreUsers(): List&lt;ApiUser&gt;
+
+    @GET("error")
+    suspend fun getUsersWithError(): List&lt;ApiUser&gt;
+
+}</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/amitshekhariitbhu/Learn-Kotlin-Coroutines" target="_blank">
+                   The code has been taken from this project, for complete implementation, you should check the project.
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  Here, we have three different
+                  <code class="graf--code-inline">
+                   suspend
+                  </code>
+                  functions that we would use to fetch a list of users. If you notice, here only the first two functions i.e.
+                  <code class="graf--code-inline">
+                   getUsers()
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   getMoreUsers()
+                  </code>
+                  will return a list but the third function,
+                  <code class="graf--code-inline">
+                   getUserWithError()
+                  </code>
+                  will throw an Exception,
+                 </p>
+                 <pre><code class="language-java graf graf--code">retrofit2.HttpException: HTTP 404 Not Found</code></pre>
+                 <p class="graf--p">
+                  We have intentionally created the
+                  <code class="graf--code-inline">
+                   getUserWithError()
+                  </code>
+                  to throw an Exception for the sake of understanding.
+                 </p>
+                 <p class="graf--p">
+                  Now, let's discuss the ways to handle the exception using Kotlin Coroutines properly in our code.
+                 </p>
+                 <h4 class="graf--h3">
+                  1. Generic Way
+                 </h4>
+                 <p class="graf--p">
+                  Let us consider we have a ViewModel,
+                  <code class="graf--code-inline">
+                   TryCatchViewModel
+                  </code>
+                  (
+                  <a class="markup--anchor" href="https://github.com/amitshekhariitbhu/Learn-Kotlin-Coroutines" target="_blank">
+                   present in the project
+                  </a>
+                  )  and I want to do my API call in the ViewModel.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class TryCatchViewModel(
+    private val apiHelper: ApiHelper,
+    private val dbHelper: DatabaseHelper
+) : ViewModel() {
+
+    private val users = MutableLiveData&lt;Resource&lt;List&lt;ApiUser&gt;&gt;&gt;()
+
+    fun fetchUsers() {
+        viewModelScope.launch {
+            users.postValue(Resource.loading(null))
+            try {
+                val usersFromApi = apiHelper.getUsers()
+                users.postValue(Resource.success(usersFromApi))
+            } catch (e: Exception) {
+                users.postValue(Resource.error("Something Went Wrong", null))
+            }
+        }
+    }
+
+    fun getUsers(): LiveData&lt;Resource&lt;List&lt;ApiUser&gt;&gt;&gt; {
+        return users
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  This will return a list of users in my activity without any exception. Now, let's say we introduce an exception in our
+                  <code class="graf--code-inline">
+                   fetchUsers()
+                  </code>
+                  function. We will modify the code like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun fetchUsers() {
+    viewModelScope.launch {
+        users.postValue(Resource.loading(null))
+        try {
+            val moreUsersFromApi = apiHelper.getUsersWithError()
+            val usersFromApi = apiHelper.getUsers()
+            
+            val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()
+            allUsersFromApi.addAll(usersFromApi)
+            allUsersFromApi.addAll(moreUsersFromApi)
+
+            users.postValue(Resource.success(allUsersFromApi))
+        } catch (e: Exception) {
+            users.postValue(Resource.error("Something Went Wrong", null))
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, you can see that we are fetching users from two different sources and now the flow of execution should be, first, we first get the output from
+                  <code class="graf--code-inline">
+                   apiHelper.getUsersWithError()
+                  </code>
+                  and then from
+                  <code class="graf--code-inline">
+                   apiHelper.getUsers()
+                  </code>
+                 </p>
+                 <p class="graf--p">
+                  Now, both should be added to the
+                  <code class="graf--code-inline">
+                   mutableList
+                  </code>
+                  and then we change the
+                  <code class="graf--code-inline">
+                   livedata
+                  </code>
+                  by adding the list to it.
+                 </p>
+                 <p class="graf--p">
+                  We have all of this code inside the
+                  <code class="graf--code-inline">
+                   try-catch block
+                  </code>
+                  to handle the exception we might get. If we don't use a try-catch block then our app would crash when an exception occurs.
+                 </p>
+                 <p class="graf--p">
+                  But, when we run this, we directly jump to the catch block as we get the
+                  <code class="graf--code-inline">
+                   404 Not found exception
+                  </code>
+                  . So, what happened there,
+                 </p>
+                 <p class="graf--p">
+                  We the execution reached the
+                  <code class="graf--code-inline">
+                   getUsersWithError()
+                  </code>
+                  it got the exception, and it terminated the execution at that point and went to
+                  <code class="graf--code-inline">
+                   catch block
+                  </code>
+                  directly.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Exception Handling in Kotlin Coroutines" class="graf-image" src="/images/scope-error-diagram.png"/>
+                 </div>
+                 <p class="graf--p">
+                  If you see in the above image, you would see that, if in the scope any of the children get an exception then the following children will
+                  <code class="graf--code-inline">
+                   not be executed
+                  </code>
+                  and the execution would be
+                  <code class="graf--code-inline">
+                   terminated
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Now, let's say we want the execution to still continue even when we get an exception. Then we would have to update the code with individual
+                  <code class="graf--code-inline">
+                   try-catch block
+                  </code>
+                  like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun fetchUsers() {
+    viewModelScope.launch {
+        users.postValue(Resource.loading(null))
+        try {
+            val moreUsersFromApi = try {
+                apiHelper.getUsersWithError()
+            } catch (e: Exception) {
+                emptyList&lt;ApiUser&gt;()
+            }
+            val usersFromApi = try {
+                apiHelper.getUsers()
+            } catch (e: Exception) {
+                emptyList&lt;ApiUser&gt;()
+            }
+
+            val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()
+            allUsersFromApi.addAll(usersFromApi)
+            allUsersFromApi.addAll(moreUsersFromApi)
+
+            users.postValue(Resource.success(allUsersFromApi))
+        } catch (e: Exception) {
+            users.postValue(Resource.error("Something Went Wrong", null))
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we have added an individual exception to both API calls so that, if there is an exception, then an empty list is assigned to the variable and the execution continues.
+                 </p>
+                 <p class="graf--p">
+                  This is an example when we are executing the tasks in a sequential manner.
+                 </p>
+                 <h4 class="graf--h3">
+                  2. Using CoroutineExceptionHandler
+                 </h4>
+                 <p class="graf--p">
+                  If you consider the above example, you can see we are wrapping our code inside a try-catch exception. But, when we are working with coroutines we can handle an exception using a global coroutine exception handler called
+                  <code class="graf--code-inline">
+                   CoroutineExceptionHandler
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  To use it, first, we create an exception handler in our ViewModel,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private val exceptionHandler = CoroutineExceptionHandler {   context, exception -&gt;
+    )
+}</code></pre>
+                 <p class="graf--p">
+                  and then we attach the handler to the ViewModelScope.
+                 </p>
+                 <p class="graf--p">
+                  So, our code looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ExceptionHandlerViewModel(
+    private val apiHelper: ApiHelper,
+    private val dbHelper: DatabaseHelper
+) : ViewModel() {
+
+    private val users = MutableLiveData&lt;Resource&lt;List&lt;ApiUser&gt;&gt;&gt;()
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception -&gt;
+        users.postValue(Resource.error("Something Went Wrong", null))
+    }
+
+    fun fetchUsers() {
+        viewModelScope.launch(exceptionHandler) {
+            users.postValue(Resource.loading(null))
+            val usersFromApi = apiHelper.getUsers()
+            users.postValue(Resource.success(usersFromApi))
+        }
+    }
+
+    fun getUsers(): LiveData&lt;Resource&lt;List&lt;ApiUser&gt;&gt;&gt; {
+        return users
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we have created and
+                  <code class="graf--code-inline">
+                   exceptionHandler
+                  </code>
+                  and attached it to the coroutine.  So, now let's say we introduce an exception in
+                  <code class="graf--code-inline">
+                   fetchUsers()
+                  </code>
+                  function.
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun fetchUsers() {
+    viewModelScope.launch(exceptionHandler) {
+        users.postValue(Resource.loading(null))
+        
+        val usersFromApi = apiHelper.getUsers()
+        val moreUsersFromApi = apiHelper.getUsersWithError()
+        
+        val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()
+        allUsersFromApi.addAll(usersFromApi)
+        allUsersFromApi.addAll(moreUsersFromApi)
+        
+        users.postValue(Resource.success(usersFromApi))
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we have added
+                  <code class="graf--code-inline">
+                   getUsersWithError()
+                  </code>
+                  and it will throw an exception and handle will be given to the handler.
+                 </p>
+                 <p class="graf--p">
+                  Now, notice that here we have not added a try-catch block and the exception would be handled in
+                  <code class="graf--code-inline">
+                   CoroutineExceptionHandler
+                  </code>
+                  as it works as a global exception handler for coroutine.
+                 </p>
+                 <h4 class="graf--h3">
+                  3. Using SupervisorScope
+                 </h4>
+                 <p class="graf--p">
+                  When we get an exception, we don't want the execution of our task to be terminated. But, till now what we have seen is that whenever we get an exception our execution fails and the task is terminated.
+                 </p>
+                 <p class="graf--p">
+                  Till now, we saw how to keep the task going in sequential execution, in this section we are going to see how the task keeps executing in parallel execution.
+                 </p>
+                 <p class="graf--p">
+                  So, before starting with
+                  <code class="graf--code-inline">
+                   supervisorScope
+                  </code>
+                  , let us understand the problem with parallel execution,
+                 </p>
+                 <p class="graf--p">
+                  Let's say we do a parallel execution like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun fetchUsers() {
+    viewModelScope.launch {
+        users.postValue(Resource.loading(null))
+        try {
+                val usersWithErrorFromApiDeferred = async { apiHelper.getUsersWithError() }
+                val moreUsersFromApiDeferred = async { apiHelper.getMoreUsers() }
+
+                val usersWithErrorFromApi = usersWithErrorFromApiDeferred.await()
+                val moreUsersFromApi = moreUsersFromApiDeferred.await()
+
+                val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()
+                allUsersFromApi.addAll(usersWithErrorFromApi)
+                allUsersFromApi.addAll(moreUsersFromApi)
+
+                users.postValue(Resource.success(allUsersFromApi))
+
+        } catch (e: Exception) {
+            users.postValue(Resource.error("Something Went Wrong", null))
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, an exception will occur when
+                  <code class="graf--code-inline">
+                   getUsersWithError()
+                  </code>
+                  is called and this will lead to the crash of our android application and the execution of our task would be terminated.
+                 </p>
+                 <p class="graf--p">
+                  To overcome the crash of our application, we would run the code inside
+                  <code class="graf--code-inline">
+                   coroutineScope
+                  </code>
+                  so that, if the exception occurs the app would not crash. So, the code would look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun fetchUsers() {
+    viewModelScope.launch {
+        users.postValue(Resource.loading(null))
+        try {
+         
+            coroutineScope {
+                val usersWithErrorFromApiDeferred = async { apiHelper.getUsersWithError() }
+                val moreUsersFromApiDeferred = async { apiHelper.getMoreUsers() }
+
+                val usersWithErrorFromApi = usersWithErrorFromApiDeferred.await()
+                val moreUsersFromApi = moreUsersFromApiDeferred.await()
+
+                val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()
+                allUsersFromApi.addAll(usersWithErrorFromApi)
+                allUsersFromApi.addAll(moreUsersFromApi)
+
+                users.postValue(Resource.success(allUsersFromApi))
+            }
+        } catch (e: Exception) {
+            users.postValue(Resource.error("Something Went Wrong", null))
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, in this, execution where we are doing parallel execution inside
+                  <code class="graf--code-inline">
+                   coroutineScope
+                  </code>
+                  , which is inside the try block. We would get an exception from
+                  <code class="graf--code-inline">
+                   getUsersWithError()
+                  </code>
+                  and once the exception occurs the execution will stop and it will move to the catch block.
+                 </p>
+                 <p class="graf--p">
+                  The execution of the task will stop when an exception has occurred.
+                 </p>
+                 <p class="graf--p">
+                  So, to overcome execution failure we can use
+                  <code class="graf--code-inline">
+                   supervisorScope
+                  </code>
+                  in our task.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Exception Handling in Kotlin Coroutines" class="graf-image" src="/images/supervisoor-job-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  So, while using
+                  <code class="graf--code-inline">
+                   supervisorScope
+                  </code>
+                  , when any one of the children throws an exception, then the other children would keep on executing.
+                 </p>
+                 <p class="graf--p">
+                  Let's consider the example, in our
+                  <code class="graf--code-inline">
+                   fetchUsers()
+                  </code>
+                  function,
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun fetchUsers() {
+    viewModelScope.launch {
+        users.postValue(Resource.loading(null))
+        try {
+          
+            supervisorScope {
+                val usersFromApiDeferred = async { apiHelper.getUsersWithError() }
+                val moreUsersFromApiDeferred = async { apiHelper.getMoreUsers() }
+
+                val usersFromApi = try {
+                    usersFromApiDeferred.await()
+                } catch (e: Exception) {
+                    emptyList&lt;ApiUser&gt;()
+                }
+
+                val moreUsersFromApi = try {
+                    moreUsersFromApiDeferred.await()
+                } catch (e: Exception) {
+                    emptyList&lt;ApiUser&gt;()
+                }
+
+                val allUsersFromApi = mutableListOf&lt;ApiUser&gt;()
+                allUsersFromApi.addAll(usersFromApi)
+                allUsersFromApi.addAll(moreUsersFromApi)
+
+                users.postValue(Resource.success(allUsersFromApi))
+            }
+        } catch (e: Exception) {
+            users.postValue(Resource.error("Something Went Wrong", null))
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In the above code, we have
+                  <code class="graf--code-inline">
+                   getUsersWithError(),
+                  </code>
+                  and as we till now know that it will throw an error.
+                 </p>
+                 <p class="graf--p">
+                  Here, in
+                  <code class="graf--code-inline">
+                   supervisorScope
+                  </code>
+                  we have two jobs running parallel in which one child will throw an exception but the execution of the task will still happen.
+                 </p>
+                 <p class="graf--p">
+                  We are using
+                  <code class="graf--code-inline">
+                   async
+                  </code>
+                  here, which returns a
+                  <code class="graf--code-inline">
+                   <code class="graf--code-inline">
+                    Deferred
+                   </code>
+                  </code>
+                  that will deliver the result later. So, when we get the result using
+                  <code class="graf--code-inline">
+                   await(),
+                  </code>
+                  we are using the try-catch block as an expression so that if an exception occurs, an empty list is returned, but the execution will be completed and we would get a list of users. The output would be,
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Exception Handling in Kotlin Coroutines" class="graf-image" src="/images/list-of-users-output.png"/>
+                 </div>
+                 <p class="graf--p">
+                  So, this is how we can handle exceptions and still keep the execution going.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Conclusion:
+                  </b>
+                 </p>
+                 <ul>
+                  <li>
+                   While
+                   <b class="graf--bold">
+                    NOT
+                   </b>
+                   using
+                   <code class="graf--code-inline">
+                    async
+                   </code>
+                   , we can go ahead with the
+                   <code class="graf--code-inline">
+                    try-catch
+                   </code>
+                   or the
+                   <code class="graf--code-inline">
+                    CoroutineExceptionHandler
+                   </code>
+                   and achieve anything based on our use-cases.
+                  </li>
+                  <li>
+                   While using
+                   <code class="graf--code-inline">
+                    async
+                   </code>
+                   , in addition to
+                   <code class="graf--code-inline">
+                    try-catch
+                   </code>
+                   , we have two options:
+                   <code class="graf--code-inline">
+                    coroutineScope
+                   </code>
+                   and
+                   <code class="graf--code-inline">
+                    supervisorScope
+                   </code>
+                   .
+                  </li>
+                  <li>
+                   With
+                   <code class="graf--code-inline">
+                    async
+                   </code>
+                   , use
+                   <code class="graf--code-inline">
+                    supervisorScope
+                   </code>
+                   with the individual
+                   <code class="graf--code-inline">
+                    try-catch
+                   </code>
+                   for each task in addition to the top-level
+                   <code class="graf--code-inline">
+                    try-catch
+                   </code>
+                   , when you want to continue with other tasks if one or some of them have failed.
+                  </li>
+                  <li>
+                   With
+                   <code class="graf--code-inline">
+                    async
+                   </code>
+                   , use
+                   <code class="graf--code-inline">
+                    coroutineScope
+                   </code>
+                   with the top-level
+                   <code class="graf--code-inline">
+                    try-catch
+                   </code>
+                   , when you do
+                   <b class="graf--bold">
+                    NOT
+                   </b>
+                   want to continue with other tasks if any of them have failed.
+                  </li>
+                 </ul>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   The major difference is that a coroutineScope will cancel whenever any of its children fail. If we want to continue with the other tasks even when one fails, we go with the supervisorScope. A supervisorScope won’t cancel other children when one of them fails.
+                  </i>
+                 </blockquote>
+                 <p class="graf--p">
+                  This is how we can handle an exception efficiently while using Kotlin Coroutines in our project. We should always handle exceptions properly in our project to help our users have a smoother experience using our product.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/amitshekhariitbhu/Learn-Kotlin-Coroutines" target="_blank">
+                   You can find the complete project here
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Happy learning.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Error Handling in RxJava" class="ui centered image" src="/images/error-handling-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Error Handling in RxJava
+           </div>
+           <div class="meta">
+            25th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to handle errors in RxJava. We would be understanding various ways to handle the error and will also see a real-life example for better understanding.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Retrofit with Kotlin Coroutines in Android" class="ui centered image" src="/images/retrofit-kotlin-coroutines-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Retrofit with Kotlin Coroutines in Android
+           </div>
+           <div class="meta">
+            12th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to understand how to use Retrofit with Kotlin Coroutines in Android. Also, we will be understanding the suspend keyword and using LifeCycle scopes for Kotlin Coroutines.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin —  apply vs with
+" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin —  apply vs with
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin - Data Class" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin - Data Class
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin- Destructuring Declarations" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin- Destructuring Declarations
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin — Extension Functions" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin — Extension Functions
+           </div>
+           <div class="meta">
+            30th May 2017
+           </div>
+           <div class="description">
+            As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

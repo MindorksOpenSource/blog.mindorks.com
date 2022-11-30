@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Implementing Easy Permissions in Android: Android Tutorial
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/implementing-easy-permissions-in-android-android-tutorial" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Implementing Easy Permissions in Android: Android Tutorial" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/implementing-easy-permissions-in-android-android-tutorial" property="og:url"/>
+  <meta content="/images/implementing-easy-permissions-android-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy." property="og:description"/>
+  <meta content="Implementing Easy Permissions in Android: Android Tutorial" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy." name="twitter:description"/>
+  <meta content="/images/implementing-easy-permissions-android-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:274,data:{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",text:'<h1 class="graf--h1">Implementing Easy Permissions in Android: Android Tutorial</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/implementing-easy-permissions-android-banner.png class=\'graf-image\' alt=\'Implementing Easy Permissions in Android: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">While building or developing an Android application, you come across a situation where you need to use the feature of some other system applications present in every mobile device. For example, if you are making an Image Gallery application, then apart from your application’s feature, you will also need to use the functionality of system applications like Camera and File Storage for the proper working of your application. One way of achieving the same is by making your own Camera or File storage app. Will you do it? Yeah, definitely you can do it but is this a wise step to write so many lines of codes for the thing that you can achieve by just writing 4–5 lines of code?</p><p class="graf--p">In Android, whenever you install an application in your mobile, then the Android System will install that app with a unique user ID and each and every file associated with that application will only be visible to that app only and not to any other application present in the device. So, in order to use the functionality of system apps, you have to explicitly take permission from the user to allow access to that particular thing.</p><p class="graf--p">So, in this blog, we will learn how to use Implement Permissions using <b class="graf--bold">Easy Permission</b>. So far so good, let’s get started.</p><h4 class="graf--h3">Android Permission</h4><p class="graf--p">In order to protect the privacy of an Android User, Android introduces the concept of <b class="graf--bold">permission</b>. In order to use some data or some feature of the system(camera, storage, etc), you have to explicitly request for that permission. The user may or may not give that permission to a particular application demanding for particular permission.</p><p class="graf--p">The idea is to prevent the applications to perform any operations of its choice, as doing so will affect the performance of other applications present in the device and this will also result in less user privacy.</p><p class="graf--p">Before the Android API level 23, all the permissions required by the application must be taken at the time of installation of the application in the mobile device. If the user has granted the permission, then the app will work normally. But if permission is not granted, then the user will not be able to perform that task whose permission is not granted. For example, if the app is requesting permission for Camera and Wifi, and the user has given the Wifi permission only, then the user will not be able to use the Camera feature.</p><p class="graf--p">For API level 23 or higher, Android introduces the concept of <b class="graf--bold">Runtime Permission</b> to take permissions from the users.</p><h4 class="graf--h3">Runtime Permission</h4><p class="graf--p">In the API level 23 or higher, there is a feature called the Runtime Permission. By using the Runtime Permission, you need not ask for all the permissions for the application at the time of app installation. You can request for permission at runtime also. For example, suppose your app contains a feature to upload some image. But this feature is very less used by users. So, instead of taking permission at the runtime for Camera, take the permission for Camera if the user wants to upload the image. </p><p class="graf--p">Let’s look for another example, uninstall your Instagram app and then install it. Use it as normal i.e. see the feeds and all other feature. Now, try to post some image, here you will be asked to grant Permission for Camera. This permission is asked at the Runtime and is called <b class="graf--bold">Runtime Permission</b>.</p><h4 class="graf--h3">Protection levels in Permissions</h4><p class="graf--p">There are various protection levels in Permissions and these levels are useful to identify if the Runtime Permission is actually needed or not. Because without using the Runtime Permission, we can implicitly grant the permissions in the <b class="graf--bold"><i class="graf--italic">AndroidManifest.xml</i></b> file. So, knowing the protection levels is very important. Following are the protection levels in Permissions:</p><ul><li><b class="graf--bold">Normal Permission:</b> These are permissions that are required by the app to access some data from outside the app but this data has nothing to do with user privacy. Some of the examples include <b class="graf--bold"><i class="graf--italic">ACCESS_NETWORK_STATE</i></b>, <b class="graf--bold"><i class="graf--italic">ACCESS_WIFI_STATE</i></b>, <b class="graf--bold"><i class="graf--italic">BLUETOOTH</i></b>, <b class="graf--bold"><i class="graf--italic">INTERNET</i></b>, etc. For normal permission, just grant the permissions in <b class="graf--bold"><i class="graf--italic">AndroidManifest.xml</i></b> file.</li><li><b class="graf--bold">Signature Permission:</b> This is used at the installation time but only when the app that attempts to use permission is signed by the same certificate as the app that defines the permission. Some examples are <b class="graf--bold"><i class="graf--italic">WRITE_SETTINGS</i></b>, <b class="graf--bold"><i class="graf--italic">WRITE_VOICEMAIL</i></b>, <b class="graf--bold"><i class="graf--italic">READ_VOICEMAIL</i></b>, etc.</li><li><b class="graf--bold">Dangerous Permission:</b> These are that permission that demands some sensitive data of the user that is responsible for user’s privacy. These permissions must be granted explicitly. The user may or may not grant permission. Some examples are <b class="graf--bold"><i class="graf--italic">CAMERA</i></b>, <b class="graf--bold"><i class="graf--italic">CONTACTS</i></b>, <b class="graf--bold"><i class="graf--italic">LOCATION</i></b>, <b class="graf--bold"><i class="graf--italic">MICROPHONE</i></b>, etc.</li><li><b class="graf--bold">Special Permission:</b> There are some permissions that are neither Normal nor Dangerous. These are Special Permissions that are only needed by some applications. You can write this permission in your <b class="graf--bold"><i class="graf--italic">AndroidManifest.xml</i></b> file. Some examples are <b class="graf--bold"><i class="graf--italic">SYSTEM_ALERT_WINDOW</i></b>, <b class="graf--bold"><i class="graf--italic">WRITE_SETTINGS</i></b>, etc.</li></ul><p class="graf--p">To have a full list of Permissions that come under various protection levels, you can visit <a class="markup--anchor" target="_blank" href="https://developer.android.com/guide/topics/permissions/overview.html#normal-dangerous">here</a>.</p><h4 class="graf--h3">Implementing Easy Permission</h4><p class="graf--p">There are “n” number of ways to implement the Permissions in Android. One of these is using <b class="graf--bold">Easy Permission</b>.</p><blockquote class="graf--blockquote">EasyPermissions is a wrapper library to simplify basic system permissions logic when targeting Android M or higher.</blockquote><p class="graf--p">As the name specifies, using <b class="graf--bold"><i class="graf--italic">EasyPermissions </i></b>will make our task easy to implement the permission alert box in any Android Application. This is used to handle each and every aspect of permissions. Various things might happen during granting permissions. The whole scenario is depicted in the below image:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/implementing-easy-permissions-android-flow.png class=\'graf-image\' alt=\'Implementing Easy Permissions in Android: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So, let’s do an example to understand the working of Easy Permission.</p><h4 class="graf--h3">Project Creation and adding the dependency</h4><p class="graf--p">Open the Android Studio and create a project with Empty Activity template.</p><p class="graf--p">After creating the project, our next step is to add the dependency of <b class="graf--bold"><i class="graf--italic">EasyPermissions</i></b> in our app level <b class="graf--bold"><i class="graf--italic">build.gradle</i></b> file. Add the below line in the <b class="graf--bold"><i class="graf--italic">build.gradle</i></b> file to have the dependency of <b class="graf--bold"><i class="graf--italic">EasyPermissions</i></b> and after that sync your project.</p><pre><code class="language-java graf graf--code">// For developers using AndroidX in their applications\nimplementation \'pub.devrel:easypermissions:3.0.0\'\n \n// For developers using the Android Support Library\nimplementation \'pub.devrel:easypermissions:2.0.1\'</code></pre><h4 class="graf--h3">Making the UI</h4><p class="graf--p">Our next step is make the UI for our application. Here we are adding four Buttons for different permissions. Following is the code for the <b class="graf--bold"><i class="graf--italic">activity_main.xml</i></b> file:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout\n        xmlns:android="http://schemas.android.com/apk/res/android"\n        xmlns:tools="http://schemas.android.com/tools"\n        xmlns:app="http://schemas.android.com/apk/res-auto"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent"\n        tools:context=".MainActivity"&gt;\n\n    &lt;Button\n            android:layout_width="320dp"\n            android:layout_height="56dp"\n            app:layout_constraintEnd_toEndOf="parent"\n            android:layout_marginEnd="8dp"\n            app:layout_constraintStart_toStartOf="parent"\n            android:layout_marginStart="8dp"\n            android:text="Camera Permission"\n            app:layout_constraintTop_toTopOf="parent"\n            android:layout_marginTop="8dp"\n            android:id="@+id/btn_camera"/&gt;\n\n    &lt;Button\n            android:layout_width="320dp"\n            android:layout_height="56dp"\n            app:layout_constraintEnd_toEndOf="parent"\n            android:layout_marginEnd="8dp"\n            android:layout_marginTop="8dp"\n            android:text="Location Permission"\n        app:layout_constraintTop_toBottomOf="@+id/btn_camera"\n            app:layout_constraintStart_toStartOf="parent"\n            android:layout_marginStart="8dp"\n            android:id="@+id/btn_location"/&gt;\n\n    &lt;Button\n            android:id="@+id/btn_sms"\n            android:layout_width="320dp"\n            android:layout_height="56dp"\n            app:layout_constraintEnd_toEndOf="parent"\n            android:layout_marginEnd="8dp"\n            android:text="SMS Permission"\n      app:layout_constraintTop_toBottomOf="@+id/btn_location"\n            app:layout_constraintStart_toStartOf="parent"\n            android:layout_marginStart="8dp"    android:layout_marginTop="8dp"/&gt;\n    &lt;Button\n            android:id="@+id/btn_contact"\n            android:layout_width="320dp"\n            android:layout_height="56dp"\n            android:layout_marginTop="8dp"\n            app:layout_constraintTop_toBottomOf="@+id/btn_sms" app:layout_constraintEnd_toEndOf="parent"\n            android:layout_marginEnd="8dp"\n            android:text="Contact Permission"\n            app:layout_constraintStart_toStartOf="parent"\n            android:layout_marginStart="8dp"/&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><h4 class="graf--h3">Adding Permission in AndroiManifest.xml file</h4><p class="graf--p">In order to take Dangerous Permission in our application, we have to display an alert to ask for permission. So, these permissions must be added in the <b class="graf--bold"><i class="graf--italic">AndroidManifest.xml</i></b> file. By doing so, if the permission is granted by the user, the app can use that permission. Add the below lines:</p><pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.CAMERA" /&gt;\n&lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /&gt;\n&lt;uses-permission android:name="android.permission.READ_SMS" /&gt;\n&lt;uses-permission android:name="android.permission.READ_CONTACTS" /&gt;</code></pre><h4 class="graf--h3">Add Strings in values/strings.xml</h4><p class="graf--p">Add some Strings in the <b class="graf--bold"><i class="graf--italic">values/strings.xml</i></b>:</p><pre><code class="language-java graf graf--code">&lt;resources&gt;\n    &lt;string name="app_name"&gt;MindOrks&lt;/string&gt;\n    &lt;string name="yes"&gt;Yes&lt;/string&gt;\n    &lt;string name="no"&gt;No&lt;/string&gt;\n\n    &lt;string name="rationale_camera"&gt;This app needs access to your camera so you can take pictures.&lt;/string&gt;\n    &lt;string name="rationale_location"&gt;This app needs access to your location to know where you are.&lt;/string&gt;\n    &lt;string name="rationale_sms"&gt;This app needs access to your sms to read all your great messages.&lt;/string&gt;\n    &lt;string name="rationale_contact"&gt;This app needs access to your contact to know you better&lt;/string&gt;\n    &lt;string name="returned_from_app_settings_to_activity"&gt;\n        Returned from app settings to MainActivity with the following permissions:\n        \\n\\nCamera: %s\n        \\nLocation: %s\n        \\nSMS: %s\n        \\nContacts: %s\n    &lt;/string&gt;\n    &lt;string name="camera"&gt;Camera&lt;/string&gt;\n    &lt;string name="location"&gt;Location&lt;/string&gt;\n    &lt;string name="sms"&gt;SMS&lt;/string&gt;\n    &lt;string name="contacts"&gt;Contacts&lt;/string&gt;\n&lt;/resources&gt;</code></pre><h4 class="graf--h3">Code for MainActivity.kt</h4><p class="graf--p">Now, our next step is to write the code for permission handling. Here, we are using <b class="graf--bold"><i class="graf--italic">EasyPermission.hasPermissions() </i></b>to check if the permission is granted or not. If the permission is not granted then we request for permission by using <b class="graf--bold"><i class="graf--italic">EasyPermission.requestPermissions().</i></b></p><p class="graf--p">Following is the code for <b class="graf--bold">MainActivity.kt</b>:</p><pre><code class="language-java graf graf--code">class MainActivity:AppCompatActivity(),\n    EasyPermissions.PermissionCallbacks,\n    EasyPermissions.RationaleCallbacks{\n\n    private val TAG = "MainActivity"\n    private val RC_CAMERA_PERM = 123\n    private val RC_LOCATION_PERM = 124\n    private val RC_SMS_PERM = 125\n    private val RC_CONTACTS_PERM = 126\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        val camera_btn_click = findViewById(R.id.btn_camera) as Button\n        val location_btn_click = findViewById(R.id.btn_location) as Button\n        val sms_btn_click = findViewById(R.id.btn_sms) as Button\n        val contact_brn_click = findViewById(R.id.btn_contact) as Button\n\n        camera_btn_click.setOnClickListener{\n            cameraTask()\n        }\n\n        location_btn_click.setOnClickListener {\n            locationTask()\n        }\n\n        sms_btn_click.setOnClickListener {\n            smsTask()\n        }\n\n        contact_brn_click.setOnClickListener {\n            contactTask()\n        }\n    }\n\n    private fun hasCameraPermission():Boolean {\n        return EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)\n    }\n    private fun hasLocationPermissions():Boolean {\n        return EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)\n    }\n    private fun hasSmsPermission():Boolean {\n        return EasyPermissions.hasPermissions(this, Manifest.permission.READ_SMS)\n    }\n    private fun hasContactPermission():Boolean {\n        return EasyPermissions.hasPermissions(this, Manifest.permission.READ_CONTACTS)\n    }\n\n    fun cameraTask() {\n        if (hasCameraPermission())\n        {\n            // Have permission, do the thing!\n            Toast.makeText(this, "TODO: Camera things", Toast.LENGTH_LONG).show()\n        }\n        else\n        {\n            // Ask for one permission\n            EasyPermissions.requestPermissions(\n                this,\n                getString(R.string.rationale_camera),\n                RC_CAMERA_PERM,\n                Manifest.permission.CAMERA)\n        }\n    }\n\n    fun locationTask() {\n        if (hasLocationPermissions())\n        {\n            // Have permission, do the thing!\n            Toast.makeText(this, "TODO: Location things", Toast.LENGTH_LONG).show()\n        }\n        else\n        {\n            // Ask for one permission\n            EasyPermissions.requestPermissions(\n                this,\n                getString(R.string.rationale_location),\n                RC_LOCATION_PERM,\n                Manifest.permission.ACCESS_FINE_LOCATION)\n        }\n    }\n\n    fun smsTask() {\n        if (hasSmsPermission())\n        {\n            Toast.makeText(this, "TODO: SMS things", Toast.LENGTH_LONG).show()\n        }\n        else\n        {\n            // Ask for one permission\n            EasyPermissions.requestPermissions(\n                this,\n                getString(R.string.rationale_sms),\n                RC_SMS_PERM,\n                Manifest.permission.READ_SMS)\n        }\n    }\n\n    fun contactTask() {\n        if (hasContactPermission())\n        {\n            Toast.makeText(this, "TODO: Contact things", Toast.LENGTH_LONG).show()\n        }\n        else\n        {\n            // Ask for one permission\n            EasyPermissions.requestPermissions(\n                this,\n                getString(R.string.rationale_contact),\n                RC_CONTACTS_PERM,\n                Manifest.permission.READ_CONTACTS)\n        }\n    }\n    override fun onRequestPermissionsResult(requestCode:Int,\n                                   permissions:Array&lt;String&gt;,\n                                   grantResults:IntArray) {\n        super.onRequestPermissionsResult(requestCode, permissions, grantResults)\n        // EasyPermissions handles the request result.\n        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)\n    }\n\n    override fun onPermissionsDenied(requestCode: Int, perms: MutableList&lt;String&gt;) {\n        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size)\n\n        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms))\n        {\n            AppSettingsDialog.Builder(this).build().show()\n        }\n    }\n\n    override fun onPermissionsGranted(requestCode: Int, perms: MutableList&lt;String&gt;) {\n        Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size)\n    }\n\n    @SuppressLint("StringFormatMatches")\n    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {\n        super.onActivityResult(requestCode, resultCode, data)\n        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE)\n        {\n            val yes = getString(R.string.yes)\n            val no = getString(R.string.no)\n            // Do something after user returned from app settings screen, like showing a Toast.\n            Toast.makeText(\n                this,\n                getString(R.string.returned_from_app_settings_to_activity,\n                    if (hasCameraPermission()) yes else no,\n                    if (hasLocationPermissions()) yes else no,\n                    if (hasSmsPermission()) yes else no),\n                Toast.LENGTH_LONG)\n                .show()\n        }\n    }\n    override fun onRationaleAccepted(requestCode:Int) {\n        Log.d(TAG, "onRationaleAccepted:" + requestCode)\n    }\n    override fun onRationaleDenied(requestCode:Int) {\n        Log.d(TAG, "onRationaleDenied:" + requestCode)\n    }\n}</code></pre><p class="graf--p">Run your app and try to apply various conditions as mentioned in the description image.</p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we learned how to grant permissions in our application explicitly. We learned that there are mainly two types of Permissions i.e. <b class="graf--bold">Normal Permission</b> and <b class="graf--bold">Dangerous Permission</b>. Normal Permissions are used when there is not a risk of user privacy. While Dangerous Permission is used when you deal with some data that may involve some type of user privacy. At last, we did one example using the <b class="graf--bold"><i class="graf--italic">EasyPermissions</i></b>.</p><p class="graf--p">Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:312,title:"Easy SMS Verification in Android: SMS User Consent API",description:"In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt. ",author:14897,img_url:"/images/easy-sms-verification-android-sms-user-consent-api-banner.png",blog_url:"easy-sms-verification-in-android-sms-user-consent-api",likes:0,rank:0,category:1,published_at:"9th August 2019",score:3.7445075511932373},{id:412,title:"Implementing ConcatAdapter In Android - Tutorial",description:"In this blog, we are going to learn how to implement a concat adapter and how can it help us to design a list in multiple view types in an easy way. We will also learn how to add different adapters in concat adapter\n",author:9959,img_url:"/images/merge-adpter-banner-be0494e1dabd7178.png",blog_url:"implementing-merge-adapter-in-android-tutorial",likes:0,rank:0,category:1,published_at:"8th April 2020",score:2.563516855239868},{id:231,title:"Understanding and Implementing Permission in Android Q",description:"In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.",author:14897,img_url:"/images/location-permission.png",blog_url:"location-permissions-in-android-q",likes:0,rank:0,category:1,published_at:"11th May 2019",score:1.7378358840942383},{id:252,title:"Implementing in-app updates on Android",description:"In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.",author:14897,img_url:"/images/in-app-updates-android-banner.png",blog_url:"implementing-in-app-updates-on-android",likes:0,rank:0,category:1,published_at:"25th May 2019",score:1.7378358840942383},{id:265,title:"Implementing Android Slice",description:"In this blog, you will learn about Android Slice and how to implement it. We have learned a basic way to implement a slice and how to work with it.",author:9959,img_url:"/images/android-slice.png",blog_url:"implementing-android-slice",likes:0,rank:0,category:1,published_at:"5th June 2019",score:1.7378358840942383},{id:271,title:"Implementing Bubbles in Android",description:"In this blog, we will learn how to use Bubbles in Android. Bubbles are a new feature introduced in the Beta version of Android Q. These are used to display notifications of any application over some other application and you can launch any activity by using these Bubbles, something like Facebook Messenger's app.",author:14897,img_url:"/images/implementing-bubbles-in-android-banner.png",blog_url:"implementing-bubbles-in-android",likes:0,rank:0,category:1,published_at:"8th June 2019",score:1.7378358840942383}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            13th June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Implementing Easy Permissions in Android: Android Tutorial
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="graf-image" src="/images/implementing-easy-permissions-android-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  While building or developing an Android application, you come across a situation where you need to use the feature of some other system applications present in every mobile device. For example, if you are making an Image Gallery application, then apart from your application’s feature, you will also need to use the functionality of system applications like Camera and File Storage for the proper working of your application. One way of achieving the same is by making your own Camera or File storage app. Will you do it? Yeah, definitely you can do it but is this a wise step to write so many lines of codes for the thing that you can achieve by just writing 4–5 lines of code?
+                 </p>
+                 <p class="graf--p">
+                  In Android, whenever you install an application in your mobile, then the Android System will install that app with a unique user ID and each and every file associated with that application will only be visible to that app only and not to any other application present in the device. So, in order to use the functionality of system apps, you have to explicitly take permission from the user to allow access to that particular thing.
+                 </p>
+                 <p class="graf--p">
+                  So, in this blog, we will learn how to use Implement Permissions using
+                  <b class="graf--bold">
+                   Easy Permission
+                  </b>
+                  . So far so good, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  Android Permission
+                 </h4>
+                 <p class="graf--p">
+                  In order to protect the privacy of an Android User, Android introduces the concept of
+                  <b class="graf--bold">
+                   permission
+                  </b>
+                  . In order to use some data or some feature of the system(camera, storage, etc), you have to explicitly request for that permission. The user may or may not give that permission to a particular application demanding for particular permission.
+                 </p>
+                 <p class="graf--p">
+                  The idea is to prevent the applications to perform any operations of its choice, as doing so will affect the performance of other applications present in the device and this will also result in less user privacy.
+                 </p>
+                 <p class="graf--p">
+                  Before the Android API level 23, all the permissions required by the application must be taken at the time of installation of the application in the mobile device. If the user has granted the permission, then the app will work normally. But if permission is not granted, then the user will not be able to perform that task whose permission is not granted. For example, if the app is requesting permission for Camera and Wifi, and the user has given the Wifi permission only, then the user will not be able to use the Camera feature.
+                 </p>
+                 <p class="graf--p">
+                  For API level 23 or higher, Android introduces the concept of
+                  <b class="graf--bold">
+                   Runtime Permission
+                  </b>
+                  to take permissions from the users.
+                 </p>
+                 <h4 class="graf--h3">
+                  Runtime Permission
+                 </h4>
+                 <p class="graf--p">
+                  In the API level 23 or higher, there is a feature called the Runtime Permission. By using the Runtime Permission, you need not ask for all the permissions for the application at the time of app installation. You can request for permission at runtime also. For example, suppose your app contains a feature to upload some image. But this feature is very less used by users. So, instead of taking permission at the runtime for Camera, take the permission for Camera if the user wants to upload the image.
+                 </p>
+                 <p class="graf--p">
+                  Let’s look for another example, uninstall your Instagram app and then install it. Use it as normal i.e. see the feeds and all other feature. Now, try to post some image, here you will be asked to grant Permission for Camera. This permission is asked at the Runtime and is called
+                  <b class="graf--bold">
+                   Runtime Permission
+                  </b>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  Protection levels in Permissions
+                 </h4>
+                 <p class="graf--p">
+                  There are various protection levels in Permissions and these levels are useful to identify if the Runtime Permission is actually needed or not. Because without using the Runtime Permission, we can implicitly grant the permissions in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    AndroidManifest.xml
+                   </i>
+                  </b>
+                  file. So, knowing the protection levels is very important. Following are the protection levels in Permissions:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Normal Permission:
+                   </b>
+                   These are permissions that are required by the app to access some data from outside the app but this data has nothing to do with user privacy. Some of the examples include
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     ACCESS_NETWORK_STATE
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     ACCESS_WIFI_STATE
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     BLUETOOTH
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     INTERNET
+                    </i>
+                   </b>
+                   , etc. For normal permission, just grant the permissions in
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     AndroidManifest.xml
+                    </i>
+                   </b>
+                   file.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Signature Permission:
+                   </b>
+                   This is used at the installation time but only when the app that attempts to use permission is signed by the same certificate as the app that defines the permission. Some examples are
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     WRITE_SETTINGS
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     WRITE_VOICEMAIL
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     READ_VOICEMAIL
+                    </i>
+                   </b>
+                   , etc.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Dangerous Permission:
+                   </b>
+                   These are that permission that demands some sensitive data of the user that is responsible for user’s privacy. These permissions must be granted explicitly. The user may or may not grant permission. Some examples are
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     CAMERA
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     CONTACTS
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     LOCATION
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     MICROPHONE
+                    </i>
+                   </b>
+                   , etc.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Special Permission:
+                   </b>
+                   There are some permissions that are neither Normal nor Dangerous. These are Special Permissions that are only needed by some applications. You can write this permission in your
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     AndroidManifest.xml
+                    </i>
+                   </b>
+                   file. Some examples are
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     SYSTEM_ALERT_WINDOW
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     WRITE_SETTINGS
+                    </i>
+                   </b>
+                   , etc.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  To have a full list of Permissions that come under various protection levels, you can visit
+                  <a class="markup--anchor" href="https://developer.android.com/guide/topics/permissions/overview.html#normal-dangerous" target="_blank">
+                   here
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  Implementing Easy Permission
+                 </h4>
+                 <p class="graf--p">
+                  There are “n” number of ways to implement the Permissions in Android. One of these is using
+                  <b class="graf--bold">
+                   Easy Permission
+                  </b>
+                  .
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  EasyPermissions is a wrapper library to simplify basic system permissions logic when targeting Android M or higher.
+                 </blockquote>
+                 <p class="graf--p">
+                  As the name specifies, using
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    EasyPermissions
+                   </i>
+                  </b>
+                  will make our task easy to implement the permission alert box in any Android Application. This is used to handle each and every aspect of permissions. Various things might happen during granting permissions. The whole scenario is depicted in the below image:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="graf-image" src="/images/implementing-easy-permissions-android-flow.png"/>
+                 </div>
+                 <p class="graf--p">
+                  So, let’s do an example to understand the working of Easy Permission.
+                 </p>
+                 <h4 class="graf--h3">
+                  Project Creation and adding the dependency
+                 </h4>
+                 <p class="graf--p">
+                  Open the Android Studio and create a project with Empty Activity template.
+                 </p>
+                 <p class="graf--p">
+                  After creating the project, our next step is to add the dependency of
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    EasyPermissions
+                   </i>
+                  </b>
+                  in our app level
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle
+                   </i>
+                  </b>
+                  file. Add the below line in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle
+                   </i>
+                  </b>
+                  file to have the dependency of
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    EasyPermissions
+                   </i>
+                  </b>
+                  and after that sync your project.
+                 </p>
+                 <pre><code class="language-java graf graf--code">// For developers using AndroidX in their applications
+implementation 'pub.devrel:easypermissions:3.0.0'
+ 
+// For developers using the Android Support Library
+implementation 'pub.devrel:easypermissions:2.0.1'</code></pre>
+                 <h4 class="graf--h3">
+                  Making the UI
+                 </h4>
+                 <p class="graf--p">
+                  Our next step is make the UI for our application. Here we are adding four Buttons for different permissions. Following is the code for the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    activity_main.xml
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"&gt;
+
+    &lt;Button
+            android:layout_width="320dp"
+            android:layout_height="56dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:text="Camera Permission"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:id="@+id/btn_camera"/&gt;
+
+    &lt;Button
+            android:layout_width="320dp"
+            android:layout_height="56dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Location Permission"
+        app:layout_constraintTop_toBottomOf="@+id/btn_camera"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:id="@+id/btn_location"/&gt;
+
+    &lt;Button
+            android:id="@+id/btn_sms"
+            android:layout_width="320dp"
+            android:layout_height="56dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:text="SMS Permission"
+      app:layout_constraintTop_toBottomOf="@+id/btn_location"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"    android:layout_marginTop="8dp"/&gt;
+    &lt;Button
+            android:id="@+id/btn_contact"
+            android:layout_width="320dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_sms" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            android:text="Contact Permission"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"/&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <h4 class="graf--h3">
+                  Adding Permission in AndroiManifest.xml file
+                 </h4>
+                 <p class="graf--p">
+                  In order to take Dangerous Permission in our application, we have to display an alert to ask for permission. So, these permissions must be added in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    AndroidManifest.xml
+                   </i>
+                  </b>
+                  file. By doing so, if the permission is granted by the user, the app can use that permission. Add the below lines:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.CAMERA" /&gt;
+&lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /&gt;
+&lt;uses-permission android:name="android.permission.READ_SMS" /&gt;
+&lt;uses-permission android:name="android.permission.READ_CONTACTS" /&gt;</code></pre>
+                 <h4 class="graf--h3">
+                  Add Strings in values/strings.xml
+                 </h4>
+                 <p class="graf--p">
+                  Add some Strings in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    values/strings.xml
+                   </i>
+                  </b>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;resources&gt;
+    &lt;string name="app_name"&gt;MindOrks&lt;/string&gt;
+    &lt;string name="yes"&gt;Yes&lt;/string&gt;
+    &lt;string name="no"&gt;No&lt;/string&gt;
+
+    &lt;string name="rationale_camera"&gt;This app needs access to your camera so you can take pictures.&lt;/string&gt;
+    &lt;string name="rationale_location"&gt;This app needs access to your location to know where you are.&lt;/string&gt;
+    &lt;string name="rationale_sms"&gt;This app needs access to your sms to read all your great messages.&lt;/string&gt;
+    &lt;string name="rationale_contact"&gt;This app needs access to your contact to know you better&lt;/string&gt;
+    &lt;string name="returned_from_app_settings_to_activity"&gt;
+        Returned from app settings to MainActivity with the following permissions:
+        \n\nCamera: %s
+        \nLocation: %s
+        \nSMS: %s
+        \nContacts: %s
+    &lt;/string&gt;
+    &lt;string name="camera"&gt;Camera&lt;/string&gt;
+    &lt;string name="location"&gt;Location&lt;/string&gt;
+    &lt;string name="sms"&gt;SMS&lt;/string&gt;
+    &lt;string name="contacts"&gt;Contacts&lt;/string&gt;
+&lt;/resources&gt;</code></pre>
+                 <h4 class="graf--h3">
+                  Code for MainActivity.kt
+                 </h4>
+                 <p class="graf--p">
+                  Now, our next step is to write the code for permission handling. Here, we are using
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    EasyPermission.hasPermissions()
+                   </i>
+                  </b>
+                  to check if the permission is granted or not. If the permission is not granted then we request for permission by using
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    EasyPermission.requestPermissions().
+                   </i>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Following is the code for
+                  <b class="graf--bold">
+                   MainActivity.kt
+                  </b>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity:AppCompatActivity(),
+    EasyPermissions.PermissionCallbacks,
+    EasyPermissions.RationaleCallbacks{
+
+    private val TAG = "MainActivity"
+    private val RC_CAMERA_PERM = 123
+    private val RC_LOCATION_PERM = 124
+    private val RC_SMS_PERM = 125
+    private val RC_CONTACTS_PERM = 126
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val camera_btn_click = findViewById(R.id.btn_camera) as Button
+        val location_btn_click = findViewById(R.id.btn_location) as Button
+        val sms_btn_click = findViewById(R.id.btn_sms) as Button
+        val contact_brn_click = findViewById(R.id.btn_contact) as Button
+
+        camera_btn_click.setOnClickListener{
+            cameraTask()
+        }
+
+        location_btn_click.setOnClickListener {
+            locationTask()
+        }
+
+        sms_btn_click.setOnClickListener {
+            smsTask()
+        }
+
+        contact_brn_click.setOnClickListener {
+            contactTask()
+        }
+    }
+
+    private fun hasCameraPermission():Boolean {
+        return EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)
+    }
+    private fun hasLocationPermissions():Boolean {
+        return EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+    private fun hasSmsPermission():Boolean {
+        return EasyPermissions.hasPermissions(this, Manifest.permission.READ_SMS)
+    }
+    private fun hasContactPermission():Boolean {
+        return EasyPermissions.hasPermissions(this, Manifest.permission.READ_CONTACTS)
+    }
+
+    fun cameraTask() {
+        if (hasCameraPermission())
+        {
+            // Have permission, do the thing!
+            Toast.makeText(this, "TODO: Camera things", Toast.LENGTH_LONG).show()
+        }
+        else
+        {
+            // Ask for one permission
+            EasyPermissions.requestPermissions(
+                this,
+                getString(R.string.rationale_camera),
+                RC_CAMERA_PERM,
+                Manifest.permission.CAMERA)
+        }
+    }
+
+    fun locationTask() {
+        if (hasLocationPermissions())
+        {
+            // Have permission, do the thing!
+            Toast.makeText(this, "TODO: Location things", Toast.LENGTH_LONG).show()
+        }
+        else
+        {
+            // Ask for one permission
+            EasyPermissions.requestPermissions(
+                this,
+                getString(R.string.rationale_location),
+                RC_LOCATION_PERM,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+    }
+
+    fun smsTask() {
+        if (hasSmsPermission())
+        {
+            Toast.makeText(this, "TODO: SMS things", Toast.LENGTH_LONG).show()
+        }
+        else
+        {
+            // Ask for one permission
+            EasyPermissions.requestPermissions(
+                this,
+                getString(R.string.rationale_sms),
+                RC_SMS_PERM,
+                Manifest.permission.READ_SMS)
+        }
+    }
+
+    fun contactTask() {
+        if (hasContactPermission())
+        {
+            Toast.makeText(this, "TODO: Contact things", Toast.LENGTH_LONG).show()
+        }
+        else
+        {
+            // Ask for one permission
+            EasyPermissions.requestPermissions(
+                this,
+                getString(R.string.rationale_contact),
+                RC_CONTACTS_PERM,
+                Manifest.permission.READ_CONTACTS)
+        }
+    }
+    override fun onRequestPermissionsResult(requestCode:Int,
+                                   permissions:Array&lt;String&gt;,
+                                   grantResults:IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList&lt;String&gt;) {
+        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size)
+
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms))
+        {
+            AppSettingsDialog.Builder(this).build().show()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList&lt;String&gt;) {
+        Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size)
+    }
+
+    @SuppressLint("StringFormatMatches")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE)
+        {
+            val yes = getString(R.string.yes)
+            val no = getString(R.string.no)
+            // Do something after user returned from app settings screen, like showing a Toast.
+            Toast.makeText(
+                this,
+                getString(R.string.returned_from_app_settings_to_activity,
+                    if (hasCameraPermission()) yes else no,
+                    if (hasLocationPermissions()) yes else no,
+                    if (hasSmsPermission()) yes else no),
+                Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+    override fun onRationaleAccepted(requestCode:Int) {
+        Log.d(TAG, "onRationaleAccepted:" + requestCode)
+    }
+    override fun onRationaleDenied(requestCode:Int) {
+        Log.d(TAG, "onRationaleDenied:" + requestCode)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Run your app and try to apply various conditions as mentioned in the description image.
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how to grant permissions in our application explicitly. We learned that there are mainly two types of Permissions i.e.
+                  <b class="graf--bold">
+                   Normal Permission
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   Dangerous Permission
+                  </b>
+                  . Normal Permissions are used when there is not a risk of user privacy. While Dangerous Permission is used when you deal with some data that may involve some type of user privacy. At last, we did one example using the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    EasyPermissions
+                   </i>
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Easy SMS Verification in Android: SMS User Consent API" class="ui centered image" src="/images/easy-sms-verification-android-sms-user-consent-api-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Easy SMS Verification in Android: SMS User Consent API
+           </div>
+           <div class="meta">
+            9th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing ConcatAdapter In Android - Tutorial" class="ui centered image" src="/images/merge-adpter-banner-be0494e1dabd7178.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing ConcatAdapter In Android - Tutorial
+           </div>
+           <div class="meta">
+            8th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to implement a concat adapter and how can it help us to design a list in multiple view types in an easy way. We will also learn how to add different adapters in concat adapter
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding and Implementing Permission in Android Q" class="ui centered image" src="/images/location-permission.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding and Implementing Permission in Android Q
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing in-app updates on Android" class="ui centered image" src="/images/in-app-updates-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing in-app updates on Android
+           </div>
+           <div class="meta">
+            25th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Android Slice" class="ui centered image" src="/images/android-slice.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Android Slice
+           </div>
+           <div class="meta">
+            5th June 2019
+           </div>
+           <div class="description">
+            In this blog, you will learn about Android Slice and how to implement it. We have learned a basic way to implement a slice and how to work with it.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Bubbles in Android" class="ui centered image" src="/images/implementing-bubbles-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Bubbles in Android
+           </div>
+           <div class="meta">
+            8th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Bubbles in Android. Bubbles are a new feature introduced in the Beta version of Android Q. These are used to display notifications of any application over some other application and you can launch any activity by using these Bubbles, something like Facebook Messenger's app.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

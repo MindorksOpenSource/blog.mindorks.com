@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Auto Backup API in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-auto-backup-api" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Auto Backup API in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-auto-backup-api" property="og:url"/>
+  <meta content="/images/android-auto-backup-banner-70b0b8fb204b0731.png" property="og:image"/>
+  <meta content="Android provides a very handy API to deal with user's local data backups. We'll learn how to enable, customize, use and test Android's Auto Backup API." property="og:description"/>
+  <meta content="Auto Backup API in Android" property="twitter:title"/>
+  <meta content="Android provides a very handy API to deal with user's local data backups. We'll learn how to enable, customize, use and test Android's Auto Backup API." name="twitter:description"/>
+  <meta content="/images/android-auto-backup-banner-70b0b8fb204b0731.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="Android provides a very handy API to deal with user's local data backups. We'll learn how to enable, customize, use and test Android's Auto Backup API." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:466,data:{id:466,title:"Auto Backup API in Android",description:"Android provides a very handy API to deal with user's local data backups. We'll learn how to enable, customize, use and test Android's Auto Backup API.",text:'<h1 class="graf--h1">Auto Backup API in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-auto-backup-banner-70b0b8fb204b0731.png class=\'graf-image\' alt=\'Auto Backup API in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Hey there! Welcome. In this high-tech world, data is given the utmost importance, isn’t it? Nowadays, data-loss is a nightmare for most of us. Whether it is the data in your computer’s hard drive or any custom settings data of an app that you use, backing data up should be one of the tasks in your priority list.</p><p class="graf--p">Being an app developer, I believe we should provide a data backup facility to our users. Fortunately, Android has something called <span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/guide/topics/data/autobackup">Auto Backup API</a></span> for this purpose and it has been around for a while now.</p><h4 class="graf--h3">Auto Backup API</h4><p class="graf--p">It uploads the local app data in a private folder on the user&#x27;s Google Drive account with a maximum storage limit of <b class="graf--bold">25 MB/app</b>. (data is not included in the user&#x27;s personal Google Drive quota). <i class="graf--italic">If the quota limit for an app is reached, the system won’t backup the data anymore. However, when a new backup is done, the previous backup is deleted.</i><br/>To enable it with its default configurations, we just need to add the following line in the <i class="graf--italic">application</i> tag of the manifest file.</p><pre><code class="language-java graf graf--code">android:allowBackup="true"</code></pre><p class="graf--p">That’s all..! The entire process is managed by the Android framework.</p><p class="graf--p">There’s actually one more requirement to make it work. Users should have <b class="graf--bold">Google Backup &amp; Reset</b> feature enabled on their device along with a backup account assigned to it. In Android 9, this option can be generally found at <b class="graf--bold">Settings &gt; Backup and reset &gt; App data</b>.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/auto-backup-settings-4cde32f65f1530cd.png class=\'graf-image\' alt=\'Auto Backup API in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">The user’s data is now eligible for the backup.</p><p class="graf--p">By default, this data includes <b class="graf--bold">files</b>, <b class="graf--bold">root</b> &amp; <b class="graf--bold">externalFiles</b> directories, <b class="graf--bold">databases,</b> and <b class="graf--bold">sharedPreferences</b> but this API will always ignore <b class="graf--bold">noBackupFiles</b>, <b class="graf--bold">cache</b> &amp; <b class="graf--bold">codeCache</b> directories.</p><p class="graf--p">Now the question is when and how often the data gets uploaded on Google Drive? There are certain triggers to initiate the backup process.</p><ul><li>Device is idle</li><li>The last backup was performed at least 24 hours ago</li><li>The device is connected with WiFi/mobile-data (as per user’s backup configurations)</li></ul><h4 class="graf--h3">Custom configurations</h4><p class="graf--p">Suppose we have a requirement to consider only <i class="graf--italic">sharedPreferences</i> for the backup process and the rest of the files/directories should be ignored. This can be achieved easily using the <b class="graf--bold">fullBackupContent </b>property of manifest’s <i class="graf--italic">application</i> tag.</p><p class="graf--p">We need to create an XML file(backup_rules.xml) with the following content in <b class="graf--bold">res &gt; xml</b>. Here, <i class="graf--italic">data.xml</i> is the name of the <i class="graf--italic">sharedPreferences</i> file.</p><pre><code class="language-java graf graf--code">&lt;full-backup-content&gt;\n    &lt;include domain="sharedpref" path="data.xml" /&gt;\n&lt;/full-backup-content&gt;</code></pre><p class="graf--p">We can then point to this file as follows.</p><pre><code class="language-java graf graf--code">android:fullBackupContent="@xml/backup_rules"</code></pre><p class="graf--p">Rules can be configured depending on the project’s requirements.</p><pre><code class="language-java graf graf--code">&lt;full-backup-content&gt;\n    &lt;include domain=["file" | "database" | "sharedpref" | "external" | "root"]\n    path="string"\n    requireFlags=["clientSideEncryption" | "deviceToDeviceTransfer"] /&gt;\n    &lt;exclude domain=["file" | "database" | "sharedpref" | "external" | "root"]\n    path="string" /&gt;\n&lt;/full-backup-content&gt;</code></pre><p class="graf--p">Domains in the <b class="graf--bold">&lt;include&gt;</b> tag will be included in the backup process whereas those in the <b class="graf--bold">&lt;exclude&gt;</b> tag will be ignored.</p><p class="graf--p">There’s also a parameter <b class="graf--bold">requireFlags </b>in the <i class="graf--italic">&lt;include&gt;</i> tag to add flags which are basically used to enable a couple of features on Android 9 devices. It can have the following values.</p><ul><li><b class="graf--bold">clientSideEncryption</b>: Used to encrypt the backup with client-side secret.</li><li><b class="graf--bold">deviceToDeviceTransfer</b>: Used to allow the user to transfer the backup to another device using <span class=""><a class="markup--anchor" target="_blank" href="https://support.google.com/pixelphone/answer/7129955">local device-to-device transfer</a></span>.</li></ul><h4 class="graf--h3">Backup Agent</h4><p class="graf--p">Android provides an interface between application and data backup infrastructure. It is mostly used with the <span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/guide/topics/data/keyvaluebackup#BackupAgent">Key-Value backup</a></span> mechanism and not really needed when we are working with file backup. However, if we need to have delegates or callbacks for events like completion of a backup process and allotted quota limit being reached, we can create an agent for such purposes.</p><pre><code class="language-java graf graf--code">class CustomBackupAgent : BackupAgentHelper() {\n\n    override fun onFullBackup(data: FullBackupDataOutput?) {\n        super.onFullBackup(data)\n\n        Log.e("BACKUP", "onFullBackup")\n    }\n}</code></pre><p class="graf--p">We have to create a child class of <b class="graf--bold">BackupAgentHelper</b> and override the required method/event. After that, we need to define our agent in the manifest file’s <i class="graf--italic">application</i> tag.</p><pre><code class="language-java graf graf--code">android:backupAgent=".CustomBackupAgent"</code></pre><h4 class="graf--h3">Testing</h4><p class="graf--p">We can force backup &amp; restore using ADB shell commands.</p><p class="graf--p"><b class="graf--bold">Backup</b></p><p class="graf--p">The following 4 commands can be used in sequence to have a full backup.</p><ul><li>Enable backup manager</li></ul><pre><code class="language-java graf graf--code">adb shell bmgr enabled</code></pre><ul><li>Initialize and run backup manager</li></ul><pre><code class="language-java graf graf--code">adb shell bmgr backup @pm@\nadb shell bmgr run</code></pre><ul><li>Perform full backup</li></ul><pre><code class="language-java graf graf--code">adb shell bmgr fullbackup &lt;package_name&gt;</code></pre><p class="graf--p">When the system performs a full backup, it’ll shut down the app by default to avoid any local data changes while the process is running. To have a backup in the foreground, we can enable a flag in the manifest. (works for version &gt;= 24)</p><pre><code class="language-java graf graf--code">android:backupInForeground="true"</code></pre><p class="graf--p"><b class="graf--bold">Restore</b></p><p class="graf--p">Data restoring is done automatically when the app is reinstalled from Google Play store or using ADB commands (installing using Android Studio). <i class="graf--italic">The restoring process is done after the app is installed and before it is made available to the user</i>. If we need to force a restore using shell commands, it can be done as described <span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/guide/topics/data/testingbackup#TestingRestore">here</a></span>.</p><p class="graf--p">That’s too much theory, isn’t it? Let’s fire up the Android Studio to play with this API.</p><h4 class="graf--h3">Demonstration</h4><p class="graf--p">I’ll not bore you with the project creation, UI &amp; initialization process and will directly discuss the core of this topic. We’ll consider a very simple use case of <i class="graf--italic">sharedPreferences</i>.</p><p class="graf--p">We have an edit text to enter data and a button to save it in <i class="graf--italic">sharedPreferences</i>. Here’s the GIF representing the entire demo.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/auto-backup-demo-2c0d54facd0d7b98.gif class=\'graf-image\' alt=\'Auto Backup API in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">I stored a value in the <i class="graf--italic">sharedPreferences</i>, performed a forced backup, uninstalled the app, and reinstalled it using ADB commands. The data was successfully restored.</p><p class="graf--p">I also attached an agent to print the event log. Here’s the logcat output:</p><pre><code class="language-java graf graf--code">E/BACKUP: onFullBackup</code></pre><p class="graf--p">You can find this demo <span class=""><a class="markup--anchor" target="_blank" href="https://github.com/smokelaboratory/android-auto-backup">here</a></span>.</p><h4 class="graf--h3">Avoiding backup</h4><p class="graf--p">Backup is very necessary but there are a few things that shouldn’t be included in this process. For instance:</p><ul><li>Any device-specific information such as FCM token</li><ul><li><i class="graf--italic">Restoring will also work when the user installs the app on another device with the same Google accoun</i>t. In this case, we should not have the previous device’s data.</li></ul><li>Any sensitive user data such as account credentials</li><li>Authorization tokens</li><ul><li>When the user installs his app on a different device, we should pass him through the login flow instead of fetching the older token and allowing him to use the app directly.</li></ul><li>Large files</li><ul><li>We should always keep the allotted quota in mind i.e. 25 MB/app. We should not include files that might occupy the entire space leading to backup failures.</li></ul></ul><h4 class="graf--h3"><b class="graf--bold">Conclusion</b></h4><p class="graf--p"><i class="graf--italic">Auto Backup API</i> is a very handy tool provided by the Android framework. It’s very easy to use and customize. I recommend enabling this API in every project as per the requirements. That’s it from my end. I hope you enjoyed reading the article and grabbed something useful out of it. Stay safe and keep your users’ data safe too! :)</p>',author:18510,img_url:"/images/android-auto-backup-banner-70b0b8fb204b0731.png",blog_url:"android-auto-backup-api",likes:0,rank:0,category:1,published_at:"3rd June 2020"},author:{id:18510,name:"Sumeet Rukeja",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GhXmpEfummH4PjhEvNUA3SlcgghayX5fGWPCAAd=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Technology enthusiast, a F.R.I.E.N.D.S fan & a gamer",fb_profile_url:null,google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/smokelaboratory",github_profile_url:"https://github.com/smokelaboratory",linkedin_profile_url:"https://www.linkedin.com/in/sumeet-rukeja-7a9b5711b"},isFetching:!1,similarBlogs:[{id:304,title:"Color Palette API in Android",description:"In this blog, we will learn about the Color Palette API in Android. Here we will see how can we generate dynamic colors based on an image.",author:9959,img_url:"/images/color-pallete-api.png",blog_url:"color-palette-in-android",likes:0,rank:0,category:1,published_at:"24th July 2019",score:1.7772136926651},{id:312,title:"Easy SMS Verification in Android: SMS User Consent API",description:"In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt. ",author:14897,img_url:"/images/easy-sms-verification-android-sms-user-consent-api-banner.png",blog_url:"easy-sms-verification-in-android-sms-user-consent-api",likes:0,rank:0,category:1,published_at:"9th August 2019",score:1.7772136926651},{id:352,title:"Securing API Keys using Android NDK (Native Development Kit)",description:"In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.",author:17146,img_url:"/images/securing-api-keys-using-android-ndk-banner.png",blog_url:"securing-api-keys-using-android-ndk",likes:0,rank:0,category:1,published_at:"2nd October 2019",score:1.7772136926651},{id:392,title:"Understanding Canvas API in Android",description:"In this blog, we will see how we can use canvas to draw our own custom shape and drawings .",author:9959,img_url:"/images/canvas-api-banner.png",blog_url:"understanding-canvas-api-in-android",likes:0,rank:0,category:1,published_at:"17th February 2020",score:1.7772136926651},{id:489,title:"Understanding ImageDecoder API in Android",description:"In this blog, we are going to see how we can use ImageDecoder API in Android with its use-case. We will also see how to handle errors and transformations.",author:9959,img_url:"/images/image-decoder-banner-e9cba586f624d6a6.png",blog_url:"imagedecoder-in-android",likes:0,rank:0,category:1,published_at:"24th June 2020",score:1.7772136926651},{id:269,title:"Using Fused Location API To Fetch Current Location",description:"In this blog, we will learn how to update the location using the GPS of a mobile device. We will perform an example to check the current location of the user.",author:14897,img_url:"/images/using-gps-location-manager-in-android-android-tutorial-banner.jpg",blog_url:"using-gps-location-manager-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"7th June 2019",score:1.768036127090454}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Sumeet Rukeja" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GhXmpEfummH4PjhEvNUA3SlcgghayX5fGWPCAAd=s96-c?sz=300"/>
+          <div class="content">
+           Sumeet Rukeja
+           <div class="sub header" style="margin-top:5px">
+            3rd June 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Auto Backup API in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Auto Backup API in Android" class="graf-image" src="/images/android-auto-backup-banner-70b0b8fb204b0731.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Hey there! Welcome. In this high-tech world, data is given the utmost importance, isn’t it? Nowadays, data-loss is a nightmare for most of us. Whether it is the data in your computer’s hard drive or any custom settings data of an app that you use, backing data up should be one of the tasks in your priority list.
+                 </p>
+                 <p class="graf--p">
+                  Being an app developer, I believe we should provide a data backup facility to our users. Fortunately, Android has something called
+                  <span class="">
+                   <a class="markup--anchor" href="https://developer.android.com/guide/topics/data/autobackup" target="_blank">
+                    Auto Backup API
+                   </a>
+                  </span>
+                  for this purpose and it has been around for a while now.
+                 </p>
+                 <h4 class="graf--h3">
+                  Auto Backup API
+                 </h4>
+                 <p class="graf--p">
+                  It uploads the local app data in a private folder on the user's Google Drive account with a maximum storage limit of
+                  <b class="graf--bold">
+                   25 MB/app
+                  </b>
+                  . (data is not included in the user's personal Google Drive quota).
+                  <i class="graf--italic">
+                   If the quota limit for an app is reached, the system won’t backup the data anymore. However, when a new backup is done, the previous backup is deleted.
+                  </i>
+                  <br/>
+                  To enable it with its default configurations, we just need to add the following line in the
+                  <i class="graf--italic">
+                   application
+                  </i>
+                  tag of the manifest file.
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:allowBackup="true"</code></pre>
+                 <p class="graf--p">
+                  That’s all..! The entire process is managed by the Android framework.
+                 </p>
+                 <p class="graf--p">
+                  There’s actually one more requirement to make it work. Users should have
+                  <b class="graf--bold">
+                   Google Backup &amp; Reset
+                  </b>
+                  feature enabled on their device along with a backup account assigned to it. In Android 9, this option can be generally found at
+                  <b class="graf--bold">
+                   Settings &gt; Backup and reset &gt; App data
+                  </b>
+                  .
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Auto Backup API in Android" class="graf-image" src="/images/auto-backup-settings-4cde32f65f1530cd.png"/>
+                 </div>
+                 <p class="graf--p">
+                  The user’s data is now eligible for the backup.
+                 </p>
+                 <p class="graf--p">
+                  By default, this data includes
+                  <b class="graf--bold">
+                   files
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   root
+                  </b>
+                  &amp;
+                  <b class="graf--bold">
+                   externalFiles
+                  </b>
+                  directories,
+                  <b class="graf--bold">
+                   databases,
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   sharedPreferences
+                  </b>
+                  but this API will always ignore
+                  <b class="graf--bold">
+                   noBackupFiles
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   cache
+                  </b>
+                  &amp;
+                  <b class="graf--bold">
+                   codeCache
+                  </b>
+                  directories.
+                 </p>
+                 <p class="graf--p">
+                  Now the question is when and how often the data gets uploaded on Google Drive? There are certain triggers to initiate the backup process.
+                 </p>
+                 <ul>
+                  <li>
+                   Device is idle
+                  </li>
+                  <li>
+                   The last backup was performed at least 24 hours ago
+                  </li>
+                  <li>
+                   The device is connected with WiFi/mobile-data (as per user’s backup configurations)
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Custom configurations
+                 </h4>
+                 <p class="graf--p">
+                  Suppose we have a requirement to consider only
+                  <i class="graf--italic">
+                   sharedPreferences
+                  </i>
+                  for the backup process and the rest of the files/directories should be ignored. This can be achieved easily using the
+                  <b class="graf--bold">
+                   fullBackupContent
+                  </b>
+                  property of manifest’s
+                  <i class="graf--italic">
+                   application
+                  </i>
+                  tag.
+                 </p>
+                 <p class="graf--p">
+                  We need to create an XML file(backup_rules.xml) with the following content in
+                  <b class="graf--bold">
+                   res &gt; xml
+                  </b>
+                  . Here,
+                  <i class="graf--italic">
+                   data.xml
+                  </i>
+                  is the name of the
+                  <i class="graf--italic">
+                   sharedPreferences
+                  </i>
+                  file.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;full-backup-content&gt;
+    &lt;include domain="sharedpref" path="data.xml" /&gt;
+&lt;/full-backup-content&gt;</code></pre>
+                 <p class="graf--p">
+                  We can then point to this file as follows.
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:fullBackupContent="@xml/backup_rules"</code></pre>
+                 <p class="graf--p">
+                  Rules can be configured depending on the project’s requirements.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;full-backup-content&gt;
+    &lt;include domain=["file" | "database" | "sharedpref" | "external" | "root"]
+    path="string"
+    requireFlags=["clientSideEncryption" | "deviceToDeviceTransfer"] /&gt;
+    &lt;exclude domain=["file" | "database" | "sharedpref" | "external" | "root"]
+    path="string" /&gt;
+&lt;/full-backup-content&gt;</code></pre>
+                 <p class="graf--p">
+                  Domains in the
+                  <b class="graf--bold">
+                   &lt;include&gt;
+                  </b>
+                  tag will be included in the backup process whereas those in the
+                  <b class="graf--bold">
+                   &lt;exclude&gt;
+                  </b>
+                  tag will be ignored.
+                 </p>
+                 <p class="graf--p">
+                  There’s also a parameter
+                  <b class="graf--bold">
+                   requireFlags
+                  </b>
+                  in the
+                  <i class="graf--italic">
+                   &lt;include&gt;
+                  </i>
+                  tag to add flags which are basically used to enable a couple of features on Android 9 devices. It can have the following values.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    clientSideEncryption
+                   </b>
+                   : Used to encrypt the backup with client-side secret.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    deviceToDeviceTransfer
+                   </b>
+                   : Used to allow the user to transfer the backup to another device using
+                   <span class="">
+                    <a class="markup--anchor" href="https://support.google.com/pixelphone/answer/7129955" target="_blank">
+                     local device-to-device transfer
+                    </a>
+                   </span>
+                   .
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Backup Agent
+                 </h4>
+                 <p class="graf--p">
+                  Android provides an interface between application and data backup infrastructure. It is mostly used with the
+                  <span class="">
+                   <a class="markup--anchor" href="https://developer.android.com/guide/topics/data/keyvaluebackup#BackupAgent" target="_blank">
+                    Key-Value backup
+                   </a>
+                  </span>
+                  mechanism and not really needed when we are working with file backup. However, if we need to have delegates or callbacks for events like completion of a backup process and allotted quota limit being reached, we can create an agent for such purposes.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class CustomBackupAgent : BackupAgentHelper() {
+
+    override fun onFullBackup(data: FullBackupDataOutput?) {
+        super.onFullBackup(data)
+
+        Log.e("BACKUP", "onFullBackup")
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  We have to create a child class of
+                  <b class="graf--bold">
+                   BackupAgentHelper
+                  </b>
+                  and override the required method/event. After that, we need to define our agent in the manifest file’s
+                  <i class="graf--italic">
+                   application
+                  </i>
+                  tag.
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:backupAgent=".CustomBackupAgent"</code></pre>
+                 <h4 class="graf--h3">
+                  Testing
+                 </h4>
+                 <p class="graf--p">
+                  We can force backup &amp; restore using ADB shell commands.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Backup
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  The following 4 commands can be used in sequence to have a full backup.
+                 </p>
+                 <ul>
+                  <li>
+                   Enable backup manager
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">adb shell bmgr enabled</code></pre>
+                 <ul>
+                  <li>
+                   Initialize and run backup manager
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">adb shell bmgr backup @pm@
+adb shell bmgr run</code></pre>
+                 <ul>
+                  <li>
+                   Perform full backup
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">adb shell bmgr fullbackup &lt;package_name&gt;</code></pre>
+                 <p class="graf--p">
+                  When the system performs a full backup, it’ll shut down the app by default to avoid any local data changes while the process is running. To have a backup in the foreground, we can enable a flag in the manifest. (works for version &gt;= 24)
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:backupInForeground="true"</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Restore
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Data restoring is done automatically when the app is reinstalled from Google Play store or using ADB commands (installing using Android Studio).
+                  <i class="graf--italic">
+                   The restoring process is done after the app is installed and before it is made available to the user
+                  </i>
+                  . If we need to force a restore using shell commands, it can be done as described
+                  <span class="">
+                   <a class="markup--anchor" href="https://developer.android.com/guide/topics/data/testingbackup#TestingRestore" target="_blank">
+                    here
+                   </a>
+                  </span>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  That’s too much theory, isn’t it? Let’s fire up the Android Studio to play with this API.
+                 </p>
+                 <h4 class="graf--h3">
+                  Demonstration
+                 </h4>
+                 <p class="graf--p">
+                  I’ll not bore you with the project creation, UI &amp; initialization process and will directly discuss the core of this topic. We’ll consider a very simple use case of
+                  <i class="graf--italic">
+                   sharedPreferences
+                  </i>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  We have an edit text to enter data and a button to save it in
+                  <i class="graf--italic">
+                   sharedPreferences
+                  </i>
+                  . Here’s the GIF representing the entire demo.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Auto Backup API in Android" class="graf-image" src="/images/auto-backup-demo-2c0d54facd0d7b98.gif"/>
+                 </div>
+                 <p class="graf--p">
+                  I stored a value in the
+                  <i class="graf--italic">
+                   sharedPreferences
+                  </i>
+                  , performed a forced backup, uninstalled the app, and reinstalled it using ADB commands. The data was successfully restored.
+                 </p>
+                 <p class="graf--p">
+                  I also attached an agent to print the event log. Here’s the logcat output:
+                 </p>
+                 <pre><code class="language-java graf graf--code">E/BACKUP: onFullBackup</code></pre>
+                 <p class="graf--p">
+                  You can find this demo
+                  <span class="">
+                   <a class="markup--anchor" href="https://github.com/smokelaboratory/android-auto-backup" target="_blank">
+                    here
+                   </a>
+                  </span>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  Avoiding backup
+                 </h4>
+                 <p class="graf--p">
+                  Backup is very necessary but there are a few things that shouldn’t be included in this process. For instance:
+                 </p>
+                 <ul>
+                  <li>
+                   Any device-specific information such as FCM token
+                  </li>
+                  <ul>
+                   <li>
+                    <i class="graf--italic">
+                     Restoring will also work when the user installs the app on another device with the same Google accoun
+                    </i>
+                    t. In this case, we should not have the previous device’s data.
+                   </li>
+                  </ul>
+                  <li>
+                   Any sensitive user data such as account credentials
+                  </li>
+                  <li>
+                   Authorization tokens
+                  </li>
+                  <ul>
+                   <li>
+                    When the user installs his app on a different device, we should pass him through the login flow instead of fetching the older token and allowing him to use the app directly.
+                   </li>
+                  </ul>
+                  <li>
+                   Large files
+                  </li>
+                  <ul>
+                   <li>
+                    We should always keep the allotted quota in mind i.e. 25 MB/app. We should not include files that might occupy the entire space leading to backup failures.
+                   </li>
+                  </ul>
+                 </ul>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Conclusion
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   Auto Backup API
+                  </i>
+                  is a very handy tool provided by the Android framework. It’s very easy to use and customize. I recommend enabling this API in every project as per the requirements. That’s it from my end. I hope you enjoyed reading the article and grabbed something useful out of it. Stay safe and keep your users’ data safe too! :)
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Color Palette API in Android" class="ui centered image" src="/images/color-pallete-api.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Color Palette API in Android
+           </div>
+           <div class="meta">
+            24th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Color Palette API in Android. Here we will see how can we generate dynamic colors based on an image.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Easy SMS Verification in Android: SMS User Consent API" class="ui centered image" src="/images/easy-sms-verification-android-sms-user-consent-api-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Easy SMS Verification in Android: SMS User Consent API
+           </div>
+           <div class="meta">
+            9th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Securing API Keys using Android NDK (Native Development Kit)" class="ui centered image" src="/images/securing-api-keys-using-android-ndk-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Securing API Keys using Android NDK (Native Development Kit)
+           </div>
+           <div class="meta">
+            2nd October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Canvas API in Android" class="ui centered image" src="/images/canvas-api-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Canvas API in Android
+           </div>
+           <div class="meta">
+            17th February 2020
+           </div>
+           <div class="description">
+            In this blog, we will see how we can use canvas to draw our own custom shape and drawings .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding ImageDecoder API in Android" class="ui centered image" src="/images/image-decoder-banner-e9cba586f624d6a6.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding ImageDecoder API in Android
+           </div>
+           <div class="meta">
+            24th June 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to see how we can use ImageDecoder API in Android with its use-case. We will also see how to handle errors and transformations.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Fused Location API To Fetch Current Location" class="ui centered image" src="/images/using-gps-location-manager-in-android-android-tutorial-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Fused Location API To Fetch Current Location
+           </div>
+           <div class="meta">
+            7th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to update the location using the GPS of a mobile device. We will perform an example to check the current location of the user.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

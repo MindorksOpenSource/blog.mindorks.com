@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Exploring Android ViewPager2 in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/exploring-android-view-pager2-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Exploring Android ViewPager2 in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/exploring-android-view-pager2-in-android" property="og:url"/>
+  <meta content="/images/exploring-android-viewpager2-banner.png" property="og:image"/>
+  <meta content="As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . " property="og:description"/>
+  <meta content="Exploring Android ViewPager2 in Android" property="twitter:title"/>
+  <meta content="As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . " name="twitter:description"/>
+  <meta content="/images/exploring-android-viewpager2-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . " name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:247,data:{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",text:'<h1 class="graf--h1">Exploring Android ViewPager2 in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/exploring-android-viewpager2-banner.png class=\'graf-image\' alt=\'Exploring Android ViewPager2 in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">You remeber ,seeing a tutorial like below in some apps when you install and run it for the first time ??</p><p class="graf--p">Or you remember the Whatsapp chat UI with Camera, Chats and Call ?? If yes, then it is nothing but a <b class="graf--bold"><i class="graf--italic">ViewPager</i></b></p><blockquote class="graf--blockquote">Image Source: Android Developer website</blockquote> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/exploring-android-viewpager2-intro.jpg class=\'graf-image\' alt=\'Exploring Android ViewPager2 in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">The above image is the onboarding screen of Google Docs mobile app. Here, by swiping right/left, four times, you get am idea about the Google Docs app and what are is pr.</p><p class="graf--p"> You will get this type of view in almost each and every app you download from the Play Store. You just have to swipe left or right and you get a rough idea of what you can do by using that app.</p><p class="graf--p">But if you are reading this blog, then you must be an Android developer. So, as an Android Developer, you have already started thinking of the ways you can use to build these type of screens. Some of you might have used this using <b class="graf--bold">ViewPager. </b>Hey! wait, <b class="graf--bold">ViewPager? </b>What is this? </p><p class="graf--p">So, in this blog, we will learn more about the latest <b class="graf--bold">Viewpager </b>i.e. <b class="graf--bold">ViewPager2. </b>Don’t know <b class="graf--bold">ViewPager</b>? No problem<b class="graf--bold"><i class="graf--italic">, </i></b>we will learn ViewPager2 in a very easy way . So let&#x27;s begin,</p><h4 class="graf--h3">What is ViewPager?</h4><p class="graf--p">ViewPager is an android widget that allows or helps you to change the screen without changing the activity. In simpler words, if you want to change the app screen without making an Activity then you can use ViewPager. Another approach may be making activity with some buttons on it and then apply onClickListener on it to move on to the next screen. </p><p class="graf--p">So, you can change the application screen just by swiping left or right by your fingers. Not only swiping you can add some more screens during runtime. All these facilities and features can be achieved by using ViewPager. </p><p class="graf--p">Now, let’s move on to ViewPager2.</p><h4 class="graf--h3">ViewPager2</h4><p class="graf--p">It was 7th Feb 2019, when ViewPager2 was released by Google. It’s an updated version of ViewPager. It does the same thing as ViewPager does but in a smarter and efficient way. </p><p class="graf--p">ViewPager2 comes with a variety of new features. But the most important feature is the use of RecyclerView. Why I am saying this as the most important feature because with the ViewPager things become harder when we need to add some fragment dynamically. But now, since we are using RecyclerView in ViewPager2, half of your task is already reduced. </p><h4 class="graf--h3">ViewPager Vs ViewPager2</h4><p class="graf--p">So till now, we have discussed the ViewPager and ViewPager2. Let&#x27;s have a quick look at the differences between these two:</p><ul><li>You can add some items dynamically with the help of recycler view in ViewPage2 but in ViewPager, there was no support for the recycler view.</li><li>In ViewPager, there is nothing called Right-to-left layout support, you have to reverse the pages yourself but now you can use the ViewPager2 because it supports Right-to-left layout support.</li><li>In ViewPager, you can only use the horizontal swipe. No vertical swipe was present in ViewPager but in ViewPager2, there is a support for Vertical swipe also. So, you can use the horizontal as well as vertical swipe in ViewPager2.</li></ul><h4 class="graf--h3">More about ViewPager2</h4><p class="graf--p">When you are working on something, then you must have a deeper knowledge of everything related to it. This not only helps you to make a great product but will also help you in finding and removing bugs in an easier and quicker manner. So, let’s move deeper into ViewPager2:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-viewpager2-flow-architecture.jpg class=\'graf-image\' alt=\'Exploring Android ViewPager2 in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Just like the View Pager, the View Pager 2 extends from the View Group class — from there, things look a little different.</p><h4 class="graf--h3">Layout Manager</h4><p class="graf--p">LayoutManager in ViewPager2 is the same as that in ViewPager. The duty of the LayoutManager is to set the orientation of the components on the screen.</p><p class="graf--p">In Viewpager (previous version) we had only Horizontal orientation ,but with  ViewPager2, we can set the orientation of the screen to be vertical also by calling the <b class="graf--bold"><i class="graf--italic">setOrientation() </i></b>function. By doing so, we can change the screen by swiping up and down also.</p><h4 class="graf--h3">RecyclerView</h4><p class="graf--p">ViewPager2 uses the RecyclerView to display contents on the screen. There are many benefits of using RecyclerView. You have smooth scrolling, data can be changed dynamically in a fluent way, views can be changed dynamically and smoothly. So, you can use all the components of RecyclerView and apply it in the ViewPager2. To handle the vertical orientation,</p><pre><code class="language-java graf graf--code">view_pager2.orientation = ViewPager2.ORIENTATION_VERTICAL</code></pre><h4 class="graf--h3">Page Change Callback</h4><p class="graf--p">Page Changes are handled by its callback , some of them are listed below,</p><ul><li><b class="graf--bold">onPageScrolled()</b> — will be triggered, whenever there is a scroll event for the current page</li><li><b class="graf--bold">onPageSelected()</b> — will be triggered when you select a new page</li><li><b class="graf--bold">onPageScrollStateChanged()</b> — will be triggered when the scroll state will be changed.</li></ul><p class="graf--p"></p><p class="graf--p">Now, let&#x27;s discuss its implementation step by step,</p><p class="graf--p">Add the dependency in our <b class="graf--bold"><i class="graf--italic">build.gradle </i></b>file:</p><blockquote class="graf--blockquote">Note: Its still in alpha stage</blockquote><pre><code class="language-java graf graf--code">implementation "androidx.viewpager2:viewpager2:1.0.0-alpha04"</code></pre><p class="graf--p">Second, to use ViewPager2, you must have to add the widget ViewPager2 in you layout file. So, change the <b class="graf--bold"><i class="graf--italic">activity_main.xml </i></b>to:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout\n        xmlns:android="http://schemas.android.com/apk/res/android"\n        xmlns:tools="http://schemas.android.com/tools"\n        xmlns:app="http://schemas.android.com/apk/res-auto"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent"\n        tools:context=".MainActivity"&gt;\n\n    &lt;androidx.viewpager2.widget.ViewPager2\n            android:id="@+id/view_pager2"\n            android:layout_width="match_parent"\n            android:layout_height="match_parent"/&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Here we have added the ViewPager2 widget to out <b class="graf--bold">MainActivity.</b></p><p class="graf--p">From here, the process is as same as that of RecyclerView. Now we will create a layout file for the look and feel of our main page. Go to <b class="graf--bold"><i class="graf--italic">res/layout </i></b>and make a layout file as <b class="graf--bold"><i class="graf--italic">item_page.xml, </i></b>the code is below:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"\n                android:id="@+id/container"\n                android:layout_width="match_parent"\n                android:layout_height="match_parent"&gt;\n\n    &lt;androidx.appcompat.widget.AppCompatTextView\n            android:id="@+id/tvTitle"\n            android:textColor="#FFFFFF"\n            android:layout_width="wrap_content"\n            tools:text="Topic"\n            android:textSize="32sp"\n            android:layout_height="wrap_content"\n            app:layout_constraintBottom_toBottomOf="@id/ivImage"\n            android:layout_margin="32dp"\n            android:gravity="center_horizontal" android:layout_marginEnd="8dp"\n            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"\n            app:layout_constraintStart_toStartOf="parent"\n            app:layout_constraintTop_toBottomOf="@+id/ivImage"/&gt;\n\n    &lt;TextView\n            android:id="@+id/tvAbout"\n            android:layout_width="wrap_content"\n            android:layout_height="wrap_content"\n            android:textSize="24sp"\n            android:text="About Topic"\n            android:layout_margin="16dp"\n            android:textColor="#FFFFFF"\n            android:layout_marginTop="8dp"\n            app:layout_constraintTop_toBottomOf="@+id/tvTitle" android:layout_marginEnd="8dp"\n            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"\n            app:layout_constraintStart_toStartOf="parent"/&gt;\n\n    &lt;ImageView\n            android:id="@+id/ivImage"\n            android:layout_width="200dp"\n            android:layout_height="200dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"\n            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"\n            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Here, we have used one ImageView and two TextView to dispaly some random data.</p><p class="graf--p">Now, we are done with the layout part of our app. Let’s move forward and make the adapter class as same as we make while using the RecyclerView. This is the best part as we can use <b class="graf--bold">RecyclerView.Adapter. </b>Make your class name as <b class="graf--bold">ViewPageAdapter.kt</b></p><pre><code class="language-java graf graf--code">class ViewPagerAdapter : RecyclerView.Adapter&lt;PagerVH&gt;() {\n\n    //array of colors to change the background color of screen\n    private val colors = intArrayOf(\n        android.R.color.black,\n        android.R.color.holo_red_light,\n        android.R.color.holo_blue_dark,\n        android.R.color.holo_purple\n    )\n\n    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerVH =\n        PagerVH(LayoutInflater.from(parent.context).inflate(R.layout.item_page, parent, false))\n\n    //get the size of color array\n    override fun getItemCount(): Int = Int.MAX_VALUE\n\n    //binding the screen with view\n    override fun onBindViewHolder(holder: PagerVH, position: Int) = holder.itemView.run {\n        if(position == 0){\n            tvTitle.text = "ViewPager2"\n            tvAbout.text = "In this application we will learn about ViewPager2"\n            ivImage.setImageResource(R.drawable.face_image)\n            container.setBackgroundResource(colors[position])\n        }\n        if(position == 1) {\n            tvTitle.text = "ViewPager2"\n            tvAbout.text = "In this application we will learn about ViewPager2"\n            ivImage.setImageResource(R.drawable.face_image)\n            container.setBackgroundResource(colors[position])\n        }\n        if(position == 2) {\n            tvTitle.text = "ViewPager2"\n            tvAbout.text = "In this application we will learn about ViewPager2"\n            ivImage.setImageResource(R.drawable.face_image)\n            container.setBackgroundResource(colors[position])\n        }\n        if(position == 3) {\n            tvTitle.text = "ViewPager2"\n            tvAbout.text = "In this application we will learn about ViewPager2"\n            ivImage.setImageResource(R.drawable.face_image)\n            container.setBackgroundResource(colors[position])\n        }\n    }\n}\n\nclass PagerVH(itemView: View) : RecyclerView.ViewHolder(itemView)</code></pre><p class="graf--p">Till now, we are done with the layout and adapter part. Now we just have to call the adapter class form our MainActivity file. So, open the <b class="graf--bold"><i class="graf--italic">MainActivity.kt </i></b>file and add the following code:</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        view_pager2.adapter = ViewPagerAdapter()\n\n        //below line can be used to change the orientation to vertical i.e. vertical swipe\n        //view_pager2.orientation = ViewPager2.ORIENTATION_VERTICAL\n    }\n}</code></pre><h4 class="graf--h3">That’s it, now run your app and enjoy the ViewPager2.</h4><h4 class="graf--h3">Summary</h4><p class="graf--p">In this blog, we have learned how to use the ViewPager2 in our Android application. We saw the architecture of ViewPager2 and at last, we did one example to understand the ViewPager2 in a better way. We saw some new features that are added in the ViewPager2. The best part of ViewPager2 is the use of RecyclerView. </p><p class="graf--p">Hope, you learned the new ViewPager concept and will try to explore more by having some hands-on with ViewPage2.</p><p class="graf--p">See you in the next blog. Till then, Keep Learning!</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:249,title:"Exploring Edge to Edge Feature in Android Q",description:"In this blog, we will talk about how to use the Edge to Edge feature of Android Q This will help the user to explore the complete width and height of the device.",author:14897,img_url:"/images/edge-to-edge.jpg",blog_url:"exploring-edge-to-edge-feature-in-android-q",likes:0,rank:0,category:1,published_at:"23rd May 2019",score:3.28686261177063},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.3149476945400238},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.3149476945400238},{id:284,title:"Animation in Android - Android Tutorial",description:"In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.",author:14897,img_url:"/images/animation-in-android-banner.png",blog_url:"animation-in-android-tutorial",likes:0,rank:0,category:1,published_at:"24th June 2019",score:.3149476945400238},{id:297,title:"Integrating Android Google’s reCAPTCHA in Android App",description:"In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.",author:17146,img_url:"/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png",blog_url:"integrating-android-google-re-captcha-in-android-app",likes:0,rank:0,category:1,published_at:"18th July 2019",score:.3149476945400238},{id:351,title:"Using Android Sensors: Android Tutorial",description:"In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.",author:14897,img_url:"/images/using-android-sensors-android-tutorial-banner.png",blog_url:"using-android-sensors-android-tutorial",likes:0,rank:0,category:1,published_at:"30th September 2019",score:.3149476945400238}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            29th May 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Exploring Android ViewPager2 in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Exploring Android ViewPager2 in Android" class="graf-image" src="/images/exploring-android-viewpager2-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  You remeber ,seeing a tutorial like below in some apps when you install and run it for the first time ??
+                 </p>
+                 <p class="graf--p">
+                  Or you remember the Whatsapp chat UI with Camera, Chats and Call ?? If yes, then it is nothing but a
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    ViewPager
+                   </i>
+                  </b>
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  Image Source: Android Developer website
+                 </blockquote>
+                 <div class="graf-image graf-caption">
+                  <img alt="Exploring Android ViewPager2 in Android" class="graf-image" src="/images/exploring-android-viewpager2-intro.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  The above image is the onboarding screen of Google Docs mobile app. Here, by swiping right/left, four times, you get am idea about the Google Docs app and what are is pr.
+                 </p>
+                 <p class="graf--p">
+                  You will get this type of view in almost each and every app you download from the Play Store. You just have to swipe left or right and you get a rough idea of what you can do by using that app.
+                 </p>
+                 <p class="graf--p">
+                  But if you are reading this blog, then you must be an Android developer. So, as an Android Developer, you have already started thinking of the ways you can use to build these type of screens. Some of you might have used this using
+                  <b class="graf--bold">
+                   ViewPager.
+                  </b>
+                  Hey! wait,
+                  <b class="graf--bold">
+                   ViewPager?
+                  </b>
+                  What is this?
+                 </p>
+                 <p class="graf--p">
+                  So, in this blog, we will learn more about the latest
+                  <b class="graf--bold">
+                   Viewpager
+                  </b>
+                  i.e.
+                  <b class="graf--bold">
+                   ViewPager2.
+                  </b>
+                  Don’t know
+                  <b class="graf--bold">
+                   ViewPager
+                  </b>
+                  ? No problem
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    ,
+                   </i>
+                  </b>
+                  we will learn ViewPager2 in a very easy way . So let's begin,
+                 </p>
+                 <h4 class="graf--h3">
+                  What is ViewPager?
+                 </h4>
+                 <p class="graf--p">
+                  ViewPager is an android widget that allows or helps you to change the screen without changing the activity. In simpler words, if you want to change the app screen without making an Activity then you can use ViewPager. Another approach may be making activity with some buttons on it and then apply onClickListener on it to move on to the next screen.
+                 </p>
+                 <p class="graf--p">
+                  So, you can change the application screen just by swiping left or right by your fingers. Not only swiping you can add some more screens during runtime. All these facilities and features can be achieved by using ViewPager.
+                 </p>
+                 <p class="graf--p">
+                  Now, let’s move on to ViewPager2.
+                 </p>
+                 <h4 class="graf--h3">
+                  ViewPager2
+                 </h4>
+                 <p class="graf--p">
+                  It was 7th Feb 2019, when ViewPager2 was released by Google. It’s an updated version of ViewPager. It does the same thing as ViewPager does but in a smarter and efficient way.
+                 </p>
+                 <p class="graf--p">
+                  ViewPager2 comes with a variety of new features. But the most important feature is the use of RecyclerView. Why I am saying this as the most important feature because with the ViewPager things become harder when we need to add some fragment dynamically. But now, since we are using RecyclerView in ViewPager2, half of your task is already reduced.
+                 </p>
+                 <h4 class="graf--h3">
+                  ViewPager Vs ViewPager2
+                 </h4>
+                 <p class="graf--p">
+                  So till now, we have discussed the ViewPager and ViewPager2. Let's have a quick look at the differences between these two:
+                 </p>
+                 <ul>
+                  <li>
+                   You can add some items dynamically with the help of recycler view in ViewPage2 but in ViewPager, there was no support for the recycler view.
+                  </li>
+                  <li>
+                   In ViewPager, there is nothing called Right-to-left layout support, you have to reverse the pages yourself but now you can use the ViewPager2 because it supports Right-to-left layout support.
+                  </li>
+                  <li>
+                   In ViewPager, you can only use the horizontal swipe. No vertical swipe was present in ViewPager but in ViewPager2, there is a support for Vertical swipe also. So, you can use the horizontal as well as vertical swipe in ViewPager2.
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  More about ViewPager2
+                 </h4>
+                 <p class="graf--p">
+                  When you are working on something, then you must have a deeper knowledge of everything related to it. This not only helps you to make a great product but will also help you in finding and removing bugs in an easier and quicker manner. So, let’s move deeper into ViewPager2:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Exploring Android ViewPager2 in Android" class="graf-image" src="/images/android-viewpager2-flow-architecture.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Just like the View Pager, the View Pager 2 extends from the View Group class — from there, things look a little different.
+                 </p>
+                 <h4 class="graf--h3">
+                  Layout Manager
+                 </h4>
+                 <p class="graf--p">
+                  LayoutManager in ViewPager2 is the same as that in ViewPager. The duty of the LayoutManager is to set the orientation of the components on the screen.
+                 </p>
+                 <p class="graf--p">
+                  In Viewpager (previous version) we had only Horizontal orientation ,but with  ViewPager2, we can set the orientation of the screen to be vertical also by calling the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    setOrientation()
+                   </i>
+                  </b>
+                  function. By doing so, we can change the screen by swiping up and down also.
+                 </p>
+                 <h4 class="graf--h3">
+                  RecyclerView
+                 </h4>
+                 <p class="graf--p">
+                  ViewPager2 uses the RecyclerView to display contents on the screen. There are many benefits of using RecyclerView. You have smooth scrolling, data can be changed dynamically in a fluent way, views can be changed dynamically and smoothly. So, you can use all the components of RecyclerView and apply it in the ViewPager2. To handle the vertical orientation,
+                 </p>
+                 <pre><code class="language-java graf graf--code">view_pager2.orientation = ViewPager2.ORIENTATION_VERTICAL</code></pre>
+                 <h4 class="graf--h3">
+                  Page Change Callback
+                 </h4>
+                 <p class="graf--p">
+                  Page Changes are handled by its callback , some of them are listed below,
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    onPageScrolled()
+                   </b>
+                   — will be triggered, whenever there is a scroll event for the current page
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    onPageSelected()
+                   </b>
+                   — will be triggered when you select a new page
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    onPageScrollStateChanged()
+                   </b>
+                   — will be triggered when the scroll state will be changed.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                 </p>
+                 <p class="graf--p">
+                  Now, let's discuss its implementation step by step,
+                 </p>
+                 <p class="graf--p">
+                  Add the dependency in our
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  Note: Its still in alpha stage
+                 </blockquote>
+                 <pre><code class="language-java graf graf--code">implementation "androidx.viewpager2:viewpager2:1.0.0-alpha04"</code></pre>
+                 <p class="graf--p">
+                  Second, to use ViewPager2, you must have to add the widget ViewPager2 in you layout file. So, change the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    activity_main.xml
+                   </i>
+                  </b>
+                  to:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"&gt;
+
+    &lt;androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Here we have added the ViewPager2 widget to out
+                  <b class="graf--bold">
+                   MainActivity.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  From here, the process is as same as that of RecyclerView. Now we will create a layout file for the look and feel of our main page. Go to
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    res/layout
+                   </i>
+                  </b>
+                  and make a layout file as
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    item_page.xml,
+                   </i>
+                  </b>
+                  the code is below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"&gt;
+
+    &lt;androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            tools:text="Topic"
+            android:textSize="32sp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/ivImage"
+            android:layout_margin="32dp"
+            android:gravity="center_horizontal" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivImage"/&gt;
+
+    &lt;TextView
+            android:id="@+id/tvAbout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="About Topic"
+            android:layout_margin="16dp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"/&gt;
+
+    &lt;ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="200dp"
+            android:layout_height="200dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Here, we have used one ImageView and two TextView to dispaly some random data.
+                 </p>
+                 <p class="graf--p">
+                  Now, we are done with the layout part of our app. Let’s move forward and make the adapter class as same as we make while using the RecyclerView. This is the best part as we can use
+                  <b class="graf--bold">
+                   RecyclerView.Adapter.
+                  </b>
+                  Make your class name as
+                  <b class="graf--bold">
+                   ViewPageAdapter.kt
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ViewPagerAdapter : RecyclerView.Adapter&lt;PagerVH&gt;() {
+
+    //array of colors to change the background color of screen
+    private val colors = intArrayOf(
+        android.R.color.black,
+        android.R.color.holo_red_light,
+        android.R.color.holo_blue_dark,
+        android.R.color.holo_purple
+    )
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerVH =
+        PagerVH(LayoutInflater.from(parent.context).inflate(R.layout.item_page, parent, false))
+
+    //get the size of color array
+    override fun getItemCount(): Int = Int.MAX_VALUE
+
+    //binding the screen with view
+    override fun onBindViewHolder(holder: PagerVH, position: Int) = holder.itemView.run {
+        if(position == 0){
+            tvTitle.text = "ViewPager2"
+            tvAbout.text = "In this application we will learn about ViewPager2"
+            ivImage.setImageResource(R.drawable.face_image)
+            container.setBackgroundResource(colors[position])
+        }
+        if(position == 1) {
+            tvTitle.text = "ViewPager2"
+            tvAbout.text = "In this application we will learn about ViewPager2"
+            ivImage.setImageResource(R.drawable.face_image)
+            container.setBackgroundResource(colors[position])
+        }
+        if(position == 2) {
+            tvTitle.text = "ViewPager2"
+            tvAbout.text = "In this application we will learn about ViewPager2"
+            ivImage.setImageResource(R.drawable.face_image)
+            container.setBackgroundResource(colors[position])
+        }
+        if(position == 3) {
+            tvTitle.text = "ViewPager2"
+            tvAbout.text = "In this application we will learn about ViewPager2"
+            ivImage.setImageResource(R.drawable.face_image)
+            container.setBackgroundResource(colors[position])
+        }
+    }
+}
+
+class PagerVH(itemView: View) : RecyclerView.ViewHolder(itemView)</code></pre>
+                 <p class="graf--p">
+                  Till now, we are done with the layout and adapter part. Now we just have to call the adapter class form our MainActivity file. So, open the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MainActivity.kt
+                   </i>
+                  </b>
+                  file and add the following code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        view_pager2.adapter = ViewPagerAdapter()
+
+        //below line can be used to change the orientation to vertical i.e. vertical swipe
+        //view_pager2.orientation = ViewPager2.ORIENTATION_VERTICAL
+    }
+}</code></pre>
+                 <h4 class="graf--h3">
+                  That’s it, now run your app and enjoy the ViewPager2.
+                 </h4>
+                 <h4 class="graf--h3">
+                  Summary
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we have learned how to use the ViewPager2 in our Android application. We saw the architecture of ViewPager2 and at last, we did one example to understand the ViewPager2 in a better way. We saw some new features that are added in the ViewPager2. The best part of ViewPager2 is the use of RecyclerView.
+                 </p>
+                 <p class="graf--p">
+                  Hope, you learned the new ViewPager concept and will try to explore more by having some hands-on with ViewPage2.
+                 </p>
+                 <p class="graf--p">
+                  See you in the next blog. Till then, Keep Learning!
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Edge to Edge Feature in Android Q" class="ui centered image" src="/images/edge-to-edge.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Edge to Edge Feature in Android Q
+           </div>
+           <div class="meta">
+            23rd May 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how to use the Edge to Edge feature of Android Q This will help the user to explore the complete width and height of the device.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Animation in Android - Android Tutorial" class="ui centered image" src="/images/animation-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Animation in Android - Android Tutorial
+           </div>
+           <div class="meta">
+            24th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Android Google’s reCAPTCHA in Android App" class="ui centered image" src="/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Android Google’s reCAPTCHA in Android App
+           </div>
+           <div class="meta">
+            18th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Android Sensors: Android Tutorial" class="ui centered image" src="/images/using-android-sensors-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Android Sensors: Android Tutorial
+           </div>
+           <div class="meta">
+            30th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

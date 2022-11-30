@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   What are Reified Types in Kotlin?
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/what-are-reified-types-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="What are Reified Types in Kotlin?" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/what-are-reified-types-in-kotlin" property="og:url"/>
+  <meta content="/images/what-are-reified-types-in-kotlin-banner-fa188513e9b18158.png" property="og:image"/>
+  <meta content="In this blog, we are going to learn about Reified Types that are used in Kotlin. We will learn it by example." property="og:description"/>
+  <meta content="What are Reified Types in Kotlin?" property="twitter:title"/>
+  <meta content="In this blog, we are going to learn about Reified Types that are used in Kotlin. We will learn it by example." name="twitter:description"/>
+  <meta content="/images/what-are-reified-types-in-kotlin-banner-fa188513e9b18158.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to learn about Reified Types that are used in Kotlin. We will learn it by example." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:444,data:{id:444,title:"What are Reified Types in Kotlin?",description:"In this blog, we are going to learn about Reified Types that are used in Kotlin. We will learn it by example.",text:'<h1 class="graf--h1">What are Reified Types in Kotlin?</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/what-are-reified-types-in-kotlin-banner-fa188513e9b18158.png class=\'graf-image\' alt=\'What are Reified Types in Kotlin?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Since you are reading this blog, you must agree to the point that <b class="graf--bold">Kotlin is an awesome language </b>and this is because of its unique features as compared to other programming languages. One of these features is the <b class="graf--bold">Reified keyword</b> in Kotlin. Wait, what is this weird term called Reified? Don&#x27;t worry, that&#x27;s the topic for today&#x27;s blog. In this blog, we are going to learn about Reified types. So, let&#x27;s get started.</p><h4 class="graf--h3">Before getting started</h4><p class="graf--p">Most of the programming language has the concept of generics. Generics are used to provide a generic/general implementation of a class or a function or some properties i.e. you will write the implementation part once and use it for various data types. </p><p class="graf--p">For example, here is a code for a generic function:</p><pre><code class="language-java graf graf--code">fun &lt;T&gt; genericsExample(value: T) {\n    println(value)\n}\nfun main() {\n    genericsExample&lt;String&gt;("Learning Generics!")\n    genericsExample&lt;Int&gt;(100)\n}</code></pre><p class="graf--p">The above generic function can be used for any type of variable i.e for String, Int, Boolean, etc. So, the output of the above code will be:</p><pre><code class="language-java graf graf--code">Learning Generics! \n100</code></pre><p class="graf--p">Now, in the <code class="graf--code-inline">genericsExample</code> function, let&#x27;s try to find the type of <code class="graf--code-inline">T</code> used i.e. let&#x27;s have a print statement that will print if the type of <code class="graf--code-inline">T</code> is String, Int, Boolean or something else.</p><pre><code class="language-java graf graf--code">fun &lt;T&gt; genericsExample(value: T) {\n    println(value)\n    prinln("Type of T: ${T::class.java}")\n}</code></pre><p class="graf--p">Is the above code working fine? No, you will be getting <code class="graf--code-inline">Cannot use &#x27;T&#x27; as reified type parameter</code> error. We can&#x27;t get the info about the type T because of the <b class="graf--bold">type erasure</b> thing in generics. So, if you want to access the type of <code class="graf--code-inline">T</code>, then we can pass the class of the <code class="graf--code-inline">T</code> as a parameter to the function <code class="graf--code-inline">genericsExample</code>.</p><pre><code class="language-java graf graf--code">fun &lt;T&gt; genericsExample(classType: Class&lt;T&gt;, value: T) {\n    println(value)\n    println("Type of T: ${classType}")\n}\nfun main() {\n    genericsExample&lt;String&gt;(String::class.java, "Learning Generics!")\n    genericsExample&lt;Int&gt;(Int::class.java, 100)\n}</code></pre><p class="graf--p">But is it the best way to do this? Is it ok to use a boilerplate code like this? No, absolutely not.</p><p class="graf--p">So, here comes the role of the <b class="graf--bold">reified</b> keyword in Kotlin. Let&#x27;s learn about it.</p><h4 class="graf--h3">Reified keyword in Kotlin</h4><p class="graf--p">To access the information about the type of class, we use a keyword called <b class="graf--bold"><code class="graf--code-inline">reified</code></b> in Kotlin. In order to use the reified type, we need to use the <b class="graf--bold">inline function</b>.</p><blockquote class="graf--blockquote">If a function is marked as <code class="graf--code-inline">inline</code>, then wherever the function is called, the compiler will paste the whole body of the function there. Learn more about inline from <a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/inline-function-in-kotlin">here</a>.</blockquote><p class="graf--p">So, here is the updated code(using reified types) of the above function that uses generics:</p><pre><code class="language-java graf graf--code">inline fun &lt;reified T&gt; genericsExample(value: T) {\n    println(value)\n    println("Type of T: ${T::class.java}")\n}\nfun main() {\n    genericsExample&lt;String&gt;("Learning Generics!")\n    genericsExample&lt;Int&gt;(100)\n}</code></pre><p class="graf--p">Here is the output of the above code:</p><pre><code class="language-java graf graf--code">Learning Generics! \nType of T: class java.lang.String \n100 \nType of T: class java.lang.Integer</code></pre><p class="graf--p">So, what&#x27;s happening under the hood? In order to find that, we need to see the bytecode of the above example:</p><pre><code class="language-java graf graf--code">public static final void genericsExample(Object value) {\n   int $i$f$genericsExample = 0;\n   boolean var2 = false;\n   System.out.println(value);\n   StringBuilder var10000 = (new StringBuilder()).append("Type of T: ");\n   Intrinsics.reifiedOperationMarker(4, "T");\n   String var4 = var10000.append(Object.class).toString();\n   boolean var3 = false;\n   System.out.println(var4);\n}\n\npublic static final void main() {\n   Object value$iv = "Learning Generics!";\n   int $i$f$genericsExample = false;\n   boolean var2 = false;\n   System.out.println(value$iv);\n   String var5 = "Type of T: " + String.class;\n   boolean var3 = false;\n   System.out.println(var5);\n   Object value$iv = 100;\n   $i$f$genericsExample = false;\n   var2 = false;\n   System.out.println(value$iv);\n   var5 = "Type of T: " + Integer.class;\n   var3 = false;\n   System.out.println(var5);\n}</code></pre><p class="graf--p">Since we are using the <b class="graf--bold">inline function</b> here, the code of the function will be copied and pasted wherever we will call the function. Also, the compiler is replacing the type <code class="graf--code-inline">T</code> with the actual type i.e. <code class="graf--code-inline">String</code> or <code class="graf--code-inline">Int</code>. So, no need to pass the type explicitly. Isn&#x27;t it awesome? Yeah, I know, it is. I told you at the starting of the blog ????.</p><blockquote class="graf--blockquote"><b class="graf--bold">NOTE:</b> In Java, we can&#x27;t use the reified function because inline function is not supported there.</blockquote><p class="graf--p">Apart from the above feature, there are other things that can be done using reified. For example, we can use functions with the same arguments and name but <b class="graf--bold">different return type</b>.</p><h4 class="graf--h3">Functions with different return type</h4><p class="graf--p">Think of a situation, where you want to keep the name, number, and type of arguments to the function as same but the return type as different. Can we do this by function overloading? Let&#x27;s see.</p><p class="graf--p">For example, let&#x27;s say you want to print some message if the marks of a student is above 90 and if the marks is below 90 you just want to return the marks. So, we can think of two functions with same name <code class="graf--code-inline">showMessage</code>. The first function will take <code class="graf--code-inline">marks</code> as input and will be called only when the <code class="graf--code-inline">marks</code> is below 90 and this will just return the integer marks. Similarly, the other function will be called when <code class="graf--code-inline">marks</code> is above 90 and will return some message as a string.</p><pre><code class="language-java graf graf--code">fun showMessage(marks: Int): Int {\n    return marks\n}\nfun showMessage(marks: Int): String {\n    return "Congratulations! you scored more than 90%";\n}</code></pre><p class="graf--p">The above overloaded function will throw an error because, for function overloading, the number of arguments or type of arguments should differ and not the return type.</p><p class="graf--p">So, we can use the <code class="graf--code-inline">reified</code> keyword here. The modified code will look something like this:</p><pre><code class="language-java graf graf--code">inline fun&lt;reified T&gt; showMessage(marks: Int): T {\n    return when (T::class) {\n        Int::class -&gt; marks as T\n        String::class -&gt; "Congratulations! you scored more than 90%" as T\n        else -&gt; "Please enter valid type" as T\n    }\n}\nfun main() {\n    val intMarks: Int = showMessage(70) // returning integer value\n    val stringMessage: String = showMessage(95) // returning string value\n    println("Your marks: $intMarks \\nMessage: $stringMessage")\n}</code></pre><p class="graf--p">The output of the above code will be:</p><pre><code class="language-java graf graf--code">Your marks: 70 \nMessage: Congratulations! you scored more than 90%</code></pre><p class="graf--p">In the above example, you can see how we are using a <code class="graf--code-inline">reified</code> keyword for returning different data types(Int and String in our example) from the same function.</p><p class="graf--p">This is how we use the reified keyword in Kotlin. I hope you enjoyed this blog. Do share this tutorial with your fellow developers to spread the knowledge.</p><p class="graf--p"><b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://mindorks.com/android-app-development-online-course-for-professionals">Apply Now: MindOrks Android Online Course and Learn Advanced Android</a></span></b></p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p><p class="graf--p"><b class="graf--bold">Also, Let’s connect on</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://twitter.com/hiii_sumit">Twitter</a></span>,</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/mishra3452/">Linkedin</a></span>,</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://github.com/mishra3452">Github</a></span>, and</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://www.facebook.com/mishra3452">Facebook</a></span></b></p>',author:17146,img_url:"/images/what-are-reified-types-in-kotlin-banner-fa188513e9b18158.png",blog_url:"what-are-reified-types-in-kotlin",likes:0,rank:0,category:1,published_at:"23rd May 2020"},author:{id:17146,name:"Sumit Mishra",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Software Development Engineer at MindOrks",fb_profile_url:"https://www.facebook.com/mishra3452",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hiii_sumit",github_profile_url:"https://github.com/mishra3452",linkedin_profile_url:"https://www.linkedin.com/in/sumit-mishra-a15499135/"},isFetching:!1,similarBlogs:[{id:427,title:"Difference between List and Array types in Kotlin",description:"In this blog, we will learn the difference between the List and the Array in Kotlin. We will see when to use List and when to use Array in Kotlin.",author:17146,img_url:"/images/difference-between-list-and-array-types-in-kotlin-banner.jpg",blog_url:"difference-between-list-and-array-types-in-kotlin",likes:0,rank:0,category:1,published_at:"27th April 2020",score:3.2770724296569824},{id:486,title:"RecyclerView Multiple View Types in Android",description:"In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project.",author:17146,img_url:"/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png",blog_url:"recyclerview-multiple-view-types-in-android",likes:0,rank:0,category:1,published_at:"22nd June 2020",score:3.1293888092041016},{id:22,title:"Learn Kotlin —  apply vs with\n",description:"There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png",blog_url:"learn-kotlin-apply-vs-with",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:24,title:"Learn Kotlin - Data Class",description:"We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png",blog_url:"learn-kotlin-data-class",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:25,title:"Learn Kotlin- Destructuring Declarations",description:"Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png",blog_url:"learn-kotlin-destructuring-declarations",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:62,title:"Learn Kotlin — Extension Functions",description:"As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png",blog_url:"learn-kotlin-extension-functions",likes:1,rank:0,category:1,published_at:"30th May 2017",score:.1476835161447525}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Sumit Mishra" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300"/>
+          <div class="content">
+           Sumit Mishra
+           <div class="sub header" style="margin-top:5px">
+            23rd May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  What are Reified Types in Kotlin?
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="What are Reified Types in Kotlin?" class="graf-image" src="/images/what-are-reified-types-in-kotlin-banner-fa188513e9b18158.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Since you are reading this blog, you must agree to the point that
+                  <b class="graf--bold">
+                   Kotlin is an awesome language
+                  </b>
+                  and this is because of its unique features as compared to other programming languages. One of these features is the
+                  <b class="graf--bold">
+                   Reified keyword
+                  </b>
+                  in Kotlin. Wait, what is this weird term called Reified? Don't worry, that's the topic for today's blog. In this blog, we are going to learn about Reified types. So, let's get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  Before getting started
+                 </h4>
+                 <p class="graf--p">
+                  Most of the programming language has the concept of generics. Generics are used to provide a generic/general implementation of a class or a function or some properties i.e. you will write the implementation part once and use it for various data types.
+                 </p>
+                 <p class="graf--p">
+                  For example, here is a code for a generic function:
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun &lt;T&gt; genericsExample(value: T) {
+    println(value)
+}
+fun main() {
+    genericsExample&lt;String&gt;("Learning Generics!")
+    genericsExample&lt;Int&gt;(100)
+}</code></pre>
+                 <p class="graf--p">
+                  The above generic function can be used for any type of variable i.e for String, Int, Boolean, etc. So, the output of the above code will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">Learning Generics! 
+100</code></pre>
+                 <p class="graf--p">
+                  Now, in the
+                  <code class="graf--code-inline">
+                   genericsExample
+                  </code>
+                  function, let's try to find the type of
+                  <code class="graf--code-inline">
+                   T
+                  </code>
+                  used i.e. let's have a print statement that will print if the type of
+                  <code class="graf--code-inline">
+                   T
+                  </code>
+                  is String, Int, Boolean or something else.
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun &lt;T&gt; genericsExample(value: T) {
+    println(value)
+    prinln("Type of T: ${T::class.java}")
+}</code></pre>
+                 <p class="graf--p">
+                  Is the above code working fine? No, you will be getting
+                  <code class="graf--code-inline">
+                   Cannot use 'T' as reified type parameter
+                  </code>
+                  error. We can't get the info about the type T because of the
+                  <b class="graf--bold">
+                   type erasure
+                  </b>
+                  thing in generics. So, if you want to access the type of
+                  <code class="graf--code-inline">
+                   T
+                  </code>
+                  , then we can pass the class of the
+                  <code class="graf--code-inline">
+                   T
+                  </code>
+                  as a parameter to the function
+                  <code class="graf--code-inline">
+                   genericsExample
+                  </code>
+                  .
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun &lt;T&gt; genericsExample(classType: Class&lt;T&gt;, value: T) {
+    println(value)
+    println("Type of T: ${classType}")
+}
+fun main() {
+    genericsExample&lt;String&gt;(String::class.java, "Learning Generics!")
+    genericsExample&lt;Int&gt;(Int::class.java, 100)
+}</code></pre>
+                 <p class="graf--p">
+                  But is it the best way to do this? Is it ok to use a boilerplate code like this? No, absolutely not.
+                 </p>
+                 <p class="graf--p">
+                  So, here comes the role of the
+                  <b class="graf--bold">
+                   reified
+                  </b>
+                  keyword in Kotlin. Let's learn about it.
+                 </p>
+                 <h4 class="graf--h3">
+                  Reified keyword in Kotlin
+                 </h4>
+                 <p class="graf--p">
+                  To access the information about the type of class, we use a keyword called
+                  <b class="graf--bold">
+                   <code class="graf--code-inline">
+                    reified
+                   </code>
+                  </b>
+                  in Kotlin. In order to use the reified type, we need to use the
+                  <b class="graf--bold">
+                   inline function
+                  </b>
+                  .
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  If a function is marked as
+                  <code class="graf--code-inline">
+                   inline
+                  </code>
+                  , then wherever the function is called, the compiler will paste the whole body of the function there. Learn more about inline from
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/inline-function-in-kotlin" target="_blank">
+                   here
+                  </a>
+                  .
+                 </blockquote>
+                 <p class="graf--p">
+                  So, here is the updated code(using reified types) of the above function that uses generics:
+                 </p>
+                 <pre><code class="language-java graf graf--code">inline fun &lt;reified T&gt; genericsExample(value: T) {
+    println(value)
+    println("Type of T: ${T::class.java}")
+}
+fun main() {
+    genericsExample&lt;String&gt;("Learning Generics!")
+    genericsExample&lt;Int&gt;(100)
+}</code></pre>
+                 <p class="graf--p">
+                  Here is the output of the above code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">Learning Generics! 
+Type of T: class java.lang.String 
+100 
+Type of T: class java.lang.Integer</code></pre>
+                 <p class="graf--p">
+                  So, what's happening under the hood? In order to find that, we need to see the bytecode of the above example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">public static final void genericsExample(Object value) {
+   int $i$f$genericsExample = 0;
+   boolean var2 = false;
+   System.out.println(value);
+   StringBuilder var10000 = (new StringBuilder()).append("Type of T: ");
+   Intrinsics.reifiedOperationMarker(4, "T");
+   String var4 = var10000.append(Object.class).toString();
+   boolean var3 = false;
+   System.out.println(var4);
+}
+
+public static final void main() {
+   Object value$iv = "Learning Generics!";
+   int $i$f$genericsExample = false;
+   boolean var2 = false;
+   System.out.println(value$iv);
+   String var5 = "Type of T: " + String.class;
+   boolean var3 = false;
+   System.out.println(var5);
+   Object value$iv = 100;
+   $i$f$genericsExample = false;
+   var2 = false;
+   System.out.println(value$iv);
+   var5 = "Type of T: " + Integer.class;
+   var3 = false;
+   System.out.println(var5);
+}</code></pre>
+                 <p class="graf--p">
+                  Since we are using the
+                  <b class="graf--bold">
+                   inline function
+                  </b>
+                  here, the code of the function will be copied and pasted wherever we will call the function. Also, the compiler is replacing the type
+                  <code class="graf--code-inline">
+                   T
+                  </code>
+                  with the actual type i.e.
+                  <code class="graf--code-inline">
+                   String
+                  </code>
+                  or
+                  <code class="graf--code-inline">
+                   Int
+                  </code>
+                  . So, no need to pass the type explicitly. Isn't it awesome? Yeah, I know, it is. I told you at the starting of the blog ????.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   NOTE:
+                  </b>
+                  In Java, we can't use the reified function because inline function is not supported there.
+                 </blockquote>
+                 <p class="graf--p">
+                  Apart from the above feature, there are other things that can be done using reified. For example, we can use functions with the same arguments and name but
+                  <b class="graf--bold">
+                   different return type
+                  </b>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  Functions with different return type
+                 </h4>
+                 <p class="graf--p">
+                  Think of a situation, where you want to keep the name, number, and type of arguments to the function as same but the return type as different. Can we do this by function overloading? Let's see.
+                 </p>
+                 <p class="graf--p">
+                  For example, let's say you want to print some message if the marks of a student is above 90 and if the marks is below 90 you just want to return the marks. So, we can think of two functions with same name
+                  <code class="graf--code-inline">
+                   showMessage
+                  </code>
+                  . The first function will take
+                  <code class="graf--code-inline">
+                   marks
+                  </code>
+                  as input and will be called only when the
+                  <code class="graf--code-inline">
+                   marks
+                  </code>
+                  is below 90 and this will just return the integer marks. Similarly, the other function will be called when
+                  <code class="graf--code-inline">
+                   marks
+                  </code>
+                  is above 90 and will return some message as a string.
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun showMessage(marks: Int): Int {
+    return marks
+}
+fun showMessage(marks: Int): String {
+    return "Congratulations! you scored more than 90%";
+}</code></pre>
+                 <p class="graf--p">
+                  The above overloaded function will throw an error because, for function overloading, the number of arguments or type of arguments should differ and not the return type.
+                 </p>
+                 <p class="graf--p">
+                  So, we can use the
+                  <code class="graf--code-inline">
+                   reified
+                  </code>
+                  keyword here. The modified code will look something like this:
+                 </p>
+                 <pre><code class="language-java graf graf--code">inline fun&lt;reified T&gt; showMessage(marks: Int): T {
+    return when (T::class) {
+        Int::class -&gt; marks as T
+        String::class -&gt; "Congratulations! you scored more than 90%" as T
+        else -&gt; "Please enter valid type" as T
+    }
+}
+fun main() {
+    val intMarks: Int = showMessage(70) // returning integer value
+    val stringMessage: String = showMessage(95) // returning string value
+    println("Your marks: $intMarks \nMessage: $stringMessage")
+}</code></pre>
+                 <p class="graf--p">
+                  The output of the above code will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">Your marks: 70 
+Message: Congratulations! you scored more than 90%</code></pre>
+                 <p class="graf--p">
+                  In the above example, you can see how we are using a
+                  <code class="graf--code-inline">
+                   reified
+                  </code>
+                  keyword for returning different data types(Int and String in our example) from the same function.
+                 </p>
+                 <p class="graf--p">
+                  This is how we use the reified keyword in Kotlin. I hope you enjoyed this blog. Do share this tutorial with your fellow developers to spread the knowledge.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://mindorks.com/android-app-development-online-course-for-professionals" target="_blank">
+                     Apply Now: MindOrks Android Online Course and Learn Advanced Android
+                    </a>
+                   </span>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Also, Let’s connect on
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://twitter.com/hiii_sumit" target="_blank">
+                     Twitter
+                    </a>
+                   </span>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://www.linkedin.com/in/mishra3452/" target="_blank">
+                     Linkedin
+                    </a>
+                   </span>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://github.com/mishra3452" target="_blank">
+                     Github
+                    </a>
+                   </span>
+                   , and
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://www.facebook.com/mishra3452" target="_blank">
+                     Facebook
+                    </a>
+                   </span>
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Difference between List and Array types in Kotlin" class="ui centered image" src="/images/difference-between-list-and-array-types-in-kotlin-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Difference between List and Array types in Kotlin
+           </div>
+           <div class="meta">
+            27th April 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn the difference between the List and the Array in Kotlin. We will see when to use List and when to use Array in Kotlin.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="RecyclerView Multiple View Types in Android" class="ui centered image" src="/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            RecyclerView Multiple View Types in Android
+           </div>
+           <div class="meta">
+            22nd June 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin —  apply vs with
+" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin —  apply vs with
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin - Data Class" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin - Data Class
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin- Destructuring Declarations" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin- Destructuring Declarations
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin — Extension Functions" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin — Extension Functions
+           </div>
+           <div class="meta">
+            30th May 2017
+           </div>
+           <div class="description">
+            As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

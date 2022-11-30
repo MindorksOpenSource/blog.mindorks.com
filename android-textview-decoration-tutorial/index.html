@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Android TextView Decoration Tutorial
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-textview-decoration-tutorial" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Android TextView Decoration Tutorial" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-textview-decoration-tutorial" property="og:url"/>
+  <meta content="/images/android-textview-decoration-tutorial-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to decorate TextView in Android. We will use both XML and Kotlin code for TextView decoration. So, read this blog and use it in your Android project." property="og:description"/>
+  <meta content="Android TextView Decoration Tutorial" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to decorate TextView in Android. We will use both XML and Kotlin code for TextView decoration. So, read this blog and use it in your Android project." name="twitter:description"/>
+  <meta content="/images/android-textview-decoration-tutorial-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to decorate TextView in Android. We will use both XML and Kotlin code for TextView decoration. So, read this blog and use it in your Android project." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:287,data:{id:287,title:"Android TextView Decoration Tutorial",description:"In this blog, we will learn how to decorate TextView in Android. We will use both XML and Kotlin code for TextView decoration. So, read this blog and use it in your Android project.",text:'<h1 class="graf--h1">Android TextView Decoration Tutorial</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-textview-decoration-tutorial-banner.png class=\'graf-image\' alt=\'Android TextView Decoration Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">TextViews are the first things that we learn when we start learning Android and due to this whenever we create an Empty Activity, then by default we will see one TextView on the screen with “Hello World!”. So, <b class="graf--bold">Hello World! </b>Hope you are learning well. In this blog, we will learn TextView decoration in Android. This blog is going to be an interesting blog as we all use TextViews in our Android application to display some textual information. In this blog, we will learn how to decorate these TextViews in Android. In the beginning, we will learn some of the basic attributes of TextView and after that, we will be having some cool TextViews in our app. So, let’s get started.</p><h4 class="graf--h3">TextView</h4><p class="graf--p">A TextView is a user interface element that is used to display some text or some textual information in our application. Following is an XML code for using TextView in our application:</p><pre><code class="language-java graf graf--code">&lt;LinearLayout\n      xmlns:android="http://schemas.android.com/apk/res/android"\n      android:layout_width="match_parent"\n      android:layout_height="match_parent"&gt;\n    &lt;TextView\n        android:id="@+id/text_view_id"\n        android:layout_height="wrap_content"\n        android:layout_width="wrap_content"\n        android:text="Hello MindOrks!" /&gt;\n &lt;/LinearLayout&gt;</code></pre><p class="graf--p">By using the TextView tag in your application, you can insert a TextView to display the desired text by using <b class="graf--bold">android:text</b> property. To decorate a TextView, there are various attributes that can be used. Let’s discuss one by one.</p><h4 class="graf--h3">Typeface</h4><p class="graf--p">By default, Android gives you four fonts that you can use in your application. They are:</p><ol><li>monospace</li><li>normal</li><li>sans</li><li>serif</li></ol><p class="graf--p">You can use these fonts in your TextView by using the <b class="graf--bold">android:typeface</b> attribute.</p><pre><code class="language-java graf graf--code">&lt;TextView\n        android:id="@+id/tv1"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="Hello MindOrks! monospace"\n        android:textSize="24sp"\n        android:typeface="monospace"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toTopOf="parent"\n        android:layout_marginTop="32dp"/&gt;</code></pre> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-textview-decoration-tutorial-typeface.png class=\'graf-image\' alt=\'Android TextView Decoration Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Textstyle</h4><p class="graf--p">You can emphasize a text by using the <b class="graf--bold">android:textStyle</b> attribute. Following are the three options that are available with android:textStyle :</p><ol><li>bold</li><li>italic</li><li>normal</li></ol><pre><code class="language-java graf graf--code">&lt;TextView\n        android:id="@+id/tv1"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="Hello MindOrks! Bold"\n        android:textSize="24sp"\n        android:textStyle="bold"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toTopOf="parent"\n        android:layout_marginTop="32dp"/&gt;</code></pre> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-textview-decoration-tutorial-textstyle.png class=\'graf-image\' alt=\'Android TextView Decoration Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Text size and Text Color</h4><p class="graf--p">You can change the text size by using the <b class="graf--bold">android:textSize</b> attribute and the color of the text can be change by using <b class="graf--bold">android:textColor</b> attribute.</p><pre><code class="language-java graf graf--code">&lt;TextView\n        android:id="@+id/tv1"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="Hello MindOrks! 32sp"\n        android:textSize="32sp"\n        android:textColor="#11209F"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toTopOf="parent"\n        android:layout_marginTop="32dp"/&gt;</code></pre> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-textview-decoration-tutorial-textsize-color.png class=\'graf-image\' alt=\'Android TextView Decoration Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3"><b class="graf--bold">Font famil</b>y</h4><p class="graf--p">You can change the font family of a TextView by using the android:fontFamily attribute. By default, we have 14 font families that can be used in TextView. Some of these are serif, monospace, casual, cursive, sans-serif, sans-monospace, etc.</p><pre><code class="language-java graf graf--code">&lt;TextView\n        android:id="@+id/tv1"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="Hello MindOrks! Cursive"\n        android:textSize="24sp"\n        android:fontFamily="cursive"\n        android:textColor="#11209F"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toTopOf="parent"\n        android:layout_marginTop="32dp"/&gt;</code></pre><p class="graf--p">ImageIf you want to use your custom font then you can read our blog at <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/using-custom-and-downloadable-fonts-in-android">MindOrks Blogs</a>.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-textview-decoration-tutorial-fontfamily.png class=\'graf-image\' alt=\'Android TextView Decoration Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Text alignment</h4><p class="graf--p">You can align your text with the help of <b class="graf--bold">android:textAlignment</b> attribute. This attribute provides us a lot of options like center align, textStart, textEnd, viewStart, viewEnd, etc. </p><pre><code class="language-java graf graf--code">&lt;TextView\n        android:id="@+id/tv1"\n        android:layout_width="match_parent"\n        android:layout_height="wrap_content"\n        android:text="Hello MindOrks! center align"\n        android:textAlignment="center"\n        android:textSize="24sp"\n        android:textColor="#11209F"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toTopOf="parent"\n        android:layout_marginTop="32dp"/&gt;</code></pre> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-textview-decoration-tutorial-textalignment.png class=\'graf-image\' alt=\'Android TextView Decoration Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Text shadow</h4><p class="graf--p">You can put shadow to your text and change the color of the shadow by using the <b class="graf--bold">android:shadowColor</b> attribute. Also, you can use <b class="graf--bold">shadowDx</b> and <b class="graf--bold">shadowDy</b> to specify the offset of the shadow. For example, a -Dx draws a shadow on the left of the text and +Dx draws a shadow on the right of the text. <b class="graf--bold">shadowRadius</b> can be used to specify how much the shadow should be blurred at the edges.</p><pre><code class="language-java graf graf--code">&lt;TextView\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:layout_gravity="center"\n        android:text="Hello MindOrks!"\n        android:textSize="50sp"\n        android:padding="12dp"\n        android:shadowColor="#F5A623"\n        android:shadowDx="12"\n        android:shadowDy="12"\n        android:shadowRadius="8"\n        android:textStyle="bold"/&gt;</code></pre> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-textview-decoration-tutorial-textshadow.png class=\'graf-image\' alt=\'Android TextView Decoration Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Non Breaking Sentence</h4><p class="graf--p">You can put a sentence in more than one line. This is possible when the width of the TextView is not enough to hold the contents of the TextView i.e. you are having more texts but the space is not provided.</p><pre><code class="language-java graf graf--code">&lt;TextView\n        android:layout_width="140dp"\n        android:layout_height="wrap_content"\n        android:layout_gravity="center"\n        android:text="Hello MindOrks!"\n        android:textSize="50sp"\n        android:textStyle="bold"/&gt;</code></pre> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-textview-decoration-tutorial-non-breaking-sentence.png class=\'graf-image\' alt=\'Android TextView Decoration Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Gradient</h4><p class="graf--p">To set the color of the TextView, you can also use Gradient color by using the LinearGradient.</p><pre><code class="language-java graf graf--code">&lt;TextView\n        android:id="@+id/text"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:gravity="center"\n        android:text="MindOrks"\n        android:textColor="@android:color/black"\n        android:textSize="60sp"\n        android:textStyle="bold"/&gt;</code></pre><p class="graf--p">Also, add the below code in you <b class="graf--bold"><i class="graf--italic">MainActivity.kt</i></b> file to use <b class="graf--bold">LinearGradient</b>:</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        val textView = findViewById&lt;TextView&gt;(R.id.text)\n        val shader = LinearGradient(0f, 0f, 0f, textView.textSize, Color.RED, Color.BLUE, Shader.TileMode.CLAMP)\n        textView.paint.shader = shader\n    }\n}</code></pre><p class="graf--p">The parameters of the LinearGradient are:</p><ol><li><b class="graf--bold">x0:</b> x-coordinate for start of gradient line. It is of type float.</li><li><b class="graf--bold">y0:</b> y-coordinate for start of gradient line. It is of type float.</li><li><b class="graf--bold">x1:</b> x-coordinate for end of gradient line. It is of type float.</li><li><b class="graf--bold">y1:</b> y-coordinate for end of gradient line. It is of type float.</li><li><b class="graf--bold">colors:</b> The RGB color to be distributed along the gradient line. It is of type float.</li><li><b class="graf--bold">positions:</b> It is the relative position of each corresponding color in the colors array. It is of type float.</li><li><b class="graf--bold">tile:</b> It is the shader tiling mode. It is of type float.</li></ol> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-textview-decoration-tutorial-gradient.png class=\'graf-image\' alt=\'Android TextView Decoration Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Clickable span</h4><p class="graf--p">While reading a text, you can go to somewhere else by clicking on the text. This is the same way as used in websites, where we use hyperlinks to open new page from the existing one. Add the below code in your XML file:</p><pre><code class="language-java graf graf--code">&lt;TextView\n        xmlns:android="http://schemas.android.com/apk/res/android"\n        android:id="@+id/text"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent"\n        android:paddingBottom="16dp"\n        android:paddingLeft="16dp"\n        android:paddingRight="16dp"\n        android:paddingTop="16dp"\n        android:textSize="24sp"\n        android:text="While reading to the text, you can go to settings in the middle."\n        android:textColorLink="#444"\n        android:textColorHighlight="#11209F"/&gt;</code></pre><p class="graf--p">Here, <b class="graf--bold">textColorLink</b> is the color of the clickable link and the <b class="graf--bold">textColorHighlight</b> is the color used when you click the link.Add the below code in your <b class="graf--bold"><i class="graf--italic">MainActivity.kt</i></b> file:</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        val textView = findViewById&lt;TextView&gt;(R.id.text)\n        val text = textView.text.toString()\n        val goToSettings = getString(R.string.go_to_settings)\n        val start = text.indexOf(goToSettings)\n        val end = start + goToSettings.length\n        val spannableString = SpannableString(text)\n        spannableString.setSpan(GoToSettingsSpan(), start, end, 0)\n        textView.text = spannableString\n        textView.movementMethod = LinkMovementMethod()\n    }\n\n    private class GoToSettingsSpan: ClickableSpan() {\n        override fun onClick(view: View) {\n            view.context.startActivity(Intent(Settings.ACTION_SETTINGS))\n        }\n    }\n}</code></pre> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-textview-decoration-tutorial-clickablespan.png class=\'graf-image\' alt=\'Android TextView Decoration Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Background Image</h4><p class="graf--p">You can use some background image in TextView i.e. it seems like the text is written on the image. Add the below code in your XML file:</p><pre><code class="language-java graf graf--code">&lt;TextView\n        xmlns:android="http://schemas.android.com/apk/res/android"\n        android:id="@+id/text"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:layout_gravity="center"\n        android:gravity="center"\n        android:text="MindOrks!"\n        android:textColor="#000000"\n        android:textSize="80sp"\n        android:textStyle="bold"/&gt;</code></pre><p class="graf--p">After that, add the below code in your <b class="graf--bold"><i class="graf--italic">MainActivity.kt</i></b> file:</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        val textView = findViewById&lt;TextView&gt;(R.id.text)\n        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.bg)\n        val shader = BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)\n        textView.paint.shader = shader\n    }\n}</code></pre> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-textview-decoration-tutorial-backgroundimage.png class=\'graf-image\' alt=\'Android TextView Decoration Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we learned how we can decorate TextViews in our application. We learned many ways of decorating the text used in our application. Hope you enjoyed this blog and will implement the learnings of this blog in your application. </p><p class="graf--p">Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/android-textview-decoration-tutorial-banner.png",blog_url:"android-textview-decoration-tutorial",likes:0,rank:0,category:1,published_at:"26th June 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:253,title:"AutoSizing TextView Implementation for Android",description:"In this blog, we will learn how to autosize the textview. We will learn how to make the TextView scalable according to the size of the container. We have created a complete tutorial of Autosizing the textview.",author:14897,img_url:"/images/banner-autosizing.jpg",blog_url:"autosizing-textview-implementation-for-android",likes:0,rank:0,category:1,published_at:"25th May 2019",score:3.5962114334106445},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.8440361022949219},{id:284,title:"Animation in Android - Android Tutorial",description:"In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.",author:14897,img_url:"/images/animation-in-android-banner.png",blog_url:"animation-in-android-tutorial",likes:0,rank:0,category:1,published_at:"24th June 2019",score:.8440361022949219},{id:351,title:"Using Android Sensors: Android Tutorial",description:"In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.",author:14897,img_url:"/images/using-android-sensors-android-tutorial-banner.png",blog_url:"using-android-sensors-android-tutorial",likes:0,rank:0,category:1,published_at:"30th September 2019",score:.8440361022949219},{id:357,title:"Getting started with Android NDK: Android Tutorial",description:"In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.",author:14897,img_url:"/images/getting-started-with-android-ndk-android-tutorial-banner.png",blog_url:"getting-started-with-android-ndk-android-tutorial",likes:0,rank:0,category:1,published_at:"9th October 2019",score:.8440361022949219},{id:81,title:"Powerful Android ORM: greenDAO 3 Tutorial",description:"greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time.",author:2,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/powerful-android-orm-greendao-3-tutorial-cover.jpg",blog_url:"powerful-android-orm-greendao-3-tutorial",likes:1,rank:0,category:1,published_at:"13th February 2017",score:.8348584771156311}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            26th June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Android TextView Decoration Tutorial
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android TextView Decoration Tutorial" class="graf-image" src="/images/android-textview-decoration-tutorial-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  TextViews are the first things that we learn when we start learning Android and due to this whenever we create an Empty Activity, then by default we will see one TextView on the screen with “Hello World!”. So,
+                  <b class="graf--bold">
+                   Hello World!
+                  </b>
+                  Hope you are learning well. In this blog, we will learn TextView decoration in Android. This blog is going to be an interesting blog as we all use TextViews in our Android application to display some textual information. In this blog, we will learn how to decorate these TextViews in Android. In the beginning, we will learn some of the basic attributes of TextView and after that, we will be having some cool TextViews in our app. So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  TextView
+                 </h4>
+                 <p class="graf--p">
+                  A TextView is a user interface element that is used to display some text or some textual information in our application. Following is an XML code for using TextView in our application:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;LinearLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"&gt;
+    &lt;TextView
+        android:id="@+id/text_view_id"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Hello MindOrks!" /&gt;
+ &lt;/LinearLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  By using the TextView tag in your application, you can insert a TextView to display the desired text by using
+                  <b class="graf--bold">
+                   android:text
+                  </b>
+                  property. To decorate a TextView, there are various attributes that can be used. Let’s discuss one by one.
+                 </p>
+                 <h4 class="graf--h3">
+                  Typeface
+                 </h4>
+                 <p class="graf--p">
+                  By default, Android gives you four fonts that you can use in your application. They are:
+                 </p>
+                 <ol>
+                  <li>
+                   monospace
+                  </li>
+                  <li>
+                   normal
+                  </li>
+                  <li>
+                   sans
+                  </li>
+                  <li>
+                   serif
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  You can use these fonts in your TextView by using the
+                  <b class="graf--bold">
+                   android:typeface
+                  </b>
+                  attribute.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello MindOrks! monospace"
+        android:textSize="24sp"
+        android:typeface="monospace"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp"/&gt;</code></pre>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android TextView Decoration Tutorial" class="graf-image" src="/images/android-textview-decoration-tutorial-typeface.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Textstyle
+                 </h4>
+                 <p class="graf--p">
+                  You can emphasize a text by using the
+                  <b class="graf--bold">
+                   android:textStyle
+                  </b>
+                  attribute. Following are the three options that are available with android:textStyle :
+                 </p>
+                 <ol>
+                  <li>
+                   bold
+                  </li>
+                  <li>
+                   italic
+                  </li>
+                  <li>
+                   normal
+                  </li>
+                 </ol>
+                 <pre><code class="language-java graf graf--code">&lt;TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello MindOrks! Bold"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp"/&gt;</code></pre>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android TextView Decoration Tutorial" class="graf-image" src="/images/android-textview-decoration-tutorial-textstyle.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Text size and Text Color
+                 </h4>
+                 <p class="graf--p">
+                  You can change the text size by using the
+                  <b class="graf--bold">
+                   android:textSize
+                  </b>
+                  attribute and the color of the text can be change by using
+                  <b class="graf--bold">
+                   android:textColor
+                  </b>
+                  attribute.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello MindOrks! 32sp"
+        android:textSize="32sp"
+        android:textColor="#11209F"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp"/&gt;</code></pre>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android TextView Decoration Tutorial" class="graf-image" src="/images/android-textview-decoration-tutorial-textsize-color.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Font famil
+                  </b>
+                  y
+                 </h4>
+                 <p class="graf--p">
+                  You can change the font family of a TextView by using the android:fontFamily attribute. By default, we have 14 font families that can be used in TextView. Some of these are serif, monospace, casual, cursive, sans-serif, sans-monospace, etc.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello MindOrks! Cursive"
+        android:textSize="24sp"
+        android:fontFamily="cursive"
+        android:textColor="#11209F"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp"/&gt;</code></pre>
+                 <p class="graf--p">
+                  ImageIf you want to use your custom font then you can read our blog at
+                  <a class="markup--anchor" href="https://blog.mindorks.com/using-custom-and-downloadable-fonts-in-android" target="_blank">
+                   MindOrks Blogs
+                  </a>
+                  .
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android TextView Decoration Tutorial" class="graf-image" src="/images/android-textview-decoration-tutorial-fontfamily.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Text alignment
+                 </h4>
+                 <p class="graf--p">
+                  You can align your text with the help of
+                  <b class="graf--bold">
+                   android:textAlignment
+                  </b>
+                  attribute. This attribute provides us a lot of options like center align, textStart, textEnd, viewStart, viewEnd, etc.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView
+        android:id="@+id/tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hello MindOrks! center align"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textColor="#11209F"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp"/&gt;</code></pre>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android TextView Decoration Tutorial" class="graf-image" src="/images/android-textview-decoration-tutorial-textalignment.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Text shadow
+                 </h4>
+                 <p class="graf--p">
+                  You can put shadow to your text and change the color of the shadow by using the
+                  <b class="graf--bold">
+                   android:shadowColor
+                  </b>
+                  attribute. Also, you can use
+                  <b class="graf--bold">
+                   shadowDx
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   shadowDy
+                  </b>
+                  to specify the offset of the shadow. For example, a -Dx draws a shadow on the left of the text and +Dx draws a shadow on the right of the text.
+                  <b class="graf--bold">
+                   shadowRadius
+                  </b>
+                  can be used to specify how much the shadow should be blurred at the edges.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Hello MindOrks!"
+        android:textSize="50sp"
+        android:padding="12dp"
+        android:shadowColor="#F5A623"
+        android:shadowDx="12"
+        android:shadowDy="12"
+        android:shadowRadius="8"
+        android:textStyle="bold"/&gt;</code></pre>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android TextView Decoration Tutorial" class="graf-image" src="/images/android-textview-decoration-tutorial-textshadow.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Non Breaking Sentence
+                 </h4>
+                 <p class="graf--p">
+                  You can put a sentence in more than one line. This is possible when the width of the TextView is not enough to hold the contents of the TextView i.e. you are having more texts but the space is not provided.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Hello MindOrks!"
+        android:textSize="50sp"
+        android:textStyle="bold"/&gt;</code></pre>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android TextView Decoration Tutorial" class="graf-image" src="/images/android-textview-decoration-tutorial-non-breaking-sentence.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Gradient
+                 </h4>
+                 <p class="graf--p">
+                  To set the color of the TextView, you can also use Gradient color by using the LinearGradient.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="MindOrks"
+        android:textColor="@android:color/black"
+        android:textSize="60sp"
+        android:textStyle="bold"/&gt;</code></pre>
+                 <p class="graf--p">
+                  Also, add the below code in you
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MainActivity.kt
+                   </i>
+                  </b>
+                  file to use
+                  <b class="graf--bold">
+                   LinearGradient
+                  </b>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val textView = findViewById&lt;TextView&gt;(R.id.text)
+        val shader = LinearGradient(0f, 0f, 0f, textView.textSize, Color.RED, Color.BLUE, Shader.TileMode.CLAMP)
+        textView.paint.shader = shader
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  The parameters of the LinearGradient are:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    x0:
+                   </b>
+                   x-coordinate for start of gradient line. It is of type float.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    y0:
+                   </b>
+                   y-coordinate for start of gradient line. It is of type float.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    x1:
+                   </b>
+                   x-coordinate for end of gradient line. It is of type float.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    y1:
+                   </b>
+                   y-coordinate for end of gradient line. It is of type float.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colors:
+                   </b>
+                   The RGB color to be distributed along the gradient line. It is of type float.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    positions:
+                   </b>
+                   It is the relative position of each corresponding color in the colors array. It is of type float.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    tile:
+                   </b>
+                   It is the shader tiling mode. It is of type float.
+                  </li>
+                 </ol>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android TextView Decoration Tutorial" class="graf-image" src="/images/android-textview-decoration-tutorial-gradient.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Clickable span
+                 </h4>
+                 <p class="graf--p">
+                  While reading a text, you can go to somewhere else by clicking on the text. This is the same way as used in websites, where we use hyperlinks to open new page from the existing one. Add the below code in your XML file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:textSize="24sp"
+        android:text="While reading to the text, you can go to settings in the middle."
+        android:textColorLink="#444"
+        android:textColorHighlight="#11209F"/&gt;</code></pre>
+                 <p class="graf--p">
+                  Here,
+                  <b class="graf--bold">
+                   textColorLink
+                  </b>
+                  is the color of the clickable link and the
+                  <b class="graf--bold">
+                   textColorHighlight
+                  </b>
+                  is the color used when you click the link.Add the below code in your
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MainActivity.kt
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val textView = findViewById&lt;TextView&gt;(R.id.text)
+        val text = textView.text.toString()
+        val goToSettings = getString(R.string.go_to_settings)
+        val start = text.indexOf(goToSettings)
+        val end = start + goToSettings.length
+        val spannableString = SpannableString(text)
+        spannableString.setSpan(GoToSettingsSpan(), start, end, 0)
+        textView.text = spannableString
+        textView.movementMethod = LinkMovementMethod()
+    }
+
+    private class GoToSettingsSpan: ClickableSpan() {
+        override fun onClick(view: View) {
+            view.context.startActivity(Intent(Settings.ACTION_SETTINGS))
+        }
+    }
+}</code></pre>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android TextView Decoration Tutorial" class="graf-image" src="/images/android-textview-decoration-tutorial-clickablespan.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Background Image
+                 </h4>
+                 <p class="graf--p">
+                  You can use some background image in TextView i.e. it seems like the text is written on the image. Add the below code in your XML file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="MindOrks!"
+        android:textColor="#000000"
+        android:textSize="80sp"
+        android:textStyle="bold"/&gt;</code></pre>
+                 <p class="graf--p">
+                  After that, add the below code in your
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MainActivity.kt
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val textView = findViewById&lt;TextView&gt;(R.id.text)
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.bg)
+        val shader = BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT)
+        textView.paint.shader = shader
+    }
+}</code></pre>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android TextView Decoration Tutorial" class="graf-image" src="/images/android-textview-decoration-tutorial-backgroundimage.png"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how we can decorate TextViews in our application. We learned many ways of decorating the text used in our application. Hope you enjoyed this blog and will implement the learnings of this blog in your application.
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="AutoSizing TextView Implementation for Android" class="ui centered image" src="/images/banner-autosizing.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            AutoSizing TextView Implementation for Android
+           </div>
+           <div class="meta">
+            25th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to autosize the textview. We will learn how to make the TextView scalable according to the size of the container. We have created a complete tutorial of Autosizing the textview.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Animation in Android - Android Tutorial" class="ui centered image" src="/images/animation-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Animation in Android - Android Tutorial
+           </div>
+           <div class="meta">
+            24th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Android Sensors: Android Tutorial" class="ui centered image" src="/images/using-android-sensors-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Android Sensors: Android Tutorial
+           </div>
+           <div class="meta">
+            30th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Android NDK: Android Tutorial" class="ui centered image" src="/images/getting-started-with-android-ndk-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Android NDK: Android Tutorial
+           </div>
+           <div class="meta">
+            9th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Powerful Android ORM: greenDAO 3 Tutorial" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/powerful-android-orm-greendao-3-tutorial-cover.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Powerful Android ORM: greenDAO 3 Tutorial
+           </div>
+           <div class="meta">
+            13th February 2017
+           </div>
+           <div class="description">
+            greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

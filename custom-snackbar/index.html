@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Custom Snackbar in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/custom-snackbar" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Custom Snackbar in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/custom-snackbar" property="og:url"/>
+  <meta content="/images/custom-snackbar-banner-086294ce72839321.png" property="og:image"/>
+  <meta content="In this blog, we are going to learn how to implement a Custom Snackbar in our Android application. Snackbars are used to display some message at the bottom of the screen and these are a great alternative of Toasts in Android. So, let's see how to implement this." property="og:description"/>
+  <meta content="Custom Snackbar in Android" property="twitter:title"/>
+  <meta content="In this blog, we are going to learn how to implement a Custom Snackbar in our Android application. Snackbars are used to display some message at the bottom of the screen and these are a great alternative of Toasts in Android. So, let's see how to implement this." name="twitter:description"/>
+  <meta content="/images/custom-snackbar-banner-086294ce72839321.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to learn how to implement a Custom Snackbar in our Android application. Snackbars are used to display some message at the bottom of the screen and these are a great alternative of Toasts in Android. So, let's see how to implement this." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:504,data:{id:504,title:"Custom Snackbar in Android",description:"In this blog, we are going to learn how to implement a Custom Snackbar in our Android application. Snackbars are used to display some message at the bottom of the screen and these are a great alternative of Toasts in Android. So, let's see how to implement this.",text:'<h1 class="graf--h1">Custom Snackbar in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/custom-snackbar-banner-086294ce72839321.png alt="Custom Snackbar Banner" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Snackbars are quite common in Android applications. Almost every application uses Snackbars for displaying some information about what&#x27;s going on in the app. You can treat a Snackbar as an alternative or simply a better version of Toasts in Android.</p><p class="graf--p">By default, a Snackbar is shown at the bottom of the screen and it appears on top of all the elements that are present on the screen. It is associated with some view and the Snackbar will be shown only when the view is there on the screen.</p><p class="graf--p">So, overall we can say that Snackbars are awesome. But to increase this awesomeness to the next level we can customize the Snackbar according to our need. In this blog, we will learn how to make a custom Snackbar in Android. So, let&#x27;s get started with normal Snackbar.</p><h2 class="graf--h2">Using Normal Snackbar</h2><p class="graf--p">To use a Snackbar in your app, all you need to do is have the Material Design dependency in your app. So, add the below dependency in you <code class="graf--code-inline">build.gradle</code> file:</p><pre><code class="language-java graf graf--code">implementation "com.google.android.material:$latest_version"</code></pre><p class="graf--p">And then you can use the Snackbar just like a Toast. For example:</p><pre><code class="language-java graf graf--code">Snackbar.make(view, "Show some message here", Snackbar.LENGTH_SHORT).show()</code></pre><p class="graf--p">The above code will show a simple message in the Snackbar. There are some functions that are available with Snackbar. For example:</p><ul><li><b class="graf--bold">setAction():</b> This can be used to have some action on the Snackbar. For example, you can use a Snackbar to display a network error message and have an action called Retry.</li><li><b class="graf--bold">setBackgroundColor():</b> This can be used to change the background color of the Snackbar.</li><li><b class="graf--bold">setAnchorView():</b> By default, the Snackbar appears at the bottom of the screen. But you can change its position with the help of <code class="graf--code-inline">setAnchorView</code> function. </li></ul><p class="graf--p">There are other functions as well that can be used with Snackbar. You can find those methods form the <a class="markup--anchor" target="_blank" href="https://material.io/develop/android/components/snackbars">Material Design Website</a>.</p><h2 class="graf--h2">Custom Snackbar</h2><p class="graf--p">Now, its time to create our own Snackbar.</p><p class="graf--p">So, the very first thing that we are going to do is create a custom layout for the Snackbar. So, for that, we need to create some files. Create two classes named <code class="graf--code-inline">CustomSnackbar</code> and <code class="graf--code-inline">CustomSnackbarView</code>. After that, create two XML files named <code class="graf--code-inline">item_custom_snackbar</code> and <code class="graf--code-inline">layout_custom_snackbar</code>.</p><p class="graf--p">The <code class="graf--code-inline">item_custom_snackbar</code> will contain the elements of the Snackbar. Here, we will have one text view and one image view in the Snackbar. You can change the UI as per your need. So, the code for the <code class="graf--code-inline">item_custom_snackbar</code> will be:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    android:layout_width="match_parent"\n    android:layout_height="60dp"&gt;\n\n    &lt;ImageView\n        android:id="@+id/ivCheck"\n        android:layout_width="60dp"\n        android:layout_height="match_parent"\n        android:src="@drawable/ic_check_circle"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n    &lt;TextView\n        android:id="@+id/tvMessage"\n        android:layout_width="0dp"\n        android:layout_height="match_parent"\n        android:gravity="center_vertical"\n        android:padding="8dp"\n        android:text="Payment Successful!"\n        android:textSize="30sp"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toStartOf="@+id/ivCheck"\n        app:layout_constraintStart_toStartOf="parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Now, to create the custom Snackbar view, you need to implement the <code class="graf--code-inline">ContentViewCallback</code>. This is used to tell when the content of the Snackbar starts appearing and when it is disappearing from the screen. So, the code of the <code class="graf--code-inline">CustomSnackbarView</code> will be:</p><pre><code class="language-java graf graf--code">class CustomSnackbarView @JvmOverloads constructor(\n    context: Context,\n    attributeSet: AttributeSet? = null,\n    defaultStyle: Int = 0\n) : ConstraintLayout(context, attributeSet, defaultStyle), ContentViewCallback {\n\n    init {\n        View.inflate(context, R.layout.item_custom_snackbar, this)\n    }\n\n    override fun animateContentIn(delay: Int, duration: Int) {\n        // TODO("Use some animation")\n    }\n\n    override fun animateContentOut(delay: Int, duration: Int) {\n        // TODO("Use some animation")\n    }\n\n}</code></pre><p class="graf--p">Here, we are having two functions called <code class="graf--code-inline">animateContentIn</code> and <code class="graf--code-inline">animateContentOut</code>, these are used to have some animation when the content of the Snackbar is appearing and disappearing from the screen.</p><p class="graf--p">Now, our custom view is ready and we can use this view in any layout file. So, we are going to use this in our <code class="graf--code-inline">layout_custom_snackbar</code>. The code for the same will be:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;com.example.snackbarexample.CustomSnackbarView xmlns:android="http://schemas.android.com/apk/res/android"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent" /&gt;</code></pre><p class="graf--p">And finally, the code for the <code class="graf--code-inline">CustomSnackbar</code> will be:</p><pre><code class="language-java graf graf--code">class CustomSnackbar(\n    parent: ViewGroup,\n    content: CustomSnackbarView\n) : BaseTransientBottomBar&lt;CustomSnackbar&gt;(parent, content, content) {\n\n    init {\n        getView().setBackgroundColor(\n            ContextCompat.getColor(\n                view.context,\n                android.R.color.transparent\n            )\n        )\n        getView().setPadding(0, 0, 0, 0)\n    }\n\n    companion object {\n\n        fun make(viewGroup: ViewGroup): CustomSnackbar {\n            val customView = LayoutInflater.from(viewGroup.context).inflate(\n                R.layout.layout_custom_snackbar,\n                viewGroup,\n                false\n            ) as CustomSnackbarView\n\n            customView.tvMessage.text = "Some Custom Message"\n\n            return CustomSnackbar(viewGroup, customView)\n        }\n        \n    }\n\n}</code></pre><p class="graf--p">Here, you can customize the content of the Snackbar in the code itself i.e. you can change the text message or you can change the image also. By default, the background of the Snackbar will be grey. So, in the <code class="graf--code-inline">init</code> block, we have made it transparent.</p><p class="graf--p">Now, you can use this class by calling the <code class="graf--code-inline">make</code> method(by passing the parent view group) just like the normal Snackbar. For example, you can call this class by:</p><pre><code class="language-java graf graf--code">CustomSnackbar.make(window.decorView.rootView as ViewGroup).show()</code></pre><p class="graf--p">This is as simple as calling a normal Snackbar. Here is what you get when you use the above code:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/custom-snackbar-example-c7b454269523f272.jpg alt="Custom Snackbar Example" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So, in this way you can make a custom Snackbar of your own.</p><p class="graf--p">Hope you learned something new today. </p><p class="graf--p">Happy Learning!</p>',author:17146,img_url:"/images/custom-snackbar-banner-086294ce72839321.png",blog_url:"custom-snackbar",likes:0,rank:0,category:1,published_at:"24th September 2020"},author:{id:17146,name:"Sumit Mishra",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Software Development Engineer at MindOrks",fb_profile_url:"https://www.facebook.com/mishra3452",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hiii_sumit",github_profile_url:"https://github.com/mishra3452",linkedin_profile_url:"https://www.linkedin.com/in/sumit-mishra-a15499135/"},isFetching:!1,similarBlogs:[{id:217,title:"Android Browser: Let’s Launch Chrome Custom Tabs with Kotlin",description:"Google had launched a library called chrome custom tabs. As a developer, we have an option to open an in-app browser for better user experience. Chrome Custom Tabs helps us to open web URLs within the context of our app using an installed chrome browser.",author:7037,img_url:"/images/Powerpuff_girls_characters.jpg",blog_url:"android-browser-lets-launch-chrome-custom-tabs-with-kotlin",likes:0,rank:0,category:1,published_at:"11th February 2019",score:2.0165717601776123},{id:238,title:"Using Custom and Downloadable Fonts in Android",description:"In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.",author:14897,img_url:"/images/downloadable-font-banner.png",blog_url:"using-custom-and-downloadable-fonts-in-android",likes:0,rank:0,category:1,published_at:"16th May 2019",score:2.0165717601776123},{id:239,title:"Create your own Custom View",description:"In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views.",author:14897,img_url:"/images/custom-view.jpg",blog_url:"create-your-own-custom-view",likes:0,rank:0,category:1,published_at:"17th May 2019",score:2.0073940753936768},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.01835518702864647},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Sumit Mishra" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300"/>
+          <div class="content">
+           Sumit Mishra
+           <div class="sub header" style="margin-top:5px">
+            24th September 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Custom Snackbar in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Custom Snackbar Banner" class="graf-image" src="/images/custom-snackbar-banner-086294ce72839321.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Snackbars are quite common in Android applications. Almost every application uses Snackbars for displaying some information about what's going on in the app. You can treat a Snackbar as an alternative or simply a better version of Toasts in Android.
+                 </p>
+                 <p class="graf--p">
+                  By default, a Snackbar is shown at the bottom of the screen and it appears on top of all the elements that are present on the screen. It is associated with some view and the Snackbar will be shown only when the view is there on the screen.
+                 </p>
+                 <p class="graf--p">
+                  So, overall we can say that Snackbars are awesome. But to increase this awesomeness to the next level we can customize the Snackbar according to our need. In this blog, we will learn how to make a custom Snackbar in Android. So, let's get started with normal Snackbar.
+                 </p>
+                 <h2 class="graf--h2">
+                  Using Normal Snackbar
+                 </h2>
+                 <p class="graf--p">
+                  To use a Snackbar in your app, all you need to do is have the Material Design dependency in your app. So, add the below dependency in you
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation "com.google.android.material:$latest_version"</code></pre>
+                 <p class="graf--p">
+                  And then you can use the Snackbar just like a Toast. For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">Snackbar.make(view, "Show some message here", Snackbar.LENGTH_SHORT).show()</code></pre>
+                 <p class="graf--p">
+                  The above code will show a simple message in the Snackbar. There are some functions that are available with Snackbar. For example:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    setAction():
+                   </b>
+                   This can be used to have some action on the Snackbar. For example, you can use a Snackbar to display a network error message and have an action called Retry.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    setBackgroundColor():
+                   </b>
+                   This can be used to change the background color of the Snackbar.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    setAnchorView():
+                   </b>
+                   By default, the Snackbar appears at the bottom of the screen. But you can change its position with the help of
+                   <code class="graf--code-inline">
+                    setAnchorView
+                   </code>
+                   function.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  There are other functions as well that can be used with Snackbar. You can find those methods form the
+                  <a class="markup--anchor" href="https://material.io/develop/android/components/snackbars" target="_blank">
+                   Material Design Website
+                  </a>
+                  .
+                 </p>
+                 <h2 class="graf--h2">
+                  Custom Snackbar
+                 </h2>
+                 <p class="graf--p">
+                  Now, its time to create our own Snackbar.
+                 </p>
+                 <p class="graf--p">
+                  So, the very first thing that we are going to do is create a custom layout for the Snackbar. So, for that, we need to create some files. Create two classes named
+                  <code class="graf--code-inline">
+                   CustomSnackbar
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   CustomSnackbarView
+                  </code>
+                  . After that, create two XML files named
+                  <code class="graf--code-inline">
+                   item_custom_snackbar
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   layout_custom_snackbar
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  The
+                  <code class="graf--code-inline">
+                   item_custom_snackbar
+                  </code>
+                  will contain the elements of the Snackbar. Here, we will have one text view and one image view in the Snackbar. You can change the UI as per your need. So, the code for the
+                  <code class="graf--code-inline">
+                   item_custom_snackbar
+                  </code>
+                  will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"&gt;
+
+    &lt;ImageView
+        android:id="@+id/ivCheck"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_check_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+    &lt;TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="Payment Successful!"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivCheck"
+        app:layout_constraintStart_toStartOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, to create the custom Snackbar view, you need to implement the
+                  <code class="graf--code-inline">
+                   ContentViewCallback
+                  </code>
+                  . This is used to tell when the content of the Snackbar starts appearing and when it is disappearing from the screen. So, the code of the
+                  <code class="graf--code-inline">
+                   CustomSnackbarView
+                  </code>
+                  will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class CustomSnackbarView @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null,
+    defaultStyle: Int = 0
+) : ConstraintLayout(context, attributeSet, defaultStyle), ContentViewCallback {
+
+    init {
+        View.inflate(context, R.layout.item_custom_snackbar, this)
+    }
+
+    override fun animateContentIn(delay: Int, duration: Int) {
+        // TODO("Use some animation")
+    }
+
+    override fun animateContentOut(delay: Int, duration: Int) {
+        // TODO("Use some animation")
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we are having two functions called
+                  <code class="graf--code-inline">
+                   animateContentIn
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   animateContentOut
+                  </code>
+                  , these are used to have some animation when the content of the Snackbar is appearing and disappearing from the screen.
+                 </p>
+                 <p class="graf--p">
+                  Now, our custom view is ready and we can use this view in any layout file. So, we are going to use this in our
+                  <code class="graf--code-inline">
+                   layout_custom_snackbar
+                  </code>
+                  . The code for the same will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;com.example.snackbarexample.CustomSnackbarView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" /&gt;</code></pre>
+                 <p class="graf--p">
+                  And finally, the code for the
+                  <code class="graf--code-inline">
+                   CustomSnackbar
+                  </code>
+                  will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class CustomSnackbar(
+    parent: ViewGroup,
+    content: CustomSnackbarView
+) : BaseTransientBottomBar&lt;CustomSnackbar&gt;(parent, content, content) {
+
+    init {
+        getView().setBackgroundColor(
+            ContextCompat.getColor(
+                view.context,
+                android.R.color.transparent
+            )
+        )
+        getView().setPadding(0, 0, 0, 0)
+    }
+
+    companion object {
+
+        fun make(viewGroup: ViewGroup): CustomSnackbar {
+            val customView = LayoutInflater.from(viewGroup.context).inflate(
+                R.layout.layout_custom_snackbar,
+                viewGroup,
+                false
+            ) as CustomSnackbarView
+
+            customView.tvMessage.text = "Some Custom Message"
+
+            return CustomSnackbar(viewGroup, customView)
+        }
+        
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here, you can customize the content of the Snackbar in the code itself i.e. you can change the text message or you can change the image also. By default, the background of the Snackbar will be grey. So, in the
+                  <code class="graf--code-inline">
+                   init
+                  </code>
+                  block, we have made it transparent.
+                 </p>
+                 <p class="graf--p">
+                  Now, you can use this class by calling the
+                  <code class="graf--code-inline">
+                   make
+                  </code>
+                  method(by passing the parent view group) just like the normal Snackbar. For example, you can call this class by:
+                 </p>
+                 <pre><code class="language-java graf graf--code">CustomSnackbar.make(window.decorView.rootView as ViewGroup).show()</code></pre>
+                 <p class="graf--p">
+                  This is as simple as calling a normal Snackbar. Here is what you get when you use the above code:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Custom Snackbar Example" class="graf-image" src="/images/custom-snackbar-example-c7b454269523f272.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  So, in this way you can make a custom Snackbar of your own.
+                 </p>
+                 <p class="graf--p">
+                  Hope you learned something new today.
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning!
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Browser: Let’s Launch Chrome Custom Tabs with Kotlin" class="ui centered image" src="/images/Powerpuff_girls_characters.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Browser: Let’s Launch Chrome Custom Tabs with Kotlin
+           </div>
+           <div class="meta">
+            11th February 2019
+           </div>
+           <div class="description">
+            Google had launched a library called chrome custom tabs. As a developer, we have an option to open an in-app browser for better user experience. Chrome Custom Tabs helps us to open web URLs within the context of our app using an installed chrome browser.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Custom and Downloadable Fonts in Android" class="ui centered image" src="/images/downloadable-font-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Custom and Downloadable Fonts in Android
+           </div>
+           <div class="meta">
+            16th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Create your own Custom View" class="ui centered image" src="/images/custom-view.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Create your own Custom View
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the custom view and how to implement it as one. We will talk about each and every aspect of CustomView like onDraw(), onMeasure(), Why it is necessary and how simply you can create your own Views.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

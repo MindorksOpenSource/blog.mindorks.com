@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Using Dagger in a Multi-Module Project
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/dagger-in-a-multi-module-project" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Using Dagger in a Multi-Module Project" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/dagger-in-a-multi-module-project" property="og:url"/>
+  <meta content="/images/using-dagger-multi-module-banner-a470a36d17d373f4.png" property="og:image"/>
+  <meta content="In this blog, we are going to learn how we can use dagger in a multi-module architecture in our project for better dependency management." property="og:description"/>
+  <meta content="Using Dagger in a Multi-Module Project" property="twitter:title"/>
+  <meta content="In this blog, we are going to learn how we can use dagger in a multi-module architecture in our project for better dependency management." name="twitter:description"/>
+  <meta content="/images/using-dagger-multi-module-banner-a470a36d17d373f4.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to learn how we can use dagger in a multi-module architecture in our project for better dependency management." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:446,data:{id:446,title:"Using Dagger in a Multi-Module Project",description:"In this blog, we are going to learn how we can use dagger in a multi-module architecture in our project for better dependency management.",text:'<h1 class="graf--h1">Using Dagger in a Multi-Module Project</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-dagger-multi-module-banner-a470a36d17d373f4.png class=\'graf-image\' alt=\'Using Dagger in a Multi-Module Project\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Using Dagger in our Android project helps us to manage dependencies in a very easy way. </p><p class="graf--p">So, a basic way to build our app is to have a single module called app and we have all of our code in the same package.</p><p class="graf--p">But, now let us say we are restructuring our app and designing our app using multi-module architecture. In this, we need to manage dependencies using Dagger as well.</p><p class="graf--p">In this blog, we are going to talk about how we can use Dagger for dependency management in a multi-module project.</p><p class="graf--p">We are going to learn,</p><ul><li>Dagger and its basics.</li><li>Designing a multi-module app.</li><li>Adding dagger to your multi-module architecture.</li></ul><h4 class="graf--h3">Dagger and it&#x27;s basic.</h4><p class="graf--p"><b class="graf--bold">Dagger </b>is a dependency injection framework for any project using Java/Android. For understanding the blog, you should have an idea about,</p><ul><li>Module</li><li>Component</li><li>Scopes</li></ul><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/a-complete-guide-to-learn-dagger-2-b4c7a570d99c">If you want to get started with Dagger, click here</a></p><h4 class="graf--h3">Designing a multi-module app.</h4><p class="graf--p">Designing a multi-module app can be broken down into modules based on some features or services. In this blog, we would have 4 modules to start off with.</p><p class="graf--p">One would be,</p><ul><li><b class="graf--bold">app</b>: Here app is the package created when creating the project.</li><li><b class="graf--bold">base</b>: It would be a module containing the common code for the project</li><li><b class="graf--bold">feature-one</b>: It would also be a module containing the code for a specific feature.</li><li><b class="graf--bold">feature-two</b>: It would also be a module containing the code for another feature.</li></ul><p class="graf--p">All the modules will be implemented in the app&#x27;s build.gradle like,</p><pre><code class="language-java graf graf--code">implementation project(\':base\')\nimplementation project(\':feature-one\')\nimplementation project(\':feature-two\')</code></pre><p class="graf--p">and both the feature modules also depend on the base module and will implement it in both the feature&#x27;s build.gradle file like,</p><pre><code class="language-java graf graf--code">implementation project(\':base\')</code></pre> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/project-structure-dagger-2-10c731182d27f5db.jpg class=\'graf-image\' alt=\'Using Dagger in a Multi-Module Project\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">This above figure shows the project structure and how we have structured the project.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/how-to-build-a-modular-android-app-architecture">To get an understanding and learn how to build an app in multi-module architecture, click here.</a></p><h4 class="graf--h3">Adding dagger to the app.</h4><p class="graf--p">Now, let us start setting up dagger in our project.</p><p class="graf--p">First, let&#x27;s setup out a base module. So, for that, we will add the dagger dependency into the base build.gradle file, </p><pre><code class="language-java graf graf--code">implementation "com.google.dagger:dagger:2.27"\nkapt "com.google.dagger:dagger-compiler:2.27"</code></pre><p class="graf--p">Now, we are going to create a package <code class="graf--code-inline">di</code> and it will have a BaseComponent and BaseModule. And we also need to provide network and database service from the base component itself.</p><p class="graf--p">Our BaseComponent would look like,</p><pre><code class="language-java graf graf--code">@Singleton\n@Component(modules = [BaseModule::class])\ninterface BaseComponent {\n\n    fun inject(app: Application)\n\n    fun getNetworkService(): NetworkService\n\n    fun getDatabaseService(): DatabaseService\n\n}</code></pre><p class="graf--p">and the BaseModule looks like,</p><pre><code class="language-java graf graf--code">@Module\nclass BaseModule {\n\n    @Provides\n    @Singleton\n    fun provideDatabaseService() =  DatabaseService()\n\n    @Provides\n    @Singleton\n    fun provideNetworkService() = NetworkService()\n}</code></pre><p class="graf--p">Here, the BaseComponent would be provided as dependencies for other modules like the app and its feature-module</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/feature-dependenct-base-d29d996b697942a8.jpg class=\'graf-image\' alt=\'Using Dagger in a Multi-Module Project\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Let&#x27;s design the first feature,</p><p class="graf--p">Before starting, first, let us add the dependency to both the features like,</p><pre><code class="language-java graf graf--code">implementation "com.google.dagger:dagger:2.27"\nkapt "com.google.dagger:dagger-compiler:2.27"</code></pre><p class="graf--p">First, we will create <code class="graf--code-inline">FeatureOneActivity</code>.</p><p class="graf--p">Now, inside <code class="graf--code-inline">di</code> package, we will create FeatureOneComponent which would get its dependency from BaseComponent like,</p><pre><code class="language-java graf graf--code">@FeatureOneScope\n@Component(\n    dependencies = [BaseComponent::class],\n    modules = [FeatureOneModule::class]\n)\ninterface FeatureOneComponent {\n\n    fun inject(activity: FeatureOneActivity)\n\n}</code></pre><p class="graf--p">and we will also create FeatureOneModule like,</p><pre><code class="language-java graf graf--code">@Module\nclass FeatureOneModule {\n}</code></pre><p class="graf--p">Here, you can see out FeatureOneComponent is scoped with FeatureOneScope. </p><p class="graf--p">This scoping means that the Component would be used inside the feature-one module. The FeatureOneScope looks like,</p><pre><code class="language-java graf graf--code">@Scope\n@Retention(AnnotationRetention.SOURCE)\nannotation class FeatureOneScope</code></pre><p class="graf--p">Similarly, for feature-two module we will quickly setup the required class, activity, and interface required. </p><p class="graf--p">It would also have a module, component, and scope.</p><p class="graf--p">FeatureTwoComponent would look like,</p><pre><code class="language-java graf graf--code">@FeatureTwoScope\n@Component(\n    dependencies = [BaseComponent::class],\n    modules = [FeatureTwoModule::class]\n)\ninterface FeatureTwoComponent {\n\n    fun inject(activity: FeatureTwoActivity)\n\n}</code></pre><p class="graf--p">FeatureTwoModule looks like,</p><pre><code class="language-java graf graf--code">@Module\nclass FeatureTwoModule {\n}</code></pre><p class="graf--p">and as you can see, FeatureTwoComponent is scoped to FeatureTwoScope which looks like,</p><pre><code class="language-java graf graf--code">@Scope\n@Retention(AnnotationRetention.SOURCE)\nannotation class FeatureTwoScope</code></pre><p class="graf--p">Now, let us setup the Application layer, with MainActivity and its Component and module. The app module will also have its application class.</p><p class="graf--p">MainActivityComponent would look like,</p><pre><code class="language-java graf graf--code">@MainActivityScope\n@Component(\n    dependencies = [BaseComponent::class],\n    modules = [MainActivityModule::class]\n)\ninterface MainActivityComponent {\n\n    fun inject(activity: MainActivity)\n\n}</code></pre><p class="graf--p">MainActivityModule would be,</p><pre><code class="language-java graf graf--code">@Module\nclass MainActivityModule {\n\n}</code></pre><p class="graf--p">and it would have its own scope as well like,</p><pre><code class="language-java graf graf--code">@Scope\n@Retention(AnnotationRetention.SOURCE)\nannotation class MainActivityScope</code></pre><p class="graf--p">We are done here setting up the modules with Dagger.</p><p class="graf--p">Now, to use the DatabaseService and NetworkService across all modules would require us to add dagger inside the Activity file as well.</p><p class="graf--p">In MainActivity we will update the code like,</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    @Inject\n    lateinit var databaseService: DatabaseService\n    @Inject\n    lateinit var networkService: NetworkService\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        DaggerMainActivityComponent\n            .builder()\n            .baseComponent(DaggerBaseComponent.builder().build())\n            .build()\n            .inject(this)\n\n    }\n}\n</code></pre><p class="graf--p">where I am injecting the databaseService and networkService.</p><p class="graf--p">Similarly, we will update the code for FeatureOneActivity like,</p><pre><code class="language-java graf graf--code">class FeatureOneActivity : AppCompatActivity() {\n\n    @Inject\n    lateinit var databaseService: DatabaseService\n\n    @Inject\n    lateinit var networkService: NetworkService\n\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_feature_one)\n\n        DaggerFeatureOneComponent\n            .builder()\n            .baseComponent(DaggerBaseComponent.builder().build())\n            .build()\n            .inject(this)\n\n    }\n}</code></pre><p class="graf--p">and for FeatureTwoActivity like,</p><pre><code class="language-java graf graf--code">class FeatureTwoActivity : AppCompatActivity() {\n\n    @Inject\n    lateinit var databaseService: DatabaseService\n    @Inject\n    lateinit var networkService: NetworkService\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_feature_two)\n\n        DaggerFeatureTwoComponent\n            .builder()\n            .baseComponent(DaggerBaseComponent.builder().build())\n            .build()\n            .inject(this)\n\n    }\n}</code></pre><p class="graf--p">Now, let us put a Log statement in <code class="graf--code-inline">MainActivity</code> and <code class="graf--code-inline">FeatureOneActivity</code> and start <code class="graf--code-inline">FeatureOneActivity</code> from MainActivity.</p><p class="graf--p">In MainActivity&#x27;s onCreate will add,</p><pre><code class="language-java graf graf--code">Log.d("DaggerSample_Main", databaseService.toString())\nstartActivity(Intent(this, FeatureOneActivity::class.java))</code></pre><p class="graf--p">and similarly for FeatureOneActivity as well, will add,</p><pre><code class="language-java graf graf--code">Log.d("DaggerSample_FeatureOne", databaseService.toString())</code></pre><p class="graf--p">Now, when we run the app we see in the Logcat,</p><pre><code class="language-java graf graf--code">DaggerSample_Main: com.mindorks.dagger.multi.module.base.data.DatabaseService@63d3f1\nDaggerSample_FeatureOne: com.mindorks.dagger.multi.module.base.data.DatabaseService@e4bb6c2\n</code></pre><p class="graf--p">Here, you can see two different memory address is allocated for the dabaseService when injecting in MainActivity and FeatureOneActivity respectively.</p><p class="graf--p">But we want to share the same instance across the application. In this case, using <code class="graf--code-inline">@Singleton </code>would also not be of any success.</p><p class="graf--p">The reason here is, we are creating a new instance of <code class="graf--code-inline">BaseComponent</code> every time we are passing it as a dependency to other Components like,</p><pre><code class="language-java graf graf--code">DaggerBaseComponent.builder().build()</code></pre><p class="graf--p"><b class="graf--bold">Solution:</b></p><p class="graf--p">We need to share the instance of <code class="graf--code-inline">BaseComponent</code> across the application so that we don&#x27;t create a new instance of BaseComponent whenever we have to use it.</p><p class="graf--p">For that, we will create an interface in our base module like,</p><pre><code class="language-java graf graf--code">interface BaseComponentProvider {\n\n    fun provideBaseComponent(): BaseComponent\n\n}</code></pre><p class="graf--p">Now, this interface would be implemented by the Application class which we created in our app module like,</p><pre><code class="language-java graf graf--code">class MyApplication : Application(), BaseComponentProvider {\n\n\n    override fun onCreate() {\n        super.onCreate()\n   \n    }\n\n    override fun provideBaseComponent(): BaseComponent {\n    }\n\n}</code></pre><p class="graf--p">In this, we need to return <code class="graf--code-inline">baseComponent</code> instance. So, to return the instances of <code class="graf--code-inline">baseComponent</code> in  provideBaseComponent function, we will update the code as,</p><pre><code class="language-java graf graf--code">class MyApplication : Application(), BaseComponentProvider {\n\n    lateinit var baseComponent: BaseComponent\n\n    override fun onCreate() {\n        super.onCreate()\n\n        baseComponent = DaggerBaseComponent\n            .builder()\n            .baseModule(BaseModule())\n            .build()\n        baseComponent.inject(this)\n    }\n\n    override fun provideBaseComponent(): BaseComponent {\n        return baseComponent\n    }\n\n}</code></pre><p class="graf--p">Here, we created the baseComponent variable and returned it from provideBaseComponent function.</p><p class="graf--p">Now, to share the <code class="graf--code-inline">baseComponent</code> to other modules, we will create an <code class="graf--code-inline">InjectUtils</code> singleton in the base module that will have a function which returns BaseComponent like,</p><pre><code class="language-java graf graf--code">object InjectUtils {\n\n    fun provideBaseComponent(applicationContext: Context): BaseComponent {\n        return if (applicationContext is BaseComponentProvider) {\n            (applicationContext as BaseComponentProvider).provideBaseComponent()\n        } else {\n            throw IllegalStateException("Provide the application context which implement BaseComponentProvider")\n        }\n    }\n\n}</code></pre><p class="graf--p">Here, we created a function provideBaseComponent which takes the context as a parameter. </p><p class="graf--p">In this, we would be using it in other activities, which have their components dependent upon BaseComponent.</p><p class="graf--p">So, in InjectUtils, we check if the applicationContext provided by the other modules implements the <code class="graf--code-inline">BaseComponentProvider</code> or not. If yes, we get the <code class="graf--code-inline">baseComponent</code> and then use it with other modules else we throw an exception.</p><p class="graf--p">Now, in all the activities we update our code. In MainActivity we update code like,</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    @Inject\n    lateinit var databaseService: DatabaseService\n    @Inject\n    lateinit var networkService: NetworkService\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        DaggerMainActivityComponent\n            .builder()\n            .baseComponent(InjectUtils.provideBaseComponent(applicationContext))\n            .build()\n            .inject(this)\n        Log.d("DaggerSample_Main", databaseService.toString())\n        startActivity(Intent(this,FeatureOneActivity::class.java))\n\n    }\n}</code></pre><p class="graf--p">In FeatureOneActivity, we update the code like,</p><pre><code class="language-java graf graf--code">class FeatureOneActivity : AppCompatActivity() {\n\n    @Inject\n    lateinit var databaseService: DatabaseService\n\n    @Inject\n    lateinit var networkService: NetworkService\n\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_feature_one)\n\n        DaggerFeatureOneComponent\n            .builder()\n            .baseComponent(InjectUtils.provideBaseComponent(applicationContext))\n            .build()\n            .inject(this)\n        Log.d("DaggerSample_FeatureOne", databaseService.toString())\n\n    }\n}\n</code></pre><p class="graf--p">and similarly, for FeatureTwoActivity, we update the code like,</p><pre><code class="language-java graf graf--code">class FeatureTwoActivity : AppCompatActivity() {\n\n    @Inject\n    lateinit var databaseService: DatabaseService\n\n    @Inject\n    lateinit var networkService: NetworkService\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_feature_two)\n\n        DaggerFeatureTwoComponent\n            .builder()\n            .baseComponent(InjectUtils.provideBaseComponent(applicationContext))\n            .build()\n            .inject(this)\n        Log.d("DaggerSample_FeatureTwo", databaseService.toString())\n\n    }\n}</code></pre><p class="graf--p">In all of the activity, we can see we replaced the,</p><pre><code class="language-java graf graf--code">DaggerBaseComponent.builder().build()</code></pre><p class="graf--p">with,</p><pre><code class="language-java graf graf--code">InjectUtils.provideBaseComponent(applicationContext)</code></pre><p class="graf--p">Here, you can see we are passing the application context of the application. The application class has implemented the <b class="graf--bold">BaseComponentProvider</b> interface which is helping us to return the baseComponent across other modules.</p><p class="graf--p">And now if we run the app and check the Logcat, we will see,</p><pre><code class="language-java graf graf--code">DaggerSample_Main: com.mindorks.dagger.multi.module.base.data.DatabaseService@63d3f1\nDaggerSample_FeatureOne: com.mindorks.dagger.multi.module.base.data.DatabaseService@63d3f1</code></pre><p class="graf--p">Here, you can see we now have the same memory address located to both the DatabaseService instance in the app&#x27;s MainActivity and in FeatureOneActivity.</p><p class="graf--p">This means that the same instance is used across all the modules in the app.</p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">So, to use dagger in a project which is multi-modular, we need to make sure that we pass the instance of BaseComponent across the app. </p><p class="graf--p">So, this is how you can use Dagger in a multi-module app architecture which will help us to manage dependency in an efficient way.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/Dagger-Multi-Module-Android">You find the complete code here.</a></p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://mindorks.com/android-tutorial">Check out the free android tutorials by MindOrks</a>.</p><blockquote class="graf--blockquote"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/dagger-in-dynamic-feature-module">You can learn how to use dagger in dynamic feature module here.</a></blockquote><p class="graf--p">Happy learning.</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/using-dagger-multi-module-banner-a470a36d17d373f4.png",blog_url:"dagger-in-a-multi-module-project",likes:0,rank:0,category:1,published_at:"17th May 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:390,title:"What is Flow in Kotlin and How to use it in Android Project?",description:"What is Flow in Kotlin and How to use it in Android Project? In this blog we will learn what is the need of Flow in Kotlin and its explaination.",author:9959,img_url:"/images/kotlin-flow-banner-image.png",blog_url:"what-is-flow-in-kotlin-and-how-to-use-it-in-android-project",likes:0,rank:0,category:1,published_at:"7th January 2020",score:3.587033748626709},{id:429,title:"Why do we use the Dependency Injection Framework like Dagger in Android?",description:"In this blog, we are going to see why do we use the Dependency Injection Framework like Dagger in Android. We will also see how can we give our configuration to the framework.",author:9959,img_url:"/images/dagger-banner-why.jpg",blog_url:"why-do-we-use-the-dependency-injection-framework-in-android",likes:0,rank:0,category:1,published_at:"28th April 2020",score:1.8798271417617798},{id:474,title:"Dagger Hilt Tutorial - Step by Step Guide",description:"In this blog, we are going to see how to work with Dagger-Hilt, the new dependency injection library based on top of Dagger with a step by step guide. Dagger-Hilt is recommended by Google for dependency injection in Android.",author:9959,img_url:"/images/banner-dagger-hilt-d089fd89370529ef.png",blog_url:"dagger-hilt-tutorial",likes:0,rank:0,category:1,published_at:"15th June 2020",score:1.8798271417617798},{id:234,title:"Push Notifications in Android Using FCM",description:"In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.",author:14897,img_url:"/images/fcm.jpg",blog_url:"pushing-notifications-in-android-using-fcm",likes:0,rank:0,category:1,published_at:"15th May 2019",score:.3190983235836029},{id:238,title:"Using Custom and Downloadable Fonts in Android",description:"In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.",author:14897,img_url:"/images/downloadable-font-banner.png",blog_url:"using-custom-and-downloadable-fonts-in-android",likes:0,rank:0,category:1,published_at:"16th May 2019",score:.3190983235836029},{id:244,title:"Using Swipe-to-refresh in Android Application",description:"In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.",author:14897,img_url:"/images/swipe-to-refresh-banner.png",blog_url:"using-swipe-to-refresh-in-android-application",likes:0,rank:0,category:1,published_at:"21st May 2019",score:.3190983235836029}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            17th May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Using Dagger in a Multi-Module Project
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Dagger in a Multi-Module Project" class="graf-image" src="/images/using-dagger-multi-module-banner-a470a36d17d373f4.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Using Dagger in our Android project helps us to manage dependencies in a very easy way.
+                 </p>
+                 <p class="graf--p">
+                  So, a basic way to build our app is to have a single module called app and we have all of our code in the same package.
+                 </p>
+                 <p class="graf--p">
+                  But, now let us say we are restructuring our app and designing our app using multi-module architecture. In this, we need to manage dependencies using Dagger as well.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we are going to talk about how we can use Dagger for dependency management in a multi-module project.
+                 </p>
+                 <p class="graf--p">
+                  We are going to learn,
+                 </p>
+                 <ul>
+                  <li>
+                   Dagger and its basics.
+                  </li>
+                  <li>
+                   Designing a multi-module app.
+                  </li>
+                  <li>
+                   Adding dagger to your multi-module architecture.
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Dagger and it's basic.
+                 </h4>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Dagger
+                  </b>
+                  is a dependency injection framework for any project using Java/Android. For understanding the blog, you should have an idea about,
+                 </p>
+                 <ul>
+                  <li>
+                   Module
+                  </li>
+                  <li>
+                   Component
+                  </li>
+                  <li>
+                   Scopes
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/a-complete-guide-to-learn-dagger-2-b4c7a570d99c" target="_blank">
+                   If you want to get started with Dagger, click here
+                  </a>
+                 </p>
+                 <h4 class="graf--h3">
+                  Designing a multi-module app.
+                 </h4>
+                 <p class="graf--p">
+                  Designing a multi-module app can be broken down into modules based on some features or services. In this blog, we would have 4 modules to start off with.
+                 </p>
+                 <p class="graf--p">
+                  One would be,
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    app
+                   </b>
+                   : Here app is the package created when creating the project.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    base
+                   </b>
+                   : It would be a module containing the common code for the project
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    feature-one
+                   </b>
+                   : It would also be a module containing the code for a specific feature.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    feature-two
+                   </b>
+                   : It would also be a module containing the code for another feature.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  All the modules will be implemented in the app's build.gradle like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation project(':base')
+implementation project(':feature-one')
+implementation project(':feature-two')</code></pre>
+                 <p class="graf--p">
+                  and both the feature modules also depend on the base module and will implement it in both the feature's build.gradle file like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation project(':base')</code></pre>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Dagger in a Multi-Module Project" class="graf-image" src="/images/project-structure-dagger-2-10c731182d27f5db.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  This above figure shows the project structure and how we have structured the project.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/how-to-build-a-modular-android-app-architecture" target="_blank">
+                   To get an understanding and learn how to build an app in multi-module architecture, click here.
+                  </a>
+                 </p>
+                 <h4 class="graf--h3">
+                  Adding dagger to the app.
+                 </h4>
+                 <p class="graf--p">
+                  Now, let us start setting up dagger in our project.
+                 </p>
+                 <p class="graf--p">
+                  First, let's setup out a base module. So, for that, we will add the dagger dependency into the base build.gradle file,
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation "com.google.dagger:dagger:2.27"
+kapt "com.google.dagger:dagger-compiler:2.27"</code></pre>
+                 <p class="graf--p">
+                  Now, we are going to create a package
+                  <code class="graf--code-inline">
+                   di
+                  </code>
+                  and it will have a BaseComponent and BaseModule. And we also need to provide network and database service from the base component itself.
+                 </p>
+                 <p class="graf--p">
+                  Our BaseComponent would look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Singleton
+@Component(modules = [BaseModule::class])
+interface BaseComponent {
+
+    fun inject(app: Application)
+
+    fun getNetworkService(): NetworkService
+
+    fun getDatabaseService(): DatabaseService
+
+}</code></pre>
+                 <p class="graf--p">
+                  and the BaseModule looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+class BaseModule {
+
+    @Provides
+    @Singleton
+    fun provideDatabaseService() =  DatabaseService()
+
+    @Provides
+    @Singleton
+    fun provideNetworkService() = NetworkService()
+}</code></pre>
+                 <p class="graf--p">
+                  Here, the BaseComponent would be provided as dependencies for other modules like the app and its feature-module
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Dagger in a Multi-Module Project" class="graf-image" src="/images/feature-dependenct-base-d29d996b697942a8.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Let's design the first feature,
+                 </p>
+                 <p class="graf--p">
+                  Before starting, first, let us add the dependency to both the features like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation "com.google.dagger:dagger:2.27"
+kapt "com.google.dagger:dagger-compiler:2.27"</code></pre>
+                 <p class="graf--p">
+                  First, we will create
+                  <code class="graf--code-inline">
+                   FeatureOneActivity
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Now, inside
+                  <code class="graf--code-inline">
+                   di
+                  </code>
+                  package, we will create FeatureOneComponent which would get its dependency from BaseComponent like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@FeatureOneScope
+@Component(
+    dependencies = [BaseComponent::class],
+    modules = [FeatureOneModule::class]
+)
+interface FeatureOneComponent {
+
+    fun inject(activity: FeatureOneActivity)
+
+}</code></pre>
+                 <p class="graf--p">
+                  and we will also create FeatureOneModule like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+class FeatureOneModule {
+}</code></pre>
+                 <p class="graf--p">
+                  Here, you can see out FeatureOneComponent is scoped with FeatureOneScope.
+                 </p>
+                 <p class="graf--p">
+                  This scoping means that the Component would be used inside the feature-one module. The FeatureOneScope looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Scope
+@Retention(AnnotationRetention.SOURCE)
+annotation class FeatureOneScope</code></pre>
+                 <p class="graf--p">
+                  Similarly, for feature-two module we will quickly setup the required class, activity, and interface required.
+                 </p>
+                 <p class="graf--p">
+                  It would also have a module, component, and scope.
+                 </p>
+                 <p class="graf--p">
+                  FeatureTwoComponent would look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@FeatureTwoScope
+@Component(
+    dependencies = [BaseComponent::class],
+    modules = [FeatureTwoModule::class]
+)
+interface FeatureTwoComponent {
+
+    fun inject(activity: FeatureTwoActivity)
+
+}</code></pre>
+                 <p class="graf--p">
+                  FeatureTwoModule looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+class FeatureTwoModule {
+}</code></pre>
+                 <p class="graf--p">
+                  and as you can see, FeatureTwoComponent is scoped to FeatureTwoScope which looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Scope
+@Retention(AnnotationRetention.SOURCE)
+annotation class FeatureTwoScope</code></pre>
+                 <p class="graf--p">
+                  Now, let us setup the Application layer, with MainActivity and its Component and module. The app module will also have its application class.
+                 </p>
+                 <p class="graf--p">
+                  MainActivityComponent would look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@MainActivityScope
+@Component(
+    dependencies = [BaseComponent::class],
+    modules = [MainActivityModule::class]
+)
+interface MainActivityComponent {
+
+    fun inject(activity: MainActivity)
+
+}</code></pre>
+                 <p class="graf--p">
+                  MainActivityModule would be,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Module
+class MainActivityModule {
+
+}</code></pre>
+                 <p class="graf--p">
+                  and it would have its own scope as well like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Scope
+@Retention(AnnotationRetention.SOURCE)
+annotation class MainActivityScope</code></pre>
+                 <p class="graf--p">
+                  We are done here setting up the modules with Dagger.
+                 </p>
+                 <p class="graf--p">
+                  Now, to use the DatabaseService and NetworkService across all modules would require us to add dagger inside the Activity file as well.
+                 </p>
+                 <p class="graf--p">
+                  In MainActivity we will update the code like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var databaseService: DatabaseService
+    @Inject
+    lateinit var networkService: NetworkService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        DaggerMainActivityComponent
+            .builder()
+            .baseComponent(DaggerBaseComponent.builder().build())
+            .build()
+            .inject(this)
+
+    }
+}
+</code></pre>
+                 <p class="graf--p">
+                  where I am injecting the databaseService and networkService.
+                 </p>
+                 <p class="graf--p">
+                  Similarly, we will update the code for FeatureOneActivity like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class FeatureOneActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var databaseService: DatabaseService
+
+    @Inject
+    lateinit var networkService: NetworkService
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_feature_one)
+
+        DaggerFeatureOneComponent
+            .builder()
+            .baseComponent(DaggerBaseComponent.builder().build())
+            .build()
+            .inject(this)
+
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  and for FeatureTwoActivity like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class FeatureTwoActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var databaseService: DatabaseService
+    @Inject
+    lateinit var networkService: NetworkService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_feature_two)
+
+        DaggerFeatureTwoComponent
+            .builder()
+            .baseComponent(DaggerBaseComponent.builder().build())
+            .build()
+            .inject(this)
+
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, let us put a Log statement in
+                  <code class="graf--code-inline">
+                   MainActivity
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   FeatureOneActivity
+                  </code>
+                  and start
+                  <code class="graf--code-inline">
+                   FeatureOneActivity
+                  </code>
+                  from MainActivity.
+                 </p>
+                 <p class="graf--p">
+                  In MainActivity's onCreate will add,
+                 </p>
+                 <pre><code class="language-java graf graf--code">Log.d("DaggerSample_Main", databaseService.toString())
+startActivity(Intent(this, FeatureOneActivity::class.java))</code></pre>
+                 <p class="graf--p">
+                  and similarly for FeatureOneActivity as well, will add,
+                 </p>
+                 <pre><code class="language-java graf graf--code">Log.d("DaggerSample_FeatureOne", databaseService.toString())</code></pre>
+                 <p class="graf--p">
+                  Now, when we run the app we see in the Logcat,
+                 </p>
+                 <pre><code class="language-java graf graf--code">DaggerSample_Main: com.mindorks.dagger.multi.module.base.data.DatabaseService@63d3f1
+DaggerSample_FeatureOne: com.mindorks.dagger.multi.module.base.data.DatabaseService@e4bb6c2
+</code></pre>
+                 <p class="graf--p">
+                  Here, you can see two different memory address is allocated for the dabaseService when injecting in MainActivity and FeatureOneActivity respectively.
+                 </p>
+                 <p class="graf--p">
+                  But we want to share the same instance across the application. In this case, using
+                  <code class="graf--code-inline">
+                   @Singleton
+                  </code>
+                  would also not be of any success.
+                 </p>
+                 <p class="graf--p">
+                  The reason here is, we are creating a new instance of
+                  <code class="graf--code-inline">
+                   BaseComponent
+                  </code>
+                  every time we are passing it as a dependency to other Components like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">DaggerBaseComponent.builder().build()</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Solution:
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  We need to share the instance of
+                  <code class="graf--code-inline">
+                   BaseComponent
+                  </code>
+                  across the application so that we don't create a new instance of BaseComponent whenever we have to use it.
+                 </p>
+                 <p class="graf--p">
+                  For that, we will create an interface in our base module like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">interface BaseComponentProvider {
+
+    fun provideBaseComponent(): BaseComponent
+
+}</code></pre>
+                 <p class="graf--p">
+                  Now, this interface would be implemented by the Application class which we created in our app module like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MyApplication : Application(), BaseComponentProvider {
+
+
+    override fun onCreate() {
+        super.onCreate()
+   
+    }
+
+    override fun provideBaseComponent(): BaseComponent {
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  In this, we need to return
+                  <code class="graf--code-inline">
+                   baseComponent
+                  </code>
+                  instance. So, to return the instances of
+                  <code class="graf--code-inline">
+                   baseComponent
+                  </code>
+                  in  provideBaseComponent function, we will update the code as,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MyApplication : Application(), BaseComponentProvider {
+
+    lateinit var baseComponent: BaseComponent
+
+    override fun onCreate() {
+        super.onCreate()
+
+        baseComponent = DaggerBaseComponent
+            .builder()
+            .baseModule(BaseModule())
+            .build()
+        baseComponent.inject(this)
+    }
+
+    override fun provideBaseComponent(): BaseComponent {
+        return baseComponent
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we created the baseComponent variable and returned it from provideBaseComponent function.
+                 </p>
+                 <p class="graf--p">
+                  Now, to share the
+                  <code class="graf--code-inline">
+                   baseComponent
+                  </code>
+                  to other modules, we will create an
+                  <code class="graf--code-inline">
+                   InjectUtils
+                  </code>
+                  singleton in the base module that will have a function which returns BaseComponent like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">object InjectUtils {
+
+    fun provideBaseComponent(applicationContext: Context): BaseComponent {
+        return if (applicationContext is BaseComponentProvider) {
+            (applicationContext as BaseComponentProvider).provideBaseComponent()
+        } else {
+            throw IllegalStateException("Provide the application context which implement BaseComponentProvider")
+        }
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we created a function provideBaseComponent which takes the context as a parameter.
+                 </p>
+                 <p class="graf--p">
+                  In this, we would be using it in other activities, which have their components dependent upon BaseComponent.
+                 </p>
+                 <p class="graf--p">
+                  So, in InjectUtils, we check if the applicationContext provided by the other modules implements the
+                  <code class="graf--code-inline">
+                   BaseComponentProvider
+                  </code>
+                  or not. If yes, we get the
+                  <code class="graf--code-inline">
+                   baseComponent
+                  </code>
+                  and then use it with other modules else we throw an exception.
+                 </p>
+                 <p class="graf--p">
+                  Now, in all the activities we update our code. In MainActivity we update code like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var databaseService: DatabaseService
+    @Inject
+    lateinit var networkService: NetworkService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        DaggerMainActivityComponent
+            .builder()
+            .baseComponent(InjectUtils.provideBaseComponent(applicationContext))
+            .build()
+            .inject(this)
+        Log.d("DaggerSample_Main", databaseService.toString())
+        startActivity(Intent(this,FeatureOneActivity::class.java))
+
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In FeatureOneActivity, we update the code like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class FeatureOneActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var databaseService: DatabaseService
+
+    @Inject
+    lateinit var networkService: NetworkService
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_feature_one)
+
+        DaggerFeatureOneComponent
+            .builder()
+            .baseComponent(InjectUtils.provideBaseComponent(applicationContext))
+            .build()
+            .inject(this)
+        Log.d("DaggerSample_FeatureOne", databaseService.toString())
+
+    }
+}
+</code></pre>
+                 <p class="graf--p">
+                  and similarly, for FeatureTwoActivity, we update the code like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class FeatureTwoActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var databaseService: DatabaseService
+
+    @Inject
+    lateinit var networkService: NetworkService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_feature_two)
+
+        DaggerFeatureTwoComponent
+            .builder()
+            .baseComponent(InjectUtils.provideBaseComponent(applicationContext))
+            .build()
+            .inject(this)
+        Log.d("DaggerSample_FeatureTwo", databaseService.toString())
+
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In all of the activity, we can see we replaced the,
+                 </p>
+                 <pre><code class="language-java graf graf--code">DaggerBaseComponent.builder().build()</code></pre>
+                 <p class="graf--p">
+                  with,
+                 </p>
+                 <pre><code class="language-java graf graf--code">InjectUtils.provideBaseComponent(applicationContext)</code></pre>
+                 <p class="graf--p">
+                  Here, you can see we are passing the application context of the application. The application class has implemented the
+                  <b class="graf--bold">
+                   BaseComponentProvider
+                  </b>
+                  interface which is helping us to return the baseComponent across other modules.
+                 </p>
+                 <p class="graf--p">
+                  And now if we run the app and check the Logcat, we will see,
+                 </p>
+                 <pre><code class="language-java graf graf--code">DaggerSample_Main: com.mindorks.dagger.multi.module.base.data.DatabaseService@63d3f1
+DaggerSample_FeatureOne: com.mindorks.dagger.multi.module.base.data.DatabaseService@63d3f1</code></pre>
+                 <p class="graf--p">
+                  Here, you can see we now have the same memory address located to both the DatabaseService instance in the app's MainActivity and in FeatureOneActivity.
+                 </p>
+                 <p class="graf--p">
+                  This means that the same instance is used across all the modules in the app.
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  So, to use dagger in a project which is multi-modular, we need to make sure that we pass the instance of BaseComponent across the app.
+                 </p>
+                 <p class="graf--p">
+                  So, this is how you can use Dagger in a multi-module app architecture which will help us to manage dependency in an efficient way.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/MindorksOpenSource/Dagger-Multi-Module-Android" target="_blank">
+                   You find the complete code here.
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://mindorks.com/android-tutorial" target="_blank">
+                   Check out the free android tutorials by MindOrks
+                  </a>
+                  .
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/dagger-in-dynamic-feature-module" target="_blank">
+                   You can learn how to use dagger in dynamic feature module here.
+                  </a>
+                 </blockquote>
+                 <p class="graf--p">
+                  Happy learning.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="What is Flow in Kotlin and How to use it in Android Project?" class="ui centered image" src="/images/kotlin-flow-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            What is Flow in Kotlin and How to use it in Android Project?
+           </div>
+           <div class="meta">
+            7th January 2020
+           </div>
+           <div class="description">
+            What is Flow in Kotlin and How to use it in Android Project? In this blog we will learn what is the need of Flow in Kotlin and its explaination.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Why do we use the Dependency Injection Framework like Dagger in Android?" class="ui centered image" src="/images/dagger-banner-why.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Why do we use the Dependency Injection Framework like Dagger in Android?
+           </div>
+           <div class="meta">
+            28th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to see why do we use the Dependency Injection Framework like Dagger in Android. We will also see how can we give our configuration to the framework.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Dagger Hilt Tutorial - Step by Step Guide" class="ui centered image" src="/images/banner-dagger-hilt-d089fd89370529ef.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Dagger Hilt Tutorial - Step by Step Guide
+           </div>
+           <div class="meta">
+            15th June 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to see how to work with Dagger-Hilt, the new dependency injection library based on top of Dagger with a step by step guide. Dagger-Hilt is recommended by Google for dependency injection in Android.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Push Notifications in Android Using FCM" class="ui centered image" src="/images/fcm.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Push Notifications in Android Using FCM
+           </div>
+           <div class="meta">
+            15th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Custom and Downloadable Fonts in Android" class="ui centered image" src="/images/downloadable-font-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Custom and Downloadable Fonts in Android
+           </div>
+           <div class="meta">
+            16th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Swipe-to-refresh in Android Application" class="ui centered image" src="/images/swipe-to-refresh-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Swipe-to-refresh in Android Application
+           </div>
+           <div class="meta">
+            21st May 2019
+           </div>
+           <div class="description">
+            In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

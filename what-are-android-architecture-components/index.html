@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   What are Android Architecture Components?
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/what-are-android-architecture-components" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="What are Android Architecture Components?" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/what-are-android-architecture-components" property="og:url"/>
+  <meta content="/images/android-architecture-components.png" property="og:image"/>
+  <meta content="What are Android Architecture Components? As the Android Jetpack components are a collection of libraries that are individually adoptable and built to work together while taking advantage of Kotlin language features that make us more productive.These software components have been arranged in 4 categories in which one of the categories is Architecture Components. " property="og:description"/>
+  <meta content="What are Android Architecture Components?" property="twitter:title"/>
+  <meta content="What are Android Architecture Components? As the Android Jetpack components are a collection of libraries that are individually adoptable and built to work together while taking advantage of Kotlin language features that make us more productive.These software components have been arranged in 4 categories in which one of the categories is Architecture Components. " name="twitter:description"/>
+  <meta content="/images/android-architecture-components.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="What are Android Architecture Components? As the Android Jetpack components are a collection of libraries that are individually adoptable and built to work together while taking advantage of Kotlin language features that make us more productive.These software components have been arranged in 4 categories in which one of the categories is Architecture Components. " name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:211,data:{id:211,title:"What are Android Architecture Components?",description:"What are Android Architecture Components? As the Android Jetpack components are a collection of libraries that are individually adoptable and built to work together while taking advantage of Kotlin language features that make us more productive.These software components have been arranged in 4 categories in which one of the categories is Architecture Components. ",text:'<h1 class="graf--h1">What are Android Architecture Components?</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-architecture-components.png class=\'graf-image\' alt=\'What are Android Architecture Components?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Android Architecture Components are a part of <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/what-is-android-jetpack-and-why-should-we-use-it">Android Jetpack</a></b>.</p><p class="graf--p">As the <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/what-is-android-jetpack-and-why-should-we-use-it">Android Jetpack</a></b> components are a collection of libraries that are individually adoptable and built to work together while taking advantage of Kotlin language features that make us more productive.</p><p class="graf--p">These software components have been arranged in 4 categories in which one of the categories is Architecture Components. Other categories are Foundation Components, Behavior Components and UI Components.</p><p class="graf--p">Android architecture components are a collection of libraries that help us in the following:</p><ul><li>Building the robust Android application.</li><li>Building the testable Android application.</li><li>Building the maintainable Android Apps.</li></ul><p class="graf--p">Architecture components help in managing our UI component lifecycle and handling data persistence.</p><p class="graf--p">All the Android Architecture Components are as follows:</p><ul><li><span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/libraries/data-binding/">Data Binding</a></span>: It helps in declaratively binding UI elements to in our layout to data sources of our app.</li><li><span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/libraries/architecture/lifecycle">Lifecycles</a></span>: It manages activity and fragment lifecycles of our app, survives configuration changes, avoids memory leaks and easily loads data into our UI.</li><li><span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/libraries/architecture/livedata">LiveData</a></span>: It notifies views of any database changes. Use <span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/libraries/architecture/livedata">LiveData</a></span> to build data objects that notify views when the underlying database changes.</li><li><span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/libraries/architecture/navigation/">Navigation</a></span>: It handles everything needed for in-app navigation in Android application.</li><li><span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/libraries/architecture/paging/">Paging</a></span>: It helps in gradually loading information on demand from our data source.</li><li><span class=""><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/android-room-persistence-library-in-kotlin">Room</a></span>: It is a SQLite object mapping library. Use it to Avoid boilerplate code and easily convert SQLite table data to Java objects. Room provides compile time checks of SQLite statements and can return RxJava, Flowable and LiveData observables.</li><li><span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/libraries/architecture/viewmodel">ViewModel</a></span>: It manages UI-related data in a lifecycle-conscious way. It stores UI-related data that isn&#x27;t destroyed on app rotations.</li><li><span class=""><a class="markup--anchor" target="_blank" href="https://developer.android.com/topic/libraries/architecture/workmanager/">WorkManager</a></span>: It manages every background jobs in Android with the circumstances we choose.</li></ul><p class="graf--p">These are what the Android Architecture Components are.</p><p class="graf--p"><b class="graf--bold">What Next?</b></p><p class="graf--p">Here is a good video to watch on Android Architecture Components.</p><iframe class=\'iframeContainer graf--iframe\' type="text/html" width="100%" height="100%" src="https://www.youtube.com/embed/BofWWZE1wts?autoplay=false&rel=0&modestbranding=https://mindorks.com" frameBorder="0"></iframe><p class="graf--p"></p><p class="graf--p">Now, its time to get started with the Android Architecture Components in our projects.</p><p class="graf--p">The best way to start with it is to try it on the codelab directly from Google.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://codelabs.developers.google.com/codelabs/android-room-with-a-view">Here is the link to the codelab.</a></b></p><p class="graf--p"><b class="graf--bold">What you&#x27;ll learn</b></p><p class="graf--p">How to design and construct an app using the Architecture Components Room and Lifecycles libraries.</p><p class="graf--p">There are a lot of steps to using the Architecture Components and implementing the recommended architecture. The most important thing is to create a mental model of what is going on, and understand how the pieces fit together and how the data flows.</p><p class="graf--p">That&#x27;s it. Thanks for reading.</p>',author:30,img_url:"/images/android-architecture-components.png",blog_url:"what-are-android-architecture-components",likes:0,rank:0,category:1,published_at:"11th January 2019"},author:{id:30,name:"anand gaurav",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Gi0r3YB28BqOZQ1SKwqbfXOxd6t7kF3VjpRg1Yo=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/anandgaurav9295",google_plus_profile_url:"https://plus.google.com/113258745359241815300",twitter_profile_url:"https://twitter.com/anandgaurav9295",github_profile_url:"https://github.com/anandgaurav10",linkedin_profile_url:null},isFetching:!1,similarBlogs:[{id:190,title:"Android User Interface — View Components",description:"In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started.",author:14897,img_url:"/images/android-user-interface-view-components-banner.png",blog_url:"android-user-interface-view-components",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:4.294234275817871},{id:299,title:"Migrating to 64 bit Architecture in Android",description:"Recently Google announced that in Aug'19 Apps on the PlayStore should provide the subsequent version of 32-bit native libraries in 64 bit.  64 bit is supported since Android 5 (Lollipop) days.  In this blog, we will be learning how can we migrate an app from 32 bit to 64 bit. \n\n",author:9959,img_url:"/images/banner-migration.png",blog_url:"migrating-to-64bit-architecture-in-android",likes:0,rank:0,category:1,published_at:"23rd July 2019",score:1.589539647102356},{id:315,title:"How to build a Modular Android App Architecture?",description:"In this blog, we will learn how can we Build a Modular Android App Architecture. We will learn about dynamic-feature and dynamic delivery. We will also learn how can we use a library module to modularise the app's architecture",author:9959,img_url:"/images/banner-modular-arch.png",blog_url:"how-to-build-a-modular-android-app-architecture",likes:0,rank:0,category:1,published_at:"19th August 2019",score:1.589539647102356},{id:356,title:"MVC vs MVP vs MVVM architecture in Android",description:"This blog is to explore the knowledge of MVC, MVP and MVVM architecture in Android and know how they differ - MVC vs MVP vs MVVM.",author:17193,img_url:"/images/banner-android-architecture.jpg",blog_url:"mvc-mvp-mvvm-architecture-in-android",likes:0,rank:0,category:1,published_at:"7th October 2019",score:1.589539647102356},{id:485,title:"MVI Architecture - Android Tutorial for Beginners - Step By Step Guide",description:"In this tutorial, first, we are going to learn about the MVI architecture in Android, and then we will build a project with MVI architecture. This tutorial is for beginners who want to get started with the MVI architecture.",author:17597,img_url:"/images/mvi-6e0666a81fd24f41.png",blog_url:"mvi-architecture-android-tutorial-for-beginners-step-by-step-guide",likes:0,rank:0,category:1,published_at:"17th June 2020",score:1.589539647102356},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="anand gaurav" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Gi0r3YB28BqOZQ1SKwqbfXOxd6t7kF3VjpRg1Yo=s96-c?sz=300"/>
+          <div class="content">
+           anand gaurav
+           <div class="sub header" style="margin-top:5px">
+            11th January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  What are Android Architecture Components?
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="What are Android Architecture Components?" class="graf-image" src="/images/android-architecture-components.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Android Architecture Components are a part of
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://blog.mindorks.com/what-is-android-jetpack-and-why-should-we-use-it" target="_blank">
+                    Android Jetpack
+                   </a>
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  As the
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://blog.mindorks.com/what-is-android-jetpack-and-why-should-we-use-it" target="_blank">
+                    Android Jetpack
+                   </a>
+                  </b>
+                  components are a collection of libraries that are individually adoptable and built to work together while taking advantage of Kotlin language features that make us more productive.
+                 </p>
+                 <p class="graf--p">
+                  These software components have been arranged in 4 categories in which one of the categories is Architecture Components. Other categories are Foundation Components, Behavior Components and UI Components.
+                 </p>
+                 <p class="graf--p">
+                  Android architecture components are a collection of libraries that help us in the following:
+                 </p>
+                 <ul>
+                  <li>
+                   Building the robust Android application.
+                  </li>
+                  <li>
+                   Building the testable Android application.
+                  </li>
+                  <li>
+                   Building the maintainable Android Apps.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Architecture components help in managing our UI component lifecycle and handling data persistence.
+                 </p>
+                 <p class="graf--p">
+                  All the Android Architecture Components are as follows:
+                 </p>
+                 <ul>
+                  <li>
+                   <span class="">
+                    <a class="markup--anchor" href="https://developer.android.com/topic/libraries/data-binding/" target="_blank">
+                     Data Binding
+                    </a>
+                   </span>
+                   : It helps in declaratively binding UI elements to in our layout to data sources of our app.
+                  </li>
+                  <li>
+                   <span class="">
+                    <a class="markup--anchor" href="https://developer.android.com/topic/libraries/architecture/lifecycle" target="_blank">
+                     Lifecycles
+                    </a>
+                   </span>
+                   : It manages activity and fragment lifecycles of our app, survives configuration changes, avoids memory leaks and easily loads data into our UI.
+                  </li>
+                  <li>
+                   <span class="">
+                    <a class="markup--anchor" href="https://developer.android.com/topic/libraries/architecture/livedata" target="_blank">
+                     LiveData
+                    </a>
+                   </span>
+                   : It notifies views of any database changes. Use
+                   <span class="">
+                    <a class="markup--anchor" href="https://developer.android.com/topic/libraries/architecture/livedata" target="_blank">
+                     LiveData
+                    </a>
+                   </span>
+                   to build data objects that notify views when the underlying database changes.
+                  </li>
+                  <li>
+                   <span class="">
+                    <a class="markup--anchor" href="https://developer.android.com/topic/libraries/architecture/navigation/" target="_blank">
+                     Navigation
+                    </a>
+                   </span>
+                   : It handles everything needed for in-app navigation in Android application.
+                  </li>
+                  <li>
+                   <span class="">
+                    <a class="markup--anchor" href="https://developer.android.com/topic/libraries/architecture/paging/" target="_blank">
+                     Paging
+                    </a>
+                   </span>
+                   : It helps in gradually loading information on demand from our data source.
+                  </li>
+                  <li>
+                   <span class="">
+                    <a class="markup--anchor" href="https://blog.mindorks.com/android-room-persistence-library-in-kotlin" target="_blank">
+                     Room
+                    </a>
+                   </span>
+                   : It is a SQLite object mapping library. Use it to Avoid boilerplate code and easily convert SQLite table data to Java objects. Room provides compile time checks of SQLite statements and can return RxJava, Flowable and LiveData observables.
+                  </li>
+                  <li>
+                   <span class="">
+                    <a class="markup--anchor" href="https://developer.android.com/topic/libraries/architecture/viewmodel" target="_blank">
+                     ViewModel
+                    </a>
+                   </span>
+                   : It manages UI-related data in a lifecycle-conscious way. It stores UI-related data that isn't destroyed on app rotations.
+                  </li>
+                  <li>
+                   <span class="">
+                    <a class="markup--anchor" href="https://developer.android.com/topic/libraries/architecture/workmanager/" target="_blank">
+                     WorkManager
+                    </a>
+                   </span>
+                   : It manages every background jobs in Android with the circumstances we choose.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  These are what the Android Architecture Components are.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   What Next?
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Here is a good video to watch on Android Architecture Components.
+                 </p>
+                 <iframe class="iframeContainer graf--iframe" frameborder="0" height="100%" src="https://www.youtube.com/embed/BofWWZE1wts?autoplay=false&amp;rel=0&amp;modestbranding=https://mindorks.com" type="text/html" width="100%">
+                 </iframe>
+                 <p class="graf--p">
+                 </p>
+                 <p class="graf--p">
+                  Now, its time to get started with the Android Architecture Components in our projects.
+                 </p>
+                 <p class="graf--p">
+                  The best way to start with it is to try it on the codelab directly from Google.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://codelabs.developers.google.com/codelabs/android-room-with-a-view" target="_blank">
+                    Here is the link to the codelab.
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   What you'll learn
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  How to design and construct an app using the Architecture Components Room and Lifecycles libraries.
+                 </p>
+                 <p class="graf--p">
+                  There are a lot of steps to using the Architecture Components and implementing the recommended architecture. The most important thing is to create a mental model of what is going on, and understand how the pieces fit together and how the data flows.
+                 </p>
+                 <p class="graf--p">
+                  That's it. Thanks for reading.
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android User Interface — View Components" class="ui centered image" src="/images/android-user-interface-view-components-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android User Interface — View Components
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Migrating to 64 bit Architecture in Android" class="ui centered image" src="/images/banner-migration.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Migrating to 64 bit Architecture in Android
+           </div>
+           <div class="meta">
+            23rd July 2019
+           </div>
+           <div class="description">
+            Recently Google announced that in Aug'19 Apps on the PlayStore should provide the subsequent version of 32-bit native libraries in 64 bit.  64 bit is supported since Android 5 (Lollipop) days.  In this blog, we will be learning how can we migrate an app from 32 bit to 64 bit.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to build a Modular Android App Architecture?" class="ui centered image" src="/images/banner-modular-arch.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to build a Modular Android App Architecture?
+           </div>
+           <div class="meta">
+            19th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how can we Build a Modular Android App Architecture. We will learn about dynamic-feature and dynamic delivery. We will also learn how can we use a library module to modularise the app's architecture
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="MVC vs MVP vs MVVM architecture in Android" class="ui centered image" src="/images/banner-android-architecture.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            MVC vs MVP vs MVVM architecture in Android
+           </div>
+           <div class="meta">
+            7th October 2019
+           </div>
+           <div class="description">
+            This blog is to explore the knowledge of MVC, MVP and MVVM architecture in Android and know how they differ - MVC vs MVP vs MVVM.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="MVI Architecture - Android Tutorial for Beginners - Step By Step Guide" class="ui centered image" src="/images/mvi-6e0666a81fd24f41.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            MVI Architecture - Android Tutorial for Beginners - Step By Step Guide
+           </div>
+           <div class="meta">
+            17th June 2020
+           </div>
+           <div class="description">
+            In this tutorial, first, we are going to learn about the MVI architecture in Android, and then we will build a project with MVI architecture. This tutorial is for beginners who want to get started with the MVI architecture.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

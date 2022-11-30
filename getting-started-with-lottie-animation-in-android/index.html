@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Getting started with Lottie Animation in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/getting-started-with-lottie-animation-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Getting started with Lottie Animation in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/getting-started-with-lottie-animation-in-android" property="og:url"/>
+  <meta content="/images/getting-started-with-lottie-banner.png" property="og:image"/>
+  <meta content="In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie." property="og:description"/>
+  <meta content="Getting started with Lottie Animation in Android" property="twitter:title"/>
+  <meta content="In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie." name="twitter:description"/>
+  <meta content="/images/getting-started-with-lottie-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:428,data:{id:428,title:"Getting started with Lottie Animation in Android",description:"In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie.",text:'<h1 class="graf--h1">Getting started with Lottie Animation in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/getting-started-with-lottie-banner.png class=\'graf-image\' alt=\'Getting started with Lottie Animation in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Enhancing the User Experience of an application is one of the priorities for any developer. Providing Animations for certain descriptions always enhances the User Experience of an application when compared to images and text descriptions! </p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/airbnb/lottie-android">Lottie</a> is one of the libraries which is used in mobile applications that helps in providing animations in a simpler way. How to get started with using Lottie Animations in Android? Let’s dive through this article and understand this.</p><p class="graf--p">Welcome to our <b class="graf--bold">MindOrks</b> blog on “Getting Started with Lottie Animation in Android”.</p><p class="graf--p">Today, we are going to learn and build this.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/lottie-sample-app-gif.gif class=\'graf-image\' alt=\'Getting started with Lottie Animation in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">As always, we will be quickly understanding this with the help of an example project.</p><p class="graf--p"><b class="graf--bold">Create a Project</b></p><ul><li>Start a new Android Studio Project</li><li>Select Empty Activity and Next</li><li>Name: Anything of your choice</li><li>Package name: Anything of your choice</li><li>Language: Kotlin</li><li>Finish</li><li>Your starting project is ready now</li></ul><p class="graf--p">If you would wish to refer the sample project used for this article, you can follow <a class="markup--anchor" target="_blank" href="https://github.com/asdheeraj/LottieAnimation">this GitHub link</a>.</p><p class="graf--p">Let’s add the required Lottie animation dependency in the app level build.gradle file:</p><pre><code class="language-java graf graf--code">//Lottie Animation\nimplementation \'com.airbnb.android:lottie:3.4.0\'</code></pre><p class="graf--p">Before proceeding with the project, we have to select the required animations from <a class="markup--anchor" target="_blank" href="https://lottiefiles.com/">https://lottiefiles.com/</a>. We can type the category in the search bar, select the respective animations, and download the JSON version of the file.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/lottie-json-download-option.png class=\'graf-image\' alt=\'Getting started with Lottie Animation in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Now create an assets folder in our project.</p><p class="graf--p">The <b class="graf--bold">assets</b> directory in the project structure should be placed in the <b class="graf--bold">src</b> directory.</p><p class="graf--p">Add all the required downloaded JSON files to this assets folder.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/lottie-sample-project-assets.png class=\'graf-image\' alt=\'Getting started with Lottie Animation in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Now, once we create the project, we know that we have two files MainActivity.kt and activity_main.kt.</p><p class="graf--p">Let’s start with our <b class="graf--bold">activity_main.kt</b> file:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n\n    &lt;TextView\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:id="@+id/tv_headline"\n        app:layout_constraintBottom_toTopOf="@+id/lav_main"\n        android:layout_marginTop="16dp"\n        android:text="Steps to follow during this CoronaVirus Quarantine!"\n        android:textSize="24sp"\n        android:textStyle="bold"\n        android:gravity="center"\n        android:textColor="@android:color/black"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toTopOf="parent"/&gt;\n\n    &lt;com.airbnb.lottie.LottieAnimationView\n        android:id="@+id/lav_main"\n        android:layout_width="match_parent"\n        android:layout_height="300dp"\n        app:lottie_autoPlay="true"\n        app:lottie_fileName="fight_coronavirus.json"\n        app:lottie_loop="false"\n        app:lottie_speed="1"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintBottom_toTopOf="@+id/layout_click"\n        app:layout_constraintTop_toBottomOf="@id/tv_headline" /&gt;\n\n    &lt;LinearLayout\n        android:layout_width="match_parent"\n        android:layout_height="wrap_content"\n        android:id="@+id/layout_click"\n        android:orientation="horizontal"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toBottomOf="@id/lav_main"&gt;\n\n        &lt;com.airbnb.lottie.LottieAnimationView\n            android:id="@+id/lav_click_left"\n            android:layout_width="0dp"\n            android:layout_height="100dp"\n            android:layout_weight="1"\n            app:lottie_autoPlay="true"\n            android:visibility="gone"\n            app:lottie_fileName="left_arrow.json"\n            app:lottie_loop="true"\n            app:lottie_speed="1" /&gt;\n\n\n        &lt;com.airbnb.lottie.LottieAnimationView\n            android:id="@+id/lav_click_right"\n            android:layout_width="0dp"\n            android:layout_weight="1"\n            android:layout_height="100dp"\n            app:lottie_autoPlay="true"\n            app:lottie_fileName="right_arrow.json"\n            app:lottie_loop="true"\n            app:lottie_speed="1" /&gt;\n\n    &lt;/LinearLayout&gt;\n\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">In this example, we have a basic UI which contains </p><ul><li>A text view as a heading</li><li>A LottieAnimationView which describes the content of the text view through an animation</li><li>Left and right buttons for navigation.</li></ul><p class="graf--p">We can see from the activity_main.xml that the required files to be added to the Lottie Animation views are done through the attribute:</p><pre><code class="language-java graf graf--code">//The json file added to the assets directory\napp:lottie_fileName="filename.json"</code></pre><p class="graf--p">Now, let’s update our <b class="graf--bold">MainActivity.kt</b> file:</p><pre><code class="language-java graf graf--code">package com.mindorks.lottieanimation\n\nimport android.os.Bundle\nimport android.view.View\nimport androidx.appcompat.app.AppCompatActivity\nimport kotlinx.android.synthetic.main.activity_main.lav_click_left\nimport kotlinx.android.synthetic.main.activity_main.lav_click_right\nimport kotlinx.android.synthetic.main.activity_main.lav_main\nimport kotlinx.android.synthetic.main.activity_main.tv_headline\n\nclass MainActivity : AppCompatActivity() {\n\n    private var count: Int = 0\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        initListeners()\n    }\n\n    private fun initListeners() {\n        lav_click_right.setOnClickListener {\n            count++\n            showStep(count = if (count &gt; 4 ) 4 else count)\n        }\n        lav_click_left.setOnClickListener {\n            count--\n            showStep(count = if (count &lt; 0 ) 0 else count)\n        }\n    }\n\n    private fun showStep(count: Int) {\n        when (count) {\n            0 -&gt; {\n                setFooter(\n                    isLeftVisible = false,\n                    isRightVisible = true\n                )\n                setStepContent(\n                    header = "Steps to follow during this CoronaVirus Quarantine!",\n                    lottieAnimationFile = "fight_coronavirus.json"\n                )\n            }\n            1 -&gt; {\n                setFooter(\n                    isLeftVisible = true,\n                    isRightVisible = true\n                )\n                setStepContent(header = "1. Maintain Social Distancing!", lottieAnimationFile = "social_distancing.json")\n            }\n            2 -&gt; {\n                setFooter(\n                    isLeftVisible = true,\n                    isRightVisible = true\n                )\n                setStepContent(header = "2. Stay Home, Stay Safe!", lottieAnimationFile = "stay_safe.json")\n            }\n            3 -&gt; {\n                setFooter(\n                    isLeftVisible = true,\n                    isRightVisible = true\n                )\n                setStepContent(header = "3. Wash/Sanatize your hands!", lottieAnimationFile = "sanatize.json")\n            }\n            4 -&gt; {\n                setFooter(\n                    isLeftVisible = true,\n                    isRightVisible = false\n                )\n                setStepContent(header = "4. Learn/Upgrade your skill set!", lottieAnimationFile = "learn.json")\n            }\n        }\n    }\n\n    private fun setStepContent(header: String, lottieAnimationFile: String) {\n        tv_headline.text = header\n        lav_main?.apply {\n            setAnimation(lottieAnimationFile)\n            repeatCount = 5\n            playAnimation()\n        }\n    }\n\n    private fun setFooter(\n        isLeftVisible: Boolean,\n        isRightVisible: Boolean\n    ) {\n        lav_click_left?.apply {\n            visibility = if (isLeftVisible) View.VISIBLE else View.GONE\n        }\n        lav_click_right?.apply {\n            visibility = if (isRightVisible) View.VISIBLE else View.GONE\n        }\n\n    }\n}</code></pre><h4 class="graf--h3">Understanding the Logic in the Example</h4><ul><li>This example shows the basic steps required to be followed during the Covid-19 Quarantine.</li><li>By default (At the initial launch), the left arrow view visibility is set to GONE, since the user is yet to start the navigation</li><li>We are maintaining a variable named “count” in the MainActivity.kt file, initialized to zero.</li><li>We are updating the value of count, visibility of the left and right buttons, content change for the text view and LottieAnimation View through handling the clicks of left and right arrows</li></ul><pre><code class="language-java graf graf--code">      lav_click_right.setOnClickListener {\n            count++\n            showStep(count = if (count &gt; 4 ) 4 else count)\n        }\n        lav_click_left.setOnClickListener {\n            count--\n            showStep(count = if (count &lt; 0 ) 0 else count)\n        }</code></pre><ul><li><b class="graf--bold">showStep </b>method is called with the updated count parameter. This method internally calls setStepContent and setFooter methods for updating the UI</li></ul><pre><code class="language-java graf graf--code">private fun showStep(count: Int)</code></pre><ul><li><b class="graf--bold">setStepContent </b>method helps in setting the value of the header(text view) and updating the Lottie Animation View</li></ul><pre><code class="language-java graf graf--code">private fun setStepContent(header: String,  lottieAnimationFile:String)</code></pre><ul><li><b class="graf--bold">setFooter</b> method helps in handling the left and right arrows</li></ul><pre><code class="language-java graf graf--code">private fun setFooter(isLeftVisible: Boolean,isRightVisible:Boolean)</code></pre><p class="graf--p">We are all set with the code now. Let’s run this application on any device to see how the Lottie Animation works!</p><h4 class="graf--h3">LottieAnimationViews Attributes</h4><p class="graf--p">There are a lot of attributes present for a LottieAnimation view through which we can control the animation of the view. Some of them used in the project are</p><ul><li>“lottie_autoPlay” boolean to control the autoplay functionality</li></ul><pre><code class="language-java graf graf--code">app:lottie_autoPlay="true"</code></pre><ul><li>“lottie_loop” boolean to control the looping of the animation</li></ul><pre><code class="language-java graf graf--code">app:lottie_loop="false"</code></pre><ul><li>“lottie_speed” float to control the speed of the animation</li></ul><pre><code class="language-java graf graf--code">app:lottie_speed="1"</code></pre><h4 class="graf--h3">What Next?</h4><p class="graf--p">You can <a class="markup--anchor" target="_blank" href="https://github.com/asdheeraj/LottieAnimation">clone this project</a> and experiment with the following:</p><ul><li>There is some business logic involved. So you can define an architecture to this project (If you want to apply MVVM, you can check <a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/mvvm-architecture-android">this MindOrks blog</a> for reference)</li><li>You can add some more steps to be followed during the Covid-19 Quarantine</li><li>You can improvise the UI</li><li>You can explore different attributes of LottieAnimationViews and learn to set them programmatically, to keep the application dynamic</li></ul><p class="graf--p">And many more...</p><h4 class="graf--h3">Summary</h4><ul><li>Add the Lottie dependency to the project</li><li>Download the required JSON files from <a class="markup--anchor" target="_blank" href="https://lottiefiles.com/">https://lottiefiles.com/</a> </li><li>Save them to the assets folder of the project.</li><li>Use them wherever required! :)</li></ul><p class="graf--p">That’s it for this article. We hope that this article has been of some use to you and helped you in understanding how to get started with Lottie Animations in Android!</p><p class="graf--p">If you are reading this article during the Covid-19 Quarantine, Please do follow the required steps to fight the Pandemic!</p><p class="graf--p">Thank you so much for your time!</p><p class="graf--p">Keep Learning, Keep Sharing, Keep Supporting!</p><p class="graf--p">Team MindOrks!</p><p class="graf--p"><b class="graf--bold">Also, Let’s connect on</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://twitter.com/AndraDheeraj">Twitter</a>,</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/dheerajsree/">Linkedin</a>,</b> <b class="graf--bold">and</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/asdheeraj">Github</a></b></p>',author:3003,img_url:"/images/getting-started-with-lottie-banner.png",blog_url:"getting-started-with-lottie-animation-in-android",likes:0,rank:0,category:1,published_at:"28th April 2020"},author:{id:3003,name:"Dheeraj Sree",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GjgIa8i5nbsErNPLwYbB8IfsQ1U_M-Men0xdzE9PRQ=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Android Developer @DeloitteDigital",fb_profile_url:"https://www.facebook.com/sri.dheeraj",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/AndraDheeraj",github_profile_url:"https://github.com/asdheeraj",linkedin_profile_url:"https://www.linkedin.com/in/dheerajsree/"},isFetching:!1,similarBlogs:[{id:357,title:"Getting started with Android NDK: Android Tutorial",description:"In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.",author:14897,img_url:"/images/getting-started-with-android-ndk-android-tutorial-banner.png",blog_url:"getting-started-with-android-ndk-android-tutorial",likes:0,rank:0,category:1,published_at:"9th October 2019",score:3.455362319946289},{id:240,title:"Getting started with Motion Layout: Android Tutorials",description:"In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code. ",author:14897,img_url:"/images/motion-layout-banner.png",blog_url:"getting-started-with-motion-layout-android-tutorials",likes:0,rank:0,category:1,published_at:"17th May 2019",score:3.4461848735809326},{id:242,title:"Getting Started with ShareSheet in Android Q",description:"In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it .",author:14897,img_url:"/images/sharesheet.jpg",blog_url:"getting-started-with-sharesheet-in-android-q",likes:0,rank:0,category:1,published_at:"17th May 2019",score:3.4461848735809326},{id:248,title:"Getting Started with Firebase RemoteConfig in Android",description:"In this blog, we will learn about the firebase Remote Config feature in Android. By using Firebase Remote Config, we can bring some updates in the App like some text change in the app, without publishing any update of the app on the Play Store.",author:14897,img_url:"/images/getting-started-firebase-remote-config-banner-image.png",blog_url:"getting-started-with-firebase-remote-config-in-android",likes:0,rank:0,category:1,published_at:"22nd May 2019",score:3.4461848735809326},{id:230,title:"Getting Started With CameraX Jetpack Support Library",description:"In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.\n",author:14897,img_url:"/images/camerax-jetpack-support-library.png",blog_url:"getting-started-with-camerax",likes:0,rank:0,category:1,published_at:"11th May 2019",score:3.437007188796997},{id:393,title:"Getting started with Kotlin MultiPlatform",description:"In this blog, we will learn how to get started with Kotlin MultiPlatform and run the platform-specific code in our device. We will learn how to setup android and ios apps individually and write same set of core logic for both.",author:9959,img_url:"/images/banner-mpp.png",blog_url:"getting-started-with-kotlin-multi-platform",likes:0,rank:0,category:9,published_at:"26th February 2020",score:3.437007188796997}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Dheeraj Sree" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GjgIa8i5nbsErNPLwYbB8IfsQ1U_M-Men0xdzE9PRQ=s96-c?sz=300"/>
+          <div class="content">
+           Dheeraj Sree
+           <div class="sub header" style="margin-top:5px">
+            28th April 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Getting started with Lottie Animation in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Lottie Animation in Android" class="graf-image" src="/images/getting-started-with-lottie-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Enhancing the User Experience of an application is one of the priorities for any developer. Providing Animations for certain descriptions always enhances the User Experience of an application when compared to images and text descriptions!
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/airbnb/lottie-android" target="_blank">
+                   Lottie
+                  </a>
+                  is one of the libraries which is used in mobile applications that helps in providing animations in a simpler way. How to get started with using Lottie Animations in Android? Let’s dive through this article and understand this.
+                 </p>
+                 <p class="graf--p">
+                  Welcome to our
+                  <b class="graf--bold">
+                   MindOrks
+                  </b>
+                  blog on “Getting Started with Lottie Animation in Android”.
+                 </p>
+                 <p class="graf--p">
+                  Today, we are going to learn and build this.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Lottie Animation in Android" class="graf-image" src="/images/lottie-sample-app-gif.gif"/>
+                 </div>
+                 <p class="graf--p">
+                  As always, we will be quickly understanding this with the help of an example project.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Create a Project
+                  </b>
+                 </p>
+                 <ul>
+                  <li>
+                   Start a new Android Studio Project
+                  </li>
+                  <li>
+                   Select Empty Activity and Next
+                  </li>
+                  <li>
+                   Name: Anything of your choice
+                  </li>
+                  <li>
+                   Package name: Anything of your choice
+                  </li>
+                  <li>
+                   Language: Kotlin
+                  </li>
+                  <li>
+                   Finish
+                  </li>
+                  <li>
+                   Your starting project is ready now
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  If you would wish to refer the sample project used for this article, you can follow
+                  <a class="markup--anchor" href="https://github.com/asdheeraj/LottieAnimation" target="_blank">
+                   this GitHub link
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Let’s add the required Lottie animation dependency in the app level build.gradle file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">//Lottie Animation
+implementation 'com.airbnb.android:lottie:3.4.0'</code></pre>
+                 <p class="graf--p">
+                  Before proceeding with the project, we have to select the required animations from
+                  <a class="markup--anchor" href="https://lottiefiles.com/" target="_blank">
+                   https://lottiefiles.com/
+                  </a>
+                  . We can type the category in the search bar, select the respective animations, and download the JSON version of the file.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Lottie Animation in Android" class="graf-image" src="/images/lottie-json-download-option.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Now create an assets folder in our project.
+                 </p>
+                 <p class="graf--p">
+                  The
+                  <b class="graf--bold">
+                   assets
+                  </b>
+                  directory in the project structure should be placed in the
+                  <b class="graf--bold">
+                   src
+                  </b>
+                  directory.
+                 </p>
+                 <p class="graf--p">
+                  Add all the required downloaded JSON files to this assets folder.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Lottie Animation in Android" class="graf-image" src="/images/lottie-sample-project-assets.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Now, once we create the project, we know that we have two files MainActivity.kt and activity_main.kt.
+                 </p>
+                 <p class="graf--p">
+                  Let’s start with our
+                  <b class="graf--bold">
+                   activity_main.kt
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+
+    &lt;TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_headline"
+        app:layout_constraintBottom_toTopOf="@+id/lav_main"
+        android:layout_marginTop="16dp"
+        android:text="Steps to follow during this CoronaVirus Quarantine!"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/&gt;
+
+    &lt;com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lav_main"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="fight_coronavirus.json"
+        app:lottie_loop="false"
+        app:lottie_speed="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/layout_click"
+        app:layout_constraintTop_toBottomOf="@id/tv_headline" /&gt;
+
+    &lt;LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_click"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lav_main"&gt;
+
+        &lt;com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lav_click_left"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            app:lottie_autoPlay="true"
+            android:visibility="gone"
+            app:lottie_fileName="left_arrow.json"
+            app:lottie_loop="true"
+            app:lottie_speed="1" /&gt;
+
+
+        &lt;com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lav_click_right"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="100dp"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="right_arrow.json"
+            app:lottie_loop="true"
+            app:lottie_speed="1" /&gt;
+
+    &lt;/LinearLayout&gt;
+
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  In this example, we have a basic UI which contains
+                 </p>
+                 <ul>
+                  <li>
+                   A text view as a heading
+                  </li>
+                  <li>
+                   A LottieAnimationView which describes the content of the text view through an animation
+                  </li>
+                  <li>
+                   Left and right buttons for navigation.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  We can see from the activity_main.xml that the required files to be added to the Lottie Animation views are done through the attribute:
+                 </p>
+                 <pre><code class="language-java graf graf--code">//The json file added to the assets directory
+app:lottie_fileName="filename.json"</code></pre>
+                 <p class="graf--p">
+                  Now, let’s update our
+                  <b class="graf--bold">
+                   MainActivity.kt
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.lottieanimation
+
+import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.lav_click_left
+import kotlinx.android.synthetic.main.activity_main.lav_click_right
+import kotlinx.android.synthetic.main.activity_main.lav_main
+import kotlinx.android.synthetic.main.activity_main.tv_headline
+
+class MainActivity : AppCompatActivity() {
+
+    private var count: Int = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        initListeners()
+    }
+
+    private fun initListeners() {
+        lav_click_right.setOnClickListener {
+            count++
+            showStep(count = if (count &gt; 4 ) 4 else count)
+        }
+        lav_click_left.setOnClickListener {
+            count--
+            showStep(count = if (count &lt; 0 ) 0 else count)
+        }
+    }
+
+    private fun showStep(count: Int) {
+        when (count) {
+            0 -&gt; {
+                setFooter(
+                    isLeftVisible = false,
+                    isRightVisible = true
+                )
+                setStepContent(
+                    header = "Steps to follow during this CoronaVirus Quarantine!",
+                    lottieAnimationFile = "fight_coronavirus.json"
+                )
+            }
+            1 -&gt; {
+                setFooter(
+                    isLeftVisible = true,
+                    isRightVisible = true
+                )
+                setStepContent(header = "1. Maintain Social Distancing!", lottieAnimationFile = "social_distancing.json")
+            }
+            2 -&gt; {
+                setFooter(
+                    isLeftVisible = true,
+                    isRightVisible = true
+                )
+                setStepContent(header = "2. Stay Home, Stay Safe!", lottieAnimationFile = "stay_safe.json")
+            }
+            3 -&gt; {
+                setFooter(
+                    isLeftVisible = true,
+                    isRightVisible = true
+                )
+                setStepContent(header = "3. Wash/Sanatize your hands!", lottieAnimationFile = "sanatize.json")
+            }
+            4 -&gt; {
+                setFooter(
+                    isLeftVisible = true,
+                    isRightVisible = false
+                )
+                setStepContent(header = "4. Learn/Upgrade your skill set!", lottieAnimationFile = "learn.json")
+            }
+        }
+    }
+
+    private fun setStepContent(header: String, lottieAnimationFile: String) {
+        tv_headline.text = header
+        lav_main?.apply {
+            setAnimation(lottieAnimationFile)
+            repeatCount = 5
+            playAnimation()
+        }
+    }
+
+    private fun setFooter(
+        isLeftVisible: Boolean,
+        isRightVisible: Boolean
+    ) {
+        lav_click_left?.apply {
+            visibility = if (isLeftVisible) View.VISIBLE else View.GONE
+        }
+        lav_click_right?.apply {
+            visibility = if (isRightVisible) View.VISIBLE else View.GONE
+        }
+
+    }
+}</code></pre>
+                 <h4 class="graf--h3">
+                  Understanding the Logic in the Example
+                 </h4>
+                 <ul>
+                  <li>
+                   This example shows the basic steps required to be followed during the Covid-19 Quarantine.
+                  </li>
+                  <li>
+                   By default (At the initial launch), the left arrow view visibility is set to GONE, since the user is yet to start the navigation
+                  </li>
+                  <li>
+                   We are maintaining a variable named “count” in the MainActivity.kt file, initialized to zero.
+                  </li>
+                  <li>
+                   We are updating the value of count, visibility of the left and right buttons, content change for the text view and LottieAnimation View through handling the clicks of left and right arrows
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">      lav_click_right.setOnClickListener {
+            count++
+            showStep(count = if (count &gt; 4 ) 4 else count)
+        }
+        lav_click_left.setOnClickListener {
+            count--
+            showStep(count = if (count &lt; 0 ) 0 else count)
+        }</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    showStep
+                   </b>
+                   method is called with the updated count parameter. This method internally calls setStepContent and setFooter methods for updating the UI
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">private fun showStep(count: Int)</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    setStepContent
+                   </b>
+                   method helps in setting the value of the header(text view) and updating the Lottie Animation View
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">private fun setStepContent(header: String,  lottieAnimationFile:String)</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    setFooter
+                   </b>
+                   method helps in handling the left and right arrows
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">private fun setFooter(isLeftVisible: Boolean,isRightVisible:Boolean)</code></pre>
+                 <p class="graf--p">
+                  We are all set with the code now. Let’s run this application on any device to see how the Lottie Animation works!
+                 </p>
+                 <h4 class="graf--h3">
+                  LottieAnimationViews Attributes
+                 </h4>
+                 <p class="graf--p">
+                  There are a lot of attributes present for a LottieAnimation view through which we can control the animation of the view. Some of them used in the project are
+                 </p>
+                 <ul>
+                  <li>
+                   “lottie_autoPlay” boolean to control the autoplay functionality
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">app:lottie_autoPlay="true"</code></pre>
+                 <ul>
+                  <li>
+                   “lottie_loop” boolean to control the looping of the animation
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">app:lottie_loop="false"</code></pre>
+                 <ul>
+                  <li>
+                   “lottie_speed” float to control the speed of the animation
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">app:lottie_speed="1"</code></pre>
+                 <h4 class="graf--h3">
+                  What Next?
+                 </h4>
+                 <p class="graf--p">
+                  You can
+                  <a class="markup--anchor" href="https://github.com/asdheeraj/LottieAnimation" target="_blank">
+                   clone this project
+                  </a>
+                  and experiment with the following:
+                 </p>
+                 <ul>
+                  <li>
+                   There is some business logic involved. So you can define an architecture to this project (If you want to apply MVVM, you can check
+                   <a class="markup--anchor" href="https://amitshekhar.me/blog/mvvm-architecture-android" target="_blank">
+                    this MindOrks blog
+                   </a>
+                   for reference)
+                  </li>
+                  <li>
+                   You can add some more steps to be followed during the Covid-19 Quarantine
+                  </li>
+                  <li>
+                   You can improvise the UI
+                  </li>
+                  <li>
+                   You can explore different attributes of LottieAnimationViews and learn to set them programmatically, to keep the application dynamic
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  And many more...
+                 </p>
+                 <h4 class="graf--h3">
+                  Summary
+                 </h4>
+                 <ul>
+                  <li>
+                   Add the Lottie dependency to the project
+                  </li>
+                  <li>
+                   Download the required JSON files from
+                   <a class="markup--anchor" href="https://lottiefiles.com/" target="_blank">
+                    https://lottiefiles.com/
+                   </a>
+                  </li>
+                  <li>
+                   Save them to the assets folder of the project.
+                  </li>
+                  <li>
+                   Use them wherever required! :)
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  That’s it for this article. We hope that this article has been of some use to you and helped you in understanding how to get started with Lottie Animations in Android!
+                 </p>
+                 <p class="graf--p">
+                  If you are reading this article during the Covid-19 Quarantine, Please do follow the required steps to fight the Pandemic!
+                 </p>
+                 <p class="graf--p">
+                  Thank you so much for your time!
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning, Keep Sharing, Keep Supporting!
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks!
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Also, Let’s connect on
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://twitter.com/AndraDheeraj" target="_blank">
+                    Twitter
+                   </a>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://www.linkedin.com/in/dheerajsree/" target="_blank">
+                    Linkedin
+                   </a>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   and
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://github.com/asdheeraj" target="_blank">
+                    Github
+                   </a>
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Android NDK: Android Tutorial" class="ui centered image" src="/images/getting-started-with-android-ndk-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Android NDK: Android Tutorial
+           </div>
+           <div class="meta">
+            9th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Motion Layout: Android Tutorials" class="ui centered image" src="/images/motion-layout-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Motion Layout: Android Tutorials
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started with ShareSheet in Android Q" class="ui centered image" src="/images/sharesheet.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started with ShareSheet in Android Q
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started with Firebase RemoteConfig in Android" class="ui centered image" src="/images/getting-started-firebase-remote-config-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started with Firebase RemoteConfig in Android
+           </div>
+           <div class="meta">
+            22nd May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the firebase Remote Config feature in Android. By using Firebase Remote Config, we can bring some updates in the App like some text change in the app, without publishing any update of the app on the Play Store.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started With CameraX Jetpack Support Library" class="ui centered image" src="/images/camerax-jetpack-support-library.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started With CameraX Jetpack Support Library
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Kotlin MultiPlatform" class="ui centered image" src="/images/banner-mpp.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Kotlin MultiPlatform
+           </div>
+           <div class="meta">
+            26th February 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to get started with Kotlin MultiPlatform and run the platform-specific code in our device. We will learn how to setup android and ios apps individually and write same set of core logic for both.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

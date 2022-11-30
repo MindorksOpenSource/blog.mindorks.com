@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Integrating Expression Search in Android app
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/integrating-expression-search-in-android-app" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Integrating Expression Search in Android app" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/integrating-expression-search-in-android-app" property="og:url"/>
+  <meta content="/images/integrating-expression-search-in-android-app-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to integrate expression search in Android application. We will learn how to use GIFs for better user communication in our application. We will cover every aspect of it." property="og:description"/>
+  <meta content="Integrating Expression Search in Android app" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to integrate expression search in Android application. We will learn how to use GIFs for better user communication in our application. We will cover every aspect of it." name="twitter:description"/>
+  <meta content="/images/integrating-expression-search-in-android-app-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to integrate expression search in Android application. We will learn how to use GIFs for better user communication in our application. We will cover every aspect of it." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:353,data:{id:353,title:"Integrating Expression Search in Android app",description:"In this blog, we will learn how to integrate expression search in Android application. We will learn how to use GIFs for better user communication in our application. We will cover every aspect of it.",text:'<h1 class="graf--h1">Integrating Expression Search in Android app</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/integrating-expression-search-in-android-app-banner.png class=\'graf-image\' alt=\'Integrating Expression Search in Android app\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In this era of social media, we talk to each other over text messages. There are various text messaging apps like WhatsApp, Messenger, etc. We communicate with each other with the help of these lifeless texts. But sometimes things become worse due to text messaging. You can’t share your emotions just by texting your friend. For example, if you are happy then you will just write “I am happy :)” But your friend will never know how much happy you are. These things should be kept in mind while developing any text messaging application. So, while building an Android application that includes some kind of communication, it becomes a necessary task to integrate expression search. By doing so your users will be able to convey their expressions and emotions in a much better way and this will result in better user experience.</p><p class="graf--p">In this blog, we will learn how to integrate Expression Search in Android applications. We have divided the whole blog into the below topics:</p><ul><li>The current problem</li><li>What’s the solution?</li><li>How to solve the problem in Android apps?</li><li>Closing notes</li></ul><p class="graf--p">So, let’s get started.</p><h4 class="graf--h3">The current problem</h4><p class="graf--p">While talking to someone over text messages, we use the Qwerty keyboard and this Qwerty keyboard is generally made for computers. If you are new to Android devices or mobile devices then you will find it difficult to type something at a decent speed and speed matters a lot when you are talking to someone ;)</p><p class="graf--p">Another demerit of using lifeless text is that you can’t express your feelings over texts. Suppose you have got a new job at your dream company and you are sharing this news with your mother over text. Then the text message will never justify your feelings or the excitement that you will be having after getting the job. Also, there are certain cases where you want to say something and the person on the other side understand something else. And trust me, this is the worst feeling that all of us must have experienced while texting, especially when you are texting to someone very special ;)</p><p class="graf--p">Is there any solution to the above problem? One solution is to go and meet the person whom you want to talk and then share your emotions. But is it possible every time? No. So, we have to find some way of expression sharing in all the text messaging apps that we use in our daily life.</p><h4 class="graf--h3">What’s the solution?</h4><p class="graf--p">So, we are looking for a way to go beyond words to express ourselves. The solution to the above problem can be the use of pictorial representation to talk to someone. For example, you can use GIFs in your application and your users will convey their message in a very fast and meaningful way.</p><blockquote class="graf--blockquote">A GIF or Graphics Interchange Format helps us to communicate more accurately, more precisely and translate the thought, the feelings, the emotions that are at the back of our head into a visual object.</blockquote> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/integrating-expression-search-in-android-app-smile-gif.gif class=\'graf-image\' alt=\'Integrating Expression Search in Android app\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So, with the help of GIFs, you can communicate exactly what’s on your mind. The use of GIFs is increasing day by day. There are various search engines for GIF, like Tenor and GIPHY. These search engines search the most relevant GIF according to the search keyword. Following is an example from the Tenor website when we search for “<i class="graf--italic">smile</i>”.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/integrating-expression-search-in-android-app-tenor-example.jpg class=\'graf-image\' alt=\'Integrating Expression Search in Android app\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">From the above image, you can see that apart from showing some relevant pictures related to “<i class="graf--italic">smile</i>” keyword, the users are given options for various type of smiles like <i class="graf--italic">big smile</i>, <i class="graf--italic">terminator smile</i>, <i class="graf--italic">laughing hysterically</i>, etc. So, you can show the intensity of your smile by taking help from the above options present.</p><p class="graf--p">Also, these search engines show the result of the latest TV series that you have watched or the GIF may contain some of the characters of your favourite movie. So, by sharing these GIFs both of you i.e. you and your friend will understand each other’s feelings in a better way.</p><p class="graf--p">GIFs can be used in a variety of context:</p><ol><li>In text messaging applications.</li><li>In mobile keyboards.</li><li>In gaming, to share the emotions and excitements.</li><li>In customer service.</li></ol><p class="graf--p">Some of the famous applications that have GIF support are WhatsApp, Messenger, Discord, Badoo, LinkedIn, etc.</p><p class="graf--p">So, we are ready with the solution. If we are making a text messaging application, then we can use GIFs in our application so that the users can communicate in a better way. </p><blockquote class="graf--blockquote">With great power comes great responsibility</blockquote><p class="graf--p">Oh! that’s great! But how to implement this in our Android application? Do you know?</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/integrating-expression-search-in-android-app-yes-no-gif.gif class=\'graf-image\' alt=\'Integrating Expression Search in Android app\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Let’s see how.</p><h4 class="graf--h3">How to solve the problem in Android apps?</h4><p class="graf--p">Till now, we have seen the problem along with the solution. So, are we done with the blog? No, in this section of the blog, we will see how to integrate expression search in our Android application because at the end of the day, we all are Android developers and we love to develop Android apps with great user experience.</p><p class="graf--p">To add GIF support in our application, we can get the API key from one of the GIF providers like Tenor or GIPHY and we can use it in our project. But before integrating the GIF support in our application, we need to see certain guidelines that must be followed to give a great expression search experience to our users. These guidelines are:</p><ol><li><b class="graf--bold">Our app should quickly return the relevant result:</b> We should integrate the GIF support in such a way that our app should return the relevant results as soon as possible because time is very precious and if our app is taking time to give results then we are likely to lose our users. </li><li><b class="graf--bold">Our app should inspire users to use more and more GIFs:</b> We should produce results in such a way that people tend to use more and more GIFs. To do so, we can produce some GIF from a recent TV series or movies.</li><li><b class="graf--bold">The GIF should convey every emotion:</b> Our app should produce GIF in such a way that it helps the users to navigate through nuances of expressions i.e. every possible case of “smile” should be shown if a user searches for “smile”.</li></ol><p class="graf--p">So, we are done with the guidelines that must be followed while integrating the support of GIF in our application. Let’s see how? In our example, we will be using the <b class="graf--bold">GIPHY SDK</b>.</p><blockquote class="graf--blockquote">GIPHY is the first and the largest GIF search engine that gives you free access to the ever-growing content library of GIFs, Stickers, Emoji and Text. Some of the applications that are using GIPHY are Facebook, Slack, Instagram, WhatsApp, etc.</blockquote><h4 class="graf--h3">GIPHY SDK for Android</h4><p class="graf--p">The fastest and the easiest way to get the full experience of GIPHY in your application is by using the GIPHY SDK. It is a top-to-bottom solution for all GIF related activities like interfacing with GIPHY API, fetching and caching assets, and displaying GIFs and Stickers on the screen.</p><p class="graf--p">Follow the below steps to use GIPHY SDK in your application:</p><p class="graf--p">First of all, you have to get an API key from the GIPHY website. You can get the API key by adding your application’s detail on the <a class="markup--anchor" target="_blank" href="https://developers.giphy.com/dashboard/?create=true">GIPHY Developer Portal</a>.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/integrating-expression-search-in-android-app-giphy-api.jpg class=\'graf-image\' alt=\'Integrating Expression Search in Android app\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">To use GIPHY, you have to add the GIPHY Maven repository in your project’s <b class="graf--bold"><i class="graf--italic">build.gradle</i></b> file:</p><pre><code class="language-java graf graf--code">allprojects {\n    repositories {\n        ...\n        maven {\n            url "http://giphy.bintray.com/giphy-sdk"\n        }\n        ...\n    }\n}</code></pre><p class="graf--p">Add the GIPHY dependency in the module <b class="graf--bold"><i class="graf--italic">build.gradle</i></b> file:</p><pre><code class="language-java graf graf--code">implementation \'com.giphy.sdk:ui:1.0.1\'</code></pre><p class="graf--p">So, we are done with the installation and implementation part. Now, here is basic example of adding GIPHY Dialog fragment in our Activity:</p><pre><code class="language-java graf graf--code">class GiphyActivity: AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n\n        GiphyCoreUI.configure(this, YOUR_GIPHY_API_KEY)\n        \n        GiphyDialogFragment.newInstance().show(supportFragmentManager, "giphy_dialog")\n    }\n}</code></pre><p class="graf--p">In the above code, you can see that before using the GIPHY SDK, you have to initialize it using the API key that you obtained for your application. </p><p class="graf--p">After that, everything is done by the <b class="graf--bold"><i class="graf--italic">GiphyDialogFragment</i></b>. It will show the GIPHY dialog fragment in your app and you can search for the required GIF from there.</p><p class="graf--p">To adjust the settings of the GIPHY SDK, you can pass the object of <b class="graf--bold"><i class="graf--italic">GPHSettings</i></b> when creating the GIPHY dialog. So, you can create a settings object to personalize your GIF picker. Here is an example of the same:</p><pre><code class="language-java graf graf--code">var mySettings = GPHSettings(gridType = GridType.carousel, theme = LightTheme, dimBackground = true)</code></pre><p class="graf--p">And after that, you can instantiate the GiphyDialogFragment with the settings object created above.</p><pre><code class="language-java graf graf--code">val myGifDialog = GiphyDialogFragment.newInstance(mySettings)</code></pre><p class="graf--p">If you closely look at the code of the GPHSettings then you can find that we are putting some settings properties inside the GPHSettings. Some of the properties of GPHSettings are:</p><ul><li><b class="graf--bold">Theme:</b> You can set the theme of the picker to Light Theme or Dark Theme.</li></ul><pre><code class="language-java graf graf--code">mySettings.theme = LightTheme</code></pre><ul><li><b class="graf--bold">Media Types:</b> By using the <b class="graf--bold"><i class="graf--italic">mediaTypeConfig</i></b> property, you can set the type of content you would like to show i.e. <i class="graf--italic">gif</i>, <i class="graf--italic">sticker</i>, <i class="graf--italic">text</i>, and <i class="graf--italic">emoji</i>(emoji is not available in carousel layout).</li></ul><pre><code class="language-java graf graf--code">mySettings.mediaTypeConfig = arrayOf(GPHContentType.gif, GPHContentType.sticker, GPHContentType.text, GPHContentType.emoji)</code></pre><ul><li><b class="graf--bold">Layout:</b> You can set the layout to <i class="graf--italic">waterfall</i>(for vertical) or <i class="graf--italic">carousel</i>(for horizontal).</li></ul><pre><code class="language-java graf graf--code">mySettings.gridType = GridType.waterfall</code></pre><ul><li><b class="graf--bold">Confirmation screen:</b> When you are in the <i class="graf--italic">waterfall</i> layout i.e. in the vertical layout then GIPHY provides a feature to show the larger version of the GIF. You have to set the value of <b class="graf--bold"><i class="graf--italic">showConfirmationScreen</i></b> to <b class="graf--bold"><i class="graf--italic">true</i></b> if you want to display the larger version of the GIF on clicking it. This feature is not available in the <i class="graf--italic">carousel</i> layout.</li></ul><pre><code class="language-java graf graf--code">mySettings.showConfirmationScreen = true</code></pre><p class="graf--p">After adding all the settings to the GIPHY SDK, you can show your GiphyDialogFragment using the SupportFragmentManager.</p><pre><code class="language-java graf graf--code">myGifDialog.show(supportFragmentManager, "gifs_dialog")</code></pre><p class="graf--p">As like onClickListener, we have GifSelectionListener, that handles the event when we select any GIF. It contains two methods:</p><ol><li><b class="graf--bold">onGifSelected:</b> This method is called when the user selects or taps on a GIF. </li><li><b class="graf--bold">onDismissed:</b> This method is called when the user dismissed the dialog without selecting any GIF.</li></ol><pre><code class="language-java graf graf--code">giphyDialog.gifSelectionListener = object: GiphyDialogFragment.GifSelectionListener {\n    override fun onGifSelected(media: Media) {\n        //Your user tapped a GIF\n    }\n\n    override fun onDismissed() {\n        //Your user dismissed the dialog without selecting a GIF\n    }\n}</code></pre><p class="graf--p">Now you can perform the desired actions on the selected GIF. For example, you can create a MediaView to display the media and pass the rendition type.</p><pre><code class="language-java graf graf--code">val mediaView = GPHMediaView(context)\nmediaView.setMedia(media, RenditionType.original)</code></pre><p class="graf--p">So, that’s it. You are good to go with the GIFs from GIPHY.</p><p class="graf--p">Apart from GIPHY, you can also use <a class="markup--anchor" target="_blank" href="https://tenor.com/gifapi">TENOR</a>, which is also a GIF search engine.</p><h4 class="graf--h3">Closing notes</h4><p class="graf--p">In this blog, we learned how to integrate expression search in Android applications. We saw how GIFs can easily convey the message, the emotions, the feelings to our friends and due to this, nowadays, almost every messaging application has GIF support.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/integrating-expression-search-in-android-app-thank-you.gif class=\'graf-image\' alt=\'Integrating Expression Search in Android app\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Hope you learned something new today.</p><p class="graf--p">Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/">blogging website</a>.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://bootcamp.mindorks.com/">Apply Now: MindOrks Android Online Course and Learn Advanced Android</a></b></p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/integrating-expression-search-in-android-app-banner.png",blog_url:"integrating-expression-search-in-android-app",likes:0,rank:0,category:1,published_at:"4th October 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:297,title:"Integrating Android Google’s reCAPTCHA in Android App",description:"In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.",author:17146,img_url:"/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png",blog_url:"integrating-android-google-re-captcha-in-android-app",likes:0,rank:0,category:1,published_at:"18th July 2019",score:4.247827529907227},{id:328,title:"Integrating Work Manager - Android Tutorial",description:"In this blog, we will talk about how to integrate the work manager in your android project and much more advanced feature and customization which makes your life easy in scheduling tasks.",author:9959,img_url:"/images/integrating-work-manager-in-android.png",blog_url:"integrating-work-manager-in-android",likes:0,rank:0,category:1,published_at:"16th September 2019",score:3.138566493988037},{id:252,title:"Implementing in-app updates on Android",description:"In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.",author:14897,img_url:"/images/in-app-updates-android-banner.png",blog_url:"implementing-in-app-updates-on-android",likes:0,rank:0,category:1,published_at:"25th May 2019",score:1.1092609167099},{id:315,title:"How to build a Modular Android App Architecture?",description:"In this blog, we will learn how can we Build a Modular Android App Architecture. We will learn about dynamic-feature and dynamic delivery. We will also learn how can we use a library module to modularise the app's architecture",author:9959,img_url:"/images/banner-modular-arch.png",blog_url:"how-to-build-a-modular-android-app-architecture",likes:0,rank:0,category:1,published_at:"19th August 2019",score:1.1092609167099},{id:327,title:"Improving Android app performance with Benchmarking",description:"In this blog, we will learn how to improve Android app performance with Benchmarking. Benchmarking is a way to measure the code that you have written for your app. For the process of benchmarking, we have one library called Jetpack Benchmark. So, we will lean each and everything related to benchmarking.",author:14897,img_url:"/images/improving-android-app-performance-with-benchmarking-banner.png",blog_url:"improving-android-app-performance-with-benchmarking",likes:0,rank:0,category:1,published_at:"13th September 2019",score:1.1092609167099},{id:365,title:"Implement In-App Purchases in Android",description:"In this blog, we will talk about how to implement and setup you android app for in app purchase.",author:9959,img_url:"/images/banner-in-app-purchase.png",blog_url:"implement-in-app-purchases-in-android",likes:0,rank:0,category:1,published_at:"16th October 2019",score:1.1092609167099}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            4th October 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Integrating Expression Search in Android app
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Integrating Expression Search in Android app" class="graf-image" src="/images/integrating-expression-search-in-android-app-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In this era of social media, we talk to each other over text messages. There are various text messaging apps like WhatsApp, Messenger, etc. We communicate with each other with the help of these lifeless texts. But sometimes things become worse due to text messaging. You can’t share your emotions just by texting your friend. For example, if you are happy then you will just write “I am happy :)” But your friend will never know how much happy you are. These things should be kept in mind while developing any text messaging application. So, while building an Android application that includes some kind of communication, it becomes a necessary task to integrate expression search. By doing so your users will be able to convey their expressions and emotions in a much better way and this will result in better user experience.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will learn how to integrate Expression Search in Android applications. We have divided the whole blog into the below topics:
+                 </p>
+                 <ul>
+                  <li>
+                   The current problem
+                  </li>
+                  <li>
+                   What’s the solution?
+                  </li>
+                  <li>
+                   How to solve the problem in Android apps?
+                  </li>
+                  <li>
+                   Closing notes
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  The current problem
+                 </h4>
+                 <p class="graf--p">
+                  While talking to someone over text messages, we use the Qwerty keyboard and this Qwerty keyboard is generally made for computers. If you are new to Android devices or mobile devices then you will find it difficult to type something at a decent speed and speed matters a lot when you are talking to someone ;)
+                 </p>
+                 <p class="graf--p">
+                  Another demerit of using lifeless text is that you can’t express your feelings over texts. Suppose you have got a new job at your dream company and you are sharing this news with your mother over text. Then the text message will never justify your feelings or the excitement that you will be having after getting the job. Also, there are certain cases where you want to say something and the person on the other side understand something else. And trust me, this is the worst feeling that all of us must have experienced while texting, especially when you are texting to someone very special ;)
+                 </p>
+                 <p class="graf--p">
+                  Is there any solution to the above problem? One solution is to go and meet the person whom you want to talk and then share your emotions. But is it possible every time? No. So, we have to find some way of expression sharing in all the text messaging apps that we use in our daily life.
+                 </p>
+                 <h4 class="graf--h3">
+                  What’s the solution?
+                 </h4>
+                 <p class="graf--p">
+                  So, we are looking for a way to go beyond words to express ourselves. The solution to the above problem can be the use of pictorial representation to talk to someone. For example, you can use GIFs in your application and your users will convey their message in a very fast and meaningful way.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  A GIF or Graphics Interchange Format helps us to communicate more accurately, more precisely and translate the thought, the feelings, the emotions that are at the back of our head into a visual object.
+                 </blockquote>
+                 <div class="graf-image graf-caption">
+                  <img alt="Integrating Expression Search in Android app" class="graf-image" src="/images/integrating-expression-search-in-android-app-smile-gif.gif"/>
+                 </div>
+                 <p class="graf--p">
+                  So, with the help of GIFs, you can communicate exactly what’s on your mind. The use of GIFs is increasing day by day. There are various search engines for GIF, like Tenor and GIPHY. These search engines search the most relevant GIF according to the search keyword. Following is an example from the Tenor website when we search for “
+                  <i class="graf--italic">
+                   smile
+                  </i>
+                  ”.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Integrating Expression Search in Android app" class="graf-image" src="/images/integrating-expression-search-in-android-app-tenor-example.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  From the above image, you can see that apart from showing some relevant pictures related to “
+                  <i class="graf--italic">
+                   smile
+                  </i>
+                  ” keyword, the users are given options for various type of smiles like
+                  <i class="graf--italic">
+                   big smile
+                  </i>
+                  ,
+                  <i class="graf--italic">
+                   terminator smile
+                  </i>
+                  ,
+                  <i class="graf--italic">
+                   laughing hysterically
+                  </i>
+                  , etc. So, you can show the intensity of your smile by taking help from the above options present.
+                 </p>
+                 <p class="graf--p">
+                  Also, these search engines show the result of the latest TV series that you have watched or the GIF may contain some of the characters of your favourite movie. So, by sharing these GIFs both of you i.e. you and your friend will understand each other’s feelings in a better way.
+                 </p>
+                 <p class="graf--p">
+                  GIFs can be used in a variety of context:
+                 </p>
+                 <ol>
+                  <li>
+                   In text messaging applications.
+                  </li>
+                  <li>
+                   In mobile keyboards.
+                  </li>
+                  <li>
+                   In gaming, to share the emotions and excitements.
+                  </li>
+                  <li>
+                   In customer service.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  Some of the famous applications that have GIF support are WhatsApp, Messenger, Discord, Badoo, LinkedIn, etc.
+                 </p>
+                 <p class="graf--p">
+                  So, we are ready with the solution. If we are making a text messaging application, then we can use GIFs in our application so that the users can communicate in a better way.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  With great power comes great responsibility
+                 </blockquote>
+                 <p class="graf--p">
+                  Oh! that’s great! But how to implement this in our Android application? Do you know?
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Integrating Expression Search in Android app" class="graf-image" src="/images/integrating-expression-search-in-android-app-yes-no-gif.gif"/>
+                 </div>
+                 <p class="graf--p">
+                  Let’s see how.
+                 </p>
+                 <h4 class="graf--h3">
+                  How to solve the problem in Android apps?
+                 </h4>
+                 <p class="graf--p">
+                  Till now, we have seen the problem along with the solution. So, are we done with the blog? No, in this section of the blog, we will see how to integrate expression search in our Android application because at the end of the day, we all are Android developers and we love to develop Android apps with great user experience.
+                 </p>
+                 <p class="graf--p">
+                  To add GIF support in our application, we can get the API key from one of the GIF providers like Tenor or GIPHY and we can use it in our project. But before integrating the GIF support in our application, we need to see certain guidelines that must be followed to give a great expression search experience to our users. These guidelines are:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    Our app should quickly return the relevant result:
+                   </b>
+                   We should integrate the GIF support in such a way that our app should return the relevant results as soon as possible because time is very precious and if our app is taking time to give results then we are likely to lose our users.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Our app should inspire users to use more and more GIFs:
+                   </b>
+                   We should produce results in such a way that people tend to use more and more GIFs. To do so, we can produce some GIF from a recent TV series or movies.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    The GIF should convey every emotion:
+                   </b>
+                   Our app should produce GIF in such a way that it helps the users to navigate through nuances of expressions i.e. every possible case of “smile” should be shown if a user searches for “smile”.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  So, we are done with the guidelines that must be followed while integrating the support of GIF in our application. Let’s see how? In our example, we will be using the
+                  <b class="graf--bold">
+                   GIPHY SDK
+                  </b>
+                  .
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  GIPHY is the first and the largest GIF search engine that gives you free access to the ever-growing content library of GIFs, Stickers, Emoji and Text. Some of the applications that are using GIPHY are Facebook, Slack, Instagram, WhatsApp, etc.
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  GIPHY SDK for Android
+                 </h4>
+                 <p class="graf--p">
+                  The fastest and the easiest way to get the full experience of GIPHY in your application is by using the GIPHY SDK. It is a top-to-bottom solution for all GIF related activities like interfacing with GIPHY API, fetching and caching assets, and displaying GIFs and Stickers on the screen.
+                 </p>
+                 <p class="graf--p">
+                  Follow the below steps to use GIPHY SDK in your application:
+                 </p>
+                 <p class="graf--p">
+                  First of all, you have to get an API key from the GIPHY website. You can get the API key by adding your application’s detail on the
+                  <a class="markup--anchor" href="https://developers.giphy.com/dashboard/?create=true" target="_blank">
+                   GIPHY Developer Portal
+                  </a>
+                  .
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Integrating Expression Search in Android app" class="graf-image" src="/images/integrating-expression-search-in-android-app-giphy-api.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  To use GIPHY, you have to add the GIPHY Maven repository in your project’s
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">allprojects {
+    repositories {
+        ...
+        maven {
+            url "http://giphy.bintray.com/giphy-sdk"
+        }
+        ...
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Add the GIPHY dependency in the module
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation 'com.giphy.sdk:ui:1.0.1'</code></pre>
+                 <p class="graf--p">
+                  So, we are done with the installation and implementation part. Now, here is basic example of adding GIPHY Dialog fragment in our Activity:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class GiphyActivity: AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        GiphyCoreUI.configure(this, YOUR_GIPHY_API_KEY)
+        
+        GiphyDialogFragment.newInstance().show(supportFragmentManager, "giphy_dialog")
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In the above code, you can see that before using the GIPHY SDK, you have to initialize it using the API key that you obtained for your application.
+                 </p>
+                 <p class="graf--p">
+                  After that, everything is done by the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    GiphyDialogFragment
+                   </i>
+                  </b>
+                  . It will show the GIPHY dialog fragment in your app and you can search for the required GIF from there.
+                 </p>
+                 <p class="graf--p">
+                  To adjust the settings of the GIPHY SDK, you can pass the object of
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    GPHSettings
+                   </i>
+                  </b>
+                  when creating the GIPHY dialog. So, you can create a settings object to personalize your GIF picker. Here is an example of the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">var mySettings = GPHSettings(gridType = GridType.carousel, theme = LightTheme, dimBackground = true)</code></pre>
+                 <p class="graf--p">
+                  And after that, you can instantiate the GiphyDialogFragment with the settings object created above.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val myGifDialog = GiphyDialogFragment.newInstance(mySettings)</code></pre>
+                 <p class="graf--p">
+                  If you closely look at the code of the GPHSettings then you can find that we are putting some settings properties inside the GPHSettings. Some of the properties of GPHSettings are:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Theme:
+                   </b>
+                   You can set the theme of the picker to Light Theme or Dark Theme.
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">mySettings.theme = LightTheme</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Media Types:
+                   </b>
+                   By using the
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     mediaTypeConfig
+                    </i>
+                   </b>
+                   property, you can set the type of content you would like to show i.e.
+                   <i class="graf--italic">
+                    gif
+                   </i>
+                   ,
+                   <i class="graf--italic">
+                    sticker
+                   </i>
+                   ,
+                   <i class="graf--italic">
+                    text
+                   </i>
+                   , and
+                   <i class="graf--italic">
+                    emoji
+                   </i>
+                   (emoji is not available in carousel layout).
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">mySettings.mediaTypeConfig = arrayOf(GPHContentType.gif, GPHContentType.sticker, GPHContentType.text, GPHContentType.emoji)</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Layout:
+                   </b>
+                   You can set the layout to
+                   <i class="graf--italic">
+                    waterfall
+                   </i>
+                   (for vertical) or
+                   <i class="graf--italic">
+                    carousel
+                   </i>
+                   (for horizontal).
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">mySettings.gridType = GridType.waterfall</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Confirmation screen:
+                   </b>
+                   When you are in the
+                   <i class="graf--italic">
+                    waterfall
+                   </i>
+                   layout i.e. in the vertical layout then GIPHY provides a feature to show the larger version of the GIF. You have to set the value of
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     showConfirmationScreen
+                    </i>
+                   </b>
+                   to
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     true
+                    </i>
+                   </b>
+                   if you want to display the larger version of the GIF on clicking it. This feature is not available in the
+                   <i class="graf--italic">
+                    carousel
+                   </i>
+                   layout.
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">mySettings.showConfirmationScreen = true</code></pre>
+                 <p class="graf--p">
+                  After adding all the settings to the GIPHY SDK, you can show your GiphyDialogFragment using the SupportFragmentManager.
+                 </p>
+                 <pre><code class="language-java graf graf--code">myGifDialog.show(supportFragmentManager, "gifs_dialog")</code></pre>
+                 <p class="graf--p">
+                  As like onClickListener, we have GifSelectionListener, that handles the event when we select any GIF. It contains two methods:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    onGifSelected:
+                   </b>
+                   This method is called when the user selects or taps on a GIF.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    onDismissed:
+                   </b>
+                   This method is called when the user dismissed the dialog without selecting any GIF.
+                  </li>
+                 </ol>
+                 <pre><code class="language-java graf graf--code">giphyDialog.gifSelectionListener = object: GiphyDialogFragment.GifSelectionListener {
+    override fun onGifSelected(media: Media) {
+        //Your user tapped a GIF
+    }
+
+    override fun onDismissed() {
+        //Your user dismissed the dialog without selecting a GIF
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now you can perform the desired actions on the selected GIF. For example, you can create a MediaView to display the media and pass the rendition type.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val mediaView = GPHMediaView(context)
+mediaView.setMedia(media, RenditionType.original)</code></pre>
+                 <p class="graf--p">
+                  So, that’s it. You are good to go with the GIFs from GIPHY.
+                 </p>
+                 <p class="graf--p">
+                  Apart from GIPHY, you can also use
+                  <a class="markup--anchor" href="https://tenor.com/gifapi" target="_blank">
+                   TENOR
+                  </a>
+                  , which is also a GIF search engine.
+                 </p>
+                 <h4 class="graf--h3">
+                  Closing notes
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how to integrate expression search in Android applications. We saw how GIFs can easily convey the message, the emotions, the feelings to our friends and due to this, nowadays, almost every messaging application has GIF support.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Integrating Expression Search in Android app" class="graf-image" src="/images/integrating-expression-search-in-android-app-thank-you.gif"/>
+                 </div>
+                 <p class="graf--p">
+                  Hope you learned something new today.
+                 </p>
+                 <p class="graf--p">
+                  Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our
+                  <a class="markup--anchor" href="https://blog.mindorks.com/" target="_blank">
+                   blogging website
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://bootcamp.mindorks.com/" target="_blank">
+                    Apply Now: MindOrks Android Online Course and Learn Advanced Android
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Android Google’s reCAPTCHA in Android App" class="ui centered image" src="/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Android Google’s reCAPTCHA in Android App
+           </div>
+           <div class="meta">
+            18th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Work Manager - Android Tutorial" class="ui centered image" src="/images/integrating-work-manager-in-android.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Work Manager - Android Tutorial
+           </div>
+           <div class="meta">
+            16th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how to integrate the work manager in your android project and much more advanced feature and customization which makes your life easy in scheduling tasks.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing in-app updates on Android" class="ui centered image" src="/images/in-app-updates-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing in-app updates on Android
+           </div>
+           <div class="meta">
+            25th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to build a Modular Android App Architecture?" class="ui centered image" src="/images/banner-modular-arch.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to build a Modular Android App Architecture?
+           </div>
+           <div class="meta">
+            19th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how can we Build a Modular Android App Architecture. We will learn about dynamic-feature and dynamic delivery. We will also learn how can we use a library module to modularise the app's architecture
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Improving Android app performance with Benchmarking" class="ui centered image" src="/images/improving-android-app-performance-with-benchmarking-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Improving Android app performance with Benchmarking
+           </div>
+           <div class="meta">
+            13th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to improve Android app performance with Benchmarking. Benchmarking is a way to measure the code that you have written for your app. For the process of benchmarking, we have one library called Jetpack Benchmark. So, we will lean each and everything related to benchmarking.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implement In-App Purchases in Android" class="ui centered image" src="/images/banner-in-app-purchase.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implement In-App Purchases in Android
+           </div>
+           <div class="meta">
+            16th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how to implement and setup you android app for in app purchase.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

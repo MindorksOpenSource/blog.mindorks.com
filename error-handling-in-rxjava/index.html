@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Error Handling in RxJava
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/error-handling-in-rxjava" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Error Handling in RxJava" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/error-handling-in-rxjava" property="og:url"/>
+  <meta content="/images/error-handling-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to handle errors in RxJava. We would be understanding various ways to handle the error and will also see a real-life example for better understanding." property="og:description"/>
+  <meta content="Error Handling in RxJava" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to handle errors in RxJava. We would be understanding various ways to handle the error and will also see a real-life example for better understanding." name="twitter:description"/>
+  <meta content="/images/error-handling-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to handle errors in RxJava. We would be understanding various ways to handle the error and will also see a real-life example for better understanding." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:305,data:{id:305,title:"Error Handling in RxJava",description:"In this blog, we will learn how to handle errors in RxJava. We would be understanding various ways to handle the error and will also see a real-life example for better understanding.",text:'<h1 class="graf--h1">Error Handling in RxJava </h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/error-handling-banner.png class=\'graf-image\' alt=\'Error Handling in RxJava\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">As we say, we have an operator for almost everything in Rxjava. Correct ? In this blog, we will learn how to properly handle errors using RxJava operators in your android project.</p><p class="graf--p">But before that, let&#x27;s understand</p><h4 class="graf--h3">What is an Error?</h4><p class="graf--p">Error can be understood as a mistake or an output which got generated but was not expected. </p><p class="graf--p">Now, let us see a normal example of Rx</p><pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)\n    .subscribe(object : Observer&lt;Int&gt; {\n        override fun onComplete() {\n            Log.d("onComplete", "onComplete")\n        }\n\n        override fun onSubscribe(d: Disposable) {\n        }\n\n        override fun onNext(t: Int) {\n            Log.d("onNext", t.toString())\n        }\n\n        override fun onError(e: Throwable) {\n            Log.d("onError", e.localizedMessage)\n        }\n    })</code></pre><p class="graf--p">Here, it will generate an output in Logcat,</p><pre><code class="language-java graf graf--code">/onNext: 1\n/onNext: 2\n/onNext: 3\n/onNext: 4\n/onComplete: Completed</code></pre><p class="graf--p">Now, lets see what  happens if we get any sort of Exception for eg. Null Pointer.</p><pre><code class="language-java graf graf--code">Observable.just(1,2,3,4).subscribe(object : Observer&lt;Int&gt; {\n    override fun onComplete() {\n        Log.d("onComplete", "onComplete")\n    }\n\n    override fun onSubscribe(d: Disposable) {\n    }\n\n    override fun onNext(i: Int) {\n        if (i == 3) {\n            throw NullPointerException("Its a NPE")\n        }\n        Log.d("onNext", i.toString())\n    }\n\n    override fun onError(e: Throwable) {\n        Log.d("onError", e.localizedMessage)\n    }\n\n})</code></pre><p class="graf--p">It will crash the app with throwing an error,</p><pre><code class="language-java graf graf--code">Its a NPE</code></pre><p class="graf--p">This is because we got an exception and so, here the execution was not completed. </p><h4 class="graf--h3">What are exceptions in Android ?</h4><p class="graf--p"><b class="graf--bold">Exceptions</b> are events that occur during the execution of programs that disrupt the normal flow. They are of two types : <b class="graf--bold">Checked</b> and <b class="graf--bold">Unchecked</b>.</p><ul><li>Checked Exception : Exception that must be either caught or declared in the method in which it is thrown. For example, </li></ul><pre><code class="language-java graf graf--code">String transform(String input) throws IOException;</code></pre><ul><li>UnChecked Exception : The Exceptions whose handling is NOT verified during Compile time. For example, </li></ul><pre><code class="language-java graf graf--code">if (i == 3) {\n    throw NullPointerException("Its a NPE")\n}</code></pre><p class="graf--p">Till now, we understood  about Exceptions, its type and how we get it in RxJava. But what if, exeception gets called in a operator even before the subscriber. We will discuss various ways to handle error in this blog.</p><p class="graf--p">Example for map operator,</p><pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)\n    .map { x -&gt;\n        if (x == 2) {\n            throw NullPointerException("Its a NPE")\n        }\n        x * 10\n    }\n    .subscribeOn(Schedulers.io())\n    .observeOn(AndroidSchedulers.mainThread())\n    .subscribe(object : Observer&lt;Int&gt; {\n        override fun onComplete() {\n            Log.d("onNext", "onComplete")\n        }\n        override fun onSubscribe(d: Disposable) {\n        }\n\n        override fun onNext(i: Int) {\n            Log.d("onNext", i.toString())\n        }\n\n        override fun onError(e: Throwable) {\n            Log.d("onError", e.localizedMessage)\\\n        }\n\n    })</code></pre><p class="graf--p">Here we will see the output</p><pre><code class="language-java graf graf--code"> onError :Its a NPE </code></pre><p class="graf--p">and we would see similar for flatMap and other operators as well.</p><p class="graf--p"> Here, in the above code we see as soon as we get an exception in map operator and then we directly goto onError and the onNext doesn&#x27;t get called or even onComplete. So, to handle the error in cases like this we use different operators and it will not move to <b class="graf--bold"><i class="graf--italic">onError </i></b>directly.</p><p class="graf--p">Let us understand them one by one.</p><h4 class="graf--h3">onExceptionResumeNext</h4><p class="graf--p">In onExceptionResumeNext() operator if it gets an exception even before we start the methods onComplete, onError and onNext like in doOnNext then it will directly move to onExcetionResumeNext and will perform the task inside it.</p><pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)\n    .subscribeOn(Schedulers.io())\n    .observeOn(AndroidSchedulers.mainThread())\n    .doOnNext {\n        if (it == 2) {\n            throw (RuntimeException("Exception on 2"))\n        }\n\n    }.onExceptionResumeNext {\n        Log.d("onExceptionResumeNext","1")\n    }\n    .subscribe(object : Observer&lt;Int&gt; {\n        override fun onComplete() {\n            Log.d("onComplete", "onComplete")\n        }\n        override fun onSubscribe(d: Disposable) {\n        }\n\n        override fun onNext(i: Int) {\n            Log.d("onNext", i.toString())\n        }\n\n        override fun onError(e: Throwable) {\n            Log.d("onError", e.localizedMessage)\n        }\n    })</code></pre><p class="graf--p">and when we run this, we get the output</p><pre><code class="language-java graf graf--code">onNext: 1\nonExceptionResumeNext: 1</code></pre><p class="graf--p">Here, once the onNext produces value 1 and then when it throws exception when the value returned is 2 and then onExceptionResumeNext get called and the task starts get performed inside it.</p><h3 class="graf--h2"><b class="graf--bold">onErrorResumeNext</b></h3><pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)\n    .subscribeOn(Schedulers.io())\n    .observeOn(AndroidSchedulers.mainThread())\n    .map { x -&gt;\n        if (x == 2) {\n            throw NullPointerException("Its a NPE")\n        }\n        x * 10\n    }.onErrorResumeNext { throwable: Throwable -&gt;\n        return@onErrorResumeNext ObservableSource {\n            Log.d("onErrorResumeNext", throwable.localizedMessage)\n        }\n    }.subscribe(object : Observer&lt;Int&gt; {\n        override fun onComplete() {\n            Log.d("onComplete", "onComplete")\n        }\n\n        override fun onSubscribe(d: Disposable) {\n        }\n\n        override fun onNext(i: Int) {\n            Log.d("onNext", i.toString())\n        }\n\n        override fun onError(e: Throwable) {\n            Log.d("onError", e.localizedMessage)\n        }\n    })</code></pre><p class="graf--p">In onErrorResumeNext() operator, it handles the throwable generated by Java code.  Here, in the above code the output will be,</p><pre><code class="language-java graf graf--code">D/onNext: 10\nD/onErrorResumeNext: Its a NPE</code></pre><p class="graf--p">Once the onNext generates the first int after multiplying  from 10 in map operator and when 2 comes up it throws the <b class="graf--bold"><i class="graf--italic">NPE Exception. </i></b>It won&#x27;t be moving to onError directly and the error would be handled in onErrorResumeNext and we can perform the rest actions in that.</p><p class="graf--p">In my case i am just showing a log, but for above both cases we can log it to some crashlytics or some other service</p><blockquote class="graf--blockquote">onErrorResumeNext  replaces the current stream with an entirely new Observable</blockquote><h4 class="graf--h3">doOnError</h4><p class="graf--p"> doOnError, is a side-effect operator where user will see the error even before the exception being occured. </p><pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)\n    .subscribeOn(Schedulers.io())\n    .observeOn(AndroidSchedulers.mainThread())\n    .doOnNext {\n        if (it == 2) {\n            throw (RuntimeException("Exception on 2"))\n        }\n    }\n    .doOnError {\n        Log.d("doOnError", "Exception Occured")\n    }.subscribe(object : Observer&lt;Int&gt; {\n        override fun onComplete() {\n            Log.d("onComplete", "onComplete")\n        }\n        override fun onSubscribe(d: Disposable) {\n        }\n        override fun onNext(i: Int) {\n            Log.d("onNext", i.toString())\n        }\n        override fun onError(e: Throwable) {\n            Log.d("onError", e.localizedMessage)\n        }\n    })</code></pre><p class="graf--p">In the above code snippet, we are calling two differenet side-effect operators doOnNext and doOnError. </p><p class="graf--p">In short, side-effect operators are the ones which gets called even before the main subscriber methods being called like onNext , onError.</p><p class="graf--p">So, here doOnNext gets called before onNext being called and same for doOnError. When we run the above code,</p><pre><code class="language-java graf graf--code">D/onNext: 1\nD/doOnError: Exception Occured\nD/onError: Exception on 2</code></pre><p class="graf--p">We will see the above output, where first 1 is being printed from onNext and then when the value becomes 2, Exception occured. Since, we called a side-effect operator, doOnError gets called first before the onError method.</p><p class="graf--p">Here you can show, some sort of error message to user like Toast or a dialog.</p><h4 class="graf--h3">onErrorReturnItem</h4><pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)\n    .subscribeOn(Schedulers.io())\n    .observeOn(AndroidSchedulers.mainThread())\n    .doOnNext {\n        if (it == 2) {\n            throw (RuntimeException("Exception on 2"))\n        }\n    }\n    .onErrorReturnItem(10)\n    .subscribe(object : Observer&lt;Int&gt; {\n        override fun onComplete() {\n            Log.d("onComplete", "onComplete")\n        }\n        override fun onSubscribe(d: Disposable) {\n        }\n        override fun onNext(i: Int) {\n            Log.d("onNext", i.toString())\n        }\n        override fun onError(e: Throwable) {\n            Log.d("onError", e.localizedMessage)\n        }\n    })</code></pre><pre><code class="language-java graf graf--code"></code></pre><p class="graf--p">In onErrorReturnItem operator, we return an item whenever any exception or error occured followed by onComplete. The output of the above code is,</p><pre><code class="language-java graf graf--code">D / onNext: 1\nD / onNext: 10\nD / onComplete: onComplete</code></pre><p class="graf--p">Where, first value(<i class="graf--italic">i.e. 1</i>) gets printed from onNext and we get Exception when the value is 2 in doOnNext. But since we are using onErrorReturnItem, it will return an item when the exception occured of the same data type. Here, we have <b class="graf--bold">integer</b> data type so it will return an item of type integer in onNext and then it will complete the call.</p><p class="graf--p">We can use this operator, to pass some default value of same type when there is an exception.</p><blockquote class="graf--blockquote">Note: The positioning of onErrorReturnItem matters as if we call it above doOnNext, it wouldn&#x27;t be called after the Observable Exception and then onError will be called directly.</blockquote><h3 class="graf--h2"><b class="graf--bold">onErrorReturn</b></h3><p class="graf--p">We sometimes need to produce the default item when an error or exception . So <i class="graf--italic">onErrorReturn</i> provides us a throwable and a lambda to return.</p><pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)\n    .subscribeOn(Schedulers.io())\n    .observeOn(AndroidSchedulers.mainThread())\n    .doOnNext {\n        if (it == 2) {\n            throw (RuntimeException("Exception on 2"))\n        }\n    }\n    .onErrorReturn { t: Throwable -&gt;\n        Log.d("onComplete", t.localizedMessage)\n        5\n    }.subscribe(object : Observer&lt;Int&gt; {\n        override fun onComplete() {\n            Log.d("onComplete", "onComplete")\n        }\n\n        override fun onSubscribe(d: Disposable) {\n        }\n\n        override fun onNext(i: Int) {\n            Log.d("onNext", i.toString())\n        }\n\n        override fun onError(e: Throwable) {\n            Log.d("onError", e.localizedMessage)\n        }\n    })</code></pre><p class="graf--p">Here, it will return 5 in onNext after getting the error.</p><pre><code class="language-java graf graf--code">D / onComplete: Exception on 2\nD / onNext: 5\nD / onComplete: onComplete</code></pre><p class="graf--p">This is the output after running the app. It returns a value 5 in onNext after catching the exception and then completes the flow.</p><p class="graf--p">If we don&#x27;t pass a value in onErrorReturn operator, we will get a default value from the operator (27 in my case).</p><blockquote class="graf--blockquote">onErrorReutn  replaces <code class="graf--code-inline">onError</code> with a single <code class="graf--code-inline">onNext(value) </code>followed by <code class="graf--code-inline">onCompleted()</code></blockquote><h4 class="graf--h3">retry</h4><p class="graf--p">in this operator, we re-subscribe the obserable and give it a chance to get called again.</p><p class="graf--p">For example : You have an API call which failed because of fluctuating internet connection as it will throw an error. We will retry the api call using the retry operator.</p><pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)\n    .subscribeOn(Schedulers.io())\n    .observeOn(AndroidSchedulers.mainThread())\n    .doOnNext {\n        if (it == 2) {\n            throw (RuntimeException("Exception on 2"))\n        }\n    }.retry(4)\n    .subscribe(object : Observer&lt;Int&gt; {\n        override fun onComplete() {\n            Log.d("onComplete", "onComplete")\n        }\n\n        override fun onSubscribe(d: Disposable) {\n        }\n\n        override fun onNext(i: Int) {\n            Log.d("onNext", i.toString())\n        }\n\n        override fun onError(e: Throwable) {\n            Log.d("onError", e.localizedMessage)\n        }\n    })</code></pre><pre><code class="language-java graf graf--code"></code></pre><p class="graf--p">Here, in the code we have retried 4 times. So, every time it will get an error it will retry itself till the fourth chance and then finally it will throw the exception</p><p class="graf--p">The output of the following is,</p><pre><code class="language-java graf graf--code">D/onNext: 1\nD/onNext: 1\nD/onNext: 1\nD/onNext: 1\nD/onError: Exception on 2</code></pre><blockquote class="graf--blockquote">Note : If we don&#x27;t pass 4, it will keep on retrying unless it is successful. In our case it will make retry itself infintely as we won&#x27;t be successful.</blockquote><p class="graf--p">This is all about how to handle errors in RxJava.</p><h4 class="graf--h3">Understand by Example</h4><p class="graf--p">Now, we will discuss handling  error in Rxjava while doing a mock API call. In this example, we will use Zip operator to zip two observables. </p><p class="graf--p">These observables will be mock reponse of two different APIs. Thet are,</p><pre><code class="language-java graf graf--code">val apiResponseOne = ArrayList&lt;String&gt;()\nval apiResponseTwo = ArrayList&lt;String&gt;()\n\napiResponseOne.add("Response of API-1")\napiResponseTwo.add("Response of API-2")</code></pre><pre><code class="language-java graf graf--code">val observableOne = Observable.just(apiResponseOne)\n    .map {\n        if (it.size == 1) {\n            Log.d(TAG, "NullPointerException")\n            throw NullPointerException("Its a NPE")\n        }\n        it\n    }\n    .onErrorReturn { ArrayList() }\nval observableTwo = Observable.just(apiResponseTwo)\n    .map { it }\n    .onErrorReturn { ArrayList() }\n</code></pre><p class="graf--p">Now, we have two different observables which will return the two dummy array-list  as API response. </p><p class="graf--p">In the <b class="graf--bold"><i class="graf--italic">observableOne,</i></b> we get an Exception because the size is one and as it gets an error it will return an empty list.</p><p class="graf--p">In <b class="graf--bold"><i class="graf--italic">observableTwo, </i></b>we would get <b class="graf--bold">apiResponseTwo</b> arraylist as return value as Observable.</p><p class="graf--p">Now, we will zip both the observables</p><pre><code class="language-java graf graf--code">Observable.zip(\n    observableOne,\n    observableTwo,\n    BiFunction&lt;ArrayList&lt;String&gt;, ArrayList&lt;String&gt;, ArrayList&lt;String&gt;&gt; { outputOne, outputTwo -&gt;\n        Log.d(TAG, outputFunction(outputOne, outputTwo).size.toString())\n        return@BiFunction outputFunction(outputOne, outputTwo)\n    }\n).subscribe(object : Observer&lt;ArrayList&lt;String&gt;&gt; {\n    override fun onComplete() {\n\n    }\n    override fun onSubscribe(d: Disposable) {\n    }\n\n    override fun onNext(data: ArrayList&lt;String&gt;) {\n        for (individualData in data) {\n            Log.d(TAG, "data : $individualData")\n        }\n    }\n\n    override fun onError(e: Throwable) {\n    }\n})</code></pre><p class="graf--p">and outputFunction looks like,</p><pre><code class="language-java graf graf--code">private fun outputFunction(outputOne: ArrayList&lt;String&gt;, outputTwo: ArrayList&lt;String&gt;): ArrayList&lt;String&gt; {\n    val output = ArrayList&lt;String&gt;()\n    output.addAll(outputOne)\n    output.addAll(outputTwo)\n    return output\n}</code></pre><p class="graf--p">In the above code, we are zipping the output of two operators and returning as a single arraylist by adding both arraylist as one. </p><p class="graf--p">As, <b class="graf--bold">observableOne</b> will return a empty arraylist as it will throw an exception and <b class="graf--bold">observableTwo</b> will return a list of one string. We will merge it and it will return a new output .</p><p class="graf--p">The output is,</p><pre><code class="language-java graf graf--code">D/MainActivity: NullPointerException\nD/MainActivity: 1\nD/MainActivity: data : Response of API-2</code></pre><p class="graf--p">First, the Log gets printed of the map operator of observable one where it returns an empty list because of an exception , then the log of  BiFunction gets printed with the size of the merged output list <i class="graf--italic"><b class="graf--bold">i.e. 1</b> </i>as because we would have only <i class="graf--italic"><b class="graf--bold">Respone of API-2 </b></i>in the list which we can verify from the Log of onNext.</p><blockquote class="graf--blockquote">The purpose to explain this example is that even if any API call fails in a Rx operation, we would still be able to complete task without halting the operation or stopping the app.</blockquote><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/rxjava-zip-operator">Click here If you want to understand , how Zip Operator works</a></p><h4 class="graf--h3">Important Note</h4><ul><li>In Map operator, we can also log error using Exception.Propaget()</li></ul><pre><code class="language-java graf graf--code">Observable.just("Hello MindOrks")\n  .map(input -&gt; {\n    try {\n      return //sometask;\n    } catch (Throwable t) {\n      throw Exceptions.propagate(t);\n    }\n  })</code></pre><p class="graf--p">Here, Exception.Propagate() wraps the throwable to throw an error.</p><ul><li>In FlatMap operator, as we return Observable. So, when we get any error we can handle it using,</li></ul><pre><code class="language-java graf graf--code">Observable.just("Hello MindOrks")\n  .flatMap(input -&gt; {\n    try {\n      return Observable.just(/*perform-work*/);\n    } catch (Throwable t) {\n      return Observable.error(t);\n    }\n  })</code></pre><p class="graf--p">Happy learning</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/error-handling-banner.png",blog_url:"error-handling-in-rxjava",likes:0,rank:0,category:1,published_at:"25th July 2019"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:425,title:"Exception Handling in Kotlin Coroutines",description:"In this blog, we are going to talk about how we can handle exceptions while using Kotlin Coroutines. We will discuss various ways to handle it efficiently in our Android project.",author:9959,img_url:"/images/exception-handling-kotlin-banner.png",blog_url:"exception-handling-in-kotlin-coroutines",likes:0,rank:0,category:1,published_at:"25th April 2020",score:3.587033748626709},{id:470,title:"RxJava For Android - RxAndroid",description:"In this blog, we will discuss the RxJava for Android. We will learn what exactly is RxAndroid. We will also see the practical use cases of how using RxJava helps a developer to execute a task in a much simpler and organized way.",author:9959,img_url:"/images/rx-java-banner-385e1dc7df86aee5.png",blog_url:"rxjava-for-android-rxandroid",likes:0,rank:0,category:1,published_at:"6th June 2020",score:1.100083351135254}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            25th July 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Error Handling in RxJava
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Error Handling in RxJava" class="graf-image" src="/images/error-handling-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  As we say, we have an operator for almost everything in Rxjava. Correct ? In this blog, we will learn how to properly handle errors using RxJava operators in your android project.
+                 </p>
+                 <p class="graf--p">
+                  But before that, let's understand
+                 </p>
+                 <h4 class="graf--h3">
+                  What is an Error?
+                 </h4>
+                 <p class="graf--p">
+                  Error can be understood as a mistake or an output which got generated but was not expected.
+                 </p>
+                 <p class="graf--p">
+                  Now, let us see a normal example of Rx
+                 </p>
+                 <pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)
+    .subscribe(object : Observer&lt;Int&gt; {
+        override fun onComplete() {
+            Log.d("onComplete", "onComplete")
+        }
+
+        override fun onSubscribe(d: Disposable) {
+        }
+
+        override fun onNext(t: Int) {
+            Log.d("onNext", t.toString())
+        }
+
+        override fun onError(e: Throwable) {
+            Log.d("onError", e.localizedMessage)
+        }
+    })</code></pre>
+                 <p class="graf--p">
+                  Here, it will generate an output in Logcat,
+                 </p>
+                 <pre><code class="language-java graf graf--code">/onNext: 1
+/onNext: 2
+/onNext: 3
+/onNext: 4
+/onComplete: Completed</code></pre>
+                 <p class="graf--p">
+                  Now, lets see what  happens if we get any sort of Exception for eg. Null Pointer.
+                 </p>
+                 <pre><code class="language-java graf graf--code">Observable.just(1,2,3,4).subscribe(object : Observer&lt;Int&gt; {
+    override fun onComplete() {
+        Log.d("onComplete", "onComplete")
+    }
+
+    override fun onSubscribe(d: Disposable) {
+    }
+
+    override fun onNext(i: Int) {
+        if (i == 3) {
+            throw NullPointerException("Its a NPE")
+        }
+        Log.d("onNext", i.toString())
+    }
+
+    override fun onError(e: Throwable) {
+        Log.d("onError", e.localizedMessage)
+    }
+
+})</code></pre>
+                 <p class="graf--p">
+                  It will crash the app with throwing an error,
+                 </p>
+                 <pre><code class="language-java graf graf--code">Its a NPE</code></pre>
+                 <p class="graf--p">
+                  This is because we got an exception and so, here the execution was not completed.
+                 </p>
+                 <h4 class="graf--h3">
+                  What are exceptions in Android ?
+                 </h4>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Exceptions
+                  </b>
+                  are events that occur during the execution of programs that disrupt the normal flow. They are of two types :
+                  <b class="graf--bold">
+                   Checked
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   Unchecked
+                  </b>
+                  .
+                 </p>
+                 <ul>
+                  <li>
+                   Checked Exception : Exception that must be either caught or declared in the method in which it is thrown. For example,
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">String transform(String input) throws IOException;</code></pre>
+                 <ul>
+                  <li>
+                   UnChecked Exception : The Exceptions whose handling is NOT verified during Compile time. For example,
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">if (i == 3) {
+    throw NullPointerException("Its a NPE")
+}</code></pre>
+                 <p class="graf--p">
+                  Till now, we understood  about Exceptions, its type and how we get it in RxJava. But what if, exeception gets called in a operator even before the subscriber. We will discuss various ways to handle error in this blog.
+                 </p>
+                 <p class="graf--p">
+                  Example for map operator,
+                 </p>
+                 <pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)
+    .map { x -&gt;
+        if (x == 2) {
+            throw NullPointerException("Its a NPE")
+        }
+        x * 10
+    }
+    .subscribeOn(Schedulers.io())
+    .observeOn(AndroidSchedulers.mainThread())
+    .subscribe(object : Observer&lt;Int&gt; {
+        override fun onComplete() {
+            Log.d("onNext", "onComplete")
+        }
+        override fun onSubscribe(d: Disposable) {
+        }
+
+        override fun onNext(i: Int) {
+            Log.d("onNext", i.toString())
+        }
+
+        override fun onError(e: Throwable) {
+            Log.d("onError", e.localizedMessage)\
+        }
+
+    })</code></pre>
+                 <p class="graf--p">
+                  Here we will see the output
+                 </p>
+                 <pre><code class="language-java graf graf--code"> onError :Its a NPE </code></pre>
+                 <p class="graf--p">
+                  and we would see similar for flatMap and other operators as well.
+                 </p>
+                 <p class="graf--p">
+                  Here, in the above code we see as soon as we get an exception in map operator and then we directly goto onError and the onNext doesn't get called or even onComplete. So, to handle the error in cases like this we use different operators and it will not move to
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    onError
+                   </i>
+                  </b>
+                  directly.
+                 </p>
+                 <p class="graf--p">
+                  Let us understand them one by one.
+                 </p>
+                 <h4 class="graf--h3">
+                  onExceptionResumeNext
+                 </h4>
+                 <p class="graf--p">
+                  In onExceptionResumeNext() operator if it gets an exception even before we start the methods onComplete, onError and onNext like in doOnNext then it will directly move to onExcetionResumeNext and will perform the task inside it.
+                 </p>
+                 <pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)
+    .subscribeOn(Schedulers.io())
+    .observeOn(AndroidSchedulers.mainThread())
+    .doOnNext {
+        if (it == 2) {
+            throw (RuntimeException("Exception on 2"))
+        }
+
+    }.onExceptionResumeNext {
+        Log.d("onExceptionResumeNext","1")
+    }
+    .subscribe(object : Observer&lt;Int&gt; {
+        override fun onComplete() {
+            Log.d("onComplete", "onComplete")
+        }
+        override fun onSubscribe(d: Disposable) {
+        }
+
+        override fun onNext(i: Int) {
+            Log.d("onNext", i.toString())
+        }
+
+        override fun onError(e: Throwable) {
+            Log.d("onError", e.localizedMessage)
+        }
+    })</code></pre>
+                 <p class="graf--p">
+                  and when we run this, we get the output
+                 </p>
+                 <pre><code class="language-java graf graf--code">onNext: 1
+onExceptionResumeNext: 1</code></pre>
+                 <p class="graf--p">
+                  Here, once the onNext produces value 1 and then when it throws exception when the value returned is 2 and then onExceptionResumeNext get called and the task starts get performed inside it.
+                 </p>
+                 <h3 class="graf--h2">
+                  <b class="graf--bold">
+                   onErrorResumeNext
+                  </b>
+                 </h3>
+                 <pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)
+    .subscribeOn(Schedulers.io())
+    .observeOn(AndroidSchedulers.mainThread())
+    .map { x -&gt;
+        if (x == 2) {
+            throw NullPointerException("Its a NPE")
+        }
+        x * 10
+    }.onErrorResumeNext { throwable: Throwable -&gt;
+        return@onErrorResumeNext ObservableSource {
+            Log.d("onErrorResumeNext", throwable.localizedMessage)
+        }
+    }.subscribe(object : Observer&lt;Int&gt; {
+        override fun onComplete() {
+            Log.d("onComplete", "onComplete")
+        }
+
+        override fun onSubscribe(d: Disposable) {
+        }
+
+        override fun onNext(i: Int) {
+            Log.d("onNext", i.toString())
+        }
+
+        override fun onError(e: Throwable) {
+            Log.d("onError", e.localizedMessage)
+        }
+    })</code></pre>
+                 <p class="graf--p">
+                  In onErrorResumeNext() operator, it handles the throwable generated by Java code.  Here, in the above code the output will be,
+                 </p>
+                 <pre><code class="language-java graf graf--code">D/onNext: 10
+D/onErrorResumeNext: Its a NPE</code></pre>
+                 <p class="graf--p">
+                  Once the onNext generates the first int after multiplying  from 10 in map operator and when 2 comes up it throws the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    NPE Exception.
+                   </i>
+                  </b>
+                  It won't be moving to onError directly and the error would be handled in onErrorResumeNext and we can perform the rest actions in that.
+                 </p>
+                 <p class="graf--p">
+                  In my case i am just showing a log, but for above both cases we can log it to some crashlytics or some other service
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  onErrorResumeNext  replaces the current stream with an entirely new Observable
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  doOnError
+                 </h4>
+                 <p class="graf--p">
+                  doOnError, is a side-effect operator where user will see the error even before the exception being occured.
+                 </p>
+                 <pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)
+    .subscribeOn(Schedulers.io())
+    .observeOn(AndroidSchedulers.mainThread())
+    .doOnNext {
+        if (it == 2) {
+            throw (RuntimeException("Exception on 2"))
+        }
+    }
+    .doOnError {
+        Log.d("doOnError", "Exception Occured")
+    }.subscribe(object : Observer&lt;Int&gt; {
+        override fun onComplete() {
+            Log.d("onComplete", "onComplete")
+        }
+        override fun onSubscribe(d: Disposable) {
+        }
+        override fun onNext(i: Int) {
+            Log.d("onNext", i.toString())
+        }
+        override fun onError(e: Throwable) {
+            Log.d("onError", e.localizedMessage)
+        }
+    })</code></pre>
+                 <p class="graf--p">
+                  In the above code snippet, we are calling two differenet side-effect operators doOnNext and doOnError.
+                 </p>
+                 <p class="graf--p">
+                  In short, side-effect operators are the ones which gets called even before the main subscriber methods being called like onNext , onError.
+                 </p>
+                 <p class="graf--p">
+                  So, here doOnNext gets called before onNext being called and same for doOnError. When we run the above code,
+                 </p>
+                 <pre><code class="language-java graf graf--code">D/onNext: 1
+D/doOnError: Exception Occured
+D/onError: Exception on 2</code></pre>
+                 <p class="graf--p">
+                  We will see the above output, where first 1 is being printed from onNext and then when the value becomes 2, Exception occured. Since, we called a side-effect operator, doOnError gets called first before the onError method.
+                 </p>
+                 <p class="graf--p">
+                  Here you can show, some sort of error message to user like Toast or a dialog.
+                 </p>
+                 <h4 class="graf--h3">
+                  onErrorReturnItem
+                 </h4>
+                 <pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)
+    .subscribeOn(Schedulers.io())
+    .observeOn(AndroidSchedulers.mainThread())
+    .doOnNext {
+        if (it == 2) {
+            throw (RuntimeException("Exception on 2"))
+        }
+    }
+    .onErrorReturnItem(10)
+    .subscribe(object : Observer&lt;Int&gt; {
+        override fun onComplete() {
+            Log.d("onComplete", "onComplete")
+        }
+        override fun onSubscribe(d: Disposable) {
+        }
+        override fun onNext(i: Int) {
+            Log.d("onNext", i.toString())
+        }
+        override fun onError(e: Throwable) {
+            Log.d("onError", e.localizedMessage)
+        }
+    })</code></pre>
+                 <pre><code class="language-java graf graf--code"></code></pre>
+                 <p class="graf--p">
+                  In onErrorReturnItem operator, we return an item whenever any exception or error occured followed by onComplete. The output of the above code is,
+                 </p>
+                 <pre><code class="language-java graf graf--code">D / onNext: 1
+D / onNext: 10
+D / onComplete: onComplete</code></pre>
+                 <p class="graf--p">
+                  Where, first value(
+                  <i class="graf--italic">
+                   i.e. 1
+                  </i>
+                  ) gets printed from onNext and we get Exception when the value is 2 in doOnNext. But since we are using onErrorReturnItem, it will return an item when the exception occured of the same data type. Here, we have
+                  <b class="graf--bold">
+                   integer
+                  </b>
+                  data type so it will return an item of type integer in onNext and then it will complete the call.
+                 </p>
+                 <p class="graf--p">
+                  We can use this operator, to pass some default value of same type when there is an exception.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  Note: The positioning of onErrorReturnItem matters as if we call it above doOnNext, it wouldn't be called after the Observable Exception and then onError will be called directly.
+                 </blockquote>
+                 <h3 class="graf--h2">
+                  <b class="graf--bold">
+                   onErrorReturn
+                  </b>
+                 </h3>
+                 <p class="graf--p">
+                  We sometimes need to produce the default item when an error or exception . So
+                  <i class="graf--italic">
+                   onErrorReturn
+                  </i>
+                  provides us a throwable and a lambda to return.
+                 </p>
+                 <pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)
+    .subscribeOn(Schedulers.io())
+    .observeOn(AndroidSchedulers.mainThread())
+    .doOnNext {
+        if (it == 2) {
+            throw (RuntimeException("Exception on 2"))
+        }
+    }
+    .onErrorReturn { t: Throwable -&gt;
+        Log.d("onComplete", t.localizedMessage)
+        5
+    }.subscribe(object : Observer&lt;Int&gt; {
+        override fun onComplete() {
+            Log.d("onComplete", "onComplete")
+        }
+
+        override fun onSubscribe(d: Disposable) {
+        }
+
+        override fun onNext(i: Int) {
+            Log.d("onNext", i.toString())
+        }
+
+        override fun onError(e: Throwable) {
+            Log.d("onError", e.localizedMessage)
+        }
+    })</code></pre>
+                 <p class="graf--p">
+                  Here, it will return 5 in onNext after getting the error.
+                 </p>
+                 <pre><code class="language-java graf graf--code">D / onComplete: Exception on 2
+D / onNext: 5
+D / onComplete: onComplete</code></pre>
+                 <p class="graf--p">
+                  This is the output after running the app. It returns a value 5 in onNext after catching the exception and then completes the flow.
+                 </p>
+                 <p class="graf--p">
+                  If we don't pass a value in onErrorReturn operator, we will get a default value from the operator (27 in my case).
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  onErrorReutn  replaces
+                  <code class="graf--code-inline">
+                   onError
+                  </code>
+                  with a single
+                  <code class="graf--code-inline">
+                   onNext(value)
+                  </code>
+                  followed by
+                  <code class="graf--code-inline">
+                   onCompleted()
+                  </code>
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  retry
+                 </h4>
+                 <p class="graf--p">
+                  in this operator, we re-subscribe the obserable and give it a chance to get called again.
+                 </p>
+                 <p class="graf--p">
+                  For example : You have an API call which failed because of fluctuating internet connection as it will throw an error. We will retry the api call using the retry operator.
+                 </p>
+                 <pre><code class="language-java graf graf--code">Observable.just(1, 2, 3, 4)
+    .subscribeOn(Schedulers.io())
+    .observeOn(AndroidSchedulers.mainThread())
+    .doOnNext {
+        if (it == 2) {
+            throw (RuntimeException("Exception on 2"))
+        }
+    }.retry(4)
+    .subscribe(object : Observer&lt;Int&gt; {
+        override fun onComplete() {
+            Log.d("onComplete", "onComplete")
+        }
+
+        override fun onSubscribe(d: Disposable) {
+        }
+
+        override fun onNext(i: Int) {
+            Log.d("onNext", i.toString())
+        }
+
+        override fun onError(e: Throwable) {
+            Log.d("onError", e.localizedMessage)
+        }
+    })</code></pre>
+                 <pre><code class="language-java graf graf--code"></code></pre>
+                 <p class="graf--p">
+                  Here, in the code we have retried 4 times. So, every time it will get an error it will retry itself till the fourth chance and then finally it will throw the exception
+                 </p>
+                 <p class="graf--p">
+                  The output of the following is,
+                 </p>
+                 <pre><code class="language-java graf graf--code">D/onNext: 1
+D/onNext: 1
+D/onNext: 1
+D/onNext: 1
+D/onError: Exception on 2</code></pre>
+                 <blockquote class="graf--blockquote">
+                  Note : If we don't pass 4, it will keep on retrying unless it is successful. In our case it will make retry itself infintely as we won't be successful.
+                 </blockquote>
+                 <p class="graf--p">
+                  This is all about how to handle errors in RxJava.
+                 </p>
+                 <h4 class="graf--h3">
+                  Understand by Example
+                 </h4>
+                 <p class="graf--p">
+                  Now, we will discuss handling  error in Rxjava while doing a mock API call. In this example, we will use Zip operator to zip two observables.
+                 </p>
+                 <p class="graf--p">
+                  These observables will be mock reponse of two different APIs. Thet are,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val apiResponseOne = ArrayList&lt;String&gt;()
+val apiResponseTwo = ArrayList&lt;String&gt;()
+
+apiResponseOne.add("Response of API-1")
+apiResponseTwo.add("Response of API-2")</code></pre>
+                 <pre><code class="language-java graf graf--code">val observableOne = Observable.just(apiResponseOne)
+    .map {
+        if (it.size == 1) {
+            Log.d(TAG, "NullPointerException")
+            throw NullPointerException("Its a NPE")
+        }
+        it
+    }
+    .onErrorReturn { ArrayList() }
+val observableTwo = Observable.just(apiResponseTwo)
+    .map { it }
+    .onErrorReturn { ArrayList() }
+</code></pre>
+                 <p class="graf--p">
+                  Now, we have two different observables which will return the two dummy array-list  as API response.
+                 </p>
+                 <p class="graf--p">
+                  In the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    observableOne,
+                   </i>
+                  </b>
+                  we get an Exception because the size is one and as it gets an error it will return an empty list.
+                 </p>
+                 <p class="graf--p">
+                  In
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    observableTwo,
+                   </i>
+                  </b>
+                  we would get
+                  <b class="graf--bold">
+                   apiResponseTwo
+                  </b>
+                  arraylist as return value as Observable.
+                 </p>
+                 <p class="graf--p">
+                  Now, we will zip both the observables
+                 </p>
+                 <pre><code class="language-java graf graf--code">Observable.zip(
+    observableOne,
+    observableTwo,
+    BiFunction&lt;ArrayList&lt;String&gt;, ArrayList&lt;String&gt;, ArrayList&lt;String&gt;&gt; { outputOne, outputTwo -&gt;
+        Log.d(TAG, outputFunction(outputOne, outputTwo).size.toString())
+        return@BiFunction outputFunction(outputOne, outputTwo)
+    }
+).subscribe(object : Observer&lt;ArrayList&lt;String&gt;&gt; {
+    override fun onComplete() {
+
+    }
+    override fun onSubscribe(d: Disposable) {
+    }
+
+    override fun onNext(data: ArrayList&lt;String&gt;) {
+        for (individualData in data) {
+            Log.d(TAG, "data : $individualData")
+        }
+    }
+
+    override fun onError(e: Throwable) {
+    }
+})</code></pre>
+                 <p class="graf--p">
+                  and outputFunction looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun outputFunction(outputOne: ArrayList&lt;String&gt;, outputTwo: ArrayList&lt;String&gt;): ArrayList&lt;String&gt; {
+    val output = ArrayList&lt;String&gt;()
+    output.addAll(outputOne)
+    output.addAll(outputTwo)
+    return output
+}</code></pre>
+                 <p class="graf--p">
+                  In the above code, we are zipping the output of two operators and returning as a single arraylist by adding both arraylist as one.
+                 </p>
+                 <p class="graf--p">
+                  As,
+                  <b class="graf--bold">
+                   observableOne
+                  </b>
+                  will return a empty arraylist as it will throw an exception and
+                  <b class="graf--bold">
+                   observableTwo
+                  </b>
+                  will return a list of one string. We will merge it and it will return a new output .
+                 </p>
+                 <p class="graf--p">
+                  The output is,
+                 </p>
+                 <pre><code class="language-java graf graf--code">D/MainActivity: NullPointerException
+D/MainActivity: 1
+D/MainActivity: data : Response of API-2</code></pre>
+                 <p class="graf--p">
+                  First, the Log gets printed of the map operator of observable one where it returns an empty list because of an exception , then the log of  BiFunction gets printed with the size of the merged output list
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    i.e. 1
+                   </b>
+                  </i>
+                  as because we would have only
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    Respone of API-2
+                   </b>
+                  </i>
+                  in the list which we can verify from the Log of onNext.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  The purpose to explain this example is that even if any API call fails in a Rx operation, we would still be able to complete task without halting the operation or stopping the app.
+                 </blockquote>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/rxjava-zip-operator" target="_blank">
+                   Click here If you want to understand , how Zip Operator works
+                  </a>
+                 </p>
+                 <h4 class="graf--h3">
+                  Important Note
+                 </h4>
+                 <ul>
+                  <li>
+                   In Map operator, we can also log error using Exception.Propaget()
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">Observable.just("Hello MindOrks")
+  .map(input -&gt; {
+    try {
+      return //sometask;
+    } catch (Throwable t) {
+      throw Exceptions.propagate(t);
+    }
+  })</code></pre>
+                 <p class="graf--p">
+                  Here, Exception.Propagate() wraps the throwable to throw an error.
+                 </p>
+                 <ul>
+                  <li>
+                   In FlatMap operator, as we return Observable. So, when we get any error we can handle it using,
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">Observable.just("Hello MindOrks")
+  .flatMap(input -&gt; {
+    try {
+      return Observable.just(/*perform-work*/);
+    } catch (Throwable t) {
+      return Observable.error(t);
+    }
+  })</code></pre>
+                 <p class="graf--p">
+                  Happy learning
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exception Handling in Kotlin Coroutines" class="ui centered image" src="/images/exception-handling-kotlin-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exception Handling in Kotlin Coroutines
+           </div>
+           <div class="meta">
+            25th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to talk about how we can handle exceptions while using Kotlin Coroutines. We will discuss various ways to handle it efficiently in our Android project.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="RxJava For Android - RxAndroid" class="ui centered image" src="/images/rx-java-banner-385e1dc7df86aee5.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            RxJava For Android - RxAndroid
+           </div>
+           <div class="meta">
+            6th June 2020
+           </div>
+           <div class="description">
+            In this blog, we will discuss the RxJava for Android. We will learn what exactly is RxAndroid. We will also see the practical use cases of how using RxJava helps a developer to execute a task in a much simpler and organized way.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

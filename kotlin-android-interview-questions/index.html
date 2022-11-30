@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Kotlin Android Interview Questions
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/kotlin-android-interview-questions" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Kotlin Android Interview Questions" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/kotlin-android-interview-questions" property="og:url"/>
+  <meta content="/images/banner-kotlin-android-interview-question-5996d1f558fc7b24.png" property="og:image"/>
+  <meta content="In this article, you will get all the Kotlin Android Interview Questions that will help you in preparing for your next Android interview and crack it." property="og:description"/>
+  <meta content="Kotlin Android Interview Questions" property="twitter:title"/>
+  <meta content="In this article, you will get all the Kotlin Android Interview Questions that will help you in preparing for your next Android interview and crack it." name="twitter:description"/>
+  <meta content="/images/banner-kotlin-android-interview-question-5996d1f558fc7b24.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this article, you will get all the Kotlin Android Interview Questions that will help you in preparing for your next Android interview and crack it." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:468,data:{id:468,title:"Kotlin Android Interview Questions",description:"In this article, you will get all the Kotlin Android Interview Questions that will help you in preparing for your next Android interview and crack it.",text:'<h1 class="graf--h1">Kotlin Android Interview Questions</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-kotlin-android-interview-question-5996d1f558fc7b24.png class=\'graf-image\' alt=\'Kotlin Android Interview Questions\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here in this article, I will be sharing some famous Kotlin Android Interview questions that are asked in Android Interviews. So, if you are preparing for Android Interviews, then this article is a must for you.</p><p class="graf--p">To make the article short and simple without reducing the number of questions, I have put the short and crisp answers to every question and along with that, I have added the link of the blog related to that concept. So, in case you want to dive deeper into that topic, then you can go through that link as well.</p><h4 class="graf--h3">1. How does Kotlin work on Android?</h4><p class="graf--p">Just like Java, the Kotlin code is also compiled into the Java bytecode and is executed at runtime by the Java Virtual Machine i.e. JVM. When a Kotlin file named <code class="graf--code-inline">Main.kt</code> is compiled then it will eventually turn into a class and then the bytecode of the class will be generated. The name of the bytecode file will be <code class="graf--code-inline">MainKt.class</code> and this file will be executed by the JVM.</p><h4 class="graf--h3">2. Why should we use Kotlin?</h4><ul><li>Kotlin is concise</li><li>Kotlin is null-safe</li><li>Kotlin is interoperable</li></ul><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://www.youtube.com/watch?v=kRhivT-jKzY&list=PL6nth5sRD25iv8jZrQWD-5dXgu56ae5m8">Learn about these features from MindOrks video</a>.</p><h4 class="graf--h3">3. What is the difference between the variable declaration with var and val?</h4><p class="graf--p">If you want to declare some mutable(changeable) variable, then you can use <code class="graf--code-inline">var</code>. For the immutable variable, use <code class="graf--code-inline">val</code> i.e. <code class="graf--code-inline">val</code> variables can&#x27;t be changed once assigned.</p><h4 class="graf--h3">4. What is the difference between the variable declaration with val and const?</h4><p class="graf--p">Both the variables that are declared with <code class="graf--code-inline">val</code> and <code class="graf--code-inline">const</code> are immutable in nature. But the value of the <code class="graf--code-inline">const</code> variable must be known at the compile-time whereas the value of the <code class="graf--code-inline">val</code> variable can be assigned at runtime also. </p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/what-is-the-difference-between-const-and-val">Learn more about the difference between const and val from MindOrks blog</a>.</p><h4 class="graf--h3">5. How to ensure null safety in Kotlin?</h4><p class="graf--p">One of the major advantages of using Kotlin is null safety. In Java, if you access some null variable then you will get a <code class="graf--code-inline">NullPointerException</code>. So, the following code in Kotlin will produce a compile-time error:</p><pre><code class="language-java graf graf--code">var name: String = "MindOrks"\nname = null //error</code></pre><p class="graf--p">So, to assign null values to a variable, you need to declare the <code class="graf--code-inline">name</code> variable as a nullable string and then during the access of this variable, you need to use a safe call operator i.e. <code class="graf--code-inline">?.</code></p><pre><code class="language-java graf graf--code">var name: String? = "MindOrks"\nprint(name?.length) // ok\nname = null // ok</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/safecalls-vs-nullchecks-in-kotlin">Learn more about safe calls(?.) and null check(!!) from MindOrks blog</a>.</p><h4 class="graf--h3">6. What is the difference between safe calls(?.) and null check(!!)?</h4><p class="graf--p">Safe call operator i.e. <code class="graf--code-inline">?.</code> is used to check if the value of the variable is null or not. If it is null then null will be returned otherwise it will return the desired value.</p><pre><code class="language-java graf graf--code">var name: String? = "MindOrks"\nprintln(name?.length) // 8\nname = null\nprintln(name?.length) // null</code></pre><p class="graf--p">If you want to throw NullPointerException when the value of the variable is null, then you can use the null check or <code class="graf--code-inline">!!</code> operator.</p><pre><code class="language-java graf graf--code">var name: String? = "MindOrks"\nprintln(name?.length) // 8\nname = null\nprintln(name!!.length) // KotlinNullPointerException</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/safecalls-vs-nullchecks-in-kotlin">Learn more about safe calls(?.) and null check(!!) from MindOrks blog</a>.</p><h4 class="graf--h3">7. Do we have a ternary operator in Kotlin just like java?</h4><p class="graf--p">No, we don&#x27;t have a ternary operator in Kotlin but you can use the functionality of ternary operator by using if-else or Elvis operator.</p><h4 class="graf--h3">8. What is Elvis operator in Kotlin?</h4><p class="graf--p">In Kotlin, you can assign null values to a variable by using the null safety property. To check if a value is having null value then you can use if-else or can use the Elvis operator i.e. <code class="graf--code-inline">?:</code> For example:</p><pre><code class="language-java graf graf--code">var name:String? = "Mindorks"\nval nameLength = name?.length ?: -1\nprintln(nameLength)</code></pre><p class="graf--p">The Elvis operator(<code class="graf--code-inline">?:</code>) used above will return the length of name if the value is not null otherwise if the value is null, then it will return <code class="graf--code-inline">-1</code>.</p><h4 class="graf--h3">9. How to convert a Kotlin source file to a Java source file?</h4><p class="graf--p">Steps to convert your Kotlin source file to Java source file:</p><ol type="1"><li>Open your Kotlin project in the IntelliJ IDEA / Android Studio.</li><li>Then navigate to <b class="graf--bold">Tools &gt; Kotlin &gt; Show Kotlin Bytecode.</b></li><li>Now click on the <b class="graf--bold">Decompile</b> button to get your Java code from the bytecode.</li></ol><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/how-to-convert-a-kotlin-source-file-to-a-java-source-file">Learn more about the conversion steps from MindOrks blog</a>.</p><h4 class="graf--h3">10. What is the use of @JvmStatic, @JvmOverloads, and @JvmFiled in Kotlin?</h4><ul><li><b class="graf--bold">@JvmStatic:</b> This annotation is used to tell the compiler that the method is a static method and can be used in Java code.</li><li><b class="graf--bold">@JvmOverloads:</b> To use the default values passed as an argument in Kotlin code from the Java code, we need to use the <code class="graf--code-inline">@JvmOverloads</code> annotation.</li><li><b class="graf--bold">@JvmField:</b> To access the fields of a Kotlin class from Java code without using any getters and setters, we need to use the <code class="graf--code-inline">@JvmField</code> in the Kotlin code.</li></ul><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/jvmstatic-annotation-in-kotlin">Learn more about @JvmStatic, @JvmOverloads, and @JvmField in Kotlin from MindOrks blog</a>.</p><h4 class="graf--h3">11. What is a data class in Kotlin?</h4><p class="graf--p">Data classes are those classes which are made just to store some data. In Kotlin, it is marked as data. The following is an example of the same:</p><pre><code class="language-java graf graf--code">data class Developer(val name: String, val age: Int)</code></pre><p class="graf--p">When we mark a class as a <i class="graf--italic">data</i> class, you don’t have to implement or create the following functions like we do in Java: <code class="graf--code-inline">hashCode()</code>, <code class="graf--code-inline">equals()</code>, <code class="graf--code-inline">toString()</code>, <code class="graf--code-inline">copy()</code>. The compiler automatically creates these internally, so it also leads to clean code. Although, there are few other requirements that data classes need to fulfill.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/learn-kotlin-data-class">Learn more about data class from MindOrks blog</a>.</p><h4 class="graf--h3">12. Can we use primitive types such as int, double, float in Kotlin?</h4><p class="graf--p">In Kotlin, we can&#x27;t use primitive types directly. We can use classes like Int, Double, etc. as an object wrapper for primitives. But the compiled bytecode has these primitive types.</p><h4 class="graf--h3">13. What is String Interpolation in Kotlin?</h4><p class="graf--p">If you want to use some variable or perform some operation inside a string then String Interpolation can be used. You can use the <code class="graf--code-inline">$</code> sign to use some variable in the string or can perform some operation in between <code class="graf--code-inline">{}</code> sign.</p><pre><code class="language-java graf graf--code">var name = "MindOrks"\nprint("Hello! I am learning from $name")</code></pre><h4 class="graf--h3">14. What do you mean by destructuring in Kotlin?</h4><p class="graf--p"><b class="graf--bold">Destructuring</b> is a convenient way of extracting multiple values from data stored in(possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment). Sometimes it is convenient to d<i class="graf--italic">estructure </i>an object into a number of variables, for example:</p><pre><code class="language-java graf graf--code">val (name, age) = developer</code></pre><p class="graf--p">Now, we can use name and age independently like below: </p><pre><code class="language-java graf graf--code">println(name)\nprintln(age)</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/learn-kotlin-destructuring-declarations">Learn more about Kotlin Destructuring from MindOrks blog</a>.</p><h4 class="graf--h3">15. When to use the lateinit keyword in Kotlin?</h4><p class="graf--p"><code class="graf--code-inline">lateinit</code> is late initialization. </p><p class="graf--p">Normally, properties declared as having a non-null type must be initialized in the constructor. However, fairly often this is not convenient. </p><p class="graf--p">For example, properties can be initialized through dependency injection, or in the setup method of a unit test. In this case, you cannot supply a non-null initializer in the constructor, but you still want to avoid null checks when referencing the property inside the body of a class. To handle this case, you can mark the property with the lateinit modifier.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/lateinit-vs-lazy-in-kotlin">Learn more about lateinit from MindOrks blog</a>.</p><h4 class="graf--h3">16. How to check if a lateinit variable has been initialized or not?</h4><p class="graf--p">You can check if the lateinit variable has been initialized or not before using it with the help of <code class="graf--code-inline">isInitialized</code> method. This method will return true if the lateinit property has been initialized otherwise it will return false. For example:</p><pre><code class="language-java graf graf--code">class Person {\n lateinit var name: String\n fun initializeName() {\n println(this::name.isInitialized)\n name = "MindOrks" // initializing name\n println(this::name.isInitialized)\n }\n}\nfun main(args: Array&lt;String&gt;) {\n Person().initializeName()\n}</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/how-to-check-if-a-lateinit-variable-has-been-initialized">Learn more about it from MindOrks blog</a>.</p><h4 class="graf--h3">17. What is the difference between lateinit and lazy in Kotlin?</h4><ul><li>lazy can only be used for val properties, whereas lateinit can only be applied to var because it can’t be compiled to a final field, thus no immutability can be guaranteed.</li><li>If you want your property to be initialized from outside in a way probably unknown beforehand, use lateinit.</li></ul><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/lateinit-vs-lazy-in-kotlin">Learn more about the difference between lateinit and lazy from MindOrks blog</a>.</p><h4 class="graf--h3">18. Is there any difference between == operator and === operator?</h4><p class="graf--p">Yes. The <code class="graf--code-inline">==</code> operator is used to compare the values stored in variables and the <code class="graf--code-inline">===</code> operator is used to check if the reference of the variables are equal or not. But in the case of primitive types, the <code class="graf--code-inline">===</code> operator also checks for the value and not reference.</p><pre><code class="language-java graf graf--code">// primitive example\nval int1 = 10 \nval int2 = 10\nprintln(int1 == int2) // true\nprintln(int1 === int2) // true\n// wrapper example\nval num1 = Integer(10)\nval num2 = Integer(10)\nprintln(num1 == num2) // true\nprintln(num1 === num2) //false</code></pre><h4 class="graf--h3">19. What is the forEach in Kotlin?</h4><p class="graf--p">In Kotlin, to use the functionality of a for-each loop just like in Java, we use a <code class="graf--code-inline">forEach</code> function. The following is an example of the same:</p><pre><code class="language-java graf graf--code">var listOfMindOrks = listOf("mindorks.com", "blog.mindorks.com", "afteracademy.com")\nlistOfMindOrks.forEach {\n Log.d(TAG,it)\n}</code></pre><h4 class="graf--h3">20. What are companion objects in Kotlin?</h4><p class="graf--p">In Kotlin, if you want to write a function or any member of the class that can be called without having the instance of the class then you can write the same as a member of a companion object inside the class. </p><p class="graf--p">To create a <b class="graf--bold">companion</b> object, you need to add the <code class="graf--code-inline">companion</code> keyword in front of the object declaration.</p><p class="graf--p">The following is an example of a companion object in Kotlin:</p><pre><code class="language-java graf graf--code">class ToBeCalled {\n companion object Test {\n fun callMe() = println("You are calling me :)")\n }\n}\nfun main(args: Array&lt;String&gt;) {\n ToBeCalled.callMe()\n}</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/companion-object-in-kotlin">Learn more about companion object from MindOrks blog</a>.</p><h4 class="graf--h3">21. What is the equivalent of Java static methods in Kotlin?</h4><p class="graf--p">To achieve the functionality similar to Java static methods in Kotlin, we can use:</p><ul><li>companion object</li><li>package-level function</li><li>object</li></ul><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/what-is-the-equivalent-of-java-static-methods-in-kotlin">Read more about this from MindOrks blog</a>.</p><h4 class="graf--h3">22. What is the difference between FlatMap and Map in Kotlin?</h4><ul><li>FlatMap is used to combine all the items of lists into one list.</li><li>Map is used to transform a list based on certain conditions.</li></ul><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/flatmap-vs-map-in-kotlin">Read more about FlatMap and Map in Kotlin from MindOrks blog</a>.</p><h4 class="graf--h3">23. What is the difference between List and Array types in Kotlin?</h4><p class="graf--p">If you have a list of data that is having a fixed size, then you can use an Array. But if the size of the list can vary, then we have to use a mutable list.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/difference-between-list-and-array-types-in-kotlin">Learn more about the difference between List and Array from MindOrks blog</a>. </p><h4 class="graf--h3">24. Can we use the new keyword to instantiate a class object in Kotlin?</h4><p class="graf--p">No, in Kotlin we don&#x27;t have to use the <code class="graf--code-inline">new</code> keyword to instantiate a class object. To instantiate a class object, simply we use:</p><pre><code class="language-java graf graf--code">var varName = ClassName()</code></pre><h4 class="graf--h3">25. What are visibility modifiers in Kotlin?</h4><p class="graf--p">A visibility modifier or access specifier or access modifier is a concept that is used to define the scope of something in a programming language. In Kotlin, we have four visibility modifiers: </p><ul><li><b class="graf--bold">private:</b> visible inside that particular class or file containing the declaration.</li><li><b class="graf--bold">protected:</b> visible inside that particular class or file and also in the subclass of that particular class where it is declared. </li><li><b class="graf--bold">internal:</b> visible everywhere in that particular module.</li><li><b class="graf--bold">public:</b> visible to everyone.</li></ul><p class="graf--p">Note: By default, the visibility modifier in Kotlin is <b class="graf--bold">public</b>.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/learn-kotlin-visibility-modifiers-private-protected-internal-public">Learn more about visibility modifiers in Kotlin from MindOrks blog</a>.</p><h4 class="graf--h3">26. How to create a Singleton class in Kotlin?</h4><p class="graf--p">A singleton class is a class that is defined in such a way that only one instance of the class can be created and is used where we need only one instance of the class like in logging, database connections, etc.</p><p class="graf--p">To create a Singleton class in Kotlin, you need to use the object keyword.</p><pre><code class="language-java graf graf--code">object AnySingletonClassName</code></pre><blockquote class="graf--blockquote">Note: You can&#x27;t use constructor in object, but you can use init.</blockquote><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/how-to-create-a-singleton-class-in-kotlin">Learn more about Singleton class from MindOrks blog</a>.</p><h4 class="graf--h3">27. What are init blocks in Kotlin?</h4><p class="graf--p"><code class="graf--code-inline">init</code> blocks are initializer blocks that are executed just after the execution of the primary constructor. A class file can have one or more init blocks that will be executed in series. If you want to perform some operation in the primary constructor, then it is not possible in Kotlin, for that, you need to use the <code class="graf--code-inline">init</code> block.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/understanding-init-block-in-kotlin">Learn more about init blocks from MindOrks blog</a>.</p><h4 class="graf--h3">28. What are the types of constructors in Kotlin?</h4><ul><li><b class="graf--bold">Primary constructor:</b> These constructors are defined in the class header and you can&#x27;t perform some operation in it, unlike Java&#x27;s constructor. </li><li><b class="graf--bold">Secondary constructor:</b> These constructors are declared inside the class body by using the constructor keyword. You must call the primary constructor from the secondary constructor explicitly. Also, the property of the class can’t be declared inside the secondary constructor. There can be more than one secondary constructors in Kotlin.</li></ul><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/primary-and-secondary-constructors-in-kotlin">Learn more about Primary and Secondary constructors from MindOrks blog</a>.</p><h4 class="graf--h3">29. Is there any relationship between primary and secondary constructors?</h4><p class="graf--p">Yes, when using a secondary constructor, you need to call the primary constructor explicitly.</p><h4 class="graf--h3">30. What is the default type of argument used in a constructor?</h4><p class="graf--p">By default, the type of arguments of a constructor in val. But you can change it to var explicitly.</p><h4 class="graf--h3">31. What are Coroutines in Kotlin?</h4><p class="graf--p">A framework to manage concurrency in a more performant and simple way with its lightweight thread which is written on top of the actual threading framework to get the most out of it by taking the advantage of cooperative nature of functions.</p><p class="graf--p"><b class="graf--bold">This is an important interview question</b>.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/kotlin-coroutines">Learn more about Kotlin Coroutines with examples from MindOrks blog</a>.</p><h4 class="graf--h3">32. What is suspend function in Kotlin Coroutines?</h4><p class="graf--p">Suspend function is the building block of the Coroutines in Kotlin. Suspend function is a function that could be started, paused, and resume. To use a suspend function, we need to use the suspend keyword in our normal function definition.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/suspend-function-in-kotlin-coroutines">Learn more about the suspend function from MindOrks blog</a>.</p><h4 class="graf--h3">33. What is the difference between Launch and Async in Kotlin Coroutines?</h4><p class="graf--p">The difference is that the <code class="graf--code-inline">launch{}</code> does not return anything and the <code class="graf--code-inline">async{}</code> returns an instance of <code class="graf--code-inline">Deferred&lt;T&gt;</code>, which has an <code class="graf--code-inline">await()</code> function that returns the result of the coroutine like we have future in Java in which we do <code class="graf--code-inline">future.get()</code> to the get the result.</p><p class="graf--p">In other words:</p><ul><li>launch: fire and forget</li><li>async: perform a task and return a result</li></ul><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://www.youtube.com/watch?v=nC30UiDv8Xc">Learn more about Launch vs Async from MindOrks video</a>.</p><h4 class="graf--h3">34. What are scopes in Kotlin Coroutines?</h4><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/kotlin-coroutines">Learn from MindOrks blog</a>.</p><h4 class="graf--h3">35. How Exception Handling is done in Kotlin Coroutines?</h4><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/exception-handling-in-kotlin-coroutines">Learn from MindOrks blog</a>.</p><h4 class="graf--h3">36. How to choose between a switch and when in Kotlin?</h4><p class="graf--p">Whenever we want to handle many if-else conditions, then we generally use switch-case statements. But Kotlin provides a more concise option i.e. in Kotlin, we can use when in place of the switch. And, when can be used as: </p><ul><li>expression</li><li>arbitrary condition expression</li><li>without argument</li><li>with two or more choices</li></ul><p class="graf--p">For example:</p><pre><code class="language-java graf graf--code">when(number) {\n 1 -&gt; println("One")\n 2, 3 -&gt; println("Two or Three")\n 4 -&gt; println("Four")\n else -&gt; println("Number is not between 1 and 4")\n}</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/replace-switch-with-when-in-kotlin">Learn more about when from MindOrks blog</a>.</p><h4 class="graf--h3">37. What is the open keyword in Kotlin used for?</h4><p class="graf--p">By default, the classes and functions are final in Kotlin. So, you can&#x27;t inherit the class or override the functions. To do so, you need to use the open keyword before the class and function. For example:</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/understanding-open-keyword-in-kotlin">Learn more about open keyword from MindOrks blog</a>.</p><h4 class="graf--h3">38. What are lambdas expressions?</h4><p class="graf--p">Lambdas expressions are anonymous functions that can be treated as values i.e. we can pass the lambdas expressions as arguments to a function return them, or do any other thing we could do with a normal object. For example:</p><pre><code class="language-java graf graf--code">val add : (Int, Int) -&gt; Int = { a, b -&gt; a + b }\nval result = add(9, 10)</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/higher-order-functions-and-lambdas-in-kotlin">Learn more about Lambdas from MindOrks blog</a>.</p><h4 class="graf--h3">39. What are Higher-Order functions in Kotlin?</h4><p class="graf--p">A higher-order function is a function that takes functions as parameters or returns a function. For example, A function can take functions as parameters.</p><pre><code class="language-java graf graf--code">fun passMeFunction(abc: () -&gt; Unit) {\n // I can take function\n // do something here\n // execute the function\n abc()\n}</code></pre><p class="graf--p">For example, A function can return another function.</p><pre><code class="language-java graf graf--code">fun add(a: Int, b: Int): Int {\n return a + b\n}</code></pre><p class="graf--p">And, we have a function <b class="graf--bold">returnMeAddFunction</b> which takes zero parameters and returns a function of the type <b class="graf--bold">((Int, Int) -&gt; Int)</b>.</p><pre><code class="language-java graf graf--code">fun returnMeAddFunction(): ((Int, Int) -&gt; Int) {\n // can do something and return function as well\n // returning function\n return ::add\n}</code></pre><p class="graf--p">And to call the above function, we can do:</p><pre><code class="language-java graf graf--code">val add = returnMeAddFunction()\nval result = add(2, 2)</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/higher-order-functions-and-lambdas-in-kotlin">Learn more about Higher-Order functions from MindOrks blog</a>.</p><h4 class="graf--h3">40. What are extension functions in Kotlin?</h4><p class="graf--p">Extension functions are like extensive properties attached to any class in Kotlin. By using extension functions, you can add some methods or functionalities to an existing class even without inheriting the class. For example: Let&#x27;s say, we have views where we need to play with the visibility of the views. So, we can create an extension function for views like,</p><pre><code class="language-java graf graf--code">fun View.show() {\n this.visibility = View.VISIBLE\n}\n\nfun View.hide() {\n this.visibility = View.GONE\n}</code></pre><p class="graf--p">and to use it we use, like,</p><pre><code class="language-java graf graf--code">toolbar.hide()</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/extension-functions-vs-static-utility-class">Learn more about extension functions from MindOrks blog</a>.</p><h4 class="graf--h3">41. What is an infix function in Kotlin?</h4><p class="graf--p">An infix function is used to call the function without using any bracket or parenthesis. You need to use the infix keyword to use the infix function.</p><pre><code class="language-java graf graf--code">class Operations {\n var x = 10; \n infix fun minus(num: Int) {\n \tthis.x = this.x - num\n } \n}\nfun main() {\n val opr = Operations()\n opr minus 8\n print(opr.x)\n}</code></pre><h4 class="graf--h3">42. What is an inline function in Kotlin?</h4><p class="graf--p">Inline function instruct compiler to insert complete body of the function wherever that function got used in the code. To use an Inline function, all you need to do is just add an inline keyword at the beginning of the function declaration.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/inline-function-in-kotlin">Learn more about Inline functions from MindOrks blog</a>.</p><h4 class="graf--h3">43. What is noinline in Kotlin?</h4><p class="graf--p">While using an inline function and want to pass some lambda function and not all lambda function as inline, then you can explicitly tell the compiler which lambda it shouldn&#x27;t inline.</p><pre><code class="language-java graf graf--code">inline fun doSomethingElse(abc: () -&gt; Unit, noinline xyz: () -&gt; Unit) {\n abc()\n xyz()\n}</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/inline-function-in-kotlin">Learn more about noinline functions from MindOrks blog</a>.</p><h4 class="graf--h3">44. What are Reified types in Kotlin?</h4><p class="graf--p">When you are using the concept of Generics to pass some class as a parameter to some function and you need to access the type of that class, then you need to use the reified keyword in Kotlin.</p><p class="graf--p">For example:</p><pre><code class="language-java graf graf--code">inline fun &lt;reified T&gt; genericsExample(value: T) {\n println(value)\n println("Type of T: ${T::class.java}")\n}\nfun main() {\n genericsExample&lt;String&gt;("Learning Generics!")\n genericsExample&lt;Int&gt;(100)\n}</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/what-are-reified-types-in-kotlin">Learn more about Reified keyword from MindOrks blog</a>. </p><h4 class="graf--h3">45. What is the operator overloading in Kotlin?</h4><p class="graf--p">In Kotlin, we can use the same operator to perform various tasks and this is known as operator overloading. To do so, we need to provide a member function or an extension function with a fixed name and operator keyword before the function name because normally also, when we are using some operator then under the hood some function gets called. For example, if you are writing <code class="graf--code-inline">num1+num2</code>, then it gets converted to <code class="graf--code-inline">num1.plus(num2)</code>.</p><p class="graf--p">For example:</p><pre><code class="language-java graf graf--code">fun main() {\n val bluePen = Pen(inkColor = "Blue")\n bluePen.showInkColor()\n\n val blackPen = Pen(inkColor = "Black")\n blackPen.showInkColor()\n\n val blueBlackPen = bluePen + blackPen\n blueBlackPen.showInkColor()\n}\n\n operator fun Pen.plus(otherPen: Pen):Pen{\n val ink = "$inkColor, ${otherPen.inkColor}"\n return Pen(inkColor = ink)\n }\n\n data class Pen(val inkColor:String){\n fun showInkColor(){ println(inkColor)}\n }</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/operator-overloading-in-kotlin">Learn more about operator overloading from MindOrks blog</a>.</p><h4 class="graf--h3">46. Explain the use-case of let, run, with, also, apply in Kotlin.</h4><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/using-scoped-functions-in-kotlin-let-run-with-also-apply">Learn from MindOrks blog</a>.</p><h4 class="graf--h3">47. What are pair and triple in Kotlin?</h4><p class="graf--p">Pair and Triples are used to return two and three values respectively from a function and the returned values can be of the same data type or different.</p><pre><code class="language-java graf graf--code">val pair = Pair("My Age: ", 25)\nprint(pair.first + pair.second)</code></pre><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/pair-and-triple-in-kotlin">Learn more about Pairs and Triples from MindOrks blog</a>.</p><h4 class="graf--h3">48. What are labels in Kotlin?</h4><p class="graf--p">Any expression written in Kotlin is called a label. For example, if we are having a <i class="graf--italic">for-loop</i> in our Kotlin code then we can name that <i class="graf--italic">for-loop</i> expression as a label and will use the label name for the <i class="graf--italic">for-loop</i>.</p><p class="graf--p">We can create a label by using an identifier followed by the <code class="graf--code-inline">@</code> sign. For example, <code class="graf--code-inline">name@</code>, <code class="graf--code-inline">loop@</code>, <code class="graf--code-inline">xyz@</code>, etc. The following is an example of a label:</p><pre><code class="language-java graf graf--code">loop@ for (i in 1..10) {\n // some code goes here\n}</code></pre><p class="graf--p">The name of the above for-loop is <code class="graf--code-inline">loop</code>.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/learn-kotlin-returns-jumps-labels">Learn more about labels in Kotlin from MindOrks blog</a>.</p><h4 class="graf--h3">49. What are the benefits of using a Sealed Class over Enum?</h4><p class="graf--p">Sealed classes give us the flexibility of having <b class="graf--bold">different</b> <b class="graf--bold">types of subclasses and also containing the state</b>. The important point to be noted here is the subclasses that are extending the Sealed classes should be either nested classes of the Sealed class or should be declared in the same file as that of the Sealed class.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/learn-kotlin-sealed-classes">Learn more about Sealed classes from MindOrks blog</a>.</p><h4 class="graf--h3">50. What are collections in Kotlin?</h4><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://www.youtube.com/watch?v=XeRt2ZZ-jkA">Learn from MindOrks video</a>.</p><p class="graf--p">Prepare these 50 questions for your interview and also go through the given link in each question to have a better knowledge of the topic.</p><p class="graf--p">Also, you can find the Android Interview Questions <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/android-interview-questions">here</a></b>.</p><p class="graf--p">Share this blog with other developers who are going to give some Android interview.</p><p class="graf--p"><b class="graf--bold">All the best for your interview!</b></p><p class="graf--p">Team MindOrks!</p><p class="graf--p"><b class="graf--bold">Also, Let’s connect on</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://twitter.com/hiii_sumit">Twitter</a>,</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/mishra3452/">Linkedin</a>,</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://github.com/mishra3452">Github</a>, and</b> <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://www.facebook.com/mishra3452">Facebook</a></b></p>',author:17146,img_url:"/images/banner-kotlin-android-interview-question-5996d1f558fc7b24.png",blog_url:"kotlin-android-interview-questions",likes:0,rank:0,category:1,published_at:"5th June 2020"},author:{id:17146,name:"Sumit Mishra",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Software Development Engineer at MindOrks",fb_profile_url:"https://www.facebook.com/mishra3452",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hiii_sumit",github_profile_url:"https://github.com/mishra3452",linkedin_profile_url:"https://www.linkedin.com/in/sumit-mishra-a15499135/"},isFetching:!1,similarBlogs:[{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.16603870689868927},{id:194,title:"Android WebView — in kotlin",description:"Android WebView",author:14897,img_url:"/images/android_webview_mindorks_feature_image.png",blog_url:"android-webview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:196,title:"Android ViewPager in Kotlin",description:"Android ViewPager",author:14897,img_url:"/images/android_viewpager_mindorks_feature_image.png",blog_url:"android-viewpager-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:197,title:"Android Material Tabs in Kotlin",description:"How to create Material Tabs in Android in kotlin?",author:14897,img_url:"/images/android_materialtabs_mindorks_feature_image.png",blog_url:"android-material-tabs-with-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:200,title:"Android ReyclerView in Kotlin",description:"Android RecyclerView",author:14897,img_url:"/images/android_recyclerview_mindorks_feature_image.png",blog_url:"android-recyclerview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:201,title:"Android Navigation Drawer in Kotlin",description:"Android Navigation Drawer in Kotlin",author:14897,img_url:"/images/android_navigationdrawer_mindorks_featuer_image.png",blog_url:"android-navigation-drawer-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Sumit Mishra" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300"/>
+          <div class="content">
+           Sumit Mishra
+           <div class="sub header" style="margin-top:5px">
+            5th June 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Kotlin Android Interview Questions
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Kotlin Android Interview Questions" class="graf-image" src="/images/banner-kotlin-android-interview-question-5996d1f558fc7b24.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Here in this article, I will be sharing some famous Kotlin Android Interview questions that are asked in Android Interviews. So, if you are preparing for Android Interviews, then this article is a must for you.
+                 </p>
+                 <p class="graf--p">
+                  To make the article short and simple without reducing the number of questions, I have put the short and crisp answers to every question and along with that, I have added the link of the blog related to that concept. So, in case you want to dive deeper into that topic, then you can go through that link as well.
+                 </p>
+                 <h4 class="graf--h3">
+                  1. How does Kotlin work on Android?
+                 </h4>
+                 <p class="graf--p">
+                  Just like Java, the Kotlin code is also compiled into the Java bytecode and is executed at runtime by the Java Virtual Machine i.e. JVM. When a Kotlin file named
+                  <code class="graf--code-inline">
+                   Main.kt
+                  </code>
+                  is compiled then it will eventually turn into a class and then the bytecode of the class will be generated. The name of the bytecode file will be
+                  <code class="graf--code-inline">
+                   MainKt.class
+                  </code>
+                  and this file will be executed by the JVM.
+                 </p>
+                 <h4 class="graf--h3">
+                  2. Why should we use Kotlin?
+                 </h4>
+                 <ul>
+                  <li>
+                   Kotlin is concise
+                  </li>
+                  <li>
+                   Kotlin is null-safe
+                  </li>
+                  <li>
+                   Kotlin is interoperable
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://www.youtube.com/watch?v=kRhivT-jKzY&amp;list=PL6nth5sRD25iv8jZrQWD-5dXgu56ae5m8" target="_blank">
+                   Learn about these features from MindOrks video
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  3. What is the difference between the variable declaration with var and val?
+                 </h4>
+                 <p class="graf--p">
+                  If you want to declare some mutable(changeable) variable, then you can use
+                  <code class="graf--code-inline">
+                   var
+                  </code>
+                  . For the immutable variable, use
+                  <code class="graf--code-inline">
+                   val
+                  </code>
+                  i.e.
+                  <code class="graf--code-inline">
+                   val
+                  </code>
+                  variables can't be changed once assigned.
+                 </p>
+                 <h4 class="graf--h3">
+                  4. What is the difference between the variable declaration with val and const?
+                 </h4>
+                 <p class="graf--p">
+                  Both the variables that are declared with
+                  <code class="graf--code-inline">
+                   val
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   const
+                  </code>
+                  are immutable in nature. But the value of the
+                  <code class="graf--code-inline">
+                   const
+                  </code>
+                  variable must be known at the compile-time whereas the value of the
+                  <code class="graf--code-inline">
+                   val
+                  </code>
+                  variable can be assigned at runtime also.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/what-is-the-difference-between-const-and-val" target="_blank">
+                   Learn more about the difference between const and val from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  5. How to ensure null safety in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  One of the major advantages of using Kotlin is null safety. In Java, if you access some null variable then you will get a
+                  <code class="graf--code-inline">
+                   NullPointerException
+                  </code>
+                  . So, the following code in Kotlin will produce a compile-time error:
+                 </p>
+                 <pre><code class="language-java graf graf--code">var name: String = "MindOrks"
+name = null //error</code></pre>
+                 <p class="graf--p">
+                  So, to assign null values to a variable, you need to declare the
+                  <code class="graf--code-inline">
+                   name
+                  </code>
+                  variable as a nullable string and then during the access of this variable, you need to use a safe call operator i.e.
+                  <code class="graf--code-inline">
+                   ?.
+                  </code>
+                 </p>
+                 <pre><code class="language-java graf graf--code">var name: String? = "MindOrks"
+print(name?.length) // ok
+name = null // ok</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/safecalls-vs-nullchecks-in-kotlin" target="_blank">
+                   Learn more about safe calls(?.) and null check(!!) from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  6. What is the difference between safe calls(?.) and null check(!!)?
+                 </h4>
+                 <p class="graf--p">
+                  Safe call operator i.e.
+                  <code class="graf--code-inline">
+                   ?.
+                  </code>
+                  is used to check if the value of the variable is null or not. If it is null then null will be returned otherwise it will return the desired value.
+                 </p>
+                 <pre><code class="language-java graf graf--code">var name: String? = "MindOrks"
+println(name?.length) // 8
+name = null
+println(name?.length) // null</code></pre>
+                 <p class="graf--p">
+                  If you want to throw NullPointerException when the value of the variable is null, then you can use the null check or
+                  <code class="graf--code-inline">
+                   !!
+                  </code>
+                  operator.
+                 </p>
+                 <pre><code class="language-java graf graf--code">var name: String? = "MindOrks"
+println(name?.length) // 8
+name = null
+println(name!!.length) // KotlinNullPointerException</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/safecalls-vs-nullchecks-in-kotlin" target="_blank">
+                   Learn more about safe calls(?.) and null check(!!) from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  7. Do we have a ternary operator in Kotlin just like java?
+                 </h4>
+                 <p class="graf--p">
+                  No, we don't have a ternary operator in Kotlin but you can use the functionality of ternary operator by using if-else or Elvis operator.
+                 </p>
+                 <h4 class="graf--h3">
+                  8. What is Elvis operator in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  In Kotlin, you can assign null values to a variable by using the null safety property. To check if a value is having null value then you can use if-else or can use the Elvis operator i.e.
+                  <code class="graf--code-inline">
+                   ?:
+                  </code>
+                  For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">var name:String? = "Mindorks"
+val nameLength = name?.length ?: -1
+println(nameLength)</code></pre>
+                 <p class="graf--p">
+                  The Elvis operator(
+                  <code class="graf--code-inline">
+                   ?:
+                  </code>
+                  ) used above will return the length of name if the value is not null otherwise if the value is null, then it will return
+                  <code class="graf--code-inline">
+                   -1
+                  </code>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  9. How to convert a Kotlin source file to a Java source file?
+                 </h4>
+                 <p class="graf--p">
+                  Steps to convert your Kotlin source file to Java source file:
+                 </p>
+                 <ol type="1">
+                  <li>
+                   Open your Kotlin project in the IntelliJ IDEA / Android Studio.
+                  </li>
+                  <li>
+                   Then navigate to
+                   <b class="graf--bold">
+                    Tools &gt; Kotlin &gt; Show Kotlin Bytecode.
+                   </b>
+                  </li>
+                  <li>
+                   Now click on the
+                   <b class="graf--bold">
+                    Decompile
+                   </b>
+                   button to get your Java code from the bytecode.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/how-to-convert-a-kotlin-source-file-to-a-java-source-file" target="_blank">
+                   Learn more about the conversion steps from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  10. What is the use of @JvmStatic, @JvmOverloads, and @JvmFiled in Kotlin?
+                 </h4>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    @JvmStatic:
+                   </b>
+                   This annotation is used to tell the compiler that the method is a static method and can be used in Java code.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    @JvmOverloads:
+                   </b>
+                   To use the default values passed as an argument in Kotlin code from the Java code, we need to use the
+                   <code class="graf--code-inline">
+                    @JvmOverloads
+                   </code>
+                   annotation.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    @JvmField:
+                   </b>
+                   To access the fields of a Kotlin class from Java code without using any getters and setters, we need to use the
+                   <code class="graf--code-inline">
+                    @JvmField
+                   </code>
+                   in the Kotlin code.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/jvmstatic-annotation-in-kotlin" target="_blank">
+                   Learn more about @JvmStatic, @JvmOverloads, and @JvmField in Kotlin from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  11. What is a data class in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  Data classes are those classes which are made just to store some data. In Kotlin, it is marked as data. The following is an example of the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class Developer(val name: String, val age: Int)</code></pre>
+                 <p class="graf--p">
+                  When we mark a class as a
+                  <i class="graf--italic">
+                   data
+                  </i>
+                  class, you don’t have to implement or create the following functions like we do in Java:
+                  <code class="graf--code-inline">
+                   hashCode()
+                  </code>
+                  ,
+                  <code class="graf--code-inline">
+                   equals()
+                  </code>
+                  ,
+                  <code class="graf--code-inline">
+                   toString()
+                  </code>
+                  ,
+                  <code class="graf--code-inline">
+                   copy()
+                  </code>
+                  . The compiler automatically creates these internally, so it also leads to clean code. Although, there are few other requirements that data classes need to fulfill.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/learn-kotlin-data-class" target="_blank">
+                   Learn more about data class from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  12. Can we use primitive types such as int, double, float in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  In Kotlin, we can't use primitive types directly. We can use classes like Int, Double, etc. as an object wrapper for primitives. But the compiled bytecode has these primitive types.
+                 </p>
+                 <h4 class="graf--h3">
+                  13. What is String Interpolation in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  If you want to use some variable or perform some operation inside a string then String Interpolation can be used. You can use the
+                  <code class="graf--code-inline">
+                   $
+                  </code>
+                  sign to use some variable in the string or can perform some operation in between
+                  <code class="graf--code-inline">
+                   {}
+                  </code>
+                  sign.
+                 </p>
+                 <pre><code class="language-java graf graf--code">var name = "MindOrks"
+print("Hello! I am learning from $name")</code></pre>
+                 <h4 class="graf--h3">
+                  14. What do you mean by destructuring in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Destructuring
+                  </b>
+                  is a convenient way of extracting multiple values from data stored in(possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment). Sometimes it is convenient to d
+                  <i class="graf--italic">
+                   estructure
+                  </i>
+                  an object into a number of variables, for example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">val (name, age) = developer</code></pre>
+                 <p class="graf--p">
+                  Now, we can use name and age independently like below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">println(name)
+println(age)</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/learn-kotlin-destructuring-declarations" target="_blank">
+                   Learn more about Kotlin Destructuring from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  15. When to use the lateinit keyword in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   lateinit
+                  </code>
+                  is late initialization.
+                 </p>
+                 <p class="graf--p">
+                  Normally, properties declared as having a non-null type must be initialized in the constructor. However, fairly often this is not convenient.
+                 </p>
+                 <p class="graf--p">
+                  For example, properties can be initialized through dependency injection, or in the setup method of a unit test. In this case, you cannot supply a non-null initializer in the constructor, but you still want to avoid null checks when referencing the property inside the body of a class. To handle this case, you can mark the property with the lateinit modifier.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/lateinit-vs-lazy-in-kotlin" target="_blank">
+                   Learn more about lateinit from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  16. How to check if a lateinit variable has been initialized or not?
+                 </h4>
+                 <p class="graf--p">
+                  You can check if the lateinit variable has been initialized or not before using it with the help of
+                  <code class="graf--code-inline">
+                   isInitialized
+                  </code>
+                  method. This method will return true if the lateinit property has been initialized otherwise it will return false. For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Person {
+ lateinit var name: String
+ fun initializeName() {
+ println(this::name.isInitialized)
+ name = "MindOrks" // initializing name
+ println(this::name.isInitialized)
+ }
+}
+fun main(args: Array&lt;String&gt;) {
+ Person().initializeName()
+}</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/how-to-check-if-a-lateinit-variable-has-been-initialized" target="_blank">
+                   Learn more about it from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  17. What is the difference between lateinit and lazy in Kotlin?
+                 </h4>
+                 <ul>
+                  <li>
+                   lazy can only be used for val properties, whereas lateinit can only be applied to var because it can’t be compiled to a final field, thus no immutability can be guaranteed.
+                  </li>
+                  <li>
+                   If you want your property to be initialized from outside in a way probably unknown beforehand, use lateinit.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/lateinit-vs-lazy-in-kotlin" target="_blank">
+                   Learn more about the difference between lateinit and lazy from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  18. Is there any difference between == operator and === operator?
+                 </h4>
+                 <p class="graf--p">
+                  Yes. The
+                  <code class="graf--code-inline">
+                   ==
+                  </code>
+                  operator is used to compare the values stored in variables and the
+                  <code class="graf--code-inline">
+                   ===
+                  </code>
+                  operator is used to check if the reference of the variables are equal or not. But in the case of primitive types, the
+                  <code class="graf--code-inline">
+                   ===
+                  </code>
+                  operator also checks for the value and not reference.
+                 </p>
+                 <pre><code class="language-java graf graf--code">// primitive example
+val int1 = 10 
+val int2 = 10
+println(int1 == int2) // true
+println(int1 === int2) // true
+// wrapper example
+val num1 = Integer(10)
+val num2 = Integer(10)
+println(num1 == num2) // true
+println(num1 === num2) //false</code></pre>
+                 <h4 class="graf--h3">
+                  19. What is the forEach in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  In Kotlin, to use the functionality of a for-each loop just like in Java, we use a
+                  <code class="graf--code-inline">
+                   forEach
+                  </code>
+                  function. The following is an example of the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">var listOfMindOrks = listOf("mindorks.com", "blog.mindorks.com", "afteracademy.com")
+listOfMindOrks.forEach {
+ Log.d(TAG,it)
+}</code></pre>
+                 <h4 class="graf--h3">
+                  20. What are companion objects in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  In Kotlin, if you want to write a function or any member of the class that can be called without having the instance of the class then you can write the same as a member of a companion object inside the class.
+                 </p>
+                 <p class="graf--p">
+                  To create a
+                  <b class="graf--bold">
+                   companion
+                  </b>
+                  object, you need to add the
+                  <code class="graf--code-inline">
+                   companion
+                  </code>
+                  keyword in front of the object declaration.
+                 </p>
+                 <p class="graf--p">
+                  The following is an example of a companion object in Kotlin:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class ToBeCalled {
+ companion object Test {
+ fun callMe() = println("You are calling me :)")
+ }
+}
+fun main(args: Array&lt;String&gt;) {
+ ToBeCalled.callMe()
+}</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/companion-object-in-kotlin" target="_blank">
+                   Learn more about companion object from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  21. What is the equivalent of Java static methods in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  To achieve the functionality similar to Java static methods in Kotlin, we can use:
+                 </p>
+                 <ul>
+                  <li>
+                   companion object
+                  </li>
+                  <li>
+                   package-level function
+                  </li>
+                  <li>
+                   object
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/what-is-the-equivalent-of-java-static-methods-in-kotlin" target="_blank">
+                   Read more about this from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  22. What is the difference between FlatMap and Map in Kotlin?
+                 </h4>
+                 <ul>
+                  <li>
+                   FlatMap is used to combine all the items of lists into one list.
+                  </li>
+                  <li>
+                   Map is used to transform a list based on certain conditions.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/flatmap-vs-map-in-kotlin" target="_blank">
+                   Read more about FlatMap and Map in Kotlin from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  23. What is the difference between List and Array types in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  If you have a list of data that is having a fixed size, then you can use an Array. But if the size of the list can vary, then we have to use a mutable list.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/difference-between-list-and-array-types-in-kotlin" target="_blank">
+                   Learn more about the difference between List and Array from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  24. Can we use the new keyword to instantiate a class object in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  No, in Kotlin we don't have to use the
+                  <code class="graf--code-inline">
+                   new
+                  </code>
+                  keyword to instantiate a class object. To instantiate a class object, simply we use:
+                 </p>
+                 <pre><code class="language-java graf graf--code">var varName = ClassName()</code></pre>
+                 <h4 class="graf--h3">
+                  25. What are visibility modifiers in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  A visibility modifier or access specifier or access modifier is a concept that is used to define the scope of something in a programming language. In Kotlin, we have four visibility modifiers:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    private:
+                   </b>
+                   visible inside that particular class or file containing the declaration.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    protected:
+                   </b>
+                   visible inside that particular class or file and also in the subclass of that particular class where it is declared.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    internal:
+                   </b>
+                   visible everywhere in that particular module.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    public:
+                   </b>
+                   visible to everyone.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Note: By default, the visibility modifier in Kotlin is
+                  <b class="graf--bold">
+                   public
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/learn-kotlin-visibility-modifiers-private-protected-internal-public" target="_blank">
+                   Learn more about visibility modifiers in Kotlin from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  26. How to create a Singleton class in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  A singleton class is a class that is defined in such a way that only one instance of the class can be created and is used where we need only one instance of the class like in logging, database connections, etc.
+                 </p>
+                 <p class="graf--p">
+                  To create a Singleton class in Kotlin, you need to use the object keyword.
+                 </p>
+                 <pre><code class="language-java graf graf--code">object AnySingletonClassName</code></pre>
+                 <blockquote class="graf--blockquote">
+                  Note: You can't use constructor in object, but you can use init.
+                 </blockquote>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/how-to-create-a-singleton-class-in-kotlin" target="_blank">
+                   Learn more about Singleton class from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  27. What are init blocks in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   init
+                  </code>
+                  blocks are initializer blocks that are executed just after the execution of the primary constructor. A class file can have one or more init blocks that will be executed in series. If you want to perform some operation in the primary constructor, then it is not possible in Kotlin, for that, you need to use the
+                  <code class="graf--code-inline">
+                   init
+                  </code>
+                  block.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/understanding-init-block-in-kotlin" target="_blank">
+                   Learn more about init blocks from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  28. What are the types of constructors in Kotlin?
+                 </h4>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Primary constructor:
+                   </b>
+                   These constructors are defined in the class header and you can't perform some operation in it, unlike Java's constructor.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Secondary constructor:
+                   </b>
+                   These constructors are declared inside the class body by using the constructor keyword. You must call the primary constructor from the secondary constructor explicitly. Also, the property of the class can’t be declared inside the secondary constructor. There can be more than one secondary constructors in Kotlin.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/primary-and-secondary-constructors-in-kotlin" target="_blank">
+                   Learn more about Primary and Secondary constructors from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  29. Is there any relationship between primary and secondary constructors?
+                 </h4>
+                 <p class="graf--p">
+                  Yes, when using a secondary constructor, you need to call the primary constructor explicitly.
+                 </p>
+                 <h4 class="graf--h3">
+                  30. What is the default type of argument used in a constructor?
+                 </h4>
+                 <p class="graf--p">
+                  By default, the type of arguments of a constructor in val. But you can change it to var explicitly.
+                 </p>
+                 <h4 class="graf--h3">
+                  31. What are Coroutines in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  A framework to manage concurrency in a more performant and simple way with its lightweight thread which is written on top of the actual threading framework to get the most out of it by taking the advantage of cooperative nature of functions.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   This is an important interview question
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/kotlin-coroutines" target="_blank">
+                   Learn more about Kotlin Coroutines with examples from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  32. What is suspend function in Kotlin Coroutines?
+                 </h4>
+                 <p class="graf--p">
+                  Suspend function is the building block of the Coroutines in Kotlin. Suspend function is a function that could be started, paused, and resume. To use a suspend function, we need to use the suspend keyword in our normal function definition.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/suspend-function-in-kotlin-coroutines" target="_blank">
+                   Learn more about the suspend function from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  33. What is the difference between Launch and Async in Kotlin Coroutines?
+                 </h4>
+                 <p class="graf--p">
+                  The difference is that the
+                  <code class="graf--code-inline">
+                   launch{}
+                  </code>
+                  does not return anything and the
+                  <code class="graf--code-inline">
+                   async{}
+                  </code>
+                  returns an instance of
+                  <code class="graf--code-inline">
+                   Deferred&lt;T&gt;
+                  </code>
+                  , which has an
+                  <code class="graf--code-inline">
+                   await()
+                  </code>
+                  function that returns the result of the coroutine like we have future in Java in which we do
+                  <code class="graf--code-inline">
+                   future.get()
+                  </code>
+                  to the get the result.
+                 </p>
+                 <p class="graf--p">
+                  In other words:
+                 </p>
+                 <ul>
+                  <li>
+                   launch: fire and forget
+                  </li>
+                  <li>
+                   async: perform a task and return a result
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://www.youtube.com/watch?v=nC30UiDv8Xc" target="_blank">
+                   Learn more about Launch vs Async from MindOrks video
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  34. What are scopes in Kotlin Coroutines?
+                 </h4>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/kotlin-coroutines" target="_blank">
+                   Learn from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  35. How Exception Handling is done in Kotlin Coroutines?
+                 </h4>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/exception-handling-in-kotlin-coroutines" target="_blank">
+                   Learn from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  36. How to choose between a switch and when in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  Whenever we want to handle many if-else conditions, then we generally use switch-case statements. But Kotlin provides a more concise option i.e. in Kotlin, we can use when in place of the switch. And, when can be used as:
+                 </p>
+                 <ul>
+                  <li>
+                   expression
+                  </li>
+                  <li>
+                   arbitrary condition expression
+                  </li>
+                  <li>
+                   without argument
+                  </li>
+                  <li>
+                   with two or more choices
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">when(number) {
+ 1 -&gt; println("One")
+ 2, 3 -&gt; println("Two or Three")
+ 4 -&gt; println("Four")
+ else -&gt; println("Number is not between 1 and 4")
+}</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/replace-switch-with-when-in-kotlin" target="_blank">
+                   Learn more about when from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  37. What is the open keyword in Kotlin used for?
+                 </h4>
+                 <p class="graf--p">
+                  By default, the classes and functions are final in Kotlin. So, you can't inherit the class or override the functions. To do so, you need to use the open keyword before the class and function. For example:
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/understanding-open-keyword-in-kotlin" target="_blank">
+                   Learn more about open keyword from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  38. What are lambdas expressions?
+                 </h4>
+                 <p class="graf--p">
+                  Lambdas expressions are anonymous functions that can be treated as values i.e. we can pass the lambdas expressions as arguments to a function return them, or do any other thing we could do with a normal object. For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">val add : (Int, Int) -&gt; Int = { a, b -&gt; a + b }
+val result = add(9, 10)</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/higher-order-functions-and-lambdas-in-kotlin" target="_blank">
+                   Learn more about Lambdas from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  39. What are Higher-Order functions in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  A higher-order function is a function that takes functions as parameters or returns a function. For example, A function can take functions as parameters.
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun passMeFunction(abc: () -&gt; Unit) {
+ // I can take function
+ // do something here
+ // execute the function
+ abc()
+}</code></pre>
+                 <p class="graf--p">
+                  For example, A function can return another function.
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun add(a: Int, b: Int): Int {
+ return a + b
+}</code></pre>
+                 <p class="graf--p">
+                  And, we have a function
+                  <b class="graf--bold">
+                   returnMeAddFunction
+                  </b>
+                  which takes zero parameters and returns a function of the type
+                  <b class="graf--bold">
+                   ((Int, Int) -&gt; Int)
+                  </b>
+                  .
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun returnMeAddFunction(): ((Int, Int) -&gt; Int) {
+ // can do something and return function as well
+ // returning function
+ return ::add
+}</code></pre>
+                 <p class="graf--p">
+                  And to call the above function, we can do:
+                 </p>
+                 <pre><code class="language-java graf graf--code">val add = returnMeAddFunction()
+val result = add(2, 2)</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/higher-order-functions-and-lambdas-in-kotlin" target="_blank">
+                   Learn more about Higher-Order functions from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  40. What are extension functions in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  Extension functions are like extensive properties attached to any class in Kotlin. By using extension functions, you can add some methods or functionalities to an existing class even without inheriting the class. For example: Let's say, we have views where we need to play with the visibility of the views. So, we can create an extension function for views like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun View.show() {
+ this.visibility = View.VISIBLE
+}
+
+fun View.hide() {
+ this.visibility = View.GONE
+}</code></pre>
+                 <p class="graf--p">
+                  and to use it we use, like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">toolbar.hide()</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/extension-functions-vs-static-utility-class" target="_blank">
+                   Learn more about extension functions from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  41. What is an infix function in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  An infix function is used to call the function without using any bracket or parenthesis. You need to use the infix keyword to use the infix function.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Operations {
+ var x = 10; 
+ infix fun minus(num: Int) {
+ 	this.x = this.x - num
+ } 
+}
+fun main() {
+ val opr = Operations()
+ opr minus 8
+ print(opr.x)
+}</code></pre>
+                 <h4 class="graf--h3">
+                  42. What is an inline function in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  Inline function instruct compiler to insert complete body of the function wherever that function got used in the code. To use an Inline function, all you need to do is just add an inline keyword at the beginning of the function declaration.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/inline-function-in-kotlin" target="_blank">
+                   Learn more about Inline functions from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  43. What is noinline in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  While using an inline function and want to pass some lambda function and not all lambda function as inline, then you can explicitly tell the compiler which lambda it shouldn't inline.
+                 </p>
+                 <pre><code class="language-java graf graf--code">inline fun doSomethingElse(abc: () -&gt; Unit, noinline xyz: () -&gt; Unit) {
+ abc()
+ xyz()
+}</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/inline-function-in-kotlin" target="_blank">
+                   Learn more about noinline functions from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  44. What are Reified types in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  When you are using the concept of Generics to pass some class as a parameter to some function and you need to access the type of that class, then you need to use the reified keyword in Kotlin.
+                 </p>
+                 <p class="graf--p">
+                  For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">inline fun &lt;reified T&gt; genericsExample(value: T) {
+ println(value)
+ println("Type of T: ${T::class.java}")
+}
+fun main() {
+ genericsExample&lt;String&gt;("Learning Generics!")
+ genericsExample&lt;Int&gt;(100)
+}</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/what-are-reified-types-in-kotlin" target="_blank">
+                   Learn more about Reified keyword from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  45. What is the operator overloading in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  In Kotlin, we can use the same operator to perform various tasks and this is known as operator overloading. To do so, we need to provide a member function or an extension function with a fixed name and operator keyword before the function name because normally also, when we are using some operator then under the hood some function gets called. For example, if you are writing
+                  <code class="graf--code-inline">
+                   num1+num2
+                  </code>
+                  , then it gets converted to
+                  <code class="graf--code-inline">
+                   num1.plus(num2)
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun main() {
+ val bluePen = Pen(inkColor = "Blue")
+ bluePen.showInkColor()
+
+ val blackPen = Pen(inkColor = "Black")
+ blackPen.showInkColor()
+
+ val blueBlackPen = bluePen + blackPen
+ blueBlackPen.showInkColor()
+}
+
+ operator fun Pen.plus(otherPen: Pen):Pen{
+ val ink = "$inkColor, ${otherPen.inkColor}"
+ return Pen(inkColor = ink)
+ }
+
+ data class Pen(val inkColor:String){
+ fun showInkColor(){ println(inkColor)}
+ }</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/operator-overloading-in-kotlin" target="_blank">
+                   Learn more about operator overloading from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  46. Explain the use-case of let, run, with, also, apply in Kotlin.
+                 </h4>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/using-scoped-functions-in-kotlin-let-run-with-also-apply" target="_blank">
+                   Learn from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  47. What are pair and triple in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  Pair and Triples are used to return two and three values respectively from a function and the returned values can be of the same data type or different.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val pair = Pair("My Age: ", 25)
+print(pair.first + pair.second)</code></pre>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/pair-and-triple-in-kotlin" target="_blank">
+                   Learn more about Pairs and Triples from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  48. What are labels in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  Any expression written in Kotlin is called a label. For example, if we are having a
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  in our Kotlin code then we can name that
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  expression as a label and will use the label name for the
+                  <i class="graf--italic">
+                   for-loop
+                  </i>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  We can create a label by using an identifier followed by the
+                  <code class="graf--code-inline">
+                   @
+                  </code>
+                  sign. For example,
+                  <code class="graf--code-inline">
+                   name@
+                  </code>
+                  ,
+                  <code class="graf--code-inline">
+                   loop@
+                  </code>
+                  ,
+                  <code class="graf--code-inline">
+                   xyz@
+                  </code>
+                  , etc. The following is an example of a label:
+                 </p>
+                 <pre><code class="language-java graf graf--code">loop@ for (i in 1..10) {
+ // some code goes here
+}</code></pre>
+                 <p class="graf--p">
+                  The name of the above for-loop is
+                  <code class="graf--code-inline">
+                   loop
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/learn-kotlin-returns-jumps-labels" target="_blank">
+                   Learn more about labels in Kotlin from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  49. What are the benefits of using a Sealed Class over Enum?
+                 </h4>
+                 <p class="graf--p">
+                  Sealed classes give us the flexibility of having
+                  <b class="graf--bold">
+                   different
+                  </b>
+                  <b class="graf--bold">
+                   types of subclasses and also containing the state
+                  </b>
+                  . The important point to be noted here is the subclasses that are extending the Sealed classes should be either nested classes of the Sealed class or should be declared in the same file as that of the Sealed class.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/learn-kotlin-sealed-classes" target="_blank">
+                   Learn more about Sealed classes from MindOrks blog
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  50. What are collections in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://www.youtube.com/watch?v=XeRt2ZZ-jkA" target="_blank">
+                   Learn from MindOrks video
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Prepare these 50 questions for your interview and also go through the given link in each question to have a better knowledge of the topic.
+                 </p>
+                 <p class="graf--p">
+                  Also, you can find the Android Interview Questions
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://github.com/MindorksOpenSource/android-interview-questions" target="_blank">
+                    here
+                   </a>
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Share this blog with other developers who are going to give some Android interview.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   All the best for your interview!
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks!
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Also, Let’s connect on
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://twitter.com/hiii_sumit" target="_blank">
+                    Twitter
+                   </a>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://www.linkedin.com/in/mishra3452/" target="_blank">
+                    Linkedin
+                   </a>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://github.com/mishra3452" target="_blank">
+                    Github
+                   </a>
+                   , and
+                  </b>
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://www.facebook.com/mishra3452" target="_blank">
+                    Facebook
+                   </a>
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android WebView — in kotlin" class="ui centered image" src="/images/android_webview_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android WebView — in kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android WebView
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android ViewPager in Kotlin" class="ui centered image" src="/images/android_viewpager_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android ViewPager in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android ViewPager
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Material Tabs in Kotlin" class="ui centered image" src="/images/android_materialtabs_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Material Tabs in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            How to create Material Tabs in Android in kotlin?
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android ReyclerView in Kotlin" class="ui centered image" src="/images/android_recyclerview_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android ReyclerView in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android RecyclerView
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Navigation Drawer in Kotlin" class="ui centered image" src="/images/android_navigationdrawer_mindorks_featuer_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Navigation Drawer in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android Navigation Drawer in Kotlin
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

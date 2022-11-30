@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Using Retrofit with Kotlin Coroutines in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/using-retrofit-with-kotlin-coroutines-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Using Retrofit with Kotlin Coroutines in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/using-retrofit-with-kotlin-coroutines-in-android" property="og:url"/>
+  <meta content="/images/retrofit-kotlin-coroutines-banner.png" property="og:image"/>
+  <meta content="In this blog, we are going to understand how to use Retrofit with Kotlin Coroutines in Android. Also, we will be understanding the suspend keyword and using LifeCycle scopes for Kotlin Coroutines." property="og:description"/>
+  <meta content="Using Retrofit with Kotlin Coroutines in Android" property="twitter:title"/>
+  <meta content="In this blog, we are going to understand how to use Retrofit with Kotlin Coroutines in Android. Also, we will be understanding the suspend keyword and using LifeCycle scopes for Kotlin Coroutines." name="twitter:description"/>
+  <meta content="/images/retrofit-kotlin-coroutines-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to understand how to use Retrofit with Kotlin Coroutines in Android. Also, we will be understanding the suspend keyword and using LifeCycle scopes for Kotlin Coroutines." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:417,data:{id:417,title:"Using Retrofit with Kotlin Coroutines in Android",description:"In this blog, we are going to understand how to use Retrofit with Kotlin Coroutines in Android. Also, we will be understanding the suspend keyword and using LifeCycle scopes for Kotlin Coroutines.",text:'<h1 class="graf--h1">Using Retrofit with Kotlin Coroutines in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/retrofit-kotlin-coroutines-banner.png alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Networking is one of the most important parts of Android Applications. One of the most popular libraries used for Networking in Android is <b class="graf--bold">Retrofit</b>. The main reason Retrofit is popular among Android Networking libraries is that it reduces a lot of Boilerplate code and helps in consuming the web service easily. Also, it keeps updating with the latest trends such as compatibility with Rxjava and now, <b class="graf--bold">The Coroutine Support</b>!</p><p class="graf--p">Welcome to our <b class="graf--bold">MindOrks</b> blog on Using Retrofit with Koltin Coroutines in Android!</p><p class="graf--p">Starting from version 2.6.0 Retrofit supports the concept of “suspend” functions.</p><p class="graf--p">Before proceeding further, we would recommend our <a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/kotlin-coroutines">MindOrks blog </a> for better understanding of Coroutines</p><p class="graf--p">In this blog we are going to understand with a sample project:</p><ul><li>How to use retrofit 2.6.0 with coroutines?</li><li>What is the suspend keyword?</li><li>What is the LiveData scope in Coroutines?</li></ul><p class="graf--p">We are going to understand these concepts with a project. Before discussing this topic, if you need to refresh the basics of MVVM project, please refer to our <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/mvvm-architecture-android">MVVM Architecture-Beginner’s Tutorial</a></b> blog.</p><p class="graf--p">We strongly recommend you to go through the example project provided in <a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/mvvm-architecture-android">MVVM Architecture-Beginner’s Tutorial</a> blog as we are going to improvise on the same in this blog.</p><h3 class="graf--h3">Set up a new project with Kotlin and other dependencies required</h3><p class="graf--p">Here, we are going to set up the Android Project.</p><p class="graf--p"><b class="graf--bold">Create a Project</b></p><ul><li>Start a new Android Studio Project</li><li>Select Empty Activity and Next</li><li>Name: Retrofit-Kotlin-Coroutines-Example</li><li>Package name: com.mindorks.retrofit.coroutines</li><li>Language: Kotlin</li><li>Finish</li><li>Your starting project is ready now</li></ul><p class="graf--p"><b class="graf--bold">Add dependencies</b></p><p class="graf--p">Add the following dependencies in your app level build.gradle.</p><pre><code class="language-java graf graf--code">implementation \'androidx.recyclerview:recyclerview:1.1.0\'\nimplementation \'com.github.bumptech.glide:glide:4.9.0\'\n\n//LifeCycle\nimplementation \'androidx.lifecycle:lifecycle-common:2.2.0\'\nimplementation \'androidx.lifecycle:lifecycle-runtime:2.2.0\'\nimplementation \'android.arch.lifecycle:extensions:2.2.0\'\nimplementation \'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0\'\n\n//Retrofit\nimplementation \'com.squareup.retrofit2:retrofit:2.6.0\'\nimplementation \'com.google.code.gson:gson:2.8.5\'\nimplementation \'com.squareup.retrofit2:converter-gson:2.5.0\'\nimplementation \'com.squareup.okhttp3:logging-interceptor:3.12.0\'\n\n//Coroutines\nimplementation \'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5\'</code></pre><p class="graf--p">Here, we can see that we have added our Retrofit and Coroutines dependencies. Since we will be launching the coroutines in the live data scope(we will be discussing this later in this blog), we add the required life cycle dependencies.</p><h3 class="graf--h3">Project Structure</h3><p class="graf--p">For the project, we are going to follow a beginner version of MVVM. Our package in the project will look like below, similar to our <a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/mvvm-architecture-android">MVVM beginner’s tutorial</a> blog.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/retrofit-coroutines-package-structure.png alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><h3 class="graf--h3">Setting up the Utils</h3><p class="graf--p">We set up the utils package exactly the way we set it up in our <a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/mvvm-architecture-android">MVVM beginner’s tutorial</a> blog.</p><p class="graf--p">Firstly, the Enum status class:</p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.utils\n\nenum class Status {\n    SUCCESS,\n    ERROR,\n    LOADING\n}</code></pre><p class="graf--p">Now, the Resource class:</p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.utils\n\nimport com.mindorks.retrofit.coroutines.utils.Status.ERROR\nimport com.mindorks.retrofit.coroutines.utils.Status.LOADING\nimport com.mindorks.retrofit.coroutines.utils.Status.SUCCESS\n\n\ndata class Resource&lt;out T&gt;(val status: Status, val data: T?, val message: String?) {\n    companion object {\n        fun &lt;T&gt; success(data: T): Resource&lt;T&gt; = Resource(status = SUCCESS, data = data, message = null)\n\n        fun &lt;T&gt; error(data: T?, message: String): Resource&lt;T&gt; =\n            Resource(status = ERROR, data = data, message = message)\n\n        fun &lt;T&gt; loading(data: T?): Resource&lt;T&gt; = Resource(status = LOADING, data = data, message = null)\n    }\n}</code></pre><h3 class="graf--h3">Setting up the Model</h3><p class="graf--p">Since we will be using the same API service we have used in our <a class="markup--anchor" target="_blank" href="https://amitshekhar.me/blog/mvvm-architecture-android">MVVM beginner’s tutorial</a> blog, we will be creating a similar model class.</p><p class="graf--p">Server Response:</p><pre><code class="language-java graf graf--code">{\n    "id": "Id of the User",\n    "name": "Name of the User",\n    "avatar": "url of the User avatar",\n    "email": "Email of the user"\n}</code></pre><p class="graf--p">Model class:</p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.model\n\ndata class User(\n    val avatar: String,\n    val email: String,\n    val id: String,\n    val name: String\n)</code></pre><p class="graf--p"><b class="graf--bold">Note: </b><i class="graf--italic">Here we haven’t used the @SerializedName annotation since we have declared the same variable name as that of the server response field. However, if you wish to change the variable name of the data class, you can do so by adding the annotation like follows.</i></p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.model\n\nimport com.google.gson.annotations.SerializedName\n\ndata class User(\n    @SerializedName("avatar")\n    val image: String,\n    @SerializedName("email")\n    val userEmail: String,\n    @SerializedName("id")\n    val userId: String,\n    @SerializedName("name")\n    val userName: String\n)</code></pre><h3 class="graf--h3">Setting up the Network Layer</h3><p class="graf--p">Now, since we are using Retrofit for Network calls, let’s create a class that provides us the instance of the Retrofit Service class.</p><p class="graf--p"><b class="graf--bold">Note</b>: <i class="graf--italic">We are going to come across some new keywords such as “suspend” in this Network layer. We are going to understand this later in this blog. First, let’s set up the project.</i></p><p class="graf--p"><b class="graf--bold">Retrofit Service class</b></p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.api\n\nimport com.mindorks.retrofit.coroutines.data.model.User\nimport retrofit2.http.GET\n\ninterface ApiService {\n\n    @GET("users")\n    suspend fun getUsers(): List&lt;User&gt;\n\n}</code></pre><p class="graf--p"><b class="graf--bold">Retrofit Builder class:</b></p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.api\n\nimport retrofit2.Retrofit\nimport retrofit2.converter.gson.GsonConverterFactory\n\nobject RetrofitBuilder {\n\n    private const val BASE_URL = "https://5e510330f2c0d300147c034c.mockapi.io/"\n\n    private fun getRetrofit(): Retrofit {\n        return Retrofit.Builder()\n            .baseUrl(BASE_URL)\n            .addConverterFactory(GsonConverterFactory.create())\n            .build() //Doesn\'t require the adapter\n    }\n\n    val apiService: ApiService = getRetrofit().create(ApiService::class.java)\n}</code></pre><p class="graf--p">Now, let’s create an API Helper class to help us with the ApiService call:</p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.api\n\nclass ApiHelper(private val apiService: ApiService) {\n\n    suspend fun getUsers() = apiService.getUsers()\n}</code></pre><p class="graf--p">Our Network Layer is now set.</p><p class="graf--p">Since we will be using a Repository pattern, we will be linking our ApiHelper class by using a Repository class:</p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.repository\n\nimport com.mindorks.retrofit.coroutines.data.api.ApiHelper\n\nclass MainRepository(private val apiHelper: ApiHelper) {\n\n    suspend fun getUsers() = apiHelper.getUsers()\n}</code></pre><h3 class="graf--h3">Setting up the ViewModel</h3><p class="graf--p"><b class="graf--bold">Note</b>: <i class="graf--italic">We are going to come across some new keywords such as “Coroutines”, “liveData scope”, “Dispatchers” in this ViewModel. We are going to understand this later in this blog. First, let’s set up the project.</i></p><p class="graf--p">Now, that our model and network layers are set, let’s set up our ViewModel</p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.ui.main.viewmodel\n\nimport androidx.lifecycle.ViewModel\nimport androidx.lifecycle.liveData\nimport com.mindorks.retrofit.coroutines.data.repository.MainRepository\nimport com.mindorks.retrofit.coroutines.utils.Resource\nimport kotlinx.coroutines.Dispatchers\n\n\nclass MainViewModel(private val mainRepository: MainRepository) : ViewModel() {\n\n    fun getUsers() = liveData(Dispatchers.IO) {\n        emit(Resource.loading(data = null))\n        try {\n            emit(Resource.success(data = mainRepository.getUsers()))\n        } catch (exception: Exception) {\n            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))\n        }\n    }\n}</code></pre><p class="graf--p">We will be providing our View Model from a Factory class. So let’s construct our ViewModelFactory class:</p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.ui.base\n\nimport androidx.lifecycle.ViewModel\nimport androidx.lifecycle.ViewModelProvider\nimport com.mindorks.retrofit.coroutines.data.api.ApiHelper\nimport com.mindorks.retrofit.coroutines.data.repository.MainRepository\nimport com.mindorks.retrofit.coroutines.ui.main.viewmodel.MainViewModel\n\nclass ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Factory {\n\n    override fun &lt;T : ViewModel?&gt; create(modelClass: Class&lt;T&gt;): T {\n        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {\n            return MainViewModel(MainRepository(apiHelper)) as T\n        }\n        throw IllegalArgumentException("Unknown class name")\n    }\n\n}</code></pre><h3 class="graf--h3">Setting up the View</h3><p class="graf--p">Our MainActivity class:</p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.ui.main.view\n\nimport android.os.Bundle\nimport android.view.View\nimport android.widget.Toast\nimport androidx.appcompat.app.AppCompatActivity\nimport androidx.lifecycle.Observer\nimport androidx.lifecycle.ViewModelProviders\nimport androidx.recyclerview.widget.DividerItemDecoration\nimport androidx.recyclerview.widget.LinearLayoutManager\nimport com.mindorks.retrofit.coroutines.R.layout\nimport com.mindorks.retrofit.coroutines.data.api.ApiHelper\nimport com.mindorks.retrofit.coroutines.data.api.RetrofitBuilder\nimport com.mindorks.retrofit.coroutines.data.model.User\nimport com.mindorks.retrofit.coroutines.ui.base.ViewModelFactory\nimport com.mindorks.retrofit.coroutines.ui.main.adapter.MainAdapter\nimport com.mindorks.retrofit.coroutines.ui.main.viewmodel.MainViewModel\nimport com.mindorks.retrofit.coroutines.utils.Status.ERROR\nimport com.mindorks.retrofit.coroutines.utils.Status.LOADING\nimport com.mindorks.retrofit.coroutines.utils.Status.SUCCESS\nimport kotlinx.android.synthetic.main.activity_user.progressBar\nimport kotlinx.android.synthetic.main.activity_user.recyclerView\n\nclass MainActivity : AppCompatActivity() {\n\n    private lateinit var viewModel: MainViewModel\n    private lateinit var adapter: MainAdapter\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(layout.activity_main)\n        setupViewModel()\n        setupUI()\n        setupObservers()\n    }\n\n\n    private fun setupViewModel() {\n        viewModel = ViewModelProviders.of(\n            this,\n            ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))\n        ).get(MainViewModel::class.java)\n    }\n\n    private fun setupUI() {\n        recyclerView.layoutManager = LinearLayoutManager(this)\n        adapter = MainAdapter(arrayListOf())\n        recyclerView.addItemDecoration(\n            DividerItemDecoration(\n                recyclerView.context,\n                (recyclerView.layoutManager as LinearLayoutManager).orientation\n            )\n        )\n        recyclerView.adapter = adapter\n    }\n\n    private fun setupObservers() {\n        viewModel.getUsers().observe(this, Observer {\n            it?.let { resource -&gt;\n                when (resource.status) {\n                    SUCCESS -&gt; {\n                        recyclerView.visibility = View.VISIBLE\n                        progressBar.visibility = View.GONE\n                        resource.data?.let { users -&gt; retrieveList(users) }\n                    }\n                    ERROR -&gt; {\n                        recyclerView.visibility = View.VISIBLE\n                        progressBar.visibility = View.GONE\n                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()\n                    }\n                    LOADING -&gt; {\n                        progressBar.visibility = View.VISIBLE\n                        recyclerView.visibility = View.GONE\n                    }\n                }\n            }\n        })\n    }\n\n    private fun retrieveList(users: List&lt;User&gt;) {\n        adapter.apply {\n            addUsers(users)\n            notifyDataSetChanged()\n        }\n    }\n}</code></pre><p class="graf--p">Our activity_main.xml:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".ui.main.view.MainActivity"&gt;\n\n    &lt;androidx.recyclerview.widget.RecyclerView\n        android:id="@+id/recyclerView"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent"\n        android:visibility="gone" /&gt;\n\n    &lt;ProgressBar\n        android:id="@+id/progressBar"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">In order to load our Recycler view, we have to create a row item type:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/container"\n    xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="60dp"&gt;\n\n    &lt;ImageView\n        android:id="@+id/imageViewAvatar"\n        android:layout_width="60dp"\n        android:layout_height="0dp"\n        android:padding="4dp"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent"\n        tools:ignore="contentDescription" /&gt;\n\n    &lt;androidx.appcompat.widget.AppCompatTextView\n        android:id="@+id/textViewUserName"\n        style="@style/TextAppearance.AppCompat.Large"\n        android:layout_width="0dp"\n        android:layout_height="wrap_content"\n        android:layout_marginStart="8dp"\n        android:layout_marginTop="4dp"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toEndOf="@+id/imageViewAvatar"\n        app:layout_constraintTop_toTopOf="parent"\n        tools:text="MindOrks" /&gt;\n\n    &lt;androidx.appcompat.widget.AppCompatTextView\n        android:id="@+id/textViewUserEmail"\n        android:layout_width="0dp"\n        android:layout_height="wrap_content"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="@+id/textViewUserName"\n        app:layout_constraintTop_toBottomOf="@+id/textViewUserName"\n        tools:text="MindOrks" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p"><b class="graf--bold">Note: </b><i class="graf--italic">For the ease of understanding, the dimensions are hardcoded in the provided layout files. It is strongly recommended to read the dimensions and strings from their respective dimens.xml files and strings.xml files for best coding practices.</i></p><p class="graf--p">Finally, to load our RecyclerView, we need an adapter class with a view Holder:</p><pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.ui.main.adapter\n\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport androidx.recyclerview.widget.RecyclerView\nimport com.bumptech.glide.Glide\nimport com.mindorks.retrofit.coroutines.R\nimport com.mindorks.retrofit.coroutines.data.model.User\nimport com.mindorks.retrofit.coroutines.ui.main.adapter.MainAdapter.DataViewHolder\nimport kotlinx.android.synthetic.main.item_layout.view.imageViewAvatar\nimport kotlinx.android.synthetic.main.item_layout.view.textViewUserEmail\nimport kotlinx.android.synthetic.main.item_layout.view.textViewUserName\n\nclass MainAdapter(private val users: ArrayList&lt;User&gt;) : RecyclerView.Adapter&lt;DataViewHolder&gt;() {\n\n    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {\n\n        fun bind(user: User) {\n            itemView.apply {\n                textViewUserName.text = user.name\n                textViewUserEmail.text = user.email\n                Glide.with(imageViewAvatar.context)\n                    .load(user.avatar)\n                    .into(imageViewAvatar)\n            }\n        }\n    }\n\n    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =\n        DataViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false))\n\n    override fun getItemCount(): Int = users.size\n\n    override fun onBindViewHolder(holder: DataViewHolder, position: Int) {\n        holder.bind(users[position])\n    }\n\n    fun addUsers(users: List&lt;User&gt;) {\n        this.users.apply {\n            clear()\n            addAll(users)\n        }\n\n    }\n}</code></pre><p class="graf--p">That’s it, our project is set up. Let’s add our internet permission in the AndroidManifest file:</p><pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.INTERNET"/&gt;</code></pre><p class="graf--p">Now, let’s run our project. Awesome! We can see the server response on the screen!</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/retrofit-courotines-app.png alt="undefined" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><b class="graf--bold">Understanding Retrofit with Kotlin Coroutines</b>Now that we have worked on the project, let’s understand two key things:</p><h3 class="graf--h3">Suspend</h3><p class="graf--p">The suspend functions can only be called from Coroutines. Adding the keyword suspend helps the coroutine to suspend (pause), perform the required job on a network thread (if Dispatchers.IO) is used, wait for the response, and then resumes from where it left off once the response is available. In our example code, the ViewModel class:</p><pre><code class="language-java graf graf--code">fun getUsers() = liveData(Dispatchers.IO) {\n        emit(Resource.loading(data = null))\n        try {\n            emit(Resource.success(data = mainRepository.getUsers()))\n        } catch (exception: Exception) {\n            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))\n        }\n    }</code></pre><p class="graf--p">Here, the getUsers function of the MainRepository class is a suspend function, and hence, only once the network call(which is run on another thread, in this case, the thread from Dispatchers.IO) is completed (success or error), the coroutine resumes by emitting the respective value that is obtained from the network call.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/retrofit-coroutines-suspend.png alt="Retrofit Coroutines suspend" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><h3 class="graf--h3">LifeCycle Scope</h3><p class="graf--p">A <code class="graf--code-inline">LifecycleScope</code> is defined for each Lifecycle object. <code class="graf--code-inline">LifecycleOwner</code> could be an Activity or a Fragment. Any coroutine launched in this scope is canceled when the Lifecycle is destroyed. This helps us in avoiding memory leaks.</p><p class="graf--p">Here we have used <i class="graf--italic">liveData</i>(Dispatchers.IO). If we observe the import statement:</p><pre><code class="language-java graf graf--code">import androidx.lifecycle.liveData</code></pre><p class="graf--p">Hence, the result of the function will be emitted as Live Data, which can be observed in the view (Activity or Fragment).</p><h3 class="graf--h3"><b class="graf--bold">Project Source Code and What Next?</b></h3><p class="graf--p">You can find the complete project <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/Retrofit-Kotlin-Coroutines-Example">here</a></span></b>.</p><p class="graf--p">As we have done some simplifications in this project for the Beginners level, so, we can improve this project to go to the Advanced level, a few of the things which we can improve are as follows:</p><ul><li>Implement Dependency Inject Framework - Dagger in the project.</li><li>Make ApiService Singleton and reuse the same instance for all the features.</li><li>Create base classes such as BaseActivity.</li><li>Handle all the API errors at a single place in a better way.</li><li>Create Interfaces for the classes wherever required.</li><li>Take advantage of <span class=""><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/android-ktx-android-development-with-kotlin">Android KTX - Kotlin Extensions</a></span>.</li><li>Write Unit-Test</li><li>and so on.</li></ul><p class="graf--p"><span class=""><a class="markup--anchor" target="_blank" href="https://bootcamp.mindorks.com/">Want to learn advanced concepts in Android? Apply Now: MindOrks Android Online Course and Learn Advanced Android</a></span></p><p class="graf--p">That’s it for this article!</p><p class="graf--p">We also have a <a class="markup--anchor" target="_blank" href="https://www.youtube.com/watch?v=5bVP_J4-cbg&t=27s">video tutorial</a> on this concept. Please check it out <a class="markup--anchor" target="_blank" href="https://www.youtube.com/watch?v=5bVP_J4-cbg&t=27s">here</a></p><p class="graf--p">We hope that you have understood how to use Retrofit with coroutines in a simple way!</p><p class="graf--p">Thank you so much for your time!</p><p class="graf--p">Team MindOrks!</p><p class="graf--p"><b class="graf--bold">Also, Let’s connect on</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://twitter.com/AndraDheeraj">Twitter</a></span>,</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/dheerajsree/">Linkedin</a>,</span></b> <b class="graf--bold">and</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://github.com/asdheeraj">Github</a></span></b></p>',author:3003,img_url:"/images/retrofit-kotlin-coroutines-banner.png",blog_url:"using-retrofit-with-kotlin-coroutines-in-android",likes:0,rank:0,category:1,published_at:"12th April 2020"},author:{id:3003,name:"Dheeraj Sree",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GjgIa8i5nbsErNPLwYbB8IfsQ1U_M-Men0xdzE9PRQ=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Android Developer @DeloitteDigital",fb_profile_url:"https://www.facebook.com/sri.dheeraj",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/AndraDheeraj",github_profile_url:"https://github.com/asdheeraj",linkedin_profile_url:"https://www.linkedin.com/in/dheerajsree/"},isFetching:!1,similarBlogs:[{id:425,title:"Exception Handling in Kotlin Coroutines",description:"In this blog, we are going to talk about how we can handle exceptions while using Kotlin Coroutines. We will discuss various ways to handle it efficiently in our Android project.",author:9959,img_url:"/images/exception-handling-kotlin-banner.png",blog_url:"exception-handling-in-kotlin-coroutines",likes:0,rank:0,category:1,published_at:"25th April 2020",score:2.1550776958465576},{id:309,title:"Code Formatting in Kotlin using ktlint",description:"In this blog, we will learn how to format your Kotlin code using ktlint in our project. ktlint is a tool that is used to check if our Kotlin code is according to the Kotlin code standards or not. If not, then it will format the code for you. So, let's learn how to do that.",author:14897,img_url:"/images/code-formatting-in-kotlin-using-ktlint-banner.png",blog_url:"code-formatting-in-kotlin-using-ktlint",likes:0,rank:0,category:1,published_at:"12th August 2019",score:.4667818546295166},{id:407,title:"Using Scoped Functions in Kotlin - let, run, with, also, apply",description:"In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply.",author:3003,img_url:"/images/using-scoped-functions-banner-image.png",blog_url:"using-scoped-functions-in-kotlin-let-run-with-also-apply",likes:0,rank:0,category:1,published_at:"16th March 2020",score:.4667818546295166},{id:351,title:"Using Android Sensors: Android Tutorial",description:"In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.",author:14897,img_url:"/images/using-android-sensors-android-tutorial-banner.png",blog_url:"using-android-sensors-android-tutorial",likes:0,rank:0,category:1,published_at:"30th September 2019",score:.3374535143375397},{id:234,title:"Push Notifications in Android Using FCM",description:"In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.",author:14897,img_url:"/images/fcm.jpg",blog_url:"pushing-notifications-in-android-using-fcm",likes:0,rank:0,category:1,published_at:"15th May 2019",score:.3282759189605713},{id:238,title:"Using Custom and Downloadable Fonts in Android",description:"In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.",author:14897,img_url:"/images/downloadable-font-banner.png",blog_url:"using-custom-and-downloadable-fonts-in-android",likes:0,rank:0,category:1,published_at:"16th May 2019",score:.3282759189605713}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Dheeraj Sree" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GjgIa8i5nbsErNPLwYbB8IfsQ1U_M-Men0xdzE9PRQ=s96-c?sz=300"/>
+          <div class="content">
+           Dheeraj Sree
+           <div class="sub header" style="margin-top:5px">
+            12th April 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Using Retrofit with Kotlin Coroutines in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/retrofit-kotlin-coroutines-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Networking is one of the most important parts of Android Applications. One of the most popular libraries used for Networking in Android is
+                  <b class="graf--bold">
+                   Retrofit
+                  </b>
+                  . The main reason Retrofit is popular among Android Networking libraries is that it reduces a lot of Boilerplate code and helps in consuming the web service easily. Also, it keeps updating with the latest trends such as compatibility with Rxjava and now,
+                  <b class="graf--bold">
+                   The Coroutine Support
+                  </b>
+                  !
+                 </p>
+                 <p class="graf--p">
+                  Welcome to our
+                  <b class="graf--bold">
+                   MindOrks
+                  </b>
+                  blog on Using Retrofit with Koltin Coroutines in Android!
+                 </p>
+                 <p class="graf--p">
+                  Starting from version 2.6.0 Retrofit supports the concept of “suspend” functions.
+                 </p>
+                 <p class="graf--p">
+                  Before proceeding further, we would recommend our
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/kotlin-coroutines" target="_blank">
+                   MindOrks blog
+                  </a>
+                  for better understanding of Coroutines
+                 </p>
+                 <p class="graf--p">
+                  In this blog we are going to understand with a sample project:
+                 </p>
+                 <ul>
+                  <li>
+                   How to use retrofit 2.6.0 with coroutines?
+                  </li>
+                  <li>
+                   What is the suspend keyword?
+                  </li>
+                  <li>
+                   What is the LiveData scope in Coroutines?
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  We are going to understand these concepts with a project. Before discussing this topic, if you need to refresh the basics of MVVM project, please refer to our
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://amitshekhar.me/blog/mvvm-architecture-android" target="_blank">
+                    MVVM Architecture-Beginner’s Tutorial
+                   </a>
+                  </b>
+                  blog.
+                 </p>
+                 <p class="graf--p">
+                  We strongly recommend you to go through the example project provided in
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/mvvm-architecture-android" target="_blank">
+                   MVVM Architecture-Beginner’s Tutorial
+                  </a>
+                  blog as we are going to improvise on the same in this blog.
+                 </p>
+                 <h3 class="graf--h3">
+                  Set up a new project with Kotlin and other dependencies required
+                 </h3>
+                 <p class="graf--p">
+                  Here, we are going to set up the Android Project.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Create a Project
+                  </b>
+                 </p>
+                 <ul>
+                  <li>
+                   Start a new Android Studio Project
+                  </li>
+                  <li>
+                   Select Empty Activity and Next
+                  </li>
+                  <li>
+                   Name: Retrofit-Kotlin-Coroutines-Example
+                  </li>
+                  <li>
+                   Package name: com.mindorks.retrofit.coroutines
+                  </li>
+                  <li>
+                   Language: Kotlin
+                  </li>
+                  <li>
+                   Finish
+                  </li>
+                  <li>
+                   Your starting project is ready now
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Add dependencies
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Add the following dependencies in your app level build.gradle.
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation 'androidx.recyclerview:recyclerview:1.1.0'
+implementation 'com.github.bumptech.glide:glide:4.9.0'
+
+//LifeCycle
+implementation 'androidx.lifecycle:lifecycle-common:2.2.0'
+implementation 'androidx.lifecycle:lifecycle-runtime:2.2.0'
+implementation 'android.arch.lifecycle:extensions:2.2.0'
+implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+
+//Retrofit
+implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+implementation 'com.google.code.gson:gson:2.8.5'
+implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+
+//Coroutines
+implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5'</code></pre>
+                 <p class="graf--p">
+                  Here, we can see that we have added our Retrofit and Coroutines dependencies. Since we will be launching the coroutines in the live data scope(we will be discussing this later in this blog), we add the required life cycle dependencies.
+                 </p>
+                 <h3 class="graf--h3">
+                  Project Structure
+                 </h3>
+                 <p class="graf--p">
+                  For the project, we are going to follow a beginner version of MVVM. Our package in the project will look like below, similar to our
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/mvvm-architecture-android" target="_blank">
+                   MVVM beginner’s tutorial
+                  </a>
+                  blog.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/retrofit-coroutines-package-structure.png"/>
+                 </div>
+                 <h3 class="graf--h3">
+                  Setting up the Utils
+                 </h3>
+                 <p class="graf--p">
+                  We set up the utils package exactly the way we set it up in our
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/mvvm-architecture-android" target="_blank">
+                   MVVM beginner’s tutorial
+                  </a>
+                  blog.
+                 </p>
+                 <p class="graf--p">
+                  Firstly, the Enum status class:
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.utils
+
+enum class Status {
+    SUCCESS,
+    ERROR,
+    LOADING
+}</code></pre>
+                 <p class="graf--p">
+                  Now, the Resource class:
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.utils
+
+import com.mindorks.retrofit.coroutines.utils.Status.ERROR
+import com.mindorks.retrofit.coroutines.utils.Status.LOADING
+import com.mindorks.retrofit.coroutines.utils.Status.SUCCESS
+
+
+data class Resource&lt;out T&gt;(val status: Status, val data: T?, val message: String?) {
+    companion object {
+        fun &lt;T&gt; success(data: T): Resource&lt;T&gt; = Resource(status = SUCCESS, data = data, message = null)
+
+        fun &lt;T&gt; error(data: T?, message: String): Resource&lt;T&gt; =
+            Resource(status = ERROR, data = data, message = message)
+
+        fun &lt;T&gt; loading(data: T?): Resource&lt;T&gt; = Resource(status = LOADING, data = data, message = null)
+    }
+}</code></pre>
+                 <h3 class="graf--h3">
+                  Setting up the Model
+                 </h3>
+                 <p class="graf--p">
+                  Since we will be using the same API service we have used in our
+                  <a class="markup--anchor" href="https://amitshekhar.me/blog/mvvm-architecture-android" target="_blank">
+                   MVVM beginner’s tutorial
+                  </a>
+                  blog, we will be creating a similar model class.
+                 </p>
+                 <p class="graf--p">
+                  Server Response:
+                 </p>
+                 <pre><code class="language-java graf graf--code">{
+    "id": "Id of the User",
+    "name": "Name of the User",
+    "avatar": "url of the User avatar",
+    "email": "Email of the user"
+}</code></pre>
+                 <p class="graf--p">
+                  Model class:
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.model
+
+data class User(
+    val avatar: String,
+    val email: String,
+    val id: String,
+    val name: String
+)</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note:
+                  </b>
+                  <i class="graf--italic">
+                   Here we haven’t used the @SerializedName annotation since we have declared the same variable name as that of the server response field. However, if you wish to change the variable name of the data class, you can do so by adding the annotation like follows.
+                  </i>
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.model
+
+import com.google.gson.annotations.SerializedName
+
+data class User(
+    @SerializedName("avatar")
+    val image: String,
+    @SerializedName("email")
+    val userEmail: String,
+    @SerializedName("id")
+    val userId: String,
+    @SerializedName("name")
+    val userName: String
+)</code></pre>
+                 <h3 class="graf--h3">
+                  Setting up the Network Layer
+                 </h3>
+                 <p class="graf--p">
+                  Now, since we are using Retrofit for Network calls, let’s create a class that provides us the instance of the Retrofit Service class.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note
+                  </b>
+                  :
+                  <i class="graf--italic">
+                   We are going to come across some new keywords such as “suspend” in this Network layer. We are going to understand this later in this blog. First, let’s set up the project.
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Retrofit Service class
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.api
+
+import com.mindorks.retrofit.coroutines.data.model.User
+import retrofit2.http.GET
+
+interface ApiService {
+
+    @GET("users")
+    suspend fun getUsers(): List&lt;User&gt;
+
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Retrofit Builder class:
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.api
+
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+object RetrofitBuilder {
+
+    private const val BASE_URL = "https://5e510330f2c0d300147c034c.mockapi.io/"
+
+    private fun getRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build() //Doesn't require the adapter
+    }
+
+    val apiService: ApiService = getRetrofit().create(ApiService::class.java)
+}</code></pre>
+                 <p class="graf--p">
+                  Now, let’s create an API Helper class to help us with the ApiService call:
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.api
+
+class ApiHelper(private val apiService: ApiService) {
+
+    suspend fun getUsers() = apiService.getUsers()
+}</code></pre>
+                 <p class="graf--p">
+                  Our Network Layer is now set.
+                 </p>
+                 <p class="graf--p">
+                  Since we will be using a Repository pattern, we will be linking our ApiHelper class by using a Repository class:
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.data.repository
+
+import com.mindorks.retrofit.coroutines.data.api.ApiHelper
+
+class MainRepository(private val apiHelper: ApiHelper) {
+
+    suspend fun getUsers() = apiHelper.getUsers()
+}</code></pre>
+                 <h3 class="graf--h3">
+                  Setting up the ViewModel
+                 </h3>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note
+                  </b>
+                  :
+                  <i class="graf--italic">
+                   We are going to come across some new keywords such as “Coroutines”, “liveData scope”, “Dispatchers” in this ViewModel. We are going to understand this later in this blog. First, let’s set up the project.
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  Now, that our model and network layers are set, let’s set up our ViewModel
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.ui.main.viewmodel
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import com.mindorks.retrofit.coroutines.data.repository.MainRepository
+import com.mindorks.retrofit.coroutines.utils.Resource
+import kotlinx.coroutines.Dispatchers
+
+
+class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
+
+    fun getUsers() = liveData(Dispatchers.IO) {
+        emit(Resource.loading(data = null))
+        try {
+            emit(Resource.success(data = mainRepository.getUsers()))
+        } catch (exception: Exception) {
+            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  We will be providing our View Model from a Factory class. So let’s construct our ViewModelFactory class:
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.ui.base
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.mindorks.retrofit.coroutines.data.api.ApiHelper
+import com.mindorks.retrofit.coroutines.data.repository.MainRepository
+import com.mindorks.retrofit.coroutines.ui.main.viewmodel.MainViewModel
+
+class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Factory {
+
+    override fun &lt;T : ViewModel?&gt; create(modelClass: Class&lt;T&gt;): T {
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            return MainViewModel(MainRepository(apiHelper)) as T
+        }
+        throw IllegalArgumentException("Unknown class name")
+    }
+
+}</code></pre>
+                 <h3 class="graf--h3">
+                  Setting up the View
+                 </h3>
+                 <p class="graf--p">
+                  Our MainActivity class:
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.ui.main.view
+
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mindorks.retrofit.coroutines.R.layout
+import com.mindorks.retrofit.coroutines.data.api.ApiHelper
+import com.mindorks.retrofit.coroutines.data.api.RetrofitBuilder
+import com.mindorks.retrofit.coroutines.data.model.User
+import com.mindorks.retrofit.coroutines.ui.base.ViewModelFactory
+import com.mindorks.retrofit.coroutines.ui.main.adapter.MainAdapter
+import com.mindorks.retrofit.coroutines.ui.main.viewmodel.MainViewModel
+import com.mindorks.retrofit.coroutines.utils.Status.ERROR
+import com.mindorks.retrofit.coroutines.utils.Status.LOADING
+import com.mindorks.retrofit.coroutines.utils.Status.SUCCESS
+import kotlinx.android.synthetic.main.activity_user.progressBar
+import kotlinx.android.synthetic.main.activity_user.recyclerView
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: MainViewModel
+    private lateinit var adapter: MainAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(layout.activity_main)
+        setupViewModel()
+        setupUI()
+        setupObservers()
+    }
+
+
+    private fun setupViewModel() {
+        viewModel = ViewModelProviders.of(
+            this,
+            ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
+        ).get(MainViewModel::class.java)
+    }
+
+    private fun setupUI() {
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = MainAdapter(arrayListOf())
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                recyclerView.context,
+                (recyclerView.layoutManager as LinearLayoutManager).orientation
+            )
+        )
+        recyclerView.adapter = adapter
+    }
+
+    private fun setupObservers() {
+        viewModel.getUsers().observe(this, Observer {
+            it?.let { resource -&gt;
+                when (resource.status) {
+                    SUCCESS -&gt; {
+                        recyclerView.visibility = View.VISIBLE
+                        progressBar.visibility = View.GONE
+                        resource.data?.let { users -&gt; retrieveList(users) }
+                    }
+                    ERROR -&gt; {
+                        recyclerView.visibility = View.VISIBLE
+                        progressBar.visibility = View.GONE
+                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    }
+                    LOADING -&gt; {
+                        progressBar.visibility = View.VISIBLE
+                        recyclerView.visibility = View.GONE
+                    }
+                }
+            }
+        })
+    }
+
+    private fun retrieveList(users: List&lt;User&gt;) {
+        adapter.apply {
+            addUsers(users)
+            notifyDataSetChanged()
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Our activity_main.xml:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.view.MainActivity"&gt;
+
+    &lt;androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" /&gt;
+
+    &lt;ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  In order to load our Recycler view, we have to create a row item type:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"&gt;
+
+    &lt;ImageView
+        android:id="@+id/imageViewAvatar"
+        android:layout_width="60dp"
+        android:layout_height="0dp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="contentDescription" /&gt;
+
+    &lt;androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewUserName"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewAvatar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="MindOrks" /&gt;
+
+    &lt;androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewUserEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewUserName"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUserName"
+        tools:text="MindOrks" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note:
+                  </b>
+                  <i class="graf--italic">
+                   For the ease of understanding, the dimensions are hardcoded in the provided layout files. It is strongly recommended to read the dimensions and strings from their respective dimens.xml files and strings.xml files for best coding practices.
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  Finally, to load our RecyclerView, we need an adapter class with a view Holder:
+                 </p>
+                 <pre><code class="language-java graf graf--code">package com.mindorks.retrofit.coroutines.ui.main.adapter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.mindorks.retrofit.coroutines.R
+import com.mindorks.retrofit.coroutines.data.model.User
+import com.mindorks.retrofit.coroutines.ui.main.adapter.MainAdapter.DataViewHolder
+import kotlinx.android.synthetic.main.item_layout.view.imageViewAvatar
+import kotlinx.android.synthetic.main.item_layout.view.textViewUserEmail
+import kotlinx.android.synthetic.main.item_layout.view.textViewUserName
+
+class MainAdapter(private val users: ArrayList&lt;User&gt;) : RecyclerView.Adapter&lt;DataViewHolder&gt;() {
+
+    class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        fun bind(user: User) {
+            itemView.apply {
+                textViewUserName.text = user.name
+                textViewUserEmail.text = user.email
+                Glide.with(imageViewAvatar.context)
+                    .load(user.avatar)
+                    .into(imageViewAvatar)
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
+        DataViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false))
+
+    override fun getItemCount(): Int = users.size
+
+    override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
+        holder.bind(users[position])
+    }
+
+    fun addUsers(users: List&lt;User&gt;) {
+        this.users.apply {
+            clear()
+            addAll(users)
+        }
+
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  That’s it, our project is set up. Let’s add our internet permission in the AndroidManifest file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.INTERNET"/&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, let’s run our project. Awesome! We can see the server response on the screen!
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="undefined" class="graf-image" src="/images/retrofit-courotines-app.png"/>
+                 </div>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Understanding Retrofit with Kotlin Coroutines
+                  </b>
+                  Now that we have worked on the project, let’s understand two key things:
+                 </p>
+                 <h3 class="graf--h3">
+                  Suspend
+                 </h3>
+                 <p class="graf--p">
+                  The suspend functions can only be called from Coroutines. Adding the keyword suspend helps the coroutine to suspend (pause), perform the required job on a network thread (if Dispatchers.IO) is used, wait for the response, and then resumes from where it left off once the response is available. In our example code, the ViewModel class:
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun getUsers() = liveData(Dispatchers.IO) {
+        emit(Resource.loading(data = null))
+        try {
+            emit(Resource.success(data = mainRepository.getUsers()))
+        } catch (exception: Exception) {
+            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+        }
+    }</code></pre>
+                 <p class="graf--p">
+                  Here, the getUsers function of the MainRepository class is a suspend function, and hence, only once the network call(which is run on another thread, in this case, the thread from Dispatchers.IO) is completed (success or error), the coroutine resumes by emitting the respective value that is obtained from the network call.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Retrofit Coroutines suspend" class="graf-image" src="/images/retrofit-coroutines-suspend.png"/>
+                 </div>
+                 <h3 class="graf--h3">
+                  LifeCycle Scope
+                 </h3>
+                 <p class="graf--p">
+                  A
+                  <code class="graf--code-inline">
+                   LifecycleScope
+                  </code>
+                  is defined for each Lifecycle object.
+                  <code class="graf--code-inline">
+                   LifecycleOwner
+                  </code>
+                  could be an Activity or a Fragment. Any coroutine launched in this scope is canceled when the Lifecycle is destroyed. This helps us in avoiding memory leaks.
+                 </p>
+                 <p class="graf--p">
+                  Here we have used
+                  <i class="graf--italic">
+                   liveData
+                  </i>
+                  (Dispatchers.IO). If we observe the import statement:
+                 </p>
+                 <pre><code class="language-java graf graf--code">import androidx.lifecycle.liveData</code></pre>
+                 <p class="graf--p">
+                  Hence, the result of the function will be emitted as Live Data, which can be observed in the view (Activity or Fragment).
+                 </p>
+                 <h3 class="graf--h3">
+                  <b class="graf--bold">
+                   Project Source Code and What Next?
+                  </b>
+                 </h3>
+                 <p class="graf--p">
+                  You can find the complete project
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://github.com/MindorksOpenSource/Retrofit-Kotlin-Coroutines-Example" target="_blank">
+                     here
+                    </a>
+                   </span>
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  As we have done some simplifications in this project for the Beginners level, so, we can improve this project to go to the Advanced level, a few of the things which we can improve are as follows:
+                 </p>
+                 <ul>
+                  <li>
+                   Implement Dependency Inject Framework - Dagger in the project.
+                  </li>
+                  <li>
+                   Make ApiService Singleton and reuse the same instance for all the features.
+                  </li>
+                  <li>
+                   Create base classes such as BaseActivity.
+                  </li>
+                  <li>
+                   Handle all the API errors at a single place in a better way.
+                  </li>
+                  <li>
+                   Create Interfaces for the classes wherever required.
+                  </li>
+                  <li>
+                   Take advantage of
+                   <span class="">
+                    <a class="markup--anchor" href="https://blog.mindorks.com/android-ktx-android-development-with-kotlin" target="_blank">
+                     Android KTX - Kotlin Extensions
+                    </a>
+                   </span>
+                   .
+                  </li>
+                  <li>
+                   Write Unit-Test
+                  </li>
+                  <li>
+                   and so on.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <span class="">
+                   <a class="markup--anchor" href="https://bootcamp.mindorks.com/" target="_blank">
+                    Want to learn advanced concepts in Android? Apply Now: MindOrks Android Online Course and Learn Advanced Android
+                   </a>
+                  </span>
+                 </p>
+                 <p class="graf--p">
+                  That’s it for this article!
+                 </p>
+                 <p class="graf--p">
+                  We also have a
+                  <a class="markup--anchor" href="https://www.youtube.com/watch?v=5bVP_J4-cbg&amp;t=27s" target="_blank">
+                   video tutorial
+                  </a>
+                  on this concept. Please check it out
+                  <a class="markup--anchor" href="https://www.youtube.com/watch?v=5bVP_J4-cbg&amp;t=27s" target="_blank">
+                   here
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  We hope that you have understood how to use Retrofit with coroutines in a simple way!
+                 </p>
+                 <p class="graf--p">
+                  Thank you so much for your time!
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks!
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Also, Let’s connect on
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://twitter.com/AndraDheeraj" target="_blank">
+                     Twitter
+                    </a>
+                   </span>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://www.linkedin.com/in/dheerajsree/" target="_blank">
+                     Linkedin
+                    </a>
+                    ,
+                   </span>
+                  </b>
+                  <b class="graf--bold">
+                   and
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://github.com/asdheeraj" target="_blank">
+                     Github
+                    </a>
+                   </span>
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exception Handling in Kotlin Coroutines" class="ui centered image" src="/images/exception-handling-kotlin-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exception Handling in Kotlin Coroutines
+           </div>
+           <div class="meta">
+            25th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to talk about how we can handle exceptions while using Kotlin Coroutines. We will discuss various ways to handle it efficiently in our Android project.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Code Formatting in Kotlin using ktlint" class="ui centered image" src="/images/code-formatting-in-kotlin-using-ktlint-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Code Formatting in Kotlin using ktlint
+           </div>
+           <div class="meta">
+            12th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to format your Kotlin code using ktlint in our project. ktlint is a tool that is used to check if our Kotlin code is according to the Kotlin code standards or not. If not, then it will format the code for you. So, let's learn how to do that.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="ui centered image" src="/images/using-scoped-functions-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Scoped Functions in Kotlin - let, run, with, also, apply
+           </div>
+           <div class="meta">
+            16th March 2020
+           </div>
+           <div class="description">
+            In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Android Sensors: Android Tutorial" class="ui centered image" src="/images/using-android-sensors-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Android Sensors: Android Tutorial
+           </div>
+           <div class="meta">
+            30th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Push Notifications in Android Using FCM" class="ui centered image" src="/images/fcm.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Push Notifications in Android Using FCM
+           </div>
+           <div class="meta">
+            15th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Custom and Downloadable Fonts in Android" class="ui centered image" src="/images/downloadable-font-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Custom and Downloadable Fonts in Android
+           </div>
+           <div class="meta">
+            16th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

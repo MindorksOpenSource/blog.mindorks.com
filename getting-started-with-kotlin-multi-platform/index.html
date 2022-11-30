@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Getting started with Kotlin MultiPlatform
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/getting-started-with-kotlin-multi-platform" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Getting started with Kotlin MultiPlatform" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/getting-started-with-kotlin-multi-platform" property="og:url"/>
+  <meta content="/images/banner-mpp.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to get started with Kotlin MultiPlatform and run the platform-specific code in our device. We will learn how to setup android and ios apps individually and write same set of core logic for both." property="og:description"/>
+  <meta content="Getting started with Kotlin MultiPlatform" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to get started with Kotlin MultiPlatform and run the platform-specific code in our device. We will learn how to setup android and ios apps individually and write same set of core logic for both." name="twitter:description"/>
+  <meta content="/images/banner-mpp.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to get started with Kotlin MultiPlatform and run the platform-specific code in our device. We will learn how to setup android and ios apps individually and write same set of core logic for both." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:393,data:{id:393,title:"Getting started with Kotlin MultiPlatform",description:"In this blog, we will learn how to get started with Kotlin MultiPlatform and run the platform-specific code in our device. We will learn how to setup android and ios apps individually and write same set of core logic for both.",text:'<h1 class="graf--h1"></h2><h1 class="graf--h1">Getting started with Kotlin MultiPlatform</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-mpp.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">How has Kotlin been working out for you in your Android projects? What if I tell you Kotlin can be used to build multi-platform apps and to be very clear I am not talking about just iOS and Android but even JavaScript apps.  Amazing right? </p><p class="graf--p">In this blog, we are going to discuss,</p><ul><li>What is  Kotlin Multiplatform?</li><li>How does Kotlin Multiplatform work?</li><li>How to set up your Kotlin Multiplatform project?</li><li>How can we share code across platforms?</li></ul><p class="graf--p">So, before any delay let us get started. </p><h4 class="graf--h3">What is Kotlin Multiplatform ?</h4><p class="graf--p">When we build an app for our startup, we write iOS or Android apps most commonly. We might have design changes but more or less we have the same core logic for the apps. So, in place of writing two apps, Kotlin Multiplatform provides a way to share common business logic and build apps for different platforms using Kotlin.</p><p class="graf--p">Kotlin Multiplatform is a kotlin language feature that allows us to run Kotlin in JavaScript, iOS, and native desktop applications and hence develop apps using Kotlin. In short, </p><blockquote class="graf--blockquote">Kotlin Multiplatform says that, it will take care of the buisness logic and we just need to take care of the UI.</blockquote><p class="graf--p">To summarise, Kotlin Multiplatform is a way to share code between different platforms.</p><h4 class="graf--h3">How does Kotlin Multiplatform work?</h4> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/kotlin-mpp-banner.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here, if you can visualize when we write the Kotlin Shared code for the platforms and then it compiles it gets automatically generated for the specific platform. For example, if you compile on JVM the other code will run on Android or any platform JVM platform.</p><p class="graf--p">So, basically, it re-uses the <b class="graf--bold">business logic </b>which is almost common for all the apps.</p><h4 class="graf--h3">How to set up your Kotlin Multiplatform project?</h4><p class="graf--p">Now, from this section, we will dive into the code and set up the project. To start off, we have to install <a class="markup--anchor" target="_blank" href="https://www.jetbrains.com/idea/download">IntelliJ CE Version</a> and set up in your local machine. In my case, I am using Macbook. After running it, I will see</p><h4 class="graf--h3">Step 01.</h4><p class="graf--p">Run the IDE and select Mobile Android/iOS from the section below, and then press next.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/mpp-kotlin-setup.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Step 02.</h4><p class="graf--p">Then we get to this screen, we just need to process ahead.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/step-2-kotlin-mpp.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Step 03.</h4><p class="graf--p">In this, you need to set the specific path where you want to store the project and just press the finish. Your project will be set up.</p><p class="graf--p">Now, when the setup is done your project will throw an error like the following,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/mpp-error-setup.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">This basically means that we need to set the path of our SDK in the <b class="graf--bold">local.propertie</b>s file. For me, the Path was </p><pre><code class="language-java graf graf--code">sdk.dir=/Users/himanshusingh/Library/Android/sdk</code></pre><blockquote class="graf--blockquote">Tip: If you already have any android project of yours, just check their local.properties and you will find the path of the directory</blockquote><p class="graf--p">This is how we can set up the project in Kotlin MultiPlatform. This is just a beginning.</p><p class="graf--p">Let us now modularize the project. For this project, we will first take the project and import it using Android Studio. You can download and set up the Android Studio from <a class="markup--anchor" target="_blank" href="https://developer.android.com/studio">here</a>.</p><p class="graf--p">Let&#x27;s import the project and go to the project structure in Android Studio.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/sample-project-structure-mpp.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here, in the app folder, we would have </p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/app-sample-project-folder.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In the above code, src contains all the code. For this project, we will delete all the modules at first and then will start creating our own folder/packages.</p><p class="graf--p">Now, we will rename the <b class="graf--bold">app </b>folder as <b class="graf--bold">shared</b>. And then we will start modularising the codebase.</p><p class="graf--p">We will create now, 4 folders in src of <b class="graf--bold">shared </b>named as <b class="graf--bold"><i class="graf--italic">androidMain</i></b>, <b class="graf--bold"><i class="graf--italic">iosMain</i></b>, <b class="graf--bold"><i class="graf--italic">commonMain</i></b>, <b class="graf--bold"><i class="graf--italic">main</i></b>. Now, let&#x27;s create a kotlin folder in the first three of them and <i class="graf--italic">AndroidManifest</i>.xml in the <i class="graf--italic">main</i> folder The new structure will look like,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/new-project-srtucture-mpp.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Now, this is all. For the shared project. So, basically, we have two projects <b class="graf--bold">shared</b> and <b class="graf--bold">iosApp</b>, one contains the above folders and iosApp which we got when we created the project.</p><p class="graf--p">Now, we need to create an android project. So, for that, we will create an android project using <b class="graf--bold">Android Studio</b> somewhere else in our system with an Empty Activity(say <i class="graf--italic">MainActivity</i>) and quickly copy in the multiplatform project folder we created as androidApp package. So, now the final multiplatform project looks like,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/final-mpp-project.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here, <b class="graf--bold">androidApp</b> is the android project we created using Android Studio and pasted it here.  Now, edit the settings.gradle file and replace <b class="graf--bold">include</b> line with,</p><pre><code class="language-java graf graf--code">include \':androidApp\', \':shared\'</code></pre><p class="graf--p">So, now let&#x27;s do some coding in the multiplatform projects. </p><p class="graf--p">First, we need to set up the<b class="graf--bold"> build.gradle</b> of a shared project. We will replace with the following,</p><pre><code class="language-java graf graf--code">plugins {\n    id \'org.jetbrains.kotlin.multiplatform\'\n}\napply plugin: \'com.android.library\'\napply plugin: \'kotlin-android-extensions\'\n\nandroid {\n    compileSdkVersion 28\n    buildTypes {\n        release {\n            minifyEnabled false\n        }\n    }\n}\n\nkotlin {\n    android("android")\n    // This is for iPhone emulator\n    // Switch here to iosArm64 (or iosArm32) to build library for iPhone device\n    targets {\n        final def iOSTarget = System.getenv(\'SDK_NAME\')?.startsWith("iphoneos") \\\n                          ? presets.iosArm64 : presets.iosX64\n\n        fromPreset(iOSTarget, \'ios\') {\n            binaries {\n                framework()\n            }\n        }\n    }\n    sourceSets {\n        commonMain {\n            dependencies {\n                implementation kotlin(\'stdlib-common\')\n            }\n        }\n        commonTest {\n            dependencies {\n                implementation kotlin(\'test-common\')\n                implementation kotlin(\'test-annotations-common\')\n            }\n        }\n        androidMain {\n            dependencies {\n                implementation kotlin(\'stdlib\')\n            }\n        }\n        androidTest {\n            dependencies {\n                implementation kotlin(\'test\')\n                implementation kotlin(\'test-junit\')\n            }\n        }\n        iosMain {\n        }\n        iosTest {\n        }\n    }\n}\n\n// This task attaches native framework built from ios module to Xcode project\n// (see iosApp directory). Don\'t run this task directly,\n// Xcode runs this task itself during its build process.\n// Before opening the project from iosApp directory in Xcode,\n// make sure all Gradle infrastructure exists (gradle.wrapper, gradlew).\ntask copyFramework {\n    def buildType = project.findProperty(\'kotlin.build.type\') ?: \'DEBUG\'\n    def target = project.findProperty(\'kotlin.target\') ?: \'ios\'\n    dependsOn kotlin.targets."$target".binaries.getFramework(buildType).linkTask\n\n    doLast {\n        def srcFile = kotlin.targets."$target".binaries.getFramework(buildType).outputFile\n        def targetDir = getProperty(\'configuration.build.dir\')\n        copy {\n            from srcFile.parent\n            into targetDir\n            include \'shared.framework/**\'\n            include \'shared.framework.dSYM\'\n        }\n    }\n}\n\ntask iosTest {\n    def device = project.findProperty("iosDevice")?.toString() ?: "iPhone X"\n    dependsOn kotlin.targets.ios.binaries.getTest(\'DEBUG\').linkTaskName\n    group = JavaBasePlugin.VERIFICATION_GROUP\n    description = "Runs iOS tests on a simulator"\n\n    doLast {\n        def binary = kotlin.targets.ios.binaries.getTest(\'DEBUG\').outputFile\n        exec {\n            commandLine \'xcrun\', \'simctl\', \'spawn\', device, binary.absolutePath\n        }\n    }\n}\n\ntasks.check.dependsOn iosTest</code></pre><p class="graf--p">Here, we have added a plugin for multiplatform and library. We added the plugin library just so that it can be imported into the Android project <b class="graf--bold">androidApp</b>.</p><pre><code class="language-java graf graf--code">kotlin {\n}</code></pre><p class="graf--p">In this, we add the device configuration where I can run the apps to test. We have added iOS and android using,</p><pre><code class="language-java graf graf--code">android("android")\n// This is for iPhone emulator\n// Switch here to iosArm64 (or iosArm32) to build library for iPhone device\ntargets {\n    final def iOSTarget = System.getenv(\'SDK_NAME\')?.startsWith("iphoneos") \\\n                      ? presets.iosArm64 : presets.iosX64\n\n    fromPreset(iOSTarget, \'ios\') {\n        binaries {\n            framework()\n        }\n    }\n}</code></pre><p class="graf--p">Again,</p><pre><code class="language-java graf graf--code">sourceSets {\n    \n}</code></pre><p class="graf--p">contains the dependency for the individual projects as specified above.</p><p class="graf--p">Now, to integrate the <i class="graf--italic">shared module</i> in the android app I will implement it as a library of Android,</p><pre><code class="language-java graf graf--code">implementation project(\':shared\')</code></pre><h4 class="graf--h3">Let&#x27;s Run our first Hello World Program :) </h4><p class="graf--p">Create a file Sample.kt in shared/kotlin folder and add,</p><pre><code class="language-java graf graf--code">object Sample {\n    fun sayHelloWorld(): String = "Hello World"\n}</code></pre><p class="graf--p">in the <b class="graf--bold">androidApp</b> module, we have an Activity folder (MainActivity.kt) when we created the project using Android Studio. The Activity File will have its XML file with a textView like this</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n\n    &lt;TextView\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="Hello World!"\n        android:id="@+id/text"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><pre><code class="language-java graf graf--code"></code></pre><p class="graf--p">and in the MainActivity.kt, I will just set the text to this textView in onCreate() like,</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        text.text = Sample.sayHelloWorld()\n\n    }\n}</code></pre><p class="graf--p">So, when we run the Android app, it will generate the output</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/hello-world-mpp-output.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">This is how we can run the android app in the emulator. In the above example, we just shared a common logic to print &quot;Hello World&quot; which is just a string representation. </p><h4 class="graf--h3">How we can share code across platforms?</h4><p class="graf--p">What if we have to share some set of code, which is only platform-specific. So for example to demonstrate, </p><pre><code class="language-java graf graf--code">if(platform == "iOS"){\n\n}else if(platform =="android") {\n    \n}</code></pre><p class="graf--p">Here we need to do something like this, like other cross-platform. But in Kotlin we have key words like <b class="graf--bold">actual</b> and <b class="graf--bold">expect</b>.</p><p class="graf--p">To explain to you better, let&#x27;s say I want to print the Android Version the app is running on. This can&#x27;t be done from the common package of shared. </p><p class="graf--p">Let&#x27;s first goto shared-&gt;main-&gt;<b class="graf--bold">AndroidManifest</b>.xml and add the following,</p><pre><code class="language-java graf graf--code">&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"\npackage="&lt;my project package&gt;"/&gt;</code></pre><p class="graf--p">So, to get the full implementation of the platform-specific code, kotlin has two keywords actual and expect. Let&#x27;s understand them,</p><p class="graf--p">in Sample.kt of shared/<b class="graf--bold">commonMain</b> module, I will add</p><pre><code class="language-java graf graf--code">expect fun platformName(): String\n\nobject Sample {\n    fun sayPlatformName(): String = platformName()\n}</code></pre><p class="graf--p">and in Sample.kt of shared/<b class="graf--bold">androidMain</b> module, we will do</p><pre><code class="language-java graf graf--code">import android.os.Build\n\nactual fun platformName(): String = "Android ${Build.VERSION.SDK_INT}"</code></pre><p class="graf--p">Here, you can see the Sample.kt of <b class="graf--bold">androidMain</b> we have a function called <b class="graf--bold">platformName()</b> with the <b class="graf--bold">actual</b> keyword which returns the Version of Android API. It gets imported from <b class="graf--bold">android.os.Build </b>package.</p><p class="graf--p">and in the Sample.kt of <b class="graf--bold">commonMain</b>, we create function <b class="graf--bold">platformName()</b> with <b class="graf--bold">expect</b> keyword. and in the object we have <b class="graf--bold">sayPlatformName()</b> with returns the <b class="graf--bold">platformName()</b> . </p><p class="graf--p">And in the MainActivity of the android project, we call the <b class="graf--bold">sayPlatformName </b>as,</p><pre><code class="language-java graf graf--code">override fun onCreate(savedInstanceState: Bundle?) {\n    ....\n    text.text = Sample.sayPlatformName()\n\n}</code></pre><p class="graf--p">and when we run this,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/platform-mpp-export.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">It generates the output with the version code i.e. 28.</p><p class="graf--p">But what exactly is happening here? Let&#x27;s break it down step by step.</p><ul><li><b class="graf--bold">expect</b> , specifies that the function name is expected from the platform-specific code.</li><li><b class="graf--bold">actual, </b>exports the code from the platform with the same function name which <b class="graf--bold">expect </b>function is expecting in the common shared code.</li><li>All <b class="graf--bold">actual</b> declarations that match any part of an expected declaration need to be marked as all <b class="graf--bold">actual</b>.</li><li><b class="graf--bold">expect</b> function will never any implementation.</li></ul><p class="graf--p">The pictorial description of expect-actual is,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/actual-expect-diagram.png class=\'graf-image\' alt=\'Getting started with Kotlin MultiPlatform\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So this is how we can write platform-specific code for android, iOS or JS.</p><p class="graf--p">That is how you set up a Multiplatform project and work with it.</p><p class="graf--p">Happy learning.</p>',author:9959,img_url:"/images/banner-mpp.png",blog_url:"getting-started-with-kotlin-multi-platform",likes:0,rank:0,category:9,published_at:"26th February 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:230,title:"Getting Started With CameraX Jetpack Support Library",description:"In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.\n",author:14897,img_url:"/images/camerax-jetpack-support-library.png",blog_url:"getting-started-with-camerax",likes:0,rank:0,category:1,published_at:"11th May 2019",score:3.437007188796997},{id:240,title:"Getting started with Motion Layout: Android Tutorials",description:"In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code. ",author:14897,img_url:"/images/motion-layout-banner.png",blog_url:"getting-started-with-motion-layout-android-tutorials",likes:0,rank:0,category:1,published_at:"17th May 2019",score:3.437007188796997},{id:242,title:"Getting Started with ShareSheet in Android Q",description:"In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it .",author:14897,img_url:"/images/sharesheet.jpg",blog_url:"getting-started-with-sharesheet-in-android-q",likes:0,rank:0,category:1,published_at:"17th May 2019",score:3.437007188796997},{id:248,title:"Getting Started with Firebase RemoteConfig in Android",description:"In this blog, we will learn about the firebase Remote Config feature in Android. By using Firebase Remote Config, we can bring some updates in the App like some text change in the app, without publishing any update of the app on the Play Store.",author:14897,img_url:"/images/getting-started-firebase-remote-config-banner-image.png",blog_url:"getting-started-with-firebase-remote-config-in-android",likes:0,rank:0,category:1,published_at:"22nd May 2019",score:3.437007188796997},{id:357,title:"Getting started with Android NDK: Android Tutorial",description:"In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.",author:14897,img_url:"/images/getting-started-with-android-ndk-android-tutorial-banner.png",blog_url:"getting-started-with-android-ndk-android-tutorial",likes:0,rank:0,category:1,published_at:"9th October 2019",score:3.437007188796997},{id:428,title:"Getting started with Lottie Animation in Android",description:"In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie.",author:3003,img_url:"/images/getting-started-with-lottie-banner.png",blog_url:"getting-started-with-lottie-animation-in-android",likes:0,rank:0,category:1,published_at:"28th April 2020",score:3.437007188796997}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            26th February 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  <h1 class="graf--h1">
+                   Getting started with Kotlin MultiPlatform
+                  </h1>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/banner-mpp.png"/>
+                  </div>
+                  <p class="graf--p">
+                   How has Kotlin been working out for you in your Android projects? What if I tell you Kotlin can be used to build multi-platform apps and to be very clear I am not talking about just iOS and Android but even JavaScript apps.  Amazing right?
+                  </p>
+                  <p class="graf--p">
+                   In this blog, we are going to discuss,
+                  </p>
+                  <ul>
+                   <li>
+                    What is  Kotlin Multiplatform?
+                   </li>
+                   <li>
+                    How does Kotlin Multiplatform work?
+                   </li>
+                   <li>
+                    How to set up your Kotlin Multiplatform project?
+                   </li>
+                   <li>
+                    How can we share code across platforms?
+                   </li>
+                  </ul>
+                  <p class="graf--p">
+                   So, before any delay let us get started.
+                  </p>
+                  <h4 class="graf--h3">
+                   What is Kotlin Multiplatform ?
+                  </h4>
+                  <p class="graf--p">
+                   When we build an app for our startup, we write iOS or Android apps most commonly. We might have design changes but more or less we have the same core logic for the apps. So, in place of writing two apps, Kotlin Multiplatform provides a way to share common business logic and build apps for different platforms using Kotlin.
+                  </p>
+                  <p class="graf--p">
+                   Kotlin Multiplatform is a kotlin language feature that allows us to run Kotlin in JavaScript, iOS, and native desktop applications and hence develop apps using Kotlin. In short,
+                  </p>
+                  <blockquote class="graf--blockquote">
+                   Kotlin Multiplatform says that, it will take care of the buisness logic and we just need to take care of the UI.
+                  </blockquote>
+                  <p class="graf--p">
+                   To summarise, Kotlin Multiplatform is a way to share code between different platforms.
+                  </p>
+                  <h4 class="graf--h3">
+                   How does Kotlin Multiplatform work?
+                  </h4>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/kotlin-mpp-banner.png"/>
+                  </div>
+                  <p class="graf--p">
+                   Here, if you can visualize when we write the Kotlin Shared code for the platforms and then it compiles it gets automatically generated for the specific platform. For example, if you compile on JVM the other code will run on Android or any platform JVM platform.
+                  </p>
+                  <p class="graf--p">
+                   So, basically, it re-uses the
+                   <b class="graf--bold">
+                    business logic
+                   </b>
+                   which is almost common for all the apps.
+                  </p>
+                  <h4 class="graf--h3">
+                   How to set up your Kotlin Multiplatform project?
+                  </h4>
+                  <p class="graf--p">
+                   Now, from this section, we will dive into the code and set up the project. To start off, we have to install
+                   <a class="markup--anchor" href="https://www.jetbrains.com/idea/download" target="_blank">
+                    IntelliJ CE Version
+                   </a>
+                   and set up in your local machine. In my case, I am using Macbook. After running it, I will see
+                  </p>
+                  <h4 class="graf--h3">
+                   Step 01.
+                  </h4>
+                  <p class="graf--p">
+                   Run the IDE and select Mobile Android/iOS from the section below, and then press next.
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/mpp-kotlin-setup.png"/>
+                  </div>
+                  <h4 class="graf--h3">
+                   Step 02.
+                  </h4>
+                  <p class="graf--p">
+                   Then we get to this screen, we just need to process ahead.
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/step-2-kotlin-mpp.png"/>
+                  </div>
+                  <h4 class="graf--h3">
+                   Step 03.
+                  </h4>
+                  <p class="graf--p">
+                   In this, you need to set the specific path where you want to store the project and just press the finish. Your project will be set up.
+                  </p>
+                  <p class="graf--p">
+                   Now, when the setup is done your project will throw an error like the following,
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/mpp-error-setup.png"/>
+                  </div>
+                  <p class="graf--p">
+                   This basically means that we need to set the path of our SDK in the
+                   <b class="graf--bold">
+                    local.propertie
+                   </b>
+                   s file. For me, the Path was
+                  </p>
+                  <pre><code class="language-java graf graf--code">sdk.dir=/Users/himanshusingh/Library/Android/sdk</code></pre>
+                  <blockquote class="graf--blockquote">
+                   Tip: If you already have any android project of yours, just check their local.properties and you will find the path of the directory
+                  </blockquote>
+                  <p class="graf--p">
+                   This is how we can set up the project in Kotlin MultiPlatform. This is just a beginning.
+                  </p>
+                  <p class="graf--p">
+                   Let us now modularize the project. For this project, we will first take the project and import it using Android Studio. You can download and set up the Android Studio from
+                   <a class="markup--anchor" href="https://developer.android.com/studio" target="_blank">
+                    here
+                   </a>
+                   .
+                  </p>
+                  <p class="graf--p">
+                   Let's import the project and go to the project structure in Android Studio.
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/sample-project-structure-mpp.png"/>
+                  </div>
+                  <p class="graf--p">
+                   Here, in the app folder, we would have
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/app-sample-project-folder.png"/>
+                  </div>
+                  <p class="graf--p">
+                   In the above code, src contains all the code. For this project, we will delete all the modules at first and then will start creating our own folder/packages.
+                  </p>
+                  <p class="graf--p">
+                   Now, we will rename the
+                   <b class="graf--bold">
+                    app
+                   </b>
+                   folder as
+                   <b class="graf--bold">
+                    shared
+                   </b>
+                   . And then we will start modularising the codebase.
+                  </p>
+                  <p class="graf--p">
+                   We will create now, 4 folders in src of
+                   <b class="graf--bold">
+                    shared
+                   </b>
+                   named as
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     androidMain
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     iosMain
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     commonMain
+                    </i>
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     main
+                    </i>
+                   </b>
+                   . Now, let's create a kotlin folder in the first three of them and
+                   <i class="graf--italic">
+                    AndroidManifest
+                   </i>
+                   .xml in the
+                   <i class="graf--italic">
+                    main
+                   </i>
+                   folder The new structure will look like,
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/new-project-srtucture-mpp.png"/>
+                  </div>
+                  <p class="graf--p">
+                   Now, this is all. For the shared project. So, basically, we have two projects
+                   <b class="graf--bold">
+                    shared
+                   </b>
+                   and
+                   <b class="graf--bold">
+                    iosApp
+                   </b>
+                   , one contains the above folders and iosApp which we got when we created the project.
+                  </p>
+                  <p class="graf--p">
+                   Now, we need to create an android project. So, for that, we will create an android project using
+                   <b class="graf--bold">
+                    Android Studio
+                   </b>
+                   somewhere else in our system with an Empty Activity(say
+                   <i class="graf--italic">
+                    MainActivity
+                   </i>
+                   ) and quickly copy in the multiplatform project folder we created as androidApp package. So, now the final multiplatform project looks like,
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/final-mpp-project.png"/>
+                  </div>
+                  <p class="graf--p">
+                   Here,
+                   <b class="graf--bold">
+                    androidApp
+                   </b>
+                   is the android project we created using Android Studio and pasted it here.  Now, edit the settings.gradle file and replace
+                   <b class="graf--bold">
+                    include
+                   </b>
+                   line with,
+                  </p>
+                  <pre><code class="language-java graf graf--code">include ':androidApp', ':shared'</code></pre>
+                  <p class="graf--p">
+                   So, now let's do some coding in the multiplatform projects.
+                  </p>
+                  <p class="graf--p">
+                   First, we need to set up the
+                   <b class="graf--bold">
+                    build.gradle
+                   </b>
+                   of a shared project. We will replace with the following,
+                  </p>
+                  <pre><code class="language-java graf graf--code">plugins {
+    id 'org.jetbrains.kotlin.multiplatform'
+}
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+}
+
+kotlin {
+    android("android")
+    // This is for iPhone emulator
+    // Switch here to iosArm64 (or iosArm32) to build library for iPhone device
+    targets {
+        final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") \
+                          ? presets.iosArm64 : presets.iosX64
+
+        fromPreset(iOSTarget, 'ios') {
+            binaries {
+                framework()
+            }
+        }
+    }
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation kotlin('stdlib-common')
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
+            }
+        }
+        androidMain {
+            dependencies {
+                implementation kotlin('stdlib')
+            }
+        }
+        androidTest {
+            dependencies {
+                implementation kotlin('test')
+                implementation kotlin('test-junit')
+            }
+        }
+        iosMain {
+        }
+        iosTest {
+        }
+    }
+}
+
+// This task attaches native framework built from ios module to Xcode project
+// (see iosApp directory). Don't run this task directly,
+// Xcode runs this task itself during its build process.
+// Before opening the project from iosApp directory in Xcode,
+// make sure all Gradle infrastructure exists (gradle.wrapper, gradlew).
+task copyFramework {
+    def buildType = project.findProperty('kotlin.build.type') ?: 'DEBUG'
+    def target = project.findProperty('kotlin.target') ?: 'ios'
+    dependsOn kotlin.targets."$target".binaries.getFramework(buildType).linkTask
+
+    doLast {
+        def srcFile = kotlin.targets."$target".binaries.getFramework(buildType).outputFile
+        def targetDir = getProperty('configuration.build.dir')
+        copy {
+            from srcFile.parent
+            into targetDir
+            include 'shared.framework/**'
+            include 'shared.framework.dSYM'
+        }
+    }
+}
+
+task iosTest {
+    def device = project.findProperty("iosDevice")?.toString() ?: "iPhone X"
+    dependsOn kotlin.targets.ios.binaries.getTest('DEBUG').linkTaskName
+    group = JavaBasePlugin.VERIFICATION_GROUP
+    description = "Runs iOS tests on a simulator"
+
+    doLast {
+        def binary = kotlin.targets.ios.binaries.getTest('DEBUG').outputFile
+        exec {
+            commandLine 'xcrun', 'simctl', 'spawn', device, binary.absolutePath
+        }
+    }
+}
+
+tasks.check.dependsOn iosTest</code></pre>
+                  <p class="graf--p">
+                   Here, we have added a plugin for multiplatform and library. We added the plugin library just so that it can be imported into the Android project
+                   <b class="graf--bold">
+                    androidApp
+                   </b>
+                   .
+                  </p>
+                  <pre><code class="language-java graf graf--code">kotlin {
+}</code></pre>
+                  <p class="graf--p">
+                   In this, we add the device configuration where I can run the apps to test. We have added iOS and android using,
+                  </p>
+                  <pre><code class="language-java graf graf--code">android("android")
+// This is for iPhone emulator
+// Switch here to iosArm64 (or iosArm32) to build library for iPhone device
+targets {
+    final def iOSTarget = System.getenv('SDK_NAME')?.startsWith("iphoneos") \
+                      ? presets.iosArm64 : presets.iosX64
+
+    fromPreset(iOSTarget, 'ios') {
+        binaries {
+            framework()
+        }
+    }
+}</code></pre>
+                  <p class="graf--p">
+                   Again,
+                  </p>
+                  <pre><code class="language-java graf graf--code">sourceSets {
+    
+}</code></pre>
+                  <p class="graf--p">
+                   contains the dependency for the individual projects as specified above.
+                  </p>
+                  <p class="graf--p">
+                   Now, to integrate the
+                   <i class="graf--italic">
+                    shared module
+                   </i>
+                   in the android app I will implement it as a library of Android,
+                  </p>
+                  <pre><code class="language-java graf graf--code">implementation project(':shared')</code></pre>
+                  <h4 class="graf--h3">
+                   Let's Run our first Hello World Program :)
+                  </h4>
+                  <p class="graf--p">
+                   Create a file Sample.kt in shared/kotlin folder and add,
+                  </p>
+                  <pre><code class="language-java graf graf--code">object Sample {
+    fun sayHelloWorld(): String = "Hello World"
+}</code></pre>
+                  <p class="graf--p">
+                   in the
+                   <b class="graf--bold">
+                    androidApp
+                   </b>
+                   module, we have an Activity folder (MainActivity.kt) when we created the project using Android Studio. The Activity File will have its XML file with a textView like this
+                  </p>
+                  <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+
+    &lt;TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:id="@+id/text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                  <pre><code class="language-java graf graf--code"></code></pre>
+                  <p class="graf--p">
+                   and in the MainActivity.kt, I will just set the text to this textView in onCreate() like,
+                  </p>
+                  <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        text.text = Sample.sayHelloWorld()
+
+    }
+}</code></pre>
+                  <p class="graf--p">
+                   So, when we run the Android app, it will generate the output
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/hello-world-mpp-output.png"/>
+                  </div>
+                  <p class="graf--p">
+                   This is how we can run the android app in the emulator. In the above example, we just shared a common logic to print "Hello World" which is just a string representation.
+                  </p>
+                  <h4 class="graf--h3">
+                   How we can share code across platforms?
+                  </h4>
+                  <p class="graf--p">
+                   What if we have to share some set of code, which is only platform-specific. So for example to demonstrate,
+                  </p>
+                  <pre><code class="language-java graf graf--code">if(platform == "iOS"){
+
+}else if(platform =="android") {
+    
+}</code></pre>
+                  <p class="graf--p">
+                   Here we need to do something like this, like other cross-platform. But in Kotlin we have key words like
+                   <b class="graf--bold">
+                    actual
+                   </b>
+                   and
+                   <b class="graf--bold">
+                    expect
+                   </b>
+                   .
+                  </p>
+                  <p class="graf--p">
+                   To explain to you better, let's say I want to print the Android Version the app is running on. This can't be done from the common package of shared.
+                  </p>
+                  <p class="graf--p">
+                   Let's first goto shared-&gt;main-&gt;
+                   <b class="graf--bold">
+                    AndroidManifest
+                   </b>
+                   .xml and add the following,
+                  </p>
+                  <pre><code class="language-java graf graf--code">&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="&lt;my project package&gt;"/&gt;</code></pre>
+                  <p class="graf--p">
+                   So, to get the full implementation of the platform-specific code, kotlin has two keywords actual and expect. Let's understand them,
+                  </p>
+                  <p class="graf--p">
+                   in Sample.kt of shared/
+                   <b class="graf--bold">
+                    commonMain
+                   </b>
+                   module, I will add
+                  </p>
+                  <pre><code class="language-java graf graf--code">expect fun platformName(): String
+
+object Sample {
+    fun sayPlatformName(): String = platformName()
+}</code></pre>
+                  <p class="graf--p">
+                   and in Sample.kt of shared/
+                   <b class="graf--bold">
+                    androidMain
+                   </b>
+                   module, we will do
+                  </p>
+                  <pre><code class="language-java graf graf--code">import android.os.Build
+
+actual fun platformName(): String = "Android ${Build.VERSION.SDK_INT}"</code></pre>
+                  <p class="graf--p">
+                   Here, you can see the Sample.kt of
+                   <b class="graf--bold">
+                    androidMain
+                   </b>
+                   we have a function called
+                   <b class="graf--bold">
+                    platformName()
+                   </b>
+                   with the
+                   <b class="graf--bold">
+                    actual
+                   </b>
+                   keyword which returns the Version of Android API. It gets imported from
+                   <b class="graf--bold">
+                    android.os.Build
+                   </b>
+                   package.
+                  </p>
+                  <p class="graf--p">
+                   and in the Sample.kt of
+                   <b class="graf--bold">
+                    commonMain
+                   </b>
+                   , we create function
+                   <b class="graf--bold">
+                    platformName()
+                   </b>
+                   with
+                   <b class="graf--bold">
+                    expect
+                   </b>
+                   keyword. and in the object we have
+                   <b class="graf--bold">
+                    sayPlatformName()
+                   </b>
+                   with returns the
+                   <b class="graf--bold">
+                    platformName()
+                   </b>
+                   .
+                  </p>
+                  <p class="graf--p">
+                   And in the MainActivity of the android project, we call the
+                   <b class="graf--bold">
+                    sayPlatformName
+                   </b>
+                   as,
+                  </p>
+                  <pre><code class="language-java graf graf--code">override fun onCreate(savedInstanceState: Bundle?) {
+    ....
+    text.text = Sample.sayPlatformName()
+
+}</code></pre>
+                  <p class="graf--p">
+                   and when we run this,
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/platform-mpp-export.png"/>
+                  </div>
+                  <p class="graf--p">
+                   It generates the output with the version code i.e. 28.
+                  </p>
+                  <p class="graf--p">
+                   But what exactly is happening here? Let's break it down step by step.
+                  </p>
+                  <ul>
+                   <li>
+                    <b class="graf--bold">
+                     expect
+                    </b>
+                    , specifies that the function name is expected from the platform-specific code.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     actual,
+                    </b>
+                    exports the code from the platform with the same function name which
+                    <b class="graf--bold">
+                     expect
+                    </b>
+                    function is expecting in the common shared code.
+                   </li>
+                   <li>
+                    All
+                    <b class="graf--bold">
+                     actual
+                    </b>
+                    declarations that match any part of an expected declaration need to be marked as all
+                    <b class="graf--bold">
+                     actual
+                    </b>
+                    .
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     expect
+                    </b>
+                    function will never any implementation.
+                   </li>
+                  </ul>
+                  <p class="graf--p">
+                   The pictorial description of expect-actual is,
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="Getting started with Kotlin MultiPlatform" class="graf-image" src="/images/actual-expect-diagram.png"/>
+                  </div>
+                  <p class="graf--p">
+                   So this is how we can write platform-specific code for android, iOS or JS.
+                  </p>
+                  <p class="graf--p">
+                   That is how you set up a Multiplatform project and work with it.
+                  </p>
+                  <p class="graf--p">
+                   Happy learning.
+                  </p>
+                 </h1>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started With CameraX Jetpack Support Library" class="ui centered image" src="/images/camerax-jetpack-support-library.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started With CameraX Jetpack Support Library
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Motion Layout: Android Tutorials" class="ui centered image" src="/images/motion-layout-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Motion Layout: Android Tutorials
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started with ShareSheet in Android Q" class="ui centered image" src="/images/sharesheet.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started with ShareSheet in Android Q
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started with Firebase RemoteConfig in Android" class="ui centered image" src="/images/getting-started-firebase-remote-config-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started with Firebase RemoteConfig in Android
+           </div>
+           <div class="meta">
+            22nd May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the firebase Remote Config feature in Android. By using Firebase Remote Config, we can bring some updates in the App like some text change in the app, without publishing any update of the app on the Play Store.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Android NDK: Android Tutorial" class="ui centered image" src="/images/getting-started-with-android-ndk-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Android NDK: Android Tutorial
+           </div>
+           <div class="meta">
+            9th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Lottie Animation in Android" class="ui centered image" src="/images/getting-started-with-lottie-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Lottie Animation in Android
+           </div>
+           <div class="meta">
+            28th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

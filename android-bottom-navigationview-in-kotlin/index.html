@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Android Bottom Navigation Example in Kotlin
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-bottom-navigationview-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Android Bottom Navigation Example in Kotlin" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-bottom-navigationview-in-kotlin" property="og:url"/>
+  <meta content="/images/android_bottom_navigation_mindorks_feature_image.png" property="og:image"/>
+  <meta content="Android Bottom Navigation Example in Kotlin. How to implement the BottomNavigationView in Kotlin?" property="og:description"/>
+  <meta content="Android Bottom Navigation Example in Kotlin" property="twitter:title"/>
+  <meta content="Android Bottom Navigation Example in Kotlin. How to implement the BottomNavigationView in Kotlin?" name="twitter:description"/>
+  <meta content="/images/android_bottom_navigation_mindorks_feature_image.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="Android Bottom Navigation Example in Kotlin. How to implement the BottomNavigationView in Kotlin?" name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:202,data:{id:202,title:"Android Bottom Navigation Example in Kotlin",description:"Android Bottom Navigation Example in Kotlin. How to implement the BottomNavigationView in Kotlin?",text:'<h2 class="graf--h1">Android Bottom Navigation Example in Kotlin</h2><p class="graf--p">Welcome, here we are going to implement the BottomNavigationView, which you might have seen in the Instagram application, the bottom menu bar.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_bottom_navigation_mindorks_feature_image.png class=\'graf-image\' alt=\'Android Bottom Navigation Example in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Let’s start with the development:</p><p class="graf--p">Open Android Studio and create a new project. Setup the Constraint layout and also add the dependency of material components and syn the project.</p><pre><code class="language-java graf graf--code">dependencies {\n implementation fileTree(dir: ‘libs’, include: [‘*.jar’])\n implementation”org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version”\n implementation ‘androidx.appcompat:appcompat:1.0.2’\n implementation ‘androidx.constraintlayout:constraintlayout:1.1.3’\n implementation ‘com.google.android.material:material:1.0.0’\n}</code></pre><p class="graf--p">First, create the main screen layout where we will see the bottom navigation bar and also the area above it, we are going to show three different fragments in it, so we need FrameLayout which will hold our fragments. </p><pre><code class="language-java graf graf--code">&lt;?xml version=”1.0" encoding=”utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android=”http://schemas.android.com/apk/res/android"\n xmlns:app=”http://schemas.android.com/apk/res-auto"\n xmlns:tools=”http://schemas.android.com/tools"\n android:layout_width=”match_parent”\n android:layout_height=”match_parent”\n tools:context=”.MainActivity”&gt;&lt;androidx.appcompat.widget.Toolbar\n android:id=”@+id/toolbar”\n android:layout_width=”match_parent”\n android:layout_height=”?attr/actionBarSize”\n android:background=”?attr/colorPrimary”\n app:popupTheme=”@style/ThemeOverlay.AppCompat.Light”\n app:theme=”@style/ThemeOverlay.AppCompat.Dark.ActionBar”/&gt;&lt;FrameLayout\n android:id=”@+id/container”\n android:layout_width=”match_parent”\n android:layout_height=”0dp”\n app:layout_behavior=”@string/appbar_scrolling_view_behavior”\n app:layout_constraintBottom_toTopOf=”@+id/bottomNavigationView”\n app:layout_constraintEnd_toEndOf=”parent”\n app:layout_constraintStart_toStartOf=”parent”\n app:layout_constraintTop_toBottomOf=”@id/toolbar”/&gt;&lt;com.google.android.material.bottomnavigation.BottomNavigationView\n android:id=”@+id/bottomNavigationView”\n android:layout_width=”0dp”\n android:layout_height=”wrap_content”\n android:layout_marginStart=”0dp”\n android:layout_marginEnd=”0dp”\n android:background=”?android:attr/windowBackground”\n app:itemBackground=”@color/colorPrimary”\n app:itemIconTint=”@android:color/white”\n app:itemTextColor=”@android:color/white”\n app:layout_constraintBottom_toBottomOf=”parent”\n app:layout_constraintLeft_toLeftOf=”parent”\n app:layout_constraintRight_toRightOf=”parent”\n app:layout_constraintTop_toBottomOf=”@id/container”\n app:menu=”@menu/navigation”/&gt;&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Just like we set menu in navigationView chapter; we also need to set here the menu which we want to show in the bar. We use the attribute </p><pre><code class="language-java graf graf--code">app:menu=”@menu/navigation”</code></pre><p class="graf--p">Create a menu file in the menu folder, we name the file as navigation.</p><pre><code class="language-java graf graf--code">&lt;?xml version=”1.0" encoding=”utf-8"?&gt;\n&lt;menu xmlns:android=”http://schemas.android.com/apk/res/android"&gt;\n &lt;item\n android:id=”@+id/navigation_blog”\n android:icon=”@drawable/ic_launcher_foreground”\n android:title=”Blogs”/&gt;&lt;item\n android:id=”@+id/navigation_chapter”\n android:icon=”@drawable/ic_launcher_foreground”\n android:title=”Chapters”/&gt;&lt;item\n android:id=”@+id/navigation_store”\n android:icon=”@drawable/ic_launcher_foreground”\n android:title=”Android Store”/&gt;\n&lt;/menu&gt;</code></pre><p class="graf--p">Here, we have three items, and we also added the icons. This icon by default you will get in your project. Now, we need three items, so we also need three different fragment classes and one layout file for them. </p><p class="graf--p">We are showing the same layout in all three fragments so we will create only one layout file else to show different UI we can also create different layout files.</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    android:id="@+id/commonLayout"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    android:gravity="center"&gt;\n   &lt;TextView\n        android:id="@+id/tvCommon"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:textColor="@android:color/white"\n        android:textSize="26sp" /&gt;\n&lt;/LinearLayout&gt;</code></pre><p class="graf--p">We will create three fragment classes.</p><pre><code class="language-java graf graf--code">class BlogFragment : Fragment() {\n   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =\n            inflater.inflate(R.layout.fragment_common, container, false)\n   override fun onActivityCreated(savedInstanceState: Bundle?) {\n        super.onActivityCreated(savedInstanceState)\n    }\n}\n\n\nclass ChapterFragment : Fragment() {\n   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =\n            inflater.inflate(R.layout.fragment_common, container, false)\n   override fun onActivityCreated(savedInstanceState: Bundle?) {\n        super.onActivityCreated(savedInstanceState)\n    }\n}\n\n\nclass StoreFragment : Fragment() {\n   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =\n            inflater.inflate(R.layout.fragment_common, container, false)\n   override fun onActivityCreated(savedInstanceState: Bundle?) {\n        super.onActivityCreated(savedInstanceState)\n    }\n}</code></pre><p class="graf--p">Let’s come back to MainActivity, where we will wire up the fragments with the BottomNavigationView. <br/>First, we need to set the toolbar as actionBar.</p><pre><code class="language-java graf graf--code">setSupportActionBar(toolbar)</code></pre><p class="graf--p">Now, we will set the listener to the BottomNavigationView and pass the listener item to it.</p><pre><code class="language-java graf graf--code">bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)</code></pre><p class="graf--p">When our application first open, we need to set one of the items already selected to show on the screen. We will check if our savedInstanceState is null we will set one the fragments.</p><pre><code class="language-java graf graf--code">if (savedInstanceState == null) {\n    val fragment = BlogFragment()\n    supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())\n            .commit()\n}</code></pre><p class="graf--p">How to get the listener item, which we need to pass to the bottomNavigationView?</p><pre><code class="language-java graf graf--code">private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem -&gt;\n    when (menuItem.itemId) {\n        R.id.navigation_blog -&gt; {\n            val fragment = BlogFragment()\n         supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())\n                    .commit()\n            return@OnNavigationItemSelectedListener true\n        }\n        R.id.navigation_chapter -&gt; {\n            val fragment = ChapterFragment()\n            supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())\n                    .commit()\n            return@OnNavigationItemSelectedListener true\n        }\n        R.id.navigation_store -&gt; {\n            val fragment = StoreFragment()\n            supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())\n                    .commit()\n            return@OnNavigationItemSelectedListener true\n        }\n    }\n    false\n}</code></pre><p class="graf--p">Here, we are checking which item user will select and what action to perform on click. So, on clicking the item, we are getting the fragment instance and placing the fragment into the FrameLayout.</p><p class="graf--p">Let&#x27;s set some different text on every fragment and different background colors. To do this, we will change the text in onActivityCreated method in our fragment.</p><pre><code class="language-java graf graf--code">tvCommon.text = "Store Fragment"\ncommonLayout.setBackgroundColor(resources.getColor(android.R.color.darker_gray))\n\n\ntvCommon.text = "Chapter Fragment"\ncommonLayout.setBackgroundColor(resources.getColor(android.R.color.holo_green_light))\n\n\ntvCommon.text = "Blog Fragment"\ncommonLayout.setBackgroundColor(resources.getColor(android.R.color.holo_orange_dark))</code></pre> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_bottom_navigation_mindorks_gif.gif class=\'graf-image\' alt=\'Android Bottom Navigation Example in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Let’s run this application now, Great Work!! There is much more in it like what if you want to add more items to the menu etc. Try to explore more and share us with on our twitter or slack channel.</p><h4 class="graf--h3"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/android-bottomsheet-in-kotlin">In the next chapter, we are going to learn about the bottom sheet which you might have seen in the Google Maps application coming from the bottom.</a></h4>',author:14897,img_url:"/images/android_bottom_navigation_mindorks_feature_image.png",blog_url:"android-bottom-navigationview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:180,title:"Navigation Drawer Android Example",description:"Navigation Drawer is the sliding menu that appears on the android screen with a hamburger menu icon in the ActionBar. The construction of it requires placing multiple views inside the navigation portion of the DrawerLayout. ",author:2,img_url:"/images/banner-android-developer-blog-1e4d496366053183.jpg",blog_url:"navigation-drawer-android-example",likes:0,rank:0,category:1,published_at:"22nd August 2016",score:4.573124885559082},{id:201,title:"Android Navigation Drawer in Kotlin",description:"Android Navigation Drawer in Kotlin",author:14897,img_url:"/images/android_navigationdrawer_mindorks_featuer_image.png",blog_url:"android-navigation-drawer-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:2.952772617340088},{id:455,title:"Using Jetpack Navigation Component in Android",description:"In this blog, we are going to learn how to integrate the navigation component, how to see the complete navigation graph of our application, and how to pass arguments safely in Android.",author:11475,img_url:"/images/using-jetpack-navigation-component-in-android-banner-925bdeb7f7ee09f0.png",blog_url:"jetpack-navigation-component-in-android",likes:0,rank:0,category:1,published_at:"21st May 2020",score:2.805088996887207},{id:512,title:"Jetpack Compose: Navigation",description:"In this blog, we will learn how to navigate between different composable using Jetpack Navigation.",author:17146,img_url:"/images/banner-jetpack-compose-navigation-657edc7b323cafdf.png",blog_url:"jetpack-compose-navigation",likes:0,rank:0,category:1,published_at:"4th December 2020",score:2.7959113121032715},{id:203,title:"Android BottomSheet Example in Kotlin",description:"In this blog, we will learn how to implement BottomSheet in Kotlin and handle all its callback. We will see the examples of both Persistent BottomSheet and Modal BottomSheet.",author:14897,img_url:"/images/android-bottomsheet-in-kotlin-banner-1dff2b69ecd8574d.jpg",blog_url:"android-bottomsheet-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:1.9248971939086914},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.16603870689868927}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            3rd January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h2 class="graf--h1">
+                  Android Bottom Navigation Example in Kotlin
+                 </h2>
+                 <p class="graf--p">
+                  Welcome, here we are going to implement the BottomNavigationView, which you might have seen in the Instagram application, the bottom menu bar.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android Bottom Navigation Example in Kotlin" class="graf-image" src="/images/android_bottom_navigation_mindorks_feature_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Let’s start with the development:
+                 </p>
+                 <p class="graf--p">
+                  Open Android Studio and create a new project. Setup the Constraint layout and also add the dependency of material components and syn the project.
+                 </p>
+                 <pre><code class="language-java graf graf--code">dependencies {
+ implementation fileTree(dir: ‘libs’, include: [‘*.jar’])
+ implementation”org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version”
+ implementation ‘androidx.appcompat:appcompat:1.0.2’
+ implementation ‘androidx.constraintlayout:constraintlayout:1.1.3’
+ implementation ‘com.google.android.material:material:1.0.0’
+}</code></pre>
+                 <p class="graf--p">
+                  First, create the main screen layout where we will see the bottom navigation bar and also the area above it, we are going to show three different fragments in it, so we need FrameLayout which will hold our fragments.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version=”1.0" encoding=”utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android=”http://schemas.android.com/apk/res/android"
+ xmlns:app=”http://schemas.android.com/apk/res-auto"
+ xmlns:tools=”http://schemas.android.com/tools"
+ android:layout_width=”match_parent”
+ android:layout_height=”match_parent”
+ tools:context=”.MainActivity”&gt;&lt;androidx.appcompat.widget.Toolbar
+ android:id=”@+id/toolbar”
+ android:layout_width=”match_parent”
+ android:layout_height=”?attr/actionBarSize”
+ android:background=”?attr/colorPrimary”
+ app:popupTheme=”@style/ThemeOverlay.AppCompat.Light”
+ app:theme=”@style/ThemeOverlay.AppCompat.Dark.ActionBar”/&gt;&lt;FrameLayout
+ android:id=”@+id/container”
+ android:layout_width=”match_parent”
+ android:layout_height=”0dp”
+ app:layout_behavior=”@string/appbar_scrolling_view_behavior”
+ app:layout_constraintBottom_toTopOf=”@+id/bottomNavigationView”
+ app:layout_constraintEnd_toEndOf=”parent”
+ app:layout_constraintStart_toStartOf=”parent”
+ app:layout_constraintTop_toBottomOf=”@id/toolbar”/&gt;&lt;com.google.android.material.bottomnavigation.BottomNavigationView
+ android:id=”@+id/bottomNavigationView”
+ android:layout_width=”0dp”
+ android:layout_height=”wrap_content”
+ android:layout_marginStart=”0dp”
+ android:layout_marginEnd=”0dp”
+ android:background=”?android:attr/windowBackground”
+ app:itemBackground=”@color/colorPrimary”
+ app:itemIconTint=”@android:color/white”
+ app:itemTextColor=”@android:color/white”
+ app:layout_constraintBottom_toBottomOf=”parent”
+ app:layout_constraintLeft_toLeftOf=”parent”
+ app:layout_constraintRight_toRightOf=”parent”
+ app:layout_constraintTop_toBottomOf=”@id/container”
+ app:menu=”@menu/navigation”/&gt;&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Just like we set menu in navigationView chapter; we also need to set here the menu which we want to show in the bar. We use the attribute
+                 </p>
+                 <pre><code class="language-java graf graf--code">app:menu=”@menu/navigation”</code></pre>
+                 <p class="graf--p">
+                  Create a menu file in the menu folder, we name the file as navigation.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version=”1.0" encoding=”utf-8"?&gt;
+&lt;menu xmlns:android=”http://schemas.android.com/apk/res/android"&gt;
+ &lt;item
+ android:id=”@+id/navigation_blog”
+ android:icon=”@drawable/ic_launcher_foreground”
+ android:title=”Blogs”/&gt;&lt;item
+ android:id=”@+id/navigation_chapter”
+ android:icon=”@drawable/ic_launcher_foreground”
+ android:title=”Chapters”/&gt;&lt;item
+ android:id=”@+id/navigation_store”
+ android:icon=”@drawable/ic_launcher_foreground”
+ android:title=”Android Store”/&gt;
+&lt;/menu&gt;</code></pre>
+                 <p class="graf--p">
+                  Here, we have three items, and we also added the icons. This icon by default you will get in your project. Now, we need three items, so we also need three different fragment classes and one layout file for them.
+                 </p>
+                 <p class="graf--p">
+                  We are showing the same layout in all three fragments so we will create only one layout file else to show different UI we can also create different layout files.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/commonLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"&gt;
+   &lt;TextView
+        android:id="@+id/tvCommon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="26sp" /&gt;
+&lt;/LinearLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  We will create three fragment classes.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class BlogFragment : Fragment() {
+   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_common, container, false)
+   override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+    }
+}
+
+
+class ChapterFragment : Fragment() {
+   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_common, container, false)
+   override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+    }
+}
+
+
+class StoreFragment : Fragment() {
+   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_common, container, false)
+   override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Let’s come back to MainActivity, where we will wire up the fragments with the BottomNavigationView.
+                  <br/>
+                  First, we need to set the toolbar as actionBar.
+                 </p>
+                 <pre><code class="language-java graf graf--code">setSupportActionBar(toolbar)</code></pre>
+                 <p class="graf--p">
+                  Now, we will set the listener to the BottomNavigationView and pass the listener item to it.
+                 </p>
+                 <pre><code class="language-java graf graf--code">bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)</code></pre>
+                 <p class="graf--p">
+                  When our application first open, we need to set one of the items already selected to show on the screen. We will check if our savedInstanceState is null we will set one the fragments.
+                 </p>
+                 <pre><code class="language-java graf graf--code">if (savedInstanceState == null) {
+    val fragment = BlogFragment()
+    supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())
+            .commit()
+}</code></pre>
+                 <p class="graf--p">
+                  How to get the listener item, which we need to pass to the bottomNavigationView?
+                 </p>
+                 <pre><code class="language-java graf graf--code">private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { menuItem -&gt;
+    when (menuItem.itemId) {
+        R.id.navigation_blog -&gt; {
+            val fragment = BlogFragment()
+         supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())
+                    .commit()
+            return@OnNavigationItemSelectedListener true
+        }
+        R.id.navigation_chapter -&gt; {
+            val fragment = ChapterFragment()
+            supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())
+                    .commit()
+            return@OnNavigationItemSelectedListener true
+        }
+        R.id.navigation_store -&gt; {
+            val fragment = StoreFragment()
+            supportFragmentManager.beginTransaction().replace(R.id.container, fragment, fragment.javaClass.getSimpleName())
+                    .commit()
+            return@OnNavigationItemSelectedListener true
+        }
+    }
+    false
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we are checking which item user will select and what action to perform on click. So, on clicking the item, we are getting the fragment instance and placing the fragment into the FrameLayout.
+                 </p>
+                 <p class="graf--p">
+                  Let's set some different text on every fragment and different background colors. To do this, we will change the text in onActivityCreated method in our fragment.
+                 </p>
+                 <pre><code class="language-java graf graf--code">tvCommon.text = "Store Fragment"
+commonLayout.setBackgroundColor(resources.getColor(android.R.color.darker_gray))
+
+
+tvCommon.text = "Chapter Fragment"
+commonLayout.setBackgroundColor(resources.getColor(android.R.color.holo_green_light))
+
+
+tvCommon.text = "Blog Fragment"
+commonLayout.setBackgroundColor(resources.getColor(android.R.color.holo_orange_dark))</code></pre>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android Bottom Navigation Example in Kotlin" class="graf-image" src="/images/android_bottom_navigation_mindorks_gif.gif"/>
+                 </div>
+                 <p class="graf--p">
+                  Let’s run this application now, Great Work!! There is much more in it like what if you want to add more items to the menu etc. Try to explore more and share us with on our twitter or slack channel.
+                 </p>
+                 <h4 class="graf--h3">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/android-bottomsheet-in-kotlin" target="_blank">
+                   In the next chapter, we are going to learn about the bottom sheet which you might have seen in the Google Maps application coming from the bottom.
+                  </a>
+                 </h4>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Navigation Drawer Android Example" class="ui centered image" src="/images/banner-android-developer-blog-1e4d496366053183.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Navigation Drawer Android Example
+           </div>
+           <div class="meta">
+            22nd August 2016
+           </div>
+           <div class="description">
+            Navigation Drawer is the sliding menu that appears on the android screen with a hamburger menu icon in the ActionBar. The construction of it requires placing multiple views inside the navigation portion of the DrawerLayout.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Navigation Drawer in Kotlin" class="ui centered image" src="/images/android_navigationdrawer_mindorks_featuer_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Navigation Drawer in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android Navigation Drawer in Kotlin
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Jetpack Navigation Component in Android" class="ui centered image" src="/images/using-jetpack-navigation-component-in-android-banner-925bdeb7f7ee09f0.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Jetpack Navigation Component in Android
+           </div>
+           <div class="meta">
+            21st May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to integrate the navigation component, how to see the complete navigation graph of our application, and how to pass arguments safely in Android.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Jetpack Compose: Navigation" class="ui centered image" src="/images/banner-jetpack-compose-navigation-657edc7b323cafdf.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Jetpack Compose: Navigation
+           </div>
+           <div class="meta">
+            4th December 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to navigate between different composable using Jetpack Navigation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android BottomSheet Example in Kotlin" class="ui centered image" src="/images/android-bottomsheet-in-kotlin-banner-1dff2b69ecd8574d.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android BottomSheet Example in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement BottomSheet in Kotlin and handle all its callback. We will see the examples of both Persistent BottomSheet and Modal BottomSheet.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

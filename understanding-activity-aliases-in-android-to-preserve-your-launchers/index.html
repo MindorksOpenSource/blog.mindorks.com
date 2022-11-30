@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Understanding Activity Aliases in Android To Preserve Your Launchers
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/understanding-activity-aliases-in-android-to-preserve-your-launchers" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Understanding Activity Aliases in Android To Preserve Your Launchers" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/understanding-activity-aliases-in-android-to-preserve-your-launchers" property="og:url"/>
+  <meta content="/images/activity-aliases-in-android-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn the concept of Activity Aliases in Android. Activity Aliases are used to preserve the Launchers whenever there is a change in the Launcher Activity name. Generally, when we create a shortcut on our home screen and if we change the Launcher Activity, then the shortcut will be removed from the home screen. So, let's find how to deal with this." property="og:description"/>
+  <meta content="Understanding Activity Aliases in Android To Preserve Your Launchers" property="twitter:title"/>
+  <meta content="In this blog, we will learn the concept of Activity Aliases in Android. Activity Aliases are used to preserve the Launchers whenever there is a change in the Launcher Activity name. Generally, when we create a shortcut on our home screen and if we change the Launcher Activity, then the shortcut will be removed from the home screen. So, let's find how to deal with this." name="twitter:description"/>
+  <meta content="/images/activity-aliases-in-android-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn the concept of Activity Aliases in Android. Activity Aliases are used to preserve the Launchers whenever there is a change in the Launcher Activity name. Generally, when we create a shortcut on our home screen and if we change the Launcher Activity, then the shortcut will be removed from the home screen. So, let's find how to deal with this." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:277,data:{id:277,title:"Understanding Activity Aliases in Android To Preserve Your Launchers",description:"In this blog, we will learn the concept of Activity Aliases in Android. Activity Aliases are used to preserve the Launchers whenever there is a change in the Launcher Activity name. Generally, when we create a shortcut on our home screen and if we change the Launcher Activity, then the shortcut will be removed from the home screen. So, let's find how to deal with this.",text:'<h1 class="graf--h1">Understanding Activity Aliases in Android To Preserve Your Launchers</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/activity-aliases-in-android-banner.png class=\'graf-image\' alt=\'Understanding Activity Aliases in Android To Preserve Your Launchers\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In this blog, we will learn one of the interesting topics of Android. Even most of us don’t know or haven’t heard about it and trust me it is one of the important concepts of Android Development. So, the topic of this blog is “<b class="graf--bold">Understanding Activity Aliases in Android</b>”. But before moving on to our topic, put up your mobile phones and count the number of applications that you are having in your device. I am having 87 :) Yeah tell me yours. I think all of you must have more than 30 applications on an average. But out of these 30 apps, we only use 5–6 applications on a regular basis. Other applications are rarely used but are important. So, what we do is, we create shortcuts of frequently used applications on our home screen or on our phone’s main screen. These launchers are used to launch the MainActivity or the Launcher Activity of that particular application.</p><p class="graf--p">Hey, hold on! So, in this blog, we will learn how to create shortcuts of application on the home screen? No way, we all know it very well. We all are Android Developers and we should look upon the technical part of it. So, whenever we launch a mobile application from the shortcuts, then the MainActivity or the Launcher Activity is called. The duty of the shortcut is to keep or store your launcher and whenever you start an app then the shortcut will launch the launcher or simply MainActivity for you.</p><p class="graf--p">But the situation gets more tricky when you change the Launcher Activity of your application. So, try to change the Launcher Activity of your application and run the application on your device. Do you still find the shortcut on the home screen? Hey, what has just happened? Where has the shortcut gone? Don’t worry, at the end of this blog, you will come to know the answers to all these questions. So, in this blog, we will learn about <b class="graf--bold">Activity Alias in Android</b>. Let’s get started.</p><h4 class="graf--h3">Before Moving Forward</h4><p class="graf--p">We have seen that, if we change the Launcher Activity of our application, then the shortcut of the application on the home screen will be lost. But why should anyone change the Launcher Activity? The reason is very simple, whenever you are making a new update for your application, there may be situations where you may have to change your Launcher Activity due to some new features or there may be situations where you have changed the package name and the corresponding Activity name. So, in this case, also, the name of your Launcher Activity will be changed while the content remains the same.</p><p class="graf--p">Let’s make a project to understand the problem in a better way.</p><p class="graf--p">Create a project in Android Studio and name your <b class="graf--bold">MainActivty</b> as <b class="graf--bold">OldActivity </b>(you can use other name also). Following is the code for my <b class="graf--bold">activity_old.xml</b> file:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout\n        xmlns:android="http://schemas.android.com/apk/res/android"\n        xmlns:tools="http://schemas.android.com/tools"\n        xmlns:app="http://schemas.android.com/apk/res-auto"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent"\n        tools:context=".OldActivity"&gt;\n\n    &lt;TextView\n            android:layout_width="wrap_content"\n            android:layout_height="wrap_content"\n            android:text="Hello World! I am in Old Activity"\n            android:textSize="24sp"\n            app:layout_constraintBottom_toBottomOf="parent"\n            app:layout_constraintLeft_toLeftOf="parent"\n            app:layout_constraintRight_toRightOf="parent"\n            app:layout_constraintTop_toTopOf="parent"/&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">We don’t need to add any code for the <b class="graf--bold">OldActivity.kt </b>file.</p><p class="graf--p">Now create another Activity with activity name as <b class="graf--bold">NewActivity</b>. The code for the <b class="graf--bold"><i class="graf--italic">activity_new.kt </i></b>is:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout\n        xmlns:android="http://schemas.android.com/apk/res/android"\n        xmlns:tools="http://schemas.android.com/tools"\n        xmlns:app="http://schemas.android.com/apk/res-auto"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent"\n        tools:context=".NewActivity"&gt;\n\n    &lt;TextView\n            android:layout_width="wrap_content"\n            android:layout_height="wrap_content"\n            android:text="Hello World! I am in New Activity"\n            android:textSize="24sp"\n            app:layout_constraintBottom_toBottomOf="parent"\n            app:layout_constraintLeft_toLeftOf="parent"\n            app:layout_constraintRight_toRightOf="parent"\n            app:layout_constraintTop_toTopOf="parent"/&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">We have not written any code in the <b class="graf--bold"><i class="graf--italic">NewActivity.kt</i></b> file.</p><p class="graf--p">Now, open the <b class="graf--bold"><i class="graf--italic">AndroidManifest.xml</i></b> file. Following code will be there:</p><pre><code class="language-java graf graf--code">&lt;application\n        android:allowBackup="true"\n        android:icon="@mipmap/ic_launcher"\n        android:label="@string/app_name"\n        android:roundIcon="@mipmap/ic_launcher_round"\n        android:supportsRtl="true"\n        android:theme="@style/AppTheme"&gt;\n    &lt;activity android:name=".NewActivity"&gt;\n    &lt;/activity&gt;\n    &lt;activity android:name=".OldActivity"&gt;\n        &lt;intent-filter&gt;\n            &lt;action android:name="android.intent.action.MAIN"/&gt;\n\n            &lt;category android:name="android.intent.category.LAUNCHER"/&gt;\n        &lt;/intent-filter&gt;\n    &lt;/activity&gt;\n&lt;/application&gt;</code></pre><p class="graf--p">Here, our OldActivity is the Launcher activity because we have used the <b class="graf--bold"><i class="graf--italic">&lt;intent-filter&gt; </i></b>in the OldActivtiy tag. So, whenever we will launch the application, then the OldActivity will be launched. Now, install the application on your device and make a shortcut of the app on your home screen. After creating a shortcut, change the Launcher activity to <b class="graf--bold"><i class="graf--italic">NewActivity</i></b>. So, the code of our<b class="graf--bold"><i class="graf--italic"> AndroidManifest.xml </i></b>file will be changed to:</p><pre><code class="language-java graf graf--code">&lt;application\n        android:allowBackup="true"\n        android:icon="@mipmap/ic_launcher"\n        android:label="@string/app_name"\n        android:roundIcon="@mipmap/ic_launcher_round"\n        android:supportsRtl="true"\n        android:theme="@style/AppTheme"&gt;\n    &lt;activity android:name=".OldActivity"&gt;\n    &lt;/activity&gt;\n    &lt;activity android:name=".NewActivity"&gt;\n        &lt;intent-filter&gt;\n            &lt;action android:name="android.intent.action.MAIN"/&gt;\n\n            &lt;category android:name="android.intent.category.LAUNCHER"/&gt;\n        &lt;/intent-filter&gt;\n    &lt;/activity&gt;\n&lt;/application&gt;</code></pre><p class="graf--p">Now, run the app and try to find the shortcut that you have created on the home screen. You will not find any shortcut on the home screen.</p><h4 class="graf--h3">What’s the reason behind this?</h4><p class="graf--p">Whenever we make a shortcut of a particular application on our home screen then that shortcut remembers the name of the Launcher Activity i.e. in our example the name is <b class="graf--bold"><i class="graf--italic">OldActivity:</i></b></p><pre><code class="language-java graf graf--code">&lt;activity android:name=".OldActivity"&gt;</code></pre><p class="graf--p">Now, if you will change the name of the Launcher Activity i.e. our name changed to:</p><pre><code class="language-java graf graf--code">&lt;activity android:name=".NewActivity"&gt;</code></pre><p class="graf--p">The problem arises here, the shortcut is having the name as <b class="graf--bold">OldActivity</b> but now the name has changed to <b class="graf--bold">NewActivity</b> and it gets confused and the shortcut is deleted from the home screen.</p><h4 class="graf--h3">Activity-Alias</h4><p class="graf--p">So, in order to keep the shortcut on the home screen, even after the change in the Launcher Activity name, we use the concept of Activtiy-Alias.</p><p class="graf--p">The <b class="graf--bold">&lt;activity-alias&gt; </b>is used to launch an Activity by preserving the launchers. So, by using the <b class="graf--bold"><i class="graf--italic">&lt;activity-alias&gt; </i></b>you can change your Launcher Activity and the shortcut launcher will also be preserved on the home screen. But how to use this Activity-Alias?</p><p class="graf--p">Just use the below code in your <b class="graf--bold"><i class="graf--italic">AndroidManifest.xml</i></b> file:</p><pre><code class="language-java graf graf--code">&lt;activity android:name=".OldActivity"/&gt;\n&lt;activity android:name=".NewActivity"/&gt;\n&lt;activity-alias\n        android:name=".MainActivity"\n        android:targetActivity=".OldActivity"&gt;\n    &lt;intent-filter&gt;\n        &lt;action android:name="android.intent.action.MAIN" /&gt;\n\n        &lt;category android:name="android.intent.category.LAUNCHER" /&gt;\n    &lt;/intent-filter&gt;\n&lt;/activity-alias&gt;</code></pre><p class="graf--p">Here, we have used the <b class="graf--bold"><i class="graf--italic">&lt;activity-alias&gt; </i></b>tag to declare our Launcher Activity. Whenever the application will be launched, then the <b class="graf--bold">OldActivity</b> will be launched because the <b class="graf--bold"><i class="graf--italic">android:targetActivity=”.OldActivity” </i></b>is used to define the targeted activity when the Launcher is called.</p><p class="graf--p">Now, make a shortcut of the application on your home screen and then change the Launcher Activity to <b class="graf--bold">NewActivity </b>and run the app. Now, you can see that after changing the Launcher Activity, our shortcut is still there on the home screen. But what’s the reason behind this?</p><p class="graf--p">So, in our case when you make a shortcut of our application, then the name will be remembered i.e. in our case “<b class="graf--bold">MainActivity</b>”:</p><pre><code class="language-java graf graf--code">android:name=".MainActivity"</code></pre><p class="graf--p">So, whenever the Launcher will be called, then the shortcut will search for the name “<b class="graf--bold">MainActivity” </b>and if it finds the same then it will launch the Activity that is written in:</p><pre><code class="language-java graf graf--code">android:targetActivity=".OldActivity"</code></pre><p class="graf--p">So, change the <b class="graf--bold"><i class="graf--italic">targetActivity</i></b> to your choice and keep the <b class="graf--bold"><i class="graf--italic">name</i></b> same in the <b class="graf--bold"><i class="graf--italic">&lt;activity-alias&gt;.</i></b></p><p class="graf--p">Now, try to change the name in the <b class="graf--bold"><i class="graf--italic">&lt;activty-alias&gt; </i></b>and run the application. You will find the same problem i.e. the shortcut will be removed from the screen because the <b class="graf--bold">name </b>has been changed.</p><p class="graf--p"><b class="graf--bold">Note: In order to use &lt;activity-alias&gt; you need to declare all your Activities (including the Launcher Activity) above the &lt;activity-alias&gt; tag and not below the &lt;activity-alias&gt; tag.</b></p><h4 class="graf--h3">Other features provided by &lt;activity-alias&gt;</h4><p class="graf--p">Here are the features provided by the &lt;activity-alias&gt;, apart form preserving the Launcher:</p><pre><code class="language-java graf graf--code">&lt;activity-alias android:enabled=["true" | "false"]\n                android:exported=["true" | "false"]\n                android:icon="drawable resource"\n                android:label="string resource"\n                android:name="string"\n                android:permission="string"\n                android:targetActivity="string" &gt;\n    . . .\n&lt;/activity-alias&gt;</code></pre><ol><li><b class="graf--bold">android:enabled</b>: The android:enabled is used to tell whether the targeted activity can be instantiated by the system or not. If not then the value will be <b class="graf--bold">false</b> otherwise <b class="graf--bold">true</b>. By default, it is true for Activity and alias but in order to launch an Activity, both these values must be <b class="graf--bold">true</b> at a time.</li><li><b class="graf--bold">android:exported</b>: It is used to tell whether or not the targetedActivity can be launched by the components of other application. If not, then the value will be <b class="graf--bold">false</b>, otherwise, it is <b class="graf--bold">true</b>.</li><li><b class="graf--bold">android:icon</b>: It sets the icon for the Targeted Activity that is presented to the user using an alias.</li><li><b class="graf--bold">android:label</b>: When the alias is presented to the user then this android:label is used to set a user-readable text for the alias.</li><li><b class="graf--bold">android:name</b>: It is used to uniquely identify an alias by writing a fully classified class name.</li><li><b class="graf--bold">android:permission</b>: Here, the name of the permission is present that is need for a targeted activity to be launched by the alias.</li><li><b class="graf--bold">android:targetActivity</b>: It is used to specify the Activity name that is to be launched with the help of the alias.</li></ol><h4 class="graf--h3">Conclusion</h4><p class="graf--p">I hope that you have learned something new in this blog. Let’s recap. In this blog, we learned the concept of &lt;activity-alias&gt;. The &lt;activity-alias&gt; is used to preserver launchers in the Android Application. By using the &lt;activity-alias&gt;, we can change the Launcher Activity and our shortcut of the application will remain at the same place on the home screen.</p><p class="graf--p">That’s it for this blog. See you in the next blog. </p><p class="graf--p">Till then, Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/activity-aliases-in-android-banner.png",blog_url:"understanding-activity-aliases-in-android-to-preserve-your-launchers",likes:0,rank:0,category:1,published_at:"17th June 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:491,title:"Type Aliases in Kotlin",description:"In this blog, we are going to learn about Type Aliases in Kotlin. We will also see the practical use cases on how to use them.",author:9959,img_url:"/images/type-alias-banner-70e6c93a7fffa7c7.png",blog_url:"type-aliases-in-kotlin",likes:0,rank:0,category:1,published_at:"4th July 2020",score:4.2850565910339355},{id:273,title:"Activity Recognition in Android — Still, Walking, Running, Driving and much more",description:"In this blog, we will learn how to use the Activity Recognition API in our Android Application. The Activity Recognition API is used to determine the Activity that a user is doing at a particular instant of time like walking, running, driving, still, etc.",author:14897,img_url:"/images/activity-recognition-in-android-banner.png",blog_url:"activity-recognition-in-android-still-walking-running-driving-and-much-more",likes:0,rank:0,category:1,published_at:"12th June 2019",score:2.1641366481781006},{id:302,title:"How to create a Transparent Activity in Android?",description:"In this blog, we will learn how to create a Transparent activity in Android. By using Transparent activity, your app will be launched but nothing will be displayed in the background of the window.",author:14897,img_url:"/images/transparent-activity-in-android-banner.png",blog_url:"how-to-create-a-transparent-activity-in-android",likes:0,rank:0,category:1,published_at:"22nd July 2019",score:2.1641366481781006},{id:193,title:"Android Activity Lifecycle",description:"In this blog, we will learn about Activities in Android and the lifecycle of activity in detail. We will also see the real example use-cases of Activity Lifecycle",author:9959,img_url:"/images/android-activity-lifecycle-banner.png",blog_url:"android-activity-lifecycle",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:2.1641366481781006},{id:310,title:"Speed up Gradle build for Android to save your time",description:"In this blog, we will talk about how can we speed up your gradle build to run it quickly and save your time",author:9959,img_url:"/images/banner-speed-up-gradle.png",blog_url:"speed-up-gradle-build-for-android-to-save-your-time",likes:0,rank:0,category:1,published_at:"6th August 2019",score:1.7772136926651},{id:188,title:"Build your first Android application in Kotlin",description:"In this blog, we will learn how to create and run your first Android application in Kotlin with the help of Android Studio. We will learn how to create an emulator in Android Studio and how to run applications on an emulator and on mobile devices.",author:14897,img_url:"/images/first-android-app-in-kotlin-banner.png",blog_url:"first-android-app-in-kotlin",likes:0,rank:0,category:1,published_at:"17th December 2018",score:1.7772136926651}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            17th June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Understanding Activity Aliases in Android To Preserve Your Launchers
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Understanding Activity Aliases in Android To Preserve Your Launchers" class="graf-image" src="/images/activity-aliases-in-android-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In this blog, we will learn one of the interesting topics of Android. Even most of us don’t know or haven’t heard about it and trust me it is one of the important concepts of Android Development. So, the topic of this blog is “
+                  <b class="graf--bold">
+                   Understanding Activity Aliases in Android
+                  </b>
+                  ”. But before moving on to our topic, put up your mobile phones and count the number of applications that you are having in your device. I am having 87 :) Yeah tell me yours. I think all of you must have more than 30 applications on an average. But out of these 30 apps, we only use 5–6 applications on a regular basis. Other applications are rarely used but are important. So, what we do is, we create shortcuts of frequently used applications on our home screen or on our phone’s main screen. These launchers are used to launch the MainActivity or the Launcher Activity of that particular application.
+                 </p>
+                 <p class="graf--p">
+                  Hey, hold on! So, in this blog, we will learn how to create shortcuts of application on the home screen? No way, we all know it very well. We all are Android Developers and we should look upon the technical part of it. So, whenever we launch a mobile application from the shortcuts, then the MainActivity or the Launcher Activity is called. The duty of the shortcut is to keep or store your launcher and whenever you start an app then the shortcut will launch the launcher or simply MainActivity for you.
+                 </p>
+                 <p class="graf--p">
+                  But the situation gets more tricky when you change the Launcher Activity of your application. So, try to change the Launcher Activity of your application and run the application on your device. Do you still find the shortcut on the home screen? Hey, what has just happened? Where has the shortcut gone? Don’t worry, at the end of this blog, you will come to know the answers to all these questions. So, in this blog, we will learn about
+                  <b class="graf--bold">
+                   Activity Alias in Android
+                  </b>
+                  . Let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  Before Moving Forward
+                 </h4>
+                 <p class="graf--p">
+                  We have seen that, if we change the Launcher Activity of our application, then the shortcut of the application on the home screen will be lost. But why should anyone change the Launcher Activity? The reason is very simple, whenever you are making a new update for your application, there may be situations where you may have to change your Launcher Activity due to some new features or there may be situations where you have changed the package name and the corresponding Activity name. So, in this case, also, the name of your Launcher Activity will be changed while the content remains the same.
+                 </p>
+                 <p class="graf--p">
+                  Let’s make a project to understand the problem in a better way.
+                 </p>
+                 <p class="graf--p">
+                  Create a project in Android Studio and name your
+                  <b class="graf--bold">
+                   MainActivty
+                  </b>
+                  as
+                  <b class="graf--bold">
+                   OldActivity
+                  </b>
+                  (you can use other name also). Following is the code for my
+                  <b class="graf--bold">
+                   activity_old.xml
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".OldActivity"&gt;
+
+    &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World! I am in Old Activity"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  We don’t need to add any code for the
+                  <b class="graf--bold">
+                   OldActivity.kt
+                  </b>
+                  file.
+                 </p>
+                 <p class="graf--p">
+                  Now create another Activity with activity name as
+                  <b class="graf--bold">
+                   NewActivity
+                  </b>
+                  . The code for the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    activity_new.kt
+                   </i>
+                  </b>
+                  is:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".NewActivity"&gt;
+
+    &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World! I am in New Activity"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  We have not written any code in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    NewActivity.kt
+                   </i>
+                  </b>
+                  file.
+                 </p>
+                 <p class="graf--p">
+                  Now, open the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    AndroidManifest.xml
+                   </i>
+                  </b>
+                  file. Following code will be there:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"&gt;
+    &lt;activity android:name=".NewActivity"&gt;
+    &lt;/activity&gt;
+    &lt;activity android:name=".OldActivity"&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name="android.intent.action.MAIN"/&gt;
+
+            &lt;category android:name="android.intent.category.LAUNCHER"/&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+&lt;/application&gt;</code></pre>
+                 <p class="graf--p">
+                  Here, our OldActivity is the Launcher activity because we have used the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    &lt;intent-filter&gt;
+                   </i>
+                  </b>
+                  in the OldActivtiy tag. So, whenever we will launch the application, then the OldActivity will be launched. Now, install the application on your device and make a shortcut of the app on your home screen. After creating a shortcut, change the Launcher activity to
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    NewActivity
+                   </i>
+                  </b>
+                  . So, the code of our
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    AndroidManifest.xml
+                   </i>
+                  </b>
+                  file will be changed to:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"&gt;
+    &lt;activity android:name=".OldActivity"&gt;
+    &lt;/activity&gt;
+    &lt;activity android:name=".NewActivity"&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name="android.intent.action.MAIN"/&gt;
+
+            &lt;category android:name="android.intent.category.LAUNCHER"/&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+&lt;/application&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, run the app and try to find the shortcut that you have created on the home screen. You will not find any shortcut on the home screen.
+                 </p>
+                 <h4 class="graf--h3">
+                  What’s the reason behind this?
+                 </h4>
+                 <p class="graf--p">
+                  Whenever we make a shortcut of a particular application on our home screen then that shortcut remembers the name of the Launcher Activity i.e. in our example the name is
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    OldActivity:
+                   </i>
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;activity android:name=".OldActivity"&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, if you will change the name of the Launcher Activity i.e. our name changed to:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;activity android:name=".NewActivity"&gt;</code></pre>
+                 <p class="graf--p">
+                  The problem arises here, the shortcut is having the name as
+                  <b class="graf--bold">
+                   OldActivity
+                  </b>
+                  but now the name has changed to
+                  <b class="graf--bold">
+                   NewActivity
+                  </b>
+                  and it gets confused and the shortcut is deleted from the home screen.
+                 </p>
+                 <h4 class="graf--h3">
+                  Activity-Alias
+                 </h4>
+                 <p class="graf--p">
+                  So, in order to keep the shortcut on the home screen, even after the change in the Launcher Activity name, we use the concept of Activtiy-Alias.
+                 </p>
+                 <p class="graf--p">
+                  The
+                  <b class="graf--bold">
+                   &lt;activity-alias&gt;
+                  </b>
+                  is used to launch an Activity by preserving the launchers. So, by using the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    &lt;activity-alias&gt;
+                   </i>
+                  </b>
+                  you can change your Launcher Activity and the shortcut launcher will also be preserved on the home screen. But how to use this Activity-Alias?
+                 </p>
+                 <p class="graf--p">
+                  Just use the below code in your
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    AndroidManifest.xml
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;activity android:name=".OldActivity"/&gt;
+&lt;activity android:name=".NewActivity"/&gt;
+&lt;activity-alias
+        android:name=".MainActivity"
+        android:targetActivity=".OldActivity"&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name="android.intent.action.MAIN" /&gt;
+
+        &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity-alias&gt;</code></pre>
+                 <p class="graf--p">
+                  Here, we have used the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    &lt;activity-alias&gt;
+                   </i>
+                  </b>
+                  tag to declare our Launcher Activity. Whenever the application will be launched, then the
+                  <b class="graf--bold">
+                   OldActivity
+                  </b>
+                  will be launched because the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    android:targetActivity=”.OldActivity”
+                   </i>
+                  </b>
+                  is used to define the targeted activity when the Launcher is called.
+                 </p>
+                 <p class="graf--p">
+                  Now, make a shortcut of the application on your home screen and then change the Launcher Activity to
+                  <b class="graf--bold">
+                   NewActivity
+                  </b>
+                  and run the app. Now, you can see that after changing the Launcher Activity, our shortcut is still there on the home screen. But what’s the reason behind this?
+                 </p>
+                 <p class="graf--p">
+                  So, in our case when you make a shortcut of our application, then the name will be remembered i.e. in our case “
+                  <b class="graf--bold">
+                   MainActivity
+                  </b>
+                  ”:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:name=".MainActivity"</code></pre>
+                 <p class="graf--p">
+                  So, whenever the Launcher will be called, then the shortcut will search for the name “
+                  <b class="graf--bold">
+                   MainActivity”
+                  </b>
+                  and if it finds the same then it will launch the Activity that is written in:
+                 </p>
+                 <pre><code class="language-java graf graf--code">android:targetActivity=".OldActivity"</code></pre>
+                 <p class="graf--p">
+                  So, change the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    targetActivity
+                   </i>
+                  </b>
+                  to your choice and keep the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    name
+                   </i>
+                  </b>
+                  same in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    &lt;activity-alias&gt;.
+                   </i>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Now, try to change the name in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    &lt;activty-alias&gt;
+                   </i>
+                  </b>
+                  and run the application. You will find the same problem i.e. the shortcut will be removed from the screen because the
+                  <b class="graf--bold">
+                   name
+                  </b>
+                  has been changed.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note: In order to use &lt;activity-alias&gt; you need to declare all your Activities (including the Launcher Activity) above the &lt;activity-alias&gt; tag and not below the &lt;activity-alias&gt; tag.
+                  </b>
+                 </p>
+                 <h4 class="graf--h3">
+                  Other features provided by &lt;activity-alias&gt;
+                 </h4>
+                 <p class="graf--p">
+                  Here are the features provided by the &lt;activity-alias&gt;, apart form preserving the Launcher:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;activity-alias android:enabled=["true" | "false"]
+                android:exported=["true" | "false"]
+                android:icon="drawable resource"
+                android:label="string resource"
+                android:name="string"
+                android:permission="string"
+                android:targetActivity="string" &gt;
+    . . .
+&lt;/activity-alias&gt;</code></pre>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    android:enabled
+                   </b>
+                   : The android:enabled is used to tell whether the targeted activity can be instantiated by the system or not. If not then the value will be
+                   <b class="graf--bold">
+                    false
+                   </b>
+                   otherwise
+                   <b class="graf--bold">
+                    true
+                   </b>
+                   . By default, it is true for Activity and alias but in order to launch an Activity, both these values must be
+                   <b class="graf--bold">
+                    true
+                   </b>
+                   at a time.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    android:exported
+                   </b>
+                   : It is used to tell whether or not the targetedActivity can be launched by the components of other application. If not, then the value will be
+                   <b class="graf--bold">
+                    false
+                   </b>
+                   , otherwise, it is
+                   <b class="graf--bold">
+                    true
+                   </b>
+                   .
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    android:icon
+                   </b>
+                   : It sets the icon for the Targeted Activity that is presented to the user using an alias.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    android:label
+                   </b>
+                   : When the alias is presented to the user then this android:label is used to set a user-readable text for the alias.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    android:name
+                   </b>
+                   : It is used to uniquely identify an alias by writing a fully classified class name.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    android:permission
+                   </b>
+                   : Here, the name of the permission is present that is need for a targeted activity to be launched by the alias.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    android:targetActivity
+                   </b>
+                   : It is used to specify the Activity name that is to be launched with the help of the alias.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  I hope that you have learned something new in this blog. Let’s recap. In this blog, we learned the concept of &lt;activity-alias&gt;. The &lt;activity-alias&gt; is used to preserver launchers in the Android Application. By using the &lt;activity-alias&gt;, we can change the Launcher Activity and our shortcut of the application will remain at the same place on the home screen.
+                 </p>
+                 <p class="graf--p">
+                  That’s it for this blog. See you in the next blog.
+                 </p>
+                 <p class="graf--p">
+                  Till then, Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Type Aliases in Kotlin" class="ui centered image" src="/images/type-alias-banner-70e6c93a7fffa7c7.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Type Aliases in Kotlin
+           </div>
+           <div class="meta">
+            4th July 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn about Type Aliases in Kotlin. We will also see the practical use cases on how to use them.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Activity Recognition in Android — Still, Walking, Running, Driving and much more" class="ui centered image" src="/images/activity-recognition-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Activity Recognition in Android — Still, Walking, Running, Driving and much more
+           </div>
+           <div class="meta">
+            12th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use the Activity Recognition API in our Android Application. The Activity Recognition API is used to determine the Activity that a user is doing at a particular instant of time like walking, running, driving, still, etc.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to create a Transparent Activity in Android?" class="ui centered image" src="/images/transparent-activity-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to create a Transparent Activity in Android?
+           </div>
+           <div class="meta">
+            22nd July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to create a Transparent activity in Android. By using Transparent activity, your app will be launched but nothing will be displayed in the background of the window.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Activity Lifecycle" class="ui centered image" src="/images/android-activity-lifecycle-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Activity Lifecycle
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about Activities in Android and the lifecycle of activity in detail. We will also see the real example use-cases of Activity Lifecycle
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Speed up Gradle build for Android to save your time" class="ui centered image" src="/images/banner-speed-up-gradle.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Speed up Gradle build for Android to save your time
+           </div>
+           <div class="meta">
+            6th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how can we speed up your gradle build to run it quickly and save your time
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Build your first Android application in Kotlin" class="ui centered image" src="/images/first-android-app-in-kotlin-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Build your first Android application in Kotlin
+           </div>
+           <div class="meta">
+            17th December 2018
+           </div>
+           <div class="description">
+            In this blog, we will learn how to create and run your first Android application in Kotlin with the help of Android Studio. We will learn how to create an emulator in Android Studio and how to run applications on an emulator and on mobile devices.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

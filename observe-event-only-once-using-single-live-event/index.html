@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Observe event only once using SingleLiveEvent
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/observe-event-only-once-using-single-live-event" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Observe event only once using SingleLiveEvent" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/observe-event-only-once-using-single-live-event" property="og:url"/>
+  <meta content="/images/single-live-event-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to using SingleLiveEvent to emit data only once whenever required. This is useful when we want the data to be only emitted once like in the case of Snackbar, navigation. In this blog, we will use the case of Snackbar to understand better." property="og:description"/>
+  <meta content="Observe event only once using SingleLiveEvent" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to using SingleLiveEvent to emit data only once whenever required. This is useful when we want the data to be only emitted once like in the case of Snackbar, navigation. In this blog, we will use the case of Snackbar to understand better." name="twitter:description"/>
+  <meta content="/images/single-live-event-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to using SingleLiveEvent to emit data only once whenever required. This is useful when we want the data to be only emitted once like in the case of Snackbar, navigation. In this blog, we will use the case of Snackbar to understand better." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:295,data:{id:295,title:"Observe event only once using SingleLiveEvent",description:"In this blog, we will learn how to using SingleLiveEvent to emit data only once whenever required. This is useful when we want the data to be only emitted once like in the case of Snackbar, navigation. In this blog, we will use the case of Snackbar to understand better.",text:'<h1 class="graf--h1">Observe event only once using SingleLiveEvent</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/single-live-event-banner.png class=\'graf-image\' alt=\'Observe event only once using SingleLiveEvent\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Have you tried to show Snackbar in your View when you had some important message to show ?  and on that have you ever tried to use LiveData to observe the data for message in Snackbar?</p><p class="graf--p">Lot of developers use it by observing the livedata in the Snackbar and displaying it to the view. But there is a problem, you want the data to only be displayed in the Snackbar once and consumed only when it is required and observing it continuously doesn&#x27;t suit the play here.</p><p class="graf--p">In the following code,</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        val viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)\n        viewModel.onDataUpload("Hey")\n        viewModel.getUploadData().observe(this, Observer {\n            //Snackbar\n        })\n\n    }\n}</code></pre><p class="graf--p">Here, <i class="graf--italic">getUploadData</i> has a return type of <i class="graf--italic">LiveData&lt;String&gt;</i>, so the data is consumed continuasly but we want to just get the data only once.</p><h4 class="graf--h3">So, What is the Solution here ?</h4><p class="graf--p">For these type of task, <a class="markup--anchor" target="_blank" href="https://github.com/googlesamples/android-architecture/blob/dev-todo-mvvm-live/todoapp/app/src/main/java/com/example/android/architecture/blueprints/todoapp/SingleLiveEvent.java">SingleLiveEvent</a> class came for the resuce. It is nothing but an extension of MutableLiveData class but it emits the data only once whenever required.</p><p class="graf--p">We need to create a class file called SingleLiveEvent in our project and the SingleLiveEvent class ooks like,</p><pre><code class="language-java graf graf--code">class SingleLiveEvent&lt;T&gt; : MutableLiveData&lt;T&gt;() {\n\n    private val mPending = AtomicBoolean(false)\n\n    @MainThread\n    override fun observe(owner: LifecycleOwner, observer: Observer&lt;T&gt;) {\n\n        if (hasActiveObservers()) {\n            Log.w(TAG, "Multiple observers registered but only one will be notified of changes.")\n        }\n\n        // Observe the internal MutableLiveData\n        super.observe(owner, object : Observer&lt;T&gt; {\n            override fun onChanged(t: T?) {\n                if (mPending.compareAndSet(true, false)) {\n                    observer.onChanged(t)\n                }\n            }\n        })\n    }\n\n    @MainThread\n    override fun setValue(t: T?) {\n        mPending.set(true)\n        super.setValue(t)\n    }\n\n    /**\n     * Used for cases where T is Void, to make calls cleaner.\n     */\n    @MainThread\n    fun call() {\n        setValue(null)\n    }\n\n    companion object {\n\n        private val TAG = "SingleLiveEvent"\n    }\n}</code></pre><p class="graf--p">and to use it in ViewModel you just need to use it similarly how we use LiveData,</p><pre><code class="language-java graf graf--code">private val uploadData = SingleLiveEvent&lt;String&gt;()\nfun getUploadData(): SingleLiveEvent&lt;String&gt; {\n    return uploadData\n}</code></pre><p class="graf--p">and in the Activity/Fragment file we will use similarly how we used in the above code, </p><pre><code class="language-java graf graf--code">viewModel.getUploadData().observe(this, Observer {\n    //Snackbar\n})</code></pre><p class="graf--p">The above code will only emit the data only once whenever it is required and then will stop observing. </p><p class="graf--p">This is how you can use SingleLiveEvent to solve our purpose for not using LiveData to emit data for Snackbar or any such kind of task.</p><p class="graf--p"></p><p class="graf--p"><b class="graf--bold">Team Mindorks :)</b></p>',author:9959,img_url:"/images/single-live-event-banner.png",blog_url:"observe-event-only-once-using-single-live-event",likes:0,rank:0,category:1,published_at:"15th July 2019"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:234,title:"Push Notifications in Android Using FCM",description:"In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.",author:14897,img_url:"/images/fcm.jpg",blog_url:"pushing-notifications-in-android-using-fcm",likes:0,rank:0,category:1,published_at:"15th May 2019",score:.3190983235836029},{id:238,title:"Using Custom and Downloadable Fonts in Android",description:"In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.",author:14897,img_url:"/images/downloadable-font-banner.png",blog_url:"using-custom-and-downloadable-fonts-in-android",likes:0,rank:0,category:1,published_at:"16th May 2019",score:.3190983235836029},{id:244,title:"Using Swipe-to-refresh in Android Application",description:"In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.",author:14897,img_url:"/images/swipe-to-refresh-banner.png",blog_url:"using-swipe-to-refresh-in-android-application",likes:0,rank:0,category:1,published_at:"21st May 2019",score:.3190983235836029},{id:250,title:"Using Exoplayer to play Video and Audio in Android like a Pro",description:"In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.",author:14897,img_url:"/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png",blog_url:"using-exoplayer-to-play-video-and-audio-in-android-like-a-pro",likes:0,rank:0,category:1,published_at:"24th May 2019",score:.3190983235836029},{id:251,title:"Using Drag-Drop in Android Applications",description:"In this blog, we will learn how to use the drag and drop feature in our Android app. Drag and Drop feature is used to move one view from one place to other. This will help in moving the UI and the data associated with that item also.",author:14897,img_url:"/images/drag-drop-in-android-applications-banner.png",blog_url:"using-drag-drop-in-android-applications",likes:0,rank:0,category:1,published_at:"24th May 2019",score:.3190983235836029},{id:256,title:"Better Logging in Android Using Timber",description:"In this blog, we will be learning about a third party library which we use to log in android studio. ",author:9959,img_url:"/images/timber-logging.jpg",blog_url:"logging-using-timber",likes:0,rank:0,category:1,published_at:"30th May 2019",score:.3190983235836029}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            15th July 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Observe event only once using SingleLiveEvent
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Observe event only once using SingleLiveEvent" class="graf-image" src="/images/single-live-event-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Have you tried to show Snackbar in your View when you had some important message to show ?  and on that have you ever tried to use LiveData to observe the data for message in Snackbar?
+                 </p>
+                 <p class="graf--p">
+                  Lot of developers use it by observing the livedata in the Snackbar and displaying it to the view. But there is a problem, you want the data to only be displayed in the Snackbar once and consumed only when it is required and observing it continuously doesn't suit the play here.
+                 </p>
+                 <p class="graf--p">
+                  In the following code,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel.onDataUpload("Hey")
+        viewModel.getUploadData().observe(this, Observer {
+            //Snackbar
+        })
+
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                  <i class="graf--italic">
+                   getUploadData
+                  </i>
+                  has a return type of
+                  <i class="graf--italic">
+                   LiveData&lt;String&gt;
+                  </i>
+                  , so the data is consumed continuasly but we want to just get the data only once.
+                 </p>
+                 <h4 class="graf--h3">
+                  So, What is the Solution here ?
+                 </h4>
+                 <p class="graf--p">
+                  For these type of task,
+                  <a class="markup--anchor" href="https://github.com/googlesamples/android-architecture/blob/dev-todo-mvvm-live/todoapp/app/src/main/java/com/example/android/architecture/blueprints/todoapp/SingleLiveEvent.java" target="_blank">
+                   SingleLiveEvent
+                  </a>
+                  class came for the resuce. It is nothing but an extension of MutableLiveData class but it emits the data only once whenever required.
+                 </p>
+                 <p class="graf--p">
+                  We need to create a class file called SingleLiveEvent in our project and the SingleLiveEvent class ooks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class SingleLiveEvent&lt;T&gt; : MutableLiveData&lt;T&gt;() {
+
+    private val mPending = AtomicBoolean(false)
+
+    @MainThread
+    override fun observe(owner: LifecycleOwner, observer: Observer&lt;T&gt;) {
+
+        if (hasActiveObservers()) {
+            Log.w(TAG, "Multiple observers registered but only one will be notified of changes.")
+        }
+
+        // Observe the internal MutableLiveData
+        super.observe(owner, object : Observer&lt;T&gt; {
+            override fun onChanged(t: T?) {
+                if (mPending.compareAndSet(true, false)) {
+                    observer.onChanged(t)
+                }
+            }
+        })
+    }
+
+    @MainThread
+    override fun setValue(t: T?) {
+        mPending.set(true)
+        super.setValue(t)
+    }
+
+    /**
+     * Used for cases where T is Void, to make calls cleaner.
+     */
+    @MainThread
+    fun call() {
+        setValue(null)
+    }
+
+    companion object {
+
+        private val TAG = "SingleLiveEvent"
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  and to use it in ViewModel you just need to use it similarly how we use LiveData,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private val uploadData = SingleLiveEvent&lt;String&gt;()
+fun getUploadData(): SingleLiveEvent&lt;String&gt; {
+    return uploadData
+}</code></pre>
+                 <p class="graf--p">
+                  and in the Activity/Fragment file we will use similarly how we used in the above code,
+                 </p>
+                 <pre><code class="language-java graf graf--code">viewModel.getUploadData().observe(this, Observer {
+    //Snackbar
+})</code></pre>
+                 <p class="graf--p">
+                  The above code will only emit the data only once whenever it is required and then will stop observing.
+                 </p>
+                 <p class="graf--p">
+                  This is how you can use SingleLiveEvent to solve our purpose for not using LiveData to emit data for Snackbar or any such kind of task.
+                 </p>
+                 <p class="graf--p">
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team Mindorks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Push Notifications in Android Using FCM" class="ui centered image" src="/images/fcm.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Push Notifications in Android Using FCM
+           </div>
+           <div class="meta">
+            15th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Custom and Downloadable Fonts in Android" class="ui centered image" src="/images/downloadable-font-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Custom and Downloadable Fonts in Android
+           </div>
+           <div class="meta">
+            16th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Swipe-to-refresh in Android Application" class="ui centered image" src="/images/swipe-to-refresh-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Swipe-to-refresh in Android Application
+           </div>
+           <div class="meta">
+            21st May 2019
+           </div>
+           <div class="description">
+            In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Exoplayer to play Video and Audio in Android like a Pro" class="ui centered image" src="/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Exoplayer to play Video and Audio in Android like a Pro
+           </div>
+           <div class="meta">
+            24th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Drag-Drop in Android Applications" class="ui centered image" src="/images/drag-drop-in-android-applications-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Drag-Drop in Android Applications
+           </div>
+           <div class="meta">
+            24th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use the drag and drop feature in our Android app. Drag and Drop feature is used to move one view from one place to other. This will help in moving the UI and the data associated with that item also.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Better Logging in Android Using Timber" class="ui centered image" src="/images/timber-logging.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Better Logging in Android Using Timber
+           </div>
+           <div class="meta">
+            30th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will be learning about a third party library which we use to log in android studio.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Using Android Sensors: Android Tutorial
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/using-android-sensors-android-tutorial" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Using Android Sensors: Android Tutorial" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/using-android-sensors-android-tutorial" property="og:url"/>
+  <meta content="/images/using-android-sensors-android-tutorial-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors." property="og:description"/>
+  <meta content="Using Android Sensors: Android Tutorial" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors." name="twitter:description"/>
+  <meta content="/images/using-android-sensors-android-tutorial-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:351,data:{id:351,title:"Using Android Sensors: Android Tutorial",description:"In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.",text:'<h1 class="graf--h1">Using Android Sensors: Android Tutorial</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-android-sensors-android-tutorial-banner.png class=\'graf-image\' alt=\'Using Android Sensors: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">You all must have played some Android games that includes the supports of sensors i.e. by tilting the phone some actions might happen in the game. For example, in the Temple Run game, by tilting the phone to left or right, the position of the runner changes. So, all these games are using the sensors present in your Android device. Other examples can be shaking your phone to lock the screen, finding the direction with the help of a compass, etc. All these are examples of Android sensors. Have you used any of these sensors present in the Android device? If not, then don’t worry, you are in the right place.</p><p class="graf--p">In this blog, we will learn how to use Android Sensors. To understand the same in a very easy way, we have divided the whole blog into the following parts:</p><ol><li>Introduction to Sensors</li><li>Categories of Sensors</li><li>Android Sensor Framework</li><li>Identify Sensor and its capabilities</li><li>Sensor Event Listener</li><li>Last Moment Tips</li><li>Closing Notes</li></ol><p class="graf--p">So, let’s get started.</p><h4 class="graf--h3">Introduction to Sensors</h4><p class="graf--p">In Android devices, there are various built-in sensors that can be used to measure the orientation, motions, and various other kinds of environmental conditions. In general, there are two types of sensors in Android devices:</p><ol><li><b class="graf--bold">Hardware Sensors:</b> Hardware sensors are physical components that are present in Android devices. They can directly measure various properties like field strength, acceleration, etc according to the types of the sensors and after measuring the environment properties they can send the data to Software Sensors.</li><li><b class="graf--bold">Software Sensors:</b> Software sensors also know as virtual sensors are those sensors that take the help of one or more Hardware sensors and based on the data collected by various Hardware sensors, they can derive some result.</li></ol><p class="graf--p">It is not necessary that all Android devices must have all the sensors. Some devices may have all sensors and some may lack one or two of them. At the same time, a particular device may have more than one sensors of the same type but with different configurations and capabilities. </p><p class="graf--p">To express data values or to collect data, the sensors in Android devices uses a 3-axis coordinate system i.e. you will be having X, Y, and Z-axis. The following figure depicts the position of various axis used in sensors.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-android-sensors-android-tutorial-axis-configuration.png class=\'graf-image\' alt=\'Using Android Sensors: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In default orientation, the horizontal axis is represented by X-axis, the vertical axis is represented by Y-axis and the Z-axis points towards the outside of the screen face i.e towards the user.</p><h4 class="graf--h3">Categories of Sensors</h4><p class="graf--p">Following are the three broad categories of sensors in Android:</p><ol><li><b class="graf--bold">Motion Sensors:</b> The sensors that are responsible for measuring or identifying the shakes and tilts of your Android devices are called Motion sensors. These sensors measure the rotational forces along the three-axis. Gravity sensors, accelerometers, etc are some of the examples of Motion sensors.</li><li><b class="graf--bold">Position Sensors:</b> As the name suggests, the Position sensors are used to determine the position of an Android device. Magnetometers, Proximity sensors are some of the examples of Position sensors.</li><li><b class="graf--bold">Environmental Sensors:</b> Environmental properties like temperature, pressure, humidity, etc are identified with the help of Environmental sensors. Some of the examples of Environmental sensors are thermometer, photometer, barometer, etc.</li></ol><h4 class="graf--h3">Android Sensor Framework</h4><p class="graf--p">Everything related to sensors in Android device is managed or controlled by Android Sensor Framework. By using Android Sensor Framework you can collect raw sensor data. It is a part of <b class="graf--bold"><i class="graf--italic">android.hardware</i></b> package and includes various classes and interface:</p><ol><li><b class="graf--bold">SensorManager:</b> This is used to get access to various sensors present in the device to use it according to need.</li><li><b class="graf--bold">Sensor:</b> This class is used to create an instance of a specific sensor.</li><li><b class="graf--bold">SensorEvent:</b> This class is used to find the details of the sensor events.</li><li><b class="graf--bold">SensorEventListener:</b> This interface can be used to trigger or perform some action when there is a change in the sensor values.</li></ol><p class="graf--p">Following are the usages of the Android Sensor Framework:</p><ol><li>You can register or unregister sensor events.</li><li>You can collect data from various sensors.</li><li>You can find the sensors that are active on a device and determine its capabilities.</li></ol><p class="graf--p">Let’s see how we can identify various sensors present in a device and how to determine its capabilities.</p><h4 class="graf--h3">Identify Sensor and its capabilities</h4><p class="graf--p">It is not necessary that two Android devices must have the same number of sensors or the same type of sensors. The availability of sensors varies from device to device and from one Android version to other. So, you can not guarantee that two Android versions or two Android devices must have the same sensors. It becomes a necessary task to identify which sensors are present in a particular Android device.</p><p class="graf--p">As seen earlier, we can take the help of the Android Sensor Framework to find the sensors that are present in a particular Android device. Not only that, with the help of various methods of the sensor framework, we can determine the capabilities of a sensor like its resolution, its maximum range, and its power requirements.</p><p class="graf--p">Following are the steps that need to be followed to get the list of available sensors in a device:</p><ol><li>Create an instance of the <b class="graf--bold">SensorManager</b>.</li><li>Call the <b class="graf--bold">getSystemService()</b> method and pass <b class="graf--bold">SENSOR_SERVICE</b> as an argument. This SENSOR_SERVICE is used to retrieve a SensorManager to access sensors.</li><li>Call the <b class="graf--bold">getSensorList()</b> method to get the names of all the sensors present in the device. The parameter of this method is sensor type. Either you can use <b class="graf--bold">TYPE_ALL</b> to get all the sensors available in the device or you can use a particular sensor, for example, <b class="graf--bold">TYPE_GRAVITY</b> or <b class="graf--bold">TYPE_GYROSCOPE</b> to get the list of sensors of that type only(you can have more than one sensors of the same type).</li><li>If you are not using TYPE_ALL i.e. you want to get all the types of sensors of a particular type then you can do so by using the <b class="graf--bold">getDefaultSensor()</b> method. This method returns null if there is no sensor of that type in the Android device.</li></ol><pre><code class="language-java graf graf--code">//Step 1\nprivate lateinit var sensorManager: SensorManager\n\n//Step 2\nsensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager\n\n//Step 3\n//To get a list of all sensors, use TYPE_ALL\nval deviceSensors: List&lt;Sensor&gt; = sensorManager.getSensorList(Sensor.TYPE_ALL)\n//Or you can use TYPE_GRAVITY, TYPE_GYROSCOPE or some other sensor\n//val deviceSensors: List&lt;Sensor&gt; = sensorManager.getSensorList(Sensor.TYPE_GRAVITY)\n\n//Step 4\nif (sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY) != null) {\n    //There\'s a gravity sensor.\n} else {\n    //No gravity sensor.\n}</code></pre><p class="graf--p">Apart from finding the list of available sensors, we can also check the capability of a particular sensor i.e. we can check the resolution, power, range, etc of a particular sensor.</p><pre><code class="language-java graf graf--code">Sensor.getResolution() //returns a float value which is the resolution of the sensor\n\nSensor.getMaximumRange() //returns a float value which is the maximum range of the sensor\n\nSensor.getPower() //returns a float value which is the power in mA used by sensor</code></pre><h4 class="graf--h3">Sensor Event Listener</h4><p class="graf--p">Just like an onClickListener(), the SensorEventListener is used to listen to the sensor events and perform various operations based on that. The SensorEventListener interface has two callback method:</p><ol><li><b class="graf--bold">onAccuracyChanged():</b> This is called when there is a change in the accuracy of measurement of the sensor. This method will provide the Sensor object that has changed and the new accuracy. There are four statuses of accuracy i.e. SENSOR_STATUS_ACCURACY_LOW, SENSOR_STATUS_ACCURACY_MEDIUM, SENSOR_STATUS_ACCURACY_HIGH, SENSOR_STATUS_UNRELIABLE.</li><li><b class="graf--bold">onSensorChanged():</b> This is called when there is an availability of new sensor data. This method will provide you with a SensorEvent object that contains new sensor data.</li></ol><p class="graf--p">Apart from these two callback methods, it becomes necessary to release the sensor when not in use. This can be done by using the <b class="graf--bold">onPause()</b> and <b class="graf--bold">onResume()</b> method. So, we can register and unregister the sensor listener in onResume() and onPause() respectively.</p><pre><code class="language-java graf graf--code">class SensorActivity : Activity(), SensorEventListener {\n    private lateinit var sensorManager: SensorManager\n    private lateinit var mGravity: Sensor\n\n    public override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager\n\n        //gravity sensor\n        mGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)\n    }\n\n    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {\n        //If sensor accuracy changes.\n    }\n\n    override fun onSensorChanged(event: SensorEvent) {\n        //If there is a new sensor data\n    }\n\n    //register\n    override fun onResume() {\n        super.onResume()\n        mGravity?.also { gravity -&gt;\n            sensorManager.registerListener(this, gravity, SensorManager.SENSOR_DELAY_NORMAL)\n        }\n    }\n\n    //unregister\n    override fun onPause() {\n        super.onPause()\n        sensorManager.unregisterListener(this)\n    }\n}</code></pre><h4 class="graf--h3">Last Moment Tips</h4><p class="graf--p">Before using a sensor in your Android application, make sure to use the below tips:</p><ol><li>Always gather sensor data in the foreground.</li><li>When the sensor is not in use then unregister the sensor listener as shown in the example present in the previous section.</li><li>As sensor data may change anytime. So, don’t block the onSensorChanged() method.</li><li>Before collecting data from a sensor, check if that sensor is present in the device or not because it is not necessary that every Android device has all the sensors.</li></ol><h4 class="graf--h3">Closing Notes</h4><p class="graf--p">In this blog, we learned about sensors that are present in Android devices. We learned about the Hardware and the Software sensors. We saw how the Android Sensor Framework can be used to determine the sensors present in the Android device. At last, we saw how to use Sensor Event Listener.</p><p class="graf--p">Hope you learned something new today.</p><p class="graf--p">Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/">blogging website</a>.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://bootcamp.mindorks.com/">Apply Now: MindOrks Android Online Course and Learn Advanced Android</a></b></p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/using-android-sensors-android-tutorial-banner.png",blog_url:"using-android-sensors-android-tutorial",likes:0,rank:0,category:1,published_at:"30th September 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:313,title:"Authentication Using Fingerprint In Android - Tutorial",description:"In this blog, we will learn how to authenticate in Android applications with the help of fingerprint. Fingerprint Authentication is the best way for authentication because you need not worry about remembering the password and it is a very fast process also. So, let's see how we can do this in our application.",author:14897,img_url:"/images/authentication-using-fingerprint-banner.png",blog_url:"authentication-using-fingerprint-in-android-tutorial",likes:0,rank:0,category:1,published_at:"17th August 2019",score:1.302253007888794},{id:420,title:"Using WebViews in Flutter: Tutorial",description:"In this blog, we will learn how to use WebViews in Flutter. WebViews are very important to open some web pages inside your application.",author:17146,img_url:"/images/using-webviews-in-flutter-tutorial-banner.jpg",blog_url:"using-webviews-in-flutter-tutorial",likes:0,rank:0,category:9,published_at:"20th April 2020",score:1.1447792053222656},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:1.1406285762786865},{id:284,title:"Animation in Android - Android Tutorial",description:"In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.",author:14897,img_url:"/images/animation-in-android-banner.png",blog_url:"animation-in-android-tutorial",likes:0,rank:0,category:1,published_at:"24th June 2019",score:1.1406285762786865},{id:357,title:"Getting started with Android NDK: Android Tutorial",description:"In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.",author:14897,img_url:"/images/getting-started-with-android-ndk-android-tutorial-banner.png",blog_url:"getting-started-with-android-ndk-android-tutorial",likes:0,rank:0,category:1,published_at:"9th October 2019",score:1.1406285762786865},{id:81,title:"Powerful Android ORM: greenDAO 3 Tutorial",description:"greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time.",author:2,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/powerful-android-orm-greendao-3-tutorial-cover.jpg",blog_url:"powerful-android-orm-greendao-3-tutorial",likes:1,rank:0,category:1,published_at:"13th February 2017",score:.9831547737121582}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            30th September 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Using Android Sensors: Android Tutorial
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Android Sensors: Android Tutorial" class="graf-image" src="/images/using-android-sensors-android-tutorial-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  You all must have played some Android games that includes the supports of sensors i.e. by tilting the phone some actions might happen in the game. For example, in the Temple Run game, by tilting the phone to left or right, the position of the runner changes. So, all these games are using the sensors present in your Android device. Other examples can be shaking your phone to lock the screen, finding the direction with the help of a compass, etc. All these are examples of Android sensors. Have you used any of these sensors present in the Android device? If not, then don’t worry, you are in the right place.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will learn how to use Android Sensors. To understand the same in a very easy way, we have divided the whole blog into the following parts:
+                 </p>
+                 <ol>
+                  <li>
+                   Introduction to Sensors
+                  </li>
+                  <li>
+                   Categories of Sensors
+                  </li>
+                  <li>
+                   Android Sensor Framework
+                  </li>
+                  <li>
+                   Identify Sensor and its capabilities
+                  </li>
+                  <li>
+                   Sensor Event Listener
+                  </li>
+                  <li>
+                   Last Moment Tips
+                  </li>
+                  <li>
+                   Closing Notes
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  Introduction to Sensors
+                 </h4>
+                 <p class="graf--p">
+                  In Android devices, there are various built-in sensors that can be used to measure the orientation, motions, and various other kinds of environmental conditions. In general, there are two types of sensors in Android devices:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    Hardware Sensors:
+                   </b>
+                   Hardware sensors are physical components that are present in Android devices. They can directly measure various properties like field strength, acceleration, etc according to the types of the sensors and after measuring the environment properties they can send the data to Software Sensors.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Software Sensors:
+                   </b>
+                   Software sensors also know as virtual sensors are those sensors that take the help of one or more Hardware sensors and based on the data collected by various Hardware sensors, they can derive some result.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  It is not necessary that all Android devices must have all the sensors. Some devices may have all sensors and some may lack one or two of them. At the same time, a particular device may have more than one sensors of the same type but with different configurations and capabilities.
+                 </p>
+                 <p class="graf--p">
+                  To express data values or to collect data, the sensors in Android devices uses a 3-axis coordinate system i.e. you will be having X, Y, and Z-axis. The following figure depicts the position of various axis used in sensors.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Android Sensors: Android Tutorial" class="graf-image" src="/images/using-android-sensors-android-tutorial-axis-configuration.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In default orientation, the horizontal axis is represented by X-axis, the vertical axis is represented by Y-axis and the Z-axis points towards the outside of the screen face i.e towards the user.
+                 </p>
+                 <h4 class="graf--h3">
+                  Categories of Sensors
+                 </h4>
+                 <p class="graf--p">
+                  Following are the three broad categories of sensors in Android:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    Motion Sensors:
+                   </b>
+                   The sensors that are responsible for measuring or identifying the shakes and tilts of your Android devices are called Motion sensors. These sensors measure the rotational forces along the three-axis. Gravity sensors, accelerometers, etc are some of the examples of Motion sensors.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Position Sensors:
+                   </b>
+                   As the name suggests, the Position sensors are used to determine the position of an Android device. Magnetometers, Proximity sensors are some of the examples of Position sensors.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Environmental Sensors:
+                   </b>
+                   Environmental properties like temperature, pressure, humidity, etc are identified with the help of Environmental sensors. Some of the examples of Environmental sensors are thermometer, photometer, barometer, etc.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  Android Sensor Framework
+                 </h4>
+                 <p class="graf--p">
+                  Everything related to sensors in Android device is managed or controlled by Android Sensor Framework. By using Android Sensor Framework you can collect raw sensor data. It is a part of
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    android.hardware
+                   </i>
+                  </b>
+                  package and includes various classes and interface:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    SensorManager:
+                   </b>
+                   This is used to get access to various sensors present in the device to use it according to need.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Sensor:
+                   </b>
+                   This class is used to create an instance of a specific sensor.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    SensorEvent:
+                   </b>
+                   This class is used to find the details of the sensor events.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    SensorEventListener:
+                   </b>
+                   This interface can be used to trigger or perform some action when there is a change in the sensor values.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  Following are the usages of the Android Sensor Framework:
+                 </p>
+                 <ol>
+                  <li>
+                   You can register or unregister sensor events.
+                  </li>
+                  <li>
+                   You can collect data from various sensors.
+                  </li>
+                  <li>
+                   You can find the sensors that are active on a device and determine its capabilities.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  Let’s see how we can identify various sensors present in a device and how to determine its capabilities.
+                 </p>
+                 <h4 class="graf--h3">
+                  Identify Sensor and its capabilities
+                 </h4>
+                 <p class="graf--p">
+                  It is not necessary that two Android devices must have the same number of sensors or the same type of sensors. The availability of sensors varies from device to device and from one Android version to other. So, you can not guarantee that two Android versions or two Android devices must have the same sensors. It becomes a necessary task to identify which sensors are present in a particular Android device.
+                 </p>
+                 <p class="graf--p">
+                  As seen earlier, we can take the help of the Android Sensor Framework to find the sensors that are present in a particular Android device. Not only that, with the help of various methods of the sensor framework, we can determine the capabilities of a sensor like its resolution, its maximum range, and its power requirements.
+                 </p>
+                 <p class="graf--p">
+                  Following are the steps that need to be followed to get the list of available sensors in a device:
+                 </p>
+                 <ol>
+                  <li>
+                   Create an instance of the
+                   <b class="graf--bold">
+                    SensorManager
+                   </b>
+                   .
+                  </li>
+                  <li>
+                   Call the
+                   <b class="graf--bold">
+                    getSystemService()
+                   </b>
+                   method and pass
+                   <b class="graf--bold">
+                    SENSOR_SERVICE
+                   </b>
+                   as an argument. This SENSOR_SERVICE is used to retrieve a SensorManager to access sensors.
+                  </li>
+                  <li>
+                   Call the
+                   <b class="graf--bold">
+                    getSensorList()
+                   </b>
+                   method to get the names of all the sensors present in the device. The parameter of this method is sensor type. Either you can use
+                   <b class="graf--bold">
+                    TYPE_ALL
+                   </b>
+                   to get all the sensors available in the device or you can use a particular sensor, for example,
+                   <b class="graf--bold">
+                    TYPE_GRAVITY
+                   </b>
+                   or
+                   <b class="graf--bold">
+                    TYPE_GYROSCOPE
+                   </b>
+                   to get the list of sensors of that type only(you can have more than one sensors of the same type).
+                  </li>
+                  <li>
+                   If you are not using TYPE_ALL i.e. you want to get all the types of sensors of a particular type then you can do so by using the
+                   <b class="graf--bold">
+                    getDefaultSensor()
+                   </b>
+                   method. This method returns null if there is no sensor of that type in the Android device.
+                  </li>
+                 </ol>
+                 <pre><code class="language-java graf graf--code">//Step 1
+private lateinit var sensorManager: SensorManager
+
+//Step 2
+sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+//Step 3
+//To get a list of all sensors, use TYPE_ALL
+val deviceSensors: List&lt;Sensor&gt; = sensorManager.getSensorList(Sensor.TYPE_ALL)
+//Or you can use TYPE_GRAVITY, TYPE_GYROSCOPE or some other sensor
+//val deviceSensors: List&lt;Sensor&gt; = sensorManager.getSensorList(Sensor.TYPE_GRAVITY)
+
+//Step 4
+if (sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY) != null) {
+    //There's a gravity sensor.
+} else {
+    //No gravity sensor.
+}</code></pre>
+                 <p class="graf--p">
+                  Apart from finding the list of available sensors, we can also check the capability of a particular sensor i.e. we can check the resolution, power, range, etc of a particular sensor.
+                 </p>
+                 <pre><code class="language-java graf graf--code">Sensor.getResolution() //returns a float value which is the resolution of the sensor
+
+Sensor.getMaximumRange() //returns a float value which is the maximum range of the sensor
+
+Sensor.getPower() //returns a float value which is the power in mA used by sensor</code></pre>
+                 <h4 class="graf--h3">
+                  Sensor Event Listener
+                 </h4>
+                 <p class="graf--p">
+                  Just like an onClickListener(), the SensorEventListener is used to listen to the sensor events and perform various operations based on that. The SensorEventListener interface has two callback method:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    onAccuracyChanged():
+                   </b>
+                   This is called when there is a change in the accuracy of measurement of the sensor. This method will provide the Sensor object that has changed and the new accuracy. There are four statuses of accuracy i.e. SENSOR_STATUS_ACCURACY_LOW, SENSOR_STATUS_ACCURACY_MEDIUM, SENSOR_STATUS_ACCURACY_HIGH, SENSOR_STATUS_UNRELIABLE.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    onSensorChanged():
+                   </b>
+                   This is called when there is an availability of new sensor data. This method will provide you with a SensorEvent object that contains new sensor data.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  Apart from these two callback methods, it becomes necessary to release the sensor when not in use. This can be done by using the
+                  <b class="graf--bold">
+                   onPause()
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   onResume()
+                  </b>
+                  method. So, we can register and unregister the sensor listener in onResume() and onPause() respectively.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class SensorActivity : Activity(), SensorEventListener {
+    private lateinit var sensorManager: SensorManager
+    private lateinit var mGravity: Sensor
+
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+        //gravity sensor
+        mGravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
+        //If sensor accuracy changes.
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        //If there is a new sensor data
+    }
+
+    //register
+    override fun onResume() {
+        super.onResume()
+        mGravity?.also { gravity -&gt;
+            sensorManager.registerListener(this, gravity, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+    }
+
+    //unregister
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
+    }
+}</code></pre>
+                 <h4 class="graf--h3">
+                  Last Moment Tips
+                 </h4>
+                 <p class="graf--p">
+                  Before using a sensor in your Android application, make sure to use the below tips:
+                 </p>
+                 <ol>
+                  <li>
+                   Always gather sensor data in the foreground.
+                  </li>
+                  <li>
+                   When the sensor is not in use then unregister the sensor listener as shown in the example present in the previous section.
+                  </li>
+                  <li>
+                   As sensor data may change anytime. So, don’t block the onSensorChanged() method.
+                  </li>
+                  <li>
+                   Before collecting data from a sensor, check if that sensor is present in the device or not because it is not necessary that every Android device has all the sensors.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  Closing Notes
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned about sensors that are present in Android devices. We learned about the Hardware and the Software sensors. We saw how the Android Sensor Framework can be used to determine the sensors present in the Android device. At last, we saw how to use Sensor Event Listener.
+                 </p>
+                 <p class="graf--p">
+                  Hope you learned something new today.
+                 </p>
+                 <p class="graf--p">
+                  Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our
+                  <a class="markup--anchor" href="https://blog.mindorks.com/" target="_blank">
+                   blogging website
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://bootcamp.mindorks.com/" target="_blank">
+                    Apply Now: MindOrks Android Online Course and Learn Advanced Android
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Authentication Using Fingerprint In Android - Tutorial" class="ui centered image" src="/images/authentication-using-fingerprint-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Authentication Using Fingerprint In Android - Tutorial
+           </div>
+           <div class="meta">
+            17th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to authenticate in Android applications with the help of fingerprint. Fingerprint Authentication is the best way for authentication because you need not worry about remembering the password and it is a very fast process also. So, let's see how we can do this in our application.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using WebViews in Flutter: Tutorial" class="ui centered image" src="/images/using-webviews-in-flutter-tutorial-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using WebViews in Flutter: Tutorial
+           </div>
+           <div class="meta">
+            20th April 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use WebViews in Flutter. WebViews are very important to open some web pages inside your application.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Animation in Android - Android Tutorial" class="ui centered image" src="/images/animation-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Animation in Android - Android Tutorial
+           </div>
+           <div class="meta">
+            24th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Android NDK: Android Tutorial" class="ui centered image" src="/images/getting-started-with-android-ndk-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Android NDK: Android Tutorial
+           </div>
+           <div class="meta">
+            9th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Powerful Android ORM: greenDAO 3 Tutorial" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/powerful-android-orm-greendao-3-tutorial-cover.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Powerful Android ORM: greenDAO 3 Tutorial
+           </div>
+           <div class="meta">
+            13th February 2017
+           </div>
+           <div class="description">
+            greenDAO is an open source Android ORM making development for SQLite databases easy. It relieves developers from dealing with low-level database requirements while saving development time.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

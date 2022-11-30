@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Implementing Bubbles in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/implementing-bubbles-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Implementing Bubbles in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/implementing-bubbles-in-android" property="og:url"/>
+  <meta content="/images/implementing-bubbles-in-android-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to use Bubbles in Android. Bubbles are a new feature introduced in the Beta version of Android Q. These are used to display notifications of any application over some other application and you can launch any activity by using these Bubbles, something like Facebook Messenger's app." property="og:description"/>
+  <meta content="Implementing Bubbles in Android" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to use Bubbles in Android. Bubbles are a new feature introduced in the Beta version of Android Q. These are used to display notifications of any application over some other application and you can launch any activity by using these Bubbles, something like Facebook Messenger's app." name="twitter:description"/>
+  <meta content="/images/implementing-bubbles-in-android-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to use Bubbles in Android. Bubbles are a new feature introduced in the Beta version of Android Q. These are used to display notifications of any application over some other application and you can launch any activity by using these Bubbles, something like Facebook Messenger's app." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:271,data:{id:271,title:"Implementing Bubbles in Android",description:"In this blog, we will learn how to use Bubbles in Android. Bubbles are a new feature introduced in the Beta version of Android Q. These are used to display notifications of any application over some other application and you can launch any activity by using these Bubbles, something like Facebook Messenger's app.",text:'<h1 class="graf--h1">Implementing Bubbles in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/implementing-bubbles-in-android-banner.png class=\'graf-image\' alt=\'Implementing Bubbles in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Almost all of us have used the Facebook Messenger app. Apart from the messaging features, it has a very cool feature called <b class="graf--bold">Bubbles</b>. So, whenever a message comes in our inbox then that Bubble will be visible on the screen as a message notification. The best part is that an activity can be launched by just pressing the Bubble. For example, in the Facebook Messenger app, when you press the Bubble then the messaging screen will be opened and you can use this messaging screen to send the messages. Below is an example of a bubble taken from the Google Developers Android website:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/implementing-bubbles-in-android-screenshot.jpg class=\'graf-image\' alt=\'Implementing Bubbles in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Adding Bubble feature in your Android application is a very cool idea but the process is very hard and complex. So, to make this process easier and to give a more consistent experience to the users, Bubbles feature was added in the Beta preview of Android Q. So, by using the Bubble API, you can run your application on top of the other applications present in a mobile device.</p><p class="graf--p">In this blog, we will learn how to use Bubbles in our Android application. So, let’s get started.</p><h4 class="graf--h3">What are the Bubbles?</h4><p class="graf--p">Bubbles are a new preview feature in Android Q that helps you to do more than one task or to use more than one application from any part of the mobile. For example, if you are using the Gmail app and at a particular instant of time, a message came into your Facebook Messenger app, then at that time, you will notice a Bubble on your screen and you can adjust that bubble to any part of the mobile screen and the best part is that by clicking in the Bubble, you can open the Facebook Messenger app and use it as normal.</p><p class="graf--p">Think of a situation, if you are using Youtube app and after a while, you started using the Gmail app and then after some time, you started using some other application. So, what if you want to see the notification of an application all the time? Either you have to open that application at a regular interval or you to have keep that app opened.</p><p class="graf--p">But by using Bubbles in your app, you can have an application along with you all the time. No matter which application you are using, the Bubble will be present on top of all the applications.</p><p class="graf--p">The Bubbles are created by using the Notification API. So, using Bubble is as simple as using notifications in an application. If you want to Bubble your notification then you have to put some extra data to your notification. </p><h4 class="graf--h3">Prerequisites of implementing Bubbles</h4><p class="graf--p">Before implementing Bubbles in your application, you must have the following:</p><ul><li><b class="graf--bold">Preview version of Android Studio 3.5:</b> In order to have the preview version of Android Studio 3.5, go to the <a class="markup--anchor" target="_blank" href="https://developer.android.com/studio/preview">Android Studio</a> website and download the preview version.</li><li><b class="graf--bold">Android Q preview SDK:</b> To install the preview SDK for Android Q, follow the below steps:</li></ul><ol><li>In the Android Studio, click <b class="graf--bold">Tools &gt; SDK Manager</b>.</li><li>In the <b class="graf--bold">SDK Platforms</b> tab, select <b class="graf--bold">Android Q Preview</b>.</li><li>In the <b class="graf--bold">SDK Tools</b> tab, select <b class="graf--bold">Android SDK Build-Tools 28</b> (or higher).</li><li>Click <b class="graf--bold">OK</b> to begin the install.</li></ol><p class="graf--p">After that, change your compileSdkVersion and targetSdkVersion to 29</p><pre><code class="language-java graf graf--code">android {\n    compileSdkVersion 29\n\n    defaultConfig {\n        targetSdkVersion 29\n    }\n    ...\n}</code></pre><ul><li><b class="graf--bold">A device with Android Q Beta or emulator with Android Q Beta(to run your app)</b></li></ul><h4 class="graf--h3">Implementation of Bubbles</h4><p class="graf--p">If you want an activity to be opened from the Bubble, then you have to define it in the <b class="graf--bold"><i class="graf--italic">AndroidManifest.xml </i></b>file:</p><pre><code class="language-java graf graf--code">&lt;activity\n  android:name=".bubbles.BubbleActivity"\n  android:theme="@style/AppTheme.NoActionBar"\n  android:label="@string/title_activity_bubble"\n  android:allowEmbedded="true"\n  android:documentLaunchMode="always"\n  android:resizeableActivity="true"/&gt;</code></pre><p class="graf--p">If you want to show multiple Bubbles of the same type then you have to set the <b class="graf--bold"><i class="graf--italic">documentLaunchMode </i></b>to “always”.</p><p class="graf--p">Now, our <b class="graf--bold"><i class="graf--italic">BubbleActivtiy </i></b>is added with the Bubble i.e. the <b class="graf--bold"><i class="graf--italic">BubbleActivity </i></b>will be launched form the Bubble.</p><p class="graf--p"><b class="graf--bold">Note: The Activity launched from the Bubble has the same life cycle as that of normal activity.</b></p><p class="graf--p">Now, let’s move on to the Kotlin part. The very first step that you have to do is making an intent for the Bubble:</p><pre><code class="language-java graf graf--code">// Create bubble intent\nval target = Intent(context, BubbleActivity::class.java)\nval bubbleIntent = PendingIntent.getActivity(context, 0, target, 0 /* flags */)</code></pre><p class="graf--p">After creating intent, create a notification as created earlier, according to your needs:</p><pre><code class="language-java graf graf--code">// Create notification\nval chatBot = Person.Builder()\n    .setBot(true)\n    .setName("BubbleBot")\n    .setImportant(true)\n    .build()</code></pre><p class="graf--p">Now, in order to display a Bubble on your mobile screen, you have to add some <b class="graf--bold"><i class="graf--italic">BubbleMetaData </i></b>and connect it with the intent created earlier:</p><pre><code class="language-java graf graf--code">// Create bubble metadata\nval bubbleData = Notification.BubbleMetadata.Builder()\n    .setDesiredHeight(600)\n    // Note: although you can set the icon is not displayed in Q Beta 2\n    .setIcon(Icon.createWithResource(context, R.drawable.icon))\n    .setIntent(bubbleIntent)\n    .build()</code></pre><p class="graf--p">By default, you need to click on the Bubbles to expand the contents of the Bubble or to launch the Activity associated with the Bubble. But if you want your Bubble to be automatically opened then you have to set the value of <b class="graf--bold"><i class="graf--italic">setAutoExpandBubble </i></b>to <b class="graf--bold">true</b>. For example:</p><pre><code class="language-java graf graf--code">val bubbleMetadata = Notification.BubbleMetadata.Builder()\n    .setDesiredHeight(600)\n    .setIntent(bubbleIntent)\n    .setAutoExpandBubble(true)\n    .setSuppressInitialNotification(true)\n    .build()</code></pre><p class="graf--p">Now, after designing the look and feel of Bubble and connecting the Bubble with the intent, our next step is to connect the notification with the Bubble, so that, whenever a notification comes, then the Bubble will be opened.</p><pre><code class="language-java graf graf--code">val builder = Notification.Builder(context, CHANNEL_ID)\n    .setContentIntent(contentIntent)\n    .setSmallIcon(smallIcon)\n    .setBubbleMetadata(bubbleData)\n    .addPerson(chatBot</code></pre><h4 class="graf--h3">When to use Bubbles?</h4><p class="graf--p">Using Bubbles in each and every case is not a good practice. You should use Bubbles by taking certain things in considerations:</p><ul><li>If the notification that is to be sent using the Bubble is either very important or the user has opted to have Bubbles for notification.</li><li>You should make sure that the Bubble should also work as normal notification because the feature of Bubbles can be disabled by the user and in that case you have to show your notification in a normal way.</li><li>While using Bubble, make sure to perform very fewer operations using that Bubble.</li></ul><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we saw one of the cool features of Android Q i.e. the Bubbles. We learned how to use the Bubbles in our application to display our application’s notification. At last, we also saw the key points that should be kept in mind while using Bubbles.</p><p class="graf--p">That’s it for this blog. Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/implementing-bubbles-in-android-banner.png",blog_url:"implementing-bubbles-in-android",likes:0,rank:0,category:1,published_at:"8th June 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:1.598717212677002},{id:231,title:"Understanding and Implementing Permission in Android Q",description:"In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.",author:14897,img_url:"/images/location-permission.png",blog_url:"location-permissions-in-android-q",likes:0,rank:0,category:1,published_at:"11th May 2019",score:1.589539647102356},{id:252,title:"Implementing in-app updates on Android",description:"In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.",author:14897,img_url:"/images/in-app-updates-android-banner.png",blog_url:"implementing-in-app-updates-on-android",likes:0,rank:0,category:1,published_at:"25th May 2019",score:1.589539647102356},{id:265,title:"Implementing Android Slice",description:"In this blog, you will learn about Android Slice and how to implement it. We have learned a basic way to implement a slice and how to work with it.",author:9959,img_url:"/images/android-slice.png",blog_url:"implementing-android-slice",likes:0,rank:0,category:1,published_at:"5th June 2019",score:1.589539647102356},{id:272,title:"Implementing Preferences Settings Screen in Android",description:"In this blog, we will learn how to implement the Preferences Settings Screen in Android. Settings screen are used to change the functionality and behavior of a particular application without changing the system settings. For example, you can change the background of a particular application by using the Settings feature.",author:14897,img_url:"/images/implementing-preferences-settings-in-android-banner.png",blog_url:"implementing-preferences-settings-screen-in-android",likes:0,rank:0,category:1,published_at:"9th June 2019",score:1.589539647102356},{id:276,title:"Implementing DialogFragment in Android",description:"In this blog, we will learn how to implement a DialogFragment in our Android Application. A Dialog Fragment is a fragment that floats over some activity. One common example of Dialog is Alert Dialog. In the blog, we will learn how to make our own custom Dialogs.",author:17146,img_url:"/images/implementing-dialog-fragment-in-android-banner-8f27fd94e9d2ae51.png",blog_url:"implementing-dialog-fragment-in-android",likes:0,rank:0,category:1,published_at:"15th June 2019",score:1.589539647102356}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            8th June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Implementing Bubbles in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implementing Bubbles in Android" class="graf-image" src="/images/implementing-bubbles-in-android-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Almost all of us have used the Facebook Messenger app. Apart from the messaging features, it has a very cool feature called
+                  <b class="graf--bold">
+                   Bubbles
+                  </b>
+                  . So, whenever a message comes in our inbox then that Bubble will be visible on the screen as a message notification. The best part is that an activity can be launched by just pressing the Bubble. For example, in the Facebook Messenger app, when you press the Bubble then the messaging screen will be opened and you can use this messaging screen to send the messages. Below is an example of a bubble taken from the Google Developers Android website:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implementing Bubbles in Android" class="graf-image" src="/images/implementing-bubbles-in-android-screenshot.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Adding Bubble feature in your Android application is a very cool idea but the process is very hard and complex. So, to make this process easier and to give a more consistent experience to the users, Bubbles feature was added in the Beta preview of Android Q. So, by using the Bubble API, you can run your application on top of the other applications present in a mobile device.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will learn how to use Bubbles in our Android application. So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  What are the Bubbles?
+                 </h4>
+                 <p class="graf--p">
+                  Bubbles are a new preview feature in Android Q that helps you to do more than one task or to use more than one application from any part of the mobile. For example, if you are using the Gmail app and at a particular instant of time, a message came into your Facebook Messenger app, then at that time, you will notice a Bubble on your screen and you can adjust that bubble to any part of the mobile screen and the best part is that by clicking in the Bubble, you can open the Facebook Messenger app and use it as normal.
+                 </p>
+                 <p class="graf--p">
+                  Think of a situation, if you are using Youtube app and after a while, you started using the Gmail app and then after some time, you started using some other application. So, what if you want to see the notification of an application all the time? Either you have to open that application at a regular interval or you to have keep that app opened.
+                 </p>
+                 <p class="graf--p">
+                  But by using Bubbles in your app, you can have an application along with you all the time. No matter which application you are using, the Bubble will be present on top of all the applications.
+                 </p>
+                 <p class="graf--p">
+                  The Bubbles are created by using the Notification API. So, using Bubble is as simple as using notifications in an application. If you want to Bubble your notification then you have to put some extra data to your notification.
+                 </p>
+                 <h4 class="graf--h3">
+                  Prerequisites of implementing Bubbles
+                 </h4>
+                 <p class="graf--p">
+                  Before implementing Bubbles in your application, you must have the following:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Preview version of Android Studio 3.5:
+                   </b>
+                   In order to have the preview version of Android Studio 3.5, go to the
+                   <a class="markup--anchor" href="https://developer.android.com/studio/preview" target="_blank">
+                    Android Studio
+                   </a>
+                   website and download the preview version.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Android Q preview SDK:
+                   </b>
+                   To install the preview SDK for Android Q, follow the below steps:
+                  </li>
+                 </ul>
+                 <ol>
+                  <li>
+                   In the Android Studio, click
+                   <b class="graf--bold">
+                    Tools &gt; SDK Manager
+                   </b>
+                   .
+                  </li>
+                  <li>
+                   In the
+                   <b class="graf--bold">
+                    SDK Platforms
+                   </b>
+                   tab, select
+                   <b class="graf--bold">
+                    Android Q Preview
+                   </b>
+                   .
+                  </li>
+                  <li>
+                   In the
+                   <b class="graf--bold">
+                    SDK Tools
+                   </b>
+                   tab, select
+                   <b class="graf--bold">
+                    Android SDK Build-Tools 28
+                   </b>
+                   (or higher).
+                  </li>
+                  <li>
+                   Click
+                   <b class="graf--bold">
+                    OK
+                   </b>
+                   to begin the install.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  After that, change your compileSdkVersion and targetSdkVersion to 29
+                 </p>
+                 <pre><code class="language-java graf graf--code">android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        targetSdkVersion 29
+    }
+    ...
+}</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    A device with Android Q Beta or emulator with Android Q Beta(to run your app)
+                   </b>
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Implementation of Bubbles
+                 </h4>
+                 <p class="graf--p">
+                  If you want an activity to be opened from the Bubble, then you have to define it in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    AndroidManifest.xml
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;activity
+  android:name=".bubbles.BubbleActivity"
+  android:theme="@style/AppTheme.NoActionBar"
+  android:label="@string/title_activity_bubble"
+  android:allowEmbedded="true"
+  android:documentLaunchMode="always"
+  android:resizeableActivity="true"/&gt;</code></pre>
+                 <p class="graf--p">
+                  If you want to show multiple Bubbles of the same type then you have to set the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    documentLaunchMode
+                   </i>
+                  </b>
+                  to “always”.
+                 </p>
+                 <p class="graf--p">
+                  Now, our
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    BubbleActivtiy
+                   </i>
+                  </b>
+                  is added with the Bubble i.e. the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    BubbleActivity
+                   </i>
+                  </b>
+                  will be launched form the Bubble.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note: The Activity launched from the Bubble has the same life cycle as that of normal activity.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Now, let’s move on to the Kotlin part. The very first step that you have to do is making an intent for the Bubble:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Create bubble intent
+val target = Intent(context, BubbleActivity::class.java)
+val bubbleIntent = PendingIntent.getActivity(context, 0, target, 0 /* flags */)</code></pre>
+                 <p class="graf--p">
+                  After creating intent, create a notification as created earlier, according to your needs:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Create notification
+val chatBot = Person.Builder()
+    .setBot(true)
+    .setName("BubbleBot")
+    .setImportant(true)
+    .build()</code></pre>
+                 <p class="graf--p">
+                  Now, in order to display a Bubble on your mobile screen, you have to add some
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    BubbleMetaData
+                   </i>
+                  </b>
+                  and connect it with the intent created earlier:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Create bubble metadata
+val bubbleData = Notification.BubbleMetadata.Builder()
+    .setDesiredHeight(600)
+    // Note: although you can set the icon is not displayed in Q Beta 2
+    .setIcon(Icon.createWithResource(context, R.drawable.icon))
+    .setIntent(bubbleIntent)
+    .build()</code></pre>
+                 <p class="graf--p">
+                  By default, you need to click on the Bubbles to expand the contents of the Bubble or to launch the Activity associated with the Bubble. But if you want your Bubble to be automatically opened then you have to set the value of
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    setAutoExpandBubble
+                   </i>
+                  </b>
+                  to
+                  <b class="graf--bold">
+                   true
+                  </b>
+                  . For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">val bubbleMetadata = Notification.BubbleMetadata.Builder()
+    .setDesiredHeight(600)
+    .setIntent(bubbleIntent)
+    .setAutoExpandBubble(true)
+    .setSuppressInitialNotification(true)
+    .build()</code></pre>
+                 <p class="graf--p">
+                  Now, after designing the look and feel of Bubble and connecting the Bubble with the intent, our next step is to connect the notification with the Bubble, so that, whenever a notification comes, then the Bubble will be opened.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val builder = Notification.Builder(context, CHANNEL_ID)
+    .setContentIntent(contentIntent)
+    .setSmallIcon(smallIcon)
+    .setBubbleMetadata(bubbleData)
+    .addPerson(chatBot</code></pre>
+                 <h4 class="graf--h3">
+                  When to use Bubbles?
+                 </h4>
+                 <p class="graf--p">
+                  Using Bubbles in each and every case is not a good practice. You should use Bubbles by taking certain things in considerations:
+                 </p>
+                 <ul>
+                  <li>
+                   If the notification that is to be sent using the Bubble is either very important or the user has opted to have Bubbles for notification.
+                  </li>
+                  <li>
+                   You should make sure that the Bubble should also work as normal notification because the feature of Bubbles can be disabled by the user and in that case you have to show your notification in a normal way.
+                  </li>
+                  <li>
+                   While using Bubble, make sure to perform very fewer operations using that Bubble.
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we saw one of the cool features of Android Q i.e. the Bubbles. We learned how to use the Bubbles in our application to display our application’s notification. At last, we also saw the key points that should be kept in mind while using Bubbles.
+                 </p>
+                 <p class="graf--p">
+                  That’s it for this blog. Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding and Implementing Permission in Android Q" class="ui centered image" src="/images/location-permission.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding and Implementing Permission in Android Q
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing in-app updates on Android" class="ui centered image" src="/images/in-app-updates-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing in-app updates on Android
+           </div>
+           <div class="meta">
+            25th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Android Slice" class="ui centered image" src="/images/android-slice.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Android Slice
+           </div>
+           <div class="meta">
+            5th June 2019
+           </div>
+           <div class="description">
+            In this blog, you will learn about Android Slice and how to implement it. We have learned a basic way to implement a slice and how to work with it.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Preferences Settings Screen in Android" class="ui centered image" src="/images/implementing-preferences-settings-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Preferences Settings Screen in Android
+           </div>
+           <div class="meta">
+            9th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Preferences Settings Screen in Android. Settings screen are used to change the functionality and behavior of a particular application without changing the system settings. For example, you can change the background of a particular application by using the Settings feature.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing DialogFragment in Android" class="ui centered image" src="/images/implementing-dialog-fragment-in-android-banner-8f27fd94e9d2ae51.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing DialogFragment in Android
+           </div>
+           <div class="meta">
+            15th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement a DialogFragment in our Android Application. A Dialog Fragment is a fragment that floats over some activity. One common example of Dialog is Alert Dialog. In the blog, we will learn how to make our own custom Dialogs.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

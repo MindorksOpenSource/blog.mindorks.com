@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   RecyclerView Multiple View Types in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/recyclerview-multiple-view-types-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="RecyclerView Multiple View Types in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/recyclerview-multiple-view-types-in-android" property="og:url"/>
+  <meta content="/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project." property="og:description"/>
+  <meta content="RecyclerView Multiple View Types in Android" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project." name="twitter:description"/>
+  <meta content="/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:486,data:{id:486,title:"RecyclerView Multiple View Types in Android",description:"In this blog, we will learn how to use multiple view types in a RecyclerView in Android with a small Android Project.",text:'<h1 class="graf--h1">RecyclerView Multiple View Types in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png class=\'graf-image\' alt=\'RecyclerView Multiple View Types in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In order to display a list in your application, we all must have used RecyclerView in Android. For example, the emails in the Gmail app, the feeds on Facebook and Instagram, messages in WhatsApp, all are done with the help of RecyclerView.</p><p class="graf--p">But one thing that you might have noticed is that while using RecyclerView, we define a view and the list items are displayed according to that view only. But what if you want to add different view types in the RecyclerView, you can add Multiple Views in the same RecyclerView.</p><p class="graf--p">Welcome to MindOrks! In this blog, we are going to learn how to use Multiple Views in RecyclerView.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/mishra3452/RecyclerView-MultiType-Example">You can find the whole project used in this tutorial from here</a>.</p><p class="graf--p">So, let&#x27;s get started with the project setup.</p><h4 class="graf--h3">RecyclerView Multiple View</h4><p class="graf--p">We can add multiple views in a RecyclerView. For example, the feed page on Facebook is an example of Multiple View. You can add image, or video, or text or a combination of all in the same RecyclerView. </p><p class="graf--p">Another example can be WhatsApp chatting. The message that we send can be thought to be placed in a RecyclerView. So, when you send the message, it appears on the right-hand side of the screen. But if someone from the other side sends a message, then it appears on the left-hand side. So, there is a change in the view type.</p><p class="graf--p">In this blog, we will learn how to do this. We will create a RecyclerView and add two different views into it. You can create more view types according to your use-case.</p><p class="graf--p">Open AndroidStudio and create a project</p><ul><li><b class="graf--bold">Project Name:</b> RecyclerViewMultiTypeExample</li><li><b class="graf--bold">Language:</b> Kotlin</li></ul><h4 class="graf--h3">Creating Views for the project</h4><p class="graf--p">In our project, we are going to use two views i.e. <code class="graf--code-inline">item_view_1.xml</code> and <code class="graf--code-inline">item_view_2.xml</code>.</p><p class="graf--p">The code for the <code class="graf--code-inline">item_view_1.xml</code> is:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    android:layout_width="match_parent"\n    android:layout_height="wrap_content"\n    android:background="#0091ea"\n    android:paddingLeft="24dp"\n    android:paddingRight="24dp"&gt;\n\n    &lt;TextView\n        android:id="@+id/textView"\n        android:layout_width="wrap_content"\n        android:layout_height="48dp"\n        android:gravity="center_vertical"\n        android:text="View 1 TextView"\n        android:textColor="#FFFFFF"\n        android:textSize="24sp"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n    &lt;ImageView\n        android:layout_width="48dp"\n        android:layout_height="48dp"\n        android:src="@drawable/link_on"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">The code for the <code class="graf--code-inline">item_view_2.xml</code> is:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout\n    xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="wrap_content"\n    android:background="#00bfa5"\n    android:paddingLeft="24dp"\n    android:paddingRight="24dp"&gt;\n\n    &lt;TextView\n        android:id="@+id/textView"\n        android:layout_width="wrap_content"\n        android:layout_height="48dp"\n        android:gravity="center_vertical"\n        android:textColor="#000000"\n        android:text="View 2 TextView"\n        android:textSize="24sp"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n    &lt;ImageView\n        android:id="@+id/imageView"\n        android:layout_width="48dp"\n        android:layout_height="48dp"\n        android:src="@drawable/link_off"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><h4 class="graf--h3">Data class</h4><p class="graf--p">To store the data to be displayed on the views, we need a data class. Create a data class name <code class="graf--code-inline">Data</code> and add the below code:</p><pre><code class="language-java graf graf--code">data class Data(val viewType: Int, val textData: String)</code></pre><p class="graf--p">The <code class="graf--code-inline">viewType</code> will tell which view we are using i.e. either <code class="graf--code-inline">item_view_1</code> or <code class="graf--code-inline">item_view_2</code> and <code class="graf--code-inline">textData</code> will store the data that will be displayed on the TextView.</p><h4 class="graf--h3">Adapter for RecyclerView</h4><p class="graf--p">Now, for the RecyclerView, we need to create an Adapter class that will store all the logic of RecyclerView i.e. when to display which view.</p><p class="graf--p">Create an Adapter class named <code class="graf--code-inline">RecyclerViewAdapter</code>.</p><p class="graf--p">In the RecyclerViewAdapter class, we will check if the desired view is <code class="graf--code-inline">item_view_1</code> then the content of item_view_1 will be displayed otherwise we will display the content of <code class="graf--code-inline">item_view_2</code>. </p><p class="graf--p">The following is the code for the <code class="graf--code-inline">RecyclerViewAdapter</code> class:</p><pre><code class="language-java graf graf--code">class RecyclerViewAdapter(context: Context, list: ArrayList&lt;Data&gt;) :\n    RecyclerView.Adapter&lt;RecyclerView.ViewHolder&gt;() {\n\n    companion object {\n        const val VIEW_TYPE_ONE = 1\n        const val VIEW_TYPE_TWO = 2\n    }\n\n    private val context: Context = context\n    var list: ArrayList&lt;Data&gt; = list\n\n    private inner class View1ViewHolder(itemView: View) :\n        RecyclerView.ViewHolder(itemView) {\n        var message: TextView = itemView.findViewById(R.id.textView)\n        fun bind(position: Int) {\n            val recyclerViewModel = list[position]\n            message.text = recyclerViewModel.textData\n        }\n    }\n\n    private inner class View2ViewHolder(itemView: View) :\n        RecyclerView.ViewHolder(itemView) {\n        var message: TextView = itemView.findViewById(R.id.textView)\n        fun bind(position: Int) {\n            val recyclerViewModel = list[position]\n            message.text = recyclerViewModel.textData\n        }\n    }\n\n    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {\n        if (viewType == VIEW_TYPE_ONE) {\n            return View1ViewHolder(\n                LayoutInflater.from(context).inflate(R.layout.item_view_1, parent, false)\n            )\n        }\n        return View2ViewHolder(\n            LayoutInflater.from(context).inflate(R.layout.item_view_2, parent, false)\n        )\n    }\n\n    override fun getItemCount(): Int {\n        return list.size\n    }\n\n    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {\n        if (list[position].viewType === VIEW_TYPE_ONE) {\n            (holder as View1ViewHolder).bind(position)\n        } else {\n            (holder as View2ViewHolder).bind(position)\n        }\n    }\n\n    override fun getItemViewType(position: Int): Int {\n        return list[position].viewType\n    }\n}</code></pre><blockquote class="graf--blockquote"><b class="graf--bold">Note:</b> In the <code class="graf--code-inline">getItemViewType</code>, we are returning the id of the view which is always unique. </blockquote><h4 class="graf--h3">Adding RecyclerView in our project</h4><p class="graf--p">Now, add RecyclerView in the <code class="graf--code-inline">activity_main.xml</code>. The following is the code for <code class="graf--code-inline">activity_main.xml</code>:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n\n    &lt;androidx.recyclerview.widget.RecyclerView\n        android:id="@+id/recyclerView"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Now, the thing to do is just add the data to the views. The following is the code for <code class="graf--code-inline">MainActivity</code>:</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    private lateinit var recyclerView: RecyclerView\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        val dataList = ArrayList&lt;Data&gt;()\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "1. Hi! I am in View 1"))\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "2. Hi! I am in View 2"))\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "3. Hi! I am in View 3"))\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "4. Hi! I am in View 4"))\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "5. Hi! I am in View 5"))\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "6. Hi! I am in View 6"))\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "7. Hi! I am in View 7"))\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "8. Hi! I am in View 8"))\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "9. Hi! I am in View 9"))\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "10. Hi! I am in View 10"))\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "11. Hi! I am in View 11"))\n        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "12. Hi! I am in View 12"))\n\n        val adapter = RecyclerViewAdapter(this, dataList)\n        recyclerView = findViewById(R.id.recyclerView)\n        recyclerView.layoutManager = LinearLayoutManager(this)\n        recyclerView.adapter = adapter\n    }\n}</code></pre><p class="graf--p">Now, run the application on your device and you will see something like below:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/recyclerview-multiple-view-types-in-android-output-8c486729e4f7e1cc.jpg class=\'graf-image\' alt=\'RecyclerView Multiple View Types in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">This is how you can implement multiple views in a RecyclerView. <a class="markup--anchor" target="_blank" href="https://github.com/mishra3452/RecyclerView-MultiType-Example">You can find the whole project from here</a>.</p><p class="graf--p">I hope you enjoyed this blog. Do share this blog with your fellow developers to spread the knowledge.</p><p class="graf--p"><b class="graf--bold">Happy Learning :)</b></p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p><p class="graf--p"><b class="graf--bold">Also, Let’s connect on</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://twitter.com/hiii_sumit">Twitter</a></span>,</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/mishra3452/">Linkedin</a></span>,</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://github.com/mishra3452">Github</a></span>, and</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://www.facebook.com/mishra3452">Facebook</a></span></b></p>',author:17146,img_url:"/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png",blog_url:"recyclerview-multiple-view-types-in-android",likes:0,rank:0,category:1,published_at:"22nd June 2020"},author:{id:17146,name:"Sumit Mishra",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Software Development Engineer at MindOrks",fb_profile_url:"https://www.facebook.com/mishra3452",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hiii_sumit",github_profile_url:"https://github.com/mishra3452",linkedin_profile_url:"https://www.linkedin.com/in/sumit-mishra-a15499135/"},isFetching:!1,similarBlogs:[{id:427,title:"Difference between List and Array types in Kotlin",description:"In this blog, we will learn the difference between the List and the Array in Kotlin. We will see when to use List and when to use Array in Kotlin.",author:17146,img_url:"/images/difference-between-list-and-array-types-in-kotlin-banner.jpg",blog_url:"difference-between-list-and-array-types-in-kotlin",likes:0,rank:0,category:1,published_at:"27th April 2020",score:3.1293888092041016},{id:444,title:"What are Reified Types in Kotlin?",description:"In this blog, we are going to learn about Reified Types that are used in Kotlin. We will learn it by example.",author:17146,img_url:"/images/what-are-reified-types-in-kotlin-banner-fa188513e9b18158.png",blog_url:"what-are-reified-types-in-kotlin",likes:0,rank:0,category:1,published_at:"23rd May 2020",score:3.1293888092041016},{id:88,title:"How to create multiple apk files for android application",description:"Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.",author:30,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg",blog_url:"how-to-create-multiple-apk-files-for-android-application",likes:0,rank:0,category:1,published_at:"30th August 2017",score:2.805088996887207},{id:268,title:"The powerful tool DiffUtil in RecyclerView - Android Tutorial",description:"In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details",author:9959,img_url:"/images/banner-diffutil.png",blog_url:"the-powerful-tool-diff-util-in-recyclerview-android-tutorial",likes:0,rank:0,category:1,published_at:"6th June 2019",score:2.805088996887207},{id:454,title:"How does RecyclerView work internally?",description:"In this blog, we are going to talk about how recyclerView works internally and how the recycling of views happen. We would also discuss the benefit of using viewholders in recyclerView.",author:9959,img_url:"/images/banner-recyclerview-working-3a65a777947be8b6.png",blog_url:"how-does-recyclerview-work-internally",likes:0,rank:0,category:1,published_at:"20th May 2020",score:2.7959113121032715},{id:190,title:"Android User Interface — View Components",description:"In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started.",author:14897,img_url:"/images/android-user-interface-view-components-banner.png",blog_url:"android-user-interface-view-components",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:2.5465610027313232}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Sumit Mishra" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300"/>
+          <div class="content">
+           Sumit Mishra
+           <div class="sub header" style="margin-top:5px">
+            22nd June 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  RecyclerView Multiple View Types in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="RecyclerView Multiple View Types in Android" class="graf-image" src="/images/recyclerview-multitype-in-android-banner-58c19ef517d53f61.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In order to display a list in your application, we all must have used RecyclerView in Android. For example, the emails in the Gmail app, the feeds on Facebook and Instagram, messages in WhatsApp, all are done with the help of RecyclerView.
+                 </p>
+                 <p class="graf--p">
+                  But one thing that you might have noticed is that while using RecyclerView, we define a view and the list items are displayed according to that view only. But what if you want to add different view types in the RecyclerView, you can add Multiple Views in the same RecyclerView.
+                 </p>
+                 <p class="graf--p">
+                  Welcome to MindOrks! In this blog, we are going to learn how to use Multiple Views in RecyclerView.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/mishra3452/RecyclerView-MultiType-Example" target="_blank">
+                   You can find the whole project used in this tutorial from here
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  So, let's get started with the project setup.
+                 </p>
+                 <h4 class="graf--h3">
+                  RecyclerView Multiple View
+                 </h4>
+                 <p class="graf--p">
+                  We can add multiple views in a RecyclerView. For example, the feed page on Facebook is an example of Multiple View. You can add image, or video, or text or a combination of all in the same RecyclerView.
+                 </p>
+                 <p class="graf--p">
+                  Another example can be WhatsApp chatting. The message that we send can be thought to be placed in a RecyclerView. So, when you send the message, it appears on the right-hand side of the screen. But if someone from the other side sends a message, then it appears on the left-hand side. So, there is a change in the view type.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will learn how to do this. We will create a RecyclerView and add two different views into it. You can create more view types according to your use-case.
+                 </p>
+                 <p class="graf--p">
+                  Open AndroidStudio and create a project
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Project Name:
+                   </b>
+                   RecyclerViewMultiTypeExample
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Language:
+                   </b>
+                   Kotlin
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Creating Views for the project
+                 </h4>
+                 <p class="graf--p">
+                  In our project, we are going to use two views i.e.
+                  <code class="graf--code-inline">
+                   item_view_1.xml
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   item_view_2.xml
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  The code for the
+                  <code class="graf--code-inline">
+                   item_view_1.xml
+                  </code>
+                  is:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#0091ea"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"&gt;
+
+    &lt;TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:text="View 1 TextView"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+    &lt;ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/link_on"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  The code for the
+                  <code class="graf--code-inline">
+                   item_view_2.xml
+                  </code>
+                  is:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00bfa5"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"&gt;
+
+    &lt;TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:textColor="#000000"
+        android:text="View 2 TextView"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+    &lt;ImageView
+        android:id="@+id/imageView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/link_off"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <h4 class="graf--h3">
+                  Data class
+                 </h4>
+                 <p class="graf--p">
+                  To store the data to be displayed on the views, we need a data class. Create a data class name
+                  <code class="graf--code-inline">
+                   Data
+                  </code>
+                  and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class Data(val viewType: Int, val textData: String)</code></pre>
+                 <p class="graf--p">
+                  The
+                  <code class="graf--code-inline">
+                   viewType
+                  </code>
+                  will tell which view we are using i.e. either
+                  <code class="graf--code-inline">
+                   item_view_1
+                  </code>
+                  or
+                  <code class="graf--code-inline">
+                   item_view_2
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   textData
+                  </code>
+                  will store the data that will be displayed on the TextView.
+                 </p>
+                 <h4 class="graf--h3">
+                  Adapter for RecyclerView
+                 </h4>
+                 <p class="graf--p">
+                  Now, for the RecyclerView, we need to create an Adapter class that will store all the logic of RecyclerView i.e. when to display which view.
+                 </p>
+                 <p class="graf--p">
+                  Create an Adapter class named
+                  <code class="graf--code-inline">
+                   RecyclerViewAdapter
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  In the RecyclerViewAdapter class, we will check if the desired view is
+                  <code class="graf--code-inline">
+                   item_view_1
+                  </code>
+                  then the content of item_view_1 will be displayed otherwise we will display the content of
+                  <code class="graf--code-inline">
+                   item_view_2
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  The following is the code for the
+                  <code class="graf--code-inline">
+                   RecyclerViewAdapter
+                  </code>
+                  class:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class RecyclerViewAdapter(context: Context, list: ArrayList&lt;Data&gt;) :
+    RecyclerView.Adapter&lt;RecyclerView.ViewHolder&gt;() {
+
+    companion object {
+        const val VIEW_TYPE_ONE = 1
+        const val VIEW_TYPE_TWO = 2
+    }
+
+    private val context: Context = context
+    var list: ArrayList&lt;Data&gt; = list
+
+    private inner class View1ViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        var message: TextView = itemView.findViewById(R.id.textView)
+        fun bind(position: Int) {
+            val recyclerViewModel = list[position]
+            message.text = recyclerViewModel.textData
+        }
+    }
+
+    private inner class View2ViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        var message: TextView = itemView.findViewById(R.id.textView)
+        fun bind(position: Int) {
+            val recyclerViewModel = list[position]
+            message.text = recyclerViewModel.textData
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        if (viewType == VIEW_TYPE_ONE) {
+            return View1ViewHolder(
+                LayoutInflater.from(context).inflate(R.layout.item_view_1, parent, false)
+            )
+        }
+        return View2ViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.item_view_2, parent, false)
+        )
+    }
+
+    override fun getItemCount(): Int {
+        return list.size
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (list[position].viewType === VIEW_TYPE_ONE) {
+            (holder as View1ViewHolder).bind(position)
+        } else {
+            (holder as View2ViewHolder).bind(position)
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return list[position].viewType
+    }
+}</code></pre>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   Note:
+                  </b>
+                  In the
+                  <code class="graf--code-inline">
+                   getItemViewType
+                  </code>
+                  , we are returning the id of the view which is always unique.
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  Adding RecyclerView in our project
+                 </h4>
+                 <p class="graf--p">
+                  Now, add RecyclerView in the
+                  <code class="graf--code-inline">
+                   activity_main.xml
+                  </code>
+                  . The following is the code for
+                  <code class="graf--code-inline">
+                   activity_main.xml
+                  </code>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+
+    &lt;androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, the thing to do is just add the data to the views. The following is the code for
+                  <code class="graf--code-inline">
+                   MainActivity
+                  </code>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    private lateinit var recyclerView: RecyclerView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val dataList = ArrayList&lt;Data&gt;()
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "1. Hi! I am in View 1"))
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "2. Hi! I am in View 2"))
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "3. Hi! I am in View 3"))
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "4. Hi! I am in View 4"))
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "5. Hi! I am in View 5"))
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "6. Hi! I am in View 6"))
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "7. Hi! I am in View 7"))
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "8. Hi! I am in View 8"))
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "9. Hi! I am in View 9"))
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "10. Hi! I am in View 10"))
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_ONE, "11. Hi! I am in View 11"))
+        dataList.add(Data(RecyclerViewAdapter.VIEW_TYPE_TWO, "12. Hi! I am in View 12"))
+
+        val adapter = RecyclerViewAdapter(this, dataList)
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, run the application on your device and you will see something like below:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="RecyclerView Multiple View Types in Android" class="graf-image" src="/images/recyclerview-multiple-view-types-in-android-output-8c486729e4f7e1cc.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  This is how you can implement multiple views in a RecyclerView.
+                  <a class="markup--anchor" href="https://github.com/mishra3452/RecyclerView-MultiType-Example" target="_blank">
+                   You can find the whole project from here
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  I hope you enjoyed this blog. Do share this blog with your fellow developers to spread the knowledge.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Happy Learning :)
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Also, Let’s connect on
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://twitter.com/hiii_sumit" target="_blank">
+                     Twitter
+                    </a>
+                   </span>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://www.linkedin.com/in/mishra3452/" target="_blank">
+                     Linkedin
+                    </a>
+                   </span>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://github.com/mishra3452" target="_blank">
+                     Github
+                    </a>
+                   </span>
+                   , and
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://www.facebook.com/mishra3452" target="_blank">
+                     Facebook
+                    </a>
+                   </span>
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Difference between List and Array types in Kotlin" class="ui centered image" src="/images/difference-between-list-and-array-types-in-kotlin-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Difference between List and Array types in Kotlin
+           </div>
+           <div class="meta">
+            27th April 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn the difference between the List and the Array in Kotlin. We will see when to use List and when to use Array in Kotlin.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="What are Reified Types in Kotlin?" class="ui centered image" src="/images/what-are-reified-types-in-kotlin-banner-fa188513e9b18158.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            What are Reified Types in Kotlin?
+           </div>
+           <div class="meta">
+            23rd May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn about Reified Types that are used in Kotlin. We will learn it by example.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to create multiple apk files for android application" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to create multiple apk files for android application
+           </div>
+           <div class="meta">
+            30th August 2017
+           </div>
+           <div class="description">
+            Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="The powerful tool DiffUtil in RecyclerView - Android Tutorial" class="ui centered image" src="/images/banner-diffutil.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            The powerful tool DiffUtil in RecyclerView - Android Tutorial
+           </div>
+           <div class="meta">
+            6th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about DiffUtil in RecyclerView. How it is good from the traditional way of using RecyclerView. We will discuss in details
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How does RecyclerView work internally?" class="ui centered image" src="/images/banner-recyclerview-working-3a65a777947be8b6.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How does RecyclerView work internally?
+           </div>
+           <div class="meta">
+            20th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to talk about how recyclerView works internally and how the recycling of views happen. We would also discuss the benefit of using viewholders in recyclerView.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android User Interface — View Components" class="ui centered image" src="/images/android-user-interface-view-components-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android User Interface — View Components
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

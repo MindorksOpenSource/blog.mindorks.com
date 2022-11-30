@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Build Material and Dark Themes Apps Using Style in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/build-material-and-dark-themes-apps-using-style-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Build Material and Dark Themes Apps Using Style in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/build-material-and-dark-themes-apps-using-style-in-android" property="og:url"/>
+  <meta content="/images/build-material-and-dark-themes-apps-using-style-in-android-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to build material and dark themes apps using styles in Android. We will see how we can change the look of the application just by writing some styles code for our application." property="og:description"/>
+  <meta content="Build Material and Dark Themes Apps Using Style in Android" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to build material and dark themes apps using styles in Android. We will see how we can change the look of the application just by writing some styles code for our application." name="twitter:description"/>
+  <meta content="/images/build-material-and-dark-themes-apps-using-style-in-android-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to build material and dark themes apps using styles in Android. We will see how we can change the look of the application just by writing some styles code for our application." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:369,data:{id:369,title:"Build Material and Dark Themes Apps Using Style in Android",description:"In this blog, we will learn how to build material and dark themes apps using styles in Android. We will see how we can change the look of the application just by writing some styles code for our application.",text:'<h1 class="graf--h1">Build Material and Dark Themes Apps Using Style in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/build-material-and-dark-themes-apps-using-style-in-android-banner.png class=\'graf-image\' alt=\'Build Material and Dark Themes Apps Using Style in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">The look and feel of the Android application are very important in increasing the users of that application. There are various ways of providing a better and interactive UI for the users. One way is by using Android Theming System. It can be used to provide a better user experience to the users but apart from that, there are various other benefits of using themes from the developer point of view. They are:</p><ul><li><b class="graf--bold">Reusable layouts:</b> The effective use of a theming system enables the layouts to be used again and again without writing codes for a different but similar kind of layout.</li><li><b class="graf--bold">Code maintainability:</b> Since the layouts are being reused again and again, it leads to code maintainability i.e. lesser the number of lines of code, better is the code maintenance. </li><li><b class="graf--bold">Theming:</b> You can use various modern-day practice for Android development like a Material theme or Dark theme in your application for better user experience.</li></ul><p class="graf--p">So, in this blog, we will be learning how to build material and dark themes app using styles in Android. Following is the timeline of the whole blog:</p><ul><li>Difference between themes and styles</li><li>Material Theming</li><li>Dark Theme</li><li>Closing note</li></ul><p class="graf--p">So, let&#x27;s get started.</p><h4 class="graf--h3">Difference between themes and styles</h4><p class="graf--p">Have you ever come to a situation when you try to implement some style or theme to your application but that doesn&#x27;t work well? Most of the Android developers don&#x27;t know the basic difference between the themes and styles. So, before diving deeper into the Material theme and Dark theme, we should learn the difference between the themes and styles.</p><p class="graf--p">The biggest reason why everyone gets confused between styles and themes is that for styles we have one tag named <b class="graf--bold"><i class="graf--italic">&lt;style&gt;</i></b> but there is nothing called <b class="graf--bold"><i class="graf--italic">&lt;theme&gt;</i></b> tag in Android. Following are the differences between these two:</p><ul><li><b class="graf--bold">Usage: </b>A style is a collection of attributes and is used for a particular view only and nothing else. While on the other side, a theme is a type of style and can be used on the entire app or activity or view and not only on a particular view type.</li><li><b class="graf--bold">Key-value:</b> You can think of styles as a map because it has a key and its value. So, we have view attributes and for that view attributes, we have some values associated with it in a style. While in theme, we have theme attributes and values. Following is an example of a style:</li></ul> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/build-material-and-dark-themes-apps-using-style-in-android-style-example.jpg class=\'graf-image\' alt=\'Build Material and Dark Themes Apps Using Style in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Following is an example of theme:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/build-material-and-dark-themes-apps-using-style-in-android-theme-example.jpg class=\'graf-image\' alt=\'Build Material and Dark Themes Apps Using Style in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Sometimes we use the <b class="graf--bold"><i class="graf--italic">?attr/</i></b> in our code like below:</p><pre><code class="language-java graf graf--code">&lt;item name="android:background"&gt;?attr/colorAccent&lt;/item&gt;</code></pre><ul><li><b class="graf--bold">Way of use:</b> There is a difference between style and theme on the basis of the way they are applied in the project. If you apply some style on a view then it is just applied to that particular view only and not to its child. But on the other hand, if you apply some theme to a view then that theme will be applied to all it&#x27;s child also.</li></ul> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/build-material-and-dark-themes-apps-using-style-in-android-style-vs-theme.jpg class=\'graf-image\' alt=\'Build Material and Dark Themes Apps Using Style in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><b class="graf--bold">The thing to be noted:</b> In the case of hierarchy, you have to be careful about the theme. Suppose you have one parent view named <b class="graf--bold"><i class="graf--italic">parent1</i></b> and it has two child views named <b class="graf--bold"><i class="graf--italic">child1</i></b> and  <b class="graf--bold"><i class="graf--italic">child2</i></b>. The same <b class="graf--bold"><i class="graf--italic">android:background</i></b> property is being used in all three views. So, which property is going to be used? In the case of hierarchy, the property of the newest child will be taken into consideration and the rest of the values of the parents will be ignored. So, in our example, the values of the properties used in the <b class="graf--bold"><i class="graf--italic">child1</i></b> and <b class="graf--bold"><i class="graf--italic">child2</i></b> will be used any the value of <b class="graf--bold"><i class="graf--italic">parent1</i></b> will be ignored.</p><h4 class="graf--h3">Material Theming</h4><p class="graf--p">So, we have seen the difference between styles and themes. Now its time to learn Material Theming.</p><p class="graf--p">Material Theming is used to provide a new look and feel to your application by using Material Design. You can achieve a huge range of expressiveness in your application by using Material Theming.</p><p class="graf--p">The Material Components themes have a number of attributes that are used to style an element on a global scale. All the attributes can be broadly divided into three categories:</p><ol><li>Color</li><li>Typography</li><li>Shape</li></ol><p class="graf--p">Just by providing the values to all the above three mentioned categories, you can achieve a huge range of quality design in your application.</p><h4 class="graf--h3">Color</h4><p class="graf--p">There are various attributes related to colour in Material theming. The attributes mainly consist of primary, secondary, surface, error, and <i class="graf--italic">on</i> variant of these colours. Following is the description of all these attributes:</p><ul><li><b class="graf--bold">colorPrimary:</b> This is the primary colour that is used for your application. This will be your base or you can say your parent colour.</li><li><b class="graf--bold">colorOnPrimary:</b> This is used for the elements that are placed over your primary colour. So, this is in contrast with your primary colour. This very important because if you set your primary colour and the element residing on the primary colour to be same, then it will give a bad user experience because the user will not be able to differentiate between these two.</li><li><b class="graf--bold">colorPrimaryVarient:</b> This is a slightly lighter or darker variant of your primary colour.</li><li><b class="graf--bold">colorSecondary:</b> This is the colour that is used most after the primary colour in any application.</li><li><b class="graf--bold">colorOnSecondary:</b> This is used when you want to set the colour of such an element that is present on the top of some secondary colour.</li><li><b class="graf--bold">colorSecondaryVarient:</b> This is a slightly lighter or darker variant of your seconday colour.</li><li><b class="graf--bold">colorSurface:</b> This is used when you want to set the colour of a surface. That surface can be anything like Material Sheets.</li><li><b class="graf--bold">colorOnSurface:</b> This colour is used for the elements that are present on the surface of the colorSurface.</li><li><b class="graf--bold">colorError:</b> This colour is used to show some error message. Generally, it is red in colour.</li><li><b class="graf--bold">colorOnError:</b> This colour is used for the elements that are displayed on the top of the colorError.</li><li><b class="graf--bold">colorBackground:</b> This colour is used for the content that is behind all other screens content.</li><li><b class="graf--bold">colorOnBackground:</b> This is used for the elements that are placed on top of colorBackground.</li></ul><p class="graf--p">You can use the above colours in your app theme by using the below code:</p><pre><code class="language-java graf graf--code">&lt;style name="AppTheme" parent="Theme.MaterialComponents.Light"&gt;\n    &lt;item name="colorPrimary"&gt;#0336ff&lt;/item&gt;\n    &lt;item name="colorOnPrimary"&gt;#ffffff&lt;/item&gt;\n    &lt;item name="colorPrimaryVariant"&gt;#0035c9&lt;/item&gt;\n    &lt;item name="colorSecondary"&gt;#ffde03&lt;/item&gt;\n    &lt;item name="colorOnSecondary"&gt;#000000&lt;/item&gt;\n    &lt;item name="colorSecondaryVariant"&gt;#ffc000&lt;/item&gt;\n    &lt;item name="colorSurface"&gt;#ffffff&lt;/item&gt;\n    &lt;item name="colorOnSurface"&gt;#000000&lt;/item&gt;\n    &lt;item name="colorError"&gt;#b00020&lt;/item&gt;\n    &lt;item name="colorOnError"&gt;#FFFFFF&lt;/item&gt;\n    &lt;item name="android:colorBackground"&gt;@color/background&lt;/item&gt;\n    &lt;item name="colorOnBackground"&gt;#212121&lt;/item&gt;\n&lt;/style&gt;</code></pre><p class="graf--p">If you are finding it difficult to get correct secondary colour for your primary colour or anything related to colours, then you can use the <a class="markup--anchor" target="_blank" href="https://material.io/resources/color/">Material Color Tool</a>.</p><h4 class="graf--h3">Typography</h4><p class="graf--p">Whenever you are using some text in your application then you should use some pre-defined type scale that is recommended for Material Design. So, you don&#x27;t need to write code for different text for different screens. All you need to do is just use the type scales defined by Material Design. </p><p class="graf--p">Various type scales that can be used are:</p><ul><li>textAppearanceHeadline1: Light, 96sp</li><li>textAppearanceHeadline2: Light, 60sp</li><li>textAppearanceHeadline3: Regular, 48sp</li><li>textAppearanceHeadline4: Regular, 34sp</li><li>textAppearanceHeadline5: Regular, 24sp</li><li>textAppearanceHeadline6: medium, 20sp</li><li>textAppearanceSubtitle1: Regular, 16sp</li><li>textAppearanceSubtitle2: Medium, 14sp</li><li>textAppearanceBody1: Regular, 16sp</li><li>textAppearanceBody2: Regular, 14sp</li><li>textAppearanceCaption: Regular, 12sp</li><li>textAppearanceButton: Regular, 14sp, all caps</li><li>textAppearanceOverline: Regular, 12sp, all caps</li></ul><p class="graf--p">To use this in your code, you can use as below:</p><pre><code class="language-java graf graf--code">&lt;TextView ...\n    android:textAppearance="?attr/textAppearanceBody1"/&gt;</code></pre><p class="graf--p">If you want to customize any of the Material Components text appearance styles, then you can do so by:</p><pre><code class="language-java graf graf--code">&lt;style name="AppTheme" parent="Theme.MaterialComponents.Light"&gt;\n    ...\n    &lt;item name="textAppearanceHeadline1"&gt;@style/AppTextAppearance.Headline1&lt;/item&gt;\n&lt;/style&gt;</code></pre><h4 class="graf--h3">Shape</h4><p class="graf--p">To use shapes in your application, there are certain guidelines that must be followed. The shape can be divided into small, medium, and large shape types. For the corners of a shape, you can use either rounded corners or cut corners. Apart from this, you can set the corner radius and also you can set which corners are to be made rounded. All the corner related things are done in &quot;<b class="graf--bold"><i class="graf--italic">cornerFamily</i></b>&quot; attribute.</p><p class="graf--p">As discussed earlier, the following are the shapes that are recommended in Material Design:</p><ul><li><b class="graf--bold">shapeAppearanceSmallComponent</b>: This is generally used for small components like Buttons and chips.</li><li><b class="graf--bold">shapeAppearanceMediumComponent</b>:  This is used for medium size shapes like cards.</li><li><b class="graf--bold">shapeAppearanceLargeComponent</b>: This is used for large shapes like bottom sheets.</li></ul><p class="graf--p">You can customize the above three in the same way as done in the case of typography.</p><h4 class="graf--h3">Dark Theme</h4><p class="graf--p">When Android 10 was released then the most popular and trending thing after the name of the Android version was the Dark Theme. This is made available in Android 10 or API level 29. By using Dark Theme, the power usage of the mobile will be increased and the users can use the application in a low-light environment also without putting stress on the eyes.</p><p class="graf--p">To use Dark Theme in your app, you need to set your app&#x27;s theme to inherit from a <b class="graf--bold"><i class="graf--italic">DayNight</i></b> theme:</p><pre><code class="language-java graf graf--code">&lt;style name="AppTheme" parent="Theme.AppCompat.DayNight"&gt;</code></pre><p class="graf--p">If you have upgraded the App theme to MaterialComponent, then you can use:</p><pre><code class="language-java graf graf--code">&lt;style name="AppTheme" parent="Theme.MaterialComponents.DayNight"&gt;</code></pre><p class="graf--p">Apart from the Dark Theme, your users can change the theme of the app while using them. The available options are:</p><ul><li>Light Theme</li><li>Dark Theme</li><li>Set by Battery Saver <i class="graf--italic">(the recommended default option for Android P or before)</i></li><li>System default <i class="graf--italic">(the recommended default option for Android Q).</i></li></ul><p class="graf--p">Now, to update the theme dynamically we have to use,</p><pre><code class="language-java graf graf--code">AppCompatDelegate.setDefaultNightMode(/**Your Mode**/)</code></pre><p class="graf--p">Example,</p><pre><code class="language-java graf graf--code">object ThemeHelper {\n    private const val lightMode = "light"\n    private const val darkMode = "dark"\n    private const val batterySaverMode = "battery"\n    const val default = "default"\n\n    fun applyTheme(theme: String) {\n        when (theme) {\n            lightMode -&gt; AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)\n            darkMode -&gt; AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)\n            batterySaverMode -&gt; AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)\n            default -&gt; AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)\n\n        }\n    }\n}</code></pre><p class="graf--p">So, we have seen how to implement a Dark Theme in the Android app. But are we done with that? No. Let&#x27;s take an example. Suppose, we are having an app that has few texts written on it using some dark colour. Then if you change the theme of your app to Dark Theme, then there might be some cases when the theme will be changed to dark mode and the text is still in dark colour. This will provide a very bad user experience because the dark text on the dark theme is unreadable. </p><p class="graf--p">The reason behind this is the hard-coded colours in our styles or in our layouts, something like this:</p><pre><code class="language-java graf graf--code">&lt;TextView ...\n    textColor="#000000" /&gt;</code></pre><p class="graf--p">So, always prefer to use theme attributes for colours.</p><pre><code class="language-java graf graf--code">&lt;TextView ...\n    textColor="?android:attr/textColorPrimary" /&gt;</code></pre><p class="graf--p">In general, the primary colour should be like a mid-toned colour but in the case of Dark Theme, your primary colour should be a desaturated lighter version. So, it doesn&#x27;t have that much contrast.</p><blockquote class="graf--blockquote">Don&#x27;t use bright colours for large surfaces because they emit too much brightness.</blockquote><p class="graf--p">To find which colour is suitable for primary colour in general case and in Dark Theme, you can use the <a class="markup--anchor" target="_blank" href="https://material.io/resources/color/#!/?view.left=0&view.right=0">Material Colour Tool</a>.</p><h4 class="graf--h3">Closing note</h4><p class="graf--p">In this blog, we learned how to use the Material theme and Dark Theme using Styles in Android. For more information on Material Theme, you can visit the <a class="markup--anchor" target="_blank" href="https://material.io/resources/build-a-material-theme/#">Material Design website</a>.</p><p class="graf--p">Hope you learned something new today.</p><p class="graf--p">Have a look at our Android tutorials <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://mindorks.com/android-tutorial">here</a></b>.</p><p class="graf--p">Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/">blogging website</a>.</p><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://bootcamp.mindorks.com/">Apply Now: MindOrks Android Online Course and Learn Advanced Android</a></b></p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/build-material-and-dark-themes-apps-using-style-in-android-banner.png",blog_url:"build-material-and-dark-themes-apps-using-style-in-android",likes:0,rank:0,category:1,published_at:"26th October 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:197,title:"Android Material Tabs in Kotlin",description:"How to create Material Tabs in Android in kotlin?",author:14897,img_url:"/images/android_materialtabs_mindorks_feature_image.png",blog_url:"android-material-tabs-with-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:3.138566493988037},{id:311,title:"Implementing Dark Mode Theme in Android",description:"In this blog, we will learn how to implement the dark theme in Android app in Android Q",author:9959,img_url:"/images/banner-dark-mode.png",blog_url:"implementing-dark-mode-theme-in-android",likes:0,rank:0,category:1,published_at:"7th August 2019",score:3.138566493988037},{id:367,title:"Using Jetpack Compose to build UI in Android",description:"In this blog, we will build and learn how to Use Jetpack Compose to build UI in Android. We will learn how to setup and work with it. We will also discuss how to make few other components as well",author:9959,img_url:"/images/banner_jetpack.png",blog_url:"using-jetpack-compose-to-build-ui-in-android",likes:0,rank:0,category:1,published_at:"25th October 2019",score:2.2081031799316406},{id:310,title:"Speed up Gradle build for Android to save your time",description:"In this blog, we will talk about how can we speed up your gradle build to run it quickly and save your time",author:9959,img_url:"/images/banner-speed-up-gradle.png",blog_url:"speed-up-gradle-build-for-android-to-save-your-time",likes:0,rank:0,category:1,published_at:"6th August 2019",score:1.8890047073364258},{id:315,title:"How to build a Modular Android App Architecture?",description:"In this blog, we will learn how can we Build a Modular Android App Architecture. We will learn about dynamic-feature and dynamic delivery. We will also learn how can we use a library module to modularise the app's architecture",author:9959,img_url:"/images/banner-modular-arch.png",blog_url:"how-to-build-a-modular-android-app-architecture",likes:0,rank:0,category:1,published_at:"19th August 2019",score:1.8890047073364258},{id:379,title:"Measure Method Execution Time In Android Debug Build",description:"In this blog, we will learn how to measure the method execution time in debug build of your application. Method execution time will help in reducing the time complexity of your method and this in return accelerates your Android App performance. ",author:14897,img_url:"/images/measure-method-execution-time-in-android-debug-build-banner.png",blog_url:"measure-method-execution-time-in-android-debug-build",likes:0,rank:0,category:1,published_at:"16th December 2019",score:1.8890047073364258}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            26th October 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Build Material and Dark Themes Apps Using Style in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Build Material and Dark Themes Apps Using Style in Android" class="graf-image" src="/images/build-material-and-dark-themes-apps-using-style-in-android-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  The look and feel of the Android application are very important in increasing the users of that application. There are various ways of providing a better and interactive UI for the users. One way is by using Android Theming System. It can be used to provide a better user experience to the users but apart from that, there are various other benefits of using themes from the developer point of view. They are:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Reusable layouts:
+                   </b>
+                   The effective use of a theming system enables the layouts to be used again and again without writing codes for a different but similar kind of layout.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Code maintainability:
+                   </b>
+                   Since the layouts are being reused again and again, it leads to code maintainability i.e. lesser the number of lines of code, better is the code maintenance.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Theming:
+                   </b>
+                   You can use various modern-day practice for Android development like a Material theme or Dark theme in your application for better user experience.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, in this blog, we will be learning how to build material and dark themes app using styles in Android. Following is the timeline of the whole blog:
+                 </p>
+                 <ul>
+                  <li>
+                   Difference between themes and styles
+                  </li>
+                  <li>
+                   Material Theming
+                  </li>
+                  <li>
+                   Dark Theme
+                  </li>
+                  <li>
+                   Closing note
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, let's get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  Difference between themes and styles
+                 </h4>
+                 <p class="graf--p">
+                  Have you ever come to a situation when you try to implement some style or theme to your application but that doesn't work well? Most of the Android developers don't know the basic difference between the themes and styles. So, before diving deeper into the Material theme and Dark theme, we should learn the difference between the themes and styles.
+                 </p>
+                 <p class="graf--p">
+                  The biggest reason why everyone gets confused between styles and themes is that for styles we have one tag named
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    &lt;style&gt;
+                   </i>
+                  </b>
+                  but there is nothing called
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    &lt;theme&gt;
+                   </i>
+                  </b>
+                  tag in Android. Following are the differences between these two:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Usage:
+                   </b>
+                   A style is a collection of attributes and is used for a particular view only and nothing else. While on the other side, a theme is a type of style and can be used on the entire app or activity or view and not only on a particular view type.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Key-value:
+                   </b>
+                   You can think of styles as a map because it has a key and its value. So, we have view attributes and for that view attributes, we have some values associated with it in a style. While in theme, we have theme attributes and values. Following is an example of a style:
+                  </li>
+                 </ul>
+                 <div class="graf-image graf-caption">
+                  <img alt="Build Material and Dark Themes Apps Using Style in Android" class="graf-image" src="/images/build-material-and-dark-themes-apps-using-style-in-android-style-example.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Following is an example of theme:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Build Material and Dark Themes Apps Using Style in Android" class="graf-image" src="/images/build-material-and-dark-themes-apps-using-style-in-android-theme-example.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Sometimes we use the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    ?attr/
+                   </i>
+                  </b>
+                  in our code like below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;item name="android:background"&gt;?attr/colorAccent&lt;/item&gt;</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Way of use:
+                   </b>
+                   There is a difference between style and theme on the basis of the way they are applied in the project. If you apply some style on a view then it is just applied to that particular view only and not to its child. But on the other hand, if you apply some theme to a view then that theme will be applied to all it's child also.
+                  </li>
+                 </ul>
+                 <div class="graf-image graf-caption">
+                  <img alt="Build Material and Dark Themes Apps Using Style in Android" class="graf-image" src="/images/build-material-and-dark-themes-apps-using-style-in-android-style-vs-theme.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   The thing to be noted:
+                  </b>
+                  In the case of hierarchy, you have to be careful about the theme. Suppose you have one parent view named
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    parent1
+                   </i>
+                  </b>
+                  and it has two child views named
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    child1
+                   </i>
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    child2
+                   </i>
+                  </b>
+                  . The same
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    android:background
+                   </i>
+                  </b>
+                  property is being used in all three views. So, which property is going to be used? In the case of hierarchy, the property of the newest child will be taken into consideration and the rest of the values of the parents will be ignored. So, in our example, the values of the properties used in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    child1
+                   </i>
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    child2
+                   </i>
+                  </b>
+                  will be used any the value of
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    parent1
+                   </i>
+                  </b>
+                  will be ignored.
+                 </p>
+                 <h4 class="graf--h3">
+                  Material Theming
+                 </h4>
+                 <p class="graf--p">
+                  So, we have seen the difference between styles and themes. Now its time to learn Material Theming.
+                 </p>
+                 <p class="graf--p">
+                  Material Theming is used to provide a new look and feel to your application by using Material Design. You can achieve a huge range of expressiveness in your application by using Material Theming.
+                 </p>
+                 <p class="graf--p">
+                  The Material Components themes have a number of attributes that are used to style an element on a global scale. All the attributes can be broadly divided into three categories:
+                 </p>
+                 <ol>
+                  <li>
+                   Color
+                  </li>
+                  <li>
+                   Typography
+                  </li>
+                  <li>
+                   Shape
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  Just by providing the values to all the above three mentioned categories, you can achieve a huge range of quality design in your application.
+                 </p>
+                 <h4 class="graf--h3">
+                  Color
+                 </h4>
+                 <p class="graf--p">
+                  There are various attributes related to colour in Material theming. The attributes mainly consist of primary, secondary, surface, error, and
+                  <i class="graf--italic">
+                   on
+                  </i>
+                  variant of these colours. Following is the description of all these attributes:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    colorPrimary:
+                   </b>
+                   This is the primary colour that is used for your application. This will be your base or you can say your parent colour.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colorOnPrimary:
+                   </b>
+                   This is used for the elements that are placed over your primary colour. So, this is in contrast with your primary colour. This very important because if you set your primary colour and the element residing on the primary colour to be same, then it will give a bad user experience because the user will not be able to differentiate between these two.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colorPrimaryVarient:
+                   </b>
+                   This is a slightly lighter or darker variant of your primary colour.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colorSecondary:
+                   </b>
+                   This is the colour that is used most after the primary colour in any application.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colorOnSecondary:
+                   </b>
+                   This is used when you want to set the colour of such an element that is present on the top of some secondary colour.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colorSecondaryVarient:
+                   </b>
+                   This is a slightly lighter or darker variant of your seconday colour.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colorSurface:
+                   </b>
+                   This is used when you want to set the colour of a surface. That surface can be anything like Material Sheets.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colorOnSurface:
+                   </b>
+                   This colour is used for the elements that are present on the surface of the colorSurface.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colorError:
+                   </b>
+                   This colour is used to show some error message. Generally, it is red in colour.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colorOnError:
+                   </b>
+                   This colour is used for the elements that are displayed on the top of the colorError.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colorBackground:
+                   </b>
+                   This colour is used for the content that is behind all other screens content.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    colorOnBackground:
+                   </b>
+                   This is used for the elements that are placed on top of colorBackground.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  You can use the above colours in your app theme by using the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;style name="AppTheme" parent="Theme.MaterialComponents.Light"&gt;
+    &lt;item name="colorPrimary"&gt;#0336ff&lt;/item&gt;
+    &lt;item name="colorOnPrimary"&gt;#ffffff&lt;/item&gt;
+    &lt;item name="colorPrimaryVariant"&gt;#0035c9&lt;/item&gt;
+    &lt;item name="colorSecondary"&gt;#ffde03&lt;/item&gt;
+    &lt;item name="colorOnSecondary"&gt;#000000&lt;/item&gt;
+    &lt;item name="colorSecondaryVariant"&gt;#ffc000&lt;/item&gt;
+    &lt;item name="colorSurface"&gt;#ffffff&lt;/item&gt;
+    &lt;item name="colorOnSurface"&gt;#000000&lt;/item&gt;
+    &lt;item name="colorError"&gt;#b00020&lt;/item&gt;
+    &lt;item name="colorOnError"&gt;#FFFFFF&lt;/item&gt;
+    &lt;item name="android:colorBackground"&gt;@color/background&lt;/item&gt;
+    &lt;item name="colorOnBackground"&gt;#212121&lt;/item&gt;
+&lt;/style&gt;</code></pre>
+                 <p class="graf--p">
+                  If you are finding it difficult to get correct secondary colour for your primary colour or anything related to colours, then you can use the
+                  <a class="markup--anchor" href="https://material.io/resources/color/" target="_blank">
+                   Material Color Tool
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  Typography
+                 </h4>
+                 <p class="graf--p">
+                  Whenever you are using some text in your application then you should use some pre-defined type scale that is recommended for Material Design. So, you don't need to write code for different text for different screens. All you need to do is just use the type scales defined by Material Design.
+                 </p>
+                 <p class="graf--p">
+                  Various type scales that can be used are:
+                 </p>
+                 <ul>
+                  <li>
+                   textAppearanceHeadline1: Light, 96sp
+                  </li>
+                  <li>
+                   textAppearanceHeadline2: Light, 60sp
+                  </li>
+                  <li>
+                   textAppearanceHeadline3: Regular, 48sp
+                  </li>
+                  <li>
+                   textAppearanceHeadline4: Regular, 34sp
+                  </li>
+                  <li>
+                   textAppearanceHeadline5: Regular, 24sp
+                  </li>
+                  <li>
+                   textAppearanceHeadline6: medium, 20sp
+                  </li>
+                  <li>
+                   textAppearanceSubtitle1: Regular, 16sp
+                  </li>
+                  <li>
+                   textAppearanceSubtitle2: Medium, 14sp
+                  </li>
+                  <li>
+                   textAppearanceBody1: Regular, 16sp
+                  </li>
+                  <li>
+                   textAppearanceBody2: Regular, 14sp
+                  </li>
+                  <li>
+                   textAppearanceCaption: Regular, 12sp
+                  </li>
+                  <li>
+                   textAppearanceButton: Regular, 14sp, all caps
+                  </li>
+                  <li>
+                   textAppearanceOverline: Regular, 12sp, all caps
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  To use this in your code, you can use as below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView ...
+    android:textAppearance="?attr/textAppearanceBody1"/&gt;</code></pre>
+                 <p class="graf--p">
+                  If you want to customize any of the Material Components text appearance styles, then you can do so by:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;style name="AppTheme" parent="Theme.MaterialComponents.Light"&gt;
+    ...
+    &lt;item name="textAppearanceHeadline1"&gt;@style/AppTextAppearance.Headline1&lt;/item&gt;
+&lt;/style&gt;</code></pre>
+                 <h4 class="graf--h3">
+                  Shape
+                 </h4>
+                 <p class="graf--p">
+                  To use shapes in your application, there are certain guidelines that must be followed. The shape can be divided into small, medium, and large shape types. For the corners of a shape, you can use either rounded corners or cut corners. Apart from this, you can set the corner radius and also you can set which corners are to be made rounded. All the corner related things are done in "
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    cornerFamily
+                   </i>
+                  </b>
+                  " attribute.
+                 </p>
+                 <p class="graf--p">
+                  As discussed earlier, the following are the shapes that are recommended in Material Design:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    shapeAppearanceSmallComponent
+                   </b>
+                   : This is generally used for small components like Buttons and chips.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    shapeAppearanceMediumComponent
+                   </b>
+                   :  This is used for medium size shapes like cards.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    shapeAppearanceLargeComponent
+                   </b>
+                   : This is used for large shapes like bottom sheets.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  You can customize the above three in the same way as done in the case of typography.
+                 </p>
+                 <h4 class="graf--h3">
+                  Dark Theme
+                 </h4>
+                 <p class="graf--p">
+                  When Android 10 was released then the most popular and trending thing after the name of the Android version was the Dark Theme. This is made available in Android 10 or API level 29. By using Dark Theme, the power usage of the mobile will be increased and the users can use the application in a low-light environment also without putting stress on the eyes.
+                 </p>
+                 <p class="graf--p">
+                  To use Dark Theme in your app, you need to set your app's theme to inherit from a
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    DayNight
+                   </i>
+                  </b>
+                  theme:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;style name="AppTheme" parent="Theme.AppCompat.DayNight"&gt;</code></pre>
+                 <p class="graf--p">
+                  If you have upgraded the App theme to MaterialComponent, then you can use:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;style name="AppTheme" parent="Theme.MaterialComponents.DayNight"&gt;</code></pre>
+                 <p class="graf--p">
+                  Apart from the Dark Theme, your users can change the theme of the app while using them. The available options are:
+                 </p>
+                 <ul>
+                  <li>
+                   Light Theme
+                  </li>
+                  <li>
+                   Dark Theme
+                  </li>
+                  <li>
+                   Set by Battery Saver
+                   <i class="graf--italic">
+                    (the recommended default option for Android P or before)
+                   </i>
+                  </li>
+                  <li>
+                   System default
+                   <i class="graf--italic">
+                    (the recommended default option for Android Q).
+                   </i>
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Now, to update the theme dynamically we have to use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">AppCompatDelegate.setDefaultNightMode(/**Your Mode**/)</code></pre>
+                 <p class="graf--p">
+                  Example,
+                 </p>
+                 <pre><code class="language-java graf graf--code">object ThemeHelper {
+    private const val lightMode = "light"
+    private const val darkMode = "dark"
+    private const val batterySaverMode = "battery"
+    const val default = "default"
+
+    fun applyTheme(theme: String) {
+        when (theme) {
+            lightMode -&gt; AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            darkMode -&gt; AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            batterySaverMode -&gt; AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+            default -&gt; AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  So, we have seen how to implement a Dark Theme in the Android app. But are we done with that? No. Let's take an example. Suppose, we are having an app that has few texts written on it using some dark colour. Then if you change the theme of your app to Dark Theme, then there might be some cases when the theme will be changed to dark mode and the text is still in dark colour. This will provide a very bad user experience because the dark text on the dark theme is unreadable.
+                 </p>
+                 <p class="graf--p">
+                  The reason behind this is the hard-coded colours in our styles or in our layouts, something like this:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView ...
+    textColor="#000000" /&gt;</code></pre>
+                 <p class="graf--p">
+                  So, always prefer to use theme attributes for colours.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;TextView ...
+    textColor="?android:attr/textColorPrimary" /&gt;</code></pre>
+                 <p class="graf--p">
+                  In general, the primary colour should be like a mid-toned colour but in the case of Dark Theme, your primary colour should be a desaturated lighter version. So, it doesn't have that much contrast.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  Don't use bright colours for large surfaces because they emit too much brightness.
+                 </blockquote>
+                 <p class="graf--p">
+                  To find which colour is suitable for primary colour in general case and in Dark Theme, you can use the
+                  <a class="markup--anchor" href="https://material.io/resources/color/#!/?view.left=0&amp;view.right=0" target="_blank">
+                   Material Colour Tool
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  Closing note
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how to use the Material theme and Dark Theme using Styles in Android. For more information on Material Theme, you can visit the
+                  <a class="markup--anchor" href="https://material.io/resources/build-a-material-theme/#" target="_blank">
+                   Material Design website
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Hope you learned something new today.
+                 </p>
+                 <p class="graf--p">
+                  Have a look at our Android tutorials
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://mindorks.com/android-tutorial" target="_blank">
+                    here
+                   </a>
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our
+                  <a class="markup--anchor" href="https://blog.mindorks.com/" target="_blank">
+                   blogging website
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://bootcamp.mindorks.com/" target="_blank">
+                    Apply Now: MindOrks Android Online Course and Learn Advanced Android
+                   </a>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Material Tabs in Kotlin" class="ui centered image" src="/images/android_materialtabs_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Material Tabs in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            How to create Material Tabs in Android in kotlin?
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Dark Mode Theme in Android" class="ui centered image" src="/images/banner-dark-mode.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Dark Mode Theme in Android
+           </div>
+           <div class="meta">
+            7th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the dark theme in Android app in Android Q
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Jetpack Compose to build UI in Android" class="ui centered image" src="/images/banner_jetpack.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Jetpack Compose to build UI in Android
+           </div>
+           <div class="meta">
+            25th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will build and learn how to Use Jetpack Compose to build UI in Android. We will learn how to setup and work with it. We will also discuss how to make few other components as well
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Speed up Gradle build for Android to save your time" class="ui centered image" src="/images/banner-speed-up-gradle.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Speed up Gradle build for Android to save your time
+           </div>
+           <div class="meta">
+            6th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how can we speed up your gradle build to run it quickly and save your time
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to build a Modular Android App Architecture?" class="ui centered image" src="/images/banner-modular-arch.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to build a Modular Android App Architecture?
+           </div>
+           <div class="meta">
+            19th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how can we Build a Modular Android App Architecture. We will learn about dynamic-feature and dynamic delivery. We will also learn how can we use a library module to modularise the app's architecture
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Measure Method Execution Time In Android Debug Build" class="ui centered image" src="/images/measure-method-execution-time-in-android-debug-build-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Measure Method Execution Time In Android Debug Build
+           </div>
+           <div class="meta">
+            16th December 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to measure the method execution time in debug build of your application. Method execution time will help in reducing the time complexity of your method and this in return accelerates your Android App performance.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

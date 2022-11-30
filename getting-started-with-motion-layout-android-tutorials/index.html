@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Getting started with Motion Layout: Android Tutorials
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/getting-started-with-motion-layout-android-tutorials" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Getting started with Motion Layout: Android Tutorials" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/getting-started-with-motion-layout-android-tutorials" property="og:url"/>
+  <meta content="/images/motion-layout-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code. " property="og:description"/>
+  <meta content="Getting started with Motion Layout: Android Tutorials" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code. " name="twitter:description"/>
+  <meta content="/images/motion-layout-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code. " name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:240,data:{id:240,title:"Getting started with Motion Layout: Android Tutorials",description:"In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code. ",text:'<h1 class="graf--h1">Getting started with Motion Layout: Android Tutorials</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/motion-layout-banner.png class=\'graf-image\' alt=\'Getting started with Motion Layout: Android Tutorials\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Are you fond of animations? Have you tried writing code for a simple animation in android? If yes, then you know that adding complex animation is possible but time-consuming. That&#x27;s why Google introduced the <b class="graf--bold">MotionLayout</b> in I/O 2018.</p><p class="graf--p">To have a clear understanding of what the MotionLayout can do, please see the animation used in the Youtube app.</p><h4 class="graf--h3"><b class="graf--bold">What is MotionLayout?</b></h4><p class="graf--p">MotionLayout is the new layout in Android, for creating amazing <b class="graf--bold">interactive</b> animations in android. It’s a part of ConstraintLayout 2.0 library to help Android Developers manage motion and widget animation in their applications.</p><p class="graf--p">The <b class="graf--bold">MotionLayout</b> widget can do everything the <b class="graf--bold">Constraint Layout</b> widget can.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/motion-layout-flow-pictorial-representation.png class=\'graf-image\' alt=\'Getting started with Motion Layout: Android Tutorials\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">The  main difference between ConstraintLayout and MotionLayout at the XML  level is that the actual description of what MotionLayout will do is <b class="graf--bold">not</b> necessarily contained in the layout file.Rather, MotionLayout typically keeps all this information in a separate XML file (a <code class="graf--code-inline">MotionScene</code>) that it references, and this information will take precedence over the information in the layout file.This way, the layout file can contain only the Views and their properties — not their positioning or movement.</p><p class="graf--p">To have MotionLayout up and running in your project, and to get a feel of how it works, <b class="graf--bold">you’ll need</b>:</p><ul><li>A starting layout that has the starting constraints</li><li>An ending layout that has the ending constraints</li><li>And a motion scene (which defines our animation)</li></ul><p class="graf--p"><b class="graf--bold">MotionLayout </b>uses a mechanism called <b class="graf--bold"><i class="graf--italic">MotionScene</i></b> to create all animations. If you are using MotionLayout, then you should be familiar with 4 important terms i.e. <b class="graf--bold">MotionScene</b>, <b class="graf--bold">Transition</b>, <b class="graf--bold">KeyFrameSet</b>, <b class="graf--bold">ConstraintSet</b>.</p><ul><li><b class="graf--bold">MotionScene: </b>In the MotionScene, we write all the animations that we want to add in our project. Animation here doesn&#x27;t mean just moving object but, in general, changing their properties with respect to time.</li><li><b class="graf--bold">Transition: </b>A transition describes the change from state A to state B. You can add the start constraint by using <b class="graf--bold"><i class="graf--italic">app:constraintSetStart </i></b>and final one by using <b class="graf--bold"><i class="graf--italic">app:constraintSetEnd</i></b>.</li><li><b class="graf--bold">KeyFrameSet: </b>You can think of an animation as a sequence of frames. Suppose, if we want to move from A to B, then the shortest path will be considered during transition.</li><li><b class="graf--bold">ConstraintSet:</b> Finally, you use ConstraintSet definitions to define starting and final constraints, for each of the View you want to animate. </li></ul><h4 class="graf--h3">Why Motion Layout?</h4><p class="graf--p">The Android framework already provides several ways of adding animation in our application, such as:</p><ul><li><a class="markup--anchor" target="_blank" href="https://developer.android.com/guide/topics/graphics/drawable-animation">Animated Vector Drawable</a></li><li><a class="markup--anchor" target="_blank" href="https://developer.android.com/guide/topics/graphics/prop-animation">Property Animation framework</a></li><li><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/android/animation/LayoutTransition">LayoutTransition animations</a></li><li><a class="markup--anchor" target="_blank" href="https://developer.android.com/training/transitions/">Layout transitions with TransitionManager</a></li><li><a class="markup--anchor" target="_blank" href="https://developer.android.com/reference/android/support/design/widget/CoordinatorLayout">CoordinatorLayout</a></li></ul><p class="graf--p">So, instead of having so many options, why we are using MotionLayout for making animations?MotionLayout was created to bridge the gap between layout transitions and complex motion handling. You  can think of it in terms of capabilities as a mix between the property  animation framework, TransitionManager, and CoordinatorLayout.It let&#x27;s you describe the transition between two layouts (like  TransitionManager), but can animate any properties as well (not just  layout attributes). It supports touch handling and keyframes, allowing developers to easily customize transitions to their own needs.Beyond this scope, the other key difference is that MotionLayout is  fully declarative — you can fully describe in XML a complex  transition — no code is expected (if you need to express motion by code,  the existing property animation framework already provides a great way  of doing it).</p><h4 class="graf--h3">Let&#x27;s get started </h4><p class="graf--p">In this blog, we will try to make the below animation using the MotionLayout.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/motion-layout-example.gif class=\'graf-image\' alt=\'Getting started with Motion Layout: Android Tutorials\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Follow the below steps to use MotionLayout :</p><ul><li>Add ConstraintLayout 2.0 to your <b class="graf--bold"><i class="graf--italic">build.gradle</i></b> dependencies</li></ul><pre><code class="language-java graf graf--code">implementation \'com.android.support.constraint:constraint-layout:2.0.0-alpha2\'</code></pre><ul><li><b class="graf--bold">Starting layout: </b> This will the layout from where your animation will start. In my case the start activity is <b class="graf--bold">MotionStartActivity</b>. Following is the code for the XML file <b class="graf--bold">activity_motion_start.xml. </b>Just 3 views with constraints all set! Two of these will animate and third, will stay static.</li></ul> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/motion-layout-start.png class=\'graf-image\' alt=\'Getting started with Motion Layout: Android Tutorials\' />\n\t\t\t\t\t\t\t\t</div ><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;android.support.constraint.motion.MotionLayout\n    xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:tools="http://schemas.android.com/tools"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    app:layoutDescription="@xml/motion_scene"&gt;\n\n    &lt;ImageView\n        android:id="@+id/movingImageView"\n        android:layout_width="80dp"\n        android:layout_height="80dp"\n        android:src="@drawable/dog"\n        android:layout_marginTop="16dp"\n        android:layout_marginStart="16dp"\n        app:layout_constraintTop_toTopOf="parent"\n        app:layout_constraintStart_toStartOf="parent"/&gt;\n\n    &lt;Button\n        android:id="@+id/button"\n        android:text="Slide Up to move dog towards the bone"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:clickable="false"\n        android:background="#EBA34B"\n        android:padding="8dp"\n        android:layout_marginBottom="8dp"\n        android:layout_marginStart="8dp"\n        android:layout_marginEnd="8dp"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"/&gt;\n\n    &lt;ImageView\n        android:id="@+id/staticImageView"\n        android:src="@drawable/bone"\n        android:layout_width="80dp"\n        android:layout_height="80dp"\n        android:layout_marginTop="16dp"\n        android:layout_marginEnd="16dp"\n        app:layout_constraintTop_toTopOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"/&gt;\n\n&lt;/android.support.constraint.motion.MotionLayout&gt;</code></pre><ul><li><b class="graf--bold">Ending Layout: </b>We then create an ending layout, called <b class="graf--bold">activity_motion_end.xml. </b></li></ul><p class="graf--p"><b class="graf--bold">Note:</b> It only has the two views we intend to animate! (and their final constraints)</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/motion-layout-end-image.png class=\'graf-image\' alt=\'Getting started with Motion Layout: Android Tutorials\' />\n\t\t\t\t\t\t\t\t</div ><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;android.support.constraint.motion.MotionLayout\n    xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"&gt;\n\n    &lt;ImageView\n        android:id="@+id/movingImageView"\n        android:layout_width="80dp"\n        android:layout_height="80dp"\n        android:src="@drawable/dog"\n        android:layout_marginTop="16dp"\n        android:layout_marginStart="16dp"\n        android:layout_marginEnd="16dp"\n        app:layout_constraintTop_toTopOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"/&gt;\n\n    &lt;Button\n        android:id="@+id/button"\n        android:text="Slide Down to move dog away from bone"\n        android:background="#EBA34B"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:padding="8dp"\n        android:layout_marginBottom="8dp"\n        android:layout_marginEnd="8dp"\n        android:layout_marginStart="8dp"\n        android:layout_marginTop="8dp"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent"/&gt;\n\n&lt;/android.support.constraint.motion.MotionLayout&gt;</code></pre><ul><li><b class="graf--bold">Motion Scene: </b>This is the file that defines the type of motion/animation we want and what the starting/ending constraints are. Let’s call it <b class="graf--bold">motion_scene.xml </b>(placed in res/xml/motion_scene.xml)</li></ul><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;MotionScene\n    xmlns:motion="http://schemas.android.com/apk/res-auto"&gt;\n\n    &lt;Transition\n        motion:constraintSetStart="@layout/activity_motion_start"\n        motion:constraintSetEnd="@layout/activity_motion_end"\n        motion:duration="1000"&gt;\n\n        &lt;OnSwipe\n            motion:touchAnchorId="@id/button"\n            motion:touchAnchorSide="top"\n            motion:dragDirection="dragUp"/&gt;\n\n    &lt;/Transition&gt;\n\n&lt;/MotionScene&gt;</code></pre><p class="graf--p">Here we defined a <b class="graf--bold">Transition</b> (the animation) with duration &amp; a start/end point to the layouts. And also a swipe <b class="graf--bold">Trigger</b> on the <i class="graf--italic">button </i>(with up direction)<i class="graf--italic"> — </i>which adds interactivity.</p><p class="graf--p">Also, make sure to add a reference to this motion_scene file in <b class="graf--bold">activity_main </b>using</p><pre><code class="language-java graf graf--code">app:layoutDescription="@xml/motion_scene"</code></pre><p class="graf--p">And that&#x27;s it! A simple motion layout animation is now added to the project.</p><h4 class="graf--h3">Another Example (using KeyFrameSet)</h4><p class="graf--p">Here we will use the KeyFrameSet for animation. KeyFrameSet is a child element of Transition and it can contain  <b class="graf--bold">KeyPosition</b>, <b class="graf--bold">KeyAttribute</b>, and <b class="graf--bold">KeyCycle</b> elements for defining middle  states of animation.</p><ul><li><b class="graf--bold">KeyPosition</b> is used to add a position through which the target element passes when it is animated.</li><li><b class="graf--bold">KeyAttribute</b> is used to add values for attributes for middle state. You  can assign values for standard attributes by directly using the name of  properties as attribute of KeyAttribute element.</li><li><b class="graf--bold">KeyCycle</b> is used to add oscillations during animation. You can specify  the point on the animation at which you want oscillation by using  <b class="graf--bold">framePosition</b> attribute.</li></ul><p class="graf--p">Let&#x27;s take another example, whose <b class="graf--bold">Motion Scene</b> file is :</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;MotionScene xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:motion="http://schemas.android.com/apk/res-auto"&gt;\n    &lt;Transition\n        motion:constraintSetStart="@+id/wish_start"\n        motion:constraintSetEnd="@+id/wish_end"\n        motion:duration="2000"&gt;\n        &lt;OnClick motion:target="@+id/click"/&gt;\n        &lt;KeyFrameSet&gt;\n            &lt;KeyPosition\n                motion:keyPositionType="pathRelative"\n                motion:percentY="0.25"\n                motion:framePosition="50"\n                motion:target="@id/tv1"/&gt;\n            &lt;KeyPosition\n                motion:keyPositionType="pathRelative"\n                motion:percentY="-0.25"\n                motion:framePosition="50"\n                motion:target="@id/tv2"/&gt;\n            &lt;KeyAttribute\n                motion:framePosition="50"\n                motion:target="@id/tv1"\n                android:rotation="-30"/&gt;\n            &lt;KeyAttribute\n                motion:framePosition="50"\n                motion:target="@id/tv2"\n                android:rotation="-30"&gt;\n                &lt;CustomAttribute\n                    motion:attributeName="textSize"\n                    motion:customFloatValue ="20"/&gt;\n            &lt;/KeyAttribute&gt;\n            &lt;KeyCycle\n                motion:framePosition="30"\n                motion:target="@id/tv1"\n                android:rotation="-30"\n                motion:waveShape="bounce"\n                motion:wavePeriod="3"/&gt;\n        &lt;/KeyFrameSet&gt;\n    &lt;/Transition&gt;\n    &lt;ConstraintSet android:id="@+id/wish_start"&gt;\n        &lt;Constraint\n            android:id="@+id/tv1"\n            android:layout_width="wrap_content"\n            android:layout_height="60dp"\n            android:text="hello"\n            motion:layout_constraintEnd_toEndOf="parent"\n            motion:layout_constraintStart_toStartOf="parent"\n            motion:layout_constraintTop_toTopOf="parent"&gt;\n            &lt;CustomAttribute\n                motion:attributeName="textSize"\n                motion:customFloatValue ="50"/&gt;\n        &lt;/Constraint&gt;\n        &lt;Constraint\n            android:id="@+id/tv2"\n            android:layout_width="wrap_content"\n            android:layout_height="60dp"\n            android:text="mindorks"\n            motion:layout_constraintEnd_toEndOf="parent"\n            motion:layout_constraintStart_toStartOf="parent"\n            motion:layout_constraintTop_toBottomOf="@+id/tv1"&gt;\n            &lt;CustomAttribute\n                motion:attributeName="textSize"\n                motion:customFloatValue ="50"/&gt;\n        &lt;/Constraint&gt;\n        &lt;Constraint\n            android:id="@+id/click"\n            style="?android:attr/borderlessButtonStyle"\n            android:layout_width="wrap_content"\n            android:layout_height="wrap_content"\n            android:layout_marginTop="200dp"\n            android:text="click"\n            motion:layout_constraintEnd_toEndOf="parent"\n            motion:layout_constraintStart_toStartOf="parent"\n            motion:layout_constraintTop_toTopOf="parent" /&gt;\n    &lt;/ConstraintSet&gt;\n    &lt;ConstraintSet android:id="@+id/wish_end"&gt;\n        &lt;Constraint\n            android:id="@id/tv1"\n            android:layout_width="wrap_content"\n            android:layout_height="60dp"\n            android:text="HELLO"\n            android:layout_marginTop="400dp"\n            motion:layout_constraintEnd_toEndOf="parent"\n            motion:layout_constraintStart_toStartOf="parent"\n            motion:layout_constraintTop_toTopOf="parent"&gt;\n            &lt;CustomAttribute\n                motion:attributeName="textSize"\n                motion:customFloatValue ="50"/&gt;\n        &lt;/Constraint&gt;\n        &lt;Constraint\n            android:id="@id/tv2"\n            android:layout_width="wrap_content"\n            android:layout_height="60dp"\n            android:text="MINDORKS"\n            android:layout_marginTop="16dp"\n            motion:layout_constraintEnd_toEndOf="parent"\n            motion:layout_constraintStart_toStartOf="parent"\n            motion:layout_constraintTop_toBottomOf="@+id/tv1"&gt;\n            &lt;CustomAttribute\n                motion:attributeName="textSize"\n                motion:customFloatValue ="50"/&gt;\n        &lt;/Constraint&gt;\n        &lt;Constraint\n            android:id="@id/click"\n            style="?android:attr/borderlessButtonStyle"\n            android:layout_width="wrap_content"\n            android:layout_height="wrap_content"\n            android:layout_marginTop="200dp"\n            android:text="click"\n            motion:layout_constraintEnd_toEndOf="parent"\n            motion:layout_constraintStart_toStartOf="parent"\n            motion:layout_constraintTop_toTopOf="parent" /&gt;\n    &lt;/ConstraintSet&gt;\n&lt;/MotionScene&gt;\n</code></pre><p class="graf--p">The layout file for the above example is: </p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;android.support.constraint.motion.MotionLayout\n    xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    android:layout_margin="8dp"\n    android:layout_marginTop="32dp"\n    app:layoutDescription="@xml/keyframeset"&gt;\n    &lt;TextView\n        android:id="@+id/tv1"\n        android:layout_width="wrap_content"\n        android:layout_height="20dp"\n        android:text="Hello"\n        android:layout_marginTop="16dp"\n        app:layout_constraintEnd_toStartOf="@+id/tv2"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent"/&gt;\n    &lt;TextView\n        android:id="@+id/tv2"\n        android:layout_width="wrap_content"\n        android:layout_height="20dp"\n        android:text="MindOrks"\n        android:layout_marginTop="16dp"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toEndOf="@+id/tv1"\n        app:layout_constraintTop_toTopOf="parent"/&gt;\n\n    &lt;Button\n        android:id="@+id/click"\n        style="@style/Widget.AppCompat.Button.Colored"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="Click"\n        android:layout_marginTop="200dp"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent"/&gt;\n\n&lt;/android.support.constraint.motion.MotionLayout&gt;\n</code></pre><h4 class="graf--h3">Limitations of MotionLayout</h4><p class="graf--p">MotionLayout is helpful when we are having less views in our layout because MotionLayout provide its capabilities to its direct children while <b class="graf--bold">TransitionManager</b> can work with nested layouts also.</p><h4 class="graf--h3">When to use MotionLayout?</h4><p class="graf--p">You can use MotionLayout when you need to move,  resize or animate the actual UI elements — buttons, title bar,  etc. i.e. the  elements that user needs to interact with.</p><p class="graf--p">It’s important to realize that motion is here to serve a special purpose and it should not be used to provide some special effect in your application. It  should be used to help the user understand what your application is  doing. The <a class="markup--anchor" target="_blank" href="https://material.io/design/motion/">Material Design principles</a> website is a great introduction to those concepts.</p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">If you want to add some animation in your application then you can use MotionLayout but before adding the MotionLayout, try to find out the feature you are trying to address using the MotionLayout. If you want to add some type of motions to your application then you are good to go with the MotionLayout but if you want some special effect in your application in which there are a number of nested layouts then you should avoid using MotionLayout.</p><p class="graf--p">Happy learning :)</p><p class="graf--p">Team MindOrks.</p>',author:14897,img_url:"/images/motion-layout-banner.png",blog_url:"getting-started-with-motion-layout-android-tutorials",likes:0,rank:0,category:1,published_at:"17th May 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:357,title:"Getting started with Android NDK: Android Tutorial",description:"In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.",author:14897,img_url:"/images/getting-started-with-android-ndk-android-tutorial-banner.png",blog_url:"getting-started-with-android-ndk-android-tutorial",likes:0,rank:0,category:1,published_at:"9th October 2019",score:3.455362319946289},{id:242,title:"Getting Started with ShareSheet in Android Q",description:"In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it .",author:14897,img_url:"/images/sharesheet.jpg",blog_url:"getting-started-with-sharesheet-in-android-q",likes:0,rank:0,category:1,published_at:"17th May 2019",score:3.4461848735809326},{id:248,title:"Getting Started with Firebase RemoteConfig in Android",description:"In this blog, we will learn about the firebase Remote Config feature in Android. By using Firebase Remote Config, we can bring some updates in the App like some text change in the app, without publishing any update of the app on the Play Store.",author:14897,img_url:"/images/getting-started-firebase-remote-config-banner-image.png",blog_url:"getting-started-with-firebase-remote-config-in-android",likes:0,rank:0,category:1,published_at:"22nd May 2019",score:3.4461848735809326},{id:428,title:"Getting started with Lottie Animation in Android",description:"In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie.",author:3003,img_url:"/images/getting-started-with-lottie-banner.png",blog_url:"getting-started-with-lottie-animation-in-android",likes:0,rank:0,category:1,published_at:"28th April 2020",score:3.4461848735809326},{id:230,title:"Getting Started With CameraX Jetpack Support Library",description:"In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.\n",author:14897,img_url:"/images/camerax-jetpack-support-library.png",blog_url:"getting-started-with-camerax",likes:0,rank:0,category:1,published_at:"11th May 2019",score:3.437007188796997},{id:393,title:"Getting started with Kotlin MultiPlatform",description:"In this blog, we will learn how to get started with Kotlin MultiPlatform and run the platform-specific code in our device. We will learn how to setup android and ios apps individually and write same set of core logic for both.",author:9959,img_url:"/images/banner-mpp.png",blog_url:"getting-started-with-kotlin-multi-platform",likes:0,rank:0,category:9,published_at:"26th February 2020",score:3.437007188796997}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            17th May 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Getting started with Motion Layout: Android Tutorials
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Motion Layout: Android Tutorials" class="graf-image" src="/images/motion-layout-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Are you fond of animations? Have you tried writing code for a simple animation in android? If yes, then you know that adding complex animation is possible but time-consuming. That's why Google introduced the
+                  <b class="graf--bold">
+                   MotionLayout
+                  </b>
+                  in I/O 2018.
+                 </p>
+                 <p class="graf--p">
+                  To have a clear understanding of what the MotionLayout can do, please see the animation used in the Youtube app.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   What is MotionLayout?
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  MotionLayout is the new layout in Android, for creating amazing
+                  <b class="graf--bold">
+                   interactive
+                  </b>
+                  animations in android. It’s a part of ConstraintLayout 2.0 library to help Android Developers manage motion and widget animation in their applications.
+                 </p>
+                 <p class="graf--p">
+                  The
+                  <b class="graf--bold">
+                   MotionLayout
+                  </b>
+                  widget can do everything the
+                  <b class="graf--bold">
+                   Constraint Layout
+                  </b>
+                  widget can.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Motion Layout: Android Tutorials" class="graf-image" src="/images/motion-layout-flow-pictorial-representation.png"/>
+                 </div>
+                 <p class="graf--p">
+                  The  main difference between ConstraintLayout and MotionLayout at the XML  level is that the actual description of what MotionLayout will do is
+                  <b class="graf--bold">
+                   not
+                  </b>
+                  necessarily contained in the layout file.Rather, MotionLayout typically keeps all this information in a separate XML file (a
+                  <code class="graf--code-inline">
+                   MotionScene
+                  </code>
+                  ) that it references, and this information will take precedence over the information in the layout file.This way, the layout file can contain only the Views and their properties — not their positioning or movement.
+                 </p>
+                 <p class="graf--p">
+                  To have MotionLayout up and running in your project, and to get a feel of how it works,
+                  <b class="graf--bold">
+                   you’ll need
+                  </b>
+                  :
+                 </p>
+                 <ul>
+                  <li>
+                   A starting layout that has the starting constraints
+                  </li>
+                  <li>
+                   An ending layout that has the ending constraints
+                  </li>
+                  <li>
+                   And a motion scene (which defines our animation)
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   MotionLayout
+                  </b>
+                  uses a mechanism called
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MotionScene
+                   </i>
+                  </b>
+                  to create all animations. If you are using MotionLayout, then you should be familiar with 4 important terms i.e.
+                  <b class="graf--bold">
+                   MotionScene
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   Transition
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   KeyFrameSet
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   ConstraintSet
+                  </b>
+                  .
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    MotionScene:
+                   </b>
+                   In the MotionScene, we write all the animations that we want to add in our project. Animation here doesn't mean just moving object but, in general, changing their properties with respect to time.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Transition:
+                   </b>
+                   A transition describes the change from state A to state B. You can add the start constraint by using
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     app:constraintSetStart
+                    </i>
+                   </b>
+                   and final one by using
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     app:constraintSetEnd
+                    </i>
+                   </b>
+                   .
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    KeyFrameSet:
+                   </b>
+                   You can think of an animation as a sequence of frames. Suppose, if we want to move from A to B, then the shortest path will be considered during transition.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    ConstraintSet:
+                   </b>
+                   Finally, you use ConstraintSet definitions to define starting and final constraints, for each of the View you want to animate.
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Why Motion Layout?
+                 </h4>
+                 <p class="graf--p">
+                  The Android framework already provides several ways of adding animation in our application, such as:
+                 </p>
+                 <ul>
+                  <li>
+                   <a class="markup--anchor" href="https://developer.android.com/guide/topics/graphics/drawable-animation" target="_blank">
+                    Animated Vector Drawable
+                   </a>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://developer.android.com/guide/topics/graphics/prop-animation" target="_blank">
+                    Property Animation framework
+                   </a>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://developer.android.com/reference/android/animation/LayoutTransition" target="_blank">
+                    LayoutTransition animations
+                   </a>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://developer.android.com/training/transitions/" target="_blank">
+                    Layout transitions with TransitionManager
+                   </a>
+                  </li>
+                  <li>
+                   <a class="markup--anchor" href="https://developer.android.com/reference/android/support/design/widget/CoordinatorLayout" target="_blank">
+                    CoordinatorLayout
+                   </a>
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, instead of having so many options, why we are using MotionLayout for making animations?MotionLayout was created to bridge the gap between layout transitions and complex motion handling. You  can think of it in terms of capabilities as a mix between the property  animation framework, TransitionManager, and CoordinatorLayout.It let's you describe the transition between two layouts (like  TransitionManager), but can animate any properties as well (not just  layout attributes). It supports touch handling and keyframes, allowing developers to easily customize transitions to their own needs.Beyond this scope, the other key difference is that MotionLayout is  fully declarative — you can fully describe in XML a complex  transition — no code is expected (if you need to express motion by code,  the existing property animation framework already provides a great way  of doing it).
+                 </p>
+                 <h4 class="graf--h3">
+                  Let's get started
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we will try to make the below animation using the MotionLayout.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Motion Layout: Android Tutorials" class="graf-image" src="/images/motion-layout-example.gif"/>
+                 </div>
+                 <p class="graf--p">
+                  Follow the below steps to use MotionLayout :
+                 </p>
+                 <ul>
+                  <li>
+                   Add ConstraintLayout 2.0 to your
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     build.gradle
+                    </i>
+                   </b>
+                   dependencies
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">implementation 'com.android.support.constraint:constraint-layout:2.0.0-alpha2'</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Starting layout:
+                   </b>
+                   This will the layout from where your animation will start. In my case the start activity is
+                   <b class="graf--bold">
+                    MotionStartActivity
+                   </b>
+                   . Following is the code for the XML file
+                   <b class="graf--bold">
+                    activity_motion_start.xml.
+                   </b>
+                   Just 3 views with constraints all set! Two of these will animate and third, will stay static.
+                  </li>
+                 </ul>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Motion Layout: Android Tutorials" class="graf-image" src="/images/motion-layout-start.png"/>
+                 </div>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;android.support.constraint.motion.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/motion_scene"&gt;
+
+    &lt;ImageView
+        android:id="@+id/movingImageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/dog"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/&gt;
+
+    &lt;Button
+        android:id="@+id/button"
+        android:text="Slide Up to move dog towards the bone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:background="#EBA34B"
+        android:padding="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/&gt;
+
+    &lt;ImageView
+        android:id="@+id/staticImageView"
+        android:src="@drawable/bone"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/&gt;
+
+&lt;/android.support.constraint.motion.MotionLayout&gt;</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Ending Layout:
+                   </b>
+                   We then create an ending layout, called
+                   <b class="graf--bold">
+                    activity_motion_end.xml.
+                   </b>
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note:
+                  </b>
+                  It only has the two views we intend to animate! (and their final constraints)
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Motion Layout: Android Tutorials" class="graf-image" src="/images/motion-layout-end-image.png"/>
+                 </div>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;android.support.constraint.motion.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"&gt;
+
+    &lt;ImageView
+        android:id="@+id/movingImageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/dog"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/&gt;
+
+    &lt;Button
+        android:id="@+id/button"
+        android:text="Slide Down to move dog away from bone"
+        android:background="#EBA34B"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/&gt;
+
+&lt;/android.support.constraint.motion.MotionLayout&gt;</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Motion Scene:
+                   </b>
+                   This is the file that defines the type of motion/animation we want and what the starting/ending constraints are. Let’s call it
+                   <b class="graf--bold">
+                    motion_scene.xml
+                   </b>
+                   (placed in res/xml/motion_scene.xml)
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;MotionScene
+    xmlns:motion="http://schemas.android.com/apk/res-auto"&gt;
+
+    &lt;Transition
+        motion:constraintSetStart="@layout/activity_motion_start"
+        motion:constraintSetEnd="@layout/activity_motion_end"
+        motion:duration="1000"&gt;
+
+        &lt;OnSwipe
+            motion:touchAnchorId="@id/button"
+            motion:touchAnchorSide="top"
+            motion:dragDirection="dragUp"/&gt;
+
+    &lt;/Transition&gt;
+
+&lt;/MotionScene&gt;</code></pre>
+                 <p class="graf--p">
+                  Here we defined a
+                  <b class="graf--bold">
+                   Transition
+                  </b>
+                  (the animation) with duration &amp; a start/end point to the layouts. And also a swipe
+                  <b class="graf--bold">
+                   Trigger
+                  </b>
+                  on the
+                  <i class="graf--italic">
+                   button
+                  </i>
+                  (with up direction)
+                  <i class="graf--italic">
+                   —
+                  </i>
+                  which adds interactivity.
+                 </p>
+                 <p class="graf--p">
+                  Also, make sure to add a reference to this motion_scene file in
+                  <b class="graf--bold">
+                   activity_main
+                  </b>
+                  using
+                 </p>
+                 <pre><code class="language-java graf graf--code">app:layoutDescription="@xml/motion_scene"</code></pre>
+                 <p class="graf--p">
+                  And that's it! A simple motion layout animation is now added to the project.
+                 </p>
+                 <h4 class="graf--h3">
+                  Another Example (using KeyFrameSet)
+                 </h4>
+                 <p class="graf--p">
+                  Here we will use the KeyFrameSet for animation. KeyFrameSet is a child element of Transition and it can contain
+                  <b class="graf--bold">
+                   KeyPosition
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   KeyAttribute
+                  </b>
+                  , and
+                  <b class="graf--bold">
+                   KeyCycle
+                  </b>
+                  elements for defining middle  states of animation.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    KeyPosition
+                   </b>
+                   is used to add a position through which the target element passes when it is animated.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    KeyAttribute
+                   </b>
+                   is used to add values for attributes for middle state. You  can assign values for standard attributes by directly using the name of  properties as attribute of KeyAttribute element.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    KeyCycle
+                   </b>
+                   is used to add oscillations during animation. You can specify  the point on the animation at which you want oscillation by using
+                   <b class="graf--bold">
+                    framePosition
+                   </b>
+                   attribute.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Let's take another example, whose
+                  <b class="graf--bold">
+                   Motion Scene
+                  </b>
+                  file is :
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto"&gt;
+    &lt;Transition
+        motion:constraintSetStart="@+id/wish_start"
+        motion:constraintSetEnd="@+id/wish_end"
+        motion:duration="2000"&gt;
+        &lt;OnClick motion:target="@+id/click"/&gt;
+        &lt;KeyFrameSet&gt;
+            &lt;KeyPosition
+                motion:keyPositionType="pathRelative"
+                motion:percentY="0.25"
+                motion:framePosition="50"
+                motion:target="@id/tv1"/&gt;
+            &lt;KeyPosition
+                motion:keyPositionType="pathRelative"
+                motion:percentY="-0.25"
+                motion:framePosition="50"
+                motion:target="@id/tv2"/&gt;
+            &lt;KeyAttribute
+                motion:framePosition="50"
+                motion:target="@id/tv1"
+                android:rotation="-30"/&gt;
+            &lt;KeyAttribute
+                motion:framePosition="50"
+                motion:target="@id/tv2"
+                android:rotation="-30"&gt;
+                &lt;CustomAttribute
+                    motion:attributeName="textSize"
+                    motion:customFloatValue ="20"/&gt;
+            &lt;/KeyAttribute&gt;
+            &lt;KeyCycle
+                motion:framePosition="30"
+                motion:target="@id/tv1"
+                android:rotation="-30"
+                motion:waveShape="bounce"
+                motion:wavePeriod="3"/&gt;
+        &lt;/KeyFrameSet&gt;
+    &lt;/Transition&gt;
+    &lt;ConstraintSet android:id="@+id/wish_start"&gt;
+        &lt;Constraint
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="hello"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"&gt;
+            &lt;CustomAttribute
+                motion:attributeName="textSize"
+                motion:customFloatValue ="50"/&gt;
+        &lt;/Constraint&gt;
+        &lt;Constraint
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="mindorks"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/tv1"&gt;
+            &lt;CustomAttribute
+                motion:attributeName="textSize"
+                motion:customFloatValue ="50"/&gt;
+        &lt;/Constraint&gt;
+        &lt;Constraint
+            android:id="@+id/click"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:text="click"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" /&gt;
+    &lt;/ConstraintSet&gt;
+    &lt;ConstraintSet android:id="@+id/wish_end"&gt;
+        &lt;Constraint
+            android:id="@id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="HELLO"
+            android:layout_marginTop="400dp"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"&gt;
+            &lt;CustomAttribute
+                motion:attributeName="textSize"
+                motion:customFloatValue ="50"/&gt;
+        &lt;/Constraint&gt;
+        &lt;Constraint
+            android:id="@id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="MINDORKS"
+            android:layout_marginTop="16dp"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/tv1"&gt;
+            &lt;CustomAttribute
+                motion:attributeName="textSize"
+                motion:customFloatValue ="50"/&gt;
+        &lt;/Constraint&gt;
+        &lt;Constraint
+            android:id="@id/click"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:text="click"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" /&gt;
+    &lt;/ConstraintSet&gt;
+&lt;/MotionScene&gt;
+</code></pre>
+                 <p class="graf--p">
+                  The layout file for the above example is:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;android.support.constraint.motion.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:layout_marginTop="32dp"
+    app:layoutDescription="@xml/keyframeset"&gt;
+    &lt;TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Hello"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/&gt;
+    &lt;TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="MindOrks"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv1"
+        app:layout_constraintTop_toTopOf="parent"/&gt;
+
+    &lt;Button
+        android:id="@+id/click"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click"
+        android:layout_marginTop="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/&gt;
+
+&lt;/android.support.constraint.motion.MotionLayout&gt;
+</code></pre>
+                 <h4 class="graf--h3">
+                  Limitations of MotionLayout
+                 </h4>
+                 <p class="graf--p">
+                  MotionLayout is helpful when we are having less views in our layout because MotionLayout provide its capabilities to its direct children while
+                  <b class="graf--bold">
+                   TransitionManager
+                  </b>
+                  can work with nested layouts also.
+                 </p>
+                 <h4 class="graf--h3">
+                  When to use MotionLayout?
+                 </h4>
+                 <p class="graf--p">
+                  You can use MotionLayout when you need to move,  resize or animate the actual UI elements — buttons, title bar,  etc. i.e. the  elements that user needs to interact with.
+                 </p>
+                 <p class="graf--p">
+                  It’s important to realize that motion is here to serve a special purpose and it should not be used to provide some special effect in your application. It  should be used to help the user understand what your application is  doing. The
+                  <a class="markup--anchor" href="https://material.io/design/motion/" target="_blank">
+                   Material Design principles
+                  </a>
+                  website is a great introduction to those concepts.
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  If you want to add some animation in your application then you can use MotionLayout but before adding the MotionLayout, try to find out the feature you are trying to address using the MotionLayout. If you want to add some type of motions to your application then you are good to go with the MotionLayout but if you want some special effect in your application in which there are a number of nested layouts then you should avoid using MotionLayout.
+                 </p>
+                 <p class="graf--p">
+                  Happy learning :)
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks.
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Android NDK: Android Tutorial" class="ui centered image" src="/images/getting-started-with-android-ndk-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Android NDK: Android Tutorial
+           </div>
+           <div class="meta">
+            9th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started with ShareSheet in Android Q" class="ui centered image" src="/images/sharesheet.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started with ShareSheet in Android Q
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started with Firebase RemoteConfig in Android" class="ui centered image" src="/images/getting-started-firebase-remote-config-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started with Firebase RemoteConfig in Android
+           </div>
+           <div class="meta">
+            22nd May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the firebase Remote Config feature in Android. By using Firebase Remote Config, we can bring some updates in the App like some text change in the app, without publishing any update of the app on the Play Store.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Lottie Animation in Android" class="ui centered image" src="/images/getting-started-with-lottie-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Lottie Animation in Android
+           </div>
+           <div class="meta">
+            28th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started With CameraX Jetpack Support Library" class="ui centered image" src="/images/camerax-jetpack-support-library.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started With CameraX Jetpack Support Library
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Kotlin MultiPlatform" class="ui centered image" src="/images/banner-mpp.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Kotlin MultiPlatform
+           </div>
+           <div class="meta">
+            26th February 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to get started with Kotlin MultiPlatform and run the platform-specific code in our device. We will learn how to setup android and ios apps individually and write same set of core logic for both.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

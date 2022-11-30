@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   State Management in Jetpack Compose
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/state-management-in-jetpack-compose" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="State Management in Jetpack Compose" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/state-management-in-jetpack-compose" property="og:url"/>
+  <meta content="/images/state-management-compose-android-min.jpg" property="og:image"/>
+  <meta content="In this blog, we are going to learn how to manage state in Jetpack Compose. We will also see different ways to handle state with examples." property="og:description"/>
+  <meta content="State Management in Jetpack Compose" property="twitter:title"/>
+  <meta content="In this blog, we are going to learn how to manage state in Jetpack Compose. We will also see different ways to handle state with examples." name="twitter:description"/>
+  <meta content="/images/state-management-compose-android-min.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to learn how to manage state in Jetpack Compose. We will also see different ways to handle state with examples." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:432,data:{id:432,title:"State Management in Jetpack Compose",description:"In this blog, we are going to learn how to manage state in Jetpack Compose. We will also see different ways to handle state with examples.",text:'<h1 class="graf--h1">State Management in Jetpack Compose</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/state-management-compose-android-min.jpg class=\'graf-image\' alt=\'State Management in Jetpack Compose\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Working with Jetpack Compose in Android, and want to update UI on run time with some newly updated data. This can be handled by managing the state in Jetpack Compose.</p><p class="graf--p">In this tutorial, we are going to learn how to manage state in Jetpack Compose.  We will learn,</p><ul><li>What is a state in Jetpack Compose?</li><li>How does recompose work?</li><li>Different ways to manage states in Compose</li></ul><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/using-jetpack-compose-to-build-ui-in-android">To learn how to build UI in Jetpack Compose, click here</a> </p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://www.youtube.com/watch?v=JdTtRkT03gY">Watch Jetpack Compose Full Video Tutorial, click here</a></p><h4 class="graf--h3">What is a state in Jetpack Compose?</h4><p class="graf--p">State in general term is an object which contains certain data that is mapped to one or many widgets. Using the value from the state object we can update the data shown in the widgets. The value of the state can change during the runtime, and this will help us to update the widget with the updated data.</p><p class="graf--p">In Jetpack Compose, the composable update itself based on the value of the state. When the value is updated, the composable function only re-composes the composable whose data is updated and ignores the rest of them. </p><blockquote class="graf--blockquote">In Jetpack Compose, the composable are subscribed to a state and when the value of the state is updated then all the composable who are subscribed to it also updates the value. </blockquote> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/state-text-composable.png class=\'graf-image\' alt=\'State Management in Jetpack Compose\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here, all three texts are subscribed to a state, and when the value of state changes, the text in these three would also be updated.</p><h4 class="graf--h3">How does recompose work?</h4><p class="graf--p">While recomposing the UI, the UI tree doesn&#x27;t redraw itself but only updates the specific composable because if we redraw the whole UI, again and again, it would be a very expensive task. </p><p class="graf--p">But, how does it know which composable to update?</p><p class="graf--p">Jetpack Compose works on the concept of <code class="graf--code-inline">Positional Memoization</code>, which is an optimization technique used primarily to speed up <a class="markup--anchor" target="_blank" href="https://en.wikipedia.org/wiki/Computer_programs">p</a>rograms<a class="markup--anchor" target="_blank" href="https://en.wikipedia.org/wiki/Subroutine">function calls</a> and returning the cached result. In Compose, when we draw the UI for the first time then, it caches all the composable in UI tree.</p><p class="graf--p">When the value in the state is updated, then the node gets updated that subscribes to that state and not the whole UI. This will only recompose the specific node in the UI tree.</p><h4 class="graf--h3">Different ways to manage states in compose</h4><p class="graf--p">In Jetpack Compose, we can manage state by two different ways,</p><ul><li><b class="graf--bold">MutableState - </b>In this, the state stores the value on execution, and if any composable is subscribed to it, the composable updates the value if there are any changes.</li><li><b class="graf--bold">Model</b> - We use <code class="graf--code-inline">Model</code> as an annotation to any class which will help us to update the UI. </li></ul><p class="graf--p">Now, let us understand how we can use both of them.</p><p class="graf--p">We will be working with an example with both <code class="graf--code-inline">MutableState</code> and <code class="graf--code-inline">Model</code>. But first, let&#x27;s create an application and do the basic setup. Our <code class="graf--code-inline">MainActivity</code> would look like,</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContent {\n            MaterialTheme {\n                App()\n            }\n        }\n    }\n\n\n    @Composable\n    fun App() {\n        \n    }\n}</code></pre><p class="graf--p">In this, App composable function we are going to update our state. In this application, we want to design a <code class="graf--code-inline">text</code> and a <code class="graf--code-inline">Button</code>. When we click the <code class="graf--code-inline">button</code> the text <code class="graf--code-inline">increments</code> the value by <code class="graf--code-inline">5</code> each time.</p><p class="graf--p">So, now let&#x27;s start implementing.</p><h4 class="graf--h3">Using MutableState in Compose</h4><p class="graf--p">First, we will create a <code class="graf--code-inline">composable</code> function called,</p><pre><code class="language-java graf graf--code">setupStateUsingState()</code></pre><p class="graf--p">and add it in App like,</p><pre><code class="language-java graf graf--code">@Composable\nfun App() {\n    setupStateUsingState()\n}</code></pre><p class="graf--p">Here, in <code class="graf--code-inline">setupStateUsingState()</code> we will write our basic structure,</p><pre><code class="language-java graf graf--code">@Composable\nprivate fun setupStateUsingState() {\n    Column {\n        TopAppBar(\n            title = { Text(text = "State Management") }\n        )\n        Text(\n            text = //set new value\n        )\n        Button(onClick = {\n            //update value\n        }) {\n            Text(text = "Click to Add 5")\n        }\n    }\n\n}</code></pre><p class="graf--p">Here, we have added basic composable of a <code class="graf--code-inline">TopAppBar</code>, <code class="graf--code-inline">Text</code>, and <code class="graf--code-inline">Button</code>. In <code class="graf--code-inline">Button</code>, I have added, the <code class="graf--code-inline">onClick</code> where will update the <code class="graf--code-inline">value</code> and in <code class="graf--code-inline">Text</code>, we will update the <code class="graf--code-inline">value</code>.</p><p class="graf--p">Now, we will create a variable of type <code class="graf--code-inline">MutableState</code> which will hold an initial value of <b class="graf--bold"><code class="graf--code-inline">0</code>. </b>When we click the button we will add <code class="graf--code-inline">5</code> to the value and the state would re-compose to redraw the UI.</p><pre><code class="language-java graf graf--code">var counterState: MutableState&lt;Int&gt; = state { 0 }</code></pre><p class="graf--p"><code class="graf--code-inline">MutableState</code> gives us the value property on <code class="graf--code-inline">execution</code>. The Composable function subscribes to the <code class="graf--code-inline">MutableState</code> and when the value changes, the re-composition of the composable happens and hence the value gets updated.</p><blockquote class="graf--blockquote">If the value is unchanged, re-composition won&#x27;t happen.</blockquote><p class="graf--p">Here, in our example, <code class="graf--code-inline">Text</code> will subscribe to the value property of <code class="graf--code-inline">counterState</code> and on button click, we want to update the value of <code class="graf--code-inline">counterState</code> by 5. </p><p class="graf--p">So, we will update the code like,</p><pre><code class="language-java graf graf--code">@Composable\nprivate fun setupStateUsingState() {\n    Column {\n        TopAppBar(\n            title = { Text(text = "State Management") }\n        )\n        var counterState:MutableState&lt;Int&gt; = state { 0 }\n        Text(\n            text = counterState.value.toString()\n        )\n        Button(onClick = {\n            counterState.value += 5\n        }) {\n            Text(text = "Click to Add 5")\n        }\n    }\n\n}</code></pre><p class="graf--p">Here,  we first created a variable <code class="graf--code-inline">counterState</code> of type <code class="graf--code-inline">MutableState</code> and set an initial value of 0. When we click the <code class="graf--code-inline">button</code> we update the value by 5 and the <code class="graf--code-inline">Text</code> here observes the changes to the <code class="graf--code-inline">value</code> of <code class="graf--code-inline">counterState</code>.</p><p class="graf--p">So, when on the click of a button the value is updated, the Text also re-composes itself to show the updated value.</p><h4 class="graf--h3">Using Model in Compose</h4><p class="graf--p">The other way to handle state changes in Jetpack compose is to use a <code class="graf--code-inline">Model</code>. Model in Jetpack Compose is an <code class="graf--code-inline">annotation</code> which we can use in any class. If any composable gets a value from any parameter of class which is annotated by <code class="graf--code-inline">@Model</code>, and if the value of parameter changes, the UI also recomposes itself.</p><p class="graf--p">For the above example, let us create a composable function again,</p><pre><code class="language-java graf graf--code">setupStateUsingModel()</code></pre><p class="graf--p">and in this let&#x27;s add the basic code again,</p><pre><code class="language-java graf graf--code">@Composable\nprivate fun setupStateUsingModel() {\n    Column {\n        TopAppBar(\n            title = { Text(text = "State Management") }\n        )\n        Text(\n            text = //set new value\n        )\n        Button(onClick = {\n            //update value\n        }) {\n            Text(text = "Click to Add 5")\n        }\n    }\n\n}</code></pre><p class="graf--p">Now, let us create a <code class="graf--code-inline">data class Counter</code> with a parameter <code class="graf--code-inline">value</code> of type <code class="graf--code-inline">Int</code> and initial value <code class="graf--code-inline">0</code>. We will annotate the class with <code class="graf--code-inline">@Model</code>,</p><pre><code class="language-java graf graf--code">@Model\ndata class Counter(var value: Int = 0)</code></pre><p class="graf--p">Now, we will use the value parameter of <code class="graf--code-inline">Counter</code> class to update the value in Text.</p><p class="graf--p">So, first I will create the object of the class,</p><pre><code class="language-java graf graf--code">val counter = Counter()</code></pre><p class="graf--p">and, then will update the value on click of the button like,</p><pre><code class="language-java graf graf--code">Button(onClick = {\n    counter.value += 5\n}) {\n    Text(text = "Click to Add 5")\n}</code></pre><p class="graf--p">and since we are observing the value in our text, we will update the value in Text as well by,</p><pre><code class="language-java graf graf--code">Text(\n    text = counter.value.toString()\n)</code></pre><pre><code class="language-java graf graf--code"></code></pre><p class="graf--p">So, my whole <code class="graf--code-inline">setupStateUsingModel()</code> looks like,</p><pre><code class="language-java graf graf--code">@Composable\nprivate fun setupStateUsingModel() {\n    val counter = Counter()\n    Column {\n        TopAppBar(\n            title = { Text(text = "State Management") }\n        )\n        Text(\n            text = counter.value.toString()\n        )\n\n        Button(onClick = {\n            counter.value += 5\n        }) {\n            Text(text = "Click to Add 5")\n        }\n    }\n}</code></pre><pre><code class="language-java graf graf--code"></code></pre><p class="graf--p">And now when I run the app, my app looks like,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/intial-click-compose.png class=\'graf-image\' alt=\'State Management in Jetpack Compose\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">This would be the output when managing the state using <code class="graf--code-inline">MutableState</code> and <code class="graf--code-inline">Model</code> both.</p><p class="graf--p">Happy learning.</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/state-management-compose-android-min.jpg",blog_url:"state-management-in-jetpack-compose",likes:0,rank:0,category:1,published_at:"2nd May 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:367,title:"Using Jetpack Compose to build UI in Android",description:"In this blog, we will build and learn how to Use Jetpack Compose to build UI in Android. We will learn how to setup and work with it. We will also discuss how to make few other components as well",author:9959,img_url:"/images/banner_jetpack.png",blog_url:"using-jetpack-compose-to-build-ui-in-android",likes:0,rank:0,category:1,published_at:"25th October 2019",score:3.9975550174713135},{id:440,title:"Using Constraint layout in Jetpack Compose",description:"In this blog, we are going to learn how to use constraint layout in Jetpack Compose to design our UI.",author:9959,img_url:"/images/constraint-layout-compose-bannerr.png",blog_url:"constraint-layout-in-jetpack-compose",likes:0,rank:0,category:1,published_at:"11th May 2020",score:3.9975550174713135},{id:510,title:"Jetpack Compose Tutorial - Step by Step Guide",description:"In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI. We will go through this tutorial to learn Jetpack Compose for Android by example.",author:14897,img_url:"/images/banner-jetpack-compose-tutorial-713779506dbc7754.jpg",blog_url:"jetpack-compose-tutorial",likes:0,rank:0,category:1,published_at:"5th November 2020",score:3.9975550174713135},{id:511,title:"Pagination in Jetpack Compose",description:"In this blog, we will learn how to build pagination using the paging library in Jetpack Compose. We will learn how to load data from API and show it in the paginated list.",author:9959,img_url:"/images/jetpack-compose-pagination-banner-b806521cd4f325b6.jpg",blog_url:"pagination-in-jetpack-compose",likes:0,rank:0,category:1,published_at:"26th November 2020",score:3.9975550174713135},{id:512,title:"Jetpack Compose: Navigation",description:"In this blog, we will learn how to navigate between different composable using Jetpack Navigation.",author:17146,img_url:"/images/banner-jetpack-compose-navigation-657edc7b323cafdf.png",blog_url:"jetpack-compose-navigation",likes:0,rank:0,category:1,published_at:"4th December 2020",score:3.9975550174713135},{id:206,title:"What is Android Jetpack and why should we use it?",description:"What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.",author:30,img_url:"/images/android-jetpack.png",blog_url:"what-is-android-jetpack-and-why-should-we-use-it",likes:0,rank:0,category:1,published_at:"4th January 2019",score:1.668971061706543}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            2nd May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  State Management in Jetpack Compose
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="State Management in Jetpack Compose" class="graf-image" src="/images/state-management-compose-android-min.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Working with Jetpack Compose in Android, and want to update UI on run time with some newly updated data. This can be handled by managing the state in Jetpack Compose.
+                 </p>
+                 <p class="graf--p">
+                  In this tutorial, we are going to learn how to manage state in Jetpack Compose.  We will learn,
+                 </p>
+                 <ul>
+                  <li>
+                   What is a state in Jetpack Compose?
+                  </li>
+                  <li>
+                   How does recompose work?
+                  </li>
+                  <li>
+                   Different ways to manage states in Compose
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/using-jetpack-compose-to-build-ui-in-android" target="_blank">
+                   To learn how to build UI in Jetpack Compose, click here
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://www.youtube.com/watch?v=JdTtRkT03gY" target="_blank">
+                   Watch Jetpack Compose Full Video Tutorial, click here
+                  </a>
+                 </p>
+                 <h4 class="graf--h3">
+                  What is a state in Jetpack Compose?
+                 </h4>
+                 <p class="graf--p">
+                  State in general term is an object which contains certain data that is mapped to one or many widgets. Using the value from the state object we can update the data shown in the widgets. The value of the state can change during the runtime, and this will help us to update the widget with the updated data.
+                 </p>
+                 <p class="graf--p">
+                  In Jetpack Compose, the composable update itself based on the value of the state. When the value is updated, the composable function only re-composes the composable whose data is updated and ignores the rest of them.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  In Jetpack Compose, the composable are subscribed to a state and when the value of the state is updated then all the composable who are subscribed to it also updates the value.
+                 </blockquote>
+                 <div class="graf-image graf-caption">
+                  <img alt="State Management in Jetpack Compose" class="graf-image" src="/images/state-text-composable.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Here, all three texts are subscribed to a state, and when the value of state changes, the text in these three would also be updated.
+                 </p>
+                 <h4 class="graf--h3">
+                  How does recompose work?
+                 </h4>
+                 <p class="graf--p">
+                  While recomposing the UI, the UI tree doesn't redraw itself but only updates the specific composable because if we redraw the whole UI, again and again, it would be a very expensive task.
+                 </p>
+                 <p class="graf--p">
+                  But, how does it know which composable to update?
+                 </p>
+                 <p class="graf--p">
+                  Jetpack Compose works on the concept of
+                  <code class="graf--code-inline">
+                   Positional Memoization
+                  </code>
+                  , which is an optimization technique used primarily to speed up
+                  <a class="markup--anchor" href="https://en.wikipedia.org/wiki/Computer_programs" target="_blank">
+                   p
+                  </a>
+                  rograms
+                  <a class="markup--anchor" href="https://en.wikipedia.org/wiki/Subroutine" target="_blank">
+                   function calls
+                  </a>
+                  and returning the cached result. In Compose, when we draw the UI for the first time then, it caches all the composable in UI tree.
+                 </p>
+                 <p class="graf--p">
+                  When the value in the state is updated, then the node gets updated that subscribes to that state and not the whole UI. This will only recompose the specific node in the UI tree.
+                 </p>
+                 <h4 class="graf--h3">
+                  Different ways to manage states in compose
+                 </h4>
+                 <p class="graf--p">
+                  In Jetpack Compose, we can manage state by two different ways,
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    MutableState -
+                   </b>
+                   In this, the state stores the value on execution, and if any composable is subscribed to it, the composable updates the value if there are any changes.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Model
+                   </b>
+                   - We use
+                   <code class="graf--code-inline">
+                    Model
+                   </code>
+                   as an annotation to any class which will help us to update the UI.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Now, let us understand how we can use both of them.
+                 </p>
+                 <p class="graf--p">
+                  We will be working with an example with both
+                  <code class="graf--code-inline">
+                   MutableState
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   Model
+                  </code>
+                  . But first, let's create an application and do the basic setup. Our
+                  <code class="graf--code-inline">
+                   MainActivity
+                  </code>
+                  would look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MaterialTheme {
+                App()
+            }
+        }
+    }
+
+
+    @Composable
+    fun App() {
+        
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In this, App composable function we are going to update our state. In this application, we want to design a
+                  <code class="graf--code-inline">
+                   text
+                  </code>
+                  and a
+                  <code class="graf--code-inline">
+                   Button
+                  </code>
+                  . When we click the
+                  <code class="graf--code-inline">
+                   button
+                  </code>
+                  the text
+                  <code class="graf--code-inline">
+                   increments
+                  </code>
+                  the value by
+                  <code class="graf--code-inline">
+                   5
+                  </code>
+                  each time.
+                 </p>
+                 <p class="graf--p">
+                  So, now let's start implementing.
+                 </p>
+                 <h4 class="graf--h3">
+                  Using MutableState in Compose
+                 </h4>
+                 <p class="graf--p">
+                  First, we will create a
+                  <code class="graf--code-inline">
+                   composable
+                  </code>
+                  function called,
+                 </p>
+                 <pre><code class="language-java graf graf--code">setupStateUsingState()</code></pre>
+                 <p class="graf--p">
+                  and add it in App like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+fun App() {
+    setupStateUsingState()
+}</code></pre>
+                 <p class="graf--p">
+                  Here, in
+                  <code class="graf--code-inline">
+                   setupStateUsingState()
+                  </code>
+                  we will write our basic structure,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+private fun setupStateUsingState() {
+    Column {
+        TopAppBar(
+            title = { Text(text = "State Management") }
+        )
+        Text(
+            text = //set new value
+        )
+        Button(onClick = {
+            //update value
+        }) {
+            Text(text = "Click to Add 5")
+        }
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we have added basic composable of a
+                  <code class="graf--code-inline">
+                   TopAppBar
+                  </code>
+                  ,
+                  <code class="graf--code-inline">
+                   Text
+                  </code>
+                  , and
+                  <code class="graf--code-inline">
+                   Button
+                  </code>
+                  . In
+                  <code class="graf--code-inline">
+                   Button
+                  </code>
+                  , I have added, the
+                  <code class="graf--code-inline">
+                   onClick
+                  </code>
+                  where will update the
+                  <code class="graf--code-inline">
+                   value
+                  </code>
+                  and in
+                  <code class="graf--code-inline">
+                   Text
+                  </code>
+                  , we will update the
+                  <code class="graf--code-inline">
+                   value
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Now, we will create a variable of type
+                  <code class="graf--code-inline">
+                   MutableState
+                  </code>
+                  which will hold an initial value of
+                  <b class="graf--bold">
+                   <code class="graf--code-inline">
+                    0
+                   </code>
+                   .
+                  </b>
+                  When we click the button we will add
+                  <code class="graf--code-inline">
+                   5
+                  </code>
+                  to the value and the state would re-compose to redraw the UI.
+                 </p>
+                 <pre><code class="language-java graf graf--code">var counterState: MutableState&lt;Int&gt; = state { 0 }</code></pre>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   MutableState
+                  </code>
+                  gives us the value property on
+                  <code class="graf--code-inline">
+                   execution
+                  </code>
+                  . The Composable function subscribes to the
+                  <code class="graf--code-inline">
+                   MutableState
+                  </code>
+                  and when the value changes, the re-composition of the composable happens and hence the value gets updated.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  If the value is unchanged, re-composition won't happen.
+                 </blockquote>
+                 <p class="graf--p">
+                  Here, in our example,
+                  <code class="graf--code-inline">
+                   Text
+                  </code>
+                  will subscribe to the value property of
+                  <code class="graf--code-inline">
+                   counterState
+                  </code>
+                  and on button click, we want to update the value of
+                  <code class="graf--code-inline">
+                   counterState
+                  </code>
+                  by 5.
+                 </p>
+                 <p class="graf--p">
+                  So, we will update the code like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+private fun setupStateUsingState() {
+    Column {
+        TopAppBar(
+            title = { Text(text = "State Management") }
+        )
+        var counterState:MutableState&lt;Int&gt; = state { 0 }
+        Text(
+            text = counterState.value.toString()
+        )
+        Button(onClick = {
+            counterState.value += 5
+        }) {
+            Text(text = "Click to Add 5")
+        }
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here,  we first created a variable
+                  <code class="graf--code-inline">
+                   counterState
+                  </code>
+                  of type
+                  <code class="graf--code-inline">
+                   MutableState
+                  </code>
+                  and set an initial value of 0. When we click the
+                  <code class="graf--code-inline">
+                   button
+                  </code>
+                  we update the value by 5 and the
+                  <code class="graf--code-inline">
+                   Text
+                  </code>
+                  here observes the changes to the
+                  <code class="graf--code-inline">
+                   value
+                  </code>
+                  of
+                  <code class="graf--code-inline">
+                   counterState
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  So, when on the click of a button the value is updated, the Text also re-composes itself to show the updated value.
+                 </p>
+                 <h4 class="graf--h3">
+                  Using Model in Compose
+                 </h4>
+                 <p class="graf--p">
+                  The other way to handle state changes in Jetpack compose is to use a
+                  <code class="graf--code-inline">
+                   Model
+                  </code>
+                  . Model in Jetpack Compose is an
+                  <code class="graf--code-inline">
+                   annotation
+                  </code>
+                  which we can use in any class. If any composable gets a value from any parameter of class which is annotated by
+                  <code class="graf--code-inline">
+                   @Model
+                  </code>
+                  , and if the value of parameter changes, the UI also recomposes itself.
+                 </p>
+                 <p class="graf--p">
+                  For the above example, let us create a composable function again,
+                 </p>
+                 <pre><code class="language-java graf graf--code">setupStateUsingModel()</code></pre>
+                 <p class="graf--p">
+                  and in this let's add the basic code again,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+private fun setupStateUsingModel() {
+    Column {
+        TopAppBar(
+            title = { Text(text = "State Management") }
+        )
+        Text(
+            text = //set new value
+        )
+        Button(onClick = {
+            //update value
+        }) {
+            Text(text = "Click to Add 5")
+        }
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Now, let us create a
+                  <code class="graf--code-inline">
+                   data class Counter
+                  </code>
+                  with a parameter
+                  <code class="graf--code-inline">
+                   value
+                  </code>
+                  of type
+                  <code class="graf--code-inline">
+                   Int
+                  </code>
+                  and initial value
+                  <code class="graf--code-inline">
+                   0
+                  </code>
+                  . We will annotate the class with
+                  <code class="graf--code-inline">
+                   @Model
+                  </code>
+                  ,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Model
+data class Counter(var value: Int = 0)</code></pre>
+                 <p class="graf--p">
+                  Now, we will use the value parameter of
+                  <code class="graf--code-inline">
+                   Counter
+                  </code>
+                  class to update the value in Text.
+                 </p>
+                 <p class="graf--p">
+                  So, first I will create the object of the class,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val counter = Counter()</code></pre>
+                 <p class="graf--p">
+                  and, then will update the value on click of the button like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">Button(onClick = {
+    counter.value += 5
+}) {
+    Text(text = "Click to Add 5")
+}</code></pre>
+                 <p class="graf--p">
+                  and since we are observing the value in our text, we will update the value in Text as well by,
+                 </p>
+                 <pre><code class="language-java graf graf--code">Text(
+    text = counter.value.toString()
+)</code></pre>
+                 <pre><code class="language-java graf graf--code"></code></pre>
+                 <p class="graf--p">
+                  So, my whole
+                  <code class="graf--code-inline">
+                   setupStateUsingModel()
+                  </code>
+                  looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Composable
+private fun setupStateUsingModel() {
+    val counter = Counter()
+    Column {
+        TopAppBar(
+            title = { Text(text = "State Management") }
+        )
+        Text(
+            text = counter.value.toString()
+        )
+
+        Button(onClick = {
+            counter.value += 5
+        }) {
+            Text(text = "Click to Add 5")
+        }
+    }
+}</code></pre>
+                 <pre><code class="language-java graf graf--code"></code></pre>
+                 <p class="graf--p">
+                  And now when I run the app, my app looks like,
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="State Management in Jetpack Compose" class="graf-image" src="/images/intial-click-compose.png"/>
+                 </div>
+                 <p class="graf--p">
+                  This would be the output when managing the state using
+                  <code class="graf--code-inline">
+                   MutableState
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   Model
+                  </code>
+                  both.
+                 </p>
+                 <p class="graf--p">
+                  Happy learning.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Jetpack Compose to build UI in Android" class="ui centered image" src="/images/banner_jetpack.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Jetpack Compose to build UI in Android
+           </div>
+           <div class="meta">
+            25th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will build and learn how to Use Jetpack Compose to build UI in Android. We will learn how to setup and work with it. We will also discuss how to make few other components as well
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Constraint layout in Jetpack Compose" class="ui centered image" src="/images/constraint-layout-compose-bannerr.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Constraint layout in Jetpack Compose
+           </div>
+           <div class="meta">
+            11th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to use constraint layout in Jetpack Compose to design our UI.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Jetpack Compose Tutorial - Step by Step Guide" class="ui centered image" src="/images/banner-jetpack-compose-tutorial-713779506dbc7754.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Jetpack Compose Tutorial - Step by Step Guide
+           </div>
+           <div class="meta">
+            5th November 2020
+           </div>
+           <div class="description">
+            In this tutorial, we are going to learn about the Jetpack Compose, a modern toolkit for building native UI. We will go through this tutorial to learn Jetpack Compose for Android by example.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Pagination in Jetpack Compose" class="ui centered image" src="/images/jetpack-compose-pagination-banner-b806521cd4f325b6.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Pagination in Jetpack Compose
+           </div>
+           <div class="meta">
+            26th November 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to build pagination using the paging library in Jetpack Compose. We will learn how to load data from API and show it in the paginated list.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Jetpack Compose: Navigation" class="ui centered image" src="/images/banner-jetpack-compose-navigation-657edc7b323cafdf.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Jetpack Compose: Navigation
+           </div>
+           <div class="meta">
+            4th December 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to navigate between different composable using Jetpack Navigation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="What is Android Jetpack and why should we use it?" class="ui centered image" src="/images/android-jetpack.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            What is Android Jetpack and why should we use it?
+           </div>
+           <div class="meta">
+            4th January 2019
+           </div>
+           <div class="description">
+            What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

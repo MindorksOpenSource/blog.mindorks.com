@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Implement In-App Purchases in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/implement-in-app-purchases-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Implement In-App Purchases in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/implement-in-app-purchases-in-android" property="og:url"/>
+  <meta content="/images/banner-in-app-purchase.png" property="og:image"/>
+  <meta content="In this blog, we will talk about how to implement and setup you android app for in app purchase." property="og:description"/>
+  <meta content="Implement In-App Purchases in Android" property="twitter:title"/>
+  <meta content="In this blog, we will talk about how to implement and setup you android app for in app purchase." name="twitter:description"/>
+  <meta content="/images/banner-in-app-purchase.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will talk about how to implement and setup you android app for in app purchase." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:365,data:{id:365,title:"Implement In-App Purchases in Android",description:"In this blog, we will talk about how to implement and setup you android app for in app purchase.",text:'<h1 class="graf--h1">Implement In-App Purchases in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-in-app-purchase.png class=\'graf-image\' alt=\'Implement In-App Purchases in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In this blog, we are going to learn about how can we make in-app purchases in Android devices using the billing library.</p><p class="graf--p">We will build an app in the process, which will help us understand the implementation of In-App purchases. So before any delay, let&#x27;s start</p><p class="graf--p">We will create an app with an Empty Activity as initial activity and name it as MainActivity and its XML file as activity_main.xml. (This project will be in Kotlin)</p><h4 class="graf--h3">Step 01:</h4><p class="graf--p">Add the following line to the dependencies section of the <code class="graf--code-inline"><b class="graf--bold"><i class="graf--italic">build.gradle</i></b></code> file for your app:</p><pre><code class="language-java graf graf--code">dependencies {\n    ...\n    implementation \'com.android.billingclient:billing:2.0.3\'\n}</code></pre><h4 class="graf--h3"><b class="graf--bold">Step 02:</b></h4><p class="graf--p">Also, you need to add the billing permission in the app&#x27;s Android manifest.</p><pre><code class="language-java graf graf--code">&lt;uses-permission android:name="com.android.vending.BILLING" /&gt;</code></pre><p class="graf--p">And, now when we are done with setting the permission and dependency we have to start the implementation to set up the connection with Google Play to get started.</p><h4 class="graf--h3"><b class="graf--bold">Step 03:</b></h4><p class="graf--p">In MainActivity, we will create two variables.</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n    private lateinit var billingClient: BillingClient\n    private val skuList = listOf("test_product_one", "test_product_two")\n    ........</code></pre><p class="graf--p">Here, the first variable we have created is of type BillingClient, which provides the Main interface for communication between the library and user application code and we create a list of SKUs that specify the list of product IDs we have to be purchased.</p><h4 class="graf--h3">Step 04:</h4><p class="graf--p">Now, in the onCreate() method we will set up the billing client using,</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity(), PurchasesUpdatedListener {\n\n    //The variables we declared above\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        ..........\n        setupBillingClient()\n    }\n\n    private fun setupBillingClient() {\n        billingClient = BillingClient.newBuilder(this)\n            .enablePendingPurchases()\n            .setListener(this)\n            .build()\n        billingClient.startConnection(object : BillingClientStateListener {\n            override fun onBillingSetupFinished(billingResult: BillingResult) {\n                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {\n                    // The BillingClient is setup successfully                 \n                }\n            }\n\n            override fun onBillingServiceDisconnected() {\n                // Try to restart the connection on the next request to\n                // Google Play by calling the startConnection() method.\n               \n            }\n        })\n    \n}</code></pre><h4 class="graf--h3"><b class="graf--bold">Step 05:</b></h4><p class="graf--p">Now Let&#x27;s set up the purchasing product in our play console.</p><ul><li>First, Login to your play console and click <b class="graf--bold">CREATE APPLICATION.</b></li><li>Set up your app as usual how you do for all other apps like providing the information of  App name, App description, etc.</li><li>Get all required information like Store listing, Ratings etc and reach to point where you just need to just upload the APK or AAB file.</li></ul><p class="graf--p">Now, when you are done executing the above steps we need to create <b class="graf--bold">PRODUCTS</b> which we can purchase. To do it,</p><p class="graf--p">From on the left menu, </p><blockquote class="graf--blockquote"><b class="graf--bold">StorePresence -&gt; In-app products tab -&gt; Create managed product</b></blockquote> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/create-managed-product.png class=\'graf-image\' alt=\'Implement In-App Purchases in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here, product ID has to be unique and this is what we have to play within our code. If you remember we had a list of SKUs</p><pre><code class="language-java graf graf--code">private val skuList = listOf("test_product_one", "test_product_two")</code></pre><p class="graf--p">that string values are nothing but product ID. So now to the setup we will add <b class="graf--bold">test_product_one </b>and <b class="graf--bold">test_product_two </b>as product ID and will add rest of the details.</p><p class="graf--p">Now, when we are done with filling up the above info we need to scroll down to make it <b class="graf--bold">active</b> and add the <b class="graf--bold">price</b> of the product</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/create-managed-product-price.png class=\'graf-image\' alt=\'Implement In-App Purchases in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">and just press <b class="graf--bold">Save.</b></p><p class="graf--p">You now have successfully created your first product on play console. Add both the SKUs one by one and jump back to the code.</p><h4 class="graf--h3">Step 06:</h4><p class="graf--p">In setup billing method, if we have successfully connected to the Billing Client  then we query all the SKUs,</p><pre><code class="language-java graf graf--code">private fun setupBillingClient() {\n    billingClient = BillingClient.newBuilder(this)\n        .enablePendingPurchases()\n        .setListener(this)\n        .build()\n    billingClient.startConnection(object : BillingClientStateListener {\n        override fun onBillingSetupFinished(billingResult: BillingResult) {\n            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {\n                // The BillingClient is setup\n                logger("Setup Billing Done")\n                loadAllSKUs()\n            }\n        }\n        override fun onBillingServiceDisconnected() {\n            logger("Failed")\n\n        }\n    })\n\n}\n</code></pre><p class="graf--p">and in <b class="graf--bold">loadAllSKUs(),</b></p><pre><code class="language-java graf graf--code">private fun loadAllSKUs() = if (billingClient.isReady) {\n    val params = SkuDetailsParams\n        .newBuilder()\n        .setSkusList(skuList)\n        .setType(BillingClient.SkuType.INAPP)\n        .build()\n    billingClient.querySkuDetailsAsync(params) { billingResult, skuDetailsList -&gt;\n        // Process the result.\n        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && skuDetailsList.isNotEmpty()) {\n            for (skuDetails in skuDetailsList) {\n                //this will return both the SKUs from Google Play Console\n            }\n        }\n    }\n\n} else {\n    println("Billing Client not ready")\n}</code></pre><p class="graf--p">Here, SkuDetailsParams is used to query the for SKU details and in setType, we are just calling INAPP type. Then we just query the result asynchronously. and get the SKUs if the Response code is Successful and the SKUs are created successfully in the Google Console.</p><h4 class="graf--h3">Step 07:</h4><p class="graf--p">Now we will design our XML file where we will add a button to purchase the item with SKU name <b class="graf--bold">test_product_two. </b>The XML looks like,</p><pre><code class="language-java graf graf--code">&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n\n    &lt;Button\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:id="@+id/buttonBuyProduct"\n        android:text="Buy your product"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><h4 class="graf--h3">Step 08 :</h4><p class="graf--p">Now we will implement the click listener to set up the purchase. In the success callback of SKU fetching which we did in step 06, we will add </p><pre><code class="language-java graf graf--code">if (billingResult.responseCode == BillingClient.BillingResponseCode.OK && skuDetailsList.isNotEmpty()) {\n    for (skuDetails in skuDetailsList) {\n        if (skuDetails.sku == "test_product_two")\n            buttonBuyProduct.setOnClickListener {\n                val billingFlowParams = BillingFlowParams\n                    .newBuilder()\n                    .setSkuDetails(skuDetails)\n                    .build()\n                billingClient.launchBillingFlow(this, billingFlowParams)\n            }\n    }\n}</code></pre><p class="graf--p">Here, BillingFlowParams initiates the purchase flow with the specific  SKU detail and when the click happens, the billingClient launches the billing flow to start the purchase of specific SKU.</p><h4 class="graf--h3">Step 09</h4><p class="graf--p">When the purchase of SKU starts, we will handle the purchase using,</p><pre><code class="language-java graf graf--code">override fun onPurchasesUpdated(\n    billingResult: BillingResult?,\n    purchases: MutableList&lt;Purchase&gt;?\n) {\n    if (billingResult?.responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {\n        for (purchase in purchases) {\n            acknowledgePurchase(purchase.purchaseToken)\n\n        }\n    } else if (billingResult?.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {\n        // Handle an error caused by a user cancelling the purchase flow.\n        \n    } else {\n        // Handle any other error codes.\n    }\n}\n\n\nprivate fun acknowledgePurchase(purchaseToken: String) {\n    val params = AcknowledgePurchaseParams.newBuilder()\n        .setPurchaseToken(purchaseToken)\n        .build()\n    billingClient.acknowledgePurchase(params) { billingResult -&gt;\n        val responseCode = billingResult.responseCode\n        val debugMessage = billingResult.debugMessage\n      \n    }\n}</code></pre><h4 class="graf--h3">Step 10:</h4><p class="graf--p">Now, we are done. Just generate a Signed APK and upload it to the Play Console and wait for the App to get accepted. One done follow the next step.</p><h4 class="graf--h3">Step 11</h4><p class="graf--p">This will prompt a Bottom View like,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/screen-popup-test-in-app.png class=\'graf-image\' alt=\'Implement In-App Purchases in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Now, we just need to set up the card and purchase it. We are using Debug to test so that is the reason we have Test Card.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/hi-manshu/in-app-purchase-demo">You can find the complete code for this project here</a></p><p class="graf--p">Happy learning</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/banner-in-app-purchase.png",blog_url:"implement-in-app-purchases-in-android",likes:0,rank:0,category:1,published_at:"16th October 2019"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:319,title:"How to implement Splash Screen in Android?",description:"In this blog, we will learn about two ways to implement the SplashScreen. One is by using Handler and other is by using RxJava.",author:9959,img_url:"/images/banner-splash-screen-in-android.png",blog_url:"how-to-implement-splash-screen-in-android",likes:0,rank:0,category:1,published_at:"23rd August 2019",score:2.1641366481781006},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.01835518702864647},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.01835518702864647},{id:284,title:"Animation in Android - Android Tutorial",description:"In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.",author:14897,img_url:"/images/animation-in-android-banner.png",blog_url:"animation-in-android-tutorial",likes:0,rank:0,category:1,published_at:"24th June 2019",score:.01835518702864647},{id:351,title:"Using Android Sensors: Android Tutorial",description:"In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.",author:14897,img_url:"/images/using-android-sensors-android-tutorial-banner.png",blog_url:"using-android-sensors-android-tutorial",likes:0,rank:0,category:1,published_at:"30th September 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            16th October 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Implement In-App Purchases in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implement In-App Purchases in Android" class="graf-image" src="/images/banner-in-app-purchase.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In this blog, we are going to learn about how can we make in-app purchases in Android devices using the billing library.
+                 </p>
+                 <p class="graf--p">
+                  We will build an app in the process, which will help us understand the implementation of In-App purchases. So before any delay, let's start
+                 </p>
+                 <p class="graf--p">
+                  We will create an app with an Empty Activity as initial activity and name it as MainActivity and its XML file as activity_main.xml. (This project will be in Kotlin)
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 01:
+                 </h4>
+                 <p class="graf--p">
+                  Add the following line to the dependencies section of the
+                  <code class="graf--code-inline">
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     build.gradle
+                    </i>
+                   </b>
+                  </code>
+                  file for your app:
+                 </p>
+                 <pre><code class="language-java graf graf--code">dependencies {
+    ...
+    implementation 'com.android.billingclient:billing:2.0.3'
+}</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Step 02:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Also, you need to add the billing permission in the app's Android manifest.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;uses-permission android:name="com.android.vending.BILLING" /&gt;</code></pre>
+                 <p class="graf--p">
+                  And, now when we are done with setting the permission and dependency we have to start the implementation to set up the connection with Google Play to get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Step 03:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  In MainActivity, we will create two variables.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+    private lateinit var billingClient: BillingClient
+    private val skuList = listOf("test_product_one", "test_product_two")
+    ........</code></pre>
+                 <p class="graf--p">
+                  Here, the first variable we have created is of type BillingClient, which provides the Main interface for communication between the library and user application code and we create a list of SKUs that specify the list of product IDs we have to be purchased.
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 04:
+                 </h4>
+                 <p class="graf--p">
+                  Now, in the onCreate() method we will set up the billing client using,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity(), PurchasesUpdatedListener {
+
+    //The variables we declared above
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        ..........
+        setupBillingClient()
+    }
+
+    private fun setupBillingClient() {
+        billingClient = BillingClient.newBuilder(this)
+            .enablePendingPurchases()
+            .setListener(this)
+            .build()
+        billingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(billingResult: BillingResult) {
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    // The BillingClient is setup successfully                 
+                }
+            }
+
+            override fun onBillingServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+               
+            }
+        })
+    
+}</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Step 05:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Now Let's set up the purchasing product in our play console.
+                 </p>
+                 <ul>
+                  <li>
+                   First, Login to your play console and click
+                   <b class="graf--bold">
+                    CREATE APPLICATION.
+                   </b>
+                  </li>
+                  <li>
+                   Set up your app as usual how you do for all other apps like providing the information of  App name, App description, etc.
+                  </li>
+                  <li>
+                   Get all required information like Store listing, Ratings etc and reach to point where you just need to just upload the APK or AAB file.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Now, when you are done executing the above steps we need to create
+                  <b class="graf--bold">
+                   PRODUCTS
+                  </b>
+                  which we can purchase. To do it,
+                 </p>
+                 <p class="graf--p">
+                  From on the left menu,
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   StorePresence -&gt; In-app products tab -&gt; Create managed product
+                  </b>
+                 </blockquote>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implement In-App Purchases in Android" class="graf-image" src="/images/create-managed-product.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Here, product ID has to be unique and this is what we have to play within our code. If you remember we had a list of SKUs
+                 </p>
+                 <pre><code class="language-java graf graf--code">private val skuList = listOf("test_product_one", "test_product_two")</code></pre>
+                 <p class="graf--p">
+                  that string values are nothing but product ID. So now to the setup we will add
+                  <b class="graf--bold">
+                   test_product_one
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   test_product_two
+                  </b>
+                  as product ID and will add rest of the details.
+                 </p>
+                 <p class="graf--p">
+                  Now, when we are done with filling up the above info we need to scroll down to make it
+                  <b class="graf--bold">
+                   active
+                  </b>
+                  and add the
+                  <b class="graf--bold">
+                   price
+                  </b>
+                  of the product
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implement In-App Purchases in Android" class="graf-image" src="/images/create-managed-product-price.png"/>
+                 </div>
+                 <p class="graf--p">
+                  and just press
+                  <b class="graf--bold">
+                   Save.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  You now have successfully created your first product on play console. Add both the SKUs one by one and jump back to the code.
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 06:
+                 </h4>
+                 <p class="graf--p">
+                  In setup billing method, if we have successfully connected to the Billing Client  then we query all the SKUs,
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun setupBillingClient() {
+    billingClient = BillingClient.newBuilder(this)
+        .enablePendingPurchases()
+        .setListener(this)
+        .build()
+    billingClient.startConnection(object : BillingClientStateListener {
+        override fun onBillingSetupFinished(billingResult: BillingResult) {
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                // The BillingClient is setup
+                logger("Setup Billing Done")
+                loadAllSKUs()
+            }
+        }
+        override fun onBillingServiceDisconnected() {
+            logger("Failed")
+
+        }
+    })
+
+}
+</code></pre>
+                 <p class="graf--p">
+                  and in
+                  <b class="graf--bold">
+                   loadAllSKUs(),
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun loadAllSKUs() = if (billingClient.isReady) {
+    val params = SkuDetailsParams
+        .newBuilder()
+        .setSkusList(skuList)
+        .setType(BillingClient.SkuType.INAPP)
+        .build()
+    billingClient.querySkuDetailsAsync(params) { billingResult, skuDetailsList -&gt;
+        // Process the result.
+        if (billingResult.responseCode == BillingClient.BillingResponseCode.OK &amp;&amp; skuDetailsList.isNotEmpty()) {
+            for (skuDetails in skuDetailsList) {
+                //this will return both the SKUs from Google Play Console
+            }
+        }
+    }
+
+} else {
+    println("Billing Client not ready")
+}</code></pre>
+                 <p class="graf--p">
+                  Here, SkuDetailsParams is used to query the for SKU details and in setType, we are just calling INAPP type. Then we just query the result asynchronously. and get the SKUs if the Response code is Successful and the SKUs are created successfully in the Google Console.
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 07:
+                 </h4>
+                 <p class="graf--p">
+                  Now we will design our XML file where we will add a button to purchase the item with SKU name
+                  <b class="graf--bold">
+                   test_product_two.
+                  </b>
+                  The XML looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+
+    &lt;Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonBuyProduct"
+        android:text="Buy your product"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <h4 class="graf--h3">
+                  Step 08 :
+                 </h4>
+                 <p class="graf--p">
+                  Now we will implement the click listener to set up the purchase. In the success callback of SKU fetching which we did in step 06, we will add
+                 </p>
+                 <pre><code class="language-java graf graf--code">if (billingResult.responseCode == BillingClient.BillingResponseCode.OK &amp;&amp; skuDetailsList.isNotEmpty()) {
+    for (skuDetails in skuDetailsList) {
+        if (skuDetails.sku == "test_product_two")
+            buttonBuyProduct.setOnClickListener {
+                val billingFlowParams = BillingFlowParams
+                    .newBuilder()
+                    .setSkuDetails(skuDetails)
+                    .build()
+                billingClient.launchBillingFlow(this, billingFlowParams)
+            }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here, BillingFlowParams initiates the purchase flow with the specific  SKU detail and when the click happens, the billingClient launches the billing flow to start the purchase of specific SKU.
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 09
+                 </h4>
+                 <p class="graf--p">
+                  When the purchase of SKU starts, we will handle the purchase using,
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onPurchasesUpdated(
+    billingResult: BillingResult?,
+    purchases: MutableList&lt;Purchase&gt;?
+) {
+    if (billingResult?.responseCode == BillingClient.BillingResponseCode.OK &amp;&amp; purchases != null) {
+        for (purchase in purchases) {
+            acknowledgePurchase(purchase.purchaseToken)
+
+        }
+    } else if (billingResult?.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
+        // Handle an error caused by a user cancelling the purchase flow.
+        
+    } else {
+        // Handle any other error codes.
+    }
+}
+
+
+private fun acknowledgePurchase(purchaseToken: String) {
+    val params = AcknowledgePurchaseParams.newBuilder()
+        .setPurchaseToken(purchaseToken)
+        .build()
+    billingClient.acknowledgePurchase(params) { billingResult -&gt;
+        val responseCode = billingResult.responseCode
+        val debugMessage = billingResult.debugMessage
+      
+    }
+}</code></pre>
+                 <h4 class="graf--h3">
+                  Step 10:
+                 </h4>
+                 <p class="graf--p">
+                  Now, we are done. Just generate a Signed APK and upload it to the Play Console and wait for the App to get accepted. One done follow the next step.
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 11
+                 </h4>
+                 <p class="graf--p">
+                  This will prompt a Bottom View like,
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Implement In-App Purchases in Android" class="graf-image" src="/images/screen-popup-test-in-app.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Now, we just need to set up the card and purchase it. We are using Debug to test so that is the reason we have Test Card.
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/hi-manshu/in-app-purchase-demo" target="_blank">
+                   You can find the complete code for this project here
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  Happy learning
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to implement Splash Screen in Android?" class="ui centered image" src="/images/banner-splash-screen-in-android.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to implement Splash Screen in Android?
+           </div>
+           <div class="meta">
+            23rd August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about two ways to implement the SplashScreen. One is by using Handler and other is by using RxJava.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Animation in Android - Android Tutorial" class="ui centered image" src="/images/animation-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Animation in Android - Android Tutorial
+           </div>
+           <div class="meta">
+            24th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Android Sensors: Android Tutorial" class="ui centered image" src="/images/using-android-sensors-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Android Sensors: Android Tutorial
+           </div>
+           <div class="meta">
+            30th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

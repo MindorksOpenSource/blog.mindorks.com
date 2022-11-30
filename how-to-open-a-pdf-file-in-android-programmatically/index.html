@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   How to open a PDF file in Android programmatically?
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/how-to-open-a-pdf-file-in-android-programmatically" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="How to open a PDF file in Android programmatically?" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/how-to-open-a-pdf-file-in-android-programmatically" property="og:url"/>
+  <meta content="/images/how-to-open-a-pdf-file-in-android-programmatically-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to open a PDF file i.e. Portable Document Format file in Android programmatically. Since PDF files are the most used document file format, so, using a PDF file in our application can be a good way of displaying some documents in our application. Let's find, how to open a PDF file in Android programmatically." property="og:description"/>
+  <meta content="How to open a PDF file in Android programmatically?" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to open a PDF file i.e. Portable Document Format file in Android programmatically. Since PDF files are the most used document file format, so, using a PDF file in our application can be a good way of displaying some documents in our application. Let's find, how to open a PDF file in Android programmatically." name="twitter:description"/>
+  <meta content="/images/how-to-open-a-pdf-file-in-android-programmatically-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to open a PDF file i.e. Portable Document Format file in Android programmatically. Since PDF files are the most used document file format, so, using a PDF file in our application can be a good way of displaying some documents in our application. Let's find, how to open a PDF file in Android programmatically." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:278,data:{id:278,title:"How to open a PDF file in Android programmatically?",description:"In this blog, we will learn how to open a PDF file i.e. Portable Document Format file in Android programmatically. Since PDF files are the most used document file format, so, using a PDF file in our application can be a good way of displaying some documents in our application. Let's find, how to open a PDF file in Android programmatically.",text:'<h1 class="graf--h1">How to open a PDF file in Android programmatically?</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/how-to-open-a-pdf-file-in-android-programmatically-banner.png class=\'graf-image\' alt=\'How to open a PDF file in Android programmatically?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Opening and viewing documents in Android applications are very interesting and a must to have in every application. You can open any application present on your mobile and you will find that every application contains documents in some or the other way. And among these documents, the most popular and widely used document format is the PDF format. </p><p class="graf--p">PDF or Portable Document Format is a file format that has captured all the elements of a printed document. This is the most used document format. For example, in the Paytm application, you get your monthly expenses in the form of PDF document. So, if you also want to display some kind of document in your application, then you can open this PDF format document.</p><p class="graf--p">So, welcome to MindOrks and in this tutorial, we will learn how to open a PDF file in Android programmatically. We will cover the below topics in this tutorial:</p><ol type="1"><li>Project setup</li><li>Ways of opening PDF in Android</li><li>Making UI and adding Activities for the project</li><li>Opening a PDF file using WebView</li><li>Opening a PDF file using AndoirdPdfviewer library</li><li>Project source code and What next?</li></ol><h4 class="graf--h3">Project setup</h4><p class="graf--p">In this tutorial, we will make a project and try various ways of opening PDF file, Here we are going to set up our project:</p><ul><li>Start a new Android Studio Project</li><li>Select Empty Activity and Next</li><li>Name: Open-PDF-File-Android-Example</li><li>Package name: com.mindorks.example.openpdffile</li><li>Language: Kotlin</li><li>Finish</li><li>Your starting project is ready now</li><li>Under your root directory, create a package named <code class="graf--code-inline">utils</code>.(right-click on root directory &gt; new &gt; package)</li><li>In the utils package, create one object classes: <code class="graf--code-inline">FileUtils</code>.(right-click on utils &gt; new &gt; Kotlin file/class &gt; Object class)</li></ul><h4 class="graf--h3">Ways of opening PDF in Android</h4><p class="graf--p">If you want to display PDF in your Android application, there are various ways of doing it. Some of the ways of opening the PDF can be:</p><ol type="1"><li><b class="graf--bold">From Assets:</b> Let’s take an example, if you want to display some icons in your application then you will put all your icons in the <b class="graf--bold">drawable</b> folder and then you will use those icons in your application. Same is with the case of PDF files also. If you have some PDF file that is constant and you want to display it in your application then you can put that PDF file in the <b class="graf--bold">assets</b> folder and use that PDF in your app. One example can be the <i class="graf--italic">Terms and Conditions</i> file. The terms and conditions files are rarely changed. So, you can put that document in the <b class="graf--bold">assets</b> folder and use it.</li><li><b class="graf--bold">From Device:</b> The other way of opening a PDF is to open it from the device itself. Here, you can open the PDF files present in your mobile device. This is the most used approach for opening the PDF in an Android device. </li><li><b class="graf--bold">From the Internet: </b>Here, you can open PDF files from the internet. All you need to do is just use the URL of the PDF file and after downloading the PDF file, you can open the PDF file in your mobile application.</li></ol><p class="graf--p">So, we will look upon all these ways of viewing the PDF in your Android Application. Let’s make the UI of the project.</p><h4 class="graf--h3">Making UI for the project</h4><p class="graf--p">In our example, we are going to cover four different cases:</p><ol type="1"><li>Opening a PDF file using WebView</li><li>Opening a PDF file from assets using AndroidPdfViewer library</li><li>Opening a PDF file form storage using AndroidPdfViewer library</li><li>Opening a PDF file from the internet using AndroidPdfViewer library</li></ol><p class="graf--p">So, for the first point, we will use <code class="graf--code-inline">WebViewActivity</code> and for 2nd, 3rd, and 4th point, we will be using <code class="graf--code-inline">PdfViewActivtiy</code>.</p><p class="graf--p">Create two activities named <code class="graf--code-inline">WebViewActivtiy</code> and <code class="graf--code-inline">PdfViewActivity</code>.(right-click on root directory &gt; new &gt; Activity&gt; Empty Activity)</p><p class="graf--p">Now, for the above four actions, create four buttons and assign the task to open activity by those four buttons.</p><p class="graf--p">The code for the <code class="graf--code-inline">activity_main.xml</code> file is:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    android:background="@color/secondary_color"\n    tools:context=".MainActivity"&gt;\n\n    &lt;TextView\n        android:id="@+id/textView"\n        android:layout_width="match_parent"\n        android:layout_height="56dp"\n        android:layout_margin="24dp"\n        android:gravity="center"\n        android:text="@string/opening_pdf"\n        android:textColor="@color/color_black"\n        android:textSize="32sp"\n        android:textStyle="bold"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n    &lt;Button\n        android:id="@+id/buttonWebView"\n        android:layout_width="match_parent"\n        android:layout_height="56dp"\n        android:layout_margin="24dp"\n        android:background="@color/primary_color"\n        android:text="@string/open_in_webview"\n        android:textAllCaps="false"\n        android:textColor="@color/color_white"\n        android:textSize="20sp"\n        android:textStyle="bold"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toBottomOf="@+id/textView" /&gt;\n\n    &lt;Button\n        android:id="@+id/buttonAssets"\n        android:layout_width="match_parent"\n        android:layout_height="56dp"\n        android:layout_margin="24dp"\n        android:background="@color/primary_color"\n        android:text="@string/open_from_assets"\n        android:textAllCaps="false"\n        android:textColor="@color/color_white"\n        android:textSize="20sp"\n        android:textStyle="bold"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toBottomOf="@+id/buttonWebView" /&gt;\n\n    &lt;Button\n        android:id="@+id/buttonStorage"\n        android:layout_width="match_parent"\n        android:layout_height="56dp"\n        android:layout_margin="24dp"\n        android:background="@color/primary_color"\n        android:text="@string/open_from_storage"\n        android:textAllCaps="false"\n        android:textColor="@color/color_white"\n        android:textSize="20sp"\n        android:textStyle="bold"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toBottomOf="@+id/buttonAssets" /&gt;\n\n    &lt;Button\n        android:id="@+id/buttonInternet"\n        android:layout_width="match_parent"\n        android:layout_height="56dp"\n        android:layout_margin="24dp"\n        android:background="@color/primary_color"\n        android:text="@string/open_from_internet"\n        android:textAllCaps="false"\n        android:textColor="@color/color_white"\n        android:textSize="20sp"\n        android:textStyle="bold"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toBottomOf="@+id/buttonStorage" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">In the <code class="graf--code-inline">MainActivity.kt</code> file, we call the desired activity with the corresponding buttons:</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n\n        setUpOnClickListener()\n    }\n\n    private fun setUpOnClickListener() {\n        buttonWebView.setOnClickListener {\n            val intent = Intent(this, WebViewActivity::class.java)\n            startActivity(intent)\n        }\n        buttonAssets.setOnClickListener {\n            val intent = Intent(this, PdfViewActivity::class.java)\n            intent.putExtra("ViewType", "assets")\n            startActivity(intent)\n        }\n        buttonStorage.setOnClickListener {\n            val intent = Intent(this, PdfViewActivity::class.java)\n            intent.putExtra("ViewType", "storage")\n            startActivity(intent)\n        }\n        buttonInternet.setOnClickListener {\n            val intent = Intent(this, PdfViewActivity::class.java)\n            intent.putExtra("ViewType", "internet")\n            startActivity(intent)\n        }\n    }\n\n}</code></pre><p class="graf--p">We are done with the UI part. Let&#x27;s learn how to view PDF from WebView. </p><h4 class="graf--h3">Opening a PDF file in Android using WebView</h4><p class="graf--p">The very first and the easiest way of displaying the PDF file is to display it in the <b class="graf--bold">WebView</b>. All you need to do is just put WebView in your layout and load the desired URL by using the <code class="graf--code-inline">webView.loadUrl()</code> function.</p><p class="graf--p">So, add a WebView in the <code class="graf--code-inline">activity_web_view.xml</code> file:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".WebViewActivity"&gt;\n\n    &lt;WebView\n        android:id="@+id/webView"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Now, open the <code class="graf--code-inline">FileUtils</code> class of the utils package that we created at the starting of this blog and add a function named <code class="graf--code-inline">getPdfUrl</code> that will return the URL of the PDF which we are going to view in the WebView. Here, I am using the syllabus of <a class="markup--anchor" target="_blank" href="https://mindorks.s3.ap-south-1.amazonaws.com/courses/MindOrks_Android_Online_Professional_Course-Syllabus.pdf">MindOrks Professional Course</a>. Add below method in <code class="graf--code-inline">FileUtils</code> class:</p><pre><code class="language-java graf graf--code">fun getPdfUrl(): String {\n    return "https://mindorks.s3.ap-south-1.amazonaws.com/courses/MindOrks_Android_Online_Professional_Course-Syllabus.pdf"\n}</code></pre><p class="graf--p">Now, all we need to do is open the above URL in the WebView by calling the <code class="graf--code-inline">webView.loadUrl</code> method. Following is the code of <code class="graf--code-inline">WebViewActivity.kt</code> file:</p><pre><code class="language-java graf graf--code">class WebViewActivity : AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_web_view)\n        webView.webViewClient = WebViewClient()\n        webView.settings.setSupportZoom(true)\n        webView.settings.javaScriptEnabled = true\n        val url = FileUtils.getPdfUrl()\n        webView.loadUrl("https://docs.google.com/gview?embedded=true&url=$url")\n    }\n}</code></pre><p class="graf--p">The last thing that you need to do is adding <code class="graf--code-inline">INTERNET</code> permission to your application. So, add the below line in your <code class="graf--code-inline">AndroidManifest.xml</code> file:</p><pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</code></pre><p class="graf--p">Now, run the application on your mobile phone and the PDF will be displayed on the screen.</p><blockquote class="graf--blockquote"><b class="graf--bold">Note:</b> The opening of PDF in WebView depends on your internet speed, so wait for sometimes if your internet is slow.</blockquote><h4 class="graf--h3">Opening a PDF file in Android using AndroidPdfViewer library</h4><p class="graf--p">There are various libraries that can be used to display PDF files in our application. In our tutorial, we will learn how to open a PDF file from Assets, Phone Storage, and from the Internet by using the <code class="graf--code-inline"><a class="markup--anchor" target="_blank" href="https://github.com/barteksc/AndroidPdfViewer">AndroidPdfViewer</a></code> library.</p><p class="graf--p">Also, we will be using <code class="graf--code-inline"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/PRDownloader">PRDownloader</a></code> library by MindOrks to download files from the Internet and open it by <code class="graf--code-inline">AndoridPdfViewer</code>.</p><p class="graf--p"><b class="graf--bold">Adding dependencies and permissions</b></p><p class="graf--p">Open the app level <code class="graf--code-inline">build.gradle</code> and add the below dependencies of AndroidPdfViewer and PRDownloader:</p><pre><code class="language-java graf graf--code">implementation \'com.github.barteksc:android-pdf-viewer:2.8.2\'\nimplementation \'com.mindorks.android:prdownloader:0.6.0\'</code></pre><p class="graf--p">Since we will be reading pdf from INTERNET. Open the AndoidManifest.xml file and add the below:</p><pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</code></pre><p class="graf--p"><b class="graf--bold">Adding PDFView</b></p><p class="graf--p">The AndroiPdfViewer provides a PDFView to display PDF files in it. So, write the below code in <code class="graf--code-inline">actvity_pdf_view.xml</code>:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".PdfViewActivity"&gt;\n\n    &lt;com.github.barteksc.pdfviewer.PDFView\n        android:id="@+id/pdfView"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent" /&gt;\n\n    &lt;ProgressBar\n        android:id="@+id/progressBar"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:visibility="gone"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintEnd_toEndOf="parent"\n        app:layout_constraintStart_toStartOf="parent"\n        app:layout_constraintTop_toTopOf="@+id/pdfView" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">We can use the AndroidPdfViewer to open the PDF from:</p><ul><li>Assets folder</li><li>Phone storage</li><li>Internet</li></ul><p class="graf--p">So, we need to write the code to connect the button click of <code class="graf--code-inline">MainActivity</code> with the above events. Create a function named <code class="graf--code-inline">checkPdfAction()</code> and write the below code:</p><pre><code class="language-java graf graf--code">private fun checkPdfAction(intent: Intent) {\n    when (intent.getStringExtra("ViewType")) {\n        "assets" -&gt; {\n            // perform action to show pdf from assets\n        }\n        "storage" -&gt; {\n            // perform action to show pdf from storage\n        }\n        "internet" -&gt; {\n            // perform action to show pdf from the internet\n        }\n    }\n}</code></pre><p class="graf--p">Call the above method from the <code class="graf--code-inline">onCreate()</code>:</p><pre><code class="language-java graf graf--code">override fun onCreate(savedInstanceState: Bundle?) {\n    super.onCreate(savedInstanceState)\n    setContentView(R.layout.activity_pdf_view)\n\n    checkPdfAction(intent)\n}</code></pre><p class="graf--p">Let&#x27;s learn how to display PDF from assets, storage, and internet.</p><h4 class="graf--h3">Assets Folder</h4><p class="graf--p">Firstly, we will look upon how to view PDF, stored in the Assets Folder.</p><p class="graf--p"><b class="graf--bold">Creating an assets folder</b></p><p class="graf--p">Create an assets folder by <b class="graf--bold">right-clicking on main &gt; New Folder &gt; Assets Folder</b> and paste the PDF document into it.</p><p class="graf--p">PDF file name: MindOrks_Android_Online_Professional_Course-Syllabus.pdf</p><p class="graf--p"><b class="graf--bold">Create <code class="graf--code-inline">getPdfNameFromAssets()</code> method</b></p><p class="graf--p">Create a method named <code class="graf--code-inline">getPdfNameFromAssets</code> in the FileUtils class. This method will return the name of the PDF file present in the assets folder:</p><pre><code class="language-java graf graf--code">fun getPdfNameFromAssets(): String {\n    return "MindOrks_Android_Online_Professional_Course-Syllabus.pdf"\n}</code></pre><p class="graf--p">Now, in the <code class="graf--code-inline">PdfViewActivity.kt</code> file, create a method <code class="graf--code-inline">showPdfFromAssets</code> which will take the file name in string format and will use the <code class="graf--code-inline">fromAssets()</code> method of AndroidPdfViewer library to display PDF:</p><pre><code class="language-java graf graf--code">private fun showPdfFromAssets(pdfName: String) {\n    pdfView.fromAsset(pdfName)\n        .password(null) // if password protected, then write password\n        .defaultPage(0) // set the default page to open\n        .onPageError { page, _ -&gt;\n            Toast.makeText(\n                this@PdfViewActivity,\n                "Error at page: $page", Toast.LENGTH_LONG\n            ).show()\n        }\n        .load()\n}</code></pre><p class="graf--p">Call the above method from the <code class="graf--code-inline">checkPdfAction</code> and pass the file name by calling the <code class="graf--code-inline">getPdfnameFromAssets</code> method of <code class="graf--code-inline">FileUtils</code> class:</p><pre><code class="language-java graf graf--code">private fun checkPdfAction(intent: Intent) {\n    when (intent.getStringExtra("ViewType")) {\n        "assets" -&gt; {\n            showPdfFromAssets(FileUtils.getPdfNameFromAssets())\n        }\n        "storage" -&gt; {\n            // open pdf from storage\n        }\n        "internet" -&gt; {\n            // open pdf from internet\n        }\n    }\n}</code></pre><p class="graf--p">Finally, run the application on your mobile device and see the output.</p><h4 class="graf--h3">From Phone Storage</h4><p class="graf--p">Now, we will look upon how to open PDF files from the Phone’s storage. So, we have to launch an intent to find the file having PDF format and the selected file will be displayed in the <code class="graf--code-inline">PDFView</code> by calling the <code class="graf--code-inline">fromUri</code> method.</p><p class="graf--p">Create a function <code class="graf--code-inline">selectPdfFromStorage()</code> in the <code class="graf--code-inline">PdfViewActivity.kt</code> file and add the below code:</p><pre><code class="language-java graf graf--code">companion object {\n    private const val PDF_SELECTION_CODE = 99\n}\n\n\nprivate fun selectPdfFromStorage() {\n    Toast.makeText(this, "selectPDF", Toast.LENGTH_LONG).show()\n    val browseStorage = Intent(Intent.ACTION_GET_CONTENT)\n    browseStorage.type = "application/pdf"\n    browseStorage.addCategory(Intent.CATEGORY_OPENABLE)\n    startActivityForResult(\n        Intent.createChooser(browseStorage, "Select PDF"), PDF_SELECTION_CODE\n    )\n}</code></pre><p class="graf--p">Once, the user selects a PDF, the <code class="graf--code-inline">onActivityResult</code> will be called:</p><pre><code class="language-java graf graf--code">override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {\n    super.onActivityResult(requestCode, resultCode, data)\n    if (requestCode == PDF_SELECTION_CODE && resultCode == Activity.RESULT_OK && data != null) {\n        val selectedPdfFromStorage = data.data\n        showPdfFromUri(selectedPdfFromStorage)\n    }\n}</code></pre><p class="graf--p">Now, create a method named <code class="graf--code-inline">showPdfFromUri</code> that will take a Uri and display the PDF:</p><pre><code class="language-java graf graf--code">private fun showPdfFromUri(uri: Uri?) {\n    pdfView.fromUri(uri)\n        .defaultPage(0)\n        .spacing(10)\n        .load()\n}</code></pre><p class="graf--p">Now, you can check the output by running your application on your mobile device and select the desired PDF.</p><h4 class="graf--h3">PDF from Internet</h4><p class="graf--p">Lastly, our aim is to view the PDF files from the Internet. We will first download the PDF by using the <code class="graf--code-inline">PRDownloader</code> and then use this file to display the PDF on your <code class="graf--code-inline">PdfViewActiviy</code> by using the same process as used for Assets and Storage but here you have to use <code class="graf--code-inline">fromFile()</code><b class="graf--bold"> </b>to add display the PDF.</p><p class="graf--p">So, we need to download the file first by using the PRDownloader library. Initialise it in the <code class="graf--code-inline">onCreate()</code> method of <code class="graf--code-inline">PdfViewActivity</code>:</p><pre><code class="language-java graf graf--code">PRDownloader.initialize(applicationContext)</code></pre><p class="graf--p">Now, you need to download the file from the INTERNET by using the <code class="graf--code-inline">download()</code> method of PRDownloader. So, create a function named <code class="graf--code-inline">downloadPdfFromInternet()</code> in the PdfViewActivity. This function will take the URL, directory path, and file name of the file to be downloaded.</p><pre><code class="language-java graf graf--code">private fun downloadPdfFromInternet(url: String, dirPath: String, fileName: String) {\n    PRDownloader.download(\n        url,\n        dirPath,\n        fileName\n    ).build()\n        .start(object : OnDownloadListener {\n            override fun onDownloadComplete() {\n                Toast.makeText(this@PdfViewActivity, "downloadComplete", Toast.LENGTH_LONG)\n                    .show()\n                val downloadedFile = File(dirPath, fileName)\n                progressBar.visibility = View.GONE\n                showPdfFromFile(downloadedFile)\n            }\n\n            override fun onError(error: Error?) {\n                Toast.makeText(\n                    this@PdfViewActivity,\n                    "Error in downloading file : $error",\n                    Toast.LENGTH_LONG\n                )\n                    .show()\n            }\n        })\n}</code></pre><p class="graf--p">The <code class="graf--code-inline">onDownloadComplete</code> method will be called when the file is downloaded. So, call the <code class="graf--code-inline">showPdfFromFile</code> method and pass the downloaded file to the method:</p><pre><code class="language-java graf graf--code">private fun showPdfFromFile(file: File) {\n    pdfView.fromFile(file)\n        .password(null)\n        .defaultPage(0)\n        .enableSwipe(true)\n        .swipeHorizontal(false)\n        .enableDoubletap(true)\n        .onPageError { page, _ -&gt;\n            Toast.makeText(\n                this@PdfViewActivity,\n                "Error at page: $page", Toast.LENGTH_LONG\n            ).show()\n        }\n        .load()\n}</code></pre><p class="graf--p">Finally, call the <code class="graf--code-inline">downloadPdfFromInternet</code> method from the <code class="graf--code-inline">checkPdfAction</code> method but we need the URL, directory name and file name of the file to be downloaded. We can get the URL by calling the <code class="graf--code-inline">getPdfUrl</code> method of <code class="graf--code-inline">FileUtils</code> class. Now, make a function <code class="graf--code-inline">getRootDirPath</code> method in the <code class="graf--code-inline">FileUtils</code> class that will return the root directory:</p><pre><code class="language-java graf graf--code">fun getRootDirPath(context: Context): String {\n    return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {\n        val file: File = ContextCompat.getExternalFilesDirs(\n            context.applicationContext,\n            null\n        )[0]\n        file.absolutePath\n    } else {\n        context.applicationContext.filesDir.absolutePath\n    }\n}</code></pre><p class="graf--p">Now, call the <code class="graf--code-inline">downloadPdfFromInternet</code> method from <code class="graf--code-inline">checkPdfAction</code> method of <code class="graf--code-inline">PdfViewActivity</code> :</p><pre><code class="language-java graf graf--code">private fun checkPdfAction(intent: Intent) {\n    when (intent.getStringExtra("ViewType")) {\n        "assets" -&gt; {\n            showPdfFromAssets(FileUtils.getPdfNameFromAssets())\n        }\n        "storage" -&gt; {\n            selectPdfFromStorage()\n        }\n        "internet" -&gt; {\n            progressBar.visibility = View.VISIBLE\n            val fileName = "myFile.pdf"\n            downloadPdfFromInternet(\n                FileUtils.getPdfUrl(),\n                FileUtils.getRootDirPath(this),\n                fileName\n            )\n        }\n    }\n}</code></pre><p class="graf--p">Finally, run the application and try to verify all the three options i.e. assets, storage and internet options to view PDF in Android Application. Try to replace the PDF link used in the above example with your own PDF URL.</p><p class="graf--p">There are many other methods present in the AndroidPdfViewer library. You can explore all the methods from <a class="markup--anchor" target="_blank" href="https://github.com/barteksc/AndroidPdfViewer">here</a>.</p><h4 class="graf--h3">Project source code and What next?</h4><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource/Open-PDF-File-Android-Example">You can get the source code of the whole project from here</a>.</p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource">You can find more open-source project by MindOrks from here</a>.</p><p class="graf--p"><span class=""><a class="markup--anchor" target="_blank" href="https://afteracademy.com/tech-interview">Have a look at our Interview Kit for company preparation.</a></span></p><p class="graf--p">Do share this tutorial with your fellow developers to spread the knowledge. You can read more blogs on Android on our <span class=""><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/">blogging website</a></span>.</p><p class="graf--p"><b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://bootcamp.mindorks.com/">Apply Now: MindOrks Android Online Course and Learn Advanced Android</a></span></b></p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/how-to-open-a-pdf-file-in-android-programmatically-banner.png",blog_url:"how-to-open-a-pdf-file-in-android-programmatically",likes:0,rank:0,category:1,published_at:"17th June 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:332,title:"How to convert a Kotlin source file to a Java source file?",description:"In this blog, we will learn how to convert a Kotlin source file to a Java source file. We will do the file conversion by two methods. So, let's see how.",author:14897,img_url:"/images/how-to-convert-a-kotlin-source-file-to-a-java-source-file-banner.png",blog_url:"how-to-convert-a-kotlin-source-file-to-a-java-source-file",likes:0,rank:0,category:1,published_at:"21st September 2019",score:3.7596542835235596},{id:298,title:"How to programmatically take a screenshot on Android?",description:"In this blog, we will learn about how can we take a screenshot of the particular view we are into. ",author:9959,img_url:"/images/banner-screenshot.png",blog_url:"how-to-programmatically-take-a-screenshot-on-android",likes:0,rank:0,category:1,published_at:"17th July 2019",score:3.5962114334106445},{id:355,title:"Understanding open Keyword in Kotlin",description:"In this blog, you will learn about open keyword in Kotlin. You will get to know how and when to use open keyword in Kotlin.",author:17146,img_url:"/images/understanding-open-keyword-in-kotlin-banner.png",blog_url:"understanding-open-keyword-in-kotlin",likes:0,rank:0,category:1,published_at:"6th October 2019",score:3.1293888092041016},{id:359,title:"Using MediaPlayer to play an Audio File in Android",description:"In this blog, we will learn how to use MediaPlayer to play an audio file in Android. We will learn about different states present in the MediaPlayer and will also implement it. So, feel the music.",author:17146,img_url:"/images/using-mediaplayer-to-play-an-audio-file-in-android-banner.png",blog_url:"using-mediaplayer-to-play-an-audio-file-in-android",likes:0,rank:0,category:1,published_at:"10th October 2019",score:1.8890047073364258},{id:389,title:"How to deobfuscate an Android stacktrace using mapping file ?",description:"In this blog, we are going to learn how to retrace your stacktrace using the mapping file with detailed steps.",author:1639,img_url:"/images/how-to-deobfuscate-an-android-stack-trace-using-a-mapping-file-banner.jpg",blog_url:"how-to-deobfuscate-an-android-stacktrace-using-mapping-file",likes:0,rank:0,category:1,published_at:"30th December 2019",score:1.8890047073364258},{id:411,title:"Using local.properties file to avoid API Keys check-in into Version Control System",description:"This blog describes how to use the local.properties file in the Android Gradle system to avoid local or user-specific information such as API keys to be checked into the Version Control System.",author:3003,img_url:"/images/using-localproperties-banner-image.png",blog_url:"using-local-properties-file-to-avoid-api-keys-check-in-into-version-control-system",likes:0,rank:0,category:1,published_at:"3rd April 2020",score:1.8798271417617798}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            17th June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  How to open a PDF file in Android programmatically?
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to open a PDF file in Android programmatically?" class="graf-image" src="/images/how-to-open-a-pdf-file-in-android-programmatically-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Opening and viewing documents in Android applications are very interesting and a must to have in every application. You can open any application present on your mobile and you will find that every application contains documents in some or the other way. And among these documents, the most popular and widely used document format is the PDF format.
+                 </p>
+                 <p class="graf--p">
+                  PDF or Portable Document Format is a file format that has captured all the elements of a printed document. This is the most used document format. For example, in the Paytm application, you get your monthly expenses in the form of PDF document. So, if you also want to display some kind of document in your application, then you can open this PDF format document.
+                 </p>
+                 <p class="graf--p">
+                  So, welcome to MindOrks and in this tutorial, we will learn how to open a PDF file in Android programmatically. We will cover the below topics in this tutorial:
+                 </p>
+                 <ol type="1">
+                  <li>
+                   Project setup
+                  </li>
+                  <li>
+                   Ways of opening PDF in Android
+                  </li>
+                  <li>
+                   Making UI and adding Activities for the project
+                  </li>
+                  <li>
+                   Opening a PDF file using WebView
+                  </li>
+                  <li>
+                   Opening a PDF file using AndoirdPdfviewer library
+                  </li>
+                  <li>
+                   Project source code and What next?
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  Project setup
+                 </h4>
+                 <p class="graf--p">
+                  In this tutorial, we will make a project and try various ways of opening PDF file, Here we are going to set up our project:
+                 </p>
+                 <ul>
+                  <li>
+                   Start a new Android Studio Project
+                  </li>
+                  <li>
+                   Select Empty Activity and Next
+                  </li>
+                  <li>
+                   Name: Open-PDF-File-Android-Example
+                  </li>
+                  <li>
+                   Package name: com.mindorks.example.openpdffile
+                  </li>
+                  <li>
+                   Language: Kotlin
+                  </li>
+                  <li>
+                   Finish
+                  </li>
+                  <li>
+                   Your starting project is ready now
+                  </li>
+                  <li>
+                   Under your root directory, create a package named
+                   <code class="graf--code-inline">
+                    utils
+                   </code>
+                   .(right-click on root directory &gt; new &gt; package)
+                  </li>
+                  <li>
+                   In the utils package, create one object classes:
+                   <code class="graf--code-inline">
+                    FileUtils
+                   </code>
+                   .(right-click on utils &gt; new &gt; Kotlin file/class &gt; Object class)
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Ways of opening PDF in Android
+                 </h4>
+                 <p class="graf--p">
+                  If you want to display PDF in your Android application, there are various ways of doing it. Some of the ways of opening the PDF can be:
+                 </p>
+                 <ol type="1">
+                  <li>
+                   <b class="graf--bold">
+                    From Assets:
+                   </b>
+                   Let’s take an example, if you want to display some icons in your application then you will put all your icons in the
+                   <b class="graf--bold">
+                    drawable
+                   </b>
+                   folder and then you will use those icons in your application. Same is with the case of PDF files also. If you have some PDF file that is constant and you want to display it in your application then you can put that PDF file in the
+                   <b class="graf--bold">
+                    assets
+                   </b>
+                   folder and use that PDF in your app. One example can be the
+                   <i class="graf--italic">
+                    Terms and Conditions
+                   </i>
+                   file. The terms and conditions files are rarely changed. So, you can put that document in the
+                   <b class="graf--bold">
+                    assets
+                   </b>
+                   folder and use it.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    From Device:
+                   </b>
+                   The other way of opening a PDF is to open it from the device itself. Here, you can open the PDF files present in your mobile device. This is the most used approach for opening the PDF in an Android device.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    From the Internet:
+                   </b>
+                   Here, you can open PDF files from the internet. All you need to do is just use the URL of the PDF file and after downloading the PDF file, you can open the PDF file in your mobile application.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  So, we will look upon all these ways of viewing the PDF in your Android Application. Let’s make the UI of the project.
+                 </p>
+                 <h4 class="graf--h3">
+                  Making UI for the project
+                 </h4>
+                 <p class="graf--p">
+                  In our example, we are going to cover four different cases:
+                 </p>
+                 <ol type="1">
+                  <li>
+                   Opening a PDF file using WebView
+                  </li>
+                  <li>
+                   Opening a PDF file from assets using AndroidPdfViewer library
+                  </li>
+                  <li>
+                   Opening a PDF file form storage using AndroidPdfViewer library
+                  </li>
+                  <li>
+                   Opening a PDF file from the internet using AndroidPdfViewer library
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  So, for the first point, we will use
+                  <code class="graf--code-inline">
+                   WebViewActivity
+                  </code>
+                  and for 2nd, 3rd, and 4th point, we will be using
+                  <code class="graf--code-inline">
+                   PdfViewActivtiy
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Create two activities named
+                  <code class="graf--code-inline">
+                   WebViewActivtiy
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   PdfViewActivity
+                  </code>
+                  .(right-click on root directory &gt; new &gt; Activity&gt; Empty Activity)
+                 </p>
+                 <p class="graf--p">
+                  Now, for the above four actions, create four buttons and assign the task to open activity by those four buttons.
+                 </p>
+                 <p class="graf--p">
+                  The code for the
+                  <code class="graf--code-inline">
+                   activity_main.xml
+                  </code>
+                  file is:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/secondary_color"
+    tools:context=".MainActivity"&gt;
+
+    &lt;TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="24dp"
+        android:gravity="center"
+        android:text="@string/opening_pdf"
+        android:textColor="@color/color_black"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+    &lt;Button
+        android:id="@+id/buttonWebView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="24dp"
+        android:background="@color/primary_color"
+        android:text="@string/open_in_webview"
+        android:textAllCaps="false"
+        android:textColor="@color/color_white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" /&gt;
+
+    &lt;Button
+        android:id="@+id/buttonAssets"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="24dp"
+        android:background="@color/primary_color"
+        android:text="@string/open_from_assets"
+        android:textAllCaps="false"
+        android:textColor="@color/color_white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonWebView" /&gt;
+
+    &lt;Button
+        android:id="@+id/buttonStorage"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="24dp"
+        android:background="@color/primary_color"
+        android:text="@string/open_from_storage"
+        android:textAllCaps="false"
+        android:textColor="@color/color_white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAssets" /&gt;
+
+    &lt;Button
+        android:id="@+id/buttonInternet"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="24dp"
+        android:background="@color/primary_color"
+        android:text="@string/open_from_internet"
+        android:textAllCaps="false"
+        android:textColor="@color/color_white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStorage" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  In the
+                  <code class="graf--code-inline">
+                   MainActivity.kt
+                  </code>
+                  file, we call the desired activity with the corresponding buttons:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        setUpOnClickListener()
+    }
+
+    private fun setUpOnClickListener() {
+        buttonWebView.setOnClickListener {
+            val intent = Intent(this, WebViewActivity::class.java)
+            startActivity(intent)
+        }
+        buttonAssets.setOnClickListener {
+            val intent = Intent(this, PdfViewActivity::class.java)
+            intent.putExtra("ViewType", "assets")
+            startActivity(intent)
+        }
+        buttonStorage.setOnClickListener {
+            val intent = Intent(this, PdfViewActivity::class.java)
+            intent.putExtra("ViewType", "storage")
+            startActivity(intent)
+        }
+        buttonInternet.setOnClickListener {
+            val intent = Intent(this, PdfViewActivity::class.java)
+            intent.putExtra("ViewType", "internet")
+            startActivity(intent)
+        }
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  We are done with the UI part. Let's learn how to view PDF from WebView.
+                 </p>
+                 <h4 class="graf--h3">
+                  Opening a PDF file in Android using WebView
+                 </h4>
+                 <p class="graf--p">
+                  The very first and the easiest way of displaying the PDF file is to display it in the
+                  <b class="graf--bold">
+                   WebView
+                  </b>
+                  . All you need to do is just put WebView in your layout and load the desired URL by using the
+                  <code class="graf--code-inline">
+                   webView.loadUrl()
+                  </code>
+                  function.
+                 </p>
+                 <p class="graf--p">
+                  So, add a WebView in the
+                  <code class="graf--code-inline">
+                   activity_web_view.xml
+                  </code>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WebViewActivity"&gt;
+
+    &lt;WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, open the
+                  <code class="graf--code-inline">
+                   FileUtils
+                  </code>
+                  class of the utils package that we created at the starting of this blog and add a function named
+                  <code class="graf--code-inline">
+                   getPdfUrl
+                  </code>
+                  that will return the URL of the PDF which we are going to view in the WebView. Here, I am using the syllabus of
+                  <a class="markup--anchor" href="https://mindorks.s3.ap-south-1.amazonaws.com/courses/MindOrks_Android_Online_Professional_Course-Syllabus.pdf" target="_blank">
+                   MindOrks Professional Course
+                  </a>
+                  . Add below method in
+                  <code class="graf--code-inline">
+                   FileUtils
+                  </code>
+                  class:
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun getPdfUrl(): String {
+    return "https://mindorks.s3.ap-south-1.amazonaws.com/courses/MindOrks_Android_Online_Professional_Course-Syllabus.pdf"
+}</code></pre>
+                 <p class="graf--p">
+                  Now, all we need to do is open the above URL in the WebView by calling the
+                  <code class="graf--code-inline">
+                   webView.loadUrl
+                  </code>
+                  method. Following is the code of
+                  <code class="graf--code-inline">
+                   WebViewActivity.kt
+                  </code>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class WebViewActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_web_view)
+        webView.webViewClient = WebViewClient()
+        webView.settings.setSupportZoom(true)
+        webView.settings.javaScriptEnabled = true
+        val url = FileUtils.getPdfUrl()
+        webView.loadUrl("https://docs.google.com/gview?embedded=true&amp;url=$url")
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  The last thing that you need to do is adding
+                  <code class="graf--code-inline">
+                   INTERNET
+                  </code>
+                  permission to your application. So, add the below line in your
+                  <code class="graf--code-inline">
+                   AndroidManifest.xml
+                  </code>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, run the application on your mobile phone and the PDF will be displayed on the screen.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   Note:
+                  </b>
+                  The opening of PDF in WebView depends on your internet speed, so wait for sometimes if your internet is slow.
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  Opening a PDF file in Android using AndroidPdfViewer library
+                 </h4>
+                 <p class="graf--p">
+                  There are various libraries that can be used to display PDF files in our application. In our tutorial, we will learn how to open a PDF file from Assets, Phone Storage, and from the Internet by using the
+                  <code class="graf--code-inline">
+                   <a class="markup--anchor" href="https://github.com/barteksc/AndroidPdfViewer" target="_blank">
+                    AndroidPdfViewer
+                   </a>
+                  </code>
+                  library.
+                 </p>
+                 <p class="graf--p">
+                  Also, we will be using
+                  <code class="graf--code-inline">
+                   <a class="markup--anchor" href="https://github.com/MindorksOpenSource/PRDownloader" target="_blank">
+                    PRDownloader
+                   </a>
+                  </code>
+                  library by MindOrks to download files from the Internet and open it by
+                  <code class="graf--code-inline">
+                   AndoridPdfViewer
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Adding dependencies and permissions
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Open the app level
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  and add the below dependencies of AndroidPdfViewer and PRDownloader:
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+implementation 'com.mindorks.android:prdownloader:0.6.0'</code></pre>
+                 <p class="graf--p">
+                  Since we will be reading pdf from INTERNET. Open the AndoidManifest.xml file and add the below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Adding PDFView
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  The AndroiPdfViewer provides a PDFView to display PDF files in it. So, write the below code in
+                  <code class="graf--code-inline">
+                   actvity_pdf_view.xml
+                  </code>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PdfViewActivity"&gt;
+
+    &lt;com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" /&gt;
+
+    &lt;ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pdfView" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  We can use the AndroidPdfViewer to open the PDF from:
+                 </p>
+                 <ul>
+                  <li>
+                   Assets folder
+                  </li>
+                  <li>
+                   Phone storage
+                  </li>
+                  <li>
+                   Internet
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, we need to write the code to connect the button click of
+                  <code class="graf--code-inline">
+                   MainActivity
+                  </code>
+                  with the above events. Create a function named
+                  <code class="graf--code-inline">
+                   checkPdfAction()
+                  </code>
+                  and write the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun checkPdfAction(intent: Intent) {
+    when (intent.getStringExtra("ViewType")) {
+        "assets" -&gt; {
+            // perform action to show pdf from assets
+        }
+        "storage" -&gt; {
+            // perform action to show pdf from storage
+        }
+        "internet" -&gt; {
+            // perform action to show pdf from the internet
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Call the above method from the
+                  <code class="graf--code-inline">
+                   onCreate()
+                  </code>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_pdf_view)
+
+    checkPdfAction(intent)
+}</code></pre>
+                 <p class="graf--p">
+                  Let's learn how to display PDF from assets, storage, and internet.
+                 </p>
+                 <h4 class="graf--h3">
+                  Assets Folder
+                 </h4>
+                 <p class="graf--p">
+                  Firstly, we will look upon how to view PDF, stored in the Assets Folder.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Creating an assets folder
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Create an assets folder by
+                  <b class="graf--bold">
+                   right-clicking on main &gt; New Folder &gt; Assets Folder
+                  </b>
+                  and paste the PDF document into it.
+                 </p>
+                 <p class="graf--p">
+                  PDF file name: MindOrks_Android_Online_Professional_Course-Syllabus.pdf
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Create
+                   <code class="graf--code-inline">
+                    getPdfNameFromAssets()
+                   </code>
+                   method
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Create a method named
+                  <code class="graf--code-inline">
+                   getPdfNameFromAssets
+                  </code>
+                  in the FileUtils class. This method will return the name of the PDF file present in the assets folder:
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun getPdfNameFromAssets(): String {
+    return "MindOrks_Android_Online_Professional_Course-Syllabus.pdf"
+}</code></pre>
+                 <p class="graf--p">
+                  Now, in the
+                  <code class="graf--code-inline">
+                   PdfViewActivity.kt
+                  </code>
+                  file, create a method
+                  <code class="graf--code-inline">
+                   showPdfFromAssets
+                  </code>
+                  which will take the file name in string format and will use the
+                  <code class="graf--code-inline">
+                   fromAssets()
+                  </code>
+                  method of AndroidPdfViewer library to display PDF:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun showPdfFromAssets(pdfName: String) {
+    pdfView.fromAsset(pdfName)
+        .password(null) // if password protected, then write password
+        .defaultPage(0) // set the default page to open
+        .onPageError { page, _ -&gt;
+            Toast.makeText(
+                this@PdfViewActivity,
+                "Error at page: $page", Toast.LENGTH_LONG
+            ).show()
+        }
+        .load()
+}</code></pre>
+                 <p class="graf--p">
+                  Call the above method from the
+                  <code class="graf--code-inline">
+                   checkPdfAction
+                  </code>
+                  and pass the file name by calling the
+                  <code class="graf--code-inline">
+                   getPdfnameFromAssets
+                  </code>
+                  method of
+                  <code class="graf--code-inline">
+                   FileUtils
+                  </code>
+                  class:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun checkPdfAction(intent: Intent) {
+    when (intent.getStringExtra("ViewType")) {
+        "assets" -&gt; {
+            showPdfFromAssets(FileUtils.getPdfNameFromAssets())
+        }
+        "storage" -&gt; {
+            // open pdf from storage
+        }
+        "internet" -&gt; {
+            // open pdf from internet
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Finally, run the application on your mobile device and see the output.
+                 </p>
+                 <h4 class="graf--h3">
+                  From Phone Storage
+                 </h4>
+                 <p class="graf--p">
+                  Now, we will look upon how to open PDF files from the Phone’s storage. So, we have to launch an intent to find the file having PDF format and the selected file will be displayed in the
+                  <code class="graf--code-inline">
+                   PDFView
+                  </code>
+                  by calling the
+                  <code class="graf--code-inline">
+                   fromUri
+                  </code>
+                  method.
+                 </p>
+                 <p class="graf--p">
+                  Create a function
+                  <code class="graf--code-inline">
+                   selectPdfFromStorage()
+                  </code>
+                  in the
+                  <code class="graf--code-inline">
+                   PdfViewActivity.kt
+                  </code>
+                  file and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">companion object {
+    private const val PDF_SELECTION_CODE = 99
+}
+
+
+private fun selectPdfFromStorage() {
+    Toast.makeText(this, "selectPDF", Toast.LENGTH_LONG).show()
+    val browseStorage = Intent(Intent.ACTION_GET_CONTENT)
+    browseStorage.type = "application/pdf"
+    browseStorage.addCategory(Intent.CATEGORY_OPENABLE)
+    startActivityForResult(
+        Intent.createChooser(browseStorage, "Select PDF"), PDF_SELECTION_CODE
+    )
+}</code></pre>
+                 <p class="graf--p">
+                  Once, the user selects a PDF, the
+                  <code class="graf--code-inline">
+                   onActivityResult
+                  </code>
+                  will be called:
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if (requestCode == PDF_SELECTION_CODE &amp;&amp; resultCode == Activity.RESULT_OK &amp;&amp; data != null) {
+        val selectedPdfFromStorage = data.data
+        showPdfFromUri(selectedPdfFromStorage)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, create a method named
+                  <code class="graf--code-inline">
+                   showPdfFromUri
+                  </code>
+                  that will take a Uri and display the PDF:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun showPdfFromUri(uri: Uri?) {
+    pdfView.fromUri(uri)
+        .defaultPage(0)
+        .spacing(10)
+        .load()
+}</code></pre>
+                 <p class="graf--p">
+                  Now, you can check the output by running your application on your mobile device and select the desired PDF.
+                 </p>
+                 <h4 class="graf--h3">
+                  PDF from Internet
+                 </h4>
+                 <p class="graf--p">
+                  Lastly, our aim is to view the PDF files from the Internet. We will first download the PDF by using the
+                  <code class="graf--code-inline">
+                   PRDownloader
+                  </code>
+                  and then use this file to display the PDF on your
+                  <code class="graf--code-inline">
+                   PdfViewActiviy
+                  </code>
+                  by using the same process as used for Assets and Storage but here you have to use
+                  <code class="graf--code-inline">
+                   fromFile()
+                  </code>
+                  <b class="graf--bold">
+                  </b>
+                  to add display the PDF.
+                 </p>
+                 <p class="graf--p">
+                  So, we need to download the file first by using the PRDownloader library. Initialise it in the
+                  <code class="graf--code-inline">
+                   onCreate()
+                  </code>
+                  method of
+                  <code class="graf--code-inline">
+                   PdfViewActivity
+                  </code>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">PRDownloader.initialize(applicationContext)</code></pre>
+                 <p class="graf--p">
+                  Now, you need to download the file from the INTERNET by using the
+                  <code class="graf--code-inline">
+                   download()
+                  </code>
+                  method of PRDownloader. So, create a function named
+                  <code class="graf--code-inline">
+                   downloadPdfFromInternet()
+                  </code>
+                  in the PdfViewActivity. This function will take the URL, directory path, and file name of the file to be downloaded.
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun downloadPdfFromInternet(url: String, dirPath: String, fileName: String) {
+    PRDownloader.download(
+        url,
+        dirPath,
+        fileName
+    ).build()
+        .start(object : OnDownloadListener {
+            override fun onDownloadComplete() {
+                Toast.makeText(this@PdfViewActivity, "downloadComplete", Toast.LENGTH_LONG)
+                    .show()
+                val downloadedFile = File(dirPath, fileName)
+                progressBar.visibility = View.GONE
+                showPdfFromFile(downloadedFile)
+            }
+
+            override fun onError(error: Error?) {
+                Toast.makeText(
+                    this@PdfViewActivity,
+                    "Error in downloading file : $error",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            }
+        })
+}</code></pre>
+                 <p class="graf--p">
+                  The
+                  <code class="graf--code-inline">
+                   onDownloadComplete
+                  </code>
+                  method will be called when the file is downloaded. So, call the
+                  <code class="graf--code-inline">
+                   showPdfFromFile
+                  </code>
+                  method and pass the downloaded file to the method:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun showPdfFromFile(file: File) {
+    pdfView.fromFile(file)
+        .password(null)
+        .defaultPage(0)
+        .enableSwipe(true)
+        .swipeHorizontal(false)
+        .enableDoubletap(true)
+        .onPageError { page, _ -&gt;
+            Toast.makeText(
+                this@PdfViewActivity,
+                "Error at page: $page", Toast.LENGTH_LONG
+            ).show()
+        }
+        .load()
+}</code></pre>
+                 <p class="graf--p">
+                  Finally, call the
+                  <code class="graf--code-inline">
+                   downloadPdfFromInternet
+                  </code>
+                  method from the
+                  <code class="graf--code-inline">
+                   checkPdfAction
+                  </code>
+                  method but we need the URL, directory name and file name of the file to be downloaded. We can get the URL by calling the
+                  <code class="graf--code-inline">
+                   getPdfUrl
+                  </code>
+                  method of
+                  <code class="graf--code-inline">
+                   FileUtils
+                  </code>
+                  class. Now, make a function
+                  <code class="graf--code-inline">
+                   getRootDirPath
+                  </code>
+                  method in the
+                  <code class="graf--code-inline">
+                   FileUtils
+                  </code>
+                  class that will return the root directory:
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun getRootDirPath(context: Context): String {
+    return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
+        val file: File = ContextCompat.getExternalFilesDirs(
+            context.applicationContext,
+            null
+        )[0]
+        file.absolutePath
+    } else {
+        context.applicationContext.filesDir.absolutePath
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, call the
+                  <code class="graf--code-inline">
+                   downloadPdfFromInternet
+                  </code>
+                  method from
+                  <code class="graf--code-inline">
+                   checkPdfAction
+                  </code>
+                  method of
+                  <code class="graf--code-inline">
+                   PdfViewActivity
+                  </code>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun checkPdfAction(intent: Intent) {
+    when (intent.getStringExtra("ViewType")) {
+        "assets" -&gt; {
+            showPdfFromAssets(FileUtils.getPdfNameFromAssets())
+        }
+        "storage" -&gt; {
+            selectPdfFromStorage()
+        }
+        "internet" -&gt; {
+            progressBar.visibility = View.VISIBLE
+            val fileName = "myFile.pdf"
+            downloadPdfFromInternet(
+                FileUtils.getPdfUrl(),
+                FileUtils.getRootDirPath(this),
+                fileName
+            )
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Finally, run the application and try to verify all the three options i.e. assets, storage and internet options to view PDF in Android Application. Try to replace the PDF link used in the above example with your own PDF URL.
+                 </p>
+                 <p class="graf--p">
+                  There are many other methods present in the AndroidPdfViewer library. You can explore all the methods from
+                  <a class="markup--anchor" href="https://github.com/barteksc/AndroidPdfViewer" target="_blank">
+                   here
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  Project source code and What next?
+                 </h4>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/MindorksOpenSource/Open-PDF-File-Android-Example" target="_blank">
+                   You can get the source code of the whole project from here
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://github.com/MindorksOpenSource" target="_blank">
+                   You can find more open-source project by MindOrks from here
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <span class="">
+                   <a class="markup--anchor" href="https://afteracademy.com/tech-interview" target="_blank">
+                    Have a look at our Interview Kit for company preparation.
+                   </a>
+                  </span>
+                 </p>
+                 <p class="graf--p">
+                  Do share this tutorial with your fellow developers to spread the knowledge. You can read more blogs on Android on our
+                  <span class="">
+                   <a class="markup--anchor" href="https://blog.mindorks.com/" target="_blank">
+                    blogging website
+                   </a>
+                  </span>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://bootcamp.mindorks.com/" target="_blank">
+                     Apply Now: MindOrks Android Online Course and Learn Advanced Android
+                    </a>
+                   </span>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to convert a Kotlin source file to a Java source file?" class="ui centered image" src="/images/how-to-convert-a-kotlin-source-file-to-a-java-source-file-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to convert a Kotlin source file to a Java source file?
+           </div>
+           <div class="meta">
+            21st September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to convert a Kotlin source file to a Java source file. We will do the file conversion by two methods. So, let's see how.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to programmatically take a screenshot on Android?" class="ui centered image" src="/images/banner-screenshot.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to programmatically take a screenshot on Android?
+           </div>
+           <div class="meta">
+            17th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about how can we take a screenshot of the particular view we are into.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding open Keyword in Kotlin" class="ui centered image" src="/images/understanding-open-keyword-in-kotlin-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding open Keyword in Kotlin
+           </div>
+           <div class="meta">
+            6th October 2019
+           </div>
+           <div class="description">
+            In this blog, you will learn about open keyword in Kotlin. You will get to know how and when to use open keyword in Kotlin.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using MediaPlayer to play an Audio File in Android" class="ui centered image" src="/images/using-mediaplayer-to-play-an-audio-file-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using MediaPlayer to play an Audio File in Android
+           </div>
+           <div class="meta">
+            10th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use MediaPlayer to play an audio file in Android. We will learn about different states present in the MediaPlayer and will also implement it. So, feel the music.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to deobfuscate an Android stacktrace using mapping file ?" class="ui centered image" src="/images/how-to-deobfuscate-an-android-stack-trace-using-a-mapping-file-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to deobfuscate an Android stacktrace using mapping file ?
+           </div>
+           <div class="meta">
+            30th December 2019
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to retrace your stacktrace using the mapping file with detailed steps.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using local.properties file to avoid API Keys check-in into Version Control System" class="ui centered image" src="/images/using-localproperties-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using local.properties file to avoid API Keys check-in into Version Control System
+           </div>
+           <div class="meta">
+            3rd April 2020
+           </div>
+           <div class="description">
+            This blog describes how to use the local.properties file in the Android Gradle system to avoid local or user-specific information such as API keys to be checked into the Version Control System.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

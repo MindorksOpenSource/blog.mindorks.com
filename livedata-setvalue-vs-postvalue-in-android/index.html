@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   LiveData setValue vs postValue in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/livedata-setvalue-vs-postvalue-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="LiveData setValue vs postValue in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/livedata-setvalue-vs-postvalue-in-android" property="og:url"/>
+  <meta content="/images/livedata-setvalue-vs-postvalue-in-android-banner-af8979eb8ed68f99.png" property="og:image"/>
+  <meta content="In this blog, we will learn about LiveData and the methods that are used to update the value of the LiveData i.e. setValue() method and postValue() method. We will look at the difference between these two methods. So, let's get started." property="og:description"/>
+  <meta content="LiveData setValue vs postValue in Android" property="twitter:title"/>
+  <meta content="In this blog, we will learn about LiveData and the methods that are used to update the value of the LiveData i.e. setValue() method and postValue() method. We will look at the difference between these two methods. So, let's get started." name="twitter:description"/>
+  <meta content="/images/livedata-setvalue-vs-postvalue-in-android-banner-af8979eb8ed68f99.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about LiveData and the methods that are used to update the value of the LiveData i.e. setValue() method and postValue() method. We will look at the difference between these two methods. So, let's get started." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:285,data:{id:285,title:"LiveData setValue vs postValue in Android",description:"In this blog, we will learn about LiveData and the methods that are used to update the value of the LiveData i.e. setValue() method and postValue() method. We will look at the difference between these two methods. So, let's get started.",text:'<h1 class="graf--h1">LiveData setValue vs postValue in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/livedata-setvalue-vs-postvalue-in-android-banner-af8979eb8ed68f99.png class=\'graf-image\' alt=\'LiveData setValue vs postValue in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In Android, we deal with lots and lots of data. The data of one activity is being used in some other activity or fragment. For example, we can change the UI of an application when there is a change in some data. So, the basic idea is to have efficient communication between the data and the UI of the application and we all know that the best way to do this is by using LiveData which is a part of Android Jetpack.</p><p class="graf--p">The most commonly used methods of LiveData is <code class="graf--code-inline">setvalue</code> and <code class="graf--code-inline">postValue</code>. By name, these two functions are quite confusing i.e. it seems that both are used for the same purpose. But in reality, it is very different.</p><p class="graf--p">So, in this blog, we will start with a quick recap about <b class="graf--bold">LiveData</b> and then we will learn the difference between <code class="graf--code-inline">setValue</code> and <code class="graf--code-inline">postValue</code> methods.</p><h4 class="graf--h3">What is LiveData?</h4><p class="graf--p">If we look at the definition of LiveData from the Android Developer Website, then it says that:</p><blockquote class="graf--blockquote">LiveData is an observable data holder class. Unlike a regular observable, LiveData is lifecycle-aware, meaning it respects the lifecycle of other app components, such as activities, fragments, or services.</blockquote><p class="graf--p">In a simple way, LiveData is basically a data holder and it is used to observe the changes of a particular view and then update the corresponding change.</p><p class="graf--p">So, LiveData is used to make the task of implementing ViewModel easier. The best part about LiveData is that the data will not be updated when your View is in the background and when the view will come in the foreground, then it will get the updated data only. </p><p class="graf--p">Some of the advantages of LiveData includes:</p><ul><li>No memory leaks</li><li>Views always get the up to date data</li><li>No crash due to stopped activities</li></ul><p class="graf--p"><b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/understanding-livedata-in-android">Learn more about LiveData from here.</a></b></p><h4 class="graf--h3">Difference between setValue() and postValue()</h4><p class="graf--p">So, if you are familiar with LiveData, then you must have encountered with these two methods of LiveData i.e. <code class="graf--code-inline">setValue()</code> and <code class="graf--code-inline">postValue()</code>. So, one question that might have come in your mind is why is there a need for two methods <code class="graf--code-inline">setValue</code> and <code class="graf--code-inline">postValue</code> for the same functionality? Let’s find out by taking an example.</p><p class="graf--p">Suppose you want to update some value using the LiveData. So, you will be having two options i.e. either you can update the data on the Main thread or you can update the data using the background thread. So, the use-case of <code class="graf--code-inline">setValue</code> and <code class="graf--code-inline">postValue</code> depends on these two situations only.</p><p class="graf--p">While using the Main thread to change the data, you should use the <code class="graf--code-inline">setValue</code> method of the MutableLiveData class and while using the background thread to change the LiveData, you should use the <code class="graf--code-inline">postValue</code> method of the MutableLiveData class.</p><p class="graf--p">So, the duty of the <code class="graf--code-inline">postValue</code> method is to post or add a task to the main thread of the application whenever there is a change in the value. And the value will be updated whenever the main thread will be executed. So, basically, it is requesting the main thread to set the new updated value and then notify the observers.</p><p class="graf--p">While the <code class="graf--code-inline">setValue</code> method is used to set the changed value from the main thread and if there are some live observers to it, then the updated value will also be sent to those observers as well. <b class="graf--bold">This <code class="graf--code-inline">setValue</code> method must be called from the main thread.</b></p><p class="graf--p">So, here are some of the points that you must think before using <code class="graf--code-inline">setValue</code> and <code class="graf--code-inline">postValue</code>:</p><ul><li>If you are working on the main thread, then both <code class="graf--code-inline">setValue</code> and <code class="graf--code-inline">postValue</code> will work in the same manner i.e. they will update the value and notify the observers.</li><li>If working in some background thread, then you can&#x27;t use <code class="graf--code-inline">setValue</code>. You have to use <code class="graf--code-inline">postValue</code> here with some observer. But the interesting thing about <code class="graf--code-inline">postValue</code> is that the value will be change immediately but the notification that is to be sent to observers will be scheduled to execute on the main thread via the event loop with the handler. </li></ul><p class="graf--p">Let’s take an example,</p><pre><code class="language-java graf graf--code">// setValue\nliveData.setValue("someNewData")\nliveData.setValue("againNewData")\n\n// postValue\nliveData.postValue("someNewData")\nliveData.postValue("againNewData")</code></pre><p class="graf--p">In the above example, the <code class="graf--code-inline">setValue</code> is called from the main thread and the <code class="graf--code-inline">postValue</code> is called from some background thread. </p><p class="graf--p">Since the <code class="graf--code-inline">setValue</code> is called twice, so the value will be updated twice and the observers will receive the notification regarding the updated data twice.</p><p class="graf--p">But for <code class="graf--code-inline">postValue</code>, the value will be updated twice and <b class="graf--bold">the number of times the observers will receive the notification depends on the execution of the main thread. </b>For example, if the <code class="graf--code-inline">postValue</code> is called 4 times before the execution of the main thread, then the observer will receive the notification only once and that too with the latest updated data because the notification to be sent is scheduled to be executed on the main thread. So, if you are calling the <code class="graf--code-inline">postValue</code> method a number of times before the execution of the main thread, then the value that is passed lastly i.e. the latest value will be dispatched to the main thread and rest of the values will be discarded.</p><p class="graf--p">Another thing to care about <code class="graf--code-inline">postValue</code> is that, if the field on which the <code class="graf--code-inline">postValue</code> is called is not having any observers and after that, you call the <code class="graf--code-inline">getValue</code>, then you will not receive the value that you set in the <code class="graf--code-inline">postValue</code> because you don&#x27;t have an observer here.</p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we learned how to use LiveData to implement the concept of ViewModel in our project. LiveData is used to notify the user if there is a change in the value of objects of LiveData. For this purpose, we use two methods i.e. <code class="graf--code-inline">setValue</code> and <code class="graf--code-inline">postValue</code>. We also learned about these two methods. So, I hope you enjoyed this blog. For more information about ViewModels, you can read our blog on <a class="markup--anchor" target="_blank" href="https://medium.com/mindorks/livedata-viewmodel-making-your-own-magic-73facb06fbb">ViewModel</a>.</p><p class="graf--p">Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/livedata-setvalue-vs-postvalue-in-android-banner-af8979eb8ed68f99.png",blog_url:"livedata-setvalue-vs-postvalue-in-android",likes:0,rank:0,category:1,published_at:"27th June 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:261,title:"LiveData vs ObservableField in Android",description:"In this blog, we will talk about LiveData vs ObservableField in Android. We will also talk about the differences and also compare them.",author:9959,img_url:"/images/livedata-vs-observablefield.png",blog_url:"livedata-vs-observable-in-android",likes:0,rank:0,category:1,published_at:"3rd June 2019",score:2.337761640548706},{id:316,title:"Understanding LiveData in Android",description:"In this blog, we will learn about LiveData which is used to notify the observers associated with it if there is a change in the LiveData. Normally, the UI elements are notified when there is a change in data. Also, only that observers will be notified that are in Live state. So, let's explore this.",author:14897,img_url:"/images/understanding-livedata-in-android-banner-0664fcf3fef607cc.png",blog_url:"understanding-livedata-in-android",likes:0,rank:0,category:1,published_at:"21st August 2019",score:2.337761640548706},{id:451,title:"Using Room with LiveData and other third-party libraries",description:"In this blog, we will learn how to use Room with LiveData, RxJava and Coroutines.",author:14040,img_url:"/images/using-room-with-live-data-and-other-third-party-libraries-banner-b04ee19de235bb9c.png",blog_url:"using-room-with-live-data-and-other-third-party-libraries",likes:0,rank:0,category:1,published_at:"18th May 2020",score:2.3285839557647705},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.01835518702864647},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            27th June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  LiveData setValue vs postValue in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="LiveData setValue vs postValue in Android" class="graf-image" src="/images/livedata-setvalue-vs-postvalue-in-android-banner-af8979eb8ed68f99.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In Android, we deal with lots and lots of data. The data of one activity is being used in some other activity or fragment. For example, we can change the UI of an application when there is a change in some data. So, the basic idea is to have efficient communication between the data and the UI of the application and we all know that the best way to do this is by using LiveData which is a part of Android Jetpack.
+                 </p>
+                 <p class="graf--p">
+                  The most commonly used methods of LiveData is
+                  <code class="graf--code-inline">
+                   setvalue
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  . By name, these two functions are quite confusing i.e. it seems that both are used for the same purpose. But in reality, it is very different.
+                 </p>
+                 <p class="graf--p">
+                  So, in this blog, we will start with a quick recap about
+                  <b class="graf--bold">
+                   LiveData
+                  </b>
+                  and then we will learn the difference between
+                  <code class="graf--code-inline">
+                   setValue
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  methods.
+                 </p>
+                 <h4 class="graf--h3">
+                  What is LiveData?
+                 </h4>
+                 <p class="graf--p">
+                  If we look at the definition of LiveData from the Android Developer Website, then it says that:
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  LiveData is an observable data holder class. Unlike a regular observable, LiveData is lifecycle-aware, meaning it respects the lifecycle of other app components, such as activities, fragments, or services.
+                 </blockquote>
+                 <p class="graf--p">
+                  In a simple way, LiveData is basically a data holder and it is used to observe the changes of a particular view and then update the corresponding change.
+                 </p>
+                 <p class="graf--p">
+                  So, LiveData is used to make the task of implementing ViewModel easier. The best part about LiveData is that the data will not be updated when your View is in the background and when the view will come in the foreground, then it will get the updated data only.
+                 </p>
+                 <p class="graf--p">
+                  Some of the advantages of LiveData includes:
+                 </p>
+                 <ul>
+                  <li>
+                   No memory leaks
+                  </li>
+                  <li>
+                   Views always get the up to date data
+                  </li>
+                  <li>
+                   No crash due to stopped activities
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://blog.mindorks.com/understanding-livedata-in-android" target="_blank">
+                    Learn more about LiveData from here.
+                   </a>
+                  </b>
+                 </p>
+                 <h4 class="graf--h3">
+                  Difference between setValue() and postValue()
+                 </h4>
+                 <p class="graf--p">
+                  So, if you are familiar with LiveData, then you must have encountered with these two methods of LiveData i.e.
+                  <code class="graf--code-inline">
+                   setValue()
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   postValue()
+                  </code>
+                  . So, one question that might have come in your mind is why is there a need for two methods
+                  <code class="graf--code-inline">
+                   setValue
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  for the same functionality? Let’s find out by taking an example.
+                 </p>
+                 <p class="graf--p">
+                  Suppose you want to update some value using the LiveData. So, you will be having two options i.e. either you can update the data on the Main thread or you can update the data using the background thread. So, the use-case of
+                  <code class="graf--code-inline">
+                   setValue
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  depends on these two situations only.
+                 </p>
+                 <p class="graf--p">
+                  While using the Main thread to change the data, you should use the
+                  <code class="graf--code-inline">
+                   setValue
+                  </code>
+                  method of the MutableLiveData class and while using the background thread to change the LiveData, you should use the
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  method of the MutableLiveData class.
+                 </p>
+                 <p class="graf--p">
+                  So, the duty of the
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  method is to post or add a task to the main thread of the application whenever there is a change in the value. And the value will be updated whenever the main thread will be executed. So, basically, it is requesting the main thread to set the new updated value and then notify the observers.
+                 </p>
+                 <p class="graf--p">
+                  While the
+                  <code class="graf--code-inline">
+                   setValue
+                  </code>
+                  method is used to set the changed value from the main thread and if there are some live observers to it, then the updated value will also be sent to those observers as well.
+                  <b class="graf--bold">
+                   This
+                   <code class="graf--code-inline">
+                    setValue
+                   </code>
+                   method must be called from the main thread.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  So, here are some of the points that you must think before using
+                  <code class="graf--code-inline">
+                   setValue
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  :
+                 </p>
+                 <ul>
+                  <li>
+                   If you are working on the main thread, then both
+                   <code class="graf--code-inline">
+                    setValue
+                   </code>
+                   and
+                   <code class="graf--code-inline">
+                    postValue
+                   </code>
+                   will work in the same manner i.e. they will update the value and notify the observers.
+                  </li>
+                  <li>
+                   If working in some background thread, then you can't use
+                   <code class="graf--code-inline">
+                    setValue
+                   </code>
+                   . You have to use
+                   <code class="graf--code-inline">
+                    postValue
+                   </code>
+                   here with some observer. But the interesting thing about
+                   <code class="graf--code-inline">
+                    postValue
+                   </code>
+                   is that the value will be change immediately but the notification that is to be sent to observers will be scheduled to execute on the main thread via the event loop with the handler.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Let’s take an example,
+                 </p>
+                 <pre><code class="language-java graf graf--code">// setValue
+liveData.setValue("someNewData")
+liveData.setValue("againNewData")
+
+// postValue
+liveData.postValue("someNewData")
+liveData.postValue("againNewData")</code></pre>
+                 <p class="graf--p">
+                  In the above example, the
+                  <code class="graf--code-inline">
+                   setValue
+                  </code>
+                  is called from the main thread and the
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  is called from some background thread.
+                 </p>
+                 <p class="graf--p">
+                  Since the
+                  <code class="graf--code-inline">
+                   setValue
+                  </code>
+                  is called twice, so the value will be updated twice and the observers will receive the notification regarding the updated data twice.
+                 </p>
+                 <p class="graf--p">
+                  But for
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  , the value will be updated twice and
+                  <b class="graf--bold">
+                   the number of times the observers will receive the notification depends on the execution of the main thread.
+                  </b>
+                  For example, if the
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  is called 4 times before the execution of the main thread, then the observer will receive the notification only once and that too with the latest updated data because the notification to be sent is scheduled to be executed on the main thread. So, if you are calling the
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  method a number of times before the execution of the main thread, then the value that is passed lastly i.e. the latest value will be dispatched to the main thread and rest of the values will be discarded.
+                 </p>
+                 <p class="graf--p">
+                  Another thing to care about
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  is that, if the field on which the
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  is called is not having any observers and after that, you call the
+                  <code class="graf--code-inline">
+                   getValue
+                  </code>
+                  , then you will not receive the value that you set in the
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  because you don't have an observer here.
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how to use LiveData to implement the concept of ViewModel in our project. LiveData is used to notify the user if there is a change in the value of objects of LiveData. For this purpose, we use two methods i.e.
+                  <code class="graf--code-inline">
+                   setValue
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   postValue
+                  </code>
+                  . We also learned about these two methods. So, I hope you enjoyed this blog. For more information about ViewModels, you can read our blog on
+                  <a class="markup--anchor" href="https://medium.com/mindorks/livedata-viewmodel-making-your-own-magic-73facb06fbb" target="_blank">
+                   ViewModel
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="LiveData vs ObservableField in Android" class="ui centered image" src="/images/livedata-vs-observablefield.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            LiveData vs ObservableField in Android
+           </div>
+           <div class="meta">
+            3rd June 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about LiveData vs ObservableField in Android. We will also talk about the differences and also compare them.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding LiveData in Android" class="ui centered image" src="/images/understanding-livedata-in-android-banner-0664fcf3fef607cc.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding LiveData in Android
+           </div>
+           <div class="meta">
+            21st August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about LiveData which is used to notify the observers associated with it if there is a change in the LiveData. Normally, the UI elements are notified when there is a change in data. Also, only that observers will be notified that are in Live state. So, let's explore this.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Room with LiveData and other third-party libraries" class="ui centered image" src="/images/using-room-with-live-data-and-other-third-party-libraries-banner-b04ee19de235bb9c.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Room with LiveData and other third-party libraries
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Room with LiveData, RxJava and Coroutines.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

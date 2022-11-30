@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Android Layouts - Relative/Linear/Frame
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-layout-relative-linear-frame" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Android Layouts - Relative/Linear/Frame" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-layout-relative-linear-frame" property="og:url"/>
+  <meta content="/images/android-layout-relative-linear-frame-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn about various layouts in Android. We will learn about LinearLayout, RelativeLayout, and FrameLayout. We will learn all these with the help of some examples." property="og:description"/>
+  <meta content="Android Layouts - Relative/Linear/Frame" property="twitter:title"/>
+  <meta content="In this blog, we will learn about various layouts in Android. We will learn about LinearLayout, RelativeLayout, and FrameLayout. We will learn all these with the help of some examples." name="twitter:description"/>
+  <meta content="/images/android-layout-relative-linear-frame-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about various layouts in Android. We will learn about LinearLayout, RelativeLayout, and FrameLayout. We will learn all these with the help of some examples." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:191,data:{id:191,title:"Android Layouts - Relative/Linear/Frame",description:"In this blog, we will learn about various layouts in Android. We will learn about LinearLayout, RelativeLayout, and FrameLayout. We will learn all these with the help of some examples.",text:'<h1 class="graf--h1"><b class="graf--bold">Android Layouts — Relative/Linear/Frame</b> </h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-layout-relative-linear-frame-banner.png class=\'graf-image\' alt=\'Android Layouts - Relative/Linear/Frame\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In Android, every Activity has some layouts and in those layouts, various view components are present(learn about Activity from <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/android-activity-lifecycle">here</a> and view from <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/android-user-interface-view-components">here</a>). So, in this blog, we will learn about three layouts in Android i.e. the Relative Layout, the LinearLayout, and the FrameLayout. All the views are held by some layouts in Android. So, let&#x27;s get started with the Relative Layout.</p><h4 class="graf--h3"><b class="graf--bold">Relative Layout</b></h4><p class="graf--p">Relative means <i class="graf--italic">concerning another</i>, or we can understand this as a <i class="graf--italic">relative to one another. </i>In this layout, all the components are arranged concerning with each other.</p><p class="graf--p"> <b class="graf--bold"><i class="graf--italic">For example:</i></b> If we have one <i class="graf--italic">Button </i>on the screen and now we want to put the <i class="graf--italic">TextView</i> below the button i.e. the <i class="graf--italic">TextView</i> is relatively below the <i class="graf--italic">Button</i>. Following is the code of doing the same:  </p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;RelativeLayout      xmlns:android="http://schemas.android.com/apk/res/android"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"&gt;\n    \n    &lt;Button\n        android:id="@+id/button2"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="Click Me!!" /&gt;\n   &lt;TextView\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:layout_below="@id/button2"\n        android:text="MindOrks" /&gt;\n&lt;/RelativeLayout&gt;</code></pre><p class="graf--p">Form the above code, it can be seen that, the TextView is below the Button. Here we have used <b class="graf--bold"><i class="graf--italic">layout_below</i></b> to put the TextView below the Button.</p><h4 class="graf--h3"><b class="graf--bold">Linear Layout</b></h4><p class="graf--p">Linear means in a line, either horizontal or vertical. We can understand here as all the elements inside the linear layout get arranged linearly, one after the other. If you are using horizontal orientation, then all the views inside the LinearLayout will be arranged horizontally one after the other. </p><p class="graf--p"><b class="graf--bold"><i class="graf--italic">For example:</i></b>  A Button is there on the screen, and now we need to put some text below the button. Here, we need to define the <b class="graf--bold">orientation </b>of the LinearLayout to be vertical.</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    android:orientation="vertical"&gt;\n    &lt;Button\n        android:id="@+id/button2"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="Button" /&gt;\n    &lt;TextView\n        android:id="@+id/textView2"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="MindOrks" /&gt;\n&lt;/LinearLayout&gt;</code></pre><p class="graf--p">Here, the TextView will be arranged below the Button because the orientation is vertical.</p><h4 class="graf--h3"><b class="graf--bold">Frame Layout</b></h4><p class="graf--p">Frame Layout is one of the layouts which helps us to create a more complex design easily. When we require to create a design where the components are on top of each other, we use the FrameLayout.</p><p class="graf--p">To define which component will be on top, we put it in the end. <b class="graf--bold"><i class="graf--italic">For example</i></b>, if we want some text over an image, then we will put the TextView in the end.  </p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"&gt;\n    &lt;ImageView\n        android:layout_width="match_parent"\n        android:layout_height="match_parent"\n        android:src="@drawable/mindorkslogo"\n        android:text="Button" /&gt;\n    \n    &lt;TextView\n        android:id="@+id/textView2"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:layout_gravity="center"\n        android:text="MindOrks" /&gt;\n&lt;/FrameLayout&gt;</code></pre><p class="graf--p">Run the application and see the output.</p><p class="graf--p">Now, we are going to build one UI with all the above three layouts. But before that, we should keep in mind the below points:  </p><ol><li>Whenever we are going to use any image in our project, there is a naming rule for it -&gt; <b class="graf--bold">lowercase</b> <b class="graf--bold">a-z, 0–9, underscore</b></li><li>There is a proper naming convention followed by all the Android Developers on how to name your variable, classes, methods. This is not the same for everyone, but it is something which makes things more understandable and easy to read.</li></ol><p class="graf--p">Now, we are going to create the following screen using all the three layouts one by one:  </p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_layout_screenshot_mindorks_image.png class=\'graf-image\' alt=\'Android Layouts - Relative/Linear/Frame\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Firstly, we are using LinearLayout  </p><ol><li>You can use your own image.</li><li>Copy and Paste the image into the Drawable folder of your project and give its name according to the naming rules given above</li><li>Let’s put one ImageView, one Button and one TextView on the screen. You can drag the items from the palette, or you can try writing the code in the text section.</li><li>Here, the parent view group we are using is LinerLayout which requires to define orientation. Try giving it “vertical” or “horizontal”.</li><li>Give your text to the TextView and also text to the Button.</li></ol><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    android:gravity="center"\n    android:orientation="vertical"\n    tools:context=".MainActivity"&gt;\n&lt;ImageView\n        android:layout_width="100dp"\n        android:layout_height="100dp"\n        app:srcCompat="@drawable/logo" /&gt;\n&lt;Button\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="MindOrks" /&gt;\n&lt;TextView\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="MindOrks" /&gt;\n&lt;/LinearLayout&gt;</code></pre><p class="graf--p">Run the app and you will get the desired output.</p><p class="graf--p">Now, for RelativeLayout, you need to arrange the views relative to each other i.e. the Button will be below the ImageView and the TextView will be below the Button.</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    android:gravity="center"\n    tools:context=".MainActivity"&gt;\n&lt;ImageView\n        android:id="@+id/ivLogo"\n        android:layout_width="100dp"\n        android:layout_height="100dp"\n        app:srcCompat="@drawable/logo" /&gt;\n&lt;Button\n        android:id="@+id/btnMindorks"\n        android:layout_width="100dp"\n        android:layout_height="wrap_content"\n        android:text="MindOrks"\n        android:layout_below="@id/ivLogo"/&gt;\n&lt;TextView\n        android:id="@+id/tvMindorks"\n        android:layout_width="100dp"\n        android:layout_height="wrap_content"\n        android:text="MindOrks" \n        android:gravity="center"\n        android:layout_below="@id/btnMindorks"/&gt;\n&lt;/RelativeLayout&gt;</code></pre><p class="graf--p">Run the app and you will get the desired output.</p><p class="graf--p">Lastly, we are going to use FrameLayout. Here, we are changing the design a bit to show how FrameLayout can be used to set view on one another. We are going to develop the below screen:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_layout_small_frame_screenshot_mindorks_image.png class=\'graf-image\' alt=\'Android Layouts - Relative/Linear/Frame\' />\n\t\t\t\t\t\t\t\t</div ><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n&lt;ImageView\n        android:id="@+id/ivLogo"\n        android:layout_width="100dp"\n        android:layout_height="100dp"\n        android:layout_gravity="center"\n        app:srcCompat="@drawable/logo" /&gt;\n&lt;TextView\n        android:id="@+id/tvMindorks"\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:layout_gravity="center"\n        android:text="MindOrks" /&gt;\n&lt;/FrameLayout&gt;</code></pre><p class="graf--p">Awesome!! We had tried all the three main layouts. Now it&#x27;s time to practice some design by yourself and share with us on <a class="markup--anchor" target="_blank" href="https://twitter.com/MindOrksNextGen?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor">Twitter</a> or <a class="markup--anchor" target="_blank" href="https://www.linkedin.com/company/mindorks/?originalSubdomain=in">LinkedIn</a>.</p><p class="graf--p">Happy Learning :)</p><p class="graf--p">Team MindOrks!</p>',author:14897,img_url:"/images/android-layout-relative-linear-frame-banner.png",blog_url:"android-layout-relative-linear-frame",likes:0,rank:0,category:1,published_at:"3rd January 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.01835518702864647},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.01835518702864647},{id:284,title:"Animation in Android - Android Tutorial",description:"In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.",author:14897,img_url:"/images/animation-in-android-banner.png",blog_url:"animation-in-android-tutorial",likes:0,rank:0,category:1,published_at:"24th June 2019",score:.01835518702864647},{id:297,title:"Integrating Android Google’s reCAPTCHA in Android App",description:"In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.",author:17146,img_url:"/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png",blog_url:"integrating-android-google-re-captcha-in-android-app",likes:0,rank:0,category:1,published_at:"18th July 2019",score:.01835518702864647},{id:351,title:"Using Android Sensors: Android Tutorial",description:"In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.",author:14897,img_url:"/images/using-android-sensors-android-tutorial-banner.png",blog_url:"using-android-sensors-android-tutorial",likes:0,rank:0,category:1,published_at:"30th September 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            3rd January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  <b class="graf--bold">
+                   Android Layouts — Relative/Linear/Frame
+                  </b>
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android Layouts - Relative/Linear/Frame" class="graf-image" src="/images/android-layout-relative-linear-frame-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In Android, every Activity has some layouts and in those layouts, various view components are present(learn about Activity from
+                  <a class="markup--anchor" href="https://blog.mindorks.com/android-activity-lifecycle" target="_blank">
+                   here
+                  </a>
+                  and view from
+                  <a class="markup--anchor" href="https://blog.mindorks.com/android-user-interface-view-components" target="_blank">
+                   here
+                  </a>
+                  ). So, in this blog, we will learn about three layouts in Android i.e. the Relative Layout, the LinearLayout, and the FrameLayout. All the views are held by some layouts in Android. So, let's get started with the Relative Layout.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Relative Layout
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Relative means
+                  <i class="graf--italic">
+                   concerning another
+                  </i>
+                  , or we can understand this as a
+                  <i class="graf--italic">
+                   relative to one another.
+                  </i>
+                  In this layout, all the components are arranged concerning with each other.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    For example:
+                   </i>
+                  </b>
+                  If we have one
+                  <i class="graf--italic">
+                   Button
+                  </i>
+                  on the screen and now we want to put the
+                  <i class="graf--italic">
+                   TextView
+                  </i>
+                  below the button i.e. the
+                  <i class="graf--italic">
+                   TextView
+                  </i>
+                  is relatively below the
+                  <i class="graf--italic">
+                   Button
+                  </i>
+                  . Following is the code of doing the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;RelativeLayout      xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"&gt;
+    
+    &lt;Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click Me!!" /&gt;
+   &lt;TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button2"
+        android:text="MindOrks" /&gt;
+&lt;/RelativeLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Form the above code, it can be seen that, the TextView is below the Button. Here we have used
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    layout_below
+                   </i>
+                  </b>
+                  to put the TextView below the Button.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Linear Layout
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Linear means in a line, either horizontal or vertical. We can understand here as all the elements inside the linear layout get arranged linearly, one after the other. If you are using horizontal orientation, then all the views inside the LinearLayout will be arranged horizontally one after the other.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    For example:
+                   </i>
+                  </b>
+                  A Button is there on the screen, and now we need to put some text below the button. Here, we need to define the
+                  <b class="graf--bold">
+                   orientation
+                  </b>
+                  of the LinearLayout to be vertical.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"&gt;
+    &lt;Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" /&gt;
+    &lt;TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MindOrks" /&gt;
+&lt;/LinearLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Here, the TextView will be arranged below the Button because the orientation is vertical.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Frame Layout
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Frame Layout is one of the layouts which helps us to create a more complex design easily. When we require to create a design where the components are on top of each other, we use the FrameLayout.
+                 </p>
+                 <p class="graf--p">
+                  To define which component will be on top, we put it in the end.
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    For example
+                   </i>
+                  </b>
+                  , if we want some text over an image, then we will put the TextView in the end.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"&gt;
+    &lt;ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/mindorkslogo"
+        android:text="Button" /&gt;
+    
+    &lt;TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="MindOrks" /&gt;
+&lt;/FrameLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Run the application and see the output.
+                 </p>
+                 <p class="graf--p">
+                  Now, we are going to build one UI with all the above three layouts. But before that, we should keep in mind the below points:
+                 </p>
+                 <ol>
+                  <li>
+                   Whenever we are going to use any image in our project, there is a naming rule for it -&gt;
+                   <b class="graf--bold">
+                    lowercase
+                   </b>
+                   <b class="graf--bold">
+                    a-z, 0–9, underscore
+                   </b>
+                  </li>
+                  <li>
+                   There is a proper naming convention followed by all the Android Developers on how to name your variable, classes, methods. This is not the same for everyone, but it is something which makes things more understandable and easy to read.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  Now, we are going to create the following screen using all the three layouts one by one:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android Layouts - Relative/Linear/Frame" class="graf-image" src="/images/android_layout_screenshot_mindorks_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Firstly, we are using LinearLayout
+                 </p>
+                 <ol>
+                  <li>
+                   You can use your own image.
+                  </li>
+                  <li>
+                   Copy and Paste the image into the Drawable folder of your project and give its name according to the naming rules given above
+                  </li>
+                  <li>
+                   Let’s put one ImageView, one Button and one TextView on the screen. You can drag the items from the palette, or you can try writing the code in the text section.
+                  </li>
+                  <li>
+                   Here, the parent view group we are using is LinerLayout which requires to define orientation. Try giving it “vertical” or “horizontal”.
+                  </li>
+                  <li>
+                   Give your text to the TextView and also text to the Button.
+                  </li>
+                 </ol>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity"&gt;
+&lt;ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/logo" /&gt;
+&lt;Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MindOrks" /&gt;
+&lt;TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MindOrks" /&gt;
+&lt;/LinearLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Run the app and you will get the desired output.
+                 </p>
+                 <p class="graf--p">
+                  Now, for RelativeLayout, you need to arrange the views relative to each other i.e. the Button will be below the ImageView and the TextView will be below the Button.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".MainActivity"&gt;
+&lt;ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/logo" /&gt;
+&lt;Button
+        android:id="@+id/btnMindorks"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="MindOrks"
+        android:layout_below="@id/ivLogo"/&gt;
+&lt;TextView
+        android:id="@+id/tvMindorks"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="MindOrks" 
+        android:gravity="center"
+        android:layout_below="@id/btnMindorks"/&gt;
+&lt;/RelativeLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Run the app and you will get the desired output.
+                 </p>
+                 <p class="graf--p">
+                  Lastly, we are going to use FrameLayout. Here, we are changing the design a bit to show how FrameLayout can be used to set view on one another. We are going to develop the below screen:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android Layouts - Relative/Linear/Frame" class="graf-image" src="/images/android_layout_small_frame_screenshot_mindorks_image.png"/>
+                 </div>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+&lt;ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/logo" /&gt;
+&lt;TextView
+        android:id="@+id/tvMindorks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="MindOrks" /&gt;
+&lt;/FrameLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Awesome!! We had tried all the three main layouts. Now it's time to practice some design by yourself and share with us on
+                  <a class="markup--anchor" href="https://twitter.com/MindOrksNextGen?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" target="_blank">
+                   Twitter
+                  </a>
+                  or
+                  <a class="markup--anchor" href="https://www.linkedin.com/company/mindorks/?originalSubdomain=in" target="_blank">
+                   LinkedIn
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks!
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Animation in Android - Android Tutorial" class="ui centered image" src="/images/animation-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Animation in Android - Android Tutorial
+           </div>
+           <div class="meta">
+            24th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Android Google’s reCAPTCHA in Android App" class="ui centered image" src="/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Android Google’s reCAPTCHA in Android App
+           </div>
+           <div class="meta">
+            18th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Android Sensors: Android Tutorial" class="ui centered image" src="/images/using-android-sensors-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Android Sensors: Android Tutorial
+           </div>
+           <div class="meta">
+            30th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

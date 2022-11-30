@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Using Mockito in Android Unit Testing as a Pro
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/using-mockito-in-android-unit-testing-as-a-pro" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Using Mockito in Android Unit Testing as a Pro" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/using-mockito-in-android-unit-testing-as-a-pro" property="og:url"/>
+  <meta content="/images/use-mockito-as-pro-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn about how to use mocking as a pro in Android unit testing. You will learn how to set up and the perform test using it" property="og:description"/>
+  <meta content="Using Mockito in Android Unit Testing as a Pro" property="twitter:title"/>
+  <meta content="In this blog, we will learn about how to use mocking as a pro in Android unit testing. You will learn how to set up and the perform test using it" name="twitter:description"/>
+  <meta content="/images/use-mockito-as-pro-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about how to use mocking as a pro in Android unit testing. You will learn how to set up and the perform test using it" name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:306,data:{id:306,title:"Using Mockito in Android Unit Testing as a Pro",description:"In this blog, we will learn about how to use mocking as a pro in Android unit testing. You will learn how to set up and the perform test using it",text:'<h1 class="graf--h1">Using Mockito in Android Unit Testing as a Pro</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/use-mockito-as-pro-banner.png class=\'graf-image\' alt=\'Using Mockito in Android Unit Testing as a Pro\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Most of the classes have some dependencies and often times methods delegates some of the work to other methods in other classes, and we call these classes dependencies.</p><p class="graf--p">When unit testing such methods, if we only used JUnit, our tests will also depend on those methods as well. We want the unit tests to be independent of all other dependencies.</p><p class="graf--p">That is the reason we just Mock the dependency class and we can test the Main Class.</p><h5>What is mockito?</h5><blockquote class="graf--blockquote"><i class="graf--italic">Mockito is a mocking framework that tastes really good. It lets you write beautiful tests with a clean &amp; simple API. Mockito doesn’t give you hangover because the tests are very readable and they produce clean verification errors.</i></blockquote><p class="graf--p">Now, let us understand how to use mockito with example,</p><p class="graf--p">First we add the <b class="graf--bold">dependency</b> in the app.gradle file,</p><pre><code class="language-java graf graf--code">testImplementation \'junit:junit:4.12\'\ntestImplementation \'org.mockito:mockito-core:2.19.0\'</code></pre><p class="graf--p">and in the java folder we will create a package called calculator having two files Operators and Calculator</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/project-structure-mockito.png class=\'graf-image\' alt=\'Using Mockito in Android Unit Testing as a Pro\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here, Operators is a object which has set of functions of calculator operations</p><pre><code class="language-java graf graf--code">object Operators {\n    fun add(a: Int, b: Int): Int = a + b\n\n    fun subtract(a: Int, b: Int): Int = a - b\n\n    fun multiply(a: Int, b: Int): Int = a * b\n\n    fun divide(a: Int, b: Int): Int = a / b\n}</code></pre><p class="graf--p">and Calculator is a class,</p><pre><code class="language-java graf graf--code">class Calculator(private val operators: Operators) {\n    fun addTwoNumbers(a: Int, b: Int): Int = operators.add(a, b)\n\n    fun subtractTwoNumbers(a: Int, b: Int): Int = operators.subtract(a, b)\n\n    fun multiplyTwoNumbers(a: Int, b: Int): Int = operators.multiply(a, b)\n\n    fun divideTwoNumbers(a: Int, b: Int): Int = operators.divide(a, b)\n}</code></pre><p class="graf--p">Here, Calculator takes operator object as a parameter in the primary constructor. So, we return operator function as return param for the functions in Calculator class.</p><h4 class="graf--h3">Let&#x27;s start testing the Calculator Class,</h4><p class="graf--p">Inside the test folder, we will create a package called calculator same as we did in the java folder.</p><p class="graf--p">In that, we will create only one class called CalculatorTest.kt. </p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/mockito-test-sample.png class=\'graf-image\' alt=\'Using Mockito in Android Unit Testing as a Pro\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here, you can see we have not created OperatorsTest as we have to test only CalculatorTest here.</p><p class="graf--p">So, in Calulator Test,</p><pre><code class="language-java graf graf--code">@RunWith(MockitoJUnitRunner::class)\nclass CalculatorTest {\n\n}</code></pre><p class="graf--p">Here, we have annotated with <b class="graf--bold"><i class="graf--italic">MockitoJUnitRunner::class </i></b>that means it provides the Runner to run the test.</p><p class="graf--p">Now, we will setup the calculator class</p><pre><code class="language-java graf graf--code">@RunWith(MockitoJUnitRunner::class)\nclass CalculatorTest {\n\n    lateinit var calculator: Calculator\n\n    @Before\n    fun onSetup() {\n        calculator = Calculator(/** opearators **/)\n    }\n}</code></pre><p class="graf--p">Here,  in construct we need to pass the operators. So, we won&#x27;t create an object of the operator as,</p><ul><li>We want to perform the test in isolation so that even if the Operators crashes, it should not impact the test being performed in CalculatorTest.</li><li>We have to just have the invoke methods of the Operator class and do external communication.</li></ul><p class="graf--p">Also, <b class="graf--bold">@Before</b> means, that even before performing the test we need to setup the dependency.</p><p class="graf--p">So, here we have to <b class="graf--bold">mock</b> the operator like,</p><pre><code class="language-java graf graf--code">@RunWith(MockitoJUnitRunner::class)\nclass CalculatorTest {\n\n    @Mock\n    lateinit var operators: Operators\n\n    lateinit var calculator: Calculator\n\n    @Before\n    fun onSetup() {\n        calculator = Calculator(operators)\n    }\n}</code></pre><p class="graf--p">In Mockito, we mock any class using <b class="graf--bold">@Mock</b> annotation.</p><p class="graf--p">By Mocking any class, we are creating an mock object of that speicifc class. In the above code, Operators is mocked to provide dependency for Calculator class.</p><p class="graf--p">Now, lets perform some test now,</p><pre><code class="language-java graf graf--code">@Test\nfun givenValidInput_whenAdd_shouldCallAddOperator() {\n    val a = 10\n    val b = 20\n    calculator.addTwoNumbers(a, b)\n    verify(operators).add(a, b)\n\n}</code></pre><p class="graf--p">Here, to perform test we need to annotate the function with @Test.</p><p class="graf--p">Now, we will create two variables, a and b with values 10,20 and then we will call,</p><pre><code class="language-java graf graf--code"> calculator.addTwoNumbers(a, b)</code></pre><p class="graf--p">and to verify if the correct function was called or not from the mocked class, we will just use,</p><pre><code class="language-java graf graf--code"> verify(operators).add(a, b) </code></pre><p class="graf--p">Here, verify means that you want to check if a certain method of a mock object has been called or not.</p><p class="graf--p">Now, to run the test we can right click on the function like,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/run-mockito-test.png class=\'graf-image\' alt=\'Using Mockito in Android Unit Testing as a Pro\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">and just click <b class="graf--bold">Run</b>. </p><p class="graf--p">This will run the test and will generate the output that if the Test passed or failed. In our case, the test passed as we called the correct function.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/output-test-mockito.png class=\'graf-image\' alt=\'Using Mockito in Android Unit Testing as a Pro\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Now, to fail the case, just replace</p><pre><code class="language-java graf graf--code">verify(operators).subtract(a, b)</code></pre><p class="graf--p">and our test will fail as we are calling addTwoNumbers of Calculator class and then from mocked Operators we are calling subtract.</p><p class="graf--p">It will throw an error like below,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/output-mockito-test-2.png class=\'graf-image\' alt=\'Using Mockito in Android Unit Testing as a Pro\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">This is how we can use Mockito and perform unit testing in our app.</p><p class="graf--p">Now, to run test on all the functions,</p><pre><code class="language-java graf graf--code">package app.himanshu.playground.calculator\n\nimport org.junit.Before\nimport org.junit.Test\nimport org.junit.runner.RunWith\nimport org.mockito.Mock\nimport org.mockito.Mockito.verify\nimport org.mockito.junit.MockitoJUnitRunner\n\n@RunWith(MockitoJUnitRunner::class)\nclass CalculatorTest {\n\n    @Mock\n    lateinit var operators: Operators\n\n    lateinit var calculator: Calculator\n\n    @Before\n    fun onSetup() {\n        calculator = Calculator(operators)\n    }\n\n\n    @Test\n    fun givenValidInput_whenAdd_shouldCallAddOperator() {\n        val a = 10\n        val b = 20\n        calculator.addTwoNumbers(a, b)\n        verify(operators).add(a, b)\n\n    }\n\n    @Test\n    fun givenValidInput_whenSubtract_shouldCallSubtractOperator() {\n        val a = 10\n        val b = 20\n        calculator.subtractTwoNumbers(a, b)\n        verify(operators).subtract(a, b)\n\n    }\n    @Test\n    fun givenValidInput_whenMultiply_shouldCallMultiplyOperator() {\n        val a = 10\n        val b = 20\n        calculator.multiplyTwoNumbers(a, b)\n        verify(operators).multiply(a, b)\n\n    }\n    @Test\n    fun givenValidInput_whenDivide_shouldCallDivideOperator() {\n        val a = 10\n        val b = 20\n        calculator.divideTwoNumbers(a, b)\n        verify(operators).divide(a, b)\n\n    }\n}</code></pre><p class="graf--p">and to run all the test we can just <b class="graf--bold">Right Click on CalculatorTest</b> -&gt; <b class="graf--bold">Run CalculatorTest. </b>It will run all the test at once and genetate the following success output.,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/output-test-mockito-all.png class=\'graf-image\' alt=\'Using Mockito in Android Unit Testing as a Pro\' />\n\t\t\t\t\t\t\t\t</div ><blockquote class="graf--blockquote">Note :  As all classes in Kotlin are final, Mockito can&#x27;t directly test the final/static classes. To run test on final classes we need to setup the mockito-extentions. <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/mockito-cannot-mock-in-kotlin">You can read more about it here.</a></blockquote><p class="graf--p">Happy learning</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/use-mockito-as-pro-banner.png",blog_url:"using-mockito-in-android-unit-testing-as-a-pro",likes:0,rank:0,category:1,published_at:"26th July 2019"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:250,title:"Using Exoplayer to play Video and Audio in Android like a Pro",description:"In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.",author:14897,img_url:"/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png",blog_url:"using-exoplayer-to-play-video-and-audio-in-android-like-a-pro",likes:0,rank:0,category:1,published_at:"24th May 2019",score:3.457664728164673},{id:259,title:"Mockito cannot mock because : final class in Kotlin",description:"In this blog, we will talk about how we can mock the final class using Mockito. By default, we can't mock the final classes using mockito. Here in this blog, I have talked about multiple ways to test final classes.",author:9959,img_url:"/images/mockito-cannot-mock-banner.jpg",blog_url:"mockito-cannot-mock-in-kotlin",likes:0,rank:0,category:1,published_at:"31st May 2019",score:3.1293888092041016},{id:351,title:"Using Android Sensors: Android Tutorial",description:"In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.",author:14897,img_url:"/images/using-android-sensors-android-tutorial-banner.png",blog_url:"using-android-sensors-android-tutorial",likes:0,rank:0,category:1,published_at:"30th September 2019",score:.3374535143375397},{id:234,title:"Push Notifications in Android Using FCM",description:"In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.",author:14897,img_url:"/images/fcm.jpg",blog_url:"pushing-notifications-in-android-using-fcm",likes:0,rank:0,category:1,published_at:"15th May 2019",score:.3282759189605713},{id:238,title:"Using Custom and Downloadable Fonts in Android",description:"In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.",author:14897,img_url:"/images/downloadable-font-banner.png",blog_url:"using-custom-and-downloadable-fonts-in-android",likes:0,rank:0,category:1,published_at:"16th May 2019",score:.3282759189605713},{id:244,title:"Using Swipe-to-refresh in Android Application",description:"In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.",author:14897,img_url:"/images/swipe-to-refresh-banner.png",blog_url:"using-swipe-to-refresh-in-android-application",likes:0,rank:0,category:1,published_at:"21st May 2019",score:.3282759189605713}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            26th July 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Using Mockito in Android Unit Testing as a Pro
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Mockito in Android Unit Testing as a Pro" class="graf-image" src="/images/use-mockito-as-pro-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Most of the classes have some dependencies and often times methods delegates some of the work to other methods in other classes, and we call these classes dependencies.
+                 </p>
+                 <p class="graf--p">
+                  When unit testing such methods, if we only used JUnit, our tests will also depend on those methods as well. We want the unit tests to be independent of all other dependencies.
+                 </p>
+                 <p class="graf--p">
+                  That is the reason we just Mock the dependency class and we can test the Main Class.
+                 </p>
+                 <h5>
+                  What is mockito?
+                 </h5>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   Mockito is a mocking framework that tastes really good. It lets you write beautiful tests with a clean &amp; simple API. Mockito doesn’t give you hangover because the tests are very readable and they produce clean verification errors.
+                  </i>
+                 </blockquote>
+                 <p class="graf--p">
+                  Now, let us understand how to use mockito with example,
+                 </p>
+                 <p class="graf--p">
+                  First we add the
+                  <b class="graf--bold">
+                   dependency
+                  </b>
+                  in the app.gradle file,
+                 </p>
+                 <pre><code class="language-java graf graf--code">testImplementation 'junit:junit:4.12'
+testImplementation 'org.mockito:mockito-core:2.19.0'</code></pre>
+                 <p class="graf--p">
+                  and in the java folder we will create a package called calculator having two files Operators and Calculator
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Mockito in Android Unit Testing as a Pro" class="graf-image" src="/images/project-structure-mockito.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Here, Operators is a object which has set of functions of calculator operations
+                 </p>
+                 <pre><code class="language-java graf graf--code">object Operators {
+    fun add(a: Int, b: Int): Int = a + b
+
+    fun subtract(a: Int, b: Int): Int = a - b
+
+    fun multiply(a: Int, b: Int): Int = a * b
+
+    fun divide(a: Int, b: Int): Int = a / b
+}</code></pre>
+                 <p class="graf--p">
+                  and Calculator is a class,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Calculator(private val operators: Operators) {
+    fun addTwoNumbers(a: Int, b: Int): Int = operators.add(a, b)
+
+    fun subtractTwoNumbers(a: Int, b: Int): Int = operators.subtract(a, b)
+
+    fun multiplyTwoNumbers(a: Int, b: Int): Int = operators.multiply(a, b)
+
+    fun divideTwoNumbers(a: Int, b: Int): Int = operators.divide(a, b)
+}</code></pre>
+                 <p class="graf--p">
+                  Here, Calculator takes operator object as a parameter in the primary constructor. So, we return operator function as return param for the functions in Calculator class.
+                 </p>
+                 <h4 class="graf--h3">
+                  Let's start testing the Calculator Class,
+                 </h4>
+                 <p class="graf--p">
+                  Inside the test folder, we will create a package called calculator same as we did in the java folder.
+                 </p>
+                 <p class="graf--p">
+                  In that, we will create only one class called CalculatorTest.kt.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Mockito in Android Unit Testing as a Pro" class="graf-image" src="/images/mockito-test-sample.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Here, you can see we have not created OperatorsTest as we have to test only CalculatorTest here.
+                 </p>
+                 <p class="graf--p">
+                  So, in Calulator Test,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@RunWith(MockitoJUnitRunner::class)
+class CalculatorTest {
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we have annotated with
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MockitoJUnitRunner::class
+                   </i>
+                  </b>
+                  that means it provides the Runner to run the test.
+                 </p>
+                 <p class="graf--p">
+                  Now, we will setup the calculator class
+                 </p>
+                 <pre><code class="language-java graf graf--code">@RunWith(MockitoJUnitRunner::class)
+class CalculatorTest {
+
+    lateinit var calculator: Calculator
+
+    @Before
+    fun onSetup() {
+        calculator = Calculator(/** opearators **/)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Here,  in construct we need to pass the operators. So, we won't create an object of the operator as,
+                 </p>
+                 <ul>
+                  <li>
+                   We want to perform the test in isolation so that even if the Operators crashes, it should not impact the test being performed in CalculatorTest.
+                  </li>
+                  <li>
+                   We have to just have the invoke methods of the Operator class and do external communication.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Also,
+                  <b class="graf--bold">
+                   @Before
+                  </b>
+                  means, that even before performing the test we need to setup the dependency.
+                 </p>
+                 <p class="graf--p">
+                  So, here we have to
+                  <b class="graf--bold">
+                   mock
+                  </b>
+                  the operator like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@RunWith(MockitoJUnitRunner::class)
+class CalculatorTest {
+
+    @Mock
+    lateinit var operators: Operators
+
+    lateinit var calculator: Calculator
+
+    @Before
+    fun onSetup() {
+        calculator = Calculator(operators)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  In Mockito, we mock any class using
+                  <b class="graf--bold">
+                   @Mock
+                  </b>
+                  annotation.
+                 </p>
+                 <p class="graf--p">
+                  By Mocking any class, we are creating an mock object of that speicifc class. In the above code, Operators is mocked to provide dependency for Calculator class.
+                 </p>
+                 <p class="graf--p">
+                  Now, lets perform some test now,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Test
+fun givenValidInput_whenAdd_shouldCallAddOperator() {
+    val a = 10
+    val b = 20
+    calculator.addTwoNumbers(a, b)
+    verify(operators).add(a, b)
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here, to perform test we need to annotate the function with @Test.
+                 </p>
+                 <p class="graf--p">
+                  Now, we will create two variables, a and b with values 10,20 and then we will call,
+                 </p>
+                 <pre><code class="language-java graf graf--code"> calculator.addTwoNumbers(a, b)</code></pre>
+                 <p class="graf--p">
+                  and to verify if the correct function was called or not from the mocked class, we will just use,
+                 </p>
+                 <pre><code class="language-java graf graf--code"> verify(operators).add(a, b) </code></pre>
+                 <p class="graf--p">
+                  Here, verify means that you want to check if a certain method of a mock object has been called or not.
+                 </p>
+                 <p class="graf--p">
+                  Now, to run the test we can right click on the function like,
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Mockito in Android Unit Testing as a Pro" class="graf-image" src="/images/run-mockito-test.png"/>
+                 </div>
+                 <p class="graf--p">
+                  and just click
+                  <b class="graf--bold">
+                   Run
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  This will run the test and will generate the output that if the Test passed or failed. In our case, the test passed as we called the correct function.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Mockito in Android Unit Testing as a Pro" class="graf-image" src="/images/output-test-mockito.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Now, to fail the case, just replace
+                 </p>
+                 <pre><code class="language-java graf graf--code">verify(operators).subtract(a, b)</code></pre>
+                 <p class="graf--p">
+                  and our test will fail as we are calling addTwoNumbers of Calculator class and then from mocked Operators we are calling subtract.
+                 </p>
+                 <p class="graf--p">
+                  It will throw an error like below,
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Mockito in Android Unit Testing as a Pro" class="graf-image" src="/images/output-mockito-test-2.png"/>
+                 </div>
+                 <p class="graf--p">
+                  This is how we can use Mockito and perform unit testing in our app.
+                 </p>
+                 <p class="graf--p">
+                  Now, to run test on all the functions,
+                 </p>
+                 <pre><code class="language-java graf graf--code">package app.himanshu.playground.calculator
+
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito.verify
+import org.mockito.junit.MockitoJUnitRunner
+
+@RunWith(MockitoJUnitRunner::class)
+class CalculatorTest {
+
+    @Mock
+    lateinit var operators: Operators
+
+    lateinit var calculator: Calculator
+
+    @Before
+    fun onSetup() {
+        calculator = Calculator(operators)
+    }
+
+
+    @Test
+    fun givenValidInput_whenAdd_shouldCallAddOperator() {
+        val a = 10
+        val b = 20
+        calculator.addTwoNumbers(a, b)
+        verify(operators).add(a, b)
+
+    }
+
+    @Test
+    fun givenValidInput_whenSubtract_shouldCallSubtractOperator() {
+        val a = 10
+        val b = 20
+        calculator.subtractTwoNumbers(a, b)
+        verify(operators).subtract(a, b)
+
+    }
+    @Test
+    fun givenValidInput_whenMultiply_shouldCallMultiplyOperator() {
+        val a = 10
+        val b = 20
+        calculator.multiplyTwoNumbers(a, b)
+        verify(operators).multiply(a, b)
+
+    }
+    @Test
+    fun givenValidInput_whenDivide_shouldCallDivideOperator() {
+        val a = 10
+        val b = 20
+        calculator.divideTwoNumbers(a, b)
+        verify(operators).divide(a, b)
+
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  and to run all the test we can just
+                  <b class="graf--bold">
+                   Right Click on CalculatorTest
+                  </b>
+                  -&gt;
+                  <b class="graf--bold">
+                   Run CalculatorTest.
+                  </b>
+                  It will run all the test at once and genetate the following success output.,
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Mockito in Android Unit Testing as a Pro" class="graf-image" src="/images/output-test-mockito-all.png"/>
+                 </div>
+                 <blockquote class="graf--blockquote">
+                  Note :  As all classes in Kotlin are final, Mockito can't directly test the final/static classes. To run test on final classes we need to setup the mockito-extentions.
+                  <a class="markup--anchor" href="https://blog.mindorks.com/mockito-cannot-mock-in-kotlin" target="_blank">
+                   You can read more about it here.
+                  </a>
+                 </blockquote>
+                 <p class="graf--p">
+                  Happy learning
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Exoplayer to play Video and Audio in Android like a Pro" class="ui centered image" src="/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Exoplayer to play Video and Audio in Android like a Pro
+           </div>
+           <div class="meta">
+            24th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Mockito cannot mock because : final class in Kotlin" class="ui centered image" src="/images/mockito-cannot-mock-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Mockito cannot mock because : final class in Kotlin
+           </div>
+           <div class="meta">
+            31st May 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how we can mock the final class using Mockito. By default, we can't mock the final classes using mockito. Here in this blog, I have talked about multiple ways to test final classes.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Android Sensors: Android Tutorial" class="ui centered image" src="/images/using-android-sensors-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Android Sensors: Android Tutorial
+           </div>
+           <div class="meta">
+            30th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Push Notifications in Android Using FCM" class="ui centered image" src="/images/fcm.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Push Notifications in Android Using FCM
+           </div>
+           <div class="meta">
+            15th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Custom and Downloadable Fonts in Android" class="ui centered image" src="/images/downloadable-font-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Custom and Downloadable Fonts in Android
+           </div>
+           <div class="meta">
+            16th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Swipe-to-refresh in Android Application" class="ui centered image" src="/images/swipe-to-refresh-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Swipe-to-refresh in Android Application
+           </div>
+           <div class="meta">
+            21st May 2019
+           </div>
+           <div class="description">
+            In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

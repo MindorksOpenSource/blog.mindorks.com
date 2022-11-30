@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works.
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no" name="viewport"/>
+  <link href="https://janisharali.com/blog/rxjava-anatomy-what-is-rxjava-how-rxjava-is-designed-and-how-rxjava-works-d357b3aca586" rel="canonical"/>
+  <meta content="janishar, janishar ali, janishar ali anwar, Android Tutorials, Android Lessons, React Tutorials, ReactJs Tutorials, Node Tutorials, Node Lessons, NodeJs Tutorials, NodeJs Lessons, Tyepscript React Framework, Pandas Lessons, Pandas Tutorials" name="keywords">
+   <meta content="RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works." property="og:title">
+    <meta content="website" property="og:type">
+     <meta content="https://janisharali.com/blog/rxjava-anatomy-what-is-rxjava-how-rxjava-is-designed-and-how-rxjava-works-d357b3aca586" property="og:url"/>
+     <meta content="https://mindorks.files.wordpress.com/2018/01/5f53a-1vaaes0w3v4-rohcasugq6w.jpg" property="og:image"/>
+     <meta content="RxJava has become the single most important skill for Android development. Most of you must have worked with it in some form, either in your own codebase or through other third party libraries, like Fast Android Networking and Retrofit." property="og:description"/>
+     <meta content="RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works." property="twitter:title"/>
+     <meta content="RxJava has become the single most important skill for Android development. Most of you must have worked with it in some form, either in your own codebase or through other third party libraries, like Fast Android Networking and Retrofit." name="twitter:description"/>
+     <meta content="https://mindorks.files.wordpress.com/2018/01/5f53a-1vaaes0w3v4-rohcasugq6w.jpg" name="twitter:image:src"/>
+     <meta content="summary_large_image" name="twitter:card"/>
+     <meta content="@janisharali" name="twitter:site"/>
+     <meta content="RxJava has become the single most important skill for Android development. Most of you must have worked with it in some form, either in your own codebase or through other third party libraries, like Fast Android Networking and Retrofit." name="description">
+      <link href="https://fonts.googleapis.com" rel="preconnect"/>
+      <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;600&amp;family=Roboto+Mono&amp;display=swap" rel="stylesheet"/>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+       <!-- Google tag (gtag.js) -->
+       <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-G5X3DR2S6F">
+       </script>
+       <script>
+        window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-G5X3DR2S6F');
+       </script>
+       <style data-emotion="css-global 1iqkrs1">
+        html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box;-webkit-text-size-adjust:100%;}*,*::before,*::after{box-sizing:inherit;}strong,b{font-weight:700;}body{margin:0;color:#212B36;line-height:1.5;font-size:1rem;font-family:Poppins,Roboto,Public Sans,sans-serif;font-weight:400;background-color:#fff;}@media print{body{background-color:#fff;}}body::backdrop{background-color:#fff;}
+       </style>
+       <style data-emotion="css-global pki5y3">
+        *{box-sizing:border-box;}html{margin:0;padding:0;width:100%;height:100%;-webkit-overflow-scrolling:touch;}body{margin:0;padding:0;width:100%;height:100%;}#root{width:100%;height:100%;}a:link{-webkit-text-decoration:none;text-decoration:none;}a:visited{-webkit-text-decoration:none;text-decoration:none;}a:hover{-webkit-text-decoration:none;text-decoration:none;}a:active{-webkit-text-decoration:none;text-decoration:none;}input[type=number]{-moz-appearance:textfield;}input[type=number]::-webkit-outer-spin-button{margin:0;-webkit-appearance:none;}input[type=number]::-webkit-inner-spin-button{margin:0;-webkit-appearance:none;}img{display:block;max-width:100%;}
+       </style>
+       <style data-emotion="css 1m1ymea-root rlknl1-content xljr6b-root hxfd59-brandNameSection 3wguiu-sectionDesktop k3n0t0-sectionMobile m5kpao-appbar i6s8oy 1ggtnfw-logo 1hy9t21 9hvceh-brandName 7wtmrk-button 14rhvc-loginButton vubbuv 1gwtl1m 14cxain-divider 9u4gu9-root 1h6ypyu-author lahc3d-shareAction 1cn3yto 1kqewce-blogContent 15x3obx 1p83tvv 1r86lu1 11qjisw 70xet 1yozyq2 19bz3ge-share zg4d8h 1pup5x2-gridMain 15j76c0 14hshg6-shareTitle xi606m hehu3-shareContainer grsy7x-shareButton 17r8d21-leftIcon-iconSmall cepdve-cover 107gc1b-root 1028dvy-brandFollowSpace 1i9lbqg 1u2u76k-fabTwitter 1q2qd8h-fabLinkedIn b7idbd-fabYoutube vj5m86-fabInstagram 17e0cid-grid 1wxaqej azx95j 1xiyif3-copywrite 70qvj9 a5n6wk-link">
+        .css-1m1ymea-root{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;max-width:1800px;margin:0 auto;float:none;}.css-rlknl1-content{margin-top:60px;min-height:62vh;}.css-xljr6b-root{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;}.css-hxfd59-brandNameSection{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;}.css-3wguiu-sectionDesktop{display:none;}@media (min-width:900px){.css-3wguiu-sectionDesktop{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}}.css-k3n0t0-sectionMobile{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;}@media (min-width:900px){.css-k3n0t0-sectionMobile{display:none;}}.css-m5kpao-appbar{background-color:#fff;color:#212B36;-webkit-transition:box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;box-shadow:none;background-image:none;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;width:100%;box-sizing:border-box;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;position:fixed;z-index:1100;top:0;left:auto;right:0;background-color:#303179;color:#fff;color:#212B36;background:rgba(255, 255, 255, 0.8);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}@media print{.css-m5kpao-appbar{position:absolute;}}.css-i6s8oy{position:relative;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding-left:16px;padding-right:16px;min-height:56px;}@media (min-width:600px){.css-i6s8oy{padding-left:24px;padding-right:24px;}}@media (min-width:0px){@media (orientation: landscape){.css-i6s8oy{min-height:48px;}}}@media (min-width:600px){.css-i6s8oy{min-height:64px;}}.css-1ggtnfw-logo{position:relative;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;width:40px;height:40px;font-family:Poppins,Roboto,Public Sans,sans-serif;font-size:1.25rem;line-height:1;border-radius:50%;overflow:hidden;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;margin:10px;}.css-1hy9t21{width:100%;height:100%;text-align:center;object-fit:cover;color:transparent;text-indent:10000px;}.css-9hvceh-brandName{margin:0;font-weight:700;line-height:1.5;font-size:1.5rem;font-family:Poppins,Roboto,Public Sans,sans-serif;color:#303179;-webkit-text-decoration:underline;text-decoration:underline;text-decoration-color:rgba(48, 49, 121, 0.4);position:relative;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;color:#212B36;-webkit-text-decoration:none;text-decoration:none;}@media (min-width:600px){.css-9hvceh-brandName{font-size:1.625rem;}}@media (min-width:900px){.css-9hvceh-brandName{font-size:1.875rem;}}@media (min-width:1200px){.css-9hvceh-brandName{font-size:2rem;}}.css-9hvceh-brandName:hover{text-decoration-color:inherit;}.css-9hvceh-brandName::-moz-focus-inner{border-style:none;}.css-9hvceh-brandName.Mui-focusVisible{outline:auto;}.css-7wtmrk-button{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-weight:700;line-height:1.7142857142857142;font-size:0.9375rem;text-transform:capitalize;font-family:Poppins,Roboto,Public Sans,sans-serif;min-width:64px;padding:8px 11px;border-radius:6px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:inherit;border-color:currentColor;height:48px;margin:8px;font-weight:500;}.css-7wtmrk-button::-moz-focus-inner{border-style:none;}.css-7wtmrk-button.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-7wtmrk-button{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-7wtmrk-button:hover{-webkit-text-decoration:none;text-decoration:none;background-color:rgba(33, 43, 54, 0.08);}@media (hover: none){.css-7wtmrk-button:hover{background-color:transparent;}}.css-7wtmrk-button.Mui-disabled{color:rgba(145, 158, 171, 0.8);}.css-7wtmrk-button:hover{box-shadow:none;}.css-7wtmrk-button:hover{background-color:rgba(145, 158, 171, 0.08);}.css-14rhvc-loginButton{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-weight:700;line-height:1.7142857142857142;font-size:0.875rem;text-transform:capitalize;font-family:Poppins,Roboto,Public Sans,sans-serif;min-height:36px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;border-radius:50%;padding:0;min-width:0;width:40px;height:40px;z-index:1050;box-shadow:0px 3px 5px -1px rgba(145, 158, 171, 0.2),0px 6px 10px 0px rgba(145, 158, 171, 0.14),0px 1px 18px 0px rgba(145, 158, 171, 0.12);color:rgba(0, 0, 0, 0.87);background-color:#DFE3E8;margin:8px;}.css-14rhvc-loginButton::-moz-focus-inner{border-style:none;}.css-14rhvc-loginButton.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-14rhvc-loginButton{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-14rhvc-loginButton:active{box-shadow:0px 7px 8px -4px rgba(145, 158, 171, 0.2),0px 12px 17px 2px rgba(145, 158, 171, 0.14),0px 5px 22px 4px rgba(145, 158, 171, 0.12);}.css-14rhvc-loginButton:hover{background-color:#f5f5f5;-webkit-text-decoration:none;text-decoration:none;}@media (hover: none){.css-14rhvc-loginButton:hover{background-color:#DFE3E8;}}.css-14rhvc-loginButton.Mui-focusVisible{box-shadow:0px 3px 5px -1px rgba(145, 158, 171, 0.2),0px 6px 10px 0px rgba(145, 158, 171, 0.14),0px 1px 18px 0px rgba(145, 158, 171, 0.12);}.css-14rhvc-loginButton.Mui-disabled{color:rgba(145, 158, 171, 0.8);box-shadow:none;background-color:rgba(145, 158, 171, 0.24);}.css-vubbuv{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;fill:currentColor;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;font-size:1.5rem;}.css-1gwtl1m{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;text-align:center;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;font-size:1.5rem;padding:8px;border-radius:50%;overflow:visible;color:#637381;-webkit-transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:inherit;}.css-1gwtl1m::-moz-focus-inner{border-style:none;}.css-1gwtl1m.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-1gwtl1m{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-1gwtl1m:hover{background-color:rgba(99, 115, 129, 0.08);}@media (hover: none){.css-1gwtl1m:hover{background-color:transparent;}}.css-1gwtl1m.Mui-disabled{background-color:transparent;color:rgba(145, 158, 171, 0.8);}.css-14cxain-divider{margin:0;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;border-width:0;border-style:solid;border-color:rgba(145, 158, 171, 0.24);border-bottom-width:thin;border-style:dashed;border-color:#444586;}.css-9u4gu9-root{-webkit-box-flex:1;-webkit-flex-grow:1;-ms-flex-positive:1;flex-grow:1;background:#fff;}.css-1h6ypyu-author{background:#fff;}.css-lahc3d-shareAction{width:100%;}.css-1cn3yto{box-sizing:border-box;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;}.css-1kqewce-blogContent{box-sizing:border-box;margin:0;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;-webkit-flex-basis:100%;-ms-flex-preferred-size:100%;flex-basis:100%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:100%;min-block-size:55vh;background:#fff;}@media (min-width:600px){.css-1kqewce-blogContent{-webkit-flex-basis:100%;-ms-flex-preferred-size:100%;flex-basis:100%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:100%;}}@media (min-width:900px){.css-1kqewce-blogContent{-webkit-flex-basis:58.333333%;-ms-flex-preferred-size:58.333333%;flex-basis:58.333333%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:58.333333%;}}@media (min-width:1200px){.css-1kqewce-blogContent{-webkit-flex-basis:58.333333%;-ms-flex-preferred-size:58.333333%;flex-basis:58.333333%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:58.333333%;}}@media (min-width:1536px){.css-1kqewce-blogContent{-webkit-flex-basis:58.333333%;-ms-flex-preferred-size:58.333333%;flex-basis:58.333333%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:58.333333%;}}@media (max-width:599.95px){.css-1kqewce-blogContent{padding:8px;}}.css-15x3obx{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;padding:16px;padding:24px 24px 0px;}.css-1p83tvv{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;margin-right:16px;}.css-1r86lu1{position:relative;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;width:40px;height:40px;font-family:Poppins,Roboto,Public Sans,sans-serif;font-size:1.25rem;line-height:1;border-radius:50%;overflow:hidden;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:80px;height:80px;}.css-11qjisw{-webkit-flex:1 1 auto;-ms-flex:1 1 auto;flex:1 1 auto;}.css-70xet{margin:0;font-weight:700;line-height:1.5;font-size:1.125rem;font-family:Poppins,Roboto,Public Sans,sans-serif;display:block;}@media (min-width:600px){.css-70xet{font-size:1.1875rem;}}@media (min-width:900px){.css-70xet{font-size:1.25rem;}}@media (min-width:1200px){.css-70xet{font-size:1.25rem;}}.css-1yozyq2{margin:0;line-height:1.5714285714285714;font-size:0.875rem;font-family:Poppins,Roboto,Public Sans,sans-serif;font-weight:400;color:#637381;display:block;}.css-19bz3ge-share{box-sizing:border-box;margin:0;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;-webkit-flex-basis:100%;-ms-flex-preferred-size:100%;flex-basis:100%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:100%;margin-top:24px;margin-bottom:24px;}@media (min-width:600px){.css-19bz3ge-share{-webkit-flex-basis:100%;-ms-flex-preferred-size:100%;flex-basis:100%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:100%;}}@media (min-width:900px){.css-19bz3ge-share{-webkit-flex-basis:58.333333%;-ms-flex-preferred-size:58.333333%;flex-basis:58.333333%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:58.333333%;}}@media (min-width:1200px){.css-19bz3ge-share{-webkit-flex-basis:58.333333%;-ms-flex-preferred-size:58.333333%;flex-basis:58.333333%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:58.333333%;}}@media (min-width:1536px){.css-19bz3ge-share{-webkit-flex-basis:58.333333%;-ms-flex-preferred-size:58.333333%;flex-basis:58.333333%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:58.333333%;}}.css-zg4d8h{margin:0;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;border-width:0;border-style:solid;border-color:rgba(145, 158, 171, 0.24);border-bottom-width:thin;border-style:dashed;}.css-1pup5x2-gridMain{box-sizing:border-box;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;padding-top:0;padding-block-start:80px;}.css-15j76c0{box-sizing:border-box;margin:0;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;-webkit-flex-basis:100%;-ms-flex-preferred-size:100%;flex-basis:100%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:100%;}@media (min-width:600px){.css-15j76c0{-webkit-flex-basis:100%;-ms-flex-preferred-size:100%;flex-basis:100%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:100%;}}@media (min-width:900px){.css-15j76c0{-webkit-flex-basis:100%;-ms-flex-preferred-size:100%;flex-basis:100%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:100%;}}@media (min-width:1200px){.css-15j76c0{-webkit-flex-basis:100%;-ms-flex-preferred-size:100%;flex-basis:100%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:100%;}}@media (min-width:1536px){.css-15j76c0{-webkit-flex-basis:100%;-ms-flex-preferred-size:100%;flex-basis:100%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:100%;}}.css-14hshg6-shareTitle{margin:0;font-weight:700;line-height:1.5;font-size:1.125rem;font-family:Poppins,Roboto,Public Sans,sans-serif;margin-top:24px;margin-bottom:24px;margin-left:8px;margin-right:8px;color:#757575;}@media (min-width:600px){.css-14hshg6-shareTitle{font-size:1.1875rem;}}@media (min-width:900px){.css-14hshg6-shareTitle{font-size:1.25rem;}}@media (min-width:1200px){.css-14hshg6-shareTitle{font-size:1.25rem;}}.css-xi606m{text-align:center;}.css-hehu3-shareContainer{box-sizing:border-box;margin:0;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;-webkit-flex-basis:100%;-ms-flex-preferred-size:100%;flex-basis:100%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:100%;padding:8px;}@media (min-width:600px){.css-hehu3-shareContainer{-webkit-flex-basis:50%;-ms-flex-preferred-size:50%;flex-basis:50%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:50%;}}@media (min-width:900px){.css-hehu3-shareContainer{-webkit-flex-basis:33.333333%;-ms-flex-preferred-size:33.333333%;flex-basis:33.333333%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:33.333333%;}}@media (min-width:1200px){.css-hehu3-shareContainer{-webkit-flex-basis:33.333333%;-ms-flex-preferred-size:33.333333%;flex-basis:33.333333%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:33.333333%;}}@media (min-width:1536px){.css-hehu3-shareContainer{-webkit-flex-basis:33.333333%;-ms-flex-preferred-size:33.333333%;flex-basis:33.333333%;-webkit-box-flex:0;-webkit-flex-grow:0;-ms-flex-positive:0;flex-grow:0;max-width:33.333333%;}}.css-grsy7x-shareButton{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-weight:700;line-height:1.7142857142857142;font-size:0.8125rem;text-transform:capitalize;font-family:Poppins,Roboto,Public Sans,sans-serif;min-width:64px;padding:4px 10px;border-radius:6px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;color:#fff;background-color:#303179;box-shadow:0px 3px 1px -2px rgba(145, 158, 171, 0.2),0px 2px 2px 0px rgba(145, 158, 171, 0.14),0px 1px 5px 0px rgba(145, 158, 171, 0.12);width:100%;box-shadow:0 8px 16px 0 rgba(48, 49, 121, 0.24);padding-top:8px;padding-bottom:8px;color:#fff;}.css-grsy7x-shareButton::-moz-focus-inner{border-style:none;}.css-grsy7x-shareButton.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-grsy7x-shareButton{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-grsy7x-shareButton:hover{-webkit-text-decoration:none;text-decoration:none;background-color:#262760;box-shadow:0px 2px 4px -1px rgba(145, 158, 171, 0.2),0px 4px 5px 0px rgba(145, 158, 171, 0.14),0px 1px 10px 0px rgba(145, 158, 171, 0.12);}@media (hover: none){.css-grsy7x-shareButton:hover{background-color:#303179;}}.css-grsy7x-shareButton:active{box-shadow:0px 5px 5px -3px rgba(145, 158, 171, 0.2),0px 8px 10px 1px rgba(145, 158, 171, 0.14),0px 3px 14px 2px rgba(145, 158, 171, 0.12);}.css-grsy7x-shareButton.Mui-focusVisible{box-shadow:0px 3px 5px -1px rgba(145, 158, 171, 0.2),0px 6px 10px 0px rgba(145, 158, 171, 0.14),0px 1px 18px 0px rgba(145, 158, 171, 0.12);}.css-grsy7x-shareButton.Mui-disabled{color:rgba(145, 158, 171, 0.8);box-shadow:none;background-color:rgba(145, 158, 171, 0.24);}.css-grsy7x-shareButton:hover{box-shadow:none;}.css-17r8d21-leftIcon-iconSmall{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;fill:currentColor;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;font-size:1.5rem;margin-right:8px;font-size:20px;}.css-cepdve-cover{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;background-image:url(/assets/cloudy-2.svg);-webkit-background-size:cover;background-size:cover;background-repeat:no-repeat;-webkit-background-position:bottom center;background-position:bottom center;height:200px;margin-bottom:48px;width:100%;}@media (max-width:599.95px){.css-cepdve-cover{margin-bottom:32px;}}.css-107gc1b-root{box-sizing:border-box;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;height:100%;padding-top:48px;}.css-107gc1b-root>.MuiGrid-item{max-width:none;}@media (max-width:899.95px){.css-107gc1b-root{padding:32px;}}@media (max-width:599.95px){.css-107gc1b-root{padding:16px;}}.css-1028dvy-brandFollowSpace{box-sizing:border-box;margin:0;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;padding:8px;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;}@media (max-width:599.95px){.css-1028dvy-brandFollowSpace{padding:8px;}}.css-1i9lbqg{margin:0;font-weight:700;line-height:1.5;font-size:1.125rem;font-family:Poppins,Roboto,Public Sans,sans-serif;font-weight:200;}@media (min-width:600px){.css-1i9lbqg{font-size:1.1875rem;}}@media (min-width:900px){.css-1i9lbqg{font-size:1.25rem;}}@media (min-width:1200px){.css-1i9lbqg{font-size:1.25rem;}}.css-1u2u76k-fabTwitter{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-weight:700;line-height:1.7142857142857142;font-size:0.875rem;text-transform:capitalize;font-family:Poppins,Roboto,Public Sans,sans-serif;min-height:36px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;border-radius:50%;padding:0;min-width:0;width:56px;height:56px;z-index:1050;box-shadow:0px 3px 5px -1px rgba(145, 158, 171, 0.2),0px 6px 10px 0px rgba(145, 158, 171, 0.14),0px 1px 18px 0px rgba(145, 158, 171, 0.12);color:rgba(0, 0, 0, 0.87);background-color:#DFE3E8;color:#fff;background-color:#303179;margin:8px;background:#1DA1F2;}.css-1u2u76k-fabTwitter::-moz-focus-inner{border-style:none;}.css-1u2u76k-fabTwitter.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-1u2u76k-fabTwitter{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-1u2u76k-fabTwitter:active{box-shadow:0px 7px 8px -4px rgba(145, 158, 171, 0.2),0px 12px 17px 2px rgba(145, 158, 171, 0.14),0px 5px 22px 4px rgba(145, 158, 171, 0.12);}.css-1u2u76k-fabTwitter:hover{background-color:#f5f5f5;-webkit-text-decoration:none;text-decoration:none;}@media (hover: none){.css-1u2u76k-fabTwitter:hover{background-color:#DFE3E8;}}.css-1u2u76k-fabTwitter.Mui-focusVisible{box-shadow:0px 3px 5px -1px rgba(145, 158, 171, 0.2),0px 6px 10px 0px rgba(145, 158, 171, 0.14),0px 1px 18px 0px rgba(145, 158, 171, 0.12);}.css-1u2u76k-fabTwitter.Mui-disabled{color:rgba(145, 158, 171, 0.8);box-shadow:none;background-color:rgba(145, 158, 171, 0.24);}.css-1u2u76k-fabTwitter:hover{background-color:#262760;}@media (hover: none){.css-1u2u76k-fabTwitter:hover{background-color:#303179;}}.css-1q2qd8h-fabLinkedIn{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-weight:700;line-height:1.7142857142857142;font-size:0.875rem;text-transform:capitalize;font-family:Poppins,Roboto,Public Sans,sans-serif;min-height:36px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;border-radius:50%;padding:0;min-width:0;width:56px;height:56px;z-index:1050;box-shadow:0px 3px 5px -1px rgba(145, 158, 171, 0.2),0px 6px 10px 0px rgba(145, 158, 171, 0.14),0px 1px 18px 0px rgba(145, 158, 171, 0.12);color:rgba(0, 0, 0, 0.87);background-color:#DFE3E8;color:#fff;background-color:#303179;margin:8px;background:#006192;}.css-1q2qd8h-fabLinkedIn::-moz-focus-inner{border-style:none;}.css-1q2qd8h-fabLinkedIn.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-1q2qd8h-fabLinkedIn{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-1q2qd8h-fabLinkedIn:active{box-shadow:0px 7px 8px -4px rgba(145, 158, 171, 0.2),0px 12px 17px 2px rgba(145, 158, 171, 0.14),0px 5px 22px 4px rgba(145, 158, 171, 0.12);}.css-1q2qd8h-fabLinkedIn:hover{background-color:#f5f5f5;-webkit-text-decoration:none;text-decoration:none;}@media (hover: none){.css-1q2qd8h-fabLinkedIn:hover{background-color:#DFE3E8;}}.css-1q2qd8h-fabLinkedIn.Mui-focusVisible{box-shadow:0px 3px 5px -1px rgba(145, 158, 171, 0.2),0px 6px 10px 0px rgba(145, 158, 171, 0.14),0px 1px 18px 0px rgba(145, 158, 171, 0.12);}.css-1q2qd8h-fabLinkedIn.Mui-disabled{color:rgba(145, 158, 171, 0.8);box-shadow:none;background-color:rgba(145, 158, 171, 0.24);}.css-1q2qd8h-fabLinkedIn:hover{background-color:#262760;}@media (hover: none){.css-1q2qd8h-fabLinkedIn:hover{background-color:#303179;}}.css-b7idbd-fabYoutube{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-weight:700;line-height:1.7142857142857142;font-size:0.875rem;text-transform:capitalize;font-family:Poppins,Roboto,Public Sans,sans-serif;min-height:36px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;border-radius:50%;padding:0;min-width:0;width:56px;height:56px;z-index:1050;box-shadow:0px 3px 5px -1px rgba(145, 158, 171, 0.2),0px 6px 10px 0px rgba(145, 158, 171, 0.14),0px 1px 18px 0px rgba(145, 158, 171, 0.12);color:rgba(0, 0, 0, 0.87);background-color:#DFE3E8;color:#fff;background-color:#303179;margin:8px;background:#FF0000;}.css-b7idbd-fabYoutube::-moz-focus-inner{border-style:none;}.css-b7idbd-fabYoutube.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-b7idbd-fabYoutube{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-b7idbd-fabYoutube:active{box-shadow:0px 7px 8px -4px rgba(145, 158, 171, 0.2),0px 12px 17px 2px rgba(145, 158, 171, 0.14),0px 5px 22px 4px rgba(145, 158, 171, 0.12);}.css-b7idbd-fabYoutube:hover{background-color:#f5f5f5;-webkit-text-decoration:none;text-decoration:none;}@media (hover: none){.css-b7idbd-fabYoutube:hover{background-color:#DFE3E8;}}.css-b7idbd-fabYoutube.Mui-focusVisible{box-shadow:0px 3px 5px -1px rgba(145, 158, 171, 0.2),0px 6px 10px 0px rgba(145, 158, 171, 0.14),0px 1px 18px 0px rgba(145, 158, 171, 0.12);}.css-b7idbd-fabYoutube.Mui-disabled{color:rgba(145, 158, 171, 0.8);box-shadow:none;background-color:rgba(145, 158, 171, 0.24);}.css-b7idbd-fabYoutube:hover{background-color:#262760;}@media (hover: none){.css-b7idbd-fabYoutube:hover{background-color:#303179;}}.css-vj5m86-fabInstagram{display:-webkit-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;-webkit-justify-content:center;justify-content:center;position:relative;box-sizing:border-box;-webkit-tap-highlight-color:transparent;background-color:transparent;outline:0;border:0;margin:0;border-radius:0;padding:0;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;vertical-align:middle;-moz-appearance:none;-webkit-appearance:none;-webkit-text-decoration:none;text-decoration:none;color:inherit;font-weight:700;line-height:1.7142857142857142;font-size:0.875rem;text-transform:capitalize;font-family:Poppins,Roboto,Public Sans,sans-serif;min-height:36px;-webkit-transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;border-radius:50%;padding:0;min-width:0;width:56px;height:56px;z-index:1050;box-shadow:0px 3px 5px -1px rgba(145, 158, 171, 0.2),0px 6px 10px 0px rgba(145, 158, 171, 0.14),0px 1px 18px 0px rgba(145, 158, 171, 0.12);color:rgba(0, 0, 0, 0.87);background-color:#DFE3E8;color:#fff;background-color:#303179;margin:8px;background:radial-gradient(circle farthest-corner at 35% 90%, #fec564, transparent 50%),radial-gradient(circle farthest-corner at 0 140%, #fec564, transparent 50%),radial-gradient(ellipse farthest-corner at 0 -25%, #5258cf, transparent 50%),radial-gradient(ellipse farthest-corner at 20% -50%, #5258cf, transparent 50%),radial-gradient(ellipse farthest-corner at 100% 0, #893dc2, transparent 50%),radial-gradient(ellipse farthest-corner at 60% -20%, #893dc2, transparent 50%),radial-gradient(ellipse farthest-corner at 100% 100%, #d9317a, transparent),linear-gradient(#6559ca, #bc318f 30%, #e33f5f 50%, #f77638 70%, #fec66d 100%);}.css-vj5m86-fabInstagram::-moz-focus-inner{border-style:none;}.css-vj5m86-fabInstagram.Mui-disabled{pointer-events:none;cursor:default;}@media print{.css-vj5m86-fabInstagram{-webkit-print-color-adjust:exact;color-adjust:exact;}}.css-vj5m86-fabInstagram:active{box-shadow:0px 7px 8px -4px rgba(145, 158, 171, 0.2),0px 12px 17px 2px rgba(145, 158, 171, 0.14),0px 5px 22px 4px rgba(145, 158, 171, 0.12);}.css-vj5m86-fabInstagram:hover{background-color:#f5f5f5;-webkit-text-decoration:none;text-decoration:none;}@media (hover: none){.css-vj5m86-fabInstagram:hover{background-color:#DFE3E8;}}.css-vj5m86-fabInstagram.Mui-focusVisible{box-shadow:0px 3px 5px -1px rgba(145, 158, 171, 0.2),0px 6px 10px 0px rgba(145, 158, 171, 0.14),0px 1px 18px 0px rgba(145, 158, 171, 0.12);}.css-vj5m86-fabInstagram.Mui-disabled{color:rgba(145, 158, 171, 0.8);box-shadow:none;background-color:rgba(145, 158, 171, 0.24);}.css-vj5m86-fabInstagram:hover{background-color:#262760;}@media (hover: none){.css-vj5m86-fabInstagram:hover{background-color:#303179;}}.css-17e0cid-grid{box-sizing:border-box;display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-flex-wrap:wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;width:100%;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;-webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;padding:16px;}.css-1wxaqej{box-sizing:border-box;margin:0;-webkit-flex-direction:row;-ms-flex-direction:row;flex-direction:row;}.css-azx95j{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;height:100%;}.css-1xiyif3-copywrite{margin:0;line-height:1.5714285714285714;font-size:0.875rem;font-family:Poppins,Roboto,Public Sans,sans-serif;font-weight:400;color:#637381;}.css-70qvj9{display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-align-items:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center;}.css-a5n6wk-link{margin:0;line-height:1.5714285714285714;font-size:0.875rem;font-family:Poppins,Roboto,Public Sans,sans-serif;font-weight:400;color:#303179;-webkit-text-decoration:underline;text-decoration:underline;text-decoration-color:rgba(48, 49, 121, 0.4);margin:16px;color:#637381;}.css-a5n6wk-link:hover{text-decoration-color:inherit;}
+       </style>
+       <!-- app loader css-->
+       <style>
+        .progress-body {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      padding: 0;
+      margin: 0;
+      z-index: 100000;
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+
+    .progress {
+      background: rgba(0, 0, 0, 1);
+      justify-content: flex-start;
+      border-radius: 0px;
+      align-items: center;
+      position: relative;
+      padding: 0 0px;
+      display: flex;
+      height: 2px;
+      width: 100%;
+    }
+
+    .progress-value {
+      animation: appLoadingProgress 5s infinite forwards;
+      box-shadow: 0 0px 0px 0px #fff;
+      border-radius: 0px;
+      background: #f5cac2;
+      height: 5px;
+      width: 0;
+    }
+
+    @keyframes appLoadingProgress {
+      0% {
+        width: 0;
+      }
+
+      100% {
+        width: 100%;
+      }
+    }
+       </style>
+       <script defer="" src="/js/runtime.8b3962116da4d8ec9612.js">
+       </script>
+       <script defer="" src="/js/vendors.8b3962116da4d8ec9612.js">
+       </script>
+       <script defer="" src="/js/app.8b3962116da4d8ec9612.js">
+       </script>
+       <link href="/style/app.8b3962116da4d8ec9612.css" rel="stylesheet"/>
+      </link>
+     </meta>
+    </meta>
+   </meta>
+  </meta>
+ </head>
+ <body>
+  <div class="progress-body" id="appLoader">
+   <div class="progress">
+    <div class="progress-value">
+    </div>
+   </div>
+  </div>
+  <div id="root">
+   <div class="css-1m1ymea-root">
+    <div class="css-xljr6b-root">
+     <header class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionFixed mui-fixed css-m5kpao-appbar">
+      <div class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular css-i6s8oy">
+       <a class="MuiAvatar-root MuiAvatar-circular css-1ggtnfw-logo" href="/">
+        <img alt="Logo" class="MuiAvatar-img css-1hy9t21" src="/assets/logo.png"/>
+       </a>
+       <div class="css-hxfd59-brandNameSection">
+        <button class="MuiTypography-root MuiTypography-h3 MuiLink-root MuiLink-underlineAlways MuiLink-button css-9hvceh-brandName">
+         Janishar Ali
+        </button>
+       </div>
+       <div class="css-3wguiu-sectionDesktop">
+        <a class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit css-7wtmrk-button" href="/contact" tabindex="0">
+         Say Hello
+        </a>
+        <a class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeLarge MuiButton-textSizeLarge MuiButton-colorInherit css-7wtmrk-button" href="/blogs" tabindex="0">
+         Blogs
+        </a>
+        <button aria-label="login" class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default MuiFab-root MuiFab-circular MuiFab-sizeSmall MuiFab-default css-14rhvc-loginButton" tabindex="0" type="button">
+         <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" data-testid="LockIcon" focusable="false" viewbox="0 0 24 24">
+          <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z">
+          </path>
+         </svg>
+        </button>
+       </div>
+       <div class="css-k3n0t0-sectionMobile">
+        <button aria-haspopup="true" aria-label="show more" class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-sizeMedium css-1gwtl1m" tabindex="0" type="button">
+         <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" data-testid="MenuIcon" focusable="false" viewbox="0 0 24 24">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z">
+          </path>
+         </svg>
+        </button>
+       </div>
+      </div>
+      <hr class="MuiDivider-root MuiDivider-fullWidth css-14cxain-divider"/>
+     </header>
+    </div>
+    <div class="css-rlknl1-content">
+     <div class="css-9u4gu9-root">
+      <div class="MuiGrid-root MuiGrid-container css-1cn3yto">
+       <div class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-7 css-1kqewce-blogContent">
+        <div class="css-1h6ypyu-author">
+         <div class="MuiCardHeader-root css-15x3obx">
+          <div class="MuiCardHeader-avatar css-1p83tvv">
+           <div aria-label="Janishar Ali" class="MuiAvatar-root MuiAvatar-circular css-1r86lu1">
+            <img class="MuiAvatar-img css-1hy9t21" src="https://janisharali.com/assets/logo.png"/>
+           </div>
+          </div>
+          <div class="MuiCardHeader-content css-11qjisw">
+           <span class="MuiTypography-root MuiTypography-h5 MuiCardHeader-title css-70xet">
+            Janishar Ali
+           </span>
+           <span class="MuiTypography-root MuiTypography-body2 MuiCardHeader-subheader css-1yozyq2">
+            19 Jul 2017
+           </span>
+          </div>
+         </div>
+        </div>
+        <div class="typewriter-blog-content">
+         <div id="content">
+          <article class="template">
+           <div class="postContent">
+            <div class="notesSource">
+             <div class="postField postField--body" id="editor">
+              <section class="section--first section--last">
+               <div class="section-divider layoutSingleColumn-template">
+                <hr class="section-divider"/>
+               </div>
+               <div class="section-content">
+                <div class="section-inner layoutSingleColumn-template">
+                 <div>
+                  <h1 class="graf--h1">
+                   RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works.
+                  </h1>
+                  <div class="graf-image graf-caption">
+                   <img alt="RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works." class="graf-image" height="auto" src="https://mindorks.files.wordpress.com/2018/01/5f53a-1vaaes0w3v4-rohcasugq6w.jpg" width="100%"/>
+                  </div>
+                  <p class="graf--p">
+                   RxJava has become the single most important skill for Android development. Most of you must have worked with it in some form, either in your own codebase or through other third party libraries, like
+                   <a class="markup--anchor" href="https://github.com/amitshekhariitbhu/Fast-Android-Networking" target="_blank">
+                    Fast Android Networking
+                   </a>
+                   and Retrofit.
+                  </p>
+                  <p class="graf--p">
+                   There are a huge number of articles and tutorials written on how to use RxJava, then why I am writing this redundant article?
+                  </p>
+                  <p class="graf--p">
+                   This article is not a guide on how to use RxJava features but a more
+                   <b class="graf--bold">
+                    fundamental exploration
+                   </b>
+                   , what it is that RxJava is solving in our codebase and how it is doing it?
+                  </p>
+                  <p class="graf--p">
+                   Let’s start with the official definition of RxJava from its GitHub repository:
+                  </p>
+                  <h4 class="graf--h3">
+                   <b class="graf--bold">
+                    Definition:
+                   </b>
+                  </h4>
+                  <p class="graf--p">
+                   <b class="graf--bold">
+                    RxJava is a Java VM implementation of Reactive Extensions.
+                   </b>
+                  </p>
+                  <p class="graf--p">
+                   So, what is
+                   <b class="graf--bold">
+                    Reactive Extension?
+                   </b>
+                  </p>
+                  <p class="graf--p">
+                   The official doc describes
+                   <b class="graf--bold">
+                    Reactive Extension(ReactiveX) as a library for composing asynchronous and event-based programs by using observable sequences.
+                   </b>
+                  </p>
+                  <p class="graf--p">
+                   The definition presents three different terms:
+                   <i class="graf--italic">
+                    asynchronous, event-based, and observable sequences. It also says composing programs.
+                   </i>
+                  </p>
+                  <ol>
+                   <li>
+                    <b class="graf--bold">
+                     Asynchronous
+                    </b>
+                    : It implies that the different parts of a program run simultaneously.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     Event-Based
+                    </b>
+                    : The program executes the codes based on the events generated while the program is running. For Example, a Button click triggers an event and then the program’s event handler receives this event and does some work.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     Observable sequences:
+                    </b>
+                    It will be better understood by the mechanics of it. So, we will come back to it later in this article.
+                   </li>
+                   <li>
+                    RxJava free us from the callback hell by providing the composing style of programming. We can plug in various transformations that resembles the Functional programming.
+                   </li>
+                  </ol>
+                  <p class="graf--p">
+                   <b class="graf--bold">
+                    The Reactive Extension is further elaborated:
+                   </b>
+                   It extends the observer pattern to support sequences of data and/or events and adds operators that allow you to compose sequences together declaratively while abstracting away concerns about things like low-level threading, synchronization, thread-safety, concurrent data structures, and non-blocking I/O.
+                  </p>
+                  <blockquote class="graf--blockquote">
+                   <i class="graf--italic">
+                    Here, observer pattern is the key to understand the architecture, which is a software design pattern, where Subject maintains its Observers and notifies them automatically of any state change, usually by calling one of their methods.
+                   </i>
+                  </blockquote>
+                  <p class="graf--p">
+                   Now you must think, what’s new about it? We have been doing these for decades. These are just fancy words for a Publisher-Subscriber library. Also to make things look more enhanced, Functional is associated with the RxJava.
+                  </p>
+                  <p class="graf--p">
+                   <b class="graf--bold">
+                    The doc says:
+                   </b>
+                   It is sometimes called “
+                   <b class="graf--bold">
+                    functional reactive programming
+                   </b>
+                   ” but this is a
+                   <b class="graf--bold">
+                    misnomer
+                   </b>
+                   . ReactiveX may be functional, and it may be reactive, but “functional reactive programming” is a different animal. One main point of difference is that functional reactive programming operates on values that change
+                   <i class="graf--italic">
+                    continuously
+                   </i>
+                   over time, while ReactiveX operates on
+                   <i class="graf--italic">
+                    discrete
+                   </i>
+                   values that are emitted over time.
+                  </p>
+                  <p class="graf--p">
+                   <b class="graf--bold">
+                    So, RxJava only has some patterns similar to the principles of Functional programming.
+                   </b>
+                  </p>
+                  <p class="graf--p">
+                   <b class="graf--bold">
+                    Now, you must be thinking why RxJava is so popular then?
+                   </b>
+                  </p>
+                  <p class="graf--p">
+                   You will really appreciate the power of RxJava when you write a thread management program. My deep appreciations for RxJava developed when I later explored it in comparison to the
+                   <a class="markup--anchor" href="https://github.com/janishar/JPost" target="_blank">
+                    JPost
+                   </a>
+                   library I wrote.
+                   <a class="markup--anchor" href="https://github.com/janishar/JPost" target="_blank">
+                    JPost
+                   </a>
+                   is an extended publisher-subscriber library for Java and Android which I created sometime back.
+                  </p>
+                  <p class="graf--p">
+                   In the
+                   <a class="markup--anchor" href="https://github.com/janishar/JPost" target="_blank">
+                    JPost
+                   </a>
+                   subscribers communicates with each other over controlled channels synchronously/asynchronously. The thread management was done using ExecutorService, carefully designed for preventing memory leaks and enforce Thread safety. If I were to design this system using RxJava now then it would take fewer lines of code and much less effort(but less learning of course).
+                  </p>
+                  <p class="graf--p">
+                   Below is the architectural diagram of my
+                   <a class="markup--anchor" href="https://github.com/janishar/JPost" target="_blank">
+                    JPost
+                   </a>
+                   library.
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works." class="graf-image" height="auto" src="https://mindorks.files.wordpress.com/2018/01/9ddbb-1spbvgcrcfaz_idzsgonn8g.png" width="100%"/>
+                  </div>
+                  <div class="graf-image graf-caption">
+                   <img alt="RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works." class="graf-image" height="auto" src="https://mindorks.files.wordpress.com/2018/01/70337-1sqorfolh4uxxklwwhex5dg.png" width="100%"/>
+                  </div>
+                  <p class="graf--p">
+                   Now, that I have expresses my deep appreciation for RxJava, let’s try to see and understand the anatomy of it.
+                  </p>
+                  <p class="graf--p">
+                   <i class="graf--italic">
+                    The RxJava is an implementation of a Reactive Stream specification. I found below paragraph as the best definition or rather summation of a Reactive Stream.
+                   </i>
+                  </p>
+                  <p class="graf--p">
+                   Reactive Streams is a programming concept for handling asynchronous data streams in a non-blocking manner while providing backpressure to stream publishers. It has evolved into a specification that is based on the concept of Publisher&lt;T&gt; and Subscriber&lt;T&gt;. A Publisher is the source of events T in the stream, and a Subscriber is a consumer for those events. A Subscriber subscribes to a Publisher by invoking a “
+                   <b class="graf--bold">
+                    factory method
+                   </b>
+                   ” in the Publisher that will push the stream items &lt;T&gt; starting a new Subscription. This is also called Reactor Pattern.
+                  </p>
+                  <p class="graf--p">
+                   There are a number of terms in the above definition.
+                  </p>
+                  <ol>
+                   <li>
+                    <b class="graf--bold">
+                     Data Stream
+                    </b>
+                    : It is the flow of data(events/objects/items) in a sequence.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     non-blocking
+                    </b>
+                    : The thread does not have to wait for the monitor lock. In concurrent programming, a
+                    <b class="graf--bold">
+                     monitor
+                    </b>
+                    is a synchronization construct that allows threads to have both mutual exclusion and the ability to wait (block) for a certain condition to become true.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     Backpressure:
+                    </b>
+                    We will try to understand it later when context become favorable for its discussion.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     Mechanism of Publisher and Subscriber
+                    </b>
+                    : It is described below:
+                   </li>
+                  </ol>
+                  <p class="graf--p">
+                   <b class="graf--bold">
+                    How does this Reactive Stream implement?
+                   </b>
+                  </p>
+                  <div class="graf-image graf-caption">
+                   <img alt="RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works." class="graf-image" height="auto" src="https://mindorks.files.wordpress.com/2018/01/c7d2d-19u1vz8qcr3jmqv6mbgufjq.png" width="100%"/>
+                  </div>
+                  <p class="graf--p">
+                   The base implementation is based on 4 API components:
+                  </p>
+                  <ol>
+                   <li>
+                    <b class="graf--bold">
+                     Publisher:
+                    </b>
+                    These interfaces(APIs) define the structure of RxJava.
+                   </li>
+                  </ol>
+                  <pre><code class="language-java graf graf--code">public interface Publisher&lt;T&gt; {
+    public void subscribe(Subscriber&lt;? super T&gt; s);
+}</code></pre>
+                  <p class="graf--p">
+                   2.
+                   <b class="graf--bold">
+                    Subscriber:
+                   </b>
+                   A Subscriber exposes the following callback methods.
+                  </p>
+                  <pre><code class="language-java graf graf--code">public interface Subscriber&lt;T&gt; {</code></pre>
+                  <pre><code class="language-java graf graf--code">   //signals to the Publisher to start sending events
+    public void onSubscribe(Subscription s);     
+
+    public void onNext(T t);
+    public void onError(Throwable t);
+    public void onComplete();
+}</code></pre>
+                  <p class="graf--p">
+                   3.
+                   <b class="graf--bold">
+                    Subscription
+                   </b>
+                   : When the Subscriber becomes ready to start handling events, it signals the Publisher through its Subscription
+                  </p>
+                  <h4>
+                   <b class="graf--bold">
+                    Note:
+                   </b>
+                  </h4>
+                  <p class="graf--p">
+                   To avoid the name clash, the RxJava 1
+                   <code class="graf--code-inline">
+                    rx.Subscription
+                   </code>
+                   has been renamed into
+                   <code class="graf--code-inline">
+                    io.reactivex.Disposable
+                   </code>
+                   in RxJava 2.
+                  </p>
+                  <pre><code class="language-java graf graf--code">public interface Subscription {
+    public void request(long n); //request n items
+    public void cancel();
+}</code></pre>
+                  <p class="graf--p">
+                   Upon receiving this signal, the Publisher begins to invoke
+                   <b class="graf--bold">
+                    Subscriber::onNext(T)
+                   </b>
+                   for each event
+                   <b class="graf--bold">
+                    T
+                   </b>
+                   . This continues until either completion of the stream (
+                   <b class="graf--bold">
+                    Subscriber::onComplete()
+                   </b>
+                   ) or an error occurs during processing (
+                   <b class="graf--bold">
+                    Subscriber::onError(Throwable)
+                   </b>
+                   ).
+                  </p>
+                  <p class="graf--p">
+                   4.
+                   <b class="graf--bold">
+                    Processor
+                   </b>
+                   : It represents a processing stage—which is both a Subscriber and a Publisher and obeys the contracts of both.
+                  </p>
+                  <pre><code class="language-java graf graf--code">public interface Processor&lt;T, R&gt; extends Subscriber&lt;T&gt;, Publisher&lt;R&gt; {}</code></pre>
+                  <p class="graf--p">
+                   In the Reactive-Streams specification, the Subject-like behavior, namely being a consumer and supplier of events at the same time, is done by the Processor interface.
+                  </p>
+                  <h4 class="graf--h3">
+                   <b class="graf--bold">
+                    Publishers
+                   </b>
+                  </h4>
+                  <p class="graf--p">
+                   Let’s see how publishers are structured in RxJava. RxJava provides following types of event publishers:
+                  </p>
+                  <ul>
+                   <li>
+                    <b class="graf--bold">
+                     Flowable:
+                    </b>
+                    A Publisher that emits 0..N elements, and then completes successfully or with an error.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     Observable:
+                    </b>
+                    Similar to Flowables but without a backpressure strategy. They were introduced in RxJava 1.x.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     Single:
+                    </b>
+                    It completes with a value successfully or an error.(
+                    <i class="graf--italic">
+                     doesn’t have onComplete callback, instead onSuccess(val)
+                    </i>
+                    ).
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     Maybe:
+                    </b>
+                    It completes with/without a value or completes with an error.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     Completable:
+                    </b>
+                    It just signals if it has completed successfully or with an error.
+                   </li>
+                  </ul>
+                  <p class="graf--p">
+                   To create a stream in RxJava we can use one of the Publisher’s factory methods.
+                  </p>
+                  <pre><code class="language-java graf graf--code">Flowable&lt;Integer&gt; flowable = Flowable.just(6, 4, 10, 20);
+Flowable&lt;String&gt; flowable = Flowable.fromIterable(List.of("red", "green", "blue"));</code></pre>
+                  <p class="graf--p">
+                   There are a number of factory methods or we can use Observable.create(…) to implement the emissions of events by calling onNext(val), onComplete(), onError(throwable).
+                  </p>
+                  <pre><code class="language-java graf graf--code">Observable&lt;Integer&gt; stream = Observable.create(subscriber -&gt; {
+    System.out.println("Started emitting");
+
+    System.out.println("Emitting 1st");
+    subscriber.onNext(1);
+
+    System.out.println("Emitting 2nd");
+    subscriber.onNext(2);</code></pre>
+                  <pre><code class="language-java graf graf--code">   System.out.println("Emitting onComplete");
+    subscriber.onComplete();
+});</code></pre>
+                  <p class="graf--p">
+                   Remember we came across
+                   <b class="graf--bold">
+                    Observable sequences
+                   </b>
+                   when defining
+                   <b class="graf--bold">
+                    Reactive Extension
+                   </b>
+                   . Now we can see that the all Publishers like Observable and Flowable take some items and pass onto its subscribers. So, these items are called as
+                   <b class="graf--bold">
+                    Observable sequences
+                   </b>
+                   or
+                   <b class="graf--bold">
+                    Data Stream.
+                   </b>
+                  </p>
+                  <p class="graf--p">
+                   An important property of the
+                   <b class="graf--bold">
+                    Stream
+                   </b>
+                   is that it’s lazy, meaning that the code inside create() doesn’t get executed without subscribing to the stream.
+                  </p>
+                  <h4 class="graf--h3">
+                   <b class="graf--bold">
+                    Cold and Hot Publishers
+                   </b>
+                  </h4>
+                  <p class="graf--p">
+                   <b class="graf--bold">
+                    Cold publishers
+                   </b>
+                   : They only begin emitting when there is a subscriber, and all subscribers receive the exact set of historical data, regardless of when they subscribe. The
+                   <i class="graf--italic">
+                    subscriber
+                   </i>
+                   is taking elements only when it is ready to process that item, and items do not need to be buffered in a publishers because they are requested in a
+                   <b class="graf--bold">
+                    pull fashion
+                   </b>
+                   . The Flowable and the Observable we created above are cold publishers.
+                  </p>
+                  <p class="graf--p">
+                   <b class="graf--bold">
+                    Hot publishers
+                   </b>
+                   : They begins generating items and emits them immediately when they are created. They emits items at its own pace, and it is up to its subscriber to keep up. When the subscriber is not able to consume items as quickly as they are produced by a publisher, they need to be buffered or handled in some other way, as they will fill up the memory, finally causing OutOfMemoryException
+                   <i class="graf--italic">
+                    .
+                   </i>
+                   They can be considered as
+                   <b class="graf--bold">
+                    push scenarios
+                   </b>
+                   .
+                  </p>
+                  <p class="graf--p">
+                   <b class="graf--bold">
+                    Subjects
+                   </b>
+                   are one way to handle hot observables. Subjects keep the reference to their subscribers and allow ‘multicasting’ an event to them.
+                  </p>
+                  <p class="graf--p">
+                   Refer to this article to understand Subjects:
+                   <b class="graf--bold">
+                    <a class="markup--anchor" href="https://blog.mindorks.com/understanding-rxjava-subject-publish-replay-behavior-and-async-subject-224d663d452f" target="_blank">
+                     Link
+                    </a>
+                   </b>
+                  </p>
+                  <h4 class="graf--h3">
+                   <b class="graf--bold">
+                    Note:
+                   </b>
+                  </h4>
+                  <p class="graf--p">
+                   The AsyncSubject, BehaviorSubject, PublishSubject, ReplaySubject and UnicastSubject in 2.x don’t support backpressure (as part of the 2.x Observable family).
+                  </p>
+                  <p class="graf--p">
+                   The AsyncProcessor, BehaviorProcessor, PublishProcessor, ReplayProcessor and UnicastProcessor are backpressure-aware.
+                  </p>
+                  <h4 class="graf--h3">
+                   <b class="graf--bold">
+                    Subscriber
+                   </b>
+                  </h4>
+                  <p class="graf--p">
+                   The Subscriber as mentioned in the above text subscribes to a Publisher and then receives events in one of its callback methods.
+                  </p>
+                  <h4 class="graf--h3">
+                   <b class="graf--bold">
+                    Canceling subscription
+                   </b>
+                  </h4>
+                  <p class="graf--p">
+                   When a Subscriber subscribes a Publisher then in RxJava2, a Disposable instance is returned which can be used to cancelled/disposed a Subscriber externally via Disposable::dispose().
+                  </p>
+                  <p class="graf--p">
+                   Inside the create() method, we can check if there are still active subscribers to our Flowable/Observable.
+                  </p>
+                  <p class="graf--p">
+                   There are operators that also unsubscribe from the stream so the source knows to stop producing events. For example,
+                   <b class="graf--bold">
+                    take(limit)
+                   </b>
+                   is a simple operator. Its role is to count the number of events and then unsubscribes from its source once it received the specified amount and calls onComplete() to its subscriber.
+                  </p>
+                  <h4 class="graf--h3">
+                   <b class="graf--bold">
+                    Error handling
+                   </b>
+                  </h4>
+                  <p class="graf--p">
+                   In reactive, exceptions are first class citizens. Since streams are generally asynchronous, it doesn’t make sense to throw an exception, so instead any exception is passed as an event in the stream. The Observable contract specifies that exceptions are terminal operations. That means in case an error reaches the Subscriber, after invoking the ‘onError’ handler, it also unsubscribes. There are operators to continue the subscription in case it is required.
+                  </p>
+                  <h4 class="graf--h3">
+                   <b class="graf--bold">
+                    Operators
+                   </b>
+                  </h4>
+                  <p class="graf--p">
+                   The real power of RxJava is realized in the manipulation of the data streams. There are a lot of
+                   <b class="graf--bold">
+                    operators
+                   </b>
+                   available in RxJava that simplifies this process. They are applied between the source Observable / Flowable and the Subscriber.
+                  </p>
+                  <p class="graf--p">
+                   Example:
+                   <b class="graf--bold">
+                    flatMap:
+                   </b>
+                   It takes the emissions (objects, collections, or arrays) from an Observable, and maps those elements to individual Observables, then flattens the emissions from all of those into a single Observable.
+                  </p>
+                  <pre><code class="language-java graf graf--code">Observable.fromArray("janishar ali anwar")
+        .flatMap(word -&gt; Observable.fromArray(word.split(" ")))
+        .zipWith(Observable.range(1, Integer.MAX_VALUE),
+                (string, count) -&gt; String.format("%2d. %s", count, string))
+        .subscribe(
+                val -&gt; System.out.print(val + " "),
+                err -&gt; {
+                    System.out.println("nerror ");
+                },
+                () -&gt; System.out.println("ncompleted"));</code></pre>
+                  <p class="graf--p">
+                   <i class="graf--italic">
+                    Output: 1. janishar 2. ali 3. anwar
+                   </i>
+                   <br/>
+                   <i class="graf--italic">
+                    completed
+                   </i>
+                  </p>
+                  <p class="graf--p">
+                   Other important operators are:
+                  </p>
+                  <p class="graf--p">
+                   filter, map, delay, interval, reduce, collect, defer, zipWith, merge, concat, timeout, retry, onErrorReturn, toList.
+                  </p>
+                  <p class="graf--p">
+                   To understand these operators through examples refer to this repo:
+                   <b class="graf--bold">
+                    <a class="markup--anchor" href="https://github.com/amitshekhariitbhu/RxJava2-Android-Samples" target="_blank">
+                     Link
+                    </a>
+                   </b>
+                  </p>
+                  <h4 class="graf--h3">
+                   <b class="graf--bold">
+                    Schedulers
+                   </b>
+                  </h4>
+                  <p class="graf--p">
+                   As I mentioned about my library
+                   <a class="markup--anchor" href="https://github.com/janishar/JPost" target="_blank">
+                    JPost
+                   </a>
+                   , where I had to manage the Thread at a low level. RxJava Schedulers are for this purpose. They provide high-level constructs to manage with concurrency and deal with details by itself. They create workers who are responsible for scheduling and running code. By default RxJava will not introduce concurrency and will run the operations on the subscription thread.
+                  </p>
+                  <p class="graf--p">
+                   There are two methods through which we can introduce Schedulers into our chain of operations:
+                  </p>
+                  <ul>
+                   <li>
+                    <b class="graf--bold">
+                     subscribeOn
+                    </b>
+                    : It specify which Scheduler invokes the code contained in Observable.create().
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     observeOn:
+                    </b>
+                    It allows control to which Scheduler executes the code in the downstream operators.
+                   </li>
+                  </ul>
+                  <h4 class="graf--h3">
+                   <b class="graf--bold">
+                    RxJava provides some general use Schedulers:
+                   </b>
+                  </h4>
+                  <ul>
+                   <li>
+                    <b class="graf--bold">
+                     Schedulers.computation()
+                    </b>
+                    : Used for CPU intensive tasks.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     Schedulers.io()
+                    </b>
+                    : Used for IO bound tasks.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     Schedulers.from(Executor)
+                    </b>
+                    : Use with custom ExecutorService.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     Schedulers.newThread():
+                    </b>
+                    It always creates a new thread when a worker is needed. Since it’s not thread pooled and always creates a new thread instead of reusing one, this scheduler is not very useful.
+                   </li>
+                  </ul>
+                  <h4 class="graf--h3">
+                   <b class="graf--bold">
+                    Backpressure
+                   </b>
+                  </h4>
+                  <p class="graf--p">
+                   In cases where a publisher is emitting items more rapidly than an operator or subscriber can consume them, then the items that are overflowing from the publisher need to be handled. If for example we try to maintain an ever-expanding buffer of items emitted by the faster publisher to eventually combine with items emitted by the slower one. This could result in OutOfMemoryError.
+                  </p>
+                  <blockquote class="graf--blockquote">
+                   <i class="graf--italic">
+                    Backpressure relates to a feedback mechanism through which the subscriber can signal to the producer how much data it can consume and so to produce only that amount.
+                   </i>
+                  </blockquote>
+                  <p class="graf--p">
+                   There are a number of way to handle the backpressure like buffering, batching, skipping etc. and there are operators to deal with them. These are explained in the official reference:
+                   <b class="graf--bold">
+                    <a class="markup--anchor" href="https://github.com/ReactiveX/RxJava/wiki/Backpressure" target="_blank">
+                     Link
+                    </a>
+                   </b>
+                  </p>
+                  <p class="graf--p">
+                   Let’s see some scenarios:
+                  </p>
+                  <p class="graf--p">
+                   The Subscriber has an onSubscribe(Subscription) method, Subscription::request(long n), it is through this it can signal upstream that it’s ready to receive a number of items and after it processes the items request another batch. There is a default implementation which requests
+                   <b class="graf--bold">
+                    Long.MAX_VALUE
+                   </b>
+                   which basically means “
+                   <b class="graf--bold">
+                    send all you have
+                   </b>
+                   ”. But we have not seen the code in the producer that takes consideration of the number of items requested by the subscriber.
+                  </p>
+                  <p class="graf--p">
+                   Let’s see the Flowable example:
+                  </p>
+                  <pre><code class="language-java graf graf--code">Flowable.create(subscriber -&gt; {
+int count = 0;
+while (true) {
+        count++;
+        subscriber.onNext(count + "n");
+    }
+
+}, BackpressureStrategy.DROP)
+        .observeOn(Schedulers.newThread(), false, 3)
+        .subscribe(
+                val -&gt; {
+                    Thread.sleep(1000);
+                    System.out.println(val);
+                },
+                err -&gt; {
+                    System.out.println("error ");
+                    err.printStackTrace();
+                },
+                () -&gt; System.out.println("completed")
+        );</code></pre>
+                  <p class="graf--p">
+                   The 2nd parameter
+                   <b class="graf--bold">
+                    BackpressureStrategy
+                   </b>
+                   allows us to specify what to do in the case of overproduction.
+                  </p>
+                  <ul>
+                   <li>
+                    <b class="graf--bold">
+                     BackpressureStrategy.BUFFER:
+                    </b>
+                    It buffers in memory the events that overflow. If we don’t provide some threshold, it might lead to OutOfMemoryError.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     BackpressureStrategy.DROP
+                    </b>
+                    : It simply drop the overflowing events
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     BackpressureStrategy.LATEST
+                    </b>
+                    : It keeps only recent event and discards previous unconsumed events.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     BackpressureStrategy.ERROR
+                    </b>
+                    : We get an error in the Subscriber immediately.
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     BackpressureStrategy.MISSING
+                    </b>
+                    : We use this when we don’t care about backpressure(we let one of the downstream operators onBackpressureXXX handle it)
+                   </li>
+                  </ul>
+                  <p class="graf--p">
+                   By default the subscriber requests
+                   <b class="graf--bold">
+                    Long.MAX_VALUE
+                   </b>
+                   since the code flowable.subscribe(onNext, onError, onComplete) uses a default onSubscribe. So unless we override onSubscribe, it would overflow. We can control this through operator
+                   <b class="graf--bold">
+                    observeOn()
+                   </b>
+                   that make its own request to the upstream Publisher(256 by default), but can take a parameter to specify the request size.
+                  </p>
+                  <p class="graf--p">
+                   In the above example, initially, the Subscriber requests Long.MAX_VALUE, but as the subscription travels upstream through the operators to the source Flowable, the operator observeOn subscribes to the source and requests just 3 items from the source instead. Since we used BackpressureStrategy.DROP, all the items emitted outside the 3, get discarded and thus never reach our subscriber.
+                  </p>
+                  <p class="graf--p">
+                   There are also specialized operators to handle backpressure the onBackpressureXXX operators:
+                  </p>
+                  <ol>
+                   <li>
+                    <b class="graf--bold">
+                     onBackpressureBuffer
+                    </b>
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     onBackpressureDrop
+                    </b>
+                   </li>
+                   <li>
+                    <b class="graf--bold">
+                     onBackpressureLatest
+                    </b>
+                   </li>
+                  </ol>
+                  <pre><code class="language-java graf graf--code">.onBackpressureDrop(val -&gt; System.out.println("Dropping " + val))</code></pre>
+                  <p class="graf--p">
+                   These operators request Long.MAX_VALUE(unbounded amount) from upstream and then take it upon themselves to manage the requests from downstream. In the case of
+                   <i class="graf--italic">
+                    onBackpressureBuffer
+                   </i>
+                   it adds in an internal queue and sends downstream the events as requested,
+                   <i class="graf--italic">
+                    onBackpressureDrop
+                   </i>
+                   just discards events that are received from upstream more than requested from downstream,
+                   <i class="graf--italic">
+                    onBackpressureLatest
+                   </i>
+                   also drops emitted events excluding the last emitted event(most recent). The last onBackpressureXXX operator overrides the previous one if they are chained.
+                  </p>
+                  <blockquote class="graf--blockquote">
+                   <i class="graf--italic">
+                    RxJava is really a new way of thinking about writing a program. I am learning new things in RxJava each day. How you use RxJava in your coding will change with experience. So, I would recommend to ease into this subject.
+                   </i>
+                  </blockquote>
+                  <p class="graf--p">
+                   If you want to learn RxJava by examples then
+                   <a class="markup--anchor" href="https://mindorks.com/course/learn-rxjava" target="_blank">
+                    here
+                   </a>
+                   is a tutorial for you.
+                  </p>
+                  <p class="graf--p">
+                   Also, Let’s become friends on
+                   <b class="graf--bold">
+                    <a class="markup--anchor" href="https://twitter.com/janisharali" target="_blank">
+                     Twitter
+                    </a>
+                    ,
+                   </b>
+                   <b class="graf--bold">
+                    <a class="markup--anchor" href="https://www.linkedin.com/in/janishar-ali-8135a451/" target="_blank">
+                     Linkedin
+                    </a>
+                    ,
+                   </b>
+                   <b class="graf--bold">
+                    <a class="markup--anchor" href="https://github.com/janishar" target="_blank">
+                     Github
+                    </a>
+                    ,
+                   </b>
+                   and
+                   <b class="graf--bold">
+                    <a class="markup--anchor" href="https://www.facebook.com/janishar.ali" target="_blank">
+                     Facebook
+                    </a>
+                    .
+                   </b>
+                  </p>
+                  <blockquote class="graf--blockquote">
+                   <i class="graf--italic">
+                    Learning is a journey, let’s learn together!
+                   </i>
+                  </blockquote>
+                 </div>
+                </div>
+               </div>
+              </section>
+             </div>
+            </div>
+           </div>
+          </article>
+         </div>
+        </div>
+       </div>
+       <div class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-7 css-19bz3ge-share">
+        <hr class="MuiDivider-root MuiDivider-fullWidth css-zg4d8h"/>
+        <div class="MuiGrid-root MuiGrid-container css-1pup5x2-gridMain">
+         <div class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-12 css-15j76c0">
+          <h5 class="MuiTypography-root MuiTypography-h5 css-14hshg6-shareTitle">
+           <div class="MuiBox-root css-xi606m">
+            Share this blog and spread the knowledge
+           </div>
+          </h5>
+         </div>
+         <div class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4 css-hehu3-shareContainer">
+          <button aria-label="facebook" class="react-share__ShareButton css-lahc3d-shareAction" style="background-color:transparent;border:none;padding:0;font:inherit;color:inherit;cursor:pointer">
+           <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth css-grsy7x-shareButton" style="background:#3C5A99" tabindex="0" type="button">
+            <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-17r8d21-leftIcon-iconSmall" focusable="false" viewbox="0 0 24 24">
+             <path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z">
+             </path>
+            </svg>
+            Share On Facebook
+           </button>
+          </button>
+         </div>
+         <div class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4 css-hehu3-shareContainer">
+          <button aria-label="twitter" class="react-share__ShareButton css-lahc3d-shareAction" style="background-color:transparent;border:none;padding:0;font:inherit;color:inherit;cursor:pointer">
+           <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth css-grsy7x-shareButton" style="background:#1DA1F2" tabindex="0" type="button">
+            <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-17r8d21-leftIcon-iconSmall" focusable="false" viewbox="0 0 24 24">
+             <path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z">
+             </path>
+            </svg>
+            Share On Twitter
+           </button>
+          </button>
+         </div>
+         <div class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4 css-hehu3-shareContainer">
+          <button aria-label="linkedin" class="react-share__ShareButton css-lahc3d-shareAction" style="background-color:transparent;border:none;padding:0;font:inherit;color:inherit;cursor:pointer">
+           <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth css-grsy7x-shareButton" style="background:#006192" tabindex="0" type="button">
+            <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-17r8d21-leftIcon-iconSmall" focusable="false" viewbox="0 0 24 24">
+             <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z">
+             </path>
+            </svg>
+            Share On LinkedIn
+           </button>
+          </button>
+         </div>
+         <div class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4 css-hehu3-shareContainer">
+          <button aria-label="telegram" class="react-share__ShareButton css-lahc3d-shareAction" style="background-color:transparent;border:none;padding:0;font:inherit;color:inherit;cursor:pointer">
+           <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth css-grsy7x-shareButton" style="background:#0088CC" tabindex="0" type="button">
+            <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-17r8d21-leftIcon-iconSmall" focusable="false" viewbox="0 0 24 24">
+             <path d="M14.5 15.41C14.58 15.5 14.58 15.69 14.5 15.8C13.77 16.5 12.41 16.56 12 16.56C11.61 16.56 10.25 16.5 9.54 15.8C9.44 15.69 9.44 15.5 9.54 15.41C9.65 15.31 9.82 15.31 9.92 15.41C10.38 15.87 11.33 16 12 16C12.69 16 13.66 15.87 14.1 15.41C14.21 15.31 14.38 15.31 14.5 15.41M10.75 13.04C10.75 12.47 10.28 12 9.71 12C9.14 12 8.67 12.47 8.67 13.04C8.67 13.61 9.14 14.09 9.71 14.08C10.28 14.08 10.75 13.61 10.75 13.04M14.29 12C13.72 12 13.25 12.5 13.25 13.05S13.72 14.09 14.29 14.09C14.86 14.09 15.33 13.61 15.33 13.05C15.33 12.5 14.86 12 14.29 12M22 12C22 17.5 17.5 22 12 22S2 17.5 2 12C2 6.5 6.5 2 12 2S22 6.5 22 12M18.67 12C18.67 11.19 18 10.54 17.22 10.54C16.82 10.54 16.46 10.7 16.2 10.95C15.2 10.23 13.83 9.77 12.3 9.71L12.97 6.58L15.14 7.05C15.16 7.6 15.62 8.04 16.18 8.04C16.75 8.04 17.22 7.57 17.22 7C17.22 6.43 16.75 5.96 16.18 5.96C15.77 5.96 15.41 6.2 15.25 6.55L12.82 6.03C12.75 6 12.68 6.03 12.63 6.07C12.57 6.11 12.54 6.17 12.53 6.24L11.79 9.72C10.24 9.77 8.84 10.23 7.82 10.96C7.56 10.71 7.2 10.56 6.81 10.56C6 10.56 5.35 11.21 5.35 12C5.35 12.61 5.71 13.11 6.21 13.34C6.19 13.5 6.18 13.62 6.18 13.78C6.18 16 8.79 17.85 12 17.85C15.23 17.85 17.85 16.03 17.85 13.78C17.85 13.64 17.84 13.5 17.81 13.34C18.31 13.11 18.67 12.6 18.67 12Z">
+             </path>
+            </svg>
+            Share On Telegram
+           </button>
+          </button>
+         </div>
+         <div class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4 css-hehu3-shareContainer">
+          <button aria-label="reddit" class="react-share__ShareButton css-lahc3d-shareAction" style="background-color:transparent;border:none;padding:0;font:inherit;color:inherit;cursor:pointer">
+           <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth css-grsy7x-shareButton" style="background:#FF4500" tabindex="0" type="button">
+            <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-17r8d21-leftIcon-iconSmall" focusable="false" viewbox="0 0 24 24">
+             <path d="M14.5 15.41C14.58 15.5 14.58 15.69 14.5 15.8C13.77 16.5 12.41 16.56 12 16.56C11.61 16.56 10.25 16.5 9.54 15.8C9.44 15.69 9.44 15.5 9.54 15.41C9.65 15.31 9.82 15.31 9.92 15.41C10.38 15.87 11.33 16 12 16C12.69 16 13.66 15.87 14.1 15.41C14.21 15.31 14.38 15.31 14.5 15.41M10.75 13.04C10.75 12.47 10.28 12 9.71 12C9.14 12 8.67 12.47 8.67 13.04C8.67 13.61 9.14 14.09 9.71 14.08C10.28 14.08 10.75 13.61 10.75 13.04M14.29 12C13.72 12 13.25 12.5 13.25 13.05S13.72 14.09 14.29 14.09C14.86 14.09 15.33 13.61 15.33 13.05C15.33 12.5 14.86 12 14.29 12M22 12C22 17.5 17.5 22 12 22S2 17.5 2 12C2 6.5 6.5 2 12 2S22 6.5 22 12M18.67 12C18.67 11.19 18 10.54 17.22 10.54C16.82 10.54 16.46 10.7 16.2 10.95C15.2 10.23 13.83 9.77 12.3 9.71L12.97 6.58L15.14 7.05C15.16 7.6 15.62 8.04 16.18 8.04C16.75 8.04 17.22 7.57 17.22 7C17.22 6.43 16.75 5.96 16.18 5.96C15.77 5.96 15.41 6.2 15.25 6.55L12.82 6.03C12.75 6 12.68 6.03 12.63 6.07C12.57 6.11 12.54 6.17 12.53 6.24L11.79 9.72C10.24 9.77 8.84 10.23 7.82 10.96C7.56 10.71 7.2 10.56 6.81 10.56C6 10.56 5.35 11.21 5.35 12C5.35 12.61 5.71 13.11 6.21 13.34C6.19 13.5 6.18 13.62 6.18 13.78C6.18 16 8.79 17.85 12 17.85C15.23 17.85 17.85 16.03 17.85 13.78C17.85 13.64 17.84 13.5 17.81 13.34C18.31 13.11 18.67 12.6 18.67 12Z">
+             </path>
+            </svg>
+            Share On Reddit
+           </button>
+          </button>
+         </div>
+         <div class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-6 MuiGrid-grid-md-4 css-hehu3-shareContainer">
+          <button aria-label="whatsapp" class="react-share__ShareButton css-lahc3d-shareAction" style="background-color:transparent;border:none;padding:0;font:inherit;color:inherit;cursor:pointer">
+           <button class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeSmall MuiButton-containedSizeSmall MuiButton-fullWidth css-grsy7x-shareButton" style="background:#4FCE5D" tabindex="0" type="button">
+            <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-17r8d21-leftIcon-iconSmall" focusable="false" viewbox="0 0 24 24">
+             <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M8.53 7.33C8.37 7.33 8.1 7.39 7.87 7.64C7.65 7.89 7 8.5 7 9.71C7 10.93 7.89 12.1 8 12.27C8.14 12.44 9.76 14.94 12.25 16C12.84 16.27 13.3 16.42 13.66 16.53C14.25 16.72 14.79 16.69 15.22 16.63C15.7 16.56 16.68 16.03 16.89 15.45C17.1 14.87 17.1 14.38 17.04 14.27C16.97 14.17 16.81 14.11 16.56 14C16.31 13.86 15.09 13.26 14.87 13.18C14.64 13.1 14.5 13.06 14.31 13.3C14.15 13.55 13.67 14.11 13.53 14.27C13.38 14.44 13.24 14.46 13 14.34C12.74 14.21 11.94 13.95 11 13.11C10.26 12.45 9.77 11.64 9.62 11.39C9.5 11.15 9.61 11 9.73 10.89C9.84 10.78 10 10.6 10.1 10.45C10.23 10.31 10.27 10.2 10.35 10.04C10.43 9.87 10.39 9.73 10.33 9.61C10.27 9.5 9.77 8.26 9.56 7.77C9.36 7.29 9.16 7.35 9 7.34C8.86 7.34 8.7 7.33 8.53 7.33Z">
+             </path>
+            </svg>
+            Share On WhatsApp
+           </button>
+          </button>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <footer class="css-xljr6b-root">
+     <div class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-107gc1b-root">
+      <div class="MuiGrid-root MuiGrid-item css-1028dvy-brandFollowSpace">
+       <h5 class="MuiTypography-root MuiTypography-h5 css-1i9lbqg">
+        Connect with Me
+       </h5>
+      </div>
+      <div class="MuiGrid-root MuiGrid-item css-1028dvy-brandFollowSpace">
+       <a class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary css-1u2u76k-fabTwitter" href="https://twitter.com/janisharali" tabindex="0" target="_blank">
+        <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" viewbox="0 0 24 24">
+         <path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z">
+         </path>
+        </svg>
+       </a>
+       <a class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary css-1q2qd8h-fabLinkedIn" href="https://www.linkedin.com/in/janishar-ali" tabindex="0" target="_blank">
+        <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" viewbox="0 0 24 24">
+         <path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z">
+         </path>
+        </svg>
+       </a>
+       <a class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary css-b7idbd-fabYoutube" href="https://www.youtube.com/@JanisharAli" tabindex="0" target="_blank">
+        <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" viewbox="0 0 24 24">
+         <path d="M10,15L15.19,12L10,9V15M21.56,7.17C21.69,7.64 21.78,8.27 21.84,9.07C21.91,9.87 21.94,10.56 21.94,11.16L22,12C22,14.19 21.84,15.8 21.56,16.83C21.31,17.73 20.73,18.31 19.83,18.56C19.36,18.69 18.5,18.78 17.18,18.84C15.88,18.91 14.69,18.94 13.59,18.94L12,19C7.81,19 5.2,18.84 4.17,18.56C3.27,18.31 2.69,17.73 2.44,16.83C2.31,16.36 2.22,15.73 2.16,14.93C2.09,14.13 2.06,13.44 2.06,12.84L2,12C2,9.81 2.16,8.2 2.44,7.17C2.69,6.27 3.27,5.69 4.17,5.44C4.64,5.31 5.5,5.22 6.82,5.16C8.12,5.09 9.31,5.06 10.41,5.06L12,5C16.19,5 18.8,5.16 19.83,5.44C20.73,5.69 21.31,6.27 21.56,7.17Z">
+         </path>
+        </svg>
+       </a>
+       <a class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary css-vj5m86-fabInstagram" href="https://www.instagram.com/janisharali" tabindex="0" target="_blank">
+        <svg aria-hidden="true" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" viewbox="0 0 24 24">
+         <path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z">
+         </path>
+        </svg>
+       </a>
+      </div>
+     </div>
+     <div class="css-cepdve-cover">
+     </div>
+     <hr class="MuiDivider-root MuiDivider-fullWidth css-zg4d8h"/>
+     <div class="MuiGrid-root MuiGrid-container css-17e0cid-grid">
+      <div class="MuiGrid-root MuiGrid-item css-1wxaqej">
+       <div class="MuiBox-root css-azx95j">
+        <h6 class="MuiTypography-root MuiTypography-body2 css-1xiyif3-copywrite">
+         © Copyright 2022 Janishar Ali Anwar
+        </h6>
+       </div>
+      </div>
+      <div class="MuiGrid-root MuiGrid-item css-1wxaqej">
+       <div class="MuiBox-root css-70qvj9">
+        <a class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways css-a5n6wk-link" href="/policies/privacy">
+         Privacy Policy
+        </a>
+        <a class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways css-a5n6wk-link" href="/policies/terms-and-conditions">
+         Terms And Conditions
+        </a>
+        <a class="MuiTypography-root MuiTypography-body2 MuiLink-root MuiLink-underlineAlways css-a5n6wk-link" href="/policies/cookie">
+         Cookie Policy
+        </a>
+       </div>
+      </div>
+     </div>
+    </footer>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__ = {"appState":{"currentPageTitle":null},"authState":{"data":null,"isLoggingIn":false,"isLoggingOut":false,"isLoggedIn":false,"isForcedLogout":false,"isRedirectHome":false,"message":null},"blogListState":{"data":null,"isFetching":false,"message":null},"blogState":{"data":{"_id":"637f8d64f53fa071f4ba2e6c","title":"RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works.","description":"RxJava has become the single most important skill for Android development. Most of you must have worked with it in some form, either in your own codebase or through other third party libraries, like Fast Android Networking and Retrofit.","text":"\u003ch1 class=\"graf--h1\">RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works.\u003c/h1> \u003cdiv class='graf-image graf-caption'>\n\t\t\t\t\t\t\t\t\t\u003cimg src=https://mindorks.files.wordpress.com/2018/01/5f53a-1vaaes0w3v4-rohcasugq6w.jpg height=auto width=100% class='graf-image' alt='RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works.' />\n\t\t\t\t\t\t\t\t\u003c/div >\u003cp class=\"graf--p\">RxJava has become the single most important skill for Android development. Most of you must have worked with it in some form, either in your own codebase or through other third party libraries, like \u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://github.com/amitshekhariitbhu/Fast-Android-Networking\">Fast Android Networking\u003c/a> and Retrofit.\u003c/p>\u003cp class=\"graf--p\">There are a huge number of articles and tutorials written on how to use RxJava, then why I am writing this redundant article?\u003c/p>\u003cp class=\"graf--p\">This article is not a guide on how to use RxJava features but a more \u003cb class=\"graf--bold\">fundamental exploration\u003c/b>, what it is that RxJava is solving in our codebase and how it is doing it?\u003c/p>\u003cp class=\"graf--p\">Let’s start with the official definition of RxJava from its GitHub repository:\u003c/p>\u003ch4 class=\"graf--h3\">\u003cb class=\"graf--bold\">Definition:\u003c/b>\u003c/h4>\u003cp class=\"graf--p\">\u003cb class=\"graf--bold\">RxJava is a Java VM implementation of Reactive Extensions.\u003c/b>\u003c/p>\u003cp class=\"graf--p\">So, what is \u003cb class=\"graf--bold\">Reactive Extension?\u003c/b>\u003c/p>\u003cp class=\"graf--p\">The official doc describes \u003cb class=\"graf--bold\">Reactive Extension(ReactiveX) as a library for composing asynchronous and event-based programs by using observable sequences.\u003c/b>\u003c/p>\u003cp class=\"graf--p\">The definition presents three different terms: \u003ci class=\"graf--italic\">asynchronous, event-based, and observable sequences. It also says composing programs.\u003c/i>\u003c/p>\u003col>\u003cli>\u003cb class=\"graf--bold\">Asynchronous\u003c/b>: It implies that the different parts of a program run simultaneously.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">Event-Based\u003c/b>: The program executes the codes based on the events generated while the program is running. For Example, a Button click triggers an event and then the program’s event handler receives this event and does some work.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">Observable sequences:\u003c/b> It will be better understood by the mechanics of it. So, we will come back to it later in this article.\u003c/li>\u003cli>RxJava free us from the callback hell by providing the composing style of programming. We can plug in various transformations that resembles the Functional programming.\u003c/li>\u003c/ol>\u003cp class=\"graf--p\">\u003cb class=\"graf--bold\">The Reactive Extension is further elaborated:\u003c/b> It extends the observer pattern to support sequences of data and/or events and adds operators that allow you to compose sequences together declaratively while abstracting away concerns about things like low-level threading, synchronization, thread-safety, concurrent data structures, and non-blocking I/O.\u003c/p>\u003cblockquote class=\"graf--blockquote\">\u003ci class=\"graf--italic\">Here, observer pattern is the key to understand the architecture, which is a software design pattern, where Subject maintains its Observers and notifies them automatically of any state change, usually by calling one of their methods.\u003c/i>\u003c/blockquote>\u003cp class=\"graf--p\">Now you must think, what’s new about it? We have been doing these for decades. These are just fancy words for a Publisher-Subscriber library. Also to make things look more enhanced, Functional is associated with the RxJava.\u003c/p>\u003cp class=\"graf--p\">\u003cb class=\"graf--bold\">The doc says:\u003c/b> It is sometimes called “\u003cb class=\"graf--bold\">functional reactive programming\u003c/b>” but this is a \u003cb class=\"graf--bold\">misnomer\u003c/b>. ReactiveX may be functional, and it may be reactive, but “functional reactive programming” is a different animal. One main point of difference is that functional reactive programming operates on values that change \u003ci class=\"graf--italic\">continuously\u003c/i> over time, while ReactiveX operates on \u003ci class=\"graf--italic\">discrete\u003c/i> values that are emitted over time.\u003c/p>\u003cp class=\"graf--p\">\u003cb class=\"graf--bold\">So, RxJava only has some patterns similar to the principles of Functional programming.\u003c/b>\u003c/p>\u003cp class=\"graf--p\">\u003cb class=\"graf--bold\">Now, you must be thinking why RxJava is so popular then?\u003c/b>\u003c/p>\u003cp class=\"graf--p\">You will really appreciate the power of RxJava when you write a thread management program. My deep appreciations for RxJava developed when I later explored it in comparison to the \u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://github.com/janishar/JPost\">JPost\u003c/a> library I wrote. \u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://github.com/janishar/JPost\">JPost\u003c/a> is an extended publisher-subscriber library for Java and Android which I created sometime back.\u003c/p>\u003cp class=\"graf--p\">In the \u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://github.com/janishar/JPost\">JPost\u003c/a> subscribers communicates with each other over controlled channels synchronously/asynchronously. The thread management was done using ExecutorService, carefully designed for preventing memory leaks and enforce Thread safety. If I were to design this system using RxJava now then it would take fewer lines of code and much less effort(but less learning of course).\u003c/p>\u003cp class=\"graf--p\">Below is the architectural diagram of my \u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://github.com/janishar/JPost\">JPost\u003c/a> library.\u003c/p> \u003cdiv class='graf-image graf-caption'>\n\t\t\t\t\t\t\t\t\t\u003cimg src=https://mindorks.files.wordpress.com/2018/01/9ddbb-1spbvgcrcfaz_idzsgonn8g.png height=auto width=100% class='graf-image' alt='RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works.' />\n\t\t\t\t\t\t\t\t\u003c/div > \u003cdiv class='graf-image graf-caption'>\n\t\t\t\t\t\t\t\t\t\u003cimg src=https://mindorks.files.wordpress.com/2018/01/70337-1sqorfolh4uxxklwwhex5dg.png height=auto width=100% class='graf-image' alt='RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works.' />\n\t\t\t\t\t\t\t\t\u003c/div >\u003cp class=\"graf--p\">Now, that I have expresses my deep appreciation for RxJava, let’s try to see and understand the anatomy of it.\u003c/p>\u003cp class=\"graf--p\">\u003ci class=\"graf--italic\">The RxJava is an implementation of a Reactive Stream specification. I found below paragraph as the best definition or rather summation of a Reactive Stream.\u003c/i>\u003c/p>\u003cp class=\"graf--p\">Reactive Streams is a programming concept for handling asynchronous data streams in a non-blocking manner while providing backpressure to stream publishers. It has evolved into a specification that is based on the concept of Publisher&lt;T&gt; and Subscriber&lt;T&gt;. A Publisher is the source of events T in the stream, and a Subscriber is a consumer for those events. A Subscriber subscribes to a Publisher by invoking a “\u003cb class=\"graf--bold\">factory method\u003c/b>” in the Publisher that will push the stream items &lt;T&gt; starting a new Subscription. This is also called Reactor Pattern.\u003c/p>\u003cp class=\"graf--p\">There are a number of terms in the above definition.\u003c/p>\u003col>\u003cli>\u003cb class=\"graf--bold\">Data Stream\u003c/b>: It is the flow of data(events/objects/items) in a sequence.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">non-blocking\u003c/b>: The thread does not have to wait for the monitor lock. In concurrent programming, a \u003cb class=\"graf--bold\">monitor\u003c/b> is a synchronization construct that allows threads to have both mutual exclusion and the ability to wait (block) for a certain condition to become true.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">Backpressure:\u003c/b> We will try to understand it later when context become favorable for its discussion.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">Mechanism of Publisher and Subscriber\u003c/b>: It is described below:\u003c/li>\u003c/ol>\u003cp class=\"graf--p\">\u003cb class=\"graf--bold\">How does this Reactive Stream implement?\u003c/b>\u003c/p> \u003cdiv class='graf-image graf-caption'>\n\t\t\t\t\t\t\t\t\t\u003cimg src=https://mindorks.files.wordpress.com/2018/01/c7d2d-19u1vz8qcr3jmqv6mbgufjq.png height=auto width=100% class='graf-image' alt='RxJava Anatomy: What is RxJava, how RxJava is designed, and how RxJava works.' />\n\t\t\t\t\t\t\t\t\u003c/div >\u003cp class=\"graf--p\">The base implementation is based on 4 API components:\u003c/p>\u003col>\u003cli>\u003cb class=\"graf--bold\">Publisher:\u003c/b> These interfaces(APIs) define the structure of RxJava.\u003c/li>\u003c/ol>\u003cpre>\u003ccode class=\"language-java graf graf--code\">public interface Publisher&lt;T&gt; {\n    public void subscribe(Subscriber&lt;? super T&gt; s);\n}\u003c/code>\u003c/pre>\u003cp class=\"graf--p\">2. \u003cb class=\"graf--bold\">Subscriber:\u003c/b> A Subscriber exposes the following callback methods.\u003c/p>\u003cpre>\u003ccode class=\"language-java graf graf--code\">public interface Subscriber&lt;T&gt; {\u003c/code>\u003c/pre>\u003cpre>\u003ccode class=\"language-java graf graf--code\">   //signals to the Publisher to start sending events\n    public void onSubscribe(Subscription s);     \n\n    public void onNext(T t);\n    public void onError(Throwable t);\n    public void onComplete();\n}\u003c/code>\u003c/pre>\u003cp class=\"graf--p\">3. \u003cb class=\"graf--bold\">Subscription\u003c/b>: When the Subscriber becomes ready to start handling events, it signals the Publisher through its Subscription\u003c/p>\u003ch4>\u003cb class=\"graf--bold\">Note:\u003c/b>\u003c/h4>\u003cp class=\"graf--p\">To avoid the name clash, the RxJava 1 \u003ccode class=\"graf--code-inline\">rx.Subscription\u003c/code> has been renamed into \u003ccode class=\"graf--code-inline\">io.reactivex.Disposable\u003c/code> in RxJava 2.\u003c/p>\u003cpre>\u003ccode class=\"language-java graf graf--code\">public interface Subscription {\n    public void request(long n); //request n items\n    public void cancel();\n}\u003c/code>\u003c/pre>\u003cp class=\"graf--p\">Upon receiving this signal, the Publisher begins to invoke \u003cb class=\"graf--bold\">Subscriber::onNext(T)\u003c/b>for each event \u003cb class=\"graf--bold\">T\u003c/b>. This continues until either completion of the stream (\u003cb class=\"graf--bold\">Subscriber::onComplete()\u003c/b>) or an error occurs during processing (\u003cb class=\"graf--bold\">Subscriber::onError(Throwable)\u003c/b>).\u003c/p>\u003cp class=\"graf--p\">4. \u003cb class=\"graf--bold\">Processor\u003c/b>: It represents a processing stage—which is both a Subscriber and a Publisher and obeys the contracts of both.\u003c/p>\u003cpre>\u003ccode class=\"language-java graf graf--code\">public interface Processor&lt;T, R&gt; extends Subscriber&lt;T&gt;, Publisher&lt;R&gt; {}\u003c/code>\u003c/pre>\u003cp class=\"graf--p\">In the Reactive-Streams specification, the Subject-like behavior, namely being a consumer and supplier of events at the same time, is done by the Processor interface.\u003c/p>\u003ch4 class=\"graf--h3\">\u003cb class=\"graf--bold\">Publishers\u003c/b>\u003c/h4>\u003cp class=\"graf--p\">Let’s see how publishers are structured in RxJava. RxJava provides following types of event publishers:\u003c/p>\u003cul>\u003cli>\u003cb class=\"graf--bold\">Flowable:\u003c/b> A Publisher that emits 0..N elements, and then completes successfully or with an error.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">Observable:\u003c/b> Similar to Flowables but without a backpressure strategy. They were introduced in RxJava 1.x.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">Single:\u003c/b> It completes with a value successfully or an error.(\u003ci class=\"graf--italic\">doesn’t have onComplete callback, instead onSuccess(val)\u003c/i>).\u003c/li>\u003cli>\u003cb class=\"graf--bold\">Maybe:\u003c/b> It completes with/without a value or completes with an error.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">Completable:\u003c/b> It just signals if it has completed successfully or with an error.\u003c/li>\u003c/ul>\u003cp class=\"graf--p\">To create a stream in RxJava we can use one of the Publisher’s factory methods.\u003c/p>\u003cpre>\u003ccode class=\"language-java graf graf--code\">Flowable&lt;Integer&gt; flowable = Flowable.just(6, 4, 10, 20);\nFlowable&lt;String&gt; flowable = Flowable.fromIterable(List.of(\"red\", \"green\", \"blue\"));\u003c/code>\u003c/pre>\u003cp class=\"graf--p\">There are a number of factory methods or we can use Observable.create(…) to implement the emissions of events by calling onNext(val), onComplete(), onError(throwable).\u003c/p>\u003cpre>\u003ccode class=\"language-java graf graf--code\">Observable&lt;Integer&gt; stream = Observable.create(subscriber -&gt; {\n    System.out.println(\"Started emitting\");\n\n    System.out.println(\"Emitting 1st\");\n    subscriber.onNext(1);\n\n    System.out.println(\"Emitting 2nd\");\n    subscriber.onNext(2);\u003c/code>\u003c/pre>\u003cpre>\u003ccode class=\"language-java graf graf--code\">   System.out.println(\"Emitting onComplete\");\n    subscriber.onComplete();\n});\u003c/code>\u003c/pre>\u003cp class=\"graf--p\">Remember we came across \u003cb class=\"graf--bold\">Observable sequences\u003c/b> when defining \u003cb class=\"graf--bold\">Reactive Extension\u003c/b>. Now we can see that the all Publishers like Observable and Flowable take some items and pass onto its subscribers. So, these items are called as \u003cb class=\"graf--bold\">Observable sequences\u003c/b> or \u003cb class=\"graf--bold\">Data Stream.\u003c/b>\u003c/p>\u003cp class=\"graf--p\">An important property of the \u003cb class=\"graf--bold\">Stream\u003c/b> is that it’s lazy, meaning that the code inside create() doesn’t get executed without subscribing to the stream.\u003c/p>\u003ch4 class=\"graf--h3\">\u003cb class=\"graf--bold\">Cold and Hot Publishers\u003c/b>\u003c/h4>\u003cp class=\"graf--p\">\u003cb class=\"graf--bold\">Cold publishers\u003c/b>: They only begin emitting when there is a subscriber, and all subscribers receive the exact set of historical data, regardless of when they subscribe. The \u003ci class=\"graf--italic\">subscriber\u003c/i> is taking elements only when it is ready to process that item, and items do not need to be buffered in a publishers because they are requested in a \u003cb class=\"graf--bold\">pull fashion\u003c/b>. The Flowable and the Observable we created above are cold publishers.\u003c/p>\u003cp class=\"graf--p\">\u003cb class=\"graf--bold\">Hot publishers\u003c/b>: They begins generating items and emits them immediately when they are created. They emits items at its own pace, and it is up to its subscriber to keep up. When the subscriber is not able to consume items as quickly as they are produced by a publisher, they need to be buffered or handled in some other way, as they will fill up the memory, finally causing OutOfMemoryException\u003ci class=\"graf--italic\">.\u003c/i> They can be considered as \u003cb class=\"graf--bold\">push scenarios\u003c/b>.\u003c/p>\u003cp class=\"graf--p\">\u003cb class=\"graf--bold\">Subjects\u003c/b> are one way to handle hot observables. Subjects keep the reference to their subscribers and allow ‘multicasting’ an event to them.\u003c/p>\u003cp class=\"graf--p\">Refer to this article to understand Subjects: \u003cb class=\"graf--bold\">\u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://blog.mindorks.com/understanding-rxjava-subject-publish-replay-behavior-and-async-subject-224d663d452f\">Link\u003c/a>\u003c/b>\u003c/p>\u003ch4 class=\"graf--h3\">\u003cb class=\"graf--bold\">Note:\u003c/b>\u003c/h4>\u003cp class=\"graf--p\">The AsyncSubject, BehaviorSubject, PublishSubject, ReplaySubject and UnicastSubject in 2.x don’t support backpressure (as part of the 2.x Observable family).\u003c/p>\u003cp class=\"graf--p\">The AsyncProcessor, BehaviorProcessor, PublishProcessor, ReplayProcessor and UnicastProcessor are backpressure-aware.\u003c/p>\u003ch4 class=\"graf--h3\">\u003cb class=\"graf--bold\">Subscriber\u003c/b>\u003c/h4>\u003cp class=\"graf--p\">The Subscriber as mentioned in the above text subscribes to a Publisher and then receives events in one of its callback methods.\u003c/p>\u003ch4 class=\"graf--h3\">\u003cb class=\"graf--bold\">Canceling subscription\u003c/b>\u003c/h4>\u003cp class=\"graf--p\">When a Subscriber subscribes a Publisher then in RxJava2, a Disposable instance is returned which can be used to cancelled/disposed a Subscriber externally via Disposable::dispose().\u003c/p>\u003cp class=\"graf--p\">Inside the create() method, we can check if there are still active subscribers to our Flowable/Observable.\u003c/p>\u003cp class=\"graf--p\">There are operators that also unsubscribe from the stream so the source knows to stop producing events. For example, \u003cb class=\"graf--bold\">take(limit)\u003c/b> is a simple operator. Its role is to count the number of events and then unsubscribes from its source once it received the specified amount and calls onComplete() to its subscriber.\u003c/p>\u003ch4 class=\"graf--h3\">\u003cb class=\"graf--bold\">Error handling\u003c/b>\u003c/h4>\u003cp class=\"graf--p\">In reactive, exceptions are first class citizens. Since streams are generally asynchronous, it doesn’t make sense to throw an exception, so instead any exception is passed as an event in the stream. The Observable contract specifies that exceptions are terminal operations. That means in case an error reaches the Subscriber, after invoking the ‘onError’ handler, it also unsubscribes. There are operators to continue the subscription in case it is required.\u003c/p>\u003ch4 class=\"graf--h3\">\u003cb class=\"graf--bold\">Operators\u003c/b>\u003c/h4>\u003cp class=\"graf--p\">The real power of RxJava is realized in the manipulation of the data streams. There are a lot of \u003cb class=\"graf--bold\">operators\u003c/b> available in RxJava that simplifies this process. They are applied between the source Observable / Flowable and the Subscriber.\u003c/p>\u003cp class=\"graf--p\">Example:\u003cb class=\"graf--bold\">flatMap:\u003c/b> It takes the emissions (objects, collections, or arrays) from an Observable, and maps those elements to individual Observables, then flattens the emissions from all of those into a single Observable.\u003c/p>\u003cpre>\u003ccode class=\"language-java graf graf--code\">Observable.fromArray(\"janishar ali anwar\")\n        .flatMap(word -&gt; Observable.fromArray(word.split(\" \")))\n        .zipWith(Observable.range(1, Integer.MAX_VALUE),\n                (string, count) -&gt; String.format(\"%2d. %s\", count, string))\n        .subscribe(\n                val -&gt; System.out.print(val + \" \"),\n                err -&gt; {\n                    System.out.println(\"nerror \");\n                },\n                () -&gt; System.out.println(\"ncompleted\"));\u003c/code>\u003c/pre>\u003cp class=\"graf--p\">\u003ci class=\"graf--italic\">Output: 1. janishar 2. ali 3. anwar\u003c/i>\u003cbr/>\u003ci class=\"graf--italic\">completed\u003c/i>\u003c/p>\u003cp class=\"graf--p\">Other important operators are:\u003c/p>\u003cp class=\"graf--p\">filter, map, delay, interval, reduce, collect, defer, zipWith, merge, concat, timeout, retry, onErrorReturn, toList.\u003c/p>\u003cp class=\"graf--p\">To understand these operators through examples refer to this repo: \u003cb class=\"graf--bold\">\u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://github.com/amitshekhariitbhu/RxJava2-Android-Samples\">Link\u003c/a>\u003c/b>\u003c/p>\u003ch4 class=\"graf--h3\">\u003cb class=\"graf--bold\">Schedulers\u003c/b>\u003c/h4>\u003cp class=\"graf--p\">As I mentioned about my library \u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://github.com/janishar/JPost\">JPost\u003c/a>, where I had to manage the Thread at a low level. RxJava Schedulers are for this purpose. They provide high-level constructs to manage with concurrency and deal with details by itself. They create workers who are responsible for scheduling and running code. By default RxJava will not introduce concurrency and will run the operations on the subscription thread.\u003c/p>\u003cp class=\"graf--p\">There are two methods through which we can introduce Schedulers into our chain of operations:\u003c/p>\u003cul>\u003cli>\u003cb class=\"graf--bold\">subscribeOn\u003c/b>: It specify which Scheduler invokes the code contained in Observable.create().\u003c/li>\u003cli>\u003cb class=\"graf--bold\">observeOn:\u003c/b> It allows control to which Scheduler executes the code in the downstream operators.\u003c/li>\u003c/ul>\u003ch4 class=\"graf--h3\">\u003cb class=\"graf--bold\">RxJava provides some general use Schedulers:\u003c/b>\u003c/h4>\u003cul>\u003cli>\u003cb class=\"graf--bold\">Schedulers.computation()\u003c/b> : Used for CPU intensive tasks.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">Schedulers.io()\u003c/b>: Used for IO bound tasks.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">Schedulers.from(Executor)\u003c/b>: Use with custom ExecutorService.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">Schedulers.newThread():\u003c/b> It always creates a new thread when a worker is needed. Since it’s not thread pooled and always creates a new thread instead of reusing one, this scheduler is not very useful.\u003c/li>\u003c/ul>\u003ch4 class=\"graf--h3\">\u003cb class=\"graf--bold\">Backpressure\u003c/b>\u003c/h4>\u003cp class=\"graf--p\">In cases where a publisher is emitting items more rapidly than an operator or subscriber can consume them, then the items that are overflowing from the publisher need to be handled. If for example we try to maintain an ever-expanding buffer of items emitted by the faster publisher to eventually combine with items emitted by the slower one. This could result in OutOfMemoryError.\u003c/p>\u003cblockquote class=\"graf--blockquote\">\u003ci class=\"graf--italic\">Backpressure relates to a feedback mechanism through which the subscriber can signal to the producer how much data it can consume and so to produce only that amount.\u003c/i>\u003c/blockquote>\u003cp class=\"graf--p\">There are a number of way to handle the backpressure like buffering, batching, skipping etc. and there are operators to deal with them. These are explained in the official reference: \u003cb class=\"graf--bold\">\u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://github.com/ReactiveX/RxJava/wiki/Backpressure\">Link\u003c/a>\u003c/b>\u003c/p>\u003cp class=\"graf--p\">Let’s see some scenarios:\u003c/p>\u003cp class=\"graf--p\">The Subscriber has an onSubscribe(Subscription) method, Subscription::request(long n), it is through this it can signal upstream that it’s ready to receive a number of items and after it processes the items request another batch. There is a default implementation which requests \u003cb class=\"graf--bold\">Long.MAX_VALUE\u003c/b> which basically means “\u003cb class=\"graf--bold\">send all you have\u003c/b>”. But we have not seen the code in the producer that takes consideration of the number of items requested by the subscriber.\u003c/p>\u003cp class=\"graf--p\">Let’s see the Flowable example:\u003c/p>\u003cpre>\u003ccode class=\"language-java graf graf--code\">Flowable.create(subscriber -&gt; {\nint count = 0;\nwhile (true) {\n        count++;\n        subscriber.onNext(count + \"n\");\n    }\n\n}, BackpressureStrategy.DROP)\n        .observeOn(Schedulers.newThread(), false, 3)\n        .subscribe(\n                val -&gt; {\n                    Thread.sleep(1000);\n                    System.out.println(val);\n                },\n                err -&gt; {\n                    System.out.println(\"error \");\n                    err.printStackTrace();\n                },\n                () -&gt; System.out.println(\"completed\")\n        );\u003c/code>\u003c/pre>\u003cp class=\"graf--p\">The 2nd parameter \u003cb class=\"graf--bold\">BackpressureStrategy\u003c/b> allows us to specify what to do in the case of overproduction.\u003c/p>\u003cul>\u003cli>\u003cb class=\"graf--bold\">BackpressureStrategy.BUFFER:\u003c/b> It buffers in memory the events that overflow. If we don’t provide some threshold, it might lead to OutOfMemoryError.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">BackpressureStrategy.DROP\u003c/b>: It simply drop the overflowing events\u003c/li>\u003cli>\u003cb class=\"graf--bold\">BackpressureStrategy.LATEST\u003c/b>: It keeps only recent event and discards previous unconsumed events.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">BackpressureStrategy.ERROR\u003c/b>: We get an error in the Subscriber immediately.\u003c/li>\u003cli>\u003cb class=\"graf--bold\">BackpressureStrategy.MISSING\u003c/b>: We use this when we don’t care about backpressure(we let one of the downstream operators onBackpressureXXX handle it)\u003c/li>\u003c/ul>\u003cp class=\"graf--p\">By default the subscriber requests \u003cb class=\"graf--bold\">Long.MAX_VALUE\u003c/b> since the code flowable.subscribe(onNext, onError, onComplete) uses a default onSubscribe. So unless we override onSubscribe, it would overflow. We can control this through operator \u003cb class=\"graf--bold\">observeOn()\u003c/b> that make its own request to the upstream Publisher(256 by default), but can take a parameter to specify the request size.\u003c/p>\u003cp class=\"graf--p\">In the above example, initially, the Subscriber requests Long.MAX_VALUE, but as the subscription travels upstream through the operators to the source Flowable, the operator observeOn subscribes to the source and requests just 3 items from the source instead. Since we used BackpressureStrategy.DROP, all the items emitted outside the 3, get discarded and thus never reach our subscriber.\u003c/p>\u003cp class=\"graf--p\">There are also specialized operators to handle backpressure the onBackpressureXXX operators:\u003c/p>\u003col>\u003cli>\u003cb class=\"graf--bold\">onBackpressureBuffer\u003c/b>\u003c/li>\u003cli>\u003cb class=\"graf--bold\">onBackpressureDrop\u003c/b>\u003c/li>\u003cli>\u003cb class=\"graf--bold\">onBackpressureLatest\u003c/b>\u003c/li>\u003c/ol>\u003cpre>\u003ccode class=\"language-java graf graf--code\">.onBackpressureDrop(val -&gt; System.out.println(\"Dropping \" + val))\u003c/code>\u003c/pre>\u003cp class=\"graf--p\">These operators request Long.MAX_VALUE(unbounded amount) from upstream and then take it upon themselves to manage the requests from downstream. In the case of \u003ci class=\"graf--italic\">onBackpressureBuffer\u003c/i> it adds in an internal queue and sends downstream the events as requested, \u003ci class=\"graf--italic\">onBackpressureDrop\u003c/i> just discards events that are received from upstream more than requested from downstream, \u003ci class=\"graf--italic\">onBackpressureLatest\u003c/i> also drops emitted events excluding the last emitted event(most recent). The last onBackpressureXXX operator overrides the previous one if they are chained.\u003c/p>\u003cblockquote class=\"graf--blockquote\">\u003ci class=\"graf--italic\">RxJava is really a new way of thinking about writing a program. I am learning new things in RxJava each day. How you use RxJava in your coding will change with experience. So, I would recommend to ease into this subject.\u003c/i>\u003c/blockquote>\u003cp class=\"graf--p\">If you want to learn RxJava by examples then \u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://mindorks.com/course/learn-rxjava\">here\u003c/a> is a tutorial for you.\u003c/p>\u003cp class=\"graf--p\">Also, Let’s become friends on \u003cb class=\"graf--bold\">\u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://twitter.com/janisharali\">Twitter\u003c/a>,\u003c/b> \u003cb class=\"graf--bold\">\u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://www.linkedin.com/in/janishar-ali-8135a451/\">Linkedin\u003c/a>,\u003c/b> \u003cb class=\"graf--bold\">\u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://github.com/janishar\">Github\u003c/a>,\u003c/b> and \u003cb class=\"graf--bold\">\u003ca class=\"markup--anchor\" target=\"_blank\" href=\"https://www.facebook.com/janishar.ali\">Facebook\u003c/a>.\u003c/b>\u003c/p>\u003cblockquote class=\"graf--blockquote\">\u003ci class=\"graf--italic\">Learning is a journey, let’s learn together!\u003c/i>\u003c/blockquote>","author":{"_id":"637e41d4ab5dd642cd9202ea","name":"Janishar Ali","profilePicUrl":"https://janisharali.com/assets/logo.png"},"imgUrl":"https://mindorks.files.wordpress.com/2018/01/5f53a-1vaaes0w3v4-rohcasugq6w.jpg","blogUrl":"rxjava-anatomy-what-is-rxjava-how-rxjava-is-designed-and-how-rxjava-works-d357b3aca586","likes":0,"publishedAt":"2017-07-19T00:00:00.000Z","score":0.01,"tags":[]},"isFetching":false,"message":null},"writerBlogsState":{"data":null,"isFetchingBlog":false,"isDeletingBlog":false,"isFetchingDrafts":false,"isFetchingSubmissions":false,"isFetchingPublished":false,"message":null},"writingPadState":{"data":null,"hydrationBlog":null,"uploadedImageUrl":null,"isUploadingImage":false,"isFetchingBlog":false,"isSavingBlog":false,"message":null},"editorBlogState":{"data":null,"blog":null,"isFetchingBlog":false,"isPublishingBlog":false,"isUnpublishingBlog":false,"isFetchingSubmissions":false,"isFetchingPublished":false,"message":null},"contactState":{"isSending":false,"showDialog":false,"message":null}}
+  </script>
+ </body>
+</html>

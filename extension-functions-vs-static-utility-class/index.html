@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Extension Functions vs Static Utility Class
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/extension-functions-vs-static-utility-class" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Extension Functions vs Static Utility Class" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/extension-functions-vs-static-utility-class" property="og:url"/>
+  <meta content="/images/extension-class-banner-17410a644c29d178.png" property="og:image"/>
+  <meta content="In this blog, we are going to talk about the Extension function and util class in Kotlin. We will learn when to use which one and what are the advantages of using them." property="og:description"/>
+  <meta content="Extension Functions vs Static Utility Class" property="twitter:title"/>
+  <meta content="In this blog, we are going to talk about the Extension function and util class in Kotlin. We will learn when to use which one and what are the advantages of using them." name="twitter:description"/>
+  <meta content="/images/extension-class-banner-17410a644c29d178.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to talk about the Extension function and util class in Kotlin. We will learn when to use which one and what are the advantages of using them." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:457,data:{id:457,title:"Extension Functions vs Static Utility Class",description:"In this blog, we are going to talk about the Extension function and util class in Kotlin. We will learn when to use which one and what are the advantages of using them.",text:'<h1 class="graf--h1">Extension Functions vs Static Utility Class</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/extension-class-banner-17410a644c29d178.png class=\'graf-image\' alt=\'Extension Functions vs Static Utility Class\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">While working in Android, there are quite a few times when we create a Util file or Extension functions to reuse the same set of code again and again.</p><p class="graf--p">In this blog, we are going to talk about when to use extension function and when to use static utility class in the android project using kotlin.</p><p class="graf--p">We will break the blog into,</p><ul><li>What are Extension function and Util Class?</li><li>Use Cases where we use them?</li><li>Advantages of using Wrapper like Extension or Util Class.</li></ul><p class="graf--p">So, let&#x27;s begin the blog.</p><h4 class="graf--h3">What are Extension function and Util class?</h4><p class="graf--p"><b class="graf--bold">Extension function</b>: These are like extensive property attached to any class in kotlin. It provides additional methods to that class without manually inheriting the class.</p><p class="graf--p">For example,</p><p class="graf--p">Let&#x27;s say, we have views where we need to play with the visibility of the views. So, we can create extension function for views like,</p><pre><code class="language-java graf graf--code">fun View.show() {\n    this.visibility = View.VISIBLE\n}\n\nfun View.hide() {\n    this.visibility = View.GONE\n}</code></pre><p class="graf--p">and to use it we use, like,</p><pre><code class="language-java graf graf--code">toolbar.hide()</code></pre><p class="graf--p">Here, you can see we have attached an additional feature of hide() and show() to views in android.</p><p class="graf--p">Here,  these above two extension functions can only be used by View Type and not any other type. For example, String can&#x27;t use the functions here.</p><p class="graf--p">And to access, that view in the function we use <b class="graf--bold">this.</b></p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/extension-explained-8a3f105a09aa79fe.png class=\'graf-image\' alt=\'Extension Functions vs Static Utility Class\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><b class="graf--bold">Util Class:</b></p><p class="graf--p">Util class is like a collection of static functions whose code can be reused again and again by passing the reference of the type as a parameter.</p><p class="graf--p">For example, if we take the above example of visibility Gone and Visible then update the code according to Util class way,</p><pre><code class="language-java graf graf--code">object Util {\n    \n    fun show(view: View){\n        view.visibility = View.VISIBLE\n    }\n    fun hide(view: View){\n        view.visibility = View.GONE\n    }\n}</code></pre><p class="graf--p">and to use it we use,</p><pre><code class="language-java graf graf--code">Util.show(imageView)</code></pre><p class="graf--p">Here, you can see unlike extension function, we need to pass the reference of the view as a parameter.</p><p class="graf--p">Or we can directly write the util functions without Util object. For example, we will create a file <code class="graf--code-inline">Util.kt</code> and update the file as,</p><pre><code class="language-java graf graf--code">fun show(view: View){\n    view.visibility = View.VISIBLE\n}\nfun hide(view: View){\n    view.visibility = View.GONE\n}</code></pre><p class="graf--p">and to use this we can directly call,</p><pre><code class="language-java graf graf--code">show(imageView)</code></pre><p class="graf--p">We can create Util both ways mentioned above.</p><h4 class="graf--h3">Use Cases where we use them?</h4><p class="graf--p">Now, in this section let us discuss when and where to use them.</p><p class="graf--p">Consider this like, when creating an extension function in kotlin, it creates a property for that specific type(let&#x27;s say ImageView) which can be accessed across by all the ImageViews.</p><p class="graf--p">But, when Using Util, we don&#x27;t add this property again, and again to use the util functions, we need to explicitly call it.</p><p class="graf--p">So, now let&#x27;s understand this with an example.</p><p class="graf--p">Consider we have an ImageView, where we want to load image from url. We might consider using Glide or Picasso for this. So, here I will use Glide and create an extension function like</p><pre><code class="language-java graf graf--code">fun ImageView.loadImage(url: String) {\n    Glide.with(this.context).load(url).into(this)\n}</code></pre><p class="graf--p">Here, you can see I created an extension function called loadImage() which takes url as a parameter and we load the url into the ImageView.</p><p class="graf--p">Now, to use this we just use,</p><pre><code class="language-java graf graf--code">imageViewProfile.loadImage("url")</code></pre><p class="graf--p">This loadImage property is accessed by the imageViewProfile and here the extension function is helping the ImageView to load the image from url.</p><p class="graf--p">Now, think this as this won&#x27;t be just accessible for <code class="graf--code-inline">imageViewProfile</code> but for all the ImageViews in the app but will only be accesible by ImageViews. <code class="graf--code-inline">loadImage()</code> has become like property to ImageViews now. All the ImageViews can access it but just using the dot operator.</p><p class="graf--p">Now, Consider the same example using Util class. Here you need to pass both them imageView and the url to load the image.</p><pre><code class="language-java graf graf--code">fun loadImage(imgView:ImageView,url:String){\n    Glide.with(this.context).load(url).into(imgView)\n}</code></pre><p class="graf--p">and to use this we have to call <code class="graf--code-inline">Util.loadImage()</code>. </p><p class="graf--p">Now, here it is not associated with imageView. We are passing the ImageView as a parameter to this function along with the url to load the url in the image view.</p><p class="graf--p"><b class="graf--bold">When to use Extension function or Util function?</b></p><p class="graf--p">Let&#x27;s say if we have a multiple occurrence of the same action across the app like loading image from url in ImageView in multiple ImageViews across the app, we should prefer using extension function as it is like the major use-case here and so it gets attached to the imageView as a property.</p><p class="graf--p">But, when we don&#x27;t want to use the property heavily and its a very rare occurrence in the app like once or twice we should use util functions.</p><h4 class="graf--h3">Advantages of using Wrapper like Extension or Util Class.</h4><p class="graf--p">In any case, using either extension functions or util class helps us a lot while developing the android app. It helps us,</p><ul><li>to make the code reusable.</li><li>to make the code more readable.</li><li>to migrate to another library very easily.</li></ul><p class="graf--p">Let me explain them one by one.</p><p class="graf--p">Let&#x27;s say in the above example,</p><pre><code class="language-java graf graf--code">fun ImageView.loadImage(url: String) {\n    Glide.with(this.context).load(url).into(this)\n}</code></pre><p class="graf--p">Here, the loading of image using glide is written once and can be used multiple times. </p><p class="graf--p">Using the loadImage() as the name makes our code readable as when we use it like,</p><pre><code class="language-java graf graf--code">imageViewProfile.loadImage("url")</code></pre><p class="graf--p">the name itself makes it more clear that we are trying to load an url to the ImageView.</p><p class="graf--p">And at last, the biggest advantage of using a <b class="graf--bold">wrapper helps us in migration to another library if required</b>. For example, let&#x27;s say someday we need to remove the Glide library and replace the code with Picasso to load images.</p><p class="graf--p">Then we need to only update the code only once in either extension function or the util class and the library would be replaced successfully. We would not have to change or tweak any code in view files.</p><h4 class="graf--h3">Conclusion :</h4><p class="graf--p">Depending upon the use-case we should decide which way to use to make our code reusable.</p><p class="graf--p">Happy learning.</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/extension-class-banner-17410a644c29d178.png",blog_url:"extension-functions-vs-static-utility-class",likes:0,rank:0,category:1,published_at:"22nd May 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:62,title:"Learn Kotlin — Extension Functions",description:"As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png",blog_url:"learn-kotlin-extension-functions",likes:1,rank:0,category:1,published_at:"30th May 2017",score:6.3829450607299805},{id:413,title:"What is the equivalent of Java static methods in Kotlin?",description:"In this blog, we will learn the equivalent of Java static methods in Kotlin. We will learn how to achieve the functionality of Java static methods in Kotlin because, in Kotlin, there is nothing known as static.",author:17146,img_url:"/images/banner-what-is-the-equivalent-of-java-static-methods-in-kotlin.jpg",blog_url:"what-is-the-equivalent-of-java-static-methods-in-kotlin",likes:0,rank:0,category:1,published_at:"6th April 2020",score:4.2850565910339355},{id:407,title:"Using Scoped Functions in Kotlin - let, run, with, also, apply",description:"In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply.",author:3003,img_url:"/images/using-scoped-functions-banner-image.png",blog_url:"using-scoped-functions-in-kotlin-let-run-with-also-apply",likes:0,rank:0,category:1,published_at:"16th March 2020",score:2.7959113121032715},{id:515,title:"Kotlin Collection Functions",description:"In this blog, we will learn how to efficiently use the Kotlin Collection Functions to make the journey of Android App Development smoother and faster.",author:14897,img_url:"/images/banner-kotlin-collection-functions-70f72a668ffed7fd.png",blog_url:"kotlin-collection-functions",likes:0,rank:0,category:1,published_at:"8th April 2021",score:2.7959113121032715},{id:24,title:"Learn Kotlin - Data Class",description:"We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png",blog_url:"learn-kotlin-data-class",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:2.3285839557647705},{id:259,title:"Mockito cannot mock because : final class in Kotlin",description:"In this blog, we will talk about how we can mock the final class using Mockito. By default, we can't mock the final classes using mockito. Here in this blog, I have talked about multiple ways to test final classes.",author:9959,img_url:"/images/mockito-cannot-mock-banner.jpg",blog_url:"mockito-cannot-mock-in-kotlin",likes:0,rank:0,category:1,published_at:"31st May 2019",score:2.3285839557647705}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            22nd May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Extension Functions vs Static Utility Class
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Extension Functions vs Static Utility Class" class="graf-image" src="/images/extension-class-banner-17410a644c29d178.png"/>
+                 </div>
+                 <p class="graf--p">
+                  While working in Android, there are quite a few times when we create a Util file or Extension functions to reuse the same set of code again and again.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we are going to talk about when to use extension function and when to use static utility class in the android project using kotlin.
+                 </p>
+                 <p class="graf--p">
+                  We will break the blog into,
+                 </p>
+                 <ul>
+                  <li>
+                   What are Extension function and Util Class?
+                  </li>
+                  <li>
+                   Use Cases where we use them?
+                  </li>
+                  <li>
+                   Advantages of using Wrapper like Extension or Util Class.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, let's begin the blog.
+                 </p>
+                 <h4 class="graf--h3">
+                  What are Extension function and Util class?
+                 </h4>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Extension function
+                  </b>
+                  : These are like extensive property attached to any class in kotlin. It provides additional methods to that class without manually inheriting the class.
+                 </p>
+                 <p class="graf--p">
+                  For example,
+                 </p>
+                 <p class="graf--p">
+                  Let's say, we have views where we need to play with the visibility of the views. So, we can create extension function for views like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun View.show() {
+    this.visibility = View.VISIBLE
+}
+
+fun View.hide() {
+    this.visibility = View.GONE
+}</code></pre>
+                 <p class="graf--p">
+                  and to use it we use, like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">toolbar.hide()</code></pre>
+                 <p class="graf--p">
+                  Here, you can see we have attached an additional feature of hide() and show() to views in android.
+                 </p>
+                 <p class="graf--p">
+                  Here,  these above two extension functions can only be used by View Type and not any other type. For example, String can't use the functions here.
+                 </p>
+                 <p class="graf--p">
+                  And to access, that view in the function we use
+                  <b class="graf--bold">
+                   this.
+                  </b>
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Extension Functions vs Static Utility Class" class="graf-image" src="/images/extension-explained-8a3f105a09aa79fe.png"/>
+                 </div>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Util Class:
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Util class is like a collection of static functions whose code can be reused again and again by passing the reference of the type as a parameter.
+                 </p>
+                 <p class="graf--p">
+                  For example, if we take the above example of visibility Gone and Visible then update the code according to Util class way,
+                 </p>
+                 <pre><code class="language-java graf graf--code">object Util {
+    
+    fun show(view: View){
+        view.visibility = View.VISIBLE
+    }
+    fun hide(view: View){
+        view.visibility = View.GONE
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  and to use it we use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">Util.show(imageView)</code></pre>
+                 <p class="graf--p">
+                  Here, you can see unlike extension function, we need to pass the reference of the view as a parameter.
+                 </p>
+                 <p class="graf--p">
+                  Or we can directly write the util functions without Util object. For example, we will create a file
+                  <code class="graf--code-inline">
+                   Util.kt
+                  </code>
+                  and update the file as,
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun show(view: View){
+    view.visibility = View.VISIBLE
+}
+fun hide(view: View){
+    view.visibility = View.GONE
+}</code></pre>
+                 <p class="graf--p">
+                  and to use this we can directly call,
+                 </p>
+                 <pre><code class="language-java graf graf--code">show(imageView)</code></pre>
+                 <p class="graf--p">
+                  We can create Util both ways mentioned above.
+                 </p>
+                 <h4 class="graf--h3">
+                  Use Cases where we use them?
+                 </h4>
+                 <p class="graf--p">
+                  Now, in this section let us discuss when and where to use them.
+                 </p>
+                 <p class="graf--p">
+                  Consider this like, when creating an extension function in kotlin, it creates a property for that specific type(let's say ImageView) which can be accessed across by all the ImageViews.
+                 </p>
+                 <p class="graf--p">
+                  But, when Using Util, we don't add this property again, and again to use the util functions, we need to explicitly call it.
+                 </p>
+                 <p class="graf--p">
+                  So, now let's understand this with an example.
+                 </p>
+                 <p class="graf--p">
+                  Consider we have an ImageView, where we want to load image from url. We might consider using Glide or Picasso for this. So, here I will use Glide and create an extension function like
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun ImageView.loadImage(url: String) {
+    Glide.with(this.context).load(url).into(this)
+}</code></pre>
+                 <p class="graf--p">
+                  Here, you can see I created an extension function called loadImage() which takes url as a parameter and we load the url into the ImageView.
+                 </p>
+                 <p class="graf--p">
+                  Now, to use this we just use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">imageViewProfile.loadImage("url")</code></pre>
+                 <p class="graf--p">
+                  This loadImage property is accessed by the imageViewProfile and here the extension function is helping the ImageView to load the image from url.
+                 </p>
+                 <p class="graf--p">
+                  Now, think this as this won't be just accessible for
+                  <code class="graf--code-inline">
+                   imageViewProfile
+                  </code>
+                  but for all the ImageViews in the app but will only be accesible by ImageViews.
+                  <code class="graf--code-inline">
+                   loadImage()
+                  </code>
+                  has become like property to ImageViews now. All the ImageViews can access it but just using the dot operator.
+                 </p>
+                 <p class="graf--p">
+                  Now, Consider the same example using Util class. Here you need to pass both them imageView and the url to load the image.
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun loadImage(imgView:ImageView,url:String){
+    Glide.with(this.context).load(url).into(imgView)
+}</code></pre>
+                 <p class="graf--p">
+                  and to use this we have to call
+                  <code class="graf--code-inline">
+                   Util.loadImage()
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Now, here it is not associated with imageView. We are passing the ImageView as a parameter to this function along with the url to load the url in the image view.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   When to use Extension function or Util function?
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Let's say if we have a multiple occurrence of the same action across the app like loading image from url in ImageView in multiple ImageViews across the app, we should prefer using extension function as it is like the major use-case here and so it gets attached to the imageView as a property.
+                 </p>
+                 <p class="graf--p">
+                  But, when we don't want to use the property heavily and its a very rare occurrence in the app like once or twice we should use util functions.
+                 </p>
+                 <h4 class="graf--h3">
+                  Advantages of using Wrapper like Extension or Util Class.
+                 </h4>
+                 <p class="graf--p">
+                  In any case, using either extension functions or util class helps us a lot while developing the android app. It helps us,
+                 </p>
+                 <ul>
+                  <li>
+                   to make the code reusable.
+                  </li>
+                  <li>
+                   to make the code more readable.
+                  </li>
+                  <li>
+                   to migrate to another library very easily.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Let me explain them one by one.
+                 </p>
+                 <p class="graf--p">
+                  Let's say in the above example,
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun ImageView.loadImage(url: String) {
+    Glide.with(this.context).load(url).into(this)
+}</code></pre>
+                 <p class="graf--p">
+                  Here, the loading of image using glide is written once and can be used multiple times.
+                 </p>
+                 <p class="graf--p">
+                  Using the loadImage() as the name makes our code readable as when we use it like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">imageViewProfile.loadImage("url")</code></pre>
+                 <p class="graf--p">
+                  the name itself makes it more clear that we are trying to load an url to the ImageView.
+                 </p>
+                 <p class="graf--p">
+                  And at last, the biggest advantage of using a
+                  <b class="graf--bold">
+                   wrapper helps us in migration to another library if required
+                  </b>
+                  . For example, let's say someday we need to remove the Glide library and replace the code with Picasso to load images.
+                 </p>
+                 <p class="graf--p">
+                  Then we need to only update the code only once in either extension function or the util class and the library would be replaced successfully. We would not have to change or tweak any code in view files.
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion :
+                 </h4>
+                 <p class="graf--p">
+                  Depending upon the use-case we should decide which way to use to make our code reusable.
+                 </p>
+                 <p class="graf--p">
+                  Happy learning.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin — Extension Functions" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin — Extension Functions
+           </div>
+           <div class="meta">
+            30th May 2017
+           </div>
+           <div class="description">
+            As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="What is the equivalent of Java static methods in Kotlin?" class="ui centered image" src="/images/banner-what-is-the-equivalent-of-java-static-methods-in-kotlin.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            What is the equivalent of Java static methods in Kotlin?
+           </div>
+           <div class="meta">
+            6th April 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn the equivalent of Java static methods in Kotlin. We will learn how to achieve the functionality of Java static methods in Kotlin because, in Kotlin, there is nothing known as static.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="ui centered image" src="/images/using-scoped-functions-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Scoped Functions in Kotlin - let, run, with, also, apply
+           </div>
+           <div class="meta">
+            16th March 2020
+           </div>
+           <div class="description">
+            In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Kotlin Collection Functions" class="ui centered image" src="/images/banner-kotlin-collection-functions-70f72a668ffed7fd.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Kotlin Collection Functions
+           </div>
+           <div class="meta">
+            8th April 2021
+           </div>
+           <div class="description">
+            In this blog, we will learn how to efficiently use the Kotlin Collection Functions to make the journey of Android App Development smoother and faster.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin - Data Class" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin - Data Class
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Mockito cannot mock because : final class in Kotlin" class="ui centered image" src="/images/mockito-cannot-mock-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Mockito cannot mock because : final class in Kotlin
+           </div>
+           <div class="meta">
+            31st May 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how we can mock the final class using Mockito. By default, we can't mock the final classes using mockito. Here in this blog, I have talked about multiple ways to test final classes.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Kotlin Collection Functions
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/kotlin-collection-functions" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Kotlin Collection Functions" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/kotlin-collection-functions" property="og:url"/>
+  <meta content="/images/banner-kotlin-collection-functions-70f72a668ffed7fd.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to efficiently use the Kotlin Collection Functions to make the journey of Android App Development smoother and faster." property="og:description"/>
+  <meta content="Kotlin Collection Functions" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to efficiently use the Kotlin Collection Functions to make the journey of Android App Development smoother and faster." name="twitter:description"/>
+  <meta content="/images/banner-kotlin-collection-functions-70f72a668ffed7fd.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to efficiently use the Kotlin Collection Functions to make the journey of Android App Development smoother and faster." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:515,data:{id:515,title:"Kotlin Collection Functions",description:"In this blog, we will learn how to efficiently use the Kotlin Collection Functions to make the journey of Android App Development smoother and faster.",text:'<h1 class="graf--h1">Kotlin Collection Functions</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-kotlin-collection-functions-70f72a668ffed7fd.png alt="Banner Kotlin Collection Functions" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">If you are reading this blog, then we are pretty sure that either you have totally shifted to Kotlin for Android Development or you are planning to move to Kotlin very soon. In any of the cases, this blog is a perfect match for you. So, let&#x27;s get to the point.</p><p class="graf--p">In our Android application, we deal with various collections such as lists, maps, sets, etc. We perform many operations on these, but do you know there are many Kotlin Collection Functions, that can make our life easier. There is a high probability that if you are want to perform some operation(simple or complex) on any collection, then there must be some collection function that will make your whole Android App development simpler and easier.</p><p class="graf--p">In this blog, we will learn about many of these Kotlin Collection Functions. You can bookmark this blog and keep this blog as the cheat sheet for your Kotlin Collection Functions. So, let&#x27;s start with a simple operation i.e. removing the duplicate strings from an array.</p><h3 class="graf--h3">Remove Duplicate Strings</h3><p class="graf--p">There are many ways to remove duplicate strings from an array:</p><pre><code class="language-java graf graf--code">// Maintain the original order of items\nval devs = arrayOf("Amit", "Ali", "Amit", "Sumit", "Sumit", "Himanshu")\nprint(devs.distinct()) // [Amit, Ali, Sumit, Himanshu]\n\n// Maintain the original order of items\nval devs = arrayOf("Amit", "Ali", "Amit", "Sumit", "Sumit", "Himanshu")\nprint(devs.toSet()) // [Amit, Ali, Sumit, Himanshu]\n\n// Maintain the original order of items\nval devs = arrayOf("Amit", "Ali", "Amit", "Sumit", "Sumit", "Himanshu")\nprint(devs.toMutableSet()) // [Amit, Ali, Sumit, Himanshu]\n\n// DO NOT Maintain the original order of items\nval devs = arrayOf("Amit", "Ali", "Amit", "Sumit", "Sumit", "Himanshu")\nprint(devs.toHashSet()) // [Amit, Ali, Sumit, Himanshu]</code></pre><h3 class="graf--h3">Convert an array or list to a string</h3><p class="graf--p">You can convert an array or list into a string by using <code class="graf--code-inline">joinToString</code>. For example, if you are having a list of cities(Delhi, Mumbai, Bangalore), then you can convert that list into a string such as &quot;India is one the best country for tourism. You can visit Delhi, Mumbai, Bangalore, etc, and enjoy your holidays&quot;. Here, Delhi, Mumbai, Bangalore are the list items which you were having.</p><pre><code class="language-java graf graf--code">val someKotlinCollectionFunctions = listOf(\n    "distinct", "map",\n    "isEmpty", "contains",\n    "filter", "first",\n    "last", "reduce",\n    "single", "joinToString"\n)\n\nval message = someKotlinCollectionFunctions.joinToString(\n    separator = ", ",\n    prefix = "Kotlin has many collection functions like: ",\n    postfix = "and they are awesome.",\n    limit = 3,\n    truncated = "etc "\n)\n\nprint(message) // Kotlin has many collection functions like: distinct, map, isEmpty, etc and they are awesome.</code></pre><h3 class="graf--h3">Transform a collection into a single result</h3><p class="graf--p">If you want to transform a given collection into a single result, then you can use <code class="graf--code-inline">reduce</code> function. For example, you can find the sum of all the elements present in a list:</p><pre><code class="language-java graf graf--code">val numList = listOf(1, 2, 3, 4, 5)\nval result = numList.reduce { result, item -&gt;\n    result + item\n}\nprint(result) // 15\n\n// NOTE: If the list is empty, then it will throw a RuntimeException</code></pre><h3 class="graf--h3">Find if all elements are satisfying a particular condition</h3><p class="graf--p">If you have an array or list of data elements and you want to find whether or not all the elements are satisfying a particular condition, then you can use <code class="graf--code-inline">all</code> in Kotlin.</p><pre><code class="language-java graf graf--code">data class User(val id: Int, val name: String, val isCricketLover: Boolean, val isFootballLover: Boolean)\n\nval user1 = User(id = 1, name = "Amit", isCricketLover = true, isFootballLover = true)\nval user2 = User(id = 2, name = "Ali", isCricketLover = true, isFootballLover = true)\nval user3 = User(id = 3, name = "Sumit", isCricketLover = true, isFootballLover = false)\nval user4 = User(id = 4, name = "Himanshu", isCricketLover = true, isFootballLover = false)\n\nval users = arrayOf(user1, user2, user3, user4)\n\nval allLoveCricket = users.all { it.isCricketLover }\nprint(allLoveCricket) // true\n\nval allLoveFootball = users.all { it.isFootballLover }\nprint(allLoveFootball) // false</code></pre><h3 class="graf--h3">Find a particular element based on a certain condition</h3><p class="graf--p">You can find a particular element from a list of elements that is satisfying a particular condition by using <code class="graf--code-inline">find</code> and <code class="graf--code-inline">single</code> in Kotlin. For example, out of a list of students, you can find the student having roll number 5.</p><p class="graf--p">The <code class="graf--code-inline">find</code> returns the first element matching the given condition or null if no such element was found. </p><p class="graf--p">While <code class="graf--code-inline">single</code> returns the single element matching the given condition or it will throw an exception if there are more than one matching element or no matching element in the list.</p><pre><code class="language-java graf graf--code">data class User(val id: Int, val name: String)\n\nval users = arrayOf(\n    User(1, "Amit"),\n    User(2, "Ali"),\n    User(3, "Sumit"),\n    User(4, "Himanshu")\n)\n\nval userWithId3 = users.single { it.id == 3 }\nprint(userWithId3) // User(id=3, name=Sumit)\n\nval userWithId1 = users.find { it.id == 1 }\nprint(userWithId1) // User(id=1, name=Amit)</code></pre><h3 class="graf--h3">Break your list into multiple sublists of smaller size</h3><p class="graf--p">There are many cases when you have a bigger list and you want to divide it into smaller parts and then perform some operation on those sublists. So, this can be easily achieved using the <code class="graf--code-inline">chunked</code> function.</p><pre><code class="language-java graf graf--code">val numList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\nval chunkedLists = numList.chunked(3)\nprint(chunkedLists) // [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]</code></pre><h3 class="graf--h3">Making copies of the array</h3><p class="graf--p">You can make copies of your existing array by using various functions such as:</p><ul><li><b class="graf--bold">copyInto</b>: This will replace the elements of one array into another array or it will throw an exception if the destination array can&#x27;t hold the elements of the original array due to size constraints or the indexes are out of bounds. </li></ul><pre><code class="language-java graf graf--code">val arrayOne = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\nval arrayTwo = arrayOf(11, 12, 13, 14, 15, 16, 17, 18, 19, 20)\narrayOne.copyInto(destination = arrayTwo, destinationOffset = 2, startIndex = 0, endIndex = 4)\narrayTwo.forEach {print("$it ")} // 11 12 1 2 3 4 17 18 19 20</code></pre><p class="graf--p">Similarly, there are other functions that can be used to copy the elements of an array. For example:</p><ul><li><b class="graf--bold">copyOfRange(fromIndex, toIndex)</b>: Returns a new array which is a copy of the specified range of the original array.</li><li><b class="graf--bold">copyOf() </b>or<b class="graf--bold"> copyOf(newSize)</b>: Returns a new array which is a copy of the original array, resized to the given newSize, or if the newSize is not passed then the whole array will be copied.</li></ul><h3 class="graf--h3">Changing type of collection to other</h3><p class="graf--p">Depending on the situation, you can change the type of collection. Here, either you can change the type of one collection to another type by making a new collection or by referring to the older one. For example:</p><p class="graf--p"><b class="graf--bold">toIntArray</b>, <b class="graf--bold">toBooleanArray</b>, <b class="graf--bold">toLongArray</b>, <b class="graf--bold">toShortArray</b>, <b class="graf--bold">toByteArray</b>, <b class="graf--bold">toDoubleArray</b>, <b class="graf--bold">toList</b>, <b class="graf--bold">toMap</b>, <b class="graf--bold">toSet</b>, <b class="graf--bold">toPair</b>, etc can be used to change the type of one collection to another type.</p><pre><code class="language-java graf graf--code">var uIntArray = UIntArray(5) { 1U }\nvar intArray = uIntArray.toIntArray()\nintArray[0] = 0\nprint(uIntArray.toList()) // [1, 1, 1, 1, 1]\nprint(intArray.toList()) // [0, 1, 1, 1, 1]</code></pre><p class="graf--p">Here, we are making a new collection and changes in the new collection will not be reflected in the older one. But, at the same time, you can change the type of collection by keeping the reference to the older one i.e. changes in one collection will automatically be reflected in the other. For this instead of <code class="graf--code-inline">to</code>, we need to use <code class="graf--code-inline">as</code>. For example:</p><p class="graf--p"><b class="graf--bold">asIntArray</b>, <b class="graf--bold">asLongArray</b>, <b class="graf--bold">asShortArray</b>, <b class="graf--bold">asByteArray</b>, <b class="graf--bold">asList</b>, etc.</p><pre><code class="language-java graf graf--code">var uIntArray = UIntArray(5) { 1U }\nvar intArray = uIntArray.asIntArray()\nintArray[0] = 0\nprint(uIntArray.toList()) // [0, 1, 1, 1, 1]\nprint(intArray.toList()) // [0, 1, 1, 1, 1]</code></pre><h3 class="graf--h3">Associating the data using some key</h3><p class="graf--p">If you are having a list of data and you want to associate the data with the help of some key present in your data element, then you can use <code class="graf--code-inline">associateBy</code>.</p><pre><code class="language-java graf graf--code">data class Contact(val name: String, val phoneNumber: String)\n\nval contactList = listOf(\n    Contact("Amit", "+9199XXXX1111"),\n    Contact("Ali", "+9199XXXX2222"),\n    Contact("Himanshu", "+9199XXXX3333"),\n    Contact("Sumit", "+9199XXXX4444")\n)\n\nval phoneNumberToContactMap = contactList.associateBy { it.phoneNumber }\nprint(phoneNumberToContactMap)\n// Map with key: phoneNumber and value: Contact\n// {\n//     +9199XXXX1111=Contact(name=Amit, phoneNumber=+9199XXXX1111),\n//     +9199XXXX2222=Contact(name=Ali, phoneNumber=+9199XXXX2222),\n//     +9199XXXX3333=Contact(name=Himanshu, phoneNumber=+9199XXXX3333),\n//     +9199XXXX4444=Contact(name=Sumit, phoneNumber=+9199XXXX4444)\n// }</code></pre><p class="graf--p">In the above example, the key is phoneNumber and the value is Contact. If you don&#x27;t want to have the whole Contact as the value, then you can simply pass the desired value like this:</p><pre><code class="language-java graf graf--code">val phoneNumberToContactMap = contactList.associateBy({it.phoneNumber}, {it.name})\nprint(phoneNumberToContactMap)\n// Map with key: phoneNumber and value: name\n// {\n//     +9199XXXX1111=Amit, \n//     +9199XXXX2222=Ali, \n//     +9199XXXX3333=Himanshu, \n//     +9199XXXX4444=Sumit}\n// }</code></pre><h3 class="graf--h3">Finding distinct elements in a collection</h3><p class="graf--p">We can use the distinct function to get the list of unique elements of a collection.</p><pre><code class="language-java graf graf--code">val list = listOf(1, 2, 2, 3, 3, 3, 4, 4, 4, 4)\nprintln(list.distinct()) // [1, 2, 3, 4]</code></pre><h3 class="graf--h3">Union of collections</h3><p class="graf--p">You can use the <code class="graf--code-inline">union</code> function to get the unique elements of two collections. The order of the elements of both the collections will be preserved but the elements of the second collection will be added after the elements of the first collection.</p><pre><code class="language-java graf graf--code">val listOne = listOf(1, 2, 3, 3, 4, 5, 6)\nval listTwo = listOf(2, 2, 4, 5, 6, 7, 8)\nprintln(listOne.union(listTwo)) // [1, 2, 3, 4, 5, 6, 7, 8]</code></pre><h3 class="graf--h3">Intersection of collections</h3><p class="graf--p">To get the elements that are common in two collections, you can use the <code class="graf--code-inline">intersect</code> function which returns a set containing the common element of both collections.</p><pre><code class="language-java graf graf--code">val listOne = listOf(1, 2, 3, 3, 4, 5, 6)\nval listTwo = listOf(2, 2, 4, 5, 6, 7, 8)\nprintln(listOne.intersect(listTwo)) // [2, 4, 5, 6]</code></pre><h3 class="graf--h3">Keep the specified elements only</h3><p class="graf--p">If in a collection, you want to keep the specified elements only then you can use <code class="graf--code-inline">retainAll</code> function. Since this function will modify your list, so make sure that your list or array is mutable.</p><p class="graf--p"><code class="graf--code-inline">retainAll</code> will return true if any element is removed from the collection otherwise it will return false.</p><pre><code class="language-java graf graf--code">val listOne = mutableListOf(1, 2, 3, 3, 4, 5, 6)\nval listTwo = listOf(1, 2, 3, 3, 4, 5, 6)\nval listThree = listOf(1, 2, 3, 3, 4, 5, 7)\nprintln(listOne.retainAll(listTwo)) // false\nprintln(listOne.retainAll(listThree)) // true\nprintln(listOne) // [1, 2, 3, 3, 4, 5]</code></pre><p class="graf--p">Similarly, you can use <code class="graf--code-inline">removeAll</code> to remove all the elements of one collection that are present in another collection. </p><h3 class="graf--h3">Filter a collection based on some condition</h3><p class="graf--p">You can <code class="graf--code-inline">filter</code> a collection based on certain conditions by using the filter. This returns a list containing elements that satisfy the given condition.</p><pre><code class="language-java graf graf--code">val list = listOf(1, 2, 3, 4, 5, 6, 7, 8)\nval filteredList = list.filter { it % 2 == 0 }\nprint(filteredList) // [2, 4, 6, 8]</code></pre><p class="graf--p">Similarly, you can filter the collection based on the index of elements by using <code class="graf--code-inline">filterIndexed</code>.</p><p class="graf--p">If you want to store the filtered elements in some collection, then you can use the <code class="graf--code-inline">filterIndexedTo</code>:</p><pre><code class="language-java graf graf--code">val list = listOf(1, 2, 3, 4, 5, 6, 7, 8)\nval filteredList = mutableListOf&lt;Int&gt;()\nlist.filterIndexedTo(filteredList) { index, i -&gt; list[index] % 2 == 0 }\nprint(filteredList) // [2, 4, 6, 8]</code></pre><p class="graf--p">You can also find the elements that are instances of a specified type in a collection by using <code class="graf--code-inline">filterIsInstance</code>.</p><pre><code class="language-java graf graf--code">val mixedList = listOf(1, 2, 3, "one", "two", 4, "three", "four", 5, 6, "five", 7)\nval strList = mixedList.filterIsInstance&lt;String&gt;()\nprint(strList) // [one, two, three, four, five]</code></pre><h3 class="graf--h3">Zip collections</h3><p class="graf--p"><code class="graf--code-inline">zip</code> returns a list of pairs. The first element of the pair will be taken from the first collection and the second element of the pair will be taken from the second collection. The size of the returned list will be equal to the size of the shortest collection.</p><pre><code class="language-java graf graf--code">val listOne = listOf(1, 2, 3, 4, 5)\nval listTwo = listOf("a", "b", "c", "d", "e", "f")\nprint(listOne zip listTwo) // [(1, a), (2, b), (3, c), (4, d), (5, e)]</code></pre><h3 class="graf--h3">Zip with next in a collection</h3><p class="graf--p"><code class="graf--code-inline">zipWithNext</code> return a list of pairs. The elements of the pair will be the adjacent elements of the collection.</p><pre><code class="language-java graf graf--code">val list = listOf(1, 2, 3, 4, 5)\nprint(list.zipWithNext()) // [(1, 2), (2, 3), (3, 4), (4, 5)]</code></pre><h3 class="graf--h3">Unzip a collection</h3><p class="graf--p"><code class="graf--code-inline">unzip</code> returns a pair of lists. The first list is made from the first elements of each pair and the second list is made from the second element of each pair.</p><pre><code class="language-java graf graf--code">val list = listOf("Amit" to 8, "Ali" to 10, "Sumit" to 4, "Himanshu" to 2)\nval (players, footballSkills) = list.unzip()\nprint(players) // [Amit, Ali, Sumit, Himanshu]\nprint(footballSkills) // [8, 10, 4, 2]</code></pre><h3 class="graf--h3">Split array into two parts based on some condition</h3><p class="graf--p">If you want to split your data into two parts based on some conditions like isFootballFan, then you can use <code class="graf--code-inline">partition</code>.</p><pre><code class="language-java graf graf--code">data class User(val id: Int, val name: String, val isFootballLover: Boolean)\n\nval users = listOf(\n    User(1, "Amit", true),\n    User(2, "Ali", true),\n    User(3, "Sumit", false),\n    User(4, "Himanshu", false)\n)\n\nval (footballLovers, nonFootballLovers) = users.partition { it.isFootballLover }\nprint(footballLovers) // [User(id=1, name=Amit, isFootballLover=true), User(id=2, name=Ali, isFootballLover=true)]\nprint(nonFootballLovers) // [User(id=3, name=Sumit, isFootballLover=false), User(id=4, name=Himanshu, isFootballLover=false)]</code></pre><h3 class="graf--h3">Reverse a list</h3><p class="graf--p">You can reverse a list in Kotlin by using the <code class="graf--code-inline">reversed</code> and <code class="graf--code-inline">asReversed</code> function. </p><pre><code class="language-java graf graf--code">val list = listOf(1, 2, 3, 4, 5)\nprint(list.reversed()) // [5, 4, 3, 2, 1]\nprint(list.asReversed()) // [5, 4, 3, 2, 1]</code></pre><p class="graf--p">Both are giving the same output but these functions are different.</p><p class="graf--p">The <code class="graf--code-inline">reversed()</code> function can be applied on Array, List, and MutableList.  It generates a new list that is the reverse of the original list.</p><p class="graf--p">But the <code class="graf--code-inline">asReversed()</code> function can be applied on List and MutableList. It doesn&#x27;t generate a new list because, after reversal, the new elements are still referring to the old one. So any change in one of them will result in a change in the other one.</p><p class="graf--p">Similarly, there are other functions that can be used to reverse the elements such as <code class="graf--code-inline">reversedArray()</code>, <code class="graf--code-inline">reverse()</code>.</p><h3 class="graf--h3">Group elements of a collection based on some condition</h3><p class="graf--p">You can use <code class="graf--code-inline">groupBy()</code> to group the elements of a collection based on certain conditions. For example, the below code will group the elements of the list based on the remainder when divided by 4 i.e. 4 groups will be there(when remainder = 0, 1, 2, and 3)</p><pre><code class="language-java graf graf--code">val list = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\nprint(list.groupBy { it % 4 })\n// {\n//     1=[1, 5, 9], \n//     2=[2, 6, 10], \n//     3=[3, 7], \n//     0=[4, 8]\n// }</code></pre><h3 class="graf--h3">Sort element of a collection</h3><p class="graf--p">You can sort the elements of a collection by using the <code class="graf--code-inline">sorted()</code> function. This will return a sorted list.</p><pre><code class="language-java graf graf--code">val list = listOf(10, 4, 1, 3, 7, 2, 6)\nprint(list.sorted()) // [1, 2, 3, 4, 6, 7, 10]</code></pre><p class="graf--p">Similarly, there are other functions that can be used to sort the collection based on certain conditions. Some of these functions are <b class="graf--bold">sortedArray</b>, <b class="graf--bold">sortedArrayWith</b>, <b class="graf--bold">sortedBy</b>, <b class="graf--bold">sortedByDescending</b>, <b class="graf--bold">sortedArraydescending</b>, <b class="graf--bold">sortedWith</b>, etc.</p><p class="graf--p">So, these are some of the collection functions that can be used while dealing with collections in Kotlin. </p><p class="graf--p">Hope you enjoyed this blog.</p><p class="graf--p">Keep Learning</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p><p class="graf--p"><b class="graf--bold">To get regular updates on Android Development, connect with us on</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://twitter.com/MindOrksNextGen">Twitter</a></span>,</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/company/mindorks/">Linkedin</a></span>,</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://github.com/MindorksOpenSource">Github</a></span>, and</b> <b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://www.facebook.com/mindorks.nextgen/">Facebook</a></span></b></p>',author:14897,img_url:"/images/banner-kotlin-collection-functions-70f72a668ffed7fd.png",blog_url:"kotlin-collection-functions",likes:0,rank:0,category:1,published_at:"8th April 2021"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:62,title:"Learn Kotlin — Extension Functions",description:"As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png",blog_url:"learn-kotlin-extension-functions",likes:1,rank:0,category:1,published_at:"30th May 2017",score:2.9435949325561523},{id:407,title:"Using Scoped Functions in Kotlin - let, run, with, also, apply",description:"In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply.",author:3003,img_url:"/images/using-scoped-functions-banner-image.png",blog_url:"using-scoped-functions-in-kotlin-let-run-with-also-apply",likes:0,rank:0,category:1,published_at:"16th March 2020",score:2.9435949325561523},{id:457,title:"Extension Functions vs Static Utility Class",description:"In this blog, we are going to talk about the Extension function and util class in Kotlin. We will learn when to use which one and what are the advantages of using them.",author:9959,img_url:"/images/extension-class-banner-17410a644c29d178.png",blog_url:"extension-functions-vs-static-utility-class",likes:0,rank:0,category:1,published_at:"22nd May 2020",score:2.7959113121032715},{id:22,title:"Learn Kotlin —  apply vs with\n",description:"There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png",blog_url:"learn-kotlin-apply-vs-with",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:24,title:"Learn Kotlin - Data Class",description:"We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png",blog_url:"learn-kotlin-data-class",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:25,title:"Learn Kotlin- Destructuring Declarations",description:"Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png",blog_url:"learn-kotlin-destructuring-declarations",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            8th April 2021
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Kotlin Collection Functions
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Banner Kotlin Collection Functions" class="graf-image" src="/images/banner-kotlin-collection-functions-70f72a668ffed7fd.png"/>
+                 </div>
+                 <p class="graf--p">
+                  If you are reading this blog, then we are pretty sure that either you have totally shifted to Kotlin for Android Development or you are planning to move to Kotlin very soon. In any of the cases, this blog is a perfect match for you. So, let's get to the point.
+                 </p>
+                 <p class="graf--p">
+                  In our Android application, we deal with various collections such as lists, maps, sets, etc. We perform many operations on these, but do you know there are many Kotlin Collection Functions, that can make our life easier. There is a high probability that if you are want to perform some operation(simple or complex) on any collection, then there must be some collection function that will make your whole Android App development simpler and easier.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will learn about many of these Kotlin Collection Functions. You can bookmark this blog and keep this blog as the cheat sheet for your Kotlin Collection Functions. So, let's start with a simple operation i.e. removing the duplicate strings from an array.
+                 </p>
+                 <h3 class="graf--h3">
+                  Remove Duplicate Strings
+                 </h3>
+                 <p class="graf--p">
+                  There are many ways to remove duplicate strings from an array:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Maintain the original order of items
+val devs = arrayOf("Amit", "Ali", "Amit", "Sumit", "Sumit", "Himanshu")
+print(devs.distinct()) // [Amit, Ali, Sumit, Himanshu]
+
+// Maintain the original order of items
+val devs = arrayOf("Amit", "Ali", "Amit", "Sumit", "Sumit", "Himanshu")
+print(devs.toSet()) // [Amit, Ali, Sumit, Himanshu]
+
+// Maintain the original order of items
+val devs = arrayOf("Amit", "Ali", "Amit", "Sumit", "Sumit", "Himanshu")
+print(devs.toMutableSet()) // [Amit, Ali, Sumit, Himanshu]
+
+// DO NOT Maintain the original order of items
+val devs = arrayOf("Amit", "Ali", "Amit", "Sumit", "Sumit", "Himanshu")
+print(devs.toHashSet()) // [Amit, Ali, Sumit, Himanshu]</code></pre>
+                 <h3 class="graf--h3">
+                  Convert an array or list to a string
+                 </h3>
+                 <p class="graf--p">
+                  You can convert an array or list into a string by using
+                  <code class="graf--code-inline">
+                   joinToString
+                  </code>
+                  . For example, if you are having a list of cities(Delhi, Mumbai, Bangalore), then you can convert that list into a string such as "India is one the best country for tourism. You can visit Delhi, Mumbai, Bangalore, etc, and enjoy your holidays". Here, Delhi, Mumbai, Bangalore are the list items which you were having.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val someKotlinCollectionFunctions = listOf(
+    "distinct", "map",
+    "isEmpty", "contains",
+    "filter", "first",
+    "last", "reduce",
+    "single", "joinToString"
+)
+
+val message = someKotlinCollectionFunctions.joinToString(
+    separator = ", ",
+    prefix = "Kotlin has many collection functions like: ",
+    postfix = "and they are awesome.",
+    limit = 3,
+    truncated = "etc "
+)
+
+print(message) // Kotlin has many collection functions like: distinct, map, isEmpty, etc and they are awesome.</code></pre>
+                 <h3 class="graf--h3">
+                  Transform a collection into a single result
+                 </h3>
+                 <p class="graf--p">
+                  If you want to transform a given collection into a single result, then you can use
+                  <code class="graf--code-inline">
+                   reduce
+                  </code>
+                  function. For example, you can find the sum of all the elements present in a list:
+                 </p>
+                 <pre><code class="language-java graf graf--code">val numList = listOf(1, 2, 3, 4, 5)
+val result = numList.reduce { result, item -&gt;
+    result + item
+}
+print(result) // 15
+
+// NOTE: If the list is empty, then it will throw a RuntimeException</code></pre>
+                 <h3 class="graf--h3">
+                  Find if all elements are satisfying a particular condition
+                 </h3>
+                 <p class="graf--p">
+                  If you have an array or list of data elements and you want to find whether or not all the elements are satisfying a particular condition, then you can use
+                  <code class="graf--code-inline">
+                   all
+                  </code>
+                  in Kotlin.
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class User(val id: Int, val name: String, val isCricketLover: Boolean, val isFootballLover: Boolean)
+
+val user1 = User(id = 1, name = "Amit", isCricketLover = true, isFootballLover = true)
+val user2 = User(id = 2, name = "Ali", isCricketLover = true, isFootballLover = true)
+val user3 = User(id = 3, name = "Sumit", isCricketLover = true, isFootballLover = false)
+val user4 = User(id = 4, name = "Himanshu", isCricketLover = true, isFootballLover = false)
+
+val users = arrayOf(user1, user2, user3, user4)
+
+val allLoveCricket = users.all { it.isCricketLover }
+print(allLoveCricket) // true
+
+val allLoveFootball = users.all { it.isFootballLover }
+print(allLoveFootball) // false</code></pre>
+                 <h3 class="graf--h3">
+                  Find a particular element based on a certain condition
+                 </h3>
+                 <p class="graf--p">
+                  You can find a particular element from a list of elements that is satisfying a particular condition by using
+                  <code class="graf--code-inline">
+                   find
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   single
+                  </code>
+                  in Kotlin. For example, out of a list of students, you can find the student having roll number 5.
+                 </p>
+                 <p class="graf--p">
+                  The
+                  <code class="graf--code-inline">
+                   find
+                  </code>
+                  returns the first element matching the given condition or null if no such element was found.
+                 </p>
+                 <p class="graf--p">
+                  While
+                  <code class="graf--code-inline">
+                   single
+                  </code>
+                  returns the single element matching the given condition or it will throw an exception if there are more than one matching element or no matching element in the list.
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class User(val id: Int, val name: String)
+
+val users = arrayOf(
+    User(1, "Amit"),
+    User(2, "Ali"),
+    User(3, "Sumit"),
+    User(4, "Himanshu")
+)
+
+val userWithId3 = users.single { it.id == 3 }
+print(userWithId3) // User(id=3, name=Sumit)
+
+val userWithId1 = users.find { it.id == 1 }
+print(userWithId1) // User(id=1, name=Amit)</code></pre>
+                 <h3 class="graf--h3">
+                  Break your list into multiple sublists of smaller size
+                 </h3>
+                 <p class="graf--p">
+                  There are many cases when you have a bigger list and you want to divide it into smaller parts and then perform some operation on those sublists. So, this can be easily achieved using the
+                  <code class="graf--code-inline">
+                   chunked
+                  </code>
+                  function.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val numList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+val chunkedLists = numList.chunked(3)
+print(chunkedLists) // [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]</code></pre>
+                 <h3 class="graf--h3">
+                  Making copies of the array
+                 </h3>
+                 <p class="graf--p">
+                  You can make copies of your existing array by using various functions such as:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    copyInto
+                   </b>
+                   : This will replace the elements of one array into another array or it will throw an exception if the destination array can't hold the elements of the original array due to size constraints or the indexes are out of bounds.
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">val arrayOne = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+val arrayTwo = arrayOf(11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+arrayOne.copyInto(destination = arrayTwo, destinationOffset = 2, startIndex = 0, endIndex = 4)
+arrayTwo.forEach {print("$it ")} // 11 12 1 2 3 4 17 18 19 20</code></pre>
+                 <p class="graf--p">
+                  Similarly, there are other functions that can be used to copy the elements of an array. For example:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    copyOfRange(fromIndex, toIndex)
+                   </b>
+                   : Returns a new array which is a copy of the specified range of the original array.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    copyOf()
+                   </b>
+                   or
+                   <b class="graf--bold">
+                    copyOf(newSize)
+                   </b>
+                   : Returns a new array which is a copy of the original array, resized to the given newSize, or if the newSize is not passed then the whole array will be copied.
+                  </li>
+                 </ul>
+                 <h3 class="graf--h3">
+                  Changing type of collection to other
+                 </h3>
+                 <p class="graf--p">
+                  Depending on the situation, you can change the type of collection. Here, either you can change the type of one collection to another type by making a new collection or by referring to the older one. For example:
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   toIntArray
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   toBooleanArray
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   toLongArray
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   toShortArray
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   toByteArray
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   toDoubleArray
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   toList
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   toMap
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   toSet
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   toPair
+                  </b>
+                  , etc can be used to change the type of one collection to another type.
+                 </p>
+                 <pre><code class="language-java graf graf--code">var uIntArray = UIntArray(5) { 1U }
+var intArray = uIntArray.toIntArray()
+intArray[0] = 0
+print(uIntArray.toList()) // [1, 1, 1, 1, 1]
+print(intArray.toList()) // [0, 1, 1, 1, 1]</code></pre>
+                 <p class="graf--p">
+                  Here, we are making a new collection and changes in the new collection will not be reflected in the older one. But, at the same time, you can change the type of collection by keeping the reference to the older one i.e. changes in one collection will automatically be reflected in the other. For this instead of
+                  <code class="graf--code-inline">
+                   to
+                  </code>
+                  , we need to use
+                  <code class="graf--code-inline">
+                   as
+                  </code>
+                  . For example:
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   asIntArray
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   asLongArray
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   asShortArray
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   asByteArray
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   asList
+                  </b>
+                  , etc.
+                 </p>
+                 <pre><code class="language-java graf graf--code">var uIntArray = UIntArray(5) { 1U }
+var intArray = uIntArray.asIntArray()
+intArray[0] = 0
+print(uIntArray.toList()) // [0, 1, 1, 1, 1]
+print(intArray.toList()) // [0, 1, 1, 1, 1]</code></pre>
+                 <h3 class="graf--h3">
+                  Associating the data using some key
+                 </h3>
+                 <p class="graf--p">
+                  If you are having a list of data and you want to associate the data with the help of some key present in your data element, then you can use
+                  <code class="graf--code-inline">
+                   associateBy
+                  </code>
+                  .
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class Contact(val name: String, val phoneNumber: String)
+
+val contactList = listOf(
+    Contact("Amit", "+9199XXXX1111"),
+    Contact("Ali", "+9199XXXX2222"),
+    Contact("Himanshu", "+9199XXXX3333"),
+    Contact("Sumit", "+9199XXXX4444")
+)
+
+val phoneNumberToContactMap = contactList.associateBy { it.phoneNumber }
+print(phoneNumberToContactMap)
+// Map with key: phoneNumber and value: Contact
+// {
+//     +9199XXXX1111=Contact(name=Amit, phoneNumber=+9199XXXX1111),
+//     +9199XXXX2222=Contact(name=Ali, phoneNumber=+9199XXXX2222),
+//     +9199XXXX3333=Contact(name=Himanshu, phoneNumber=+9199XXXX3333),
+//     +9199XXXX4444=Contact(name=Sumit, phoneNumber=+9199XXXX4444)
+// }</code></pre>
+                 <p class="graf--p">
+                  In the above example, the key is phoneNumber and the value is Contact. If you don't want to have the whole Contact as the value, then you can simply pass the desired value like this:
+                 </p>
+                 <pre><code class="language-java graf graf--code">val phoneNumberToContactMap = contactList.associateBy({it.phoneNumber}, {it.name})
+print(phoneNumberToContactMap)
+// Map with key: phoneNumber and value: name
+// {
+//     +9199XXXX1111=Amit, 
+//     +9199XXXX2222=Ali, 
+//     +9199XXXX3333=Himanshu, 
+//     +9199XXXX4444=Sumit}
+// }</code></pre>
+                 <h3 class="graf--h3">
+                  Finding distinct elements in a collection
+                 </h3>
+                 <p class="graf--p">
+                  We can use the distinct function to get the list of unique elements of a collection.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val list = listOf(1, 2, 2, 3, 3, 3, 4, 4, 4, 4)
+println(list.distinct()) // [1, 2, 3, 4]</code></pre>
+                 <h3 class="graf--h3">
+                  Union of collections
+                 </h3>
+                 <p class="graf--p">
+                  You can use the
+                  <code class="graf--code-inline">
+                   union
+                  </code>
+                  function to get the unique elements of two collections. The order of the elements of both the collections will be preserved but the elements of the second collection will be added after the elements of the first collection.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val listOne = listOf(1, 2, 3, 3, 4, 5, 6)
+val listTwo = listOf(2, 2, 4, 5, 6, 7, 8)
+println(listOne.union(listTwo)) // [1, 2, 3, 4, 5, 6, 7, 8]</code></pre>
+                 <h3 class="graf--h3">
+                  Intersection of collections
+                 </h3>
+                 <p class="graf--p">
+                  To get the elements that are common in two collections, you can use the
+                  <code class="graf--code-inline">
+                   intersect
+                  </code>
+                  function which returns a set containing the common element of both collections.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val listOne = listOf(1, 2, 3, 3, 4, 5, 6)
+val listTwo = listOf(2, 2, 4, 5, 6, 7, 8)
+println(listOne.intersect(listTwo)) // [2, 4, 5, 6]</code></pre>
+                 <h3 class="graf--h3">
+                  Keep the specified elements only
+                 </h3>
+                 <p class="graf--p">
+                  If in a collection, you want to keep the specified elements only then you can use
+                  <code class="graf--code-inline">
+                   retainAll
+                  </code>
+                  function. Since this function will modify your list, so make sure that your list or array is mutable.
+                 </p>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   retainAll
+                  </code>
+                  will return true if any element is removed from the collection otherwise it will return false.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val listOne = mutableListOf(1, 2, 3, 3, 4, 5, 6)
+val listTwo = listOf(1, 2, 3, 3, 4, 5, 6)
+val listThree = listOf(1, 2, 3, 3, 4, 5, 7)
+println(listOne.retainAll(listTwo)) // false
+println(listOne.retainAll(listThree)) // true
+println(listOne) // [1, 2, 3, 3, 4, 5]</code></pre>
+                 <p class="graf--p">
+                  Similarly, you can use
+                  <code class="graf--code-inline">
+                   removeAll
+                  </code>
+                  to remove all the elements of one collection that are present in another collection.
+                 </p>
+                 <h3 class="graf--h3">
+                  Filter a collection based on some condition
+                 </h3>
+                 <p class="graf--p">
+                  You can
+                  <code class="graf--code-inline">
+                   filter
+                  </code>
+                  a collection based on certain conditions by using the filter. This returns a list containing elements that satisfy the given condition.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val list = listOf(1, 2, 3, 4, 5, 6, 7, 8)
+val filteredList = list.filter { it % 2 == 0 }
+print(filteredList) // [2, 4, 6, 8]</code></pre>
+                 <p class="graf--p">
+                  Similarly, you can filter the collection based on the index of elements by using
+                  <code class="graf--code-inline">
+                   filterIndexed
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  If you want to store the filtered elements in some collection, then you can use the
+                  <code class="graf--code-inline">
+                   filterIndexedTo
+                  </code>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">val list = listOf(1, 2, 3, 4, 5, 6, 7, 8)
+val filteredList = mutableListOf&lt;Int&gt;()
+list.filterIndexedTo(filteredList) { index, i -&gt; list[index] % 2 == 0 }
+print(filteredList) // [2, 4, 6, 8]</code></pre>
+                 <p class="graf--p">
+                  You can also find the elements that are instances of a specified type in a collection by using
+                  <code class="graf--code-inline">
+                   filterIsInstance
+                  </code>
+                  .
+                 </p>
+                 <pre><code class="language-java graf graf--code">val mixedList = listOf(1, 2, 3, "one", "two", 4, "three", "four", 5, 6, "five", 7)
+val strList = mixedList.filterIsInstance&lt;String&gt;()
+print(strList) // [one, two, three, four, five]</code></pre>
+                 <h3 class="graf--h3">
+                  Zip collections
+                 </h3>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   zip
+                  </code>
+                  returns a list of pairs. The first element of the pair will be taken from the first collection and the second element of the pair will be taken from the second collection. The size of the returned list will be equal to the size of the shortest collection.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val listOne = listOf(1, 2, 3, 4, 5)
+val listTwo = listOf("a", "b", "c", "d", "e", "f")
+print(listOne zip listTwo) // [(1, a), (2, b), (3, c), (4, d), (5, e)]</code></pre>
+                 <h3 class="graf--h3">
+                  Zip with next in a collection
+                 </h3>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   zipWithNext
+                  </code>
+                  return a list of pairs. The elements of the pair will be the adjacent elements of the collection.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val list = listOf(1, 2, 3, 4, 5)
+print(list.zipWithNext()) // [(1, 2), (2, 3), (3, 4), (4, 5)]</code></pre>
+                 <h3 class="graf--h3">
+                  Unzip a collection
+                 </h3>
+                 <p class="graf--p">
+                  <code class="graf--code-inline">
+                   unzip
+                  </code>
+                  returns a pair of lists. The first list is made from the first elements of each pair and the second list is made from the second element of each pair.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val list = listOf("Amit" to 8, "Ali" to 10, "Sumit" to 4, "Himanshu" to 2)
+val (players, footballSkills) = list.unzip()
+print(players) // [Amit, Ali, Sumit, Himanshu]
+print(footballSkills) // [8, 10, 4, 2]</code></pre>
+                 <h3 class="graf--h3">
+                  Split array into two parts based on some condition
+                 </h3>
+                 <p class="graf--p">
+                  If you want to split your data into two parts based on some conditions like isFootballFan, then you can use
+                  <code class="graf--code-inline">
+                   partition
+                  </code>
+                  .
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class User(val id: Int, val name: String, val isFootballLover: Boolean)
+
+val users = listOf(
+    User(1, "Amit", true),
+    User(2, "Ali", true),
+    User(3, "Sumit", false),
+    User(4, "Himanshu", false)
+)
+
+val (footballLovers, nonFootballLovers) = users.partition { it.isFootballLover }
+print(footballLovers) // [User(id=1, name=Amit, isFootballLover=true), User(id=2, name=Ali, isFootballLover=true)]
+print(nonFootballLovers) // [User(id=3, name=Sumit, isFootballLover=false), User(id=4, name=Himanshu, isFootballLover=false)]</code></pre>
+                 <h3 class="graf--h3">
+                  Reverse a list
+                 </h3>
+                 <p class="graf--p">
+                  You can reverse a list in Kotlin by using the
+                  <code class="graf--code-inline">
+                   reversed
+                  </code>
+                  and
+                  <code class="graf--code-inline">
+                   asReversed
+                  </code>
+                  function.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val list = listOf(1, 2, 3, 4, 5)
+print(list.reversed()) // [5, 4, 3, 2, 1]
+print(list.asReversed()) // [5, 4, 3, 2, 1]</code></pre>
+                 <p class="graf--p">
+                  Both are giving the same output but these functions are different.
+                 </p>
+                 <p class="graf--p">
+                  The
+                  <code class="graf--code-inline">
+                   reversed()
+                  </code>
+                  function can be applied on Array, List, and MutableList.  It generates a new list that is the reverse of the original list.
+                 </p>
+                 <p class="graf--p">
+                  But the
+                  <code class="graf--code-inline">
+                   asReversed()
+                  </code>
+                  function can be applied on List and MutableList. It doesn't generate a new list because, after reversal, the new elements are still referring to the old one. So any change in one of them will result in a change in the other one.
+                 </p>
+                 <p class="graf--p">
+                  Similarly, there are other functions that can be used to reverse the elements such as
+                  <code class="graf--code-inline">
+                   reversedArray()
+                  </code>
+                  ,
+                  <code class="graf--code-inline">
+                   reverse()
+                  </code>
+                  .
+                 </p>
+                 <h3 class="graf--h3">
+                  Group elements of a collection based on some condition
+                 </h3>
+                 <p class="graf--p">
+                  You can use
+                  <code class="graf--code-inline">
+                   groupBy()
+                  </code>
+                  to group the elements of a collection based on certain conditions. For example, the below code will group the elements of the list based on the remainder when divided by 4 i.e. 4 groups will be there(when remainder = 0, 1, 2, and 3)
+                 </p>
+                 <pre><code class="language-java graf graf--code">val list = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+print(list.groupBy { it % 4 })
+// {
+//     1=[1, 5, 9], 
+//     2=[2, 6, 10], 
+//     3=[3, 7], 
+//     0=[4, 8]
+// }</code></pre>
+                 <h3 class="graf--h3">
+                  Sort element of a collection
+                 </h3>
+                 <p class="graf--p">
+                  You can sort the elements of a collection by using the
+                  <code class="graf--code-inline">
+                   sorted()
+                  </code>
+                  function. This will return a sorted list.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val list = listOf(10, 4, 1, 3, 7, 2, 6)
+print(list.sorted()) // [1, 2, 3, 4, 6, 7, 10]</code></pre>
+                 <p class="graf--p">
+                  Similarly, there are other functions that can be used to sort the collection based on certain conditions. Some of these functions are
+                  <b class="graf--bold">
+                   sortedArray
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   sortedArrayWith
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   sortedBy
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   sortedByDescending
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   sortedArraydescending
+                  </b>
+                  ,
+                  <b class="graf--bold">
+                   sortedWith
+                  </b>
+                  , etc.
+                 </p>
+                 <p class="graf--p">
+                  So, these are some of the collection functions that can be used while dealing with collections in Kotlin.
+                 </p>
+                 <p class="graf--p">
+                  Hope you enjoyed this blog.
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   To get regular updates on Android Development, connect with us on
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://twitter.com/MindOrksNextGen" target="_blank">
+                     Twitter
+                    </a>
+                   </span>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://www.linkedin.com/company/mindorks/" target="_blank">
+                     Linkedin
+                    </a>
+                   </span>
+                   ,
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://github.com/MindorksOpenSource" target="_blank">
+                     Github
+                    </a>
+                   </span>
+                   , and
+                  </b>
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://www.facebook.com/mindorks.nextgen/" target="_blank">
+                     Facebook
+                    </a>
+                   </span>
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin — Extension Functions" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin — Extension Functions
+           </div>
+           <div class="meta">
+            30th May 2017
+           </div>
+           <div class="description">
+            As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="ui centered image" src="/images/using-scoped-functions-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Scoped Functions in Kotlin - let, run, with, also, apply
+           </div>
+           <div class="meta">
+            16th March 2020
+           </div>
+           <div class="description">
+            In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Extension Functions vs Static Utility Class" class="ui centered image" src="/images/extension-class-banner-17410a644c29d178.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Extension Functions vs Static Utility Class
+           </div>
+           <div class="meta">
+            22nd May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to talk about the Extension function and util class in Kotlin. We will learn when to use which one and what are the advantages of using them.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin —  apply vs with
+" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin —  apply vs with
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin - Data Class" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin - Data Class
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin- Destructuring Declarations" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin- Destructuring Declarations
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

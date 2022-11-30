@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Getting Started with ShareSheet in Android Q
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/getting-started-with-sharesheet-in-android-q" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Getting Started with ShareSheet in Android Q" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/getting-started-with-sharesheet-in-android-q" property="og:url"/>
+  <meta content="/images/sharesheet.jpg" property="og:image"/>
+  <meta content="In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it ." property="og:description"/>
+  <meta content="Getting Started with ShareSheet in Android Q" property="twitter:title"/>
+  <meta content="In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it ." name="twitter:description"/>
+  <meta content="/images/sharesheet.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it ." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:242,data:{id:242,title:"Getting Started with ShareSheet in Android Q",description:"In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it .",text:'<h1 class="graf--h1">Getting Started with Sharing Shortcuts in Android Q</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/sharesheet.jpg class=\'graf-image\' alt=\'Getting Started with ShareSheet in Android Q\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">With Andorid Q launching with some awesome features, It also launched <b class="graf--bold">Sharing Shortcuts</b> in Android Q. In Q, <b class="graf--bold">Direct Share API</b> is replaced with <b class="graf--bold">Sharing Shortcut API</b>.</p><h4 class="graf--h3">What was Direct Share API?</h4><p class="graf--p">With Android M, Android provided this feature in which we can define direct user targets. This targets were shared to user by <i class="graf--italic">via <b class="graf--bold">Share Menu. </b></i>This feature allows users to share content to targets, such as contacts, within other apps. For example, the direct share target might launch an activity in another social network app, which lets the user share content directly to a specific friend or community in that app.</p><p class="graf--p">In Android Q, Direct Share API will still keep on working but with Low Priority then Sharing Shortcuts.</p><h4 class="graf--h3">Differences between Direct Share API and Sharing Shourtcut API </h4><ul><li>Sharing Shortcut API is faster compared to Direct Share API as it provides the list of targets before hand only.</li><li>In Direct Share API, we required to write a bit of code for ChooserTarget Service but in Sharing Shortcut it is handled by the API itself.</li><li>The new API uses a push model, versus the pull model used in the old DirectShare API. This makes the process of retrieving direct share targets much faster when preparing the ShareSheet. From the app developer&#x27;s point of view, when using the new API, the app needs to provide the list of direct share targets ahead of time, and potentially update the list of shortcuts every time the internal state of the app changes (for example, if a new contact is added in a messaging app).</li></ul><blockquote class="graf--blockquote"><b class="graf--bold">In this blog, we will learn how to implement the Sharing Shortcut API step by step</b></blockquote><h4 class="graf--h3"><b class="graf--bold">Step 01</b></h4><p class="graf--p">First we have to implement share target element in XML under <b class="graf--bold">res/xml</b> folder.</p><pre><code class="language-java graf graf--code">&lt;shortcuts xmlns:android="http://schemas.android.com/apk/res/android"&gt;\n  &lt;share-target android:targetClass="com.mindorks.app.ShareActivity"&gt;\n    &lt;data android:mimeType="text/plain" /&gt;\n    &lt;category   android:name="com.example.android.sharingshortcuts.category.TEXT_SHARE_TARGET" /&gt;\n  &lt;/share-target&gt;\n&lt;/shortcuts&gt;</code></pre><p class="graf--p">Here,</p><ol><li><b class="graf--bold">&lt;share-target&gt;</b> tag defines the shortcut and in this code it will be handled by ShareActivity and will respond to content type <b class="graf--bold">text/plain.</b></li><li><b class="graf--bold">&lt;data&gt; </b>tag defines the type of data</li><li>&lt;<b class="graf--bold">category&gt; </b>tag<b class="graf--bold"> </b>defines the category of the data used to match an app&#x27;s published shortcuts with its share target definitions.</li></ol><h4 class="graf--h3">Step 02</h4><p class="graf--p">1. We have to add the following to create a reference in Manifest file to support old Direct Share API for backward copatibility</p><p class="graf--p">2. The App Manifest should contain the meta data to work with compatible library.</p><pre><code class="language-java graf graf--code">&lt;activity android:name=".ShareActivity"&gt;\n\n    &lt;!-- This activity can respond to intents with an action SEND and a content type text/plain --&gt;\n    &lt;intent-filter&gt;\n        &lt;action android:name="android.intent.action.SEND"/&gt;\n        &lt;category android:name="android.intent.category.DEFAULT"/&gt;\n        &lt;data android:mimeType="text/plain"/&gt;\n    &lt;/intent-filter&gt;\n\n    &lt;!-- Needed if you import the sharetarget androidx library. It allows for this activity to be taken into account as a chooser target provider --&gt;\n    &lt;meta-data android:name="android.service.chooser.chooser_target_service"\n        android:value="androidx.sharetarget.ChooserTargetServiceCompat"/&gt;\n&lt;/activity&gt;</code></pre><h4 class="graf--h3">Step 03</h4><p class="graf--p">Now we have to add &lt;meta-data&gt; tag in our launched activity to create the reference of Share Shortcut.</p><pre><code class="language-java graf graf--code">&lt;activity android:name=".LauncherActivity"&gt;\n    ...\n    &lt;meta-data android:name="android.app.shortcuts"\n        android:resource="@xml/shortcuts"/&gt;\n&lt;/activity&gt;</code></pre><h4 class="graf--h3">Step 04</h4><p class="graf--p">Now we have to add our shortcuts, to make sure when the sharesheet opens it is already there.</p><pre><code class="language-java graf graf--code">fun addShareShortcuts(context: Context) {\n    val shortcutInfoList = mutableListOf&lt;ShortcutInfoCompat&gt;()\n    shortcutInfoList.add(\n            ShortcutInfoCompat.Builder(context, /* A unique id for this shortcut */)\n                    .setShortLabel("text")\n                    .setPerson(Person.Builder()...build())\n            .setIcon(/* Icon */).setLongLived()\n            .setCategories(/* One or multiple categories defined in res/xml/shortcuts.xml */)\n            .setIntent(Intent(Intent.ACTION_DEFAULT))\n            .build())\n\n    ShortcutManagerCompat.addDynamicShortcuts(context, shortcutInfoList)\n}</code></pre><p class="graf--p">Here,</p><ul><li>setShortLabel sets the text for shortcut</li><li>setPerson adds a relevant person which is needed for the the shortcut. (if we want to add multiple person, we can use <b class="graf--bold">setPersons() </b>)</li><li>setLongLived  means when a shortcut is set to be long lived, it means that system services can still access it from the cache even after it has been removed as a dynamic shortcut.</li></ul><p class="graf--p">Now, to test just try sharing a text from chrome and you will see a screen like following,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/sheet-sharing.png class=\'graf-image\' alt=\'Getting Started with ShareSheet in Android Q\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><i class="graf--italic">Credit</i>: Google Sample</p><p class="graf--p">and also if we long press the App icon we will se the following,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/app-shortcut.png class=\'graf-image\' alt=\'Getting Started with ShareSheet in Android Q\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><i class="graf--italic">Credit: Google Sample</i></p><p class="graf--p">That is how we can get started in using Sharing Shortcuts in our app. </p><p class="graf--p">You can learn more from <a class="markup--anchor" target="_blank" href="https://developer.android.com/preview/features/sharing">here</a></p><p class="graf--p">Happy Learning :)</p><p class="graf--p">Team MindOrks </p>',author:14897,img_url:"/images/sharesheet.jpg",blog_url:"getting-started-with-sharesheet-in-android-q",likes:0,rank:0,category:1,published_at:"17th May 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:357,title:"Getting started with Android NDK: Android Tutorial",description:"In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.",author:14897,img_url:"/images/getting-started-with-android-ndk-android-tutorial-banner.png",blog_url:"getting-started-with-android-ndk-android-tutorial",likes:0,rank:0,category:1,published_at:"9th October 2019",score:3.455362319946289},{id:240,title:"Getting started with Motion Layout: Android Tutorials",description:"In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code. ",author:14897,img_url:"/images/motion-layout-banner.png",blog_url:"getting-started-with-motion-layout-android-tutorials",likes:0,rank:0,category:1,published_at:"17th May 2019",score:3.4461848735809326},{id:248,title:"Getting Started with Firebase RemoteConfig in Android",description:"In this blog, we will learn about the firebase Remote Config feature in Android. By using Firebase Remote Config, we can bring some updates in the App like some text change in the app, without publishing any update of the app on the Play Store.",author:14897,img_url:"/images/getting-started-firebase-remote-config-banner-image.png",blog_url:"getting-started-with-firebase-remote-config-in-android",likes:0,rank:0,category:1,published_at:"22nd May 2019",score:3.4461848735809326},{id:428,title:"Getting started with Lottie Animation in Android",description:"In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie.",author:3003,img_url:"/images/getting-started-with-lottie-banner.png",blog_url:"getting-started-with-lottie-animation-in-android",likes:0,rank:0,category:1,published_at:"28th April 2020",score:3.4461848735809326},{id:230,title:"Getting Started With CameraX Jetpack Support Library",description:"In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.\n",author:14897,img_url:"/images/camerax-jetpack-support-library.png",blog_url:"getting-started-with-camerax",likes:0,rank:0,category:1,published_at:"11th May 2019",score:3.437007188796997},{id:393,title:"Getting started with Kotlin MultiPlatform",description:"In this blog, we will learn how to get started with Kotlin MultiPlatform and run the platform-specific code in our device. We will learn how to setup android and ios apps individually and write same set of core logic for both.",author:9959,img_url:"/images/banner-mpp.png",blog_url:"getting-started-with-kotlin-multi-platform",likes:0,rank:0,category:9,published_at:"26th February 2020",score:3.437007188796997}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            17th May 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Getting Started with Sharing Shortcuts in Android Q
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting Started with ShareSheet in Android Q" class="graf-image" src="/images/sharesheet.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  With Andorid Q launching with some awesome features, It also launched
+                  <b class="graf--bold">
+                   Sharing Shortcuts
+                  </b>
+                  in Android Q. In Q,
+                  <b class="graf--bold">
+                   Direct Share API
+                  </b>
+                  is replaced with
+                  <b class="graf--bold">
+                   Sharing Shortcut API
+                  </b>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  What was Direct Share API?
+                 </h4>
+                 <p class="graf--p">
+                  With Android M, Android provided this feature in which we can define direct user targets. This targets were shared to user by
+                  <i class="graf--italic">
+                   via
+                   <b class="graf--bold">
+                    Share Menu.
+                   </b>
+                  </i>
+                  This feature allows users to share content to targets, such as contacts, within other apps. For example, the direct share target might launch an activity in another social network app, which lets the user share content directly to a specific friend or community in that app.
+                 </p>
+                 <p class="graf--p">
+                  In Android Q, Direct Share API will still keep on working but with Low Priority then Sharing Shortcuts.
+                 </p>
+                 <h4 class="graf--h3">
+                  Differences between Direct Share API and Sharing Shourtcut API
+                 </h4>
+                 <ul>
+                  <li>
+                   Sharing Shortcut API is faster compared to Direct Share API as it provides the list of targets before hand only.
+                  </li>
+                  <li>
+                   In Direct Share API, we required to write a bit of code for ChooserTarget Service but in Sharing Shortcut it is handled by the API itself.
+                  </li>
+                  <li>
+                   The new API uses a push model, versus the pull model used in the old DirectShare API. This makes the process of retrieving direct share targets much faster when preparing the ShareSheet. From the app developer's point of view, when using the new API, the app needs to provide the list of direct share targets ahead of time, and potentially update the list of shortcuts every time the internal state of the app changes (for example, if a new contact is added in a messaging app).
+                  </li>
+                 </ul>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   In this blog, we will learn how to implement the Sharing Shortcut API step by step
+                  </b>
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Step 01
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  First we have to implement share target element in XML under
+                  <b class="graf--bold">
+                   res/xml
+                  </b>
+                  folder.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;shortcuts xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+  &lt;share-target android:targetClass="com.mindorks.app.ShareActivity"&gt;
+    &lt;data android:mimeType="text/plain" /&gt;
+    &lt;category   android:name="com.example.android.sharingshortcuts.category.TEXT_SHARE_TARGET" /&gt;
+  &lt;/share-target&gt;
+&lt;/shortcuts&gt;</code></pre>
+                 <p class="graf--p">
+                  Here,
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    &lt;share-target&gt;
+                   </b>
+                   tag defines the shortcut and in this code it will be handled by ShareActivity and will respond to content type
+                   <b class="graf--bold">
+                    text/plain.
+                   </b>
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    &lt;data&gt;
+                   </b>
+                   tag defines the type of data
+                  </li>
+                  <li>
+                   &lt;
+                   <b class="graf--bold">
+                    category&gt;
+                   </b>
+                   tag
+                   <b class="graf--bold">
+                   </b>
+                   defines the category of the data used to match an app's published shortcuts with its share target definitions.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  Step 02
+                 </h4>
+                 <p class="graf--p">
+                  1. We have to add the following to create a reference in Manifest file to support old Direct Share API for backward copatibility
+                 </p>
+                 <p class="graf--p">
+                  2. The App Manifest should contain the meta data to work with compatible library.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;activity android:name=".ShareActivity"&gt;
+
+    &lt;!-- This activity can respond to intents with an action SEND and a content type text/plain --&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name="android.intent.action.SEND"/&gt;
+        &lt;category android:name="android.intent.category.DEFAULT"/&gt;
+        &lt;data android:mimeType="text/plain"/&gt;
+    &lt;/intent-filter&gt;
+
+    &lt;!-- Needed if you import the sharetarget androidx library. It allows for this activity to be taken into account as a chooser target provider --&gt;
+    &lt;meta-data android:name="android.service.chooser.chooser_target_service"
+        android:value="androidx.sharetarget.ChooserTargetServiceCompat"/&gt;
+&lt;/activity&gt;</code></pre>
+                 <h4 class="graf--h3">
+                  Step 03
+                 </h4>
+                 <p class="graf--p">
+                  Now we have to add &lt;meta-data&gt; tag in our launched activity to create the reference of Share Shortcut.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;activity android:name=".LauncherActivity"&gt;
+    ...
+    &lt;meta-data android:name="android.app.shortcuts"
+        android:resource="@xml/shortcuts"/&gt;
+&lt;/activity&gt;</code></pre>
+                 <h4 class="graf--h3">
+                  Step 04
+                 </h4>
+                 <p class="graf--p">
+                  Now we have to add our shortcuts, to make sure when the sharesheet opens it is already there.
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun addShareShortcuts(context: Context) {
+    val shortcutInfoList = mutableListOf&lt;ShortcutInfoCompat&gt;()
+    shortcutInfoList.add(
+            ShortcutInfoCompat.Builder(context, /* A unique id for this shortcut */)
+                    .setShortLabel("text")
+                    .setPerson(Person.Builder()...build())
+            .setIcon(/* Icon */).setLongLived()
+            .setCategories(/* One or multiple categories defined in res/xml/shortcuts.xml */)
+            .setIntent(Intent(Intent.ACTION_DEFAULT))
+            .build())
+
+    ShortcutManagerCompat.addDynamicShortcuts(context, shortcutInfoList)
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                 </p>
+                 <ul>
+                  <li>
+                   setShortLabel sets the text for shortcut
+                  </li>
+                  <li>
+                   setPerson adds a relevant person which is needed for the the shortcut. (if we want to add multiple person, we can use
+                   <b class="graf--bold">
+                    setPersons()
+                   </b>
+                   )
+                  </li>
+                  <li>
+                   setLongLived  means when a shortcut is set to be long lived, it means that system services can still access it from the cache even after it has been removed as a dynamic shortcut.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Now, to test just try sharing a text from chrome and you will see a screen like following,
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting Started with ShareSheet in Android Q" class="graf-image" src="/images/sheet-sharing.png"/>
+                 </div>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   Credit
+                  </i>
+                  : Google Sample
+                 </p>
+                 <p class="graf--p">
+                  and also if we long press the App icon we will se the following,
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting Started with ShareSheet in Android Q" class="graf-image" src="/images/app-shortcut.png"/>
+                 </div>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   Credit: Google Sample
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  That is how we can get started in using Sharing Shortcuts in our app.
+                 </p>
+                 <p class="graf--p">
+                  You can learn more from
+                  <a class="markup--anchor" href="https://developer.android.com/preview/features/sharing" target="_blank">
+                   here
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Android NDK: Android Tutorial" class="ui centered image" src="/images/getting-started-with-android-ndk-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Android NDK: Android Tutorial
+           </div>
+           <div class="meta">
+            9th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Motion Layout: Android Tutorials" class="ui centered image" src="/images/motion-layout-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Motion Layout: Android Tutorials
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started with Firebase RemoteConfig in Android" class="ui centered image" src="/images/getting-started-firebase-remote-config-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started with Firebase RemoteConfig in Android
+           </div>
+           <div class="meta">
+            22nd May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the firebase Remote Config feature in Android. By using Firebase Remote Config, we can bring some updates in the App like some text change in the app, without publishing any update of the app on the Play Store.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Lottie Animation in Android" class="ui centered image" src="/images/getting-started-with-lottie-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Lottie Animation in Android
+           </div>
+           <div class="meta">
+            28th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started With CameraX Jetpack Support Library" class="ui centered image" src="/images/camerax-jetpack-support-library.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started With CameraX Jetpack Support Library
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Kotlin MultiPlatform" class="ui centered image" src="/images/banner-mpp.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Kotlin MultiPlatform
+           </div>
+           <div class="meta">
+            26th February 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to get started with Kotlin MultiPlatform and run the platform-specific code in our device. We will learn how to setup android and ios apps individually and write same set of core logic for both.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

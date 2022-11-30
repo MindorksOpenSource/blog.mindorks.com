@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   R8 vs Proguard in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/r8-vs-proguard-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="R8 vs Proguard in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/r8-vs-proguard-in-android" property="og:url"/>
+  <meta content="/images/r8-vs-proguard-banner-a5467e5e304767b2.png" property="og:image"/>
+  <meta content="In this blog, we are going to learn about R8 vs Proguard in Android. We will also learn how does the R8 shrinking work." property="og:description"/>
+  <meta content="R8 vs Proguard in Android" property="twitter:title"/>
+  <meta content="In this blog, we are going to learn about R8 vs Proguard in Android. We will also learn how does the R8 shrinking work." name="twitter:description"/>
+  <meta content="/images/r8-vs-proguard-banner-a5467e5e304767b2.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to learn about R8 vs Proguard in Android. We will also learn how does the R8 shrinking work." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:490,data:{id:490,title:"R8 vs Proguard in Android",description:"In this blog, we are going to learn about R8 vs Proguard in Android. We will also learn how does the R8 shrinking work.",text:'<h1 class="graf--h1">R8 vs Proguard in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/r8-vs-proguard-banner-a5467e5e304767b2.png class=\'graf-image\' alt=\'R8 vs Proguard in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/applying-proguard-in-an-android-application">Proguard</a> sounds familiar to all Android developers. We use it for reducing the size, improving the performance of the application by shrinking unused resources.</p><p class="graf--p">Google released R8 as a replacement of Proguard to help developers shrink the code with the better-generated output (APK). They are considered much faster compared to Proguard.</p><p class="graf--p">In this blog, we are going to talk about,</p><ul><li>What is R8? </li><li>How does R8 shrinking work?</li><li>R8&#x27;s comparison with Proguard</li></ul><h4 class="graf--h3">What is R8?</h4><p class="graf--p">R8 is a tool that converts our java byte code into an optimized dex code. It iterates through the whole application and then it optimizes like removing unused classes, methods, etc. It runs on the compile time. It helps us to reduce the size of the build and to make our app to be more secure. R8 uses Proguard rules to modify its default behavior.</p><h4 class="graf--h3">How does R8 shrinking work?</h4><p class="graf--p">While optimizing the code, R8 reduces the code of our application, and then APK size is reduced. </p><p class="graf--p">To reduce the APK size, we have three different techniques:</p><ol type="1"><li><b class="graf--bold">Shrinking or Tree Shaking:</b> Shrinking is the process of removal of unreachable code from our Android project. R8 performs some static analysis to get rid of unreachable code and removes the uninstantiated object.</li><li><b class="graf--bold">Optimization:</b> This is used to optimize the code for size. It involves dead code removal, unused argument removal, selective inlining, class merging, etc.</li><li><b class="graf--bold">Identifier Renaming:</b> In this process, we obfuscate the class name and other variable names. For example, if the name of the class is &quot;<b class="graf--bold">MainActivity</b>&quot;, then it will be obfuscated to &quot;<b class="graf--bold">a</b>&quot; or something else but smaller in size.</li></ol><p class="graf--p"><b class="graf--bold">How to enable R8 Shrinking in your app?</b></p><p class="graf--p">R8 is present by default in our application but to enable R8 shrinking in our application, set the <code class="graf--code-inline"><b class="graf--bold">minifyEnabled</b></code> to <code class="graf--code-inline"><b class="graf--bold">true</b></code> in our app&#x27;s main <code class="graf--code-inline"><i class="graf--italic">build.gradle</i></code> file.</p><pre><code class="language-java graf graf--code">android {\n    ...\n    buildTypes {\n        release {\n            minifyEnabled true\n        }\n    }\n}</code></pre><p class="graf--p">Now, let&#x27;s compare both R8 and Proguard.</p><h4 class="graf--h3">R8&#x27;s comparison with Proguard</h4><p class="graf--p">So, let&#x27;s now compare both R8 and Proguard both and see how it fares,</p><ul><li>With the Android app using Gradle plugin above 3.4.0 or more the project uses <b class="graf--bold">R8</b> by default and no longer uses the <b class="graf--bold">Proguard</b> to perform optimizations. But, it uses Proguard rules only.</li><li>R8 effectively inlines the container classes and removes unused class, fields, and methods. Proguard reduces the app size by 8.5% and compared to R8 which reduces the code by 10%.</li><li>R8 has more Kotlin support compared to Proguard.</li><li>R8 gives better outputs than Proguard, and to do so faster than Proguard does, thereby reducing overall build time.</li></ul><p class="graf--p">So, let&#x27;s now compare how both Proguard and R8 performs.</p><p class="graf--p"><b class="graf--bold">Proguard</b>.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-proguard--7b3623eecb3a7314.jpg class=\'graf-image\' alt=\'R8 vs Proguard in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">While using Proguard, the Applications code is converted to Java bytecode by the Java compiler. After the conversion, it is then optimized by Proguard using the rules which we have written. Then dex converts it to optimized Dalvik byte code.</p><p class="graf--p">This is roughly a 4 step process to convert it to Dalvik bytecode.</p><p class="graf--p"><b class="graf--bold">R8.</b></p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-r8-b05cdecc7b4d582c.jpg class=\'graf-image\' alt=\'R8 vs Proguard in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">While using R8, first the app&#x27;s code is converted to Java bytecode by the java compiler and then using R8 directly, it converts the java byte code in Dalvik bytecode.</p><p class="graf--p">By using R8, it directly reduces the steps of conversion of Java bytecode to Dalvik Bytecode from 2 to 1.</p><ul><li>Proguard applies 520 peephole optimizations compared to R8 which is very less. Peephole optimizations are the optimizations that are performed on a set of compiler-generated code to improve the performance of the code by making it shorter and faster.</li><li>In both Proguard and R8, we have to handle the reflection by writing the custom configuration.</li><li>R8 is faster compared to Proguard in the execution of converting the code.</li></ul><p class="graf--p"><b class="graf--bold">Optimization Comparison between Proguard and R8</b>.</p><p class="graf--p">Let us discuss a few features supported by both Proguard and R8. </p><p class="graf--p">For example, Proguard and R8 both make the methods private in the code. Both of them also remove unused class, fields, or even methods in the project which are not in use. Both of them support the simplification of Enum types. They both inline methods, merge codes, etc.</p><p class="graf--p">Proguard also makes the classes final whereas R8 is not able to do it. But comparing R8 which is highly supported by Kotlin, optimizes the Kotlin construct which is not possible with Proguard.</p><p class="graf--p">Now, If you also want to enable aggressive optimization in R8 and reduce the size more, enable the following in<i class="graf--italic"> gradle.properties,</i></p><pre><code class="language-java graf graf--code">android.enableR8.fullMode=true</code></pre><h4 class="graf--h3">Conclusion</h4><p class="graf--p">With R8 coming as a default compile-time optimizer, it reduces the size of the app.</p><p class="graf--p">Happy learning.</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/r8-vs-proguard-banner-a5467e5e304767b2.png",blog_url:"r8-vs-proguard-in-android",likes:0,rank:0,category:1,published_at:"2nd July 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:290,title:"Things to care while using Proguard in Android application",description:"In this blog, we will learn about the things that we should know before using Proguard in Android application. Proguard is used to minify, obfuscate and optimize the Android code. So, we created a list of things that you should know before using Proguard.",author:14897,img_url:"/images/things-to-take-care-while-using-proguard-banner.png",blog_url:"things-to-care-while-using-proguard-in-android-application",likes:0,rank:0,category:1,published_at:"2nd July 2019",score:3.138566493988037},{id:467,title:"Mastering ProGuard in Android",description:"In this blog, we are going to learn about how to use ProGuard in our project. We will also see real-life examples of how to use Proguard to write better rules.",author:9959,img_url:"/images/proguard-banner-78ab89bdd2cad9b9.png",blog_url:"applying-proguard-in-an-android-application",likes:0,rank:0,category:1,published_at:"4th June 2020",score:3.138566493988037},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.01835518702864647},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.01835518702864647},{id:284,title:"Animation in Android - Android Tutorial",description:"In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.",author:14897,img_url:"/images/animation-in-android-banner.png",blog_url:"animation-in-android-tutorial",likes:0,rank:0,category:1,published_at:"24th June 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            2nd July 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  R8 vs Proguard in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="R8 vs Proguard in Android" class="graf-image" src="/images/r8-vs-proguard-banner-a5467e5e304767b2.png"/>
+                 </div>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/applying-proguard-in-an-android-application" target="_blank">
+                   Proguard
+                  </a>
+                  sounds familiar to all Android developers. We use it for reducing the size, improving the performance of the application by shrinking unused resources.
+                 </p>
+                 <p class="graf--p">
+                  Google released R8 as a replacement of Proguard to help developers shrink the code with the better-generated output (APK). They are considered much faster compared to Proguard.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we are going to talk about,
+                 </p>
+                 <ul>
+                  <li>
+                   What is R8?
+                  </li>
+                  <li>
+                   How does R8 shrinking work?
+                  </li>
+                  <li>
+                   R8's comparison with Proguard
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  What is R8?
+                 </h4>
+                 <p class="graf--p">
+                  R8 is a tool that converts our java byte code into an optimized dex code. It iterates through the whole application and then it optimizes like removing unused classes, methods, etc. It runs on the compile time. It helps us to reduce the size of the build and to make our app to be more secure. R8 uses Proguard rules to modify its default behavior.
+                 </p>
+                 <h4 class="graf--h3">
+                  How does R8 shrinking work?
+                 </h4>
+                 <p class="graf--p">
+                  While optimizing the code, R8 reduces the code of our application, and then APK size is reduced.
+                 </p>
+                 <p class="graf--p">
+                  To reduce the APK size, we have three different techniques:
+                 </p>
+                 <ol type="1">
+                  <li>
+                   <b class="graf--bold">
+                    Shrinking or Tree Shaking:
+                   </b>
+                   Shrinking is the process of removal of unreachable code from our Android project. R8 performs some static analysis to get rid of unreachable code and removes the uninstantiated object.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Optimization:
+                   </b>
+                   This is used to optimize the code for size. It involves dead code removal, unused argument removal, selective inlining, class merging, etc.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Identifier Renaming:
+                   </b>
+                   In this process, we obfuscate the class name and other variable names. For example, if the name of the class is "
+                   <b class="graf--bold">
+                    MainActivity
+                   </b>
+                   ", then it will be obfuscated to "
+                   <b class="graf--bold">
+                    a
+                   </b>
+                   " or something else but smaller in size.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   How to enable R8 Shrinking in your app?
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  R8 is present by default in our application but to enable R8 shrinking in our application, set the
+                  <code class="graf--code-inline">
+                   <b class="graf--bold">
+                    minifyEnabled
+                   </b>
+                  </code>
+                  to
+                  <code class="graf--code-inline">
+                   <b class="graf--bold">
+                    true
+                   </b>
+                  </code>
+                  in our app's main
+                  <code class="graf--code-inline">
+                   <i class="graf--italic">
+                    build.gradle
+                   </i>
+                  </code>
+                  file.
+                 </p>
+                 <pre><code class="language-java graf graf--code">android {
+    ...
+    buildTypes {
+        release {
+            minifyEnabled true
+        }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, let's compare both R8 and Proguard.
+                 </p>
+                 <h4 class="graf--h3">
+                  R8's comparison with Proguard
+                 </h4>
+                 <p class="graf--p">
+                  So, let's now compare both R8 and Proguard both and see how it fares,
+                 </p>
+                 <ul>
+                  <li>
+                   With the Android app using Gradle plugin above 3.4.0 or more the project uses
+                   <b class="graf--bold">
+                    R8
+                   </b>
+                   by default and no longer uses the
+                   <b class="graf--bold">
+                    Proguard
+                   </b>
+                   to perform optimizations. But, it uses Proguard rules only.
+                  </li>
+                  <li>
+                   R8 effectively inlines the container classes and removes unused class, fields, and methods. Proguard reduces the app size by 8.5% and compared to R8 which reduces the code by 10%.
+                  </li>
+                  <li>
+                   R8 has more Kotlin support compared to Proguard.
+                  </li>
+                  <li>
+                   R8 gives better outputs than Proguard, and to do so faster than Proguard does, thereby reducing overall build time.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, let's now compare how both Proguard and R8 performs.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Proguard
+                  </b>
+                  .
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="R8 vs Proguard in Android" class="graf-image" src="/images/banner-proguard--7b3623eecb3a7314.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  While using Proguard, the Applications code is converted to Java bytecode by the Java compiler. After the conversion, it is then optimized by Proguard using the rules which we have written. Then dex converts it to optimized Dalvik byte code.
+                 </p>
+                 <p class="graf--p">
+                  This is roughly a 4 step process to convert it to Dalvik bytecode.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   R8.
+                  </b>
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="R8 vs Proguard in Android" class="graf-image" src="/images/banner-r8-b05cdecc7b4d582c.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  While using R8, first the app's code is converted to Java bytecode by the java compiler and then using R8 directly, it converts the java byte code in Dalvik bytecode.
+                 </p>
+                 <p class="graf--p">
+                  By using R8, it directly reduces the steps of conversion of Java bytecode to Dalvik Bytecode from 2 to 1.
+                 </p>
+                 <ul>
+                  <li>
+                   Proguard applies 520 peephole optimizations compared to R8 which is very less. Peephole optimizations are the optimizations that are performed on a set of compiler-generated code to improve the performance of the code by making it shorter and faster.
+                  </li>
+                  <li>
+                   In both Proguard and R8, we have to handle the reflection by writing the custom configuration.
+                  </li>
+                  <li>
+                   R8 is faster compared to Proguard in the execution of converting the code.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Optimization Comparison between Proguard and R8
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Let us discuss a few features supported by both Proguard and R8.
+                 </p>
+                 <p class="graf--p">
+                  For example, Proguard and R8 both make the methods private in the code. Both of them also remove unused class, fields, or even methods in the project which are not in use. Both of them support the simplification of Enum types. They both inline methods, merge codes, etc.
+                 </p>
+                 <p class="graf--p">
+                  Proguard also makes the classes final whereas R8 is not able to do it. But comparing R8 which is highly supported by Kotlin, optimizes the Kotlin construct which is not possible with Proguard.
+                 </p>
+                 <p class="graf--p">
+                  Now, If you also want to enable aggressive optimization in R8 and reduce the size more, enable the following in
+                  <i class="graf--italic">
+                   gradle.properties,
+                  </i>
+                 </p>
+                 <pre><code class="language-java graf graf--code">android.enableR8.fullMode=true</code></pre>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  With R8 coming as a default compile-time optimizer, it reduces the size of the app.
+                 </p>
+                 <p class="graf--p">
+                  Happy learning.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Things to care while using Proguard in Android application" class="ui centered image" src="/images/things-to-take-care-while-using-proguard-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Things to care while using Proguard in Android application
+           </div>
+           <div class="meta">
+            2nd July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the things that we should know before using Proguard in Android application. Proguard is used to minify, obfuscate and optimize the Android code. So, we created a list of things that you should know before using Proguard.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Mastering ProGuard in Android" class="ui centered image" src="/images/proguard-banner-78ab89bdd2cad9b9.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Mastering ProGuard in Android
+           </div>
+           <div class="meta">
+            4th June 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn about how to use ProGuard in our project. We will also see real-life examples of how to use Proguard to write better rules.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Animation in Android - Android Tutorial" class="ui centered image" src="/images/animation-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Animation in Android - Android Tutorial
+           </div>
+           <div class="meta">
+            24th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

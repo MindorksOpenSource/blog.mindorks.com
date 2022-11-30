@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Moshi - JSON library for Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/moshi-json-library-for-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Moshi - JSON library for Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/moshi-json-library-for-android" property="og:url"/>
+  <meta content="/images/moshi-baner-9230d42095175aa5.png" property="og:image"/>
+  <meta content="In this blog, we are going to talk about how to use Moshi in your Android project. We are also going to talk about the feature set of Moshi." property="og:description"/>
+  <meta content="Moshi - JSON library for Android" property="twitter:title"/>
+  <meta content="In this blog, we are going to talk about how to use Moshi in your Android project. We are also going to talk about the feature set of Moshi." name="twitter:description"/>
+  <meta content="/images/moshi-baner-9230d42095175aa5.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to talk about how to use Moshi in your Android project. We are also going to talk about the feature set of Moshi." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:463,data:{id:463,title:"Moshi - JSON library for Android",description:"In this blog, we are going to talk about how to use Moshi in your Android project. We are also going to talk about the feature set of Moshi.",text:'<h1 class="graf--h1">Moshi - JSON library for Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/moshi-baner-9230d42095175aa5.png class=\'graf-image\' alt=\'Moshi - JSON library for Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In this blog, we are going to talk about the JSON library by Square called Moshi. Moshi helps us to serialize and deserialize the JSON in a better and simpler way.</p><p class="graf--p">So, before starting let us divide the blog into the following sections,</p><ul><li>Why we need a library for serializing and deserializing in android?</li><li>How do we use Moshi?</li><li>Features of Moshi</li><li>Using Moshi with List.</li><li>Using Moshi with Retrofit</li></ul><h4 class="graf--h3">Why we need a library for serializing and deserializing in android?</h4><p class="graf--p">In Android, when we do an API call we get JSON as a response majority of times. We can call that JSON and parse it manually and work with it or we can just use a library like Moshi to serialize and deserialize. Using Moshi can help us reduce the number of lines we write and reduce the possibility of getting errors.</p><h4 class="graf--h3">How do we use Moshi?</h4><p class="graf--p">In this section, we are going to understand how we would work with Moshi.</p><p class="graf--p">Let say we have a data class, User like</p><pre><code class="language-java graf graf--code">data class User(val name: String, val email: String)</code></pre><p class="graf--p">and consider we have a variable called user and is defined as,</p><pre><code class="language-java graf graf--code">val user = User("Himanshu", "himanshu@gmail.com")</code></pre><p class="graf--p">Now, with the help of Moshi, we will convert this as a JSON structure. To work with Moshi we have JsonAdapter class and builder pattern.</p><p class="graf--p">So, we build Moshi using,</p><pre><code class="language-java graf graf--code">val moshi = Moshi.Builder()\n    .add(KotlinJsonAdapterFactory())\n    .build()</code></pre><p class="graf--p">and we will also create a variable of type JsonAdapter, which will help us work to and fro in converting JSON to Object class and vice-a-versa.</p><pre><code class="language-java graf graf--code">val jsonAdapter: JsonAdapter&lt;User&gt; = moshi.adapter(User::class.java)</code></pre><p class="graf--p">Here, we have passed the User data class as a structure on which we want to perform the actions. Now, to convert the object of the User class to JSON we use,</p><pre><code class="language-java graf graf--code">jsonAdapter.toJson(user)</code></pre><p class="graf--p">Here, we are using toJson to get JSON from the object of the User and if we print this, we get</p><pre><code class="language-java graf graf--code">{"email":"himanshu@gmail.com","name":"Himanshu"}</code></pre><p class="graf--p">Similarly, we can map a JSON to a class using Moshi. Let&#x27;s say we want to convert the above JSON to User class, we will use,</p><pre><code class="language-java graf graf--code">jsonAdapter.fromJson("{\\"email\\":\\"himanshu@gmail.com\\",\\"name\\":\\"Himanshu\\"}")</code></pre><p class="graf--p">If you see, we are using <b class="graf--bold">fromJson</b> here which helps us to convert the JSON which we have passed as a string. Now, if we print this we will see,</p><pre><code class="language-java graf graf--code">User(name=Himanshu, email=himanshu@gmail.com)</code></pre><p class="graf--p">This is how we convert JSON to object and object to JSON using Moshi.</p><h4 class="graf--h3">Features of Moshi</h4><p class="graf--p">Moshi supports almost all the data type by default like,</p><ul><li>Integer, Float, etc</li><li>Arrays and Collections</li><li>Strings</li><li>Enums</li></ul><p class="graf--p">In Moshi, we can create our own type apart from the mentioned ones above. Let us understand this by an example,</p><p class="graf--p">Let&#x27;s update the User class like,</p><pre><code class="language-java graf graf--code">data class User(val name:Name)</code></pre><p class="graf--p">Here, we have added a new data class called Name, which will look like,</p><pre><code class="language-java graf graf--code">data class Name(val firstName: String, val lastName: String)</code></pre><p class="graf--p">Here,  in Name class, we take two parameters called firstName and lastName.</p><p class="graf--p">Now, when getting a JSON from this class, I want the full name of the user like <b class="graf--bold"><i class="graf--italic">firstName + lastName</i></b>. Either we can do it manually every time we parse the JSON or we can add our own adapter using Moshi to do it for us.</p><p class="graf--p">So, we will create a class called NameAdapter,</p><pre><code class="language-java graf graf--code">class NameAdapter { }</code></pre><p class="graf--p">And inside this class, we are going to do our conversion. We will add two functions named as <b class="graf--bold"><code class="graf--code-inline">fun fullName()</code></b> and <b class="graf--bold"><code class="graf--code-inline">fun getIndividualNames().</code></b></p><p class="graf--p">The class now looks like,</p><pre><code class="language-java graf graf--code">class NameAdapter {\n    @ToJson\n    fun fullName(name: Name): String {\n        \n    }\n\n    @FromJson\n    fun getIndividualNames(json: String): Name {\n      \n    }\n\n}</code></pre><p class="graf--p">Here, you can see we have annotated fullName with <b class="graf--bold">ToJson</b> and <code class="graf--code-inline">getIndividualNames</code> with <b class="graf--bold">FromJson</b>.</p><p class="graf--p">It means, that when using this adapter with Moshi, Moshi will look for the annotations. </p><p class="graf--p">Let&#x27;s say we want to concatenate both first and last names to return the full name and return it in JSON, we will do it inside the fullName function which is annotated with <b class="graf--bold"><code class="graf--code-inline">ToJson</code></b>. Now, the fullName function will look like,</p><pre><code class="language-java graf graf--code">@ToJson\nfun fullName(name: Name) = name.firstName + " " + name.lastName</code></pre><p class="graf--p">Similarly, since we added the ToJson conversion for the JSON parsing, we would also need to update the getIndividualNames function which is annotated with FromJson which will convert the JSON values to individual elements in Name data class when mapping the JSON to class.</p><p class="graf--p">So, the getIndividaulNames will look like,</p><pre><code class="language-java graf graf--code">@FromJson\nfun getIndividualNames(fullName: String): Name {\n    val name = fullName.split(" ")\n    return Name(name[0], name[1])\n}</code></pre><p class="graf--p">Here, we have splitter the string fullName from the first empty space and got the two strings that are first name and last name in a list of string. </p><p class="graf--p">And finally, to use this Adapter we add it in Moshi object while building it like,</p><pre><code class="language-java graf graf--code">val moshi = Moshi.Builder()\n    .add(NameAdapter())\n    .add(KotlinJsonAdapterFactory())\n    .build()</code></pre><blockquote class="graf--blockquote">Note: Moshi’s adapters are ordered by precedence, so you always want to add the Kotlin adapter after your own custom adapters. Otherwise the <code class="graf--code-inline">KotlinJsonAdapterFactory</code> will take precedence and your custom adapters will not be called.</blockquote><p class="graf--p">The JsonAdapter would be the same as above like,</p><pre><code class="language-java graf graf--code">val jsonAdapter: JsonAdapter&lt;User&gt; = moshi.adapter(User::class.java)</code></pre><p class="graf--p">and now when we print the toJson and FromJson in logcat like,</p><pre><code class="language-java graf graf--code">jsonAdapter.toJson(user)</code></pre><p class="graf--p">and, </p><pre><code class="language-java graf graf--code">jsonAdapter.fromJson("{\\"name\\":\\"Himanshu Singh\\"}").toString()</code></pre><p class="graf--p">We get the following output,</p><pre><code class="language-java graf graf--code">{"name":"Himanshu Singh"}</code></pre><pre><code class="language-java graf graf--code">\n User(name=Name(firstName=Himanshu, lastName=Singh))</code></pre><p class="graf--p">This is how you can create your own conversion adapter.</p><p class="graf--p">Now, let&#x27;s say we want to put some condition check on only one field in the class or different fields of the same type. We can perform that as well where we create an adapter and that will only affect the only field mentioned. We would do it using annotation.</p><p class="graf--p">First, we will create an annotation like,</p><pre><code class="language-java graf graf--code">@Retention(AnnotationRetention.RUNTIME)\n@JsonQualifier\nannotation class EmailCheck</code></pre><p class="graf--p">Here, the Email check is annotated with JsonQualifier which would work with specific fields.</p><p class="graf--p">Now, we will update the User class like,</p><pre><code class="language-java graf graf--code">@JsonClass(generateAdapter = true)\ndata class User(val name: Name, @EmailCheck val email: String?)</code></pre><p class="graf--p">Here, you can see we have annotated the email with EmailCheck, which means that the check with all the EmailCheck annotations will work with only the email field. The Name class remains the same.</p><p class="graf--p">Now, we will create an adapter which would have two functions, namely toJson and fromJson and will look like,</p><pre><code class="language-java graf graf--code">class EmailAdapter {\n\n    fun String.isValidEmail(): Boolean {\n        return !TextUtils.isEmpty(this) && Patterns.EMAIL_ADDRESS.matcher(this).matches()\n    }\n\n    @ToJson\n    fun toJson(@EmailCheck email: String?) = email\n\n    @FromJson\n    @EmailCheck\n    fun fromJson(email: String): String? {\n        return if (!email.isValidEmail()) {\n            "No Email Found"\n        } else email\n    }\n\n}</code></pre><p class="graf--p">Here, in the EmailAdapter we have annotated the fromJson function to <b class="graf--bold">EmailCheck</b> and here we will check if the JSON we are parsing to map it to the class is not a valid email then, we will return <b class="graf--bold">No Email Found</b> in the <b class="graf--bold">email</b> field else we return the email itself.</p><p class="graf--p">Similarly, we also annotated the email parameter in toJson with EmailCheck, which would mean only keys with EmailCheck annotation are allowed.</p><p class="graf--p">Finally, we will also update the Moshi builder with a new adapter factory called <code class="graf--code-inline">KotlinJsonAdapterFactory</code> like,</p><pre><code class="language-java graf graf--code">val moshi = Moshi.Builder()\n        .add(EmailAdapter())\n        .add(KotlinJsonAdapterFactory())\n        .build()</code></pre><p class="graf--p">And now, let&#x27;s create a user object-like,</p><pre><code class="language-java graf graf--code">val user = User(Name("Himanshu", "Singh"), email = "00")</code></pre><p class="graf--p">and the jsonAdapter remains the same as how we have used it above. Now, if we log the jsonAdapter.toJson(user), we get the following as response,</p><pre><code class="language-java graf graf--code">{"name":{"firstName":"Himanshu","lastName":"Singh"},"email":"00"} </code></pre><p class="graf--p">Here, you can see we are not passing a valid email and is just an integer value.</p><p class="graf--p">Finally, when we parse this JSON using fromJson() then we get the output,</p><pre><code class="language-java graf graf--code">User(name=Name(firstName=Himanshu, lastName=Singh), email=No Email Found)</code></pre><p class="graf--p">You can see in the email field we get <b class="graf--bold"><code class="graf--code-inline">No Email Found</code></b> because the email was not a valid email. This is how we can create adapters for individual fields and put some condition-specific to it.</p><h4 class="graf--h3">Using Moshi with List</h4><p class="graf--p">In this section, we will learn how to convert a List to String and then String to a list. </p><p class="graf--p">Consider an example, where we get a list of objects from our server and we need to store it in shared preference of our app. We would like to convert the list of objects to string as it only saves a primitive data type to save it and when we need to use it we will convert it back to a list.</p><p class="graf--p">Now, let&#x27;s say we have a List of String like,</p><pre><code class="language-java graf graf--code">val names = listOf("Himanshu","Amit", "Ali", "Sumit")</code></pre><p class="graf--p">and now we need to set type to map the raw data like,</p><pre><code class="language-java graf graf--code">val type = Types.newParameterizedType(List::class.java, String::class.java)</code></pre><p class="graf--p">Here, We have list of String data, so it takes the <b class="graf--bold">String::class</b> as class to identify what are the type of elements and List is the type of data which has to be converted.</p><p class="graf--p">Then to use this type, we will use it with Moshi adapter like,</p><pre><code class="language-java graf graf--code">val adapter = moshi.adapter&lt;List&lt;String&gt;&gt;(type)</code></pre><p class="graf--p">where moshi looks like,</p><pre><code class="language-java graf graf--code">val moshi = Moshi.Builder()\n    .add(KotlinJsonAdapterFactory())\n    .build()</code></pre><p class="graf--p">Now, to convert the list of data to string we will use the <b class="graf--bold">toJson</b> like,</p><pre><code class="language-java graf graf--code">val namesInString: String = adapter.toJson(names)</code></pre><p class="graf--p">This would map the list data to string and now if we want we can store in sharedpreference.</p><p class="graf--p">Now, if we want to reverse the mapping from string to list again, we will use the same adapter which we created and by using <b class="graf--bold">fromJson</b> of moshi we will convert it like,</p><pre><code class="language-java graf graf--code">val allNames: List&lt;String&gt;? = adapter.fromJson(namesInString)</code></pre><p class="graf--p">Here we need to pass the string which we need to convert back to a List. </p><h4 class="graf--h3">Using Moshi with Retrofit</h4><p class="graf--p">In this section, we are going to talk about how we can do an API call using Moshi as the converter in Android. We are going to call,</p><pre><code class="language-java graf graf--code">https://jsonplaceholder.typicode.com/posts/1</code></pre><p class="graf--p">To get a single post using Retrofit. So, first, let&#x27;s break it down in steps.</p><h4 class="graf--h3">Steps 01.</h4><p class="graf--p">We will first setup the dependency on the <b class="graf--bold">build.gradle</b> like,</p><pre><code class="language-java graf graf--code">implementation "com.squareup.retrofit2:retrofit:2.8.1"\nimplementation "com.squareup.retrofit2:converter-moshi:2.6.2"</code></pre><h4 class="graf--h3"><b class="graf--bold">Step 02.</b></h4><p class="graf--p">We will not create a data class called PostsResponse for the JSON response we will get from the API. The JSON looks like,</p><pre><code class="language-java graf graf--code">{\n    "userId": 1,\n    "id": 1,\n    "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",\n    "body": "tiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto"\n}</code></pre><p class="graf--p">So, the data class mapping to this JSON would look like,</p><pre><code class="language-java graf graf--code">data class PostsResponse(@Json(name = "id")\n                        val id: Int = 0,\n                        @Json(name = "title")\n                        val title: String = "",\n                        @Json(name = "body")\n                        val body: String = "",\n                        @Json(name = "userId")\n                        val userId: Int = 0)</code></pre><p class="graf--p">Here, you can see we have used <b class="graf--bold">@Json </b>to all the fields in the data class. </p><p class="graf--p"><b class="graf--bold">@Json</b> takes the key name in the original JSON response, and just because we are using <b class="graf--bold">@Json</b> we can give any name to the data class constructor variables and the JSON would still be mapped to the data class because the mapping here is happening because of the <b class="graf--bold">@Json </b>annotation. </p><h4 class="graf--h3">Step 03.</h4><p class="graf--p">Now, we will create the interface to hold the API call. We will call it as APIService and will look like,</p><pre><code class="language-java graf graf--code">interface APIService {\n    @GET("/posts/1")\n    fun getSinglePost(): Call&lt;PostsResponse&gt;\n}</code></pre><p class="graf--p">It will have only one function called getSinglePost and will return the only post from the URL.</p><h4 class="graf--h3">Step 04.</h4><p class="graf--p">Now, to setup Retrofit, we will first create an instance of Moshi like,</p><pre><code class="language-java graf graf--code">val moshi = Moshi.Builder()\n    .add(KotlinJsonAdapterFactory())\n    .build()</code></pre><p class="graf--p">and then we setup Retrofit like,</p><pre><code class="language-java graf graf--code">val retrofit = Retrofit.Builder()\n        .baseUrl("https://jsonplaceholder.typicode.com/")\n        .addConverterFactory(MoshiConverterFactory.create(moshi))\n        .build()</code></pre><p class="graf--p">Here, we have passed the based URL and the converter factory for Moshi. We also passed the Moshi as a parameter which we created earlier.</p><p class="graf--p">And, to support <b class="graf--bold">KotlinJsonAdapterFactory</b> additionally, needs the following dependency,</p><pre><code class="language-java graf graf--code">implementation "com.squareup.moshi:moshi-kotlin:1.9.3"</code></pre><p class="graf--p"><b class="graf--bold">Note:</b> <code class="graf--code-inline">MoshiConverterFactory.create(moshi)</code> is the converter factory.</p><h4 class="graf--h3">Step 05. </h4><p class="graf--p">We will do the API Call now like,</p><pre><code class="language-java graf graf--code">retrofit.create(APIService::class.java).getSinglePost().enqueue(object : Callback&lt;PostsResponse&gt; {\n    override fun onFailure(call: Call&lt;PostsResponse&gt;, t: Throwable) {\n        Log.d("MainActivity", t.localizedMessage)\n    }\n\n    override fun onResponse(call: Call&lt;PostsResponse&gt;, response: Response&lt;PostsResponse&gt;) {\n        Log.d("MainActivity", response.body().toString())\n    }\n\n})</code></pre><p class="graf--p">And before running the app, do not forget to add the Internet permission in the Manifest file.</p><p class="graf--p">Now, if we run the app, we get,</p><pre><code class="language-java graf graf--code">PostsResponse(id=1, title=sunt aut facere repellat provident occaecati excepturi optio reprehenderit, body=quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto, userId=1)</code></pre><p class="graf--p">So, the API call was successful.</p><h4 class="graf--h3">Extra</h4><p class="graf--p">Let&#x27;s say if we want to ignore <b class="graf--bold">title</b> in the API response, we have updated the model like,</p><pre><code class="language-java graf graf--code">data class PostsResponse(@Json(name = "id")\n                         val id: Int = 0,\n                         @Json(name = "title")\n                         @Transient\n                         val title: String = "",\n                         @Json(name = "body")\n                         val body: String = "",\n                         @Json(name = "userId")\n                         val userId: Int = 0)</code></pre><p class="graf--p">Here, you can see we have added <b class="graf--bold"><i class="graf--italic">Transient</i></b> annotation which will <b class="graf--bold"><i class="graf--italic">ignore</i></b> the field <b class="graf--bold">title</b> and print the output as,</p><pre><code class="language-java graf graf--code">PostsResponse(id=1, title=, body=quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto, userId=1)</code></pre><p class="graf--p">Here, the title field is coming empty.</p><h4 class="graf--h3">Miscellaneous</h4><ul><li>Moshi is very light weighted.</li><li>It uses the same mechanisms of GSON.</li><li>We can add custom field names using @Json annotation.</li></ul><p class="graf--p">This is how we can use Moshi in our Android project. </p><p class="graf--p">Happy learning.</p><p class="graf--p"><b class="graf--bold">Team MindOrks.</b></p>',author:9959,img_url:"/images/moshi-baner-9230d42095175aa5.png",blog_url:"moshi-json-library-for-android",likes:0,rank:0,category:1,published_at:"31st May 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:209,title:"Android Room Persistence Library in Kotlin",description:"Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class.",author:14897,img_url:"/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png",blog_url:"android-room-persistence-library-in-kotlin",likes:0,rank:0,category:1,published_at:"9th January 2019",score:1.4371466636657715},{id:245,title:"Downloading and Showing Image with Glide Library in Android",description:"In this blog, we will learn how to use Glide for downloading and showing images in our Android application. Basically, Glide library downloads the image and store it into your cache or local memory and uses it when needed in future.",author:14897,img_url:"/images/download-show-image-glide-banner.png",blog_url:"downloading-and-showing-image-with-glide-library-in-android",likes:0,rank:0,category:1,published_at:"19th May 2019",score:1.4371466636657715},{id:286,title:"Implementing Paging Library in Android",description:"In this blog, we will learn how to implement Paging Library in Android. Paging Library is used to get only a selected amount of data out of a heap of data i.e. at a particular instant of time only the desired amount of data will be loaded in the application. This feature is very important for applications using infinite scrolling. We have created a full tutorial for Paging.",author:14897,img_url:"/images/implementing-paging-library-in-android-banner.png",blog_url:"implementing-paging-library-in-android",likes:0,rank:0,category:1,published_at:"28th June 2019",score:1.4371466636657715},{id:447,title:"Introduction to Room Persistent Library in Android",description:"In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.",author:14040,img_url:"/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png",blog_url:"introduction-to-room-persistent-library-in-android",likes:0,rank:0,category:1,published_at:"18th May 2020",score:1.4371466636657715},{id:230,title:"Getting Started With CameraX Jetpack Support Library",description:"In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.\n",author:14897,img_url:"/images/camerax-jetpack-support-library.png",blog_url:"getting-started-with-camerax",likes:0,rank:0,category:1,published_at:"11th May 2019",score:1.4279690980911255},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            31st May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Moshi - JSON library for Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Moshi - JSON library for Android" class="graf-image" src="/images/moshi-baner-9230d42095175aa5.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In this blog, we are going to talk about the JSON library by Square called Moshi. Moshi helps us to serialize and deserialize the JSON in a better and simpler way.
+                 </p>
+                 <p class="graf--p">
+                  So, before starting let us divide the blog into the following sections,
+                 </p>
+                 <ul>
+                  <li>
+                   Why we need a library for serializing and deserializing in android?
+                  </li>
+                  <li>
+                   How do we use Moshi?
+                  </li>
+                  <li>
+                   Features of Moshi
+                  </li>
+                  <li>
+                   Using Moshi with List.
+                  </li>
+                  <li>
+                   Using Moshi with Retrofit
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  Why we need a library for serializing and deserializing in android?
+                 </h4>
+                 <p class="graf--p">
+                  In Android, when we do an API call we get JSON as a response majority of times. We can call that JSON and parse it manually and work with it or we can just use a library like Moshi to serialize and deserialize. Using Moshi can help us reduce the number of lines we write and reduce the possibility of getting errors.
+                 </p>
+                 <h4 class="graf--h3">
+                  How do we use Moshi?
+                 </h4>
+                 <p class="graf--p">
+                  In this section, we are going to understand how we would work with Moshi.
+                 </p>
+                 <p class="graf--p">
+                  Let say we have a data class, User like
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class User(val name: String, val email: String)</code></pre>
+                 <p class="graf--p">
+                  and consider we have a variable called user and is defined as,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val user = User("Himanshu", "himanshu@gmail.com")</code></pre>
+                 <p class="graf--p">
+                  Now, with the help of Moshi, we will convert this as a JSON structure. To work with Moshi we have JsonAdapter class and builder pattern.
+                 </p>
+                 <p class="graf--p">
+                  So, we build Moshi using,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val moshi = Moshi.Builder()
+    .add(KotlinJsonAdapterFactory())
+    .build()</code></pre>
+                 <p class="graf--p">
+                  and we will also create a variable of type JsonAdapter, which will help us work to and fro in converting JSON to Object class and vice-a-versa.
+                 </p>
+                 <pre><code class="language-java graf graf--code">val jsonAdapter: JsonAdapter&lt;User&gt; = moshi.adapter(User::class.java)</code></pre>
+                 <p class="graf--p">
+                  Here, we have passed the User data class as a structure on which we want to perform the actions. Now, to convert the object of the User class to JSON we use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">jsonAdapter.toJson(user)</code></pre>
+                 <p class="graf--p">
+                  Here, we are using toJson to get JSON from the object of the User and if we print this, we get
+                 </p>
+                 <pre><code class="language-java graf graf--code">{"email":"himanshu@gmail.com","name":"Himanshu"}</code></pre>
+                 <p class="graf--p">
+                  Similarly, we can map a JSON to a class using Moshi. Let's say we want to convert the above JSON to User class, we will use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">jsonAdapter.fromJson("{\"email\":\"himanshu@gmail.com\",\"name\":\"Himanshu\"}")</code></pre>
+                 <p class="graf--p">
+                  If you see, we are using
+                  <b class="graf--bold">
+                   fromJson
+                  </b>
+                  here which helps us to convert the JSON which we have passed as a string. Now, if we print this we will see,
+                 </p>
+                 <pre><code class="language-java graf graf--code">User(name=Himanshu, email=himanshu@gmail.com)</code></pre>
+                 <p class="graf--p">
+                  This is how we convert JSON to object and object to JSON using Moshi.
+                 </p>
+                 <h4 class="graf--h3">
+                  Features of Moshi
+                 </h4>
+                 <p class="graf--p">
+                  Moshi supports almost all the data type by default like,
+                 </p>
+                 <ul>
+                  <li>
+                   Integer, Float, etc
+                  </li>
+                  <li>
+                   Arrays and Collections
+                  </li>
+                  <li>
+                   Strings
+                  </li>
+                  <li>
+                   Enums
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  In Moshi, we can create our own type apart from the mentioned ones above. Let us understand this by an example,
+                 </p>
+                 <p class="graf--p">
+                  Let's update the User class like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class User(val name:Name)</code></pre>
+                 <p class="graf--p">
+                  Here, we have added a new data class called Name, which will look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class Name(val firstName: String, val lastName: String)</code></pre>
+                 <p class="graf--p">
+                  Here,  in Name class, we take two parameters called firstName and lastName.
+                 </p>
+                 <p class="graf--p">
+                  Now, when getting a JSON from this class, I want the full name of the user like
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    firstName + lastName
+                   </i>
+                  </b>
+                  . Either we can do it manually every time we parse the JSON or we can add our own adapter using Moshi to do it for us.
+                 </p>
+                 <p class="graf--p">
+                  So, we will create a class called NameAdapter,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class NameAdapter { }</code></pre>
+                 <p class="graf--p">
+                  And inside this class, we are going to do our conversion. We will add two functions named as
+                  <b class="graf--bold">
+                   <code class="graf--code-inline">
+                    fun fullName()
+                   </code>
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   <code class="graf--code-inline">
+                    fun getIndividualNames().
+                   </code>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  The class now looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class NameAdapter {
+    @ToJson
+    fun fullName(name: Name): String {
+        
+    }
+
+    @FromJson
+    fun getIndividualNames(json: String): Name {
+      
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here, you can see we have annotated fullName with
+                  <b class="graf--bold">
+                   ToJson
+                  </b>
+                  and
+                  <code class="graf--code-inline">
+                   getIndividualNames
+                  </code>
+                  with
+                  <b class="graf--bold">
+                   FromJson
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  It means, that when using this adapter with Moshi, Moshi will look for the annotations.
+                 </p>
+                 <p class="graf--p">
+                  Let's say we want to concatenate both first and last names to return the full name and return it in JSON, we will do it inside the fullName function which is annotated with
+                  <b class="graf--bold">
+                   <code class="graf--code-inline">
+                    ToJson
+                   </code>
+                  </b>
+                  . Now, the fullName function will look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@ToJson
+fun fullName(name: Name) = name.firstName + " " + name.lastName</code></pre>
+                 <p class="graf--p">
+                  Similarly, since we added the ToJson conversion for the JSON parsing, we would also need to update the getIndividualNames function which is annotated with FromJson which will convert the JSON values to individual elements in Name data class when mapping the JSON to class.
+                 </p>
+                 <p class="graf--p">
+                  So, the getIndividaulNames will look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@FromJson
+fun getIndividualNames(fullName: String): Name {
+    val name = fullName.split(" ")
+    return Name(name[0], name[1])
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we have splitter the string fullName from the first empty space and got the two strings that are first name and last name in a list of string.
+                 </p>
+                 <p class="graf--p">
+                  And finally, to use this Adapter we add it in Moshi object while building it like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val moshi = Moshi.Builder()
+    .add(NameAdapter())
+    .add(KotlinJsonAdapterFactory())
+    .build()</code></pre>
+                 <blockquote class="graf--blockquote">
+                  Note: Moshi’s adapters are ordered by precedence, so you always want to add the Kotlin adapter after your own custom adapters. Otherwise the
+                  <code class="graf--code-inline">
+                   KotlinJsonAdapterFactory
+                  </code>
+                  will take precedence and your custom adapters will not be called.
+                 </blockquote>
+                 <p class="graf--p">
+                  The JsonAdapter would be the same as above like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val jsonAdapter: JsonAdapter&lt;User&gt; = moshi.adapter(User::class.java)</code></pre>
+                 <p class="graf--p">
+                  and now when we print the toJson and FromJson in logcat like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">jsonAdapter.toJson(user)</code></pre>
+                 <p class="graf--p">
+                  and,
+                 </p>
+                 <pre><code class="language-java graf graf--code">jsonAdapter.fromJson("{\"name\":\"Himanshu Singh\"}").toString()</code></pre>
+                 <p class="graf--p">
+                  We get the following output,
+                 </p>
+                 <pre><code class="language-java graf graf--code">{"name":"Himanshu Singh"}</code></pre>
+                 <pre><code class="language-java graf graf--code">
+ User(name=Name(firstName=Himanshu, lastName=Singh))</code></pre>
+                 <p class="graf--p">
+                  This is how you can create your own conversion adapter.
+                 </p>
+                 <p class="graf--p">
+                  Now, let's say we want to put some condition check on only one field in the class or different fields of the same type. We can perform that as well where we create an adapter and that will only affect the only field mentioned. We would do it using annotation.
+                 </p>
+                 <p class="graf--p">
+                  First, we will create an annotation like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@Retention(AnnotationRetention.RUNTIME)
+@JsonQualifier
+annotation class EmailCheck</code></pre>
+                 <p class="graf--p">
+                  Here, the Email check is annotated with JsonQualifier which would work with specific fields.
+                 </p>
+                 <p class="graf--p">
+                  Now, we will update the User class like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">@JsonClass(generateAdapter = true)
+data class User(val name: Name, @EmailCheck val email: String?)</code></pre>
+                 <p class="graf--p">
+                  Here, you can see we have annotated the email with EmailCheck, which means that the check with all the EmailCheck annotations will work with only the email field. The Name class remains the same.
+                 </p>
+                 <p class="graf--p">
+                  Now, we will create an adapter which would have two functions, namely toJson and fromJson and will look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class EmailAdapter {
+
+    fun String.isValidEmail(): Boolean {
+        return !TextUtils.isEmpty(this) &amp;&amp; Patterns.EMAIL_ADDRESS.matcher(this).matches()
+    }
+
+    @ToJson
+    fun toJson(@EmailCheck email: String?) = email
+
+    @FromJson
+    @EmailCheck
+    fun fromJson(email: String): String? {
+        return if (!email.isValidEmail()) {
+            "No Email Found"
+        } else email
+    }
+
+}</code></pre>
+                 <p class="graf--p">
+                  Here, in the EmailAdapter we have annotated the fromJson function to
+                  <b class="graf--bold">
+                   EmailCheck
+                  </b>
+                  and here we will check if the JSON we are parsing to map it to the class is not a valid email then, we will return
+                  <b class="graf--bold">
+                   No Email Found
+                  </b>
+                  in the
+                  <b class="graf--bold">
+                   email
+                  </b>
+                  field else we return the email itself.
+                 </p>
+                 <p class="graf--p">
+                  Similarly, we also annotated the email parameter in toJson with EmailCheck, which would mean only keys with EmailCheck annotation are allowed.
+                 </p>
+                 <p class="graf--p">
+                  Finally, we will also update the Moshi builder with a new adapter factory called
+                  <code class="graf--code-inline">
+                   KotlinJsonAdapterFactory
+                  </code>
+                  like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val moshi = Moshi.Builder()
+        .add(EmailAdapter())
+        .add(KotlinJsonAdapterFactory())
+        .build()</code></pre>
+                 <p class="graf--p">
+                  And now, let's create a user object-like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val user = User(Name("Himanshu", "Singh"), email = "00")</code></pre>
+                 <p class="graf--p">
+                  and the jsonAdapter remains the same as how we have used it above. Now, if we log the jsonAdapter.toJson(user), we get the following as response,
+                 </p>
+                 <pre><code class="language-java graf graf--code">{"name":{"firstName":"Himanshu","lastName":"Singh"},"email":"00"} </code></pre>
+                 <p class="graf--p">
+                  Here, you can see we are not passing a valid email and is just an integer value.
+                 </p>
+                 <p class="graf--p">
+                  Finally, when we parse this JSON using fromJson() then we get the output,
+                 </p>
+                 <pre><code class="language-java graf graf--code">User(name=Name(firstName=Himanshu, lastName=Singh), email=No Email Found)</code></pre>
+                 <p class="graf--p">
+                  You can see in the email field we get
+                  <b class="graf--bold">
+                   <code class="graf--code-inline">
+                    No Email Found
+                   </code>
+                  </b>
+                  because the email was not a valid email. This is how we can create adapters for individual fields and put some condition-specific to it.
+                 </p>
+                 <h4 class="graf--h3">
+                  Using Moshi with List
+                 </h4>
+                 <p class="graf--p">
+                  In this section, we will learn how to convert a List to String and then String to a list.
+                 </p>
+                 <p class="graf--p">
+                  Consider an example, where we get a list of objects from our server and we need to store it in shared preference of our app. We would like to convert the list of objects to string as it only saves a primitive data type to save it and when we need to use it we will convert it back to a list.
+                 </p>
+                 <p class="graf--p">
+                  Now, let's say we have a List of String like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val names = listOf("Himanshu","Amit", "Ali", "Sumit")</code></pre>
+                 <p class="graf--p">
+                  and now we need to set type to map the raw data like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val type = Types.newParameterizedType(List::class.java, String::class.java)</code></pre>
+                 <p class="graf--p">
+                  Here, We have list of String data, so it takes the
+                  <b class="graf--bold">
+                   String::class
+                  </b>
+                  as class to identify what are the type of elements and List is the type of data which has to be converted.
+                 </p>
+                 <p class="graf--p">
+                  Then to use this type, we will use it with Moshi adapter like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val adapter = moshi.adapter&lt;List&lt;String&gt;&gt;(type)</code></pre>
+                 <p class="graf--p">
+                  where moshi looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val moshi = Moshi.Builder()
+    .add(KotlinJsonAdapterFactory())
+    .build()</code></pre>
+                 <p class="graf--p">
+                  Now, to convert the list of data to string we will use the
+                  <b class="graf--bold">
+                   toJson
+                  </b>
+                  like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val namesInString: String = adapter.toJson(names)</code></pre>
+                 <p class="graf--p">
+                  This would map the list data to string and now if we want we can store in sharedpreference.
+                 </p>
+                 <p class="graf--p">
+                  Now, if we want to reverse the mapping from string to list again, we will use the same adapter which we created and by using
+                  <b class="graf--bold">
+                   fromJson
+                  </b>
+                  of moshi we will convert it like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val allNames: List&lt;String&gt;? = adapter.fromJson(namesInString)</code></pre>
+                 <p class="graf--p">
+                  Here we need to pass the string which we need to convert back to a List.
+                 </p>
+                 <h4 class="graf--h3">
+                  Using Moshi with Retrofit
+                 </h4>
+                 <p class="graf--p">
+                  In this section, we are going to talk about how we can do an API call using Moshi as the converter in Android. We are going to call,
+                 </p>
+                 <pre><code class="language-java graf graf--code">https://jsonplaceholder.typicode.com/posts/1</code></pre>
+                 <p class="graf--p">
+                  To get a single post using Retrofit. So, first, let's break it down in steps.
+                 </p>
+                 <h4 class="graf--h3">
+                  Steps 01.
+                 </h4>
+                 <p class="graf--p">
+                  We will first setup the dependency on the
+                  <b class="graf--bold">
+                   build.gradle
+                  </b>
+                  like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation "com.squareup.retrofit2:retrofit:2.8.1"
+implementation "com.squareup.retrofit2:converter-moshi:2.6.2"</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Step 02.
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  We will not create a data class called PostsResponse for the JSON response we will get from the API. The JSON looks like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">{
+    "userId": 1,
+    "id": 1,
+    "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+    "body": "tiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+}</code></pre>
+                 <p class="graf--p">
+                  So, the data class mapping to this JSON would look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class PostsResponse(@Json(name = "id")
+                        val id: Int = 0,
+                        @Json(name = "title")
+                        val title: String = "",
+                        @Json(name = "body")
+                        val body: String = "",
+                        @Json(name = "userId")
+                        val userId: Int = 0)</code></pre>
+                 <p class="graf--p">
+                  Here, you can see we have used
+                  <b class="graf--bold">
+                   @Json
+                  </b>
+                  to all the fields in the data class.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   @Json
+                  </b>
+                  takes the key name in the original JSON response, and just because we are using
+                  <b class="graf--bold">
+                   @Json
+                  </b>
+                  we can give any name to the data class constructor variables and the JSON would still be mapped to the data class because the mapping here is happening because of the
+                  <b class="graf--bold">
+                   @Json
+                  </b>
+                  annotation.
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 03.
+                 </h4>
+                 <p class="graf--p">
+                  Now, we will create the interface to hold the API call. We will call it as APIService and will look like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">interface APIService {
+    @GET("/posts/1")
+    fun getSinglePost(): Call&lt;PostsResponse&gt;
+}</code></pre>
+                 <p class="graf--p">
+                  It will have only one function called getSinglePost and will return the only post from the URL.
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 04.
+                 </h4>
+                 <p class="graf--p">
+                  Now, to setup Retrofit, we will first create an instance of Moshi like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val moshi = Moshi.Builder()
+    .add(KotlinJsonAdapterFactory())
+    .build()</code></pre>
+                 <p class="graf--p">
+                  and then we setup Retrofit like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val retrofit = Retrofit.Builder()
+        .baseUrl("https://jsonplaceholder.typicode.com/")
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .build()</code></pre>
+                 <p class="graf--p">
+                  Here, we have passed the based URL and the converter factory for Moshi. We also passed the Moshi as a parameter which we created earlier.
+                 </p>
+                 <p class="graf--p">
+                  And, to support
+                  <b class="graf--bold">
+                   KotlinJsonAdapterFactory
+                  </b>
+                  additionally, needs the following dependency,
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation "com.squareup.moshi:moshi-kotlin:1.9.3"</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note:
+                  </b>
+                  <code class="graf--code-inline">
+                   MoshiConverterFactory.create(moshi)
+                  </code>
+                  is the converter factory.
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 05.
+                 </h4>
+                 <p class="graf--p">
+                  We will do the API Call now like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">retrofit.create(APIService::class.java).getSinglePost().enqueue(object : Callback&lt;PostsResponse&gt; {
+    override fun onFailure(call: Call&lt;PostsResponse&gt;, t: Throwable) {
+        Log.d("MainActivity", t.localizedMessage)
+    }
+
+    override fun onResponse(call: Call&lt;PostsResponse&gt;, response: Response&lt;PostsResponse&gt;) {
+        Log.d("MainActivity", response.body().toString())
+    }
+
+})</code></pre>
+                 <p class="graf--p">
+                  And before running the app, do not forget to add the Internet permission in the Manifest file.
+                 </p>
+                 <p class="graf--p">
+                  Now, if we run the app, we get,
+                 </p>
+                 <pre><code class="language-java graf graf--code">PostsResponse(id=1, title=sunt aut facere repellat provident occaecati excepturi optio reprehenderit, body=quia et suscipit
+suscipit recusandae consequuntur expedita et cum
+reprehenderit molestiae ut ut quas totam
+nostrum rerum est autem sunt rem eveniet architecto, userId=1)</code></pre>
+                 <p class="graf--p">
+                  So, the API call was successful.
+                 </p>
+                 <h4 class="graf--h3">
+                  Extra
+                 </h4>
+                 <p class="graf--p">
+                  Let's say if we want to ignore
+                  <b class="graf--bold">
+                   title
+                  </b>
+                  in the API response, we have updated the model like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">data class PostsResponse(@Json(name = "id")
+                         val id: Int = 0,
+                         @Json(name = "title")
+                         @Transient
+                         val title: String = "",
+                         @Json(name = "body")
+                         val body: String = "",
+                         @Json(name = "userId")
+                         val userId: Int = 0)</code></pre>
+                 <p class="graf--p">
+                  Here, you can see we have added
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Transient
+                   </i>
+                  </b>
+                  annotation which will
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    ignore
+                   </i>
+                  </b>
+                  the field
+                  <b class="graf--bold">
+                   title
+                  </b>
+                  and print the output as,
+                 </p>
+                 <pre><code class="language-java graf graf--code">PostsResponse(id=1, title=, body=quia et suscipit
+suscipit recusandae consequuntur expedita et cum
+reprehenderit molestiae ut ut quas totam
+nostrum rerum est autem sunt rem eveniet architecto, userId=1)</code></pre>
+                 <p class="graf--p">
+                  Here, the title field is coming empty.
+                 </p>
+                 <h4 class="graf--h3">
+                  Miscellaneous
+                 </h4>
+                 <ul>
+                  <li>
+                   Moshi is very light weighted.
+                  </li>
+                  <li>
+                   It uses the same mechanisms of GSON.
+                  </li>
+                  <li>
+                   We can add custom field names using @Json annotation.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  This is how we can use Moshi in our Android project.
+                 </p>
+                 <p class="graf--p">
+                  Happy learning.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks.
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Room Persistence Library in Kotlin" class="ui centered image" src="/images/android_room_persistence_library_in_kotlin_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Room Persistence Library in Kotlin
+           </div>
+           <div class="meta">
+            9th January 2019
+           </div>
+           <div class="description">
+            Room Database is an abstraction layer over the SQLite Database which helps us to reduce our work with the SQLiteOpenHelper class.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Downloading and Showing Image with Glide Library in Android" class="ui centered image" src="/images/download-show-image-glide-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Downloading and Showing Image with Glide Library in Android
+           </div>
+           <div class="meta">
+            19th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Glide for downloading and showing images in our Android application. Basically, Glide library downloads the image and store it into your cache or local memory and uses it when needed in future.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Paging Library in Android" class="ui centered image" src="/images/implementing-paging-library-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Paging Library in Android
+           </div>
+           <div class="meta">
+            28th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Paging Library in Android. Paging Library is used to get only a selected amount of data out of a heap of data i.e. at a particular instant of time only the desired amount of data will be loaded in the application. This feature is very important for applications using infinite scrolling. We have created a full tutorial for Paging.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Introduction to Room Persistent Library in Android" class="ui centered image" src="/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Introduction to Room Persistent Library in Android
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started With CameraX Jetpack Support Library" class="ui centered image" src="/images/camerax-jetpack-support-library.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started With CameraX Jetpack Support Library
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Replace Switch with When in Kotlin
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/replace-switch-with-when-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Replace Switch with When in Kotlin" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/replace-switch-with-when-in-kotlin" property="og:url"/>
+  <meta content="/images/replacing-switch-with-when-banner.jpg" property="og:image"/>
+  <meta content="In this blog, we will learn how to use when instead of switch in Kotlin. We will see some examples to understand the usage of when in the best possible way." property="og:description"/>
+  <meta content="Replace Switch with When in Kotlin" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to use when instead of switch in Kotlin. We will see some examples to understand the usage of when in the best possible way." name="twitter:description"/>
+  <meta content="/images/replacing-switch-with-when-banner.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to use when instead of switch in Kotlin. We will see some examples to understand the usage of when in the best possible way." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:258,data:{id:258,title:"Replace Switch with When in Kotlin",description:"In this blog, we will learn how to use when instead of switch in Kotlin. We will see some examples to understand the usage of when in the best possible way.",text:'<h1 class="graf--h1">Replace Switch with When in Kotlin</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/replacing-switch-with-when-banner.jpg class=\'graf-image\' alt=\'Replace Switch with When in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Hello World! If you are reading this blog, then you must be a programmer and you know how to code in particular programming language. I mean to say that you must be familiar with at least one of the programming languages and know about the basics syntax and elements used in any programming languages like conditional statements, looping structures, functions, etc.</p><p class="graf--p">In this blog, we will look upon the replacement of  <b class="graf--bold"><i class="graf--italic">switch</i> </b>with the <b class="graf--bold"><i class="graf--italic">when</i></b> keyword. Firstly, we will look on to some examples of <b class="graf--bold"><i class="graf--italic">switch</i></b> and after that, we will look at how the <b class="graf--bold"><i class="graf--italic">when</i> </b>keyword makes our task or code easier and more understandable. So, let’s get started.</p><h4 class="graf--h3">switch</h4><p class="graf--p">If we are using some conditional statements and the condition used in the conditional statements are applied on similar type of data, then instead of having a vast or big code for the conditional statement, we can use <b class="graf--bold">switch</b> to avoid using so many conditional statements in our code.</p><p class="graf--p">For example: below is an example of a conditional statement used to print the word representation of numbers:</p><pre><code class="language-java graf graf--code">if (number == 1) {\n    System.out.println("One");\n} else if (number == 2) {\n    System.out.println("Two")\n    } else if (number == 3) {\n    System.out.println("Three")\n    } else {\n    System.out.println("Number is not between 1 and 3")\n    }</code></pre><p class="graf--p">So, in the above code in order to print the numbers in word, you have to use various conditional statements and this results in a large number of lines of code. Think of a situation when you have to print the words representation of numbers up to 100 or 1000. If you are using conditional statements then you have to use 1000 conditional statements. </p><p class="graf--p">To remove this difficulty, <b class="graf--bold">switch-case</b> was introduced, where we pass the variable to be compared with-in the <b class="graf--bold">switch</b> statement (in our example, that variable is <b class="graf--bold">number</b>) and compare it with various <b class="graf--bold">case</b> statements present corresponding to it and do the operation. So, the switch-case version of the above code will be:</p><pre><code class="language-java graf graf--code">switch(number) {\n    case 1:\n      System.out.println("One");\n      break;\n    case 2:\n      System.out.println("Two");\n      break;\n    case 3:\n      System.out.println("Three");\n      break;\n    default:\n      System.out.println("Number is not between 1 and 3");\n      break;\n}</code></pre><p class="graf--p">In the above code, <b class="graf--bold">number </b>is passed in <b class="graf--bold">switch </b>statement and cases are used to compare that number. For example, if the number is 1 then <b class="graf--bold">case 1</b> will be executed, if number is 2 then <b class="graf--bold">case 2</b> will be executed and so on. But if the number is not equal to any of the case present then the <b class="graf--bold">default</b> block will be executed.</p><p class="graf--p">This is a very convenient way of using conditional statements. But many programming languages like Python doesn’t use the <b class="graf--bold">switch-case. </b>They have some different and better way of using the conditional statements except <b class="graf--bold">switch. </b>In Kotlin we use <b class="graf--bold">when</b> in place of <b class="graf--bold">switch</b>. So, let’s move on and try to find how we can replace <b class="graf--bold">switch</b> with <b class="graf--bold">when</b>?</p><h4 class="graf--h3">when</h4><p class="graf--p">So, if you are moving from Java to Kotlin, then you will find some changes in the syntax part also. In Java we use <b class="graf--bold">switch</b> but in Kotlin, that <b class="graf--bold">switch</b> gets converted to <b class="graf--bold">when</b>. <b class="graf--bold">when</b> is also used for conditional representation but it does the things in a very smarter and easier way. Whenever you are having a number of possibilities then you can use <b class="graf--bold">when </b>in your code.</p><p class="graf--p">For example, the above code that was written using <b class="graf--bold">switch</b> gets converted to something like below after using <b class="graf--bold">when</b>:</p><pre><code class="language-java graf graf--code">when(number) {\n    1 -&gt; println("One")\n    2 -&gt; println("Two")\n    3 -&gt; println("Three")\n    else -&gt; println("Number is not between 1 and 3")\n}</code></pre><p class="graf--p">In the above code, like in<b class="graf--bold"> switch, </b>the number is passed in<b class="graf--bold"> when </b>and then we compare that number with various options available. In our case, if the <b class="graf--bold">number == 1, </b>then “one” will be printed and so on. If more than one match is found then the match that occurs first will be considered only. If no match to the number is found then the <b class="graf--bold">else </b>part will be executed. </p><p class="graf--p">Also, there is no need of that <b class="graf--bold">else </b>part if you are sure that your code will never code to the <b class="graf--bold">else</b> part in any situation. For example:</p><pre><code class="language-java graf graf--code">val noElseChecking = true\n\nwhen(noElseChecking) {\n    true -&gt; println("The value is true")\n    false -&gt; println("The value is false")\n}</code></pre><p class="graf--p">In the above example, the variable <b class="graf--bold">noElseChecking</b> is assigned true. After that, we are checking that variable in <b class="graf--bold">when </b>block. The idea here is that either the value of the <b class="graf--bold">noElseChecking </b>variable will be <b class="graf--bold">true</b> or <b class="graf--bold">false </b>and there is no third case. So, if we handle these two case then there is no need of <b class="graf--bold">else </b>part in<b class="graf--bold"> when </b>because if we use <b class="graf--bold">else </b>then that code will be unreachable code.</p><h4 class="graf--h3">More features of when</h4><p class="graf--p">Till now, we have a basic idea of how <b class="graf--bold">when </b>can be used to replace <b class="graf--bold">switch</b> in Kotlin. Let’s look upon some more features of when that makes it a good to have in any Kotlin code:</p><ul><li><b class="graf--bold">Two or more choices:</b> While using the <b class="graf--bold">switch </b>statement, we can check or compare with the value passed in switch in one case at a time, but in <b class="graf--bold">when </b>we can apply more than one choice. For example:</li></ul><pre><code class="language-java graf graf--code">when(number) {\n    1 -&gt; println("One")\n    2, 3 -&gt; println("Two or Three")\n    4 -&gt; println("Four")\n    else -&gt; println("Number is not between 1 and 4")\n}</code></pre><p class="graf--p">In the above example, the second statement says that if the value of number will be 2 or 3 then the code will print “Two or Three”. Here we are having more than one choice.</p><ul><li><b class="graf--bold">Condition branch: </b>You can apply conditions in any branch of <b class="graf--bold">when </b>statement and the body of that statement will only be executed when the condition is satisfied. For example:</li></ul><pre><code class="language-java graf graf--code">when(number) {\n    1 -&gt; println("One") //statement 1\n    2 -&gt; println("Two") //statement 2\n    3 -&gt; println("Three") //statement 3\n    in 4..8 -&gt; println("Number between 4 and 8") //statement 4\n    !in 9..12 -&gt; println("Number not in between 9 and 12") //statement 5\n    else -&gt; println("Number is not between 1 and 8") //statement 6\n}</code></pre><p class="graf--p">In the above example, if you pass <b class="graf--bold">number == 6</b> then the output will be “Number between 4 and 8”. But there is one doubt, as the number is 6 then statement 4 and 5 are true then why only statement 4 is executed? If you are reading this blog with full concentration then you know the reason behind this because it is discussed in the introduction to <b class="graf--bold">when</b> section. The reason behind this is, if more than two statements are correct then the statement appeared first will be used and other true statements will be discarded.</p><ul><li><b class="graf--bold">&quot;when&quot; without arguments: </b>You can use <b class="graf--bold">when </b>without any argument also i.e. simply write <b class="graf--bold">when </b>and in the block or body of the <b class="graf--bold">when </b>write some conditional statement. A <b class="graf--bold">when </b>without an argument is like applying some conditional statements. For example:</li></ul><pre><code class="language-java graf graf--code">when {\n    number &lt; 1 -&gt; print("Number is less than 1")\n    number &gt; 1 -&gt; print("Number is greater than 1")\n}</code></pre><p class="graf--p">In the above example, there is no argument passed in <b class="graf--bold">when, </b>so, you can use conditional statement inside <b class="graf--bold">when </b>by using the variables used in the code.</p><ul><li><b class="graf--bold">Any type passed in &quot;when&quot;: </b>You can pass any type of variable in <b class="graf--bold">when </b>i.e. you can pass integer or string or character in <b class="graf--bold">when </b>at a time. This facility was not there in <b class="graf--bold">switch, </b>there if you are passing an integer value then your case must be an integer value otherwise you will get an error. But <b class="graf--bold">when </b>you can use any type as below:</li></ul><pre><code class="language-java graf graf--code">fun describe(obj: Any): String =\n    when (obj) {\n      1 -&gt; "One"\n      "Hello" -&gt; "Greeting"\n      is Long -&gt; "Long"\n      !is String -&gt; "Not a string"\n      else -&gt; "Unknown"\n    }</code></pre><p class="graf--p">In the above example, the same object <b class="graf--bold">obj </b>is used to compare with the <b class="graf--bold">integer</b> value, then with the <b class="graf--bold">string</b> value then it is checked for <b class="graf--bold">long</b> and so on.</p><ul><li><b class="graf--bold">Smart casting: </b>You can perform smart casting i.e. automatic casting if you are using an <b class="graf--bold">is expression </b>in your <b class="graf--bold">when </b>block. For example:</li></ul><pre><code class="language-java graf graf--code">when (x) {\n    is Int -&gt; print("X is integer")\n    is String -&gt; print("X is string")\n}</code></pre><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we learned how to use <b class="graf--bold">when </b>in place of <b class="graf--bold">switch</b> in <b class="graf--bold">Kotlin</b>. We saw that, if we are having a number of possibilities for a particular variable then we can make use of <b class="graf--bold">when </b>to handle all the possibilities. Also, we can use <b class="graf--bold">when </b>for multiple or more than one choices.</p><p class="graf--p">That’s it for this blog! Keep Exploring!</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/replacing-switch-with-when-banner.jpg",blog_url:"replace-switch-with-when-in-kotlin",likes:0,rank:0,category:1,published_at:"31st May 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:22,title:"Learn Kotlin —  apply vs with\n",description:"There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png",blog_url:"learn-kotlin-apply-vs-with",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:24,title:"Learn Kotlin - Data Class",description:"We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png",blog_url:"learn-kotlin-data-class",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:25,title:"Learn Kotlin- Destructuring Declarations",description:"Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png",blog_url:"learn-kotlin-destructuring-declarations",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:62,title:"Learn Kotlin — Extension Functions",description:"As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png",blog_url:"learn-kotlin-extension-functions",likes:1,rank:0,category:1,published_at:"30th May 2017",score:.1476835161447525},{id:194,title:"Android WebView — in kotlin",description:"Android WebView",author:14897,img_url:"/images/android_webview_mindorks_feature_image.png",blog_url:"android-webview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1476835161447525},{id:196,title:"Android ViewPager in Kotlin",description:"Android ViewPager",author:14897,img_url:"/images/android_viewpager_mindorks_feature_image.png",blog_url:"android-viewpager-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1476835161447525}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            31st May 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Replace Switch with When in Kotlin
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Replace Switch with When in Kotlin" class="graf-image" src="/images/replacing-switch-with-when-banner.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Hello World! If you are reading this blog, then you must be a programmer and you know how to code in particular programming language. I mean to say that you must be familiar with at least one of the programming languages and know about the basics syntax and elements used in any programming languages like conditional statements, looping structures, functions, etc.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will look upon the replacement of
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    switch
+                   </i>
+                  </b>
+                  with the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    when
+                   </i>
+                  </b>
+                  keyword. Firstly, we will look on to some examples of
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    switch
+                   </i>
+                  </b>
+                  and after that, we will look at how the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    when
+                   </i>
+                  </b>
+                  keyword makes our task or code easier and more understandable. So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  switch
+                 </h4>
+                 <p class="graf--p">
+                  If we are using some conditional statements and the condition used in the conditional statements are applied on similar type of data, then instead of having a vast or big code for the conditional statement, we can use
+                  <b class="graf--bold">
+                   switch
+                  </b>
+                  to avoid using so many conditional statements in our code.
+                 </p>
+                 <p class="graf--p">
+                  For example: below is an example of a conditional statement used to print the word representation of numbers:
+                 </p>
+                 <pre><code class="language-java graf graf--code">if (number == 1) {
+    System.out.println("One");
+} else if (number == 2) {
+    System.out.println("Two")
+    } else if (number == 3) {
+    System.out.println("Three")
+    } else {
+    System.out.println("Number is not between 1 and 3")
+    }</code></pre>
+                 <p class="graf--p">
+                  So, in the above code in order to print the numbers in word, you have to use various conditional statements and this results in a large number of lines of code. Think of a situation when you have to print the words representation of numbers up to 100 or 1000. If you are using conditional statements then you have to use 1000 conditional statements.
+                 </p>
+                 <p class="graf--p">
+                  To remove this difficulty,
+                  <b class="graf--bold">
+                   switch-case
+                  </b>
+                  was introduced, where we pass the variable to be compared with-in the
+                  <b class="graf--bold">
+                   switch
+                  </b>
+                  statement (in our example, that variable is
+                  <b class="graf--bold">
+                   number
+                  </b>
+                  ) and compare it with various
+                  <b class="graf--bold">
+                   case
+                  </b>
+                  statements present corresponding to it and do the operation. So, the switch-case version of the above code will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">switch(number) {
+    case 1:
+      System.out.println("One");
+      break;
+    case 2:
+      System.out.println("Two");
+      break;
+    case 3:
+      System.out.println("Three");
+      break;
+    default:
+      System.out.println("Number is not between 1 and 3");
+      break;
+}</code></pre>
+                 <p class="graf--p">
+                  In the above code,
+                  <b class="graf--bold">
+                   number
+                  </b>
+                  is passed in
+                  <b class="graf--bold">
+                   switch
+                  </b>
+                  statement and cases are used to compare that number. For example, if the number is 1 then
+                  <b class="graf--bold">
+                   case 1
+                  </b>
+                  will be executed, if number is 2 then
+                  <b class="graf--bold">
+                   case 2
+                  </b>
+                  will be executed and so on. But if the number is not equal to any of the case present then the
+                  <b class="graf--bold">
+                   default
+                  </b>
+                  block will be executed.
+                 </p>
+                 <p class="graf--p">
+                  This is a very convenient way of using conditional statements. But many programming languages like Python doesn’t use the
+                  <b class="graf--bold">
+                   switch-case.
+                  </b>
+                  They have some different and better way of using the conditional statements except
+                  <b class="graf--bold">
+                   switch.
+                  </b>
+                  In Kotlin we use
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  in place of
+                  <b class="graf--bold">
+                   switch
+                  </b>
+                  . So, let’s move on and try to find how we can replace
+                  <b class="graf--bold">
+                   switch
+                  </b>
+                  with
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  ?
+                 </p>
+                 <h4 class="graf--h3">
+                  when
+                 </h4>
+                 <p class="graf--p">
+                  So, if you are moving from Java to Kotlin, then you will find some changes in the syntax part also. In Java we use
+                  <b class="graf--bold">
+                   switch
+                  </b>
+                  but in Kotlin, that
+                  <b class="graf--bold">
+                   switch
+                  </b>
+                  gets converted to
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  .
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  is also used for conditional representation but it does the things in a very smarter and easier way. Whenever you are having a number of possibilities then you can use
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  in your code.
+                 </p>
+                 <p class="graf--p">
+                  For example, the above code that was written using
+                  <b class="graf--bold">
+                   switch
+                  </b>
+                  gets converted to something like below after using
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  :
+                 </p>
+                 <pre><code class="language-java graf graf--code">when(number) {
+    1 -&gt; println("One")
+    2 -&gt; println("Two")
+    3 -&gt; println("Three")
+    else -&gt; println("Number is not between 1 and 3")
+}</code></pre>
+                 <p class="graf--p">
+                  In the above code, like in
+                  <b class="graf--bold">
+                   switch,
+                  </b>
+                  the number is passed in
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  and then we compare that number with various options available. In our case, if the
+                  <b class="graf--bold">
+                   number == 1,
+                  </b>
+                  then “one” will be printed and so on. If more than one match is found then the match that occurs first will be considered only. If no match to the number is found then the
+                  <b class="graf--bold">
+                   else
+                  </b>
+                  part will be executed.
+                 </p>
+                 <p class="graf--p">
+                  Also, there is no need of that
+                  <b class="graf--bold">
+                   else
+                  </b>
+                  part if you are sure that your code will never code to the
+                  <b class="graf--bold">
+                   else
+                  </b>
+                  part in any situation. For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">val noElseChecking = true
+
+when(noElseChecking) {
+    true -&gt; println("The value is true")
+    false -&gt; println("The value is false")
+}</code></pre>
+                 <p class="graf--p">
+                  In the above example, the variable
+                  <b class="graf--bold">
+                   noElseChecking
+                  </b>
+                  is assigned true. After that, we are checking that variable in
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  block. The idea here is that either the value of the
+                  <b class="graf--bold">
+                   noElseChecking
+                  </b>
+                  variable will be
+                  <b class="graf--bold">
+                   true
+                  </b>
+                  or
+                  <b class="graf--bold">
+                   false
+                  </b>
+                  and there is no third case. So, if we handle these two case then there is no need of
+                  <b class="graf--bold">
+                   else
+                  </b>
+                  part in
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  because if we use
+                  <b class="graf--bold">
+                   else
+                  </b>
+                  then that code will be unreachable code.
+                 </p>
+                 <h4 class="graf--h3">
+                  More features of when
+                 </h4>
+                 <p class="graf--p">
+                  Till now, we have a basic idea of how
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  can be used to replace
+                  <b class="graf--bold">
+                   switch
+                  </b>
+                  in Kotlin. Let’s look upon some more features of when that makes it a good to have in any Kotlin code:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Two or more choices:
+                   </b>
+                   While using the
+                   <b class="graf--bold">
+                    switch
+                   </b>
+                   statement, we can check or compare with the value passed in switch in one case at a time, but in
+                   <b class="graf--bold">
+                    when
+                   </b>
+                   we can apply more than one choice. For example:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">when(number) {
+    1 -&gt; println("One")
+    2, 3 -&gt; println("Two or Three")
+    4 -&gt; println("Four")
+    else -&gt; println("Number is not between 1 and 4")
+}</code></pre>
+                 <p class="graf--p">
+                  In the above example, the second statement says that if the value of number will be 2 or 3 then the code will print “Two or Three”. Here we are having more than one choice.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Condition branch:
+                   </b>
+                   You can apply conditions in any branch of
+                   <b class="graf--bold">
+                    when
+                   </b>
+                   statement and the body of that statement will only be executed when the condition is satisfied. For example:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">when(number) {
+    1 -&gt; println("One") //statement 1
+    2 -&gt; println("Two") //statement 2
+    3 -&gt; println("Three") //statement 3
+    in 4..8 -&gt; println("Number between 4 and 8") //statement 4
+    !in 9..12 -&gt; println("Number not in between 9 and 12") //statement 5
+    else -&gt; println("Number is not between 1 and 8") //statement 6
+}</code></pre>
+                 <p class="graf--p">
+                  In the above example, if you pass
+                  <b class="graf--bold">
+                   number == 6
+                  </b>
+                  then the output will be “Number between 4 and 8”. But there is one doubt, as the number is 6 then statement 4 and 5 are true then why only statement 4 is executed? If you are reading this blog with full concentration then you know the reason behind this because it is discussed in the introduction to
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  section. The reason behind this is, if more than two statements are correct then the statement appeared first will be used and other true statements will be discarded.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    "when" without arguments:
+                   </b>
+                   You can use
+                   <b class="graf--bold">
+                    when
+                   </b>
+                   without any argument also i.e. simply write
+                   <b class="graf--bold">
+                    when
+                   </b>
+                   and in the block or body of the
+                   <b class="graf--bold">
+                    when
+                   </b>
+                   write some conditional statement. A
+                   <b class="graf--bold">
+                    when
+                   </b>
+                   without an argument is like applying some conditional statements. For example:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">when {
+    number &lt; 1 -&gt; print("Number is less than 1")
+    number &gt; 1 -&gt; print("Number is greater than 1")
+}</code></pre>
+                 <p class="graf--p">
+                  In the above example, there is no argument passed in
+                  <b class="graf--bold">
+                   when,
+                  </b>
+                  so, you can use conditional statement inside
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  by using the variables used in the code.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Any type passed in "when":
+                   </b>
+                   You can pass any type of variable in
+                   <b class="graf--bold">
+                    when
+                   </b>
+                   i.e. you can pass integer or string or character in
+                   <b class="graf--bold">
+                    when
+                   </b>
+                   at a time. This facility was not there in
+                   <b class="graf--bold">
+                    switch,
+                   </b>
+                   there if you are passing an integer value then your case must be an integer value otherwise you will get an error. But
+                   <b class="graf--bold">
+                    when
+                   </b>
+                   you can use any type as below:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">fun describe(obj: Any): String =
+    when (obj) {
+      1 -&gt; "One"
+      "Hello" -&gt; "Greeting"
+      is Long -&gt; "Long"
+      !is String -&gt; "Not a string"
+      else -&gt; "Unknown"
+    }</code></pre>
+                 <p class="graf--p">
+                  In the above example, the same object
+                  <b class="graf--bold">
+                   obj
+                  </b>
+                  is used to compare with the
+                  <b class="graf--bold">
+                   integer
+                  </b>
+                  value, then with the
+                  <b class="graf--bold">
+                   string
+                  </b>
+                  value then it is checked for
+                  <b class="graf--bold">
+                   long
+                  </b>
+                  and so on.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Smart casting:
+                   </b>
+                   You can perform smart casting i.e. automatic casting if you are using an
+                   <b class="graf--bold">
+                    is expression
+                   </b>
+                   in your
+                   <b class="graf--bold">
+                    when
+                   </b>
+                   block. For example:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">when (x) {
+    is Int -&gt; print("X is integer")
+    is String -&gt; print("X is string")
+}</code></pre>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how to use
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  in place of
+                  <b class="graf--bold">
+                   switch
+                  </b>
+                  in
+                  <b class="graf--bold">
+                   Kotlin
+                  </b>
+                  . We saw that, if we are having a number of possibilities for a particular variable then we can make use of
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  to handle all the possibilities. Also, we can use
+                  <b class="graf--bold">
+                   when
+                  </b>
+                  for multiple or more than one choices.
+                 </p>
+                 <p class="graf--p">
+                  That’s it for this blog! Keep Exploring!
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin —  apply vs with
+" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin —  apply vs with
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin - Data Class" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin - Data Class
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin- Destructuring Declarations" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin- Destructuring Declarations
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin — Extension Functions" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin — Extension Functions
+           </div>
+           <div class="meta">
+            30th May 2017
+           </div>
+           <div class="description">
+            As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android WebView — in kotlin" class="ui centered image" src="/images/android_webview_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android WebView — in kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android WebView
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android ViewPager in Kotlin" class="ui centered image" src="/images/android_viewpager_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android ViewPager in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android ViewPager
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

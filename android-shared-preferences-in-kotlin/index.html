@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Android SharedPreferences in Kotlin
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-shared-preferences-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Android SharedPreferences in Kotlin" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-shared-preferences-in-kotlin" property="og:url"/>
+  <meta content="/images/android_shared_preferences_mindorks_feature_image.png" property="og:image"/>
+  <meta content="Android SharedPreferences in Kotlin" property="og:description"/>
+  <meta content="Android SharedPreferences in Kotlin" property="twitter:title"/>
+  <meta content="Android SharedPreferences in Kotlin" name="twitter:description"/>
+  <meta content="/images/android_shared_preferences_mindorks_feature_image.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="Android SharedPreferences in Kotlin" name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:204,data:{id:204,title:"Android SharedPreferences in Kotlin",description:"Android SharedPreferences in Kotlin",text:'<h2 class="graf--h1">Android SharedPreferences in Kotlin</h2><p class="graf--p">Welcome, here we are going to understand what SharedPreferences is. In Android, there are many ways to store and play with the data. SharedPreferences is one of the ways where you can store some data in the key-value pair.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_shared_preferences_mindorks_feature_image.png class=\'graf-image\' alt=\'Android SharedPreferences in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">We are going to use our previously build MindOrks Intro application where we had developed an application in which four swipeable slides comes. </p><p class="graf--p">But, you have seen that those are the intro slides which only comes one time when you first time open your app, after that, you never see the slides. </p><p class="graf--p"><br/>How can we check this and tell our application that user had seen these slides once and now, never to open and directly go inside the app?</p><p class="graf--p">We need to use SharedPreferences when the first time user sees the intro slides we will save a true variable in it, and after that, whenever a user opens our application, we will check that shared pref variable is true or false for further actions.</p><p class="graf--p">Let’s start the development:Open MindOrks Intro project or get it from the GitHub. </p><p class="graf--p"><br/>Open the MainActivity which is our launcher activity which first executes when the app opens.</p><p class="graf--p">We need to create a shared pref instance, so call getSharedPreferences() method, this will point to the file where our variable gets stored.</p><pre><code class="language-java graf graf--code">private var PRIVATE_MODE = 0\nprivate val PREF_NAME = "mindorks-welcome"\nval sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)</code></pre><p class="graf--p">We need to pass two things:First, the key to the variable and Second, the mode, PRIVATE_MODE. Private mode will allow this variable to on accessed by this application.</p><p class="graf--p">Now, we will create the logic to check if the user had seen the slides or not.</p><pre><code class="language-java graf graf--code">if (sharedPref.getBoolean(PREF_NAME, false)) {\n    \n} else {\n    \n}</code></pre><p class="graf--p">Here, we use the SharedPreferences object to get a boolean variable of key PREF_NAME. I</p><p class="graf--p">f we didn’t create this variable till now, by default, this would pass false to us, as we had mentioned. So, inside if we need to open our HomeActivity. </p><p class="graf--p">We had created Home Activity to open if the slides had seen by the user. And in else, we will set the layout of the slides and initiate viewPager. </p><p class="graf--p">Also, we need to put true in the SharedPreferences variable PREF_NAME, to not allowing run slides in the next time.</p><pre><code class="language-java graf graf--code">if (sharedPref.getBoolean(PREF_NAME, false)) {\n    val homeIntent = Intent(this, HomeActivity::class.java)\n    startActivity(homeIntent)\n    finish()\n} else {\n    setContentView(R.layout.activity_main)\n    setViewPager()\n    val editor = sharedPref.edit()\n    editor.putBoolean(PREF_NAME, true)\n    editor.apply()\n}</code></pre><p class="graf--p">To write data in SharedPref, we use sharedPref edit instance. After writing the data, we need to call apply() method to affect the changes.</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    private var PRIVATE_MODE = 0\n    private val PREF_NAME = "mindorks-welcome"\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n\n        val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)\n        if (sharedPref.getBoolean(PREF_NAME, false)) {\n            val homeIntent = Intent(this, HomeActivity::class.java)\n            startActivity(homeIntent)\n            finish()\n        } else {\n            setContentView(R.layout.activity_main)\n            setViewPager()\n            val editor = sharedPref.edit()\n            editor.putBoolean(PREF_NAME, true)\n            editor.apply()\n        }\n    }\n\n    private fun setViewPager() {\n        val introViewPagerAdapter = IntroViewPagerAdapter(supportFragmentManager)\n        vpIntro.adapter = introViewPagerAdapter\n\n        val bg_color = resources.getIntArray(R.array.bg_color)\n\n        vpIntro.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {\n            override fun onPageScrollStateChanged(state: Int) {\n\n            }\n\n            override fun onPageSelected(position: Int) {\n\n            }\n\n            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {\n                vpIntro.setBackgroundColor(bg_color[position])\n            }\n        })\n    }\n}</code></pre><p class="graf--p">Let’s run this application; you will see the intro slides and the next time you open the app, you will directly go to the HomeActivity. </p><p class="graf--p">To view the intro slides, you need to reinstall the application as it will delete the shared pref data of our app. Try to explore more and share us with on our twitter or slack channel.</p><h4 class="graf--h3"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/android-preferences-settings-screen-in-kotlin">In the next chapter, we are going to develop the Settings screen, which we call a Preference Setting Screen.</a></h4>',author:14897,img_url:"/images/android_shared_preferences_mindorks_feature_image.png",blog_url:"android-shared-preferences-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.16603870689868927},{id:194,title:"Android WebView — in kotlin",description:"Android WebView",author:14897,img_url:"/images/android_webview_mindorks_feature_image.png",blog_url:"android-webview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:196,title:"Android ViewPager in Kotlin",description:"Android ViewPager",author:14897,img_url:"/images/android_viewpager_mindorks_feature_image.png",blog_url:"android-viewpager-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:197,title:"Android Material Tabs in Kotlin",description:"How to create Material Tabs in Android in kotlin?",author:14897,img_url:"/images/android_materialtabs_mindorks_feature_image.png",blog_url:"android-material-tabs-with-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:200,title:"Android ReyclerView in Kotlin",description:"Android RecyclerView",author:14897,img_url:"/images/android_recyclerview_mindorks_feature_image.png",blog_url:"android-recyclerview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:201,title:"Android Navigation Drawer in Kotlin",description:"Android Navigation Drawer in Kotlin",author:14897,img_url:"/images/android_navigationdrawer_mindorks_featuer_image.png",blog_url:"android-navigation-drawer-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            3rd January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h2 class="graf--h1">
+                  Android SharedPreferences in Kotlin
+                 </h2>
+                 <p class="graf--p">
+                  Welcome, here we are going to understand what SharedPreferences is. In Android, there are many ways to store and play with the data. SharedPreferences is one of the ways where you can store some data in the key-value pair.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android SharedPreferences in Kotlin" class="graf-image" src="/images/android_shared_preferences_mindorks_feature_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  We are going to use our previously build MindOrks Intro application where we had developed an application in which four swipeable slides comes.
+                 </p>
+                 <p class="graf--p">
+                  But, you have seen that those are the intro slides which only comes one time when you first time open your app, after that, you never see the slides.
+                 </p>
+                 <p class="graf--p">
+                  <br/>
+                  How can we check this and tell our application that user had seen these slides once and now, never to open and directly go inside the app?
+                 </p>
+                 <p class="graf--p">
+                  We need to use SharedPreferences when the first time user sees the intro slides we will save a true variable in it, and after that, whenever a user opens our application, we will check that shared pref variable is true or false for further actions.
+                 </p>
+                 <p class="graf--p">
+                  Let’s start the development:Open MindOrks Intro project or get it from the GitHub.
+                 </p>
+                 <p class="graf--p">
+                  <br/>
+                  Open the MainActivity which is our launcher activity which first executes when the app opens.
+                 </p>
+                 <p class="graf--p">
+                  We need to create a shared pref instance, so call getSharedPreferences() method, this will point to the file where our variable gets stored.
+                 </p>
+                 <pre><code class="language-java graf graf--code">private var PRIVATE_MODE = 0
+private val PREF_NAME = "mindorks-welcome"
+val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)</code></pre>
+                 <p class="graf--p">
+                  We need to pass two things:First, the key to the variable and Second, the mode, PRIVATE_MODE. Private mode will allow this variable to on accessed by this application.
+                 </p>
+                 <p class="graf--p">
+                  Now, we will create the logic to check if the user had seen the slides or not.
+                 </p>
+                 <pre><code class="language-java graf graf--code">if (sharedPref.getBoolean(PREF_NAME, false)) {
+    
+} else {
+    
+}</code></pre>
+                 <p class="graf--p">
+                  Here, we use the SharedPreferences object to get a boolean variable of key PREF_NAME. I
+                 </p>
+                 <p class="graf--p">
+                  f we didn’t create this variable till now, by default, this would pass false to us, as we had mentioned. So, inside if we need to open our HomeActivity.
+                 </p>
+                 <p class="graf--p">
+                  We had created Home Activity to open if the slides had seen by the user. And in else, we will set the layout of the slides and initiate viewPager.
+                 </p>
+                 <p class="graf--p">
+                  Also, we need to put true in the SharedPreferences variable PREF_NAME, to not allowing run slides in the next time.
+                 </p>
+                 <pre><code class="language-java graf graf--code">if (sharedPref.getBoolean(PREF_NAME, false)) {
+    val homeIntent = Intent(this, HomeActivity::class.java)
+    startActivity(homeIntent)
+    finish()
+} else {
+    setContentView(R.layout.activity_main)
+    setViewPager()
+    val editor = sharedPref.edit()
+    editor.putBoolean(PREF_NAME, true)
+    editor.apply()
+}</code></pre>
+                 <p class="graf--p">
+                  To write data in SharedPref, we use sharedPref edit instance. After writing the data, we need to call apply() method to affect the changes.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    private var PRIVATE_MODE = 0
+    private val PREF_NAME = "mindorks-welcome"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+        if (sharedPref.getBoolean(PREF_NAME, false)) {
+            val homeIntent = Intent(this, HomeActivity::class.java)
+            startActivity(homeIntent)
+            finish()
+        } else {
+            setContentView(R.layout.activity_main)
+            setViewPager()
+            val editor = sharedPref.edit()
+            editor.putBoolean(PREF_NAME, true)
+            editor.apply()
+        }
+    }
+
+    private fun setViewPager() {
+        val introViewPagerAdapter = IntroViewPagerAdapter(supportFragmentManager)
+        vpIntro.adapter = introViewPagerAdapter
+
+        val bg_color = resources.getIntArray(R.array.bg_color)
+
+        vpIntro.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                vpIntro.setBackgroundColor(bg_color[position])
+            }
+        })
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Let’s run this application; you will see the intro slides and the next time you open the app, you will directly go to the HomeActivity.
+                 </p>
+                 <p class="graf--p">
+                  To view the intro slides, you need to reinstall the application as it will delete the shared pref data of our app. Try to explore more and share us with on our twitter or slack channel.
+                 </p>
+                 <h4 class="graf--h3">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/android-preferences-settings-screen-in-kotlin" target="_blank">
+                   In the next chapter, we are going to develop the Settings screen, which we call a Preference Setting Screen.
+                  </a>
+                 </h4>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android WebView — in kotlin" class="ui centered image" src="/images/android_webview_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android WebView — in kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android WebView
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android ViewPager in Kotlin" class="ui centered image" src="/images/android_viewpager_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android ViewPager in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android ViewPager
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Material Tabs in Kotlin" class="ui centered image" src="/images/android_materialtabs_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Material Tabs in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            How to create Material Tabs in Android in kotlin?
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android ReyclerView in Kotlin" class="ui centered image" src="/images/android_recyclerview_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android ReyclerView in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android RecyclerView
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Navigation Drawer in Kotlin" class="ui centered image" src="/images/android_navigationdrawer_mindorks_featuer_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Navigation Drawer in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android Navigation Drawer in Kotlin
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

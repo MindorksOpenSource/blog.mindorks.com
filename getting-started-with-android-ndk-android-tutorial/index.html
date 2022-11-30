@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Getting started with Android NDK: Android Tutorial
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/getting-started-with-android-ndk-android-tutorial" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Getting started with Android NDK: Android Tutorial" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/getting-started-with-android-ndk-android-tutorial" property="og:url"/>
+  <meta content="/images/getting-started-with-android-ndk-android-tutorial-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way." property="og:description"/>
+  <meta content="Getting started with Android NDK: Android Tutorial" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way." name="twitter:description"/>
+  <meta content="/images/getting-started-with-android-ndk-android-tutorial-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:357,data:{id:357,title:"Getting started with Android NDK: Android Tutorial",description:"In this blog, we will learn how to use Android NDK. We will learn the use of native codes i.e. C and C++ in Android development. So, let's learn about Android development in a native way.",text:'<h1 class="graf--h1">Getting started with Android NDK: Android Tutorial</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/getting-started-with-android-ndk-android-tutorial-banner.png class=\'graf-image\' alt=\'Getting started with Android NDK: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">We all started our journey of programming language with C or C++. After that, some of you might move to Java or Python or something else that will help in some kind of development like Android development or Web development. Talking about Android specifically, we normally use Java or Kotlin for application development. Can we add some C or C++ code in our application? Yes, you can use the code in Android that you have developed during the learning phase of programming language i.e. while learning C or C++.</p><p class="graf--p">In this blog, we will learn how to use native language in Android application development. We will discuss the following topics in this blog:</p><ul><li>What is NDK and why to use it?</li><li>What is JNI?</li><li>Some prerequisite</li><li>&quot;Hello World!&quot; example with Android NDK</li><li>The &quot;Calculator App&quot; example with Android NDK</li><li>The disadvantage of using native language</li></ul><p class="graf--p">So, let&#x27;s get started.</p><h4 class="graf--h3">What is NDK and why to use it?</h4><p class="graf--p">NDK or Native Development Kit is a toolset that is provided by Android to use C or C++ code in our Android application. So, if you are using Android Studio version 2.2 or higher then you can use C or C++ in your Android application. </p><p class="graf--p">But for Android development, Java and Kotlin are the recommended languages. So, why to use native languages in Android? Let&#x27; find out the advantages of using native languages in Andoird:</p><ol><li><b class="graf--bold">Very Fast:</b> We all know that to convert a Java code into machine-level code, we need to go to JVM and then to JNI to perform the operations. Same is with Kotlin also because Kotlin also runs Java under the hood. While on the other hand, the NDK directly compiles the native code i.e. the C or C++ code into machine level language by generating a <b class="graf--bold"><i class="graf--italic">.so</i></b> file. So, you need not perform the intermediate steps that were required in the case of Java/Kotlin.</li><li><b class="graf--bold">Code Re-usability:</b> You can reuse the code written in C or C++ for different platform in your Android application. You can use the code that you wrote while learning C or C++ or the codes of other developers in your Android application.</li></ol><p class="graf--p">So, whenever you want to make some high-performance applications for great speed or want to use some preexisting code written in some native language then you can use C or C++. Due to the speed factor, most of the game developers use C or C++ for writing the code for their games. Also, it becomes an easier task for them to use their C or C++ code in the Android application.</p><p class="graf--p">What if you want to use both Java/Kotlin and native language in your application? This is the most used case. Is it possible to use Java code from C++ and vice-versa? How will the Java code communicate with the native code? The communication is done by JNI. What is this JNI? Let&#x27;s find out.</p><h4 class="graf--h3">What is JNI?</h4><p class="graf--p">JNI or Java Native Interface is the interface between your Java/Kotlin and the C/C++ code. It defines a way for the byte code that is generated by the Android to communicate with the native code. Java or Kotlin Code uses JNI to communicate with the C or C++ code.</p><p class="graf--p">Before getting started with our first &quot;Hello World!&quot; application with the Android NDK, let&#x27;s have a look at the Native primitive data types that we will be using in our code later.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/getting-started-with-android-ndk-android-tutorial-data-types-jni.jpg class=\'graf-image\' alt=\'Getting started with Android NDK: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">So, you can notice that all you need to do is just add &quot;<b class="graf--bold"><i class="graf--italic">j</i></b>&quot; before any data type. For example, <b class="graf--bold"><i class="graf--italic">int</i></b> is written as &quot;<b class="graf--bold"><i class="graf--italic">jint</i></b>&quot;, <b class="graf--bold"><i class="graf--italic">byte</i></b> is written as &quot;<b class="graf--bold"><i class="graf--italic">jbyte</i></b>&quot; and so one.</p><p class="graf--p">Some SDK tools need to be added in Android Studio to use NDK support. Let&#x27;s see what are those tools and how to download those tools?</p><h4 class="graf--h3">Prerequisite</h4><p class="graf--p">To use Android NDK support in your application, you  need to download the following three tools:</p><ol><li><b class="graf--bold">LLDB:</b> It is used by Android Studio to debug the native code present in your project.</li><li><b class="graf--bold">NDK:</b> Native Development Kit(NDK) is used to code in C and C++ i.e. native languages for Android.</li><li><b class="graf--bold">CMake:</b> It is an open-source system that manages the build process in an operating system and a compiler-independent manner.</li></ol><p class="graf--p">Let&#x27;s see how to download all the above mentioned in Android Studio.</p><p class="graf--p">Following is the screen that you see when you open Android Studio. Click on the Configure button that is present in the bottom right corner of the Welcome screen.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/getting-started-with-android-ndk-android-tutorial-android-welcome-screen.png class=\'graf-image\' alt=\'Getting started with Android NDK: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Now select SDK Manager from the list available to you.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/getting-started-with-android-ndk-android-tutorial-sdk-manager-button.jpg class=\'graf-image\' alt=\'Getting started with Android NDK: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Under the SDK Tools tab, select LLDB, NDK, and CMake. After selecting these three, click on OK and wait for the tools to download.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/getting-started-with-android-ndk-android-tutorial-download-llbd-ndk-cmake.jpg class=\'graf-image\' alt=\'Getting started with Android NDK: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Close the SDK Manager and get back to Welcome screen of Android Studio. </p><h4 class="graf--h3">&quot;Hello World!&quot; example with Android NDK</h4><p class="graf--p">So, we are done with the prerequisites of Android NDK. Now, let&#x27;s quickly move on to the classic &quot;Hello, World!&quot; example using Android NDK. Follow the below steps: </p><p class="graf--p"><b class="graf--bold">Step1:</b> Open the Welcome screen of the Android Studio and create a new project.</p><p class="graf--p"><b class="graf--bold">Step2:</b> Select the <b class="graf--bold">Native C++</b> template and click on Next. This will include all the files necessary for the use of native language in Android.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/getting-started-with-android-ndk-android-tutorial-native-cpp-template.jpg class=\'graf-image\' alt=\'Getting started with Android NDK: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><b class="graf--bold">Step3:</b> Enter the details of the project like Project Name, Package Name, and all other relevant information and click on Next.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/getting-started-with-android-ndk-android-tutorial-project-details.jpg class=\'graf-image\' alt=\'Getting started with Android NDK: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p"><b class="graf--bold">Step4:</b> You can choose the compiler that you want to use for compiling the C++ code. We are using the default settings. Click on Finish.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/getting-started-with-android-ndk-android-tutorial-cpp-compiler-options.jpg class=\'graf-image\' alt=\'Getting started with Android NDK: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Following is the project structure that you will get after using the C++ template.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/getting-started-with-android-ndk-android-tutorial-project-structure.jpg class=\'graf-image\' alt=\'Getting started with Android NDK: Android Tutorial\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here you can see that apart from the usual <b class="graf--bold"><i class="graf--italic">java</i></b> directory, we are having one more directory named <b class="graf--bold"><i class="graf--italic">cpp</i></b> that contains all the native files and <b class="graf--bold"><i class="graf--italic">CMakeLists.txt</i></b> file. By default, we are having one <b class="graf--bold"><i class="graf--italic">native-lib.cpp</i></b> file that contains the C++ code. Following is the code of the <b class="graf--bold"><i class="graf--italic">native-lib.cpp</i></b> file:</p><pre><code class="language-java graf graf--code">#include &lt;jni.h&gt;\n#include &lt;string&gt;\n\nextern "C" JNIEXPORT jstring JNICALL\nJava_com_mindorks_androidndkexample_MainActivity_stringFromJNI( JNIEnv *env, jobject /* this */) {\n    std::string hello = "Hello, World!";\n    return env-&gt;NewStringUTF(hello.c_str());\n}</code></pre><p class="graf--p">Following is the description of the above code: </p><ul><li>Above code is C++ code, so as like normal C++ file, we can include some libraries by using:</li></ul><pre><code class="language-java graf graf--code">#include &lt;library_name&gt;</code></pre><ul><li>Here, you have to follow the combination of <i class="graf--italic">PackageName_ActivityName_MethodName</i>.</li><li>In the above example, <b class="graf--bold"><i class="graf--italic">com_mindorks_androidndkexample</i></b> is the package name, <b class="graf--bold"><i class="graf--italic">MainActivity</i></b> is the activity/file name and <b class="graf--bold"><i class="graf--italic">stringFromJNI</i></b> is the method that returns a string from the native code and will be called from the Java/Kotlin code.</li><li>Finally, in the return statement, you can see that we are returning the <b class="graf--bold"><i class="graf--italic">hello</i></b> string from the function.</li></ul><p class="graf--p">Till now, we are done with the native part. Now, let&#x27;s find out how to call the native functions that we have created from our Kotlin code.</p><p class="graf--p">In your Kotlin code i.e. in the <b class="graf--bold"><i class="graf--italic">MainActivity.kt</i></b> file, you need to load the native code by calling the <b class="graf--bold"><i class="graf--italic">System.loadLibrary(&quot;native-lib&quot;)</i></b> method in the <b class="graf--bold"><i class="graf--italic">init</i></b> block.</p><pre><code class="language-java graf graf--code">// Used to load the \'native-lib\' library on application startup.\ninit {\n    System.loadLibrary("native-lib")\n}</code></pre><p class="graf--p">Now, you have to declare a Kotlin external function with the same name as used in the native-lib.cpp file</p><pre><code class="language-java graf graf--code">/**\n * A native method that is implemented by the \'native-lib\' native library,\n * which is packaged with this application.\n */\nexternal fun stringFromJNI(): String</code></pre><p class="graf--p">Finally, you can get the values from the function present in the native-lib.cpp file by calling:</p><pre><code class="language-java graf graf--code">// Example of a call to a native method\nsample_text.text = stringFromJNI()</code></pre><p class="graf--p">That&#x27;s it. All the above code is already present in your project. So, run your application by pressing shift+f10 and see the output.</p><h4 class="graf--h3">The &quot;Calculator App&quot; example with Android NDK</h4><p class="graf--p">We have seen the basic &quot;Hello, World!&quot; example by using the native language. Now, let&#x27;s build one calculator app that will take input from the user and will perform the following four actions(we will only cover the logical part):</p><ol><li>Add</li><li>Subtract</li><li>Multiply</li><li>Divide</li></ol><p class="graf--p">So, as in the &quot;Hello, World!&quot; example, we first declared a method in the <b class="graf--bold"><i class="graf--italic">native-lib.cpp</i></b> file. In the &quot;Calculator App&quot; also, we are going to define four different methods for performing the above four operations.</p><pre><code class="language-java graf graf--code">//Addition function\nextern "C" JNIEXPORT jint JNICALL\nJava_com_mindorks_androidndkexample_MainActivity_add( JNIEnv *env, jobject, jint x, jint y) {\n\n    //return an integer\n    return x + y;\n}\n\n//Subtraction function\nextern "C" JNIEXPORT jint JNICALL\nJava_com_mindorks_androidndkexample_MainActivity_sub( JNIEnv *env, jobject, jint x, jint y) {\n\n    //return an integer\n    return x - y;\n}\n\n//Multiplication function\nextern "C" JNIEXPORT jint JNICALL\nJava_com_mindorks_androidndkexample_MainActivity_multiply( JNIEnv *env, jobject, jint x, jint y) {\n\n    //return an integer\n    return x * y;\n}\n\n//Division function\nextern "C" JNIEXPORT jint JNICALL\nJava_com_mindorks_androidndkexample_MainActivity_divide( JNIEnv *env, jobject, jint x, jint y) {\n\n    //return an integer\n    return x / y;\n}</code></pre><p class="graf--p">Here, you can see that we have four functions named <b class="graf--bold"><i class="graf--italic">add</i></b>(for the addition of two numbers), <b class="graf--bold"><i class="graf--italic">sub</i></b>(for the subtraction of two numbers), <b class="graf--bold"><i class="graf--italic">multiply</i></b>(for the multiplication fo two numbers), and <b class="graf--bold"><i class="graf--italic">divide</i></b>(for the division of two numbers). The return type of each function is <b class="graf--bold"><i class="graf--italic">jint</i></b>. Also, each function is taking two integers as parameters and both are of type <b class="graf--bold"><i class="graf--italic">jint</i></b>.</p><p class="graf--p">Now, our next task is to load the native-lib file in our Kotlin file. So, we can do that by using the <b class="graf--bold"><i class="graf--italic">System.loadLibrary(&quot;native-lib&quot;)</i></b> method.</p><pre><code class="language-java graf graf--code">// Used to load the \'native-lib\' library on application startup.\ninit {\n    System.loadLibrary("native-lib")\n}</code></pre><p class="graf--p">Now, declare four Kotlin external methods with the same name as used in the <b class="graf--bold"><i class="graf--italic">native-lib</i></b> file.</p><pre><code class="language-java graf graf--code">external fun add(x: Int, y: Int): Int\nexternal fun sub(x: Int, y: Int): Int\nexternal fun multiply(x: Int, y: Int): Int\nexternal fun divide(x: Int, y: Int): Int</code></pre><p class="graf--p">That&#x27;s it, you are done with all the four functions. Now, you can use these functions according to your need in the Java/Kotlin file. That&#x27;s it.</p><h4 class="graf--h3">The disadvantage of using native language</h4><p class="graf--p">The disadvantage associated with using native language is that if you don&#x27;t use the APK Split or APK Bundle then using NDK alone will increase the APK size. What happens is that the NDK makes the <b class="graf--bold"><i class="graf--italic">.so</i></b> file i.e. the machine executable file based on the Architecture of Android. For example, if we are having mips, x86, armeabi, armeabi-v7a, armeabi-v8a, then the <b class="graf--bold"><i class="graf--italic">.so</i></b> file will be generated for all the five architectures. So, if the size of one <b class="graf--bold"><i class="graf--italic">.so</i></b> file is 5MB then the application size should be 5MB but in reality, it will be of 5*5 = 25MB.</p><p class="graf--p">But if you are using APK Split or APK Bundle, then you will make five different APK for different architecture and you will upload all the five APK on play store. Now, the Play Store must identify the device architecture and then give the desired APK to download.</p><h4 class="graf--h3">Closing note</h4><p class="graf--p">In this blog, we learned how to use native languages like C and C++ in our Android applications. Usually, when we are dealing with some cross-platform application or we need to build some high-performance application, then we use native languages in our application. Otherwise, it is advised to go with Java or Kotlin.</p><p class="graf--p">Hope you learned something new today.</p><p class="graf--p">Check our all the Android tutorial <b class="graf--bold"><a class="markup--anchor" target="_blank" href="https://mindorks.com/android-tutorial">here</a></b>.</p><p class="graf--p">Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our <span class=""><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/">blogging website</a></span>.</p><p class="graf--p"><b class="graf--bold"><span class=""><a class="markup--anchor" target="_blank" href="https://bootcamp.mindorks.com/">Apply Now: MindOrks Android Online Course and Learn Advanced Android</a></span></b></p><p class="graf--p">Happy Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/getting-started-with-android-ndk-android-tutorial-banner.png",blog_url:"getting-started-with-android-ndk-android-tutorial",likes:0,rank:0,category:1,published_at:"9th October 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:352,title:"Securing API Keys using Android NDK (Native Development Kit)",description:"In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.",author:17146,img_url:"/images/securing-api-keys-using-android-ndk-banner.png",blog_url:"securing-api-keys-using-android-ndk",likes:0,rank:0,category:1,published_at:"2nd October 2019",score:3.7445075511932373},{id:240,title:"Getting started with Motion Layout: Android Tutorials",description:"In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code. ",author:14897,img_url:"/images/motion-layout-banner.png",blog_url:"getting-started-with-motion-layout-android-tutorials",likes:0,rank:0,category:1,published_at:"17th May 2019",score:3.5944809913635254},{id:242,title:"Getting Started with ShareSheet in Android Q",description:"In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it .",author:14897,img_url:"/images/sharesheet.jpg",blog_url:"getting-started-with-sharesheet-in-android-q",likes:0,rank:0,category:1,published_at:"17th May 2019",score:3.5944809913635254},{id:248,title:"Getting Started with Firebase RemoteConfig in Android",description:"In this blog, we will learn about the firebase Remote Config feature in Android. By using Firebase Remote Config, we can bring some updates in the App like some text change in the app, without publishing any update of the app on the Play Store.",author:14897,img_url:"/images/getting-started-firebase-remote-config-banner-image.png",blog_url:"getting-started-with-firebase-remote-config-in-android",likes:0,rank:0,category:1,published_at:"22nd May 2019",score:3.5944809913635254},{id:428,title:"Getting started with Lottie Animation in Android",description:"In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie.",author:3003,img_url:"/images/getting-started-with-lottie-banner.png",blog_url:"getting-started-with-lottie-animation-in-android",likes:0,rank:0,category:1,published_at:"28th April 2020",score:3.5944809913635254},{id:230,title:"Getting Started With CameraX Jetpack Support Library",description:"In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.\n",author:14897,img_url:"/images/camerax-jetpack-support-library.png",blog_url:"getting-started-with-camerax",likes:0,rank:0,category:1,published_at:"11th May 2019",score:3.437007188796997}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            9th October 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Getting started with Android NDK: Android Tutorial
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Android NDK: Android Tutorial" class="graf-image" src="/images/getting-started-with-android-ndk-android-tutorial-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  We all started our journey of programming language with C or C++. After that, some of you might move to Java or Python or something else that will help in some kind of development like Android development or Web development. Talking about Android specifically, we normally use Java or Kotlin for application development. Can we add some C or C++ code in our application? Yes, you can use the code in Android that you have developed during the learning phase of programming language i.e. while learning C or C++.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will learn how to use native language in Android application development. We will discuss the following topics in this blog:
+                 </p>
+                 <ul>
+                  <li>
+                   What is NDK and why to use it?
+                  </li>
+                  <li>
+                   What is JNI?
+                  </li>
+                  <li>
+                   Some prerequisite
+                  </li>
+                  <li>
+                   "Hello World!" example with Android NDK
+                  </li>
+                  <li>
+                   The "Calculator App" example with Android NDK
+                  </li>
+                  <li>
+                   The disadvantage of using native language
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, let's get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  What is NDK and why to use it?
+                 </h4>
+                 <p class="graf--p">
+                  NDK or Native Development Kit is a toolset that is provided by Android to use C or C++ code in our Android application. So, if you are using Android Studio version 2.2 or higher then you can use C or C++ in your Android application.
+                 </p>
+                 <p class="graf--p">
+                  But for Android development, Java and Kotlin are the recommended languages. So, why to use native languages in Android? Let' find out the advantages of using native languages in Andoird:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    Very Fast:
+                   </b>
+                   We all know that to convert a Java code into machine-level code, we need to go to JVM and then to JNI to perform the operations. Same is with Kotlin also because Kotlin also runs Java under the hood. While on the other hand, the NDK directly compiles the native code i.e. the C or C++ code into machine level language by generating a
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     .so
+                    </i>
+                   </b>
+                   file. So, you need not perform the intermediate steps that were required in the case of Java/Kotlin.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Code Re-usability:
+                   </b>
+                   You can reuse the code written in C or C++ for different platform in your Android application. You can use the code that you wrote while learning C or C++ or the codes of other developers in your Android application.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  So, whenever you want to make some high-performance applications for great speed or want to use some preexisting code written in some native language then you can use C or C++. Due to the speed factor, most of the game developers use C or C++ for writing the code for their games. Also, it becomes an easier task for them to use their C or C++ code in the Android application.
+                 </p>
+                 <p class="graf--p">
+                  What if you want to use both Java/Kotlin and native language in your application? This is the most used case. Is it possible to use Java code from C++ and vice-versa? How will the Java code communicate with the native code? The communication is done by JNI. What is this JNI? Let's find out.
+                 </p>
+                 <h4 class="graf--h3">
+                  What is JNI?
+                 </h4>
+                 <p class="graf--p">
+                  JNI or Java Native Interface is the interface between your Java/Kotlin and the C/C++ code. It defines a way for the byte code that is generated by the Android to communicate with the native code. Java or Kotlin Code uses JNI to communicate with the C or C++ code.
+                 </p>
+                 <p class="graf--p">
+                  Before getting started with our first "Hello World!" application with the Android NDK, let's have a look at the Native primitive data types that we will be using in our code later.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Android NDK: Android Tutorial" class="graf-image" src="/images/getting-started-with-android-ndk-android-tutorial-data-types-jni.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  So, you can notice that all you need to do is just add "
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    j
+                   </i>
+                  </b>
+                  " before any data type. For example,
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    int
+                   </i>
+                  </b>
+                  is written as "
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    jint
+                   </i>
+                  </b>
+                  ",
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    byte
+                   </i>
+                  </b>
+                  is written as "
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    jbyte
+                   </i>
+                  </b>
+                  " and so one.
+                 </p>
+                 <p class="graf--p">
+                  Some SDK tools need to be added in Android Studio to use NDK support. Let's see what are those tools and how to download those tools?
+                 </p>
+                 <h4 class="graf--h3">
+                  Prerequisite
+                 </h4>
+                 <p class="graf--p">
+                  To use Android NDK support in your application, you  need to download the following three tools:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    LLDB:
+                   </b>
+                   It is used by Android Studio to debug the native code present in your project.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    NDK:
+                   </b>
+                   Native Development Kit(NDK) is used to code in C and C++ i.e. native languages for Android.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    CMake:
+                   </b>
+                   It is an open-source system that manages the build process in an operating system and a compiler-independent manner.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  Let's see how to download all the above mentioned in Android Studio.
+                 </p>
+                 <p class="graf--p">
+                  Following is the screen that you see when you open Android Studio. Click on the Configure button that is present in the bottom right corner of the Welcome screen.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Android NDK: Android Tutorial" class="graf-image" src="/images/getting-started-with-android-ndk-android-tutorial-android-welcome-screen.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Now select SDK Manager from the list available to you.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Android NDK: Android Tutorial" class="graf-image" src="/images/getting-started-with-android-ndk-android-tutorial-sdk-manager-button.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Under the SDK Tools tab, select LLDB, NDK, and CMake. After selecting these three, click on OK and wait for the tools to download.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Android NDK: Android Tutorial" class="graf-image" src="/images/getting-started-with-android-ndk-android-tutorial-download-llbd-ndk-cmake.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Close the SDK Manager and get back to Welcome screen of Android Studio.
+                 </p>
+                 <h4 class="graf--h3">
+                  "Hello World!" example with Android NDK
+                 </h4>
+                 <p class="graf--p">
+                  So, we are done with the prerequisites of Android NDK. Now, let's quickly move on to the classic "Hello, World!" example using Android NDK. Follow the below steps:
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step1:
+                  </b>
+                  Open the Welcome screen of the Android Studio and create a new project.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step2:
+                  </b>
+                  Select the
+                  <b class="graf--bold">
+                   Native C++
+                  </b>
+                  template and click on Next. This will include all the files necessary for the use of native language in Android.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Android NDK: Android Tutorial" class="graf-image" src="/images/getting-started-with-android-ndk-android-tutorial-native-cpp-template.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step3:
+                  </b>
+                  Enter the details of the project like Project Name, Package Name, and all other relevant information and click on Next.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Android NDK: Android Tutorial" class="graf-image" src="/images/getting-started-with-android-ndk-android-tutorial-project-details.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Step4:
+                  </b>
+                  You can choose the compiler that you want to use for compiling the C++ code. We are using the default settings. Click on Finish.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Android NDK: Android Tutorial" class="graf-image" src="/images/getting-started-with-android-ndk-android-tutorial-cpp-compiler-options.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Following is the project structure that you will get after using the C++ template.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Getting started with Android NDK: Android Tutorial" class="graf-image" src="/images/getting-started-with-android-ndk-android-tutorial-project-structure.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Here you can see that apart from the usual
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    java
+                   </i>
+                  </b>
+                  directory, we are having one more directory named
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    cpp
+                   </i>
+                  </b>
+                  that contains all the native files and
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    CMakeLists.txt
+                   </i>
+                  </b>
+                  file. By default, we are having one
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    native-lib.cpp
+                   </i>
+                  </b>
+                  file that contains the C++ code. Following is the code of the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    native-lib.cpp
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">#include &lt;jni.h&gt;
+#include &lt;string&gt;
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_mindorks_androidndkexample_MainActivity_stringFromJNI( JNIEnv *env, jobject /* this */) {
+    std::string hello = "Hello, World!";
+    return env-&gt;NewStringUTF(hello.c_str());
+}</code></pre>
+                 <p class="graf--p">
+                  Following is the description of the above code:
+                 </p>
+                 <ul>
+                  <li>
+                   Above code is C++ code, so as like normal C++ file, we can include some libraries by using:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">#include &lt;library_name&gt;</code></pre>
+                 <ul>
+                  <li>
+                   Here, you have to follow the combination of
+                   <i class="graf--italic">
+                    PackageName_ActivityName_MethodName
+                   </i>
+                   .
+                  </li>
+                  <li>
+                   In the above example,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     com_mindorks_androidndkexample
+                    </i>
+                   </b>
+                   is the package name,
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     MainActivity
+                    </i>
+                   </b>
+                   is the activity/file name and
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     stringFromJNI
+                    </i>
+                   </b>
+                   is the method that returns a string from the native code and will be called from the Java/Kotlin code.
+                  </li>
+                  <li>
+                   Finally, in the return statement, you can see that we are returning the
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     hello
+                    </i>
+                   </b>
+                   string from the function.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Till now, we are done with the native part. Now, let's find out how to call the native functions that we have created from our Kotlin code.
+                 </p>
+                 <p class="graf--p">
+                  In your Kotlin code i.e. in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MainActivity.kt
+                   </i>
+                  </b>
+                  file, you need to load the native code by calling the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    System.loadLibrary("native-lib")
+                   </i>
+                  </b>
+                  method in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    init
+                   </i>
+                  </b>
+                  block.
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Used to load the 'native-lib' library on application startup.
+init {
+    System.loadLibrary("native-lib")
+}</code></pre>
+                 <p class="graf--p">
+                  Now, you have to declare a Kotlin external function with the same name as used in the native-lib.cpp file
+                 </p>
+                 <pre><code class="language-java graf graf--code">/**
+ * A native method that is implemented by the 'native-lib' native library,
+ * which is packaged with this application.
+ */
+external fun stringFromJNI(): String</code></pre>
+                 <p class="graf--p">
+                  Finally, you can get the values from the function present in the native-lib.cpp file by calling:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Example of a call to a native method
+sample_text.text = stringFromJNI()</code></pre>
+                 <p class="graf--p">
+                  That's it. All the above code is already present in your project. So, run your application by pressing shift+f10 and see the output.
+                 </p>
+                 <h4 class="graf--h3">
+                  The "Calculator App" example with Android NDK
+                 </h4>
+                 <p class="graf--p">
+                  We have seen the basic "Hello, World!" example by using the native language. Now, let's build one calculator app that will take input from the user and will perform the following four actions(we will only cover the logical part):
+                 </p>
+                 <ol>
+                  <li>
+                   Add
+                  </li>
+                  <li>
+                   Subtract
+                  </li>
+                  <li>
+                   Multiply
+                  </li>
+                  <li>
+                   Divide
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  So, as in the "Hello, World!" example, we first declared a method in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    native-lib.cpp
+                   </i>
+                  </b>
+                  file. In the "Calculator App" also, we are going to define four different methods for performing the above four operations.
+                 </p>
+                 <pre><code class="language-java graf graf--code">//Addition function
+extern "C" JNIEXPORT jint JNICALL
+Java_com_mindorks_androidndkexample_MainActivity_add( JNIEnv *env, jobject, jint x, jint y) {
+
+    //return an integer
+    return x + y;
+}
+
+//Subtraction function
+extern "C" JNIEXPORT jint JNICALL
+Java_com_mindorks_androidndkexample_MainActivity_sub( JNIEnv *env, jobject, jint x, jint y) {
+
+    //return an integer
+    return x - y;
+}
+
+//Multiplication function
+extern "C" JNIEXPORT jint JNICALL
+Java_com_mindorks_androidndkexample_MainActivity_multiply( JNIEnv *env, jobject, jint x, jint y) {
+
+    //return an integer
+    return x * y;
+}
+
+//Division function
+extern "C" JNIEXPORT jint JNICALL
+Java_com_mindorks_androidndkexample_MainActivity_divide( JNIEnv *env, jobject, jint x, jint y) {
+
+    //return an integer
+    return x / y;
+}</code></pre>
+                 <p class="graf--p">
+                  Here, you can see that we have four functions named
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    add
+                   </i>
+                  </b>
+                  (for the addition of two numbers),
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    sub
+                   </i>
+                  </b>
+                  (for the subtraction of two numbers),
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    multiply
+                   </i>
+                  </b>
+                  (for the multiplication fo two numbers), and
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    divide
+                   </i>
+                  </b>
+                  (for the division of two numbers). The return type of each function is
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    jint
+                   </i>
+                  </b>
+                  . Also, each function is taking two integers as parameters and both are of type
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    jint
+                   </i>
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Now, our next task is to load the native-lib file in our Kotlin file. So, we can do that by using the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    System.loadLibrary("native-lib")
+                   </i>
+                  </b>
+                  method.
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Used to load the 'native-lib' library on application startup.
+init {
+    System.loadLibrary("native-lib")
+}</code></pre>
+                 <p class="graf--p">
+                  Now, declare four Kotlin external methods with the same name as used in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    native-lib
+                   </i>
+                  </b>
+                  file.
+                 </p>
+                 <pre><code class="language-java graf graf--code">external fun add(x: Int, y: Int): Int
+external fun sub(x: Int, y: Int): Int
+external fun multiply(x: Int, y: Int): Int
+external fun divide(x: Int, y: Int): Int</code></pre>
+                 <p class="graf--p">
+                  That's it, you are done with all the four functions. Now, you can use these functions according to your need in the Java/Kotlin file. That's it.
+                 </p>
+                 <h4 class="graf--h3">
+                  The disadvantage of using native language
+                 </h4>
+                 <p class="graf--p">
+                  The disadvantage associated with using native language is that if you don't use the APK Split or APK Bundle then using NDK alone will increase the APK size. What happens is that the NDK makes the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    .so
+                   </i>
+                  </b>
+                  file i.e. the machine executable file based on the Architecture of Android. For example, if we are having mips, x86, armeabi, armeabi-v7a, armeabi-v8a, then the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    .so
+                   </i>
+                  </b>
+                  file will be generated for all the five architectures. So, if the size of one
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    .so
+                   </i>
+                  </b>
+                  file is 5MB then the application size should be 5MB but in reality, it will be of 5*5 = 25MB.
+                 </p>
+                 <p class="graf--p">
+                  But if you are using APK Split or APK Bundle, then you will make five different APK for different architecture and you will upload all the five APK on play store. Now, the Play Store must identify the device architecture and then give the desired APK to download.
+                 </p>
+                 <h4 class="graf--h3">
+                  Closing note
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how to use native languages like C and C++ in our Android applications. Usually, when we are dealing with some cross-platform application or we need to build some high-performance application, then we use native languages in our application. Otherwise, it is advised to go with Java or Kotlin.
+                 </p>
+                 <p class="graf--p">
+                  Hope you learned something new today.
+                 </p>
+                 <p class="graf--p">
+                  Check our all the Android tutorial
+                  <b class="graf--bold">
+                   <a class="markup--anchor" href="https://mindorks.com/android-tutorial" target="_blank">
+                    here
+                   </a>
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Do share this blog with your fellow developers to spread the knowledge. You can read more blogs on Android on our
+                  <span class="">
+                   <a class="markup--anchor" href="https://blog.mindorks.com/" target="_blank">
+                    blogging website
+                   </a>
+                  </span>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <span class="">
+                    <a class="markup--anchor" href="https://bootcamp.mindorks.com/" target="_blank">
+                     Apply Now: MindOrks Android Online Course and Learn Advanced Android
+                    </a>
+                   </span>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Happy Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Securing API Keys using Android NDK (Native Development Kit)" class="ui centered image" src="/images/securing-api-keys-using-android-ndk-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Securing API Keys using Android NDK (Native Development Kit)
+           </div>
+           <div class="meta">
+            2nd October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Motion Layout: Android Tutorials" class="ui centered image" src="/images/motion-layout-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Motion Layout: Android Tutorials
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use MotionLayout in Android. MotionLayout is a subclass of ConstraintLayout for building animations. Here you will learn how to apply animation without writing any java or kotlin code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started with ShareSheet in Android Q" class="ui centered image" src="/images/sharesheet.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started with ShareSheet in Android Q
+           </div>
+           <div class="meta">
+            17th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand how to integrate the share sheet in our application and how it is different from DirectShare API which was launched in Android M. This blogs covers the detail and step by step explanation to integrate it .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started with Firebase RemoteConfig in Android" class="ui centered image" src="/images/getting-started-firebase-remote-config-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started with Firebase RemoteConfig in Android
+           </div>
+           <div class="meta">
+            22nd May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the firebase Remote Config feature in Android. By using Firebase Remote Config, we can bring some updates in the App like some text change in the app, without publishing any update of the app on the Play Store.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting started with Lottie Animation in Android" class="ui centered image" src="/images/getting-started-with-lottie-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting started with Lottie Animation in Android
+           </div>
+           <div class="meta">
+            28th April 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to understand how to get started with the Lottie Animation library in Android. We will learn and build an application using Lottie.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Getting Started With CameraX Jetpack Support Library" class="ui centered image" src="/images/camerax-jetpack-support-library.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Getting Started With CameraX Jetpack Support Library
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, you will learn how to use camera-x support library to build your next generation camera app.In this app we will be building a Camera app from scratch.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

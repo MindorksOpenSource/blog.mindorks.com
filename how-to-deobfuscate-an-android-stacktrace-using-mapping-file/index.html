@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   How to deobfuscate an Android stacktrace using mapping file ?
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/how-to-deobfuscate-an-android-stacktrace-using-mapping-file" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="How to deobfuscate an Android stacktrace using mapping file ?" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/how-to-deobfuscate-an-android-stacktrace-using-mapping-file" property="og:url"/>
+  <meta content="/images/how-to-deobfuscate-an-android-stack-trace-using-a-mapping-file-banner.jpg" property="og:image"/>
+  <meta content="In this blog, we are going to learn how to retrace your stacktrace using the mapping file with detailed steps." property="og:description"/>
+  <meta content="How to deobfuscate an Android stacktrace using mapping file ?" property="twitter:title"/>
+  <meta content="In this blog, we are going to learn how to retrace your stacktrace using the mapping file with detailed steps." name="twitter:description"/>
+  <meta content="/images/how-to-deobfuscate-an-android-stack-trace-using-a-mapping-file-banner.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to learn how to retrace your stacktrace using the mapping file with detailed steps." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:389,data:{id:389,title:"How to deobfuscate an Android stacktrace using mapping file ?",description:"In this blog, we are going to learn how to retrace your stacktrace using the mapping file with detailed steps.",text:'<h1 class="graf--h1">How to deobfuscate an Android stacktrace using a mapping file?</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/how-to-deobfuscate-an-android-stack-trace-using-a-mapping-file-banner.jpg class=\'graf-image\' alt=\'How to deobfuscate an Android stacktrace using mapping file ?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">This article covers some detailed steps about retracing stacktraces which we get from google play store crash reports, firebase crash reports or any crash report analytics tools.</p><p class="graf--p">Generally, the stack traces we do get can be of ANR(Application not responding) errors, Android services logs for eg broadcast receivers, Intent services, and many more. Tracing those error logs will become a big pain on the development side.</p><p class="graf--p">So we will start with the below steps for retracing it.</p><ul><li>Understand the stack trace error report.</li><li>Read the mapping file </li><li>Run the (<b class="graf--bold"><i class="graf--italic">proguardgui) </i></b>tool to retrace it.</li></ul><p class="graf--p"></p><p class="graf--p"><b class="graf--bold"><i class="graf--italic">Step 01</i></b>: - Read the below stack error report</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-stack-trace-error.png class=\'graf-image\' alt=\'How to deobfuscate an Android stacktrace using mapping file ?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">When you read these logs it becomes difficult to understand and to locate the exact error.</p><p class="graf--p"><b class="graf--bold"><i class="graf--italic">Step 02</i></b>:- Read the mapping file</p><p class="graf--p">Obtain the mapping file from the below location</p><p class="graf--p"><i class="graf--italic">&lt;<b class="graf--bold">projectname</b>&gt;app/build/outputs/mapping/FLAVOR/release/mapping.txt</i></p><p class="graf--p"><i class="graf--italic"><b class="graf--bold">Step 03</b>:-  </i>Run the pro-guard tool to retrace it</p><p class="graf--p">Find the below pro-guard() tool from the below location </p><p class="graf--p"><i class="graf--italic">&lt;<b class="graf--bold">your computer name</b>&gt;/AppData/Local/Android/SDK/tools/proguard/lib</i></p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/proguard-gui-tool.png class=\'graf-image\' alt=\'How to deobfuscate an Android stacktrace using mapping file ?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Double click that to get the below window</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/proguard-gui-window.png class=\'graf-image\' alt=\'How to deobfuscate an Android stacktrace using mapping file ?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Now click on the retrace option on the left menu side to get the below window.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/proguard-gui-retrace-window.png class=\'graf-image\' alt=\'How to deobfuscate an Android stacktrace using mapping file ?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">When you come to this window just browse your mapping.txt file from the above location mentioned in <b class="graf--bold"><i class="graf--italic">Step 01 and </i></b>also <b class="graf--bold">add your stack trace error logs</b> in the obfuscated stack trace window and finally click on the <b class="graf--bold">ReTrace</b> button to get the <b class="graf--bold">DeObfuscated error report.</b></p><p class="graf--p"><b class="graf--bold">All the above process is doing locally at your development side and this requires some efforts.</b></p><p class="graf--p">There is also another way of doing automatically using<b class="graf--bold"> Google play store console.</b></p><p class="graf--p"><a class="markup--anchor" target="_blank" href="https://support.google.com/googleplay/android-developer/answer/6295281?hl=en">Check this website of Google Play Store Console for detailed steps.</a></p><p class="graf--p">I think we have learned some unique ways to retrace the stack error report.</p><p class="graf--p">Thank you for your time to read my blog. You can reach me out at the below social network channels</p><p class="graf--p"><i class="graf--italic"><a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/sagar-s-rao-5b97343a/">LinkedIn</a> </i>and<i class="graf--italic"> <a class="markup--anchor" target="_blank" href="https://twitter.com/sagarsrao">Twitter</a></i></p>',author:1639,img_url:"/images/how-to-deobfuscate-an-android-stack-trace-using-a-mapping-file-banner.jpg",blog_url:"how-to-deobfuscate-an-android-stacktrace-using-mapping-file",likes:0,rank:0,category:1,published_at:"30th December 2019"},author:{id:1639,name:"Sagar s.rao",google_profile_pic:"https://lh3.googleusercontent.com/a-/AAuE7mB7qMw9J36I5rW1ReTdCiLovZppAI6P597trLImaw=s96-c?sz=300",fb_profile_pic:"https://scontent.xx.fbcdn.net/v/t1.0-1/p320x320/13600355_988716117850080_3882833354202526192_n.jpg?oh=366134f7fea75ea964e0ac1d5e2ff324&oe=5A2D97D3",profile_tagline:null,fb_profile_url:null,google_plus_profile_url:null,twitter_profile_url:null,github_profile_url:null,linkedin_profile_url:null},isFetching:!1,similarBlogs:[{id:332,title:"How to convert a Kotlin source file to a Java source file?",description:"In this blog, we will learn how to convert a Kotlin source file to a Java source file. We will do the file conversion by two methods. So, let's see how.",author:14897,img_url:"/images/how-to-convert-a-kotlin-source-file-to-a-java-source-file-banner.png",blog_url:"how-to-convert-a-kotlin-source-file-to-a-java-source-file",likes:0,rank:0,category:1,published_at:"21st September 2019",score:3.7596542835235596},{id:359,title:"Using MediaPlayer to play an Audio File in Android",description:"In this blog, we will learn how to use MediaPlayer to play an audio file in Android. We will learn about different states present in the MediaPlayer and will also implement it. So, feel the music.",author:17146,img_url:"/images/using-mediaplayer-to-play-an-audio-file-in-android-banner.png",blog_url:"using-mediaplayer-to-play-an-audio-file-in-android",likes:0,rank:0,category:1,published_at:"10th October 2019",score:2.2081031799316406},{id:411,title:"Using local.properties file to avoid API Keys check-in into Version Control System",description:"This blog describes how to use the local.properties file in the Android Gradle system to avoid local or user-specific information such as API keys to be checked into the Version Control System.",author:3003,img_url:"/images/using-localproperties-banner-image.png",blog_url:"using-local-properties-file-to-avoid-api-keys-check-in-into-version-control-system",likes:0,rank:0,category:1,published_at:"3rd April 2020",score:2.198925495147705},{id:278,title:"How to open a PDF file in Android programmatically?",description:"In this blog, we will learn how to open a PDF file i.e. Portable Document Format file in Android programmatically. Since PDF files are the most used document file format, so, using a PDF file in our application can be a good way of displaying some documents in our application. Let's find, how to open a PDF file in Android programmatically.",author:14897,img_url:"/images/how-to-open-a-pdf-file-in-android-programmatically-banner.png",blog_url:"how-to-open-a-pdf-file-in-android-programmatically",likes:0,rank:0,category:1,published_at:"17th June 2019",score:1.8890047073364258},{id:351,title:"Using Android Sensors: Android Tutorial",description:"In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.",author:14897,img_url:"/images/using-android-sensors-android-tutorial-banner.png",blog_url:"using-android-sensors-android-tutorial",likes:0,rank:0,category:1,published_at:"30th September 2019",score:.3374535143375397},{id:234,title:"Push Notifications in Android Using FCM",description:"In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.",author:14897,img_url:"/images/fcm.jpg",blog_url:"pushing-notifications-in-android-using-fcm",likes:0,rank:0,category:1,published_at:"15th May 2019",score:.3282759189605713}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Sagar s.rao" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AAuE7mB7qMw9J36I5rW1ReTdCiLovZppAI6P597trLImaw=s96-c?sz=300"/>
+          <div class="content">
+           Sagar s.rao
+           <div class="sub header" style="margin-top:5px">
+            30th December 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  How to deobfuscate an Android stacktrace using a mapping file?
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to deobfuscate an Android stacktrace using mapping file ?" class="graf-image" src="/images/how-to-deobfuscate-an-android-stack-trace-using-a-mapping-file-banner.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  This article covers some detailed steps about retracing stacktraces which we get from google play store crash reports, firebase crash reports or any crash report analytics tools.
+                 </p>
+                 <p class="graf--p">
+                  Generally, the stack traces we do get can be of ANR(Application not responding) errors, Android services logs for eg broadcast receivers, Intent services, and many more. Tracing those error logs will become a big pain on the development side.
+                 </p>
+                 <p class="graf--p">
+                  So we will start with the below steps for retracing it.
+                 </p>
+                 <ul>
+                  <li>
+                   Understand the stack trace error report.
+                  </li>
+                  <li>
+                   Read the mapping file
+                  </li>
+                  <li>
+                   Run the (
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     proguardgui)
+                    </i>
+                   </b>
+                   tool to retrace it.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Step 01
+                   </i>
+                  </b>
+                  : - Read the below stack error report
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to deobfuscate an Android stacktrace using mapping file ?" class="graf-image" src="/images/android-stack-trace-error.png"/>
+                 </div>
+                 <p class="graf--p">
+                  When you read these logs it becomes difficult to understand and to locate the exact error.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Step 02
+                   </i>
+                  </b>
+                  :- Read the mapping file
+                 </p>
+                 <p class="graf--p">
+                  Obtain the mapping file from the below location
+                 </p>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   &lt;
+                   <b class="graf--bold">
+                    projectname
+                   </b>
+                   &gt;app/build/outputs/mapping/FLAVOR/release/mapping.txt
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    Step 03
+                   </b>
+                   :-
+                  </i>
+                  Run the pro-guard tool to retrace it
+                 </p>
+                 <p class="graf--p">
+                  Find the below pro-guard() tool from the below location
+                 </p>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   &lt;
+                   <b class="graf--bold">
+                    your computer name
+                   </b>
+                   &gt;/AppData/Local/Android/SDK/tools/proguard/lib
+                  </i>
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to deobfuscate an Android stacktrace using mapping file ?" class="graf-image" src="/images/proguard-gui-tool.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Double click that to get the below window
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to deobfuscate an Android stacktrace using mapping file ?" class="graf-image" src="/images/proguard-gui-window.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Now click on the retrace option on the left menu side to get the below window.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to deobfuscate an Android stacktrace using mapping file ?" class="graf-image" src="/images/proguard-gui-retrace-window.png"/>
+                 </div>
+                 <p class="graf--p">
+                  When you come to this window just browse your mapping.txt file from the above location mentioned in
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Step 01 and
+                   </i>
+                  </b>
+                  also
+                  <b class="graf--bold">
+                   add your stack trace error logs
+                  </b>
+                  in the obfuscated stack trace window and finally click on the
+                  <b class="graf--bold">
+                   ReTrace
+                  </b>
+                  button to get the
+                  <b class="graf--bold">
+                   DeObfuscated error report.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   All the above process is doing locally at your development side and this requires some efforts.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  There is also another way of doing automatically using
+                  <b class="graf--bold">
+                   Google play store console.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <a class="markup--anchor" href="https://support.google.com/googleplay/android-developer/answer/6295281?hl=en" target="_blank">
+                   Check this website of Google Play Store Console for detailed steps.
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  I think we have learned some unique ways to retrace the stack error report.
+                 </p>
+                 <p class="graf--p">
+                  Thank you for your time to read my blog. You can reach me out at the below social network channels
+                 </p>
+                 <p class="graf--p">
+                  <i class="graf--italic">
+                   <a class="markup--anchor" href="https://www.linkedin.com/in/sagar-s-rao-5b97343a/" target="_blank">
+                    LinkedIn
+                   </a>
+                  </i>
+                  and
+                  <i class="graf--italic">
+                   <a class="markup--anchor" href="https://twitter.com/sagarsrao" target="_blank">
+                    Twitter
+                   </a>
+                  </i>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to convert a Kotlin source file to a Java source file?" class="ui centered image" src="/images/how-to-convert-a-kotlin-source-file-to-a-java-source-file-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to convert a Kotlin source file to a Java source file?
+           </div>
+           <div class="meta">
+            21st September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to convert a Kotlin source file to a Java source file. We will do the file conversion by two methods. So, let's see how.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using MediaPlayer to play an Audio File in Android" class="ui centered image" src="/images/using-mediaplayer-to-play-an-audio-file-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using MediaPlayer to play an Audio File in Android
+           </div>
+           <div class="meta">
+            10th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use MediaPlayer to play an audio file in Android. We will learn about different states present in the MediaPlayer and will also implement it. So, feel the music.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using local.properties file to avoid API Keys check-in into Version Control System" class="ui centered image" src="/images/using-localproperties-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using local.properties file to avoid API Keys check-in into Version Control System
+           </div>
+           <div class="meta">
+            3rd April 2020
+           </div>
+           <div class="description">
+            This blog describes how to use the local.properties file in the Android Gradle system to avoid local or user-specific information such as API keys to be checked into the Version Control System.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to open a PDF file in Android programmatically?" class="ui centered image" src="/images/how-to-open-a-pdf-file-in-android-programmatically-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to open a PDF file in Android programmatically?
+           </div>
+           <div class="meta">
+            17th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to open a PDF file i.e. Portable Document Format file in Android programmatically. Since PDF files are the most used document file format, so, using a PDF file in our application can be a good way of displaying some documents in our application. Let's find, how to open a PDF file in Android programmatically.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Android Sensors: Android Tutorial" class="ui centered image" src="/images/using-android-sensors-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Android Sensors: Android Tutorial
+           </div>
+           <div class="meta">
+            30th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Push Notifications in Android Using FCM" class="ui centered image" src="/images/fcm.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Push Notifications in Android Using FCM
+           </div>
+           <div class="meta">
+            15th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

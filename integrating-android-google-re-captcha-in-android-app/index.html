@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Integrating Android Google’s reCAPTCHA in Android App
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/integrating-android-google-re-captcha-in-android-app" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Integrating Android Google’s reCAPTCHA in Android App" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/integrating-android-google-re-captcha-in-android-app" property="og:url"/>
+  <meta content="/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot." property="og:description"/>
+  <meta content="Integrating Android Google’s reCAPTCHA in Android App" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot." name="twitter:description"/>
+  <meta content="/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:297,data:{id:297,title:"Integrating Android Google’s reCAPTCHA in Android App",description:"In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.",text:'<h1 class="graf--h1">Integrating Android Google’s reCAPTCHA in Android App</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png class=\'graf-image\' alt=\'Integrating Android Google’s reCAPTCHA in Android App\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">While submitting some form or any other kind of information on a website, you might have noticed some captcha that you have to fill before submitting the details. That captcha may be of the form of an image having some numbers written on it and you just have to enter those numbers in the EditText provided to you. Another captcha can be an image and you have to identify certain object present in that image(like a car, road, etc). </p><p class="graf--p">But have you ever thought of why these captchas are integrated or put on to websites? The reason is very simple. To verify the authenticity of a user, these captchas are used to find if a user is a human being or not. Nowadays, many smart bots can fill the information in a form and in order to avoid such type of cases, we use captcha in our website or app.</p><p class="graf--p">In this blog, we will learn how to implement CAPTCHA using Google’s reCAPTCHA in our Android Application. So, let’s get started.</p><h4 class="graf--h3">SafetyNet reCAPTCHA API</h4><p class="graf--p">SafetyNet provides a set of services and APIs that can be used to secure and protect your mobile application from security threats like fake users, device tampering, bad URLs, etc. One of the services includes the support of <b class="graf--bold">reCAPTCHA</b> that protects your user from malicious traffic.</p><p class="graf--p">Here is an introduction of reCAPTCHA present on the Android website:</p><blockquote class="graf--blockquote">reCAPTCHA is a free service that uses an advanced risk analysis engine to protect your app from spam and other abusive actions. If the service suspects that the user interacting with your app might be a bot instead of a human, it serves a CAPTCHA that a human must solve before your app can continue executing.</blockquote><p class="graf--p">But to use your <code class="graf--code-inline">minSdkVersion</code> should be 14 or higher.</p><h4 class="graf--h3">Working</h4><p class="graf--p">The working of Google’s reCAPTCHA includes certain network calls i.e. call from your Android application to the SafetyNet server, then from SafetyNet server to your Android application and finally from your Android application to your server. So, following are the steps involved in the working of Google’s reCAPTCHA in your Android application:</p><ol type="1"><li>Firstly, you have to get the <b class="graf--bold">Site Key</b> and <b class="graf--bold">Secret Key</b> from the <a class="markup--anchor" target="_blank" href="https://www.google.com/recaptcha/admin/create">reCAPTCHA website</a>. The Site Key will be used in your Android application and the Secret Key should be placed in your Server.</li><li>By using the Site Key, reCAPTCHA will be generated and the user has to complete the reCAPTCHA challenge if needed.</li><li>After the generation of reCAPTCHA, the application will communicate with the captcha server and will return the User Response Token using your Site Key.</li><li>Now your Android application will send the token to your server and the server will send the token to the reCAPTCHA server again but with the Secret Key. The reCAPTCHA server will send the success status to your server and the server in return send the success status to your Android application.</li></ol><p class="graf--p">The whole summary can be seen from the below image:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/integrating-android-google-recaptcha-in-android-app-flow.jpg class=\'graf-image\' alt=\'Integrating Android Google’s reCAPTCHA in Android App\' />\n\t\t\t\t\t\t\t\t</div ><h4 class="graf--h3">Generate the reCAPTCHA Site Key and Secret Key</h4><p class="graf--p">So, we have seen the flow of Google’s reCAPTCHA in Android application. Our next step is to integrate this reCAPTCHA in our app. So, firstly we need to generate a Site Key and a Secret Key from the reCAPTCHA website. Follow the below steps:</p><ol type="1"><li>Visit the <a class="markup--anchor" target="_blank" href="https://www.google.com/recaptcha/admin/create">reCAPTCHA website</a>.</li><li>Enter the label to identify your key. You can enter any name here.</li><li>After entering the label, select reCAPTCHA type that you want to add in your app. I will be using reCAPTCHA v2 and after that reCAPTCHA Android.</li><li>Enter the package name of your Android project.</li><li>Finally, select the <b class="graf--bold">Accept the reCAPTCHA</b> Terms and Conditions and Send alerts to owners.</li><li>Click on Submit</li></ol><p class="graf--p">Following is the screen of the reCAPTCHA website:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/integrating-android-google-recaptcha-in-android-app-key-generation.jpg class=\'graf-image\' alt=\'Integrating Android Google’s reCAPTCHA in Android App\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">After submitting the form, you will get one Site Key and one Secret Key. Copy the keys and store somewhere, we will use these keys in our app.</p><h4 class="graf--h3">Setting up an Android Project for reCAPTCHA</h4><p class="graf--p">Create a new project in Android studio. Here, I will be using the BasicActivity Template. </p><p class="graf--p">After, creating the Android project, our next step is to add the dependency of the reCAPTCHA in the <b class="graf--bold"><i class="graf--italic">build.gradle</i></b> file. So, add the below line in your project:</p><pre><code class="language-java graf graf--code">//dependency for the reCAPTCHA (safetynet)\nimplementation \'com.google.android.gms:play-services-safetynet:17.0.0\'\n//dependency for fast networking for networking\nimplementation \'com.amitshekhar.android:android-networking:1.0.2\'</code></pre><p class="graf--p">After adding dependencies, our next job is to add internet permission to our app. Add the below line in the <b class="graf--bold"><i class="graf--italic">AndroidManifest.xml</i></b> file under the manifest tag:</p><pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.INTERNET"/&gt;</code></pre><p class="graf--p">And to add the Fast Networking Library in your app, write the below code in your Application class,</p><pre><code class="language-java graf graf--code">AndroidNetworking.initialize(applicationContext);</code></pre><p class="graf--p">Once, we are done with the permission and dependencies part, our next step is to create the UI for the project. Here, we are having only one button that will call the reCAPTCHA event when clicked. So, the code for the <b class="graf--bold"><i class="graf--italic">activity_main.xml</i></b> file will be:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout\nxmlns:android="http://schemas.android.com/apk/res/android"\n        xmlns:app="http://schemas.android.com/apk/res-auto"\n        android:layout_width="match_parent"\n        android:layout_height="match_parent"&gt;\n\n    &lt;TextView\n            android:layout_width="wrap_content"\n            android:layout_height="wrap_content"\n            android:text="reCAPTCHA example"\n            app:layout_constraintBottom_toBottomOf="parent"\n            android:layout_marginTop="8dp"\n            app:layout_constraintTop_toTopOf="parent"\n            app:layout_constraintEnd_toEndOf="parent"\n            android:layout_marginEnd="8dp"\n            app:layout_constraintStart_toStartOf="parent"\n            android:layout_marginStart="8dp"\n            android:id="@+id/textView"\n            android:textSize="32sp"/&gt;\n\n    &lt;Button\n            android:id="@+id/button"\n            android:layout_width="wrap_content"\n            android:layout_height="wrap_content"\n            android:text="Click for CAPTCHA"\n            android:layout_marginTop="8dp"\n            app:layout_constraintTop_toBottomOf="@+id/textView"\n            app:layout_constraintEnd_toEndOf="parent"\n            android:layout_marginEnd="8dp"\n            app:layout_constraintStart_toStartOf="parent"\n            android:layout_marginStart="8dp"/&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p">Now, we have created the UI part of our application. Let’s write the code for the reCAPTCHA in our <code class="graf--code-inline">MainActivity.kt</code> file.</p><p class="graf--p">In the <code class="graf--code-inline">MainActivity.kt</code> file, we are calling the SafetyNet on the button click and after receiving the token from the reCAPTCHA server, we will send the token to our server by using the <code class="graf--code-inline">handleVerify()</code> function(to verify the captcha by sending it to the reCAPTCHA server by our server along with the secret key) and then sending back the success message to the mobile app. The code of the <code class="graf--code-inline">MainActivity.kt</code> file will be:</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity(), View.OnClickListener {\n\n    companion object {\n        const val TAG = "MainActivity"\n        const val SITE_KEY = "YOUR_SITE_KEY"\n    }\n\n    private lateinit var btnverifyCaptcha: Button\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        btnverifyCaptcha = findViewById(R.id.button)\n        btnverifyCaptcha.setOnClickListener(this)\n    }\n\n    override fun onClick(view: View) {\n        SafetyNet.getClient(this).verifyWithRecaptcha(SITE_KEY)\n            .addOnSuccessListener(this) { response -&gt;\n                if (!response.tokenResult.isEmpty()) {\n                    handleVerify(response.tokenResult)\n                }\n            }\n            .addOnFailureListener(this) { e -&gt;\n                if (e is ApiException) {\n                    Log.d(TAG,("Error message: " + CommonStatusCodes.getStatusCodeString(e.statusCode)))\n                } else {\n                    Log.d(TAG, "Unknown type of error: " + e.message)\n                }\n            }\n    }\n\n    protected fun handleVerify(responseToken: String) {\n        //it is google recaptcha siteverify server\n        //you can place your server url\n        val url = "https://www.google.com/recaptcha/api/siteverify"\n        AndroidNetworking.get(url)\n            .addHeaders("token", responseToken)\n            .setTag("MY_NETWORK_CALL")\n            .setPriority(Priority.LOW)\n            .build()\n            .getAsJSONArray(object : JSONArrayRequestListener() {\n                fun onResponse(response: JSONArray) {\n                    // do anything with response\n                }\n\n                fun onError(error: ANError) {\n                    // handle error\n                }\n            })\n    }\n}</code></pre><p class="graf--p">Finally, run your application and click the button saying “Click for CAPTCHA”.</p><h4 class="graf--h3">Common API error of the reCAPTCHA</h4><p class="graf--p">Here is the list of errors that might occur in reCAPTCHA:</p><ol type="1"><li><b class="graf--bold">RECAPTCHA_INVALID_SITEKEY:</b> If you have not registered the API key correctly. Your Site Key is invalid.</li><li><b class="graf--bold">RECAPTCHA_INVALID_KEYTYPE:</b> The Key type is invalid. Create new reCAPTCHA key.</li><li><b class="graf--bold">RECAPTCHA_INVALID_PACKAGENAME:</b> The package name that you have entered during API generation is not the same as that of calling app’s package. Add the correct Package name.</li><li><b class="graf--bold">NETWORK_ERROR:</b> If there is no internet connection then this error will be encountered.</li><li><b class="graf--bold">UNSUPPORTED_SDK_VERSION:</b> You might be using the API level 13 or lower. Change your MinSdkVersion to 14 or higher.</li></ol><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we learned how to use Google’s reCAPTCHA in our Android app. For using reCAPTCHA in our app, we need to get one Site key and one Secret key and after that, we request for the captcha from the reCAPTCHA server. Once we get the reCAPTCHA and the user has entered the captcha, we send the entered value to the reCPATCA server and get the captcha token. This token is sent to our server and our server along with secret key send the token to the reCAPTCHA server again. After that, we get some success message and that message is conveyed to our Android app.</p><p class="graf--p">Hope you enjoyed this blog.</p><p class="graf--p">Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:17146,img_url:"/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png",blog_url:"integrating-android-google-re-captcha-in-android-app",likes:0,rank:0,category:1,published_at:"18th July 2019"},author:{id:17146,name:"Sumit Mishra",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Software Development Engineer at MindOrks",fb_profile_url:"https://www.facebook.com/mishra3452",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hiii_sumit",github_profile_url:"https://github.com/mishra3452",linkedin_profile_url:"https://www.linkedin.com/in/sumit-mishra-a15499135/"},isFetching:!1,similarBlogs:[{id:353,title:"Integrating Expression Search in Android app",description:"In this blog, we will learn how to integrate expression search in Android application. We will learn how to use GIFs for better user communication in our application. We will cover every aspect of it.",author:14897,img_url:"/images/integrating-expression-search-in-android-app-banner.png",blog_url:"integrating-expression-search-in-android-app",likes:0,rank:0,category:1,published_at:"4th October 2019",score:4.386945724487305},{id:328,title:"Integrating Work Manager - Android Tutorial",description:"In this blog, we will talk about how to integrate the work manager in your android project and much more advanced feature and customization which makes your life easy in scheduling tasks.",author:9959,img_url:"/images/integrating-work-manager-in-android.png",blog_url:"integrating-work-manager-in-android",likes:0,rank:0,category:1,published_at:"16th September 2019",score:3.28686261177063},{id:252,title:"Implementing in-app updates on Android",description:"In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.",author:14897,img_url:"/images/in-app-updates-android-banner.png",blog_url:"implementing-in-app-updates-on-android",likes:0,rank:0,category:1,published_at:"25th May 2019",score:1.2575571537017822},{id:315,title:"How to build a Modular Android App Architecture?",description:"In this blog, we will learn how can we Build a Modular Android App Architecture. We will learn about dynamic-feature and dynamic delivery. We will also learn how can we use a library module to modularise the app's architecture",author:9959,img_url:"/images/banner-modular-arch.png",blog_url:"how-to-build-a-modular-android-app-architecture",likes:0,rank:0,category:1,published_at:"19th August 2019",score:1.2575571537017822},{id:327,title:"Improving Android app performance with Benchmarking",description:"In this blog, we will learn how to improve Android app performance with Benchmarking. Benchmarking is a way to measure the code that you have written for your app. For the process of benchmarking, we have one library called Jetpack Benchmark. So, we will lean each and everything related to benchmarking.",author:14897,img_url:"/images/improving-android-app-performance-with-benchmarking-banner.png",blog_url:"improving-android-app-performance-with-benchmarking",likes:0,rank:0,category:1,published_at:"13th September 2019",score:1.2575571537017822},{id:365,title:"Implement In-App Purchases in Android",description:"In this blog, we will talk about how to implement and setup you android app for in app purchase.",author:9959,img_url:"/images/banner-in-app-purchase.png",blog_url:"implement-in-app-purchases-in-android",likes:0,rank:0,category:1,published_at:"16th October 2019",score:1.2575571537017822}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Sumit Mishra" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GiHP4JrkmlLjuz_uG1g4E0MhTUClSNytqB8o-pxCA=s96-c?sz=300"/>
+          <div class="content">
+           Sumit Mishra
+           <div class="sub header" style="margin-top:5px">
+            18th July 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Integrating Android Google’s reCAPTCHA in Android App
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Integrating Android Google’s reCAPTCHA in Android App" class="graf-image" src="/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png"/>
+                 </div>
+                 <p class="graf--p">
+                  While submitting some form or any other kind of information on a website, you might have noticed some captcha that you have to fill before submitting the details. That captcha may be of the form of an image having some numbers written on it and you just have to enter those numbers in the EditText provided to you. Another captcha can be an image and you have to identify certain object present in that image(like a car, road, etc).
+                 </p>
+                 <p class="graf--p">
+                  But have you ever thought of why these captchas are integrated or put on to websites? The reason is very simple. To verify the authenticity of a user, these captchas are used to find if a user is a human being or not. Nowadays, many smart bots can fill the information in a form and in order to avoid such type of cases, we use captcha in our website or app.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will learn how to implement CAPTCHA using Google’s reCAPTCHA in our Android Application. So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  SafetyNet reCAPTCHA API
+                 </h4>
+                 <p class="graf--p">
+                  SafetyNet provides a set of services and APIs that can be used to secure and protect your mobile application from security threats like fake users, device tampering, bad URLs, etc. One of the services includes the support of
+                  <b class="graf--bold">
+                   reCAPTCHA
+                  </b>
+                  that protects your user from malicious traffic.
+                 </p>
+                 <p class="graf--p">
+                  Here is an introduction of reCAPTCHA present on the Android website:
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  reCAPTCHA is a free service that uses an advanced risk analysis engine to protect your app from spam and other abusive actions. If the service suspects that the user interacting with your app might be a bot instead of a human, it serves a CAPTCHA that a human must solve before your app can continue executing.
+                 </blockquote>
+                 <p class="graf--p">
+                  But to use your
+                  <code class="graf--code-inline">
+                   minSdkVersion
+                  </code>
+                  should be 14 or higher.
+                 </p>
+                 <h4 class="graf--h3">
+                  Working
+                 </h4>
+                 <p class="graf--p">
+                  The working of Google’s reCAPTCHA includes certain network calls i.e. call from your Android application to the SafetyNet server, then from SafetyNet server to your Android application and finally from your Android application to your server. So, following are the steps involved in the working of Google’s reCAPTCHA in your Android application:
+                 </p>
+                 <ol type="1">
+                  <li>
+                   Firstly, you have to get the
+                   <b class="graf--bold">
+                    Site Key
+                   </b>
+                   and
+                   <b class="graf--bold">
+                    Secret Key
+                   </b>
+                   from the
+                   <a class="markup--anchor" href="https://www.google.com/recaptcha/admin/create" target="_blank">
+                    reCAPTCHA website
+                   </a>
+                   . The Site Key will be used in your Android application and the Secret Key should be placed in your Server.
+                  </li>
+                  <li>
+                   By using the Site Key, reCAPTCHA will be generated and the user has to complete the reCAPTCHA challenge if needed.
+                  </li>
+                  <li>
+                   After the generation of reCAPTCHA, the application will communicate with the captcha server and will return the User Response Token using your Site Key.
+                  </li>
+                  <li>
+                   Now your Android application will send the token to your server and the server will send the token to the reCAPTCHA server again but with the Secret Key. The reCAPTCHA server will send the success status to your server and the server in return send the success status to your Android application.
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  The whole summary can be seen from the below image:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Integrating Android Google’s reCAPTCHA in Android App" class="graf-image" src="/images/integrating-android-google-recaptcha-in-android-app-flow.jpg"/>
+                 </div>
+                 <h4 class="graf--h3">
+                  Generate the reCAPTCHA Site Key and Secret Key
+                 </h4>
+                 <p class="graf--p">
+                  So, we have seen the flow of Google’s reCAPTCHA in Android application. Our next step is to integrate this reCAPTCHA in our app. So, firstly we need to generate a Site Key and a Secret Key from the reCAPTCHA website. Follow the below steps:
+                 </p>
+                 <ol type="1">
+                  <li>
+                   Visit the
+                   <a class="markup--anchor" href="https://www.google.com/recaptcha/admin/create" target="_blank">
+                    reCAPTCHA website
+                   </a>
+                   .
+                  </li>
+                  <li>
+                   Enter the label to identify your key. You can enter any name here.
+                  </li>
+                  <li>
+                   After entering the label, select reCAPTCHA type that you want to add in your app. I will be using reCAPTCHA v2 and after that reCAPTCHA Android.
+                  </li>
+                  <li>
+                   Enter the package name of your Android project.
+                  </li>
+                  <li>
+                   Finally, select the
+                   <b class="graf--bold">
+                    Accept the reCAPTCHA
+                   </b>
+                   Terms and Conditions and Send alerts to owners.
+                  </li>
+                  <li>
+                   Click on Submit
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  Following is the screen of the reCAPTCHA website:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Integrating Android Google’s reCAPTCHA in Android App" class="graf-image" src="/images/integrating-android-google-recaptcha-in-android-app-key-generation.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  After submitting the form, you will get one Site Key and one Secret Key. Copy the keys and store somewhere, we will use these keys in our app.
+                 </p>
+                 <h4 class="graf--h3">
+                  Setting up an Android Project for reCAPTCHA
+                 </h4>
+                 <p class="graf--p">
+                  Create a new project in Android studio. Here, I will be using the BasicActivity Template.
+                 </p>
+                 <p class="graf--p">
+                  After, creating the Android project, our next step is to add the dependency of the reCAPTCHA in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle
+                   </i>
+                  </b>
+                  file. So, add the below line in your project:
+                 </p>
+                 <pre><code class="language-java graf graf--code">//dependency for the reCAPTCHA (safetynet)
+implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
+//dependency for fast networking for networking
+implementation 'com.amitshekhar.android:android-networking:1.0.2'</code></pre>
+                 <p class="graf--p">
+                  After adding dependencies, our next job is to add internet permission to our app. Add the below line in the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    AndroidManifest.xml
+                   </i>
+                  </b>
+                  file under the manifest tag:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;uses-permission android:name="android.permission.INTERNET"/&gt;</code></pre>
+                 <p class="graf--p">
+                  And to add the Fast Networking Library in your app, write the below code in your Application class,
+                 </p>
+                 <pre><code class="language-java graf graf--code">AndroidNetworking.initialize(applicationContext);</code></pre>
+                 <p class="graf--p">
+                  Once, we are done with the permission and dependencies part, our next step is to create the UI for the project. Here, we are having only one button that will call the reCAPTCHA event when clicked. So, the code for the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    activity_main.xml
+                   </i>
+                  </b>
+                  file will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"&gt;
+
+    &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="reCAPTCHA example"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:id="@+id/textView"
+            android:textSize="32sp"/&gt;
+
+    &lt;Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click for CAPTCHA"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"/&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, we have created the UI part of our application. Let’s write the code for the reCAPTCHA in our
+                  <code class="graf--code-inline">
+                   MainActivity.kt
+                  </code>
+                  file.
+                 </p>
+                 <p class="graf--p">
+                  In the
+                  <code class="graf--code-inline">
+                   MainActivity.kt
+                  </code>
+                  file, we are calling the SafetyNet on the button click and after receiving the token from the reCAPTCHA server, we will send the token to our server by using the
+                  <code class="graf--code-inline">
+                   handleVerify()
+                  </code>
+                  function(to verify the captcha by sending it to the reCAPTCHA server by our server along with the secret key) and then sending back the success message to the mobile app. The code of the
+                  <code class="graf--code-inline">
+                   MainActivity.kt
+                  </code>
+                  file will be:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+    companion object {
+        const val TAG = "MainActivity"
+        const val SITE_KEY = "YOUR_SITE_KEY"
+    }
+
+    private lateinit var btnverifyCaptcha: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        btnverifyCaptcha = findViewById(R.id.button)
+        btnverifyCaptcha.setOnClickListener(this)
+    }
+
+    override fun onClick(view: View) {
+        SafetyNet.getClient(this).verifyWithRecaptcha(SITE_KEY)
+            .addOnSuccessListener(this) { response -&gt;
+                if (!response.tokenResult.isEmpty()) {
+                    handleVerify(response.tokenResult)
+                }
+            }
+            .addOnFailureListener(this) { e -&gt;
+                if (e is ApiException) {
+                    Log.d(TAG,("Error message: " + CommonStatusCodes.getStatusCodeString(e.statusCode)))
+                } else {
+                    Log.d(TAG, "Unknown type of error: " + e.message)
+                }
+            }
+    }
+
+    protected fun handleVerify(responseToken: String) {
+        //it is google recaptcha siteverify server
+        //you can place your server url
+        val url = "https://www.google.com/recaptcha/api/siteverify"
+        AndroidNetworking.get(url)
+            .addHeaders("token", responseToken)
+            .setTag("MY_NETWORK_CALL")
+            .setPriority(Priority.LOW)
+            .build()
+            .getAsJSONArray(object : JSONArrayRequestListener() {
+                fun onResponse(response: JSONArray) {
+                    // do anything with response
+                }
+
+                fun onError(error: ANError) {
+                    // handle error
+                }
+            })
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Finally, run your application and click the button saying “Click for CAPTCHA”.
+                 </p>
+                 <h4 class="graf--h3">
+                  Common API error of the reCAPTCHA
+                 </h4>
+                 <p class="graf--p">
+                  Here is the list of errors that might occur in reCAPTCHA:
+                 </p>
+                 <ol type="1">
+                  <li>
+                   <b class="graf--bold">
+                    RECAPTCHA_INVALID_SITEKEY:
+                   </b>
+                   If you have not registered the API key correctly. Your Site Key is invalid.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    RECAPTCHA_INVALID_KEYTYPE:
+                   </b>
+                   The Key type is invalid. Create new reCAPTCHA key.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    RECAPTCHA_INVALID_PACKAGENAME:
+                   </b>
+                   The package name that you have entered during API generation is not the same as that of calling app’s package. Add the correct Package name.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    NETWORK_ERROR:
+                   </b>
+                   If there is no internet connection then this error will be encountered.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    UNSUPPORTED_SDK_VERSION:
+                   </b>
+                   You might be using the API level 13 or lower. Change your MinSdkVersion to 14 or higher.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how to use Google’s reCAPTCHA in our Android app. For using reCAPTCHA in our app, we need to get one Site key and one Secret key and after that, we request for the captcha from the reCAPTCHA server. Once we get the reCAPTCHA and the user has entered the captcha, we send the entered value to the reCPATCA server and get the captcha token. This token is sent to our server and our server along with secret key send the token to the reCAPTCHA server again. After that, we get some success message and that message is conveyed to our Android app.
+                 </p>
+                 <p class="graf--p">
+                  Hope you enjoyed this blog.
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Expression Search in Android app" class="ui centered image" src="/images/integrating-expression-search-in-android-app-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Expression Search in Android app
+           </div>
+           <div class="meta">
+            4th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to integrate expression search in Android application. We will learn how to use GIFs for better user communication in our application. We will cover every aspect of it.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Work Manager - Android Tutorial" class="ui centered image" src="/images/integrating-work-manager-in-android.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Work Manager - Android Tutorial
+           </div>
+           <div class="meta">
+            16th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how to integrate the work manager in your android project and much more advanced feature and customization which makes your life easy in scheduling tasks.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing in-app updates on Android" class="ui centered image" src="/images/in-app-updates-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing in-app updates on Android
+           </div>
+           <div class="meta">
+            25th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the in-app update feature in your Android app. In-app update is a feature that is used to download the update of the app without using the play store. We will see how to use the flexible and immediate in-app update in our app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to build a Modular Android App Architecture?" class="ui centered image" src="/images/banner-modular-arch.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to build a Modular Android App Architecture?
+           </div>
+           <div class="meta">
+            19th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how can we Build a Modular Android App Architecture. We will learn about dynamic-feature and dynamic delivery. We will also learn how can we use a library module to modularise the app's architecture
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Improving Android app performance with Benchmarking" class="ui centered image" src="/images/improving-android-app-performance-with-benchmarking-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Improving Android app performance with Benchmarking
+           </div>
+           <div class="meta">
+            13th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to improve Android app performance with Benchmarking. Benchmarking is a way to measure the code that you have written for your app. For the process of benchmarking, we have one library called Jetpack Benchmark. So, we will lean each and everything related to benchmarking.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implement In-App Purchases in Android" class="ui centered image" src="/images/banner-in-app-purchase.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implement In-App Purchases in Android
+           </div>
+           <div class="meta">
+            16th October 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how to implement and setup you android app for in app purchase.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

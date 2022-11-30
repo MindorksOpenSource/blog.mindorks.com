@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Using Scoped Functions in Kotlin - let, run, with, also, apply
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/using-scoped-functions-in-kotlin-let-run-with-also-apply" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Using Scoped Functions in Kotlin - let, run, with, also, apply" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/using-scoped-functions-in-kotlin-let-run-with-also-apply" property="og:url"/>
+  <meta content="/images/using-scoped-functions-banner-image.png" property="og:image"/>
+  <meta content="In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply." property="og:description"/>
+  <meta content="Using Scoped Functions in Kotlin - let, run, with, also, apply" property="twitter:title"/>
+  <meta content="In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply." name="twitter:description"/>
+  <meta content="/images/using-scoped-functions-banner-image.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:407,data:{id:407,title:"Using Scoped Functions in Kotlin - let, run, with, also, apply",description:"In this blog, we will understand the different Scoped functions that are used in Kotlin, what are the differences between each one of them and where to use these scoped functions correctly. let, run, with, also, apply.",text:'<h1 class="graf--h1">Using Scoped Functions in Kotlin - let, run, with, also, apply</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-scoped-functions-banner-image.png class=\'graf-image\' alt=\'Using Scoped Functions in Kotlin - let, run, with, also, apply\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Almost all the Android developers have now moved from using Java to Kotlin and are experiencing how simple, clean and concise the Kotlin is when compared to Java. Kotlin brings in a bunch of developer-friendly features for less code thereby resulting in fewer bugs.</p><blockquote class="graf--blockquote"><i class="graf--italic">Less Code Means Less Bugs</i></blockquote><p class="graf--p">Among the bunch of developer-friendly features, Kotlin brings to us, “<b class="graf--bold">scope functions</b>” is one of the most important. If you have enough hands-on experience, you might be already using scope functions. But have you ever been confused like all of them seem the same? What is the importance of each scoped function? Are we using them correctly? How can we make the best use of it? Or, Are you completely new to this topic and want to understand these scoped functions? Well, let’s dive into the article.</p><p class="graf--p">Hello and Welcome to our <b class="graf--bold">MindOrks</b> write up on “Scope Functions in Kotlin”. We will be discussing the following topics in this article:</p><ul><li>What are scoped functions in Kotlin?</li><li>Differentiating scoped functions with examples</li><li>Summarising the Scoped functions</li></ul><h4 class="graf--h3"><b class="graf--bold">Scoped Functions in Kotlin</b></h4><blockquote class="graf--blockquote"><i class="graf--italic">By definition, Scoped functions are functions that execute a block of code within the context of an object.</i></blockquote><p class="graf--p">Well, what does this mean? These functions provide a way to give temporary scope to the object under consideration where specific operations can be applied to the object within the block of code, thereby, resulting in a clean and concise code. Not clear still right? Yeah. In Software Development, things are only better understood by implementing rather than reading. So, let’s go ahead and understand these scoped functions with some examples.</p><blockquote class="graf--blockquote"><i class="graf--italic">The context of the object can be referred to as “it” or “this” which we will be understanding through examples in this article.</i></blockquote><h4 class="graf--h3"><b class="graf--bold">Differentiating scoped functions with examples</b></h4><p class="graf--p">There are <b class="graf--bold">five</b> scoped functions in Kotlin: <i class="graf--italic"><b class="graf--bold">let</b>, <b class="graf--bold">run</b>, <b class="graf--bold">with</b>, <b class="graf--bold">also</b></i> and <b class="graf--bold"><i class="graf--italic">apply. </i></b>Let’s go through them one by one. </p><p class="graf--p">But before going through these examples, let’s consider a Model class “Person”</p><pre><code class="language-java graf graf--code">class Person() {\n    var name: String = "Abcd"\n    var contactNumber: String = "1234567890"\n    var address: String = "xyz"\n   fun displayInfo()  = print("\\n Name: $name\\n " +\n            "Contact Number: $contactNumber\\n " +\n            "Address: $address")\n    \n}</code></pre><h4 class="graf--h3"><b class="graf--bold">let</b></h4><p class="graf--p">Let’s consider the following function:</p><pre><code class="language-java graf graf--code">private fun performLetOperation() {\n    val person = Person().let {\n        return@let "The name of the Person is: ${it.name}"\n    }\n    print(person)\n}\noutput:\nThe name of the Person is: Abcd</code></pre><p class="graf--p">From the above code snippet, we can see that although “<b class="graf--bold">let</b>” operation is performed on a <b class="graf--bold">Person</b> object, the output of the code is a string value and not the <b class="graf--bold">Person</b> object. This implies that the “<b class="graf--bold">let”</b> operator provides an option to perform an operation on the current object and return any value based on the use case.</p><p class="graf--p"><b class="graf--bold">Note</b>: It is not necessary to write “return@let”. This is only done to enhance code readability. In Kotlin, if the last statement in a “<b class="graf--bold">let</b>” block is a non-assignment statement, it is by default a return statement. For example:</p><pre><code class="language-java graf graf--code">private fun performLetOperation() {\n    val person = Person().let {\n        "The name of the Person is: ${it.name}"\n    }\n    print(person)\n}\noutput:\nThe name of the Person is: Abcd</code></pre><p class="graf--p">The above code also behaves the same way since the last statement is a non-assignment statement. So what happens if we don’t return anything in the “<b class="graf--bold">let</b>” block? It is similar to calling a function that has no return value. So let’s say if we modify the function as:</p><pre><code class="language-java graf graf--code">private fun performLetOperation() {\n    val person = Person().let {\n        it.name = "NewName"\n    }\n    print(person)\n}\noutput:\nkotlin.Unit</code></pre><p class="graf--p">We can see that since there was no return value in the let block and hence printing the same would indicate that the “<b class="graf--bold">print</b>” functionality is called upon a unit function. </p><p class="graf--p">There are other advantages of using let:</p><ul><li>It refers to the context of the object by using the “it” keyword and hence, this “it” can be renamed to a readable lambda parameter.</li></ul><pre><code class="language-java graf graf--code">private fun performLetOperation() {\n    val person = Person().let { personDetails -&gt;\n        personDetails.name = "NewName"\n    }\n    print(person)\n}</code></pre><p class="graf--p">This can be very helpful if we have nested let blocks, and since all let blocks refer to the context of their respective objects as “it”, it might be difficult for the compiler which objects we are referring to:</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-scoped-functions-let-overlap-error.png class=\'graf-image\' alt=\'Using Scoped Functions in Kotlin - let, run, with, also, apply\' />\n\t\t\t\t\t\t\t\t</div ><ul><li>The second advantage is it easily helps in providing null checks. Let’s say we make the “<b class="graf--bold">name</b>” parameter of the “<b class="graf--bold">Person</b>” class nullable and we want to print the name of the person only if it is a not null value, then we can write a clean, simple and concise code as follows:</li></ul><pre><code class="language-java graf graf--code">var name: String? = "Abcd"\nprivate fun performLetOperation() {\n    val name = Person().name?.let {\n        "The name of the Person is: $it"\n    }\n    print(name)\n}</code></pre><p class="graf--p">We Know how lengthy the code would be to perform a null check in Java. Well, that’s the beauty of kotlin!</p><p class="graf--p">“<b class="graf--bold">let</b>” can also be used when we want to perform an operation on the result of a call chain. Let’s take the following example:</p><pre><code class="language-java graf graf--code">fun main() { \n    val numbers = mutableListOf("One","Two","Three","Four","Five")\n    val resultsList = numbers.map { it.length }.filter { it &gt; 3 }\n    print(resultsList)\n}</code></pre><p class="graf--p">So our aim is to fetch the values in the ArrayList whose length is greater than 3. Since we had to print the result we stored the result in a separate variable and then printed it. But using “<b class="graf--bold">let</b>” operator, we can modify the code as:</p><pre><code class="language-java graf graf--code">fun main() {\n    val numbers = mutableListOf("One","Two","Three","Four","Five")\n    numbers.map { it.length }.filter { it &gt; 3 }.let {\n        print(it)\n    }\n}</code></pre><p class="graf--p">This way we can perform an operation on the result of the call chain.</p><h4 class="graf--h3"><b class="graf--bold">run</b></h4><p class="graf--p">The “<b class="graf--bold">run</b>” operator is similar to the “<b class="graf--bold">let</b>” operator in terms of accepting a return value that is different from the object on which the scope function is being applied to. Hence, a “<b class="graf--bold">run</b>” operator can be used to initialize an object and return the result of it.</p><pre><code class="language-java graf graf--code">private fun performRunOperation() {\n    Person().run {\n        name = "Asdf"\n        contactNumber = "0987654321"\n        return@run "The details of the Person is: ${displayInfo()}"\n    }\n}\noutput:\n Name: Asdf\n Contact Number: 0987654321\n Address: xyz</code></pre><h4 class="graf--h3"><b class="graf--bold">run vs let</b></h4><p class="graf--p">So if <b class="graf--bold">run</b> is similar to <b class="graf--bold">let </b>in terms of accepting any return value, what’s the difference? The difference is run refers to the context of the object as “<b class="graf--bold">this</b>” and not “<b class="graf--bold">it</b>”. That is the reason we did not use “${this.name}” as it would be redundant here since the block of code understands that “<b class="graf--bold">name</b>” is used here concerning the <b class="graf--bold">Person</b> object.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-scoped-functions-run-redundant-this.png class=\'graf-image\' alt=\'Using Scoped Functions in Kotlin - let, run, with, also, apply\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">One point here is that since the context is referred to as “<b class="graf--bold">this</b>”, it cannot be renamed to a readable lambda parameter. So depending on the use case and requirement we have to choose between the let and the run operator. The “<b class="graf--bold">run</b>” operator also helps in easy null checks similar to the “<b class="graf--bold">let</b>” operator</p><pre><code class="language-java graf graf--code">var name: String? = "Abcd"\nprivate fun performRunOperation() {\n    val name = Person().name?.run {\n        "The name of the Person is: $this"\n    }\n    print(name)\n}\nOutput:\nThe name of the Person is: Abcd</code></pre><h4 class="graf--h3"><b class="graf--bold">with</b></h4><p class="graf--p">The “<b class="graf--bold">with</b>” operator is completely similar to the run operator that we just discussed. It also refers to the context of the object as “<b class="graf--bold">this</b>”, similar to how the “<b class="graf--bold">run</b>” operator uses it.</p><pre><code class="language-java graf graf--code">private fun performWithOperation() {\n    val person = with(Person()) {\n        return@with "The name of the Person is: ${this.name}"\n    }\n    print(person)\n}\nOutput:\nThe name of the Person is: Abcd</code></pre><h4 class="graf--h3"><b class="graf--bold">with vs run</b></h4><p class="graf--p">So, if “<b class="graf--bold">with”</b> is the same as “<b class="graf--bold">run</b>”, what’s the difference? How should we choose between these two? Now, this is an interesting case. Let’s consider a case where a Person object can be nullable.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-scoped-functions-with-nullable-value.png class=\'graf-image\' alt=\'Using Scoped Functions in Kotlin - let, run, with, also, apply\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">we can see that the context of the object referred to as “<b class="graf--bold">this</b>” is a nullable type of Person. And hence, to correct this, we need to change the code as:</p><pre><code class="language-java graf graf--code">private fun performWithOperation() {\n    val person: Person? = null\n    with(person) {\n        this?.name = "asdf"\n        this?.contactNumber = "1234"\n        this?.address = "wasd"\n        this?.displayInfo()\n    }\n}</code></pre><p class="graf--p">So performing a null check using a “<b class="graf--bold">with</b>” operator is difficult and this is where we can replace it with “<b class="graf--bold">run</b>” as follows:</p><pre><code class="language-java graf graf--code">private fun performRunOperation() {\n    val person: Person? = null\n    person?.run {\n        name = "asdf"\n        contactNumber = "1234"\n        address = "wasd"\n        displayInfo()\n    }\n}</code></pre><p class="graf--p">This looks a lot cleaner.</p><h4 class="graf--h3"><b class="graf--bold">apply</b></h4><p class="graf--p">The <i class="graf--italic">apply</i> function is similar to the <i class="graf--italic">run </i>functionality only in terms of referring to the context of the object as “<b class="graf--bold">this</b>” and not “<b class="graf--bold">it</b>” and also in providing null safety checks:</p><pre><code class="language-java graf graf--code">private fun performApplyOperation() {\n    val person: Person? = null\n    person?.apply {\n        name = "asdf"\n        contactNumber = "1234"\n        address = "wasd"\n        displayInfo()\n    }\n}</code></pre><h4 class="graf--h3">&quot;apply&quot; use-case in Android Development</h4><p class="graf--p">Specifically for Android Development, &quot;<b class="graf--bold">apply</b>&quot; can be useful in many cases. We have many scenarios where we should return an instance of Intent or an Alert Dialog etc., by adding specific attributes to them. Let&#x27;s take the example of an intent here:</p><pre><code class="language-java graf graf--code">// Normal approach\nfun createIntent(intentData: String, intentAction: String): Intent {\n    val intent = Intent()\n    intent.action = intentAction\n    intent.data = Uri.parse(intentData)\n    return intent\n}\n\n// Improved approach, by using apply\nfun createIntent(intentData: String, intentAction: String) =\n    Intent().apply {\n        action = intentAction\n        data = Uri.parse(intentData)\n    }</code></pre><p class="graf--p">The improved approach from the above code snippet helps in avoiding variable name redundancy thereby enhancing the code readability and the principle of clean code.</p><h4 class="graf--h3"><b class="graf--bold">apply vs run</b></h4><p class="graf--p">So let’s see the difference between <b class="graf--bold">apply</b> and <b class="graf--bold">run</b> functions.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-scoped-functions-apply-vs-run.png class=\'graf-image\' alt=\'Using Scoped Functions in Kotlin - let, run, with, also, apply\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">We can see that<b class="graf--bold"> run</b> accepts a return statement whereas<b class="graf--bold"> “</b>apply” does not accept a return statement(we can see the error thrown by the IDE in the image) and always returns the same object which it is referring to.</p><h4 class="graf--h3"><b class="graf--bold">also</b></h4><p class="graf--p">The “<b class="graf--bold"><i class="graf--italic">also”</i></b> function is similar to the <b class="graf--bold"><i class="graf--italic">let</i></b> functionality only in terms of referring to the context of the object as “<b class="graf--bold">it</b>” and not “<b class="graf--bold">this</b>” and also in providing null safety checks:</p><pre><code class="language-java graf graf--code">private fun performAlsoOperation() {\n    val name = Person().also { currentPerson -&gt;\n        print("Current name is: ${currentPerson.name}\\n")\n        currentPerson.name = "modifiedName"\n    }.run {\n        "Modified name is: $name\\n"\n    }\n    print(name)\n}\noutput:\nCurrent name is: Abcd\nModified name is: modifiedName</code></pre><p class="graf--p">Here we can see the usage of the readable lambda parameters, similar to what we have seen in the “<b class="graf--bold">let</b>” operator case. The advantage of using “<b class="graf--bold">also</b>” operator is that while doing a chain of operations, this operator helps in evaluating the current operating value if required. Let’s suppose we did not use the “<b class="graf--bold">also” </b>operator in the above case, we should have written the code as:</p><pre><code class="language-java graf graf--code">var name = Person().name\nprint("Current name is: $name\\n")\nname = "modifiedName"\nname = name.run {\n    "Modified name is: $name\\n"\n}\nprint(name)</code></pre><p class="graf--p">Although this gives the same output, the chain in which the operations are being held is broken and that would not make a good readable code and hence “<b class="graf--bold">also</b>” operator is very useful in this case. Hence, by using the also operator, the code can be modified as:</p><pre><code class="language-java graf graf--code">private fun performAlsoOperation() {\n    val name = Person().also {\n        print("Current name is: ${it.name}\\n")\n        it.name = "ModifiedName"\n    }.run {\n        "Modified name is: $name\\n"\n    }\n    print(name)\n}</code></pre><p class="graf--p">This way we can execute the intermediate result within the execution chain without breaking the chain, thereby leading to a better readable code.</p><h4><b class="graf--bold">“also” vs “let”</b></h4><p class="graf--p">So let’s see the difference between <b class="graf--bold">also</b> and <b class="graf--bold">let</b> functions.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-scoped-functions-also-vs-let.png class=\'graf-image\' alt=\'Using Scoped Functions in Kotlin - let, run, with, also, apply\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">We can see that<b class="graf--bold"> let</b> accepts a return statement whereas<b class="graf--bold"> “also</b>” does not accept a return statement(we can see the error thrown by the IDE in the image) and always returns the same object which it is referring to.</p><h4 class="graf--h3"><b class="graf--bold">Summary</b></h4> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-scoped-functions-summary.png class=\'graf-image\' alt=\'Using Scoped Functions in Kotlin - let, run, with, also, apply\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">We can also represent the summary of choosing between the scoped functions as a flowchart.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/using-scoped-functions-summary-treediagram.png class=\'graf-image\' alt=\'Using Scoped Functions in Kotlin - let, run, with, also, apply\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">That’s all about the Scoped functions in Kotlin. Although we might be using this in our code, we hope that our article has given you a clearer way of understanding and implementing the right scoped function in the right place.</p><p class="graf--p">Thank you so much for your time!</p><p class="graf--p">Team MindOrks.</p>',author:3003,img_url:"/images/using-scoped-functions-banner-image.png",blog_url:"using-scoped-functions-in-kotlin-let-run-with-also-apply",likes:0,rank:0,category:1,published_at:"16th March 2020"},author:{id:3003,name:"Dheeraj Sree",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GjgIa8i5nbsErNPLwYbB8IfsQ1U_M-Men0xdzE9PRQ=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Android Developer @DeloitteDigital",fb_profile_url:"https://www.facebook.com/sri.dheeraj",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/AndraDheeraj",github_profile_url:"https://github.com/asdheeraj",linkedin_profile_url:"https://www.linkedin.com/in/dheerajsree/"},isFetching:!1,similarBlogs:[{id:22,title:"Learn Kotlin —  apply vs with\n",description:"There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png",blog_url:"learn-kotlin-apply-vs-with",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:4.432740211486816},{id:373,title:"Understanding the Scoped Storage in Android",description:"In this blog, we will understand the concept of Scoped Storage in Android. It was introduced with Android 10 and it provides limited and the required storage access to the application. Let's learn more about it.",author:14897,img_url:"/images/understanding-the-scoped-storage-in-android-banner.png",blog_url:"understanding-the-scoped-storage-in-android",likes:0,rank:0,category:1,published_at:"1st November 2019",score:4.2850565910339355},{id:62,title:"Learn Kotlin — Extension Functions",description:"As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png",blog_url:"learn-kotlin-extension-functions",likes:1,rank:0,category:1,published_at:"30th May 2017",score:2.9435949325561523},{id:515,title:"Kotlin Collection Functions",description:"In this blog, we will learn how to efficiently use the Kotlin Collection Functions to make the journey of Android App Development smoother and faster.",author:14897,img_url:"/images/banner-kotlin-collection-functions-70f72a668ffed7fd.png",blog_url:"kotlin-collection-functions",likes:0,rank:0,category:1,published_at:"8th April 2021",score:2.9435949325561523},{id:457,title:"Extension Functions vs Static Utility Class",description:"In this blog, we are going to talk about the Extension function and util class in Kotlin. We will learn when to use which one and what are the advantages of using them.",author:9959,img_url:"/images/extension-class-banner-17410a644c29d178.png",blog_url:"extension-functions-vs-static-utility-class",likes:0,rank:0,category:1,published_at:"22nd May 2020",score:2.7959113121032715},{id:309,title:"Code Formatting in Kotlin using ktlint",description:"In this blog, we will learn how to format your Kotlin code using ktlint in our project. ktlint is a tool that is used to check if our Kotlin code is according to the Kotlin code standards or not. If not, then it will format the code for you. So, let's learn how to do that.",author:14897,img_url:"/images/code-formatting-in-kotlin-using-ktlint-banner.png",blog_url:"code-formatting-in-kotlin-using-ktlint",likes:0,rank:0,category:1,published_at:"12th August 2019",score:.4667818546295166}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Dheeraj Sree" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GjgIa8i5nbsErNPLwYbB8IfsQ1U_M-Men0xdzE9PRQ=s96-c?sz=300"/>
+          <div class="content">
+           Dheeraj Sree
+           <div class="sub header" style="margin-top:5px">
+            16th March 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Using Scoped Functions in Kotlin - let, run, with, also, apply
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="graf-image" src="/images/using-scoped-functions-banner-image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Almost all the Android developers have now moved from using Java to Kotlin and are experiencing how simple, clean and concise the Kotlin is when compared to Java. Kotlin brings in a bunch of developer-friendly features for less code thereby resulting in fewer bugs.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   Less Code Means Less Bugs
+                  </i>
+                 </blockquote>
+                 <p class="graf--p">
+                  Among the bunch of developer-friendly features, Kotlin brings to us, “
+                  <b class="graf--bold">
+                   scope functions
+                  </b>
+                  ” is one of the most important. If you have enough hands-on experience, you might be already using scope functions. But have you ever been confused like all of them seem the same? What is the importance of each scoped function? Are we using them correctly? How can we make the best use of it? Or, Are you completely new to this topic and want to understand these scoped functions? Well, let’s dive into the article.
+                 </p>
+                 <p class="graf--p">
+                  Hello and Welcome to our
+                  <b class="graf--bold">
+                   MindOrks
+                  </b>
+                  write up on “Scope Functions in Kotlin”. We will be discussing the following topics in this article:
+                 </p>
+                 <ul>
+                  <li>
+                   What are scoped functions in Kotlin?
+                  </li>
+                  <li>
+                   Differentiating scoped functions with examples
+                  </li>
+                  <li>
+                   Summarising the Scoped functions
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Scoped Functions in Kotlin
+                  </b>
+                 </h4>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   By definition, Scoped functions are functions that execute a block of code within the context of an object.
+                  </i>
+                 </blockquote>
+                 <p class="graf--p">
+                  Well, what does this mean? These functions provide a way to give temporary scope to the object under consideration where specific operations can be applied to the object within the block of code, thereby, resulting in a clean and concise code. Not clear still right? Yeah. In Software Development, things are only better understood by implementing rather than reading. So, let’s go ahead and understand these scoped functions with some examples.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <i class="graf--italic">
+                   The context of the object can be referred to as “it” or “this” which we will be understanding through examples in this article.
+                  </i>
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Differentiating scoped functions with examples
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  There are
+                  <b class="graf--bold">
+                   five
+                  </b>
+                  scoped functions in Kotlin:
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    let
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    run
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    with
+                   </b>
+                   ,
+                   <b class="graf--bold">
+                    also
+                   </b>
+                  </i>
+                  and
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    apply.
+                   </i>
+                  </b>
+                  Let’s go through them one by one.
+                 </p>
+                 <p class="graf--p">
+                  But before going through these examples, let’s consider a Model class “Person”
+                 </p>
+                 <pre><code class="language-java graf graf--code">class Person() {
+    var name: String = "Abcd"
+    var contactNumber: String = "1234567890"
+    var address: String = "xyz"
+   fun displayInfo()  = print("\n Name: $name\n " +
+            "Contact Number: $contactNumber\n " +
+            "Address: $address")
+    
+}</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   let
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Let’s consider the following function:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun performLetOperation() {
+    val person = Person().let {
+        return@let "The name of the Person is: ${it.name}"
+    }
+    print(person)
+}
+output:
+The name of the Person is: Abcd</code></pre>
+                 <p class="graf--p">
+                  From the above code snippet, we can see that although “
+                  <b class="graf--bold">
+                   let
+                  </b>
+                  ” operation is performed on a
+                  <b class="graf--bold">
+                   Person
+                  </b>
+                  object, the output of the code is a string value and not the
+                  <b class="graf--bold">
+                   Person
+                  </b>
+                  object. This implies that the “
+                  <b class="graf--bold">
+                   let”
+                  </b>
+                  operator provides an option to perform an operation on the current object and return any value based on the use case.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Note
+                  </b>
+                  : It is not necessary to write “return@let”. This is only done to enhance code readability. In Kotlin, if the last statement in a “
+                  <b class="graf--bold">
+                   let
+                  </b>
+                  ” block is a non-assignment statement, it is by default a return statement. For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun performLetOperation() {
+    val person = Person().let {
+        "The name of the Person is: ${it.name}"
+    }
+    print(person)
+}
+output:
+The name of the Person is: Abcd</code></pre>
+                 <p class="graf--p">
+                  The above code also behaves the same way since the last statement is a non-assignment statement. So what happens if we don’t return anything in the “
+                  <b class="graf--bold">
+                   let
+                  </b>
+                  ” block? It is similar to calling a function that has no return value. So let’s say if we modify the function as:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun performLetOperation() {
+    val person = Person().let {
+        it.name = "NewName"
+    }
+    print(person)
+}
+output:
+kotlin.Unit</code></pre>
+                 <p class="graf--p">
+                  We can see that since there was no return value in the let block and hence printing the same would indicate that the “
+                  <b class="graf--bold">
+                   print
+                  </b>
+                  ” functionality is called upon a unit function.
+                 </p>
+                 <p class="graf--p">
+                  There are other advantages of using let:
+                 </p>
+                 <ul>
+                  <li>
+                   It refers to the context of the object by using the “it” keyword and hence, this “it” can be renamed to a readable lambda parameter.
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">private fun performLetOperation() {
+    val person = Person().let { personDetails -&gt;
+        personDetails.name = "NewName"
+    }
+    print(person)
+}</code></pre>
+                 <p class="graf--p">
+                  This can be very helpful if we have nested let blocks, and since all let blocks refer to the context of their respective objects as “it”, it might be difficult for the compiler which objects we are referring to:
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="graf-image" src="/images/using-scoped-functions-let-overlap-error.png"/>
+                 </div>
+                 <ul>
+                  <li>
+                   The second advantage is it easily helps in providing null checks. Let’s say we make the “
+                   <b class="graf--bold">
+                    name
+                   </b>
+                   ” parameter of the “
+                   <b class="graf--bold">
+                    Person
+                   </b>
+                   ” class nullable and we want to print the name of the person only if it is a not null value, then we can write a clean, simple and concise code as follows:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">var name: String? = "Abcd"
+private fun performLetOperation() {
+    val name = Person().name?.let {
+        "The name of the Person is: $it"
+    }
+    print(name)
+}</code></pre>
+                 <p class="graf--p">
+                  We Know how lengthy the code would be to perform a null check in Java. Well, that’s the beauty of kotlin!
+                 </p>
+                 <p class="graf--p">
+                  “
+                  <b class="graf--bold">
+                   let
+                  </b>
+                  ” can also be used when we want to perform an operation on the result of a call chain. Let’s take the following example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun main() { 
+    val numbers = mutableListOf("One","Two","Three","Four","Five")
+    val resultsList = numbers.map { it.length }.filter { it &gt; 3 }
+    print(resultsList)
+}</code></pre>
+                 <p class="graf--p">
+                  So our aim is to fetch the values in the ArrayList whose length is greater than 3. Since we had to print the result we stored the result in a separate variable and then printed it. But using “
+                  <b class="graf--bold">
+                   let
+                  </b>
+                  ” operator, we can modify the code as:
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun main() {
+    val numbers = mutableListOf("One","Two","Three","Four","Five")
+    numbers.map { it.length }.filter { it &gt; 3 }.let {
+        print(it)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  This way we can perform an operation on the result of the call chain.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   run
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  The “
+                  <b class="graf--bold">
+                   run
+                  </b>
+                  ” operator is similar to the “
+                  <b class="graf--bold">
+                   let
+                  </b>
+                  ” operator in terms of accepting a return value that is different from the object on which the scope function is being applied to. Hence, a “
+                  <b class="graf--bold">
+                   run
+                  </b>
+                  ” operator can be used to initialize an object and return the result of it.
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun performRunOperation() {
+    Person().run {
+        name = "Asdf"
+        contactNumber = "0987654321"
+        return@run "The details of the Person is: ${displayInfo()}"
+    }
+}
+output:
+ Name: Asdf
+ Contact Number: 0987654321
+ Address: xyz</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   run vs let
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  So if
+                  <b class="graf--bold">
+                   run
+                  </b>
+                  is similar to
+                  <b class="graf--bold">
+                   let
+                  </b>
+                  in terms of accepting any return value, what’s the difference? The difference is run refers to the context of the object as “
+                  <b class="graf--bold">
+                   this
+                  </b>
+                  ” and not “
+                  <b class="graf--bold">
+                   it
+                  </b>
+                  ”. That is the reason we did not use “${this.name}” as it would be redundant here since the block of code understands that “
+                  <b class="graf--bold">
+                   name
+                  </b>
+                  ” is used here concerning the
+                  <b class="graf--bold">
+                   Person
+                  </b>
+                  object.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="graf-image" src="/images/using-scoped-functions-run-redundant-this.png"/>
+                 </div>
+                 <p class="graf--p">
+                  One point here is that since the context is referred to as “
+                  <b class="graf--bold">
+                   this
+                  </b>
+                  ”, it cannot be renamed to a readable lambda parameter. So depending on the use case and requirement we have to choose between the let and the run operator. The “
+                  <b class="graf--bold">
+                   run
+                  </b>
+                  ” operator also helps in easy null checks similar to the “
+                  <b class="graf--bold">
+                   let
+                  </b>
+                  ” operator
+                 </p>
+                 <pre><code class="language-java graf graf--code">var name: String? = "Abcd"
+private fun performRunOperation() {
+    val name = Person().name?.run {
+        "The name of the Person is: $this"
+    }
+    print(name)
+}
+Output:
+The name of the Person is: Abcd</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   with
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  The “
+                  <b class="graf--bold">
+                   with
+                  </b>
+                  ” operator is completely similar to the run operator that we just discussed. It also refers to the context of the object as “
+                  <b class="graf--bold">
+                   this
+                  </b>
+                  ”, similar to how the “
+                  <b class="graf--bold">
+                   run
+                  </b>
+                  ” operator uses it.
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun performWithOperation() {
+    val person = with(Person()) {
+        return@with "The name of the Person is: ${this.name}"
+    }
+    print(person)
+}
+Output:
+The name of the Person is: Abcd</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   with vs run
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  So, if “
+                  <b class="graf--bold">
+                   with”
+                  </b>
+                  is the same as “
+                  <b class="graf--bold">
+                   run
+                  </b>
+                  ”, what’s the difference? How should we choose between these two? Now, this is an interesting case. Let’s consider a case where a Person object can be nullable.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="graf-image" src="/images/using-scoped-functions-with-nullable-value.png"/>
+                 </div>
+                 <p class="graf--p">
+                  we can see that the context of the object referred to as “
+                  <b class="graf--bold">
+                   this
+                  </b>
+                  ” is a nullable type of Person. And hence, to correct this, we need to change the code as:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun performWithOperation() {
+    val person: Person? = null
+    with(person) {
+        this?.name = "asdf"
+        this?.contactNumber = "1234"
+        this?.address = "wasd"
+        this?.displayInfo()
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  So performing a null check using a “
+                  <b class="graf--bold">
+                   with
+                  </b>
+                  ” operator is difficult and this is where we can replace it with “
+                  <b class="graf--bold">
+                   run
+                  </b>
+                  ” as follows:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun performRunOperation() {
+    val person: Person? = null
+    person?.run {
+        name = "asdf"
+        contactNumber = "1234"
+        address = "wasd"
+        displayInfo()
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  This looks a lot cleaner.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   apply
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  The
+                  <i class="graf--italic">
+                   apply
+                  </i>
+                  function is similar to the
+                  <i class="graf--italic">
+                   run
+                  </i>
+                  functionality only in terms of referring to the context of the object as “
+                  <b class="graf--bold">
+                   this
+                  </b>
+                  ” and not “
+                  <b class="graf--bold">
+                   it
+                  </b>
+                  ” and also in providing null safety checks:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun performApplyOperation() {
+    val person: Person? = null
+    person?.apply {
+        name = "asdf"
+        contactNumber = "1234"
+        address = "wasd"
+        displayInfo()
+    }
+}</code></pre>
+                 <h4 class="graf--h3">
+                  "apply" use-case in Android Development
+                 </h4>
+                 <p class="graf--p">
+                  Specifically for Android Development, "
+                  <b class="graf--bold">
+                   apply
+                  </b>
+                  " can be useful in many cases. We have many scenarios where we should return an instance of Intent or an Alert Dialog etc., by adding specific attributes to them. Let's take the example of an intent here:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Normal approach
+fun createIntent(intentData: String, intentAction: String): Intent {
+    val intent = Intent()
+    intent.action = intentAction
+    intent.data = Uri.parse(intentData)
+    return intent
+}
+
+// Improved approach, by using apply
+fun createIntent(intentData: String, intentAction: String) =
+    Intent().apply {
+        action = intentAction
+        data = Uri.parse(intentData)
+    }</code></pre>
+                 <p class="graf--p">
+                  The improved approach from the above code snippet helps in avoiding variable name redundancy thereby enhancing the code readability and the principle of clean code.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   apply vs run
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  So let’s see the difference between
+                  <b class="graf--bold">
+                   apply
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   run
+                  </b>
+                  functions.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="graf-image" src="/images/using-scoped-functions-apply-vs-run.png"/>
+                 </div>
+                 <p class="graf--p">
+                  We can see that
+                  <b class="graf--bold">
+                   run
+                  </b>
+                  accepts a return statement whereas
+                  <b class="graf--bold">
+                   “
+                  </b>
+                  apply” does not accept a return statement(we can see the error thrown by the IDE in the image) and always returns the same object which it is referring to.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   also
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  The “
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    also”
+                   </i>
+                  </b>
+                  function is similar to the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    let
+                   </i>
+                  </b>
+                  functionality only in terms of referring to the context of the object as “
+                  <b class="graf--bold">
+                   it
+                  </b>
+                  ” and not “
+                  <b class="graf--bold">
+                   this
+                  </b>
+                  ” and also in providing null safety checks:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun performAlsoOperation() {
+    val name = Person().also { currentPerson -&gt;
+        print("Current name is: ${currentPerson.name}\n")
+        currentPerson.name = "modifiedName"
+    }.run {
+        "Modified name is: $name\n"
+    }
+    print(name)
+}
+output:
+Current name is: Abcd
+Modified name is: modifiedName</code></pre>
+                 <p class="graf--p">
+                  Here we can see the usage of the readable lambda parameters, similar to what we have seen in the “
+                  <b class="graf--bold">
+                   let
+                  </b>
+                  ” operator case. The advantage of using “
+                  <b class="graf--bold">
+                   also
+                  </b>
+                  ” operator is that while doing a chain of operations, this operator helps in evaluating the current operating value if required. Let’s suppose we did not use the “
+                  <b class="graf--bold">
+                   also”
+                  </b>
+                  operator in the above case, we should have written the code as:
+                 </p>
+                 <pre><code class="language-java graf graf--code">var name = Person().name
+print("Current name is: $name\n")
+name = "modifiedName"
+name = name.run {
+    "Modified name is: $name\n"
+}
+print(name)</code></pre>
+                 <p class="graf--p">
+                  Although this gives the same output, the chain in which the operations are being held is broken and that would not make a good readable code and hence “
+                  <b class="graf--bold">
+                   also
+                  </b>
+                  ” operator is very useful in this case. Hence, by using the also operator, the code can be modified as:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private fun performAlsoOperation() {
+    val name = Person().also {
+        print("Current name is: ${it.name}\n")
+        it.name = "ModifiedName"
+    }.run {
+        "Modified name is: $name\n"
+    }
+    print(name)
+}</code></pre>
+                 <p class="graf--p">
+                  This way we can execute the intermediate result within the execution chain without breaking the chain, thereby leading to a better readable code.
+                 </p>
+                 <h4>
+                  <b class="graf--bold">
+                   “also” vs “let”
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  So let’s see the difference between
+                  <b class="graf--bold">
+                   also
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   let
+                  </b>
+                  functions.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="graf-image" src="/images/using-scoped-functions-also-vs-let.png"/>
+                 </div>
+                 <p class="graf--p">
+                  We can see that
+                  <b class="graf--bold">
+                   let
+                  </b>
+                  accepts a return statement whereas
+                  <b class="graf--bold">
+                   “also
+                  </b>
+                  ” does not accept a return statement(we can see the error thrown by the IDE in the image) and always returns the same object which it is referring to.
+                 </p>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Summary
+                  </b>
+                 </h4>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="graf-image" src="/images/using-scoped-functions-summary.png"/>
+                 </div>
+                 <p class="graf--p">
+                  We can also represent the summary of choosing between the scoped functions as a flowchart.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Using Scoped Functions in Kotlin - let, run, with, also, apply" class="graf-image" src="/images/using-scoped-functions-summary-treediagram.png"/>
+                 </div>
+                 <p class="graf--p">
+                  That’s all about the Scoped functions in Kotlin. Although we might be using this in our code, we hope that our article has given you a clearer way of understanding and implementing the right scoped function in the right place.
+                 </p>
+                 <p class="graf--p">
+                  Thank you so much for your time!
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks.
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin —  apply vs with
+" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin —  apply vs with
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding the Scoped Storage in Android" class="ui centered image" src="/images/understanding-the-scoped-storage-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding the Scoped Storage in Android
+           </div>
+           <div class="meta">
+            1st November 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the concept of Scoped Storage in Android. It was introduced with Android 10 and it provides limited and the required storage access to the application. Let's learn more about it.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin — Extension Functions" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin — Extension Functions
+           </div>
+           <div class="meta">
+            30th May 2017
+           </div>
+           <div class="description">
+            As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Kotlin Collection Functions" class="ui centered image" src="/images/banner-kotlin-collection-functions-70f72a668ffed7fd.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Kotlin Collection Functions
+           </div>
+           <div class="meta">
+            8th April 2021
+           </div>
+           <div class="description">
+            In this blog, we will learn how to efficiently use the Kotlin Collection Functions to make the journey of Android App Development smoother and faster.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Extension Functions vs Static Utility Class" class="ui centered image" src="/images/extension-class-banner-17410a644c29d178.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Extension Functions vs Static Utility Class
+           </div>
+           <div class="meta">
+            22nd May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to talk about the Extension function and util class in Kotlin. We will learn when to use which one and what are the advantages of using them.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Code Formatting in Kotlin using ktlint" class="ui centered image" src="/images/code-formatting-in-kotlin-using-ktlint-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Code Formatting in Kotlin using ktlint
+           </div>
+           <div class="meta">
+            12th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to format your Kotlin code using ktlint in our project. ktlint is a tool that is used to check if our Kotlin code is according to the Kotlin code standards or not. If not, then it will format the code for you. So, let's learn how to do that.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

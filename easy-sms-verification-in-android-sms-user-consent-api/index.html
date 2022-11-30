@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Easy SMS Verification in Android: SMS User Consent API
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/easy-sms-verification-in-android-sms-user-consent-api" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Easy SMS Verification in Android: SMS User Consent API" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/easy-sms-verification-in-android-sms-user-consent-api" property="og:url"/>
+  <meta content="/images/easy-sms-verification-android-sms-user-consent-api-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt. " property="og:description"/>
+  <meta content="Easy SMS Verification in Android: SMS User Consent API" property="twitter:title"/>
+  <meta content="In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt. " name="twitter:description"/>
+  <meta content="/images/easy-sms-verification-android-sms-user-consent-api-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt. " name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:312,data:{id:312,title:"Easy SMS Verification in Android: SMS User Consent API",description:"In this blog, we will learn how to implement SMS verification using the SMS User Consent API in Android. This API is used to read only the message containing the verification code and will automatically extract the code from the message by taking permission from the user with the help of a prompt. ",text:'<h1 class="graf--h1">Easy SMS Verification in Android: SMS User Consent API</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/easy-sms-verification-android-sms-user-consent-api-banner.png class=\'graf-image\' alt=\'Easy SMS Verification in Android: SMS User Consent API\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Nowadays, SMS verification is the best way that is being used by mobile applications for login purpose. All you need to do is just enter your mobile number, get a One-Time Password and finally enter that OTP in your application and verify. But the problem that arises here is that to have the OTP for your application, you need to view all your messages and also at the same time you need to input the OTP by your own. No doubt, there are certain libraries on Github that will do the automatic code completion for you but here we are having the SMS User Consent API, that will make our task very easy.</p><p class="graf--p">In this blog, we will learn our SMS User Consent API and see how this can be easily used for SMS verification. So, let’s get started.</p><h4 class="graf--h3">What is SMS User Consent API?</h4><p class="graf--p">SMS User Consent API is used to retrieve the SMS by showing a prompt to the user to grant access to the content of a single SMS message. When the permission is granted by the user then the application will read the entire message and automatically fill the OTP or SMS verification code in the desired place. Following is the flow of SMS User Consent API:</p><p class="graf--p">Source: Google Developer Website</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/easy-sms-verification-sms-user-consent-api-example.png class=\'graf-image\' alt=\'Easy SMS Verification in Android: SMS User Consent API\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Here, if the user presses the <b class="graf--bold">Allow</b> button, then the SMS verification code will be automatically filled up.</p><h4 class="graf--h3">The flow of SMS User Consent API</h4><p class="graf--p">The whole working of the SMS User Consent API can be divided into 3 steps:</p><ol><li><b class="graf--bold">Start:</b> To use SMS User Consent API, you have to start is first. But there is one condition with it, you have to start the API before sending the message or OTP to the server.</li><li><b class="graf--bold">Prompt:</b> So, when you start the API, the Google Play Services will read the message and then allows your application to show a prompt to your users to grant permission to read the message containing the OTP or verification code. The user can either allow or decline the request to read the message.</li><li><b class="graf--bold">Read Message:</b> Finally, if your application is having the permission to read the messages then with the help of API, your application will automatically enter the One Time Code for you.</li></ol><h4 class="graf--h3">Message Criteria</h4><p class="graf--p">Certain criteria should be followed before using the SMS User Consent API:</p><ol><li><b class="graf--bold">Contains One Time Code:</b> You message must contain some One Time Code type of thing.</li><li><b class="graf--bold">Code format:</b> The One Time Code should be 4–10 digit alphanumeric and 1 digit must be a number.</li><li><b class="graf--bold">Contacts:</b> The message containing the One Time Code should not be received from any of your contacts.</li><li><b class="graf--bold">Timing:</b> The API will look for the One Time Code for a maximum time of 5 minutes.</li></ol><h4 class="graf--h3">Using SMS User Consent API in Android</h4><p class="graf--p">To use SMS User Consent API, we will be following the above mentioned three steps but before that, we will implement the library in our app. So, in the app level <b class="graf--bold"><i class="graf--italic">build.gradle</i></b> file, add the below lines:</p><pre><code class="language-java graf graf--code">implementation "com.google.android.gms:play-services-auth:X.X.X"\nimplementation "com.google.android.gms:play-services-auth-api-phone:X.X.X"</code></pre><p class="graf--p">After implementing the library, the next thing that is to be done is to get the user’s phone number. If you are not having the user’s phone number, then you should get it before starting the SMS verification. </p><p class="graf--p">Note: Code snippet has been directly taken from the Google Android Official Website.</p><p class="graf--p">So, to obtain the user’s phone number, you can use the below code:</p><pre><code class="language-java graf graf--code">private val CREDENTIAL_PICKER_REQUEST = 1  // Set to an unused request code\n\n// Construct a request for phone numbers and show the picker\nprivate fun requestHint() {\n    val hintRequest = HintRequest.Builder()\n        .setPhoneNumberIdentifierSupported(true)\n        .build()\n    val credentialsClient = Credentials.getClient(this)\n    val intent = credentialsClient.getHintPickerIntent(hintRequest)\n    startIntentSenderForResult(\n        intent.intentSender,\n        CREDENTIAL_PICKER_REQUEST,\n        null, 0, 0, 0\n    )\n}\n\npublic override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {\n    super.onActivityResult(requestCode, resultCode, data)\n    when (requestCode) {\n        CREDENTIAL_PICKER_REQUEST -&gt;\n            // Obtain the phone number from the result\n            if (resultCode == Activity.RESULT_OK && data != null) {\n                val credential = data.getParcelableExtra&lt;Credential&gt;(Credential.EXTRA_KEY)\n                // credential.getId();  &lt;-- will need to process phone number string\n            }\n        // ...\n    }\n}</code></pre><p class="graf--p">Our next step is to listen to the incoming messages. So, by using the <b class="graf--bold">smartSmsUserConsent()</b> method, you can start listening for the incomming messages. If you know the number of the sender who is sending the SMS verification then then you can pass that number in the method ortherwise you can pass NULL.</p><pre><code class="language-java graf graf--code">// Start listening for SMS User Consent broadcasts from senderPhoneNumber\n// The Task&lt;Void&gt; will be successful if SmsRetriever was able to start\n// SMS User Consent, and will error if there was an error starting.\nval task = SmsRetriever.getClient(context).startSmsUserConsent(senderPhoneNumber /* or null */)</code></pre><p class="graf--p">So, our first step is done i.e. we have started the SMS User Consent API and our next duty is to send the SMS verification code. Here, you can apply your verification code sender to send the One Time Code on the user’s mobile number. So, if your SMS will satisfy all the four Message criteria of the API then the prompt will be shown to the user. So, you need to handle these broadcasts with a broadcast receiver that responds to SMS_RECEIVED_ACTION intents.</p><pre><code class="language-java graf graf--code">private val SMS_CONSENT_REQUEST = 2  // Set to an unused request code\nprivate val smsVerificationReceiver = object : BroadcastReceiver() {\n    override fun onReceive(context: Context, intent: Intent) {\n        if (SmsRetriever.SMS_RETRIEVED_ACTION == intent.action) {\n            val extras = intent.extras\n            val smsRetrieverStatus = extras?.get(SmsRetriever.EXTRA_STATUS) as Status\n\n            when (smsRetrieverStatus.statusCode) {\n                CommonStatusCodes.SUCCESS -&gt; {\n                    // Get consent intent\n                    val consentIntent = extras.getParcelable&lt;Intent&gt;(SmsRetriever.EXTRA_CONSENT_INTENT)\n                    try {\n                        // Start activity to show consent dialog to user, activity must be started in\n                        // 5 minutes, otherwise you\'ll receive another TIMEOUT intent\n                        startActivityForResult(consentIntent, SMS_CONSENT_REQUEST)\n                    } catch (e: ActivityNotFoundException) {\n                        // Handle the exception ...\n                    }\n                }\n                CommonStatusCodes.TIMEOUT -&gt; {\n                    // Time out occurred, handle the error.\n                }\n            }\n        }\n    }\n}\n\noverride fun onCreate(savedInstanceState: Bundle?) {\n    // ...\n\n    val intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)\n    registerReceiver(smsVerificationReceiver, intentFilter)\n}</code></pre><p class="graf--p">Once the user has granted the permission to read the code from your message then you can put the extracted code at the desired place. You have to do all these things in your <b class="graf--bold"><i class="graf--italic">onActivityResult()</i></b> method.</p><pre><code class="language-java graf graf--code">public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {\n    super.onActivityResult(requestCode, resultCode, data)\n    when (requestCode) {\n        // ...\n        SMS_CONSENT_REQUEST -&gt;\n            // Obtain the phone number from the result\n            if (resultCode == Activity.RESULT_OK && data != null) {\n                // Get SMS message content\n                val message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)\n                // Extract one-time code from the message and complete verification\n                // `message` contains the entire text of the SMS message, so you will need\n                // to parse the string.\n                val oneTimeCode = parseOneTimeCode(message) // define this function\n\n                // send one time code to the server\n            } else {\n                // Consent denied. User can type OTC manually.\n            }\n    }\n}</code></pre><p class="graf--p">For better user experience, you can also give the feature entering the SMS verification code manually also because if the code received is on some other device then the user can manually enter the code in your app.</p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we learned how to use the SMS User Consent API in our Android application. So, basically, we are having three steps i.e. Start, Prompt and Read Message. Firstly, we start the API before sending the code, after that a prompt is shown to the user to grant permission for code reading from the message and finally, if the permission is granted then the API extracts the code from your message and you can use that code.</p><p class="graf--p">Hope you learned something new from this blog. To learn some more cool topics of Android, you can read the blogs from <a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/">our website</a>.</p><p class="graf--p">Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/easy-sms-verification-android-sms-user-consent-api-banner.png",blog_url:"easy-sms-verification-in-android-sms-user-consent-api",likes:0,rank:0,category:1,published_at:"9th August 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:190,title:"Android User Interface — View Components",description:"In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started.",author:14897,img_url:"/images/android-user-interface-view-components-banner.png",blog_url:"android-user-interface-view-components",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:4.294234275817871},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:3.605388879776001},{id:304,title:"Color Palette API in Android",description:"In this blog, we will learn about the Color Palette API in Android. Here we will see how can we generate dynamic colors based on an image.",author:9959,img_url:"/images/color-pallete-api.png",blog_url:"color-palette-in-android",likes:0,rank:0,category:1,published_at:"24th July 2019",score:1.7772136926651},{id:352,title:"Securing API Keys using Android NDK (Native Development Kit)",description:"In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.",author:17146,img_url:"/images/securing-api-keys-using-android-ndk-banner.png",blog_url:"securing-api-keys-using-android-ndk",likes:0,rank:0,category:1,published_at:"2nd October 2019",score:1.7772136926651},{id:392,title:"Understanding Canvas API in Android",description:"In this blog, we will see how we can use canvas to draw our own custom shape and drawings .",author:9959,img_url:"/images/canvas-api-banner.png",blog_url:"understanding-canvas-api-in-android",likes:0,rank:0,category:1,published_at:"17th February 2020",score:1.7772136926651},{id:466,title:"Auto Backup API in Android",description:"Android provides a very handy API to deal with user's local data backups. We'll learn how to enable, customize, use and test Android's Auto Backup API.",author:18510,img_url:"/images/android-auto-backup-banner-70b0b8fb204b0731.png",blog_url:"android-auto-backup-api",likes:0,rank:0,category:1,published_at:"3rd June 2020",score:1.7772136926651}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            9th August 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Easy SMS Verification in Android: SMS User Consent API
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Easy SMS Verification in Android: SMS User Consent API" class="graf-image" src="/images/easy-sms-verification-android-sms-user-consent-api-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Nowadays, SMS verification is the best way that is being used by mobile applications for login purpose. All you need to do is just enter your mobile number, get a One-Time Password and finally enter that OTP in your application and verify. But the problem that arises here is that to have the OTP for your application, you need to view all your messages and also at the same time you need to input the OTP by your own. No doubt, there are certain libraries on Github that will do the automatic code completion for you but here we are having the SMS User Consent API, that will make our task very easy.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will learn our SMS User Consent API and see how this can be easily used for SMS verification. So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  What is SMS User Consent API?
+                 </h4>
+                 <p class="graf--p">
+                  SMS User Consent API is used to retrieve the SMS by showing a prompt to the user to grant access to the content of a single SMS message. When the permission is granted by the user then the application will read the entire message and automatically fill the OTP or SMS verification code in the desired place. Following is the flow of SMS User Consent API:
+                 </p>
+                 <p class="graf--p">
+                  Source: Google Developer Website
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Easy SMS Verification in Android: SMS User Consent API" class="graf-image" src="/images/easy-sms-verification-sms-user-consent-api-example.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Here, if the user presses the
+                  <b class="graf--bold">
+                   Allow
+                  </b>
+                  button, then the SMS verification code will be automatically filled up.
+                 </p>
+                 <h4 class="graf--h3">
+                  The flow of SMS User Consent API
+                 </h4>
+                 <p class="graf--p">
+                  The whole working of the SMS User Consent API can be divided into 3 steps:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    Start:
+                   </b>
+                   To use SMS User Consent API, you have to start is first. But there is one condition with it, you have to start the API before sending the message or OTP to the server.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Prompt:
+                   </b>
+                   So, when you start the API, the Google Play Services will read the message and then allows your application to show a prompt to your users to grant permission to read the message containing the OTP or verification code. The user can either allow or decline the request to read the message.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Read Message:
+                   </b>
+                   Finally, if your application is having the permission to read the messages then with the help of API, your application will automatically enter the One Time Code for you.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  Message Criteria
+                 </h4>
+                 <p class="graf--p">
+                  Certain criteria should be followed before using the SMS User Consent API:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    Contains One Time Code:
+                   </b>
+                   You message must contain some One Time Code type of thing.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Code format:
+                   </b>
+                   The One Time Code should be 4–10 digit alphanumeric and 1 digit must be a number.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Contacts:
+                   </b>
+                   The message containing the One Time Code should not be received from any of your contacts.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Timing:
+                   </b>
+                   The API will look for the One Time Code for a maximum time of 5 minutes.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  Using SMS User Consent API in Android
+                 </h4>
+                 <p class="graf--p">
+                  To use SMS User Consent API, we will be following the above mentioned three steps but before that, we will implement the library in our app. So, in the app level
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle
+                   </i>
+                  </b>
+                  file, add the below lines:
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation "com.google.android.gms:play-services-auth:X.X.X"
+implementation "com.google.android.gms:play-services-auth-api-phone:X.X.X"</code></pre>
+                 <p class="graf--p">
+                  After implementing the library, the next thing that is to be done is to get the user’s phone number. If you are not having the user’s phone number, then you should get it before starting the SMS verification.
+                 </p>
+                 <p class="graf--p">
+                  Note: Code snippet has been directly taken from the Google Android Official Website.
+                 </p>
+                 <p class="graf--p">
+                  So, to obtain the user’s phone number, you can use the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">private val CREDENTIAL_PICKER_REQUEST = 1  // Set to an unused request code
+
+// Construct a request for phone numbers and show the picker
+private fun requestHint() {
+    val hintRequest = HintRequest.Builder()
+        .setPhoneNumberIdentifierSupported(true)
+        .build()
+    val credentialsClient = Credentials.getClient(this)
+    val intent = credentialsClient.getHintPickerIntent(hintRequest)
+    startIntentSenderForResult(
+        intent.intentSender,
+        CREDENTIAL_PICKER_REQUEST,
+        null, 0, 0, 0
+    )
+}
+
+public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    when (requestCode) {
+        CREDENTIAL_PICKER_REQUEST -&gt;
+            // Obtain the phone number from the result
+            if (resultCode == Activity.RESULT_OK &amp;&amp; data != null) {
+                val credential = data.getParcelableExtra&lt;Credential&gt;(Credential.EXTRA_KEY)
+                // credential.getId();  &lt;-- will need to process phone number string
+            }
+        // ...
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Our next step is to listen to the incoming messages. So, by using the
+                  <b class="graf--bold">
+                   smartSmsUserConsent()
+                  </b>
+                  method, you can start listening for the incomming messages. If you know the number of the sender who is sending the SMS verification then then you can pass that number in the method ortherwise you can pass NULL.
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Start listening for SMS User Consent broadcasts from senderPhoneNumber
+// The Task&lt;Void&gt; will be successful if SmsRetriever was able to start
+// SMS User Consent, and will error if there was an error starting.
+val task = SmsRetriever.getClient(context).startSmsUserConsent(senderPhoneNumber /* or null */)</code></pre>
+                 <p class="graf--p">
+                  So, our first step is done i.e. we have started the SMS User Consent API and our next duty is to send the SMS verification code. Here, you can apply your verification code sender to send the One Time Code on the user’s mobile number. So, if your SMS will satisfy all the four Message criteria of the API then the prompt will be shown to the user. So, you need to handle these broadcasts with a broadcast receiver that responds to SMS_RECEIVED_ACTION intents.
+                 </p>
+                 <pre><code class="language-java graf graf--code">private val SMS_CONSENT_REQUEST = 2  // Set to an unused request code
+private val smsVerificationReceiver = object : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+        if (SmsRetriever.SMS_RETRIEVED_ACTION == intent.action) {
+            val extras = intent.extras
+            val smsRetrieverStatus = extras?.get(SmsRetriever.EXTRA_STATUS) as Status
+
+            when (smsRetrieverStatus.statusCode) {
+                CommonStatusCodes.SUCCESS -&gt; {
+                    // Get consent intent
+                    val consentIntent = extras.getParcelable&lt;Intent&gt;(SmsRetriever.EXTRA_CONSENT_INTENT)
+                    try {
+                        // Start activity to show consent dialog to user, activity must be started in
+                        // 5 minutes, otherwise you'll receive another TIMEOUT intent
+                        startActivityForResult(consentIntent, SMS_CONSENT_REQUEST)
+                    } catch (e: ActivityNotFoundException) {
+                        // Handle the exception ...
+                    }
+                }
+                CommonStatusCodes.TIMEOUT -&gt; {
+                    // Time out occurred, handle the error.
+                }
+            }
+        }
+    }
+}
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    // ...
+
+    val intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+    registerReceiver(smsVerificationReceiver, intentFilter)
+}</code></pre>
+                 <p class="graf--p">
+                  Once the user has granted the permission to read the code from your message then you can put the extracted code at the desired place. You have to do all these things in your
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    onActivityResult()
+                   </i>
+                  </b>
+                  method.
+                 </p>
+                 <pre><code class="language-java graf graf--code">public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    when (requestCode) {
+        // ...
+        SMS_CONSENT_REQUEST -&gt;
+            // Obtain the phone number from the result
+            if (resultCode == Activity.RESULT_OK &amp;&amp; data != null) {
+                // Get SMS message content
+                val message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
+                // Extract one-time code from the message and complete verification
+                // `message` contains the entire text of the SMS message, so you will need
+                // to parse the string.
+                val oneTimeCode = parseOneTimeCode(message) // define this function
+
+                // send one time code to the server
+            } else {
+                // Consent denied. User can type OTC manually.
+            }
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  For better user experience, you can also give the feature entering the SMS verification code manually also because if the code received is on some other device then the user can manually enter the code in your app.
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned how to use the SMS User Consent API in our Android application. So, basically, we are having three steps i.e. Start, Prompt and Read Message. Firstly, we start the API before sending the code, after that a prompt is shown to the user to grant permission for code reading from the message and finally, if the permission is granted then the API extracts the code from your message and you can use that code.
+                 </p>
+                 <p class="graf--p">
+                  Hope you learned something new from this blog. To learn some more cool topics of Android, you can read the blogs from
+                  <a class="markup--anchor" href="https://blog.mindorks.com/" target="_blank">
+                   our website
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android User Interface — View Components" class="ui centered image" src="/images/android-user-interface-view-components-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android User Interface — View Components
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Android User Interface. We will learn about various view components like Button, TextView etc provided by Android Studio. So, let's get started.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Color Palette API in Android" class="ui centered image" src="/images/color-pallete-api.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Color Palette API in Android
+           </div>
+           <div class="meta">
+            24th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Color Palette API in Android. Here we will see how can we generate dynamic colors based on an image.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Securing API Keys using Android NDK (Native Development Kit)" class="ui centered image" src="/images/securing-api-keys-using-android-ndk-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Securing API Keys using Android NDK (Native Development Kit)
+           </div>
+           <div class="meta">
+            2nd October 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to secure our API Keys that are used in Android applications using the Android NDK (Native Development Kit). We have created a detailed blog of securing the API Keys.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Canvas API in Android" class="ui centered image" src="/images/canvas-api-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Canvas API in Android
+           </div>
+           <div class="meta">
+            17th February 2020
+           </div>
+           <div class="description">
+            In this blog, we will see how we can use canvas to draw our own custom shape and drawings .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Auto Backup API in Android" class="ui centered image" src="/images/android-auto-backup-banner-70b0b8fb204b0731.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Auto Backup API in Android
+           </div>
+           <div class="meta">
+            3rd June 2020
+           </div>
+           <div class="description">
+            Android provides a very handy API to deal with user's local data backups. We'll learn how to enable, customize, use and test Android's Auto Backup API.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

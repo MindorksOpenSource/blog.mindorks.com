@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Android Content Provider in Kotlin
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-content-provider-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Android Content Provider in Kotlin" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-content-provider-in-kotlin" property="og:url"/>
+  <meta content="/images/android-content-provider-in-kotlin-banner.jpg" property="og:image"/>
+  <meta content="In this blog, we will learn about Content Provider in Android. Content Provider is one of the Android Component helps to access data of other apps. We will be learning Content Provider implementation in Kotlin." property="og:description"/>
+  <meta content="Android Content Provider in Kotlin" property="twitter:title"/>
+  <meta content="In this blog, we will learn about Content Provider in Android. Content Provider is one of the Android Component helps to access data of other apps. We will be learning Content Provider implementation in Kotlin." name="twitter:description"/>
+  <meta content="/images/android-content-provider-in-kotlin-banner.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about Content Provider in Android. Content Provider is one of the Android Component helps to access data of other apps. We will be learning Content Provider implementation in Kotlin." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:207,data:{id:207,title:"Android Content Provider in Kotlin",description:"In this blog, we will learn about Content Provider in Android. Content Provider is one of the Android Component helps to access data of other apps. We will be learning Content Provider implementation in Kotlin.",text:'<h1 class="graf--h1">Android Content Provider in Kotlin</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android-content-provider-in-kotlin-banner.jpg class=\'graf-image\' alt=\'Android Content Provider in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Have you ever wonder whenever you add some new contact in your contact application, then how that new contact gets included in your WhatsApp application? The contacts app is responsible for managing all your contacts and these contacts can be shared with other applications that are present in the Android device(if permission is taken). This is done with the help of <b class="graf--bold">Content Providers</b> of an Application. In this blog, we will learn about Content Providers in Android.</p><h4 class="graf--h3">What is an Android Content Provider?</h4><p class="graf--p">Content Providers are used to share data of one application with other application in Android. <b class="graf--bold"><i class="graf--italic">For example,</i></b> the details of contacts stored in your mobile device with the help of Contacts application is shared with other applications like WhatsApp, Facebook, etc. Here, the Contacts application is the provider and WhatsApp, Facebook is the client of your provider.</p><p class="graf--p">The application that is providing data i.e. the provider and the application that is using that data share a standard interface that is used for proper inter-process communication and for data sharing.</p><p class="graf--p">Some of the usages of content providers are:</p><ul><li>You can share access to your application with some other applications.</li><li>You can send data to a widget.</li><li>You can load the data in your UI with the help of CursorLoader.</li><li>Can return custom search suggestions for your application</li></ul><p class="graf--p">With the help of Content Provider, you can either use other application&#x27;s data or you can share your application&#x27;s data with other applications. We have a class called <b class="graf--bold">ContentResolver</b>, which helps us to manage the requests of data. Content Provider responds with the data in the <b class="graf--bold">cursor format</b> and the data that is given by the provider is in the form of one or more tables(containing rows and columns) where a row represents an instance of some kind of data and a column represents an individual piece of data collected for an instance.</p><p class="graf--p">So, let&#x27;s learn how to access a provider with the help of ContentResolver.</p><h4 class="graf--h3">Accessing Content Provider</h4><p class="graf--p">In order to access the data that is provided by Content Provider of some application, you need to use the ContentResolver class. The object of ContentResolver communicates with the provider object and the provider object receives the data request from the client and the requested actions are being performed and finally, the result is returned. Let&#x27;s learn how to use this.</p><p class="graf--p">To get the data provided by the Content Provider, we need to use the <b class="graf--bold"><i class="graf--italic">contentResolver().query()</i></b> method. Following is the code for the same:</p><pre><code class="language-java graf graf--code">// Queries the user dictionary and returns results\ncursor = contentResolver.query(\n        UserDictionary.Words.CONTENT_URI,   // The content URI of the words table\n        projection,                         // The columns to return for each row\n        selectionClause,                    // Selection criteria\n        selectionArgs.toTypedArray(),       // Selection criteria\n        sortOrder                           // The sort order for the returned rows\n)\n</code></pre><p class="graf--p">The terms that are used in the above query are:</p><ul><li><b class="graf--bold">UserDictionary:</b> It is an Android built-in provider that provides the words that user want to keep in the dictionary for future use. You can use other Content Provider here.</li><li><b class="graf--bold">CONTENT_URI:</b> It is the URI that identifies the data in a provider. In our case, it contains the URI of UserDictionary table. One of the examples of content URI can be:</li></ul><pre><code class="language-java graf graf--code">content://user_dictionary/words</code></pre><ul><li><b class="graf--bold">Projection:</b> It is an array of columns that must be included in the retrieved rows. For example, if you want to include only 3 columns of the table, then your projection can be:</li></ul><pre><code class="language-java graf graf--code">private val mProjection: Array&lt;String&gt; = arrayOf(\n        UserDictionary.Words.COLUMN1,  \n        UserDictionary.Words.COLUMN2, \n        UserDictionary.Words.COLUMN3  \n)</code></pre><ul><li><b class="graf--bold">Selection:</b> It specifies the condition that is used for selecting rows.</li><li><b class="graf--bold">SelectionArgs:</b> It is used to replace the <b class="graf--bold">&quot;?&quot;</b> placeholder in the selection clause.</li></ul><p class="graf--p">For example,</p><pre><code class="language-java graf graf--code">// Defines a string to contain the selection clause\nprivate var selectionClause: String? = null\n\n// Declares an array to contain selection arguments\nprivate lateinit var selectionArgs: Array&lt;String&gt;\n</code></pre><ul><li><b class="graf--bold">SortOrder: </b>It specifies the order in which the row should be displayed. </li><li><b class="graf--bold">Cursor:</b> Content Provider responds with the data in the cursor format. By using the Cursor methods, you can iterate over the rows in the result, get the data of the column, get the data type of each column, etc. If the result is nothing, then </li></ul><pre><code class="language-java graf graf--code">Cursor.getCount() is 0</code></pre><p class="graf--p">A cursor returns a list of rows. So, it is better to store the cursor result in some ListView.</p><pre><code class="language-java graf graf--code">// Defines a list of columns to retrieve from the Cursor and load into an output row\nval wordListColumns : Array&lt;String&gt; = arrayOf(\n        UserDictionary.Words.COLUMN1,      \n        UserDictionary.Words.COLUMN2     \n)\n\n// Defines a list of View IDs that will receive the Cursor columns for each row\nval wordListItems = intArrayOf(R.id.dictWord, R.id.locale)\n\n// Creates a new SimpleCursorAdapter\ncursorAdapter = SimpleCursorAdapter(\n        applicationContext,              // The application\'s Context object\n        R.layout.wordlistrow,            // A layout in XML for one row in the ListView\n        mCursor,                         // The result from the query\n        wordListColumns,                 // A string array of column names in the cursor\n        wordListItems,                   // An integer array of view IDs in the row layout\n        0                                // Flags (usually none are needed)\n)\n\n// Sets the adapter for the ListView(wordList is a ListView here)\nwordList.setAdapter(cursorAdapter)\n</code></pre><p class="graf--p">This is how you can get the data from a content provider of an application. Hope, you learned something new today.</p><p class="graf--p"><b class="graf--bold">Happy Learning :)</b></p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/android-content-provider-in-kotlin-banner.jpg",blog_url:"android-content-provider-in-kotlin",likes:0,rank:0,category:1,published_at:"7th January 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.16603870689868927},{id:194,title:"Android WebView — in kotlin",description:"Android WebView",author:14897,img_url:"/images/android_webview_mindorks_feature_image.png",blog_url:"android-webview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:196,title:"Android ViewPager in Kotlin",description:"Android ViewPager",author:14897,img_url:"/images/android_viewpager_mindorks_feature_image.png",blog_url:"android-viewpager-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:197,title:"Android Material Tabs in Kotlin",description:"How to create Material Tabs in Android in kotlin?",author:14897,img_url:"/images/android_materialtabs_mindorks_feature_image.png",blog_url:"android-material-tabs-with-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:200,title:"Android ReyclerView in Kotlin",description:"Android RecyclerView",author:14897,img_url:"/images/android_recyclerview_mindorks_feature_image.png",blog_url:"android-recyclerview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209},{id:201,title:"Android Navigation Drawer in Kotlin",description:"Android Navigation Drawer in Kotlin",author:14897,img_url:"/images/android_navigationdrawer_mindorks_featuer_image.png",blog_url:"android-navigation-drawer-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            7th January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Android Content Provider in Kotlin
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android Content Provider in Kotlin" class="graf-image" src="/images/android-content-provider-in-kotlin-banner.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Have you ever wonder whenever you add some new contact in your contact application, then how that new contact gets included in your WhatsApp application? The contacts app is responsible for managing all your contacts and these contacts can be shared with other applications that are present in the Android device(if permission is taken). This is done with the help of
+                  <b class="graf--bold">
+                   Content Providers
+                  </b>
+                  of an Application. In this blog, we will learn about Content Providers in Android.
+                 </p>
+                 <h4 class="graf--h3">
+                  What is an Android Content Provider?
+                 </h4>
+                 <p class="graf--p">
+                  Content Providers are used to share data of one application with other application in Android.
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    For example,
+                   </i>
+                  </b>
+                  the details of contacts stored in your mobile device with the help of Contacts application is shared with other applications like WhatsApp, Facebook, etc. Here, the Contacts application is the provider and WhatsApp, Facebook is the client of your provider.
+                 </p>
+                 <p class="graf--p">
+                  The application that is providing data i.e. the provider and the application that is using that data share a standard interface that is used for proper inter-process communication and for data sharing.
+                 </p>
+                 <p class="graf--p">
+                  Some of the usages of content providers are:
+                 </p>
+                 <ul>
+                  <li>
+                   You can share access to your application with some other applications.
+                  </li>
+                  <li>
+                   You can send data to a widget.
+                  </li>
+                  <li>
+                   You can load the data in your UI with the help of CursorLoader.
+                  </li>
+                  <li>
+                   Can return custom search suggestions for your application
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  With the help of Content Provider, you can either use other application's data or you can share your application's data with other applications. We have a class called
+                  <b class="graf--bold">
+                   ContentResolver
+                  </b>
+                  , which helps us to manage the requests of data. Content Provider responds with the data in the
+                  <b class="graf--bold">
+                   cursor format
+                  </b>
+                  and the data that is given by the provider is in the form of one or more tables(containing rows and columns) where a row represents an instance of some kind of data and a column represents an individual piece of data collected for an instance.
+                 </p>
+                 <p class="graf--p">
+                  So, let's learn how to access a provider with the help of ContentResolver.
+                 </p>
+                 <h4 class="graf--h3">
+                  Accessing Content Provider
+                 </h4>
+                 <p class="graf--p">
+                  In order to access the data that is provided by Content Provider of some application, you need to use the ContentResolver class. The object of ContentResolver communicates with the provider object and the provider object receives the data request from the client and the requested actions are being performed and finally, the result is returned. Let's learn how to use this.
+                 </p>
+                 <p class="graf--p">
+                  To get the data provided by the Content Provider, we need to use the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    contentResolver().query()
+                   </i>
+                  </b>
+                  method. Following is the code for the same:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Queries the user dictionary and returns results
+cursor = contentResolver.query(
+        UserDictionary.Words.CONTENT_URI,   // The content URI of the words table
+        projection,                         // The columns to return for each row
+        selectionClause,                    // Selection criteria
+        selectionArgs.toTypedArray(),       // Selection criteria
+        sortOrder                           // The sort order for the returned rows
+)
+</code></pre>
+                 <p class="graf--p">
+                  The terms that are used in the above query are:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    UserDictionary:
+                   </b>
+                   It is an Android built-in provider that provides the words that user want to keep in the dictionary for future use. You can use other Content Provider here.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    CONTENT_URI:
+                   </b>
+                   It is the URI that identifies the data in a provider. In our case, it contains the URI of UserDictionary table. One of the examples of content URI can be:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">content://user_dictionary/words</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Projection:
+                   </b>
+                   It is an array of columns that must be included in the retrieved rows. For example, if you want to include only 3 columns of the table, then your projection can be:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">private val mProjection: Array&lt;String&gt; = arrayOf(
+        UserDictionary.Words.COLUMN1,  
+        UserDictionary.Words.COLUMN2, 
+        UserDictionary.Words.COLUMN3  
+)</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Selection:
+                   </b>
+                   It specifies the condition that is used for selecting rows.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    SelectionArgs:
+                   </b>
+                   It is used to replace the
+                   <b class="graf--bold">
+                    "?"
+                   </b>
+                   placeholder in the selection clause.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  For example,
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Defines a string to contain the selection clause
+private var selectionClause: String? = null
+
+// Declares an array to contain selection arguments
+private lateinit var selectionArgs: Array&lt;String&gt;
+</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    SortOrder:
+                   </b>
+                   It specifies the order in which the row should be displayed.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Cursor:
+                   </b>
+                   Content Provider responds with the data in the cursor format. By using the Cursor methods, you can iterate over the rows in the result, get the data of the column, get the data type of each column, etc. If the result is nothing, then
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">Cursor.getCount() is 0</code></pre>
+                 <p class="graf--p">
+                  A cursor returns a list of rows. So, it is better to store the cursor result in some ListView.
+                 </p>
+                 <pre><code class="language-java graf graf--code">// Defines a list of columns to retrieve from the Cursor and load into an output row
+val wordListColumns : Array&lt;String&gt; = arrayOf(
+        UserDictionary.Words.COLUMN1,      
+        UserDictionary.Words.COLUMN2     
+)
+
+// Defines a list of View IDs that will receive the Cursor columns for each row
+val wordListItems = intArrayOf(R.id.dictWord, R.id.locale)
+
+// Creates a new SimpleCursorAdapter
+cursorAdapter = SimpleCursorAdapter(
+        applicationContext,              // The application's Context object
+        R.layout.wordlistrow,            // A layout in XML for one row in the ListView
+        mCursor,                         // The result from the query
+        wordListColumns,                 // A string array of column names in the cursor
+        wordListItems,                   // An integer array of view IDs in the row layout
+        0                                // Flags (usually none are needed)
+)
+
+// Sets the adapter for the ListView(wordList is a ListView here)
+wordList.setAdapter(cursorAdapter)
+</code></pre>
+                 <p class="graf--p">
+                  This is how you can get the data from a content provider of an application. Hope, you learned something new today.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Happy Learning :)
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android WebView — in kotlin" class="ui centered image" src="/images/android_webview_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android WebView — in kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android WebView
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android ViewPager in Kotlin" class="ui centered image" src="/images/android_viewpager_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android ViewPager in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android ViewPager
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Material Tabs in Kotlin" class="ui centered image" src="/images/android_materialtabs_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Material Tabs in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            How to create Material Tabs in Android in kotlin?
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android ReyclerView in Kotlin" class="ui centered image" src="/images/android_recyclerview_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android ReyclerView in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android RecyclerView
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Navigation Drawer in Kotlin" class="ui centered image" src="/images/android_navigationdrawer_mindorks_featuer_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Navigation Drawer in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android Navigation Drawer in Kotlin
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

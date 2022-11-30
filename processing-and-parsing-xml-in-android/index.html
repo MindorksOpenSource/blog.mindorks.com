@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Processing and Parsing XML in Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/processing-and-parsing-xml-in-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Processing and Parsing XML in Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/processing-and-parsing-xml-in-android" property="og:url"/>
+  <meta content="/images/processing-parsing-xml-android-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn the concept of XML parsing in Android. XML parsing is used to get the data from the XML format files in our Android Application. Various websites use XML format to represent the data. So, in order to get that data in our application, we need to parse the XML file. In this blog, we will cover every aspect of XML parsing." property="og:description"/>
+  <meta content="Processing and Parsing XML in Android" property="twitter:title"/>
+  <meta content="In this blog, we will learn the concept of XML parsing in Android. XML parsing is used to get the data from the XML format files in our Android Application. Various websites use XML format to represent the data. So, in order to get that data in our application, we need to parse the XML file. In this blog, we will cover every aspect of XML parsing." name="twitter:description"/>
+  <meta content="/images/processing-parsing-xml-android-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn the concept of XML parsing in Android. XML parsing is used to get the data from the XML format files in our Android Application. Various websites use XML format to represent the data. So, in order to get that data in our application, we need to parse the XML file. In this blog, we will cover every aspect of XML parsing." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:282,data:{id:282,title:"Processing and Parsing XML in Android",description:"In this blog, we will learn the concept of XML parsing in Android. XML parsing is used to get the data from the XML format files in our Android Application. Various websites use XML format to represent the data. So, in order to get that data in our application, we need to parse the XML file. In this blog, we will cover every aspect of XML parsing.",text:'<h1 class="graf--h1">Processing and Parsing XML in Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/processing-parsing-xml-android-banner.png class=\'graf-image\' alt=\'Processing and Parsing XML in Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Sharing data over the internet is very popular. We share our information with the other users over the internet. Let’s take a very common example, since we all are developers and to be more precise, we all are Android Developers and we all must have visited the StackOverflow website whenever we are stuck into some problem in our projects and in every 99 out of 100 cases, we find the solution to our problem. The answer that we get from the StackOverflow website consists of various parts that we are less bothered about. In general, the answers or the questions present on the website contains the id of the question, type of the question, author name of the article or question, publishing data, URL and many other things are there on the website. But we want only meaningful data i.e. we want answers and the authors and nothing else.</p><p class="graf--p">The problem arises when you want to access the data of a particular website in your Android Application. This is because the data present on the websites are in JSON format or in XML format. So, in order to use that data or to extract the meaningful information from that data, you have to parse that XML file or a JSON file.</p><p class="graf--p">So, in this blog, we will learn how to process and parse the XML data in Android. So, let’s get started.</p><h4 class="graf--h3">What is XML?</h4><p class="graf--p">XML stands for Extensible Markup Language. It is a set of rules that are used to encode data or documents in a Machine-readable language. There are many websites that use an XML format to share data on the internet. For example, many blogging websites use an XML format to share data between users. So, XML parsing and processing become an important task to use that data in our Android Application.</p><h4 class="graf--h3">XML elements</h4><p class="graf--p">In general, an XML file consists of a number of elements that together make an XML file. They are the basic building blocks of XML document. These elements are used to store some text elements, attributes, media, etc. Below is the syntax of XML element:</p><pre><code class="language-java graf graf--code">&lt;element-name attributes&gt; Contents...&lt;/element-name&gt;</code></pre><p class="graf--p">Here, <b class="graf--bold"><i class="graf--italic">element-name </i></b>is the name of the element and attributes are used to define the property of XML element. Following is an example of an XML document that is used to describe the data of the student:</p><pre><code class="language-java graf graf--code">&lt;?xml version = “1.0”?&gt; \n&lt;contactinfo&gt; \n    &lt;address category = “college”&gt; \n        &lt;name&gt;John&lt;/name&gt; \n        &lt;College&gt;MindOrks&lt;/College&gt; \n        &lt;mobile&gt;0123456789&lt;/mobile&gt; \n    &lt;/address&gt; \n&lt;/contactinfo&gt;</code></pre><p class="graf--p">We can broadly divide the XML elements in four parts:</p><ol><li><b class="graf--bold">Prolog:</b> It is the first line that contains the information about the XML file i.e. it is the first line of the XML file.</li><li><b class="graf--bold">Events:</b> An XML file contains a number of events like document start, document end, Tag start, Tag end, etc.</li><li><b class="graf--bold">Text:</b> In between the tags(opening and closing), there can be some text. For example, in the above example, “John” is the text.</li><li><b class="graf--bold">Attributes:</b> These are the properties of XML elements.</li></ol><h4 class="graf--h3">XML Parsing</h4><p class="graf--p">So, we have seen the introduction of XML and our next task is, How to parse the XML in Android? So, let’s find out.In Android, there are various parsers that can be used to parse the XML file in Android. Some of these are:</p><ol><li>XMLPullParser</li><li>DOM Parser</li><li>SAX Parser</li></ol><p class="graf--p">Among these three parsers, <b class="graf--bold">XMLPullParser</b> is the most commonly and most widely used parsers in Android. This is because <b class="graf--bold">XMLPullParser</b> is very efficient and easy to use. Also, unlike the <b class="graf--bold">DOM Parser</b> which loads the whole file in the memory and then parses it, the <b class="graf--bold">XMLPullParser</b> consumes less memory.</p><h4 class="graf--h3">Steps involved in XML parsing</h4><p class="graf--p">Following are the steps that are involved in XML parsing:</p><ul><li><b class="graf--bold">Analyze the feed:</b> There are many cases when you will be provided with a number of data but you need only few of them. SO, before parsing the XML, your first step should be to find the desired element in the XML data. For example, here is example of XML file of StackOverflow:</li></ul><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;feed xmlns="http://www.w3.org/2005/Atom" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule" ..."&gt;\n&lt;title type="text"&gt;newest questions tagged android - Stack Overflow&lt;/title&gt;\n...\n    &lt;entry&gt;\n    ...\n    &lt;/entry&gt;\n    &lt;entry&gt;\n        &lt;id&gt;http://stackoverflow.com/q/9439999&lt;/id&gt;\n        &lt;re:rank scheme="http://stackoverflow.com"&gt;0&lt;/re:rank&gt;\n        &lt;title type="text"&gt;Where is my data file?&lt;/title&gt;\n        &lt;category scheme="http://stackoverflow.com/feeds/tag?tagnames=android&sort=newest/tags" term="android"/&gt;\n        &lt;category scheme="http://stackoverflow.com/feeds/tag?tagnames=android&sort=newest/tags" term="file"/&gt;\n        &lt;author&gt;\n            &lt;name&gt;cliff2310&lt;/name&gt;\n            &lt;uri&gt;http://stackoverflow.com/users/1128925&lt;/uri&gt;\n        &lt;/author&gt;\n        &lt;link rel="alternate" href="http://stackoverflow.com/questions/9439999/where-is-my-data-file" /&gt;\n        &lt;published&gt;2012-02-25T00:30:54Z&lt;/published&gt;\n        &lt;updated&gt;2012-02-25T00:30:54Z&lt;/updated&gt;\n        &lt;summary type="html"&gt;\n            &lt;p&gt;I have an Application that requires a data file...&lt;/p&gt;\n\n        &lt;/summary&gt;\n    &lt;/entry&gt;\n    &lt;entry&gt;\n    ...\n    &lt;/entry&gt;\n...\n&lt;/feed&gt;</code></pre><p class="graf--p">Here, if you want to extract the data present in the <b class="graf--bold">entry</b> tag and the data of its sub tags then you should keep note of these things.</p><ul><li><b class="graf--bold">Create XMLPullParser object:</b> Our next step is to create the object of XMLPullParser and specify the file name for the XMLPullParser that contains XML. You can use a file or a stream. Following is the code to create an object of the XMLPullParser and then passing the file name for the XMLPullParser:</li></ul><pre><code class="language-java graf graf--code">class StackOverflowXmlParser {\n\n    @Throws(XmlPullParserException::class, IOException::class)\n    fun parse(inputStream: InputStream): List&lt;*&gt; {\n        inputStream.use { inputStream -&gt;\n            val parser: XmlPullParser = Xml.newPullParser()\n            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)\n            parser.setInput(inputStream, null)\n            parser.nextTag()\n            return readFeed(parser)\n        }\n    }\n ...\n}</code></pre><ul><li><b class="graf--bold">Read the desired data:</b> Our last step is to parse the data of the XML file. The following readFeed() function is used to parse the XML file and extract only the values of <b class="graf--bold">entries</b> and store it into a list:</li></ul><pre><code class="language-java graf graf--code">@Throws(XmlPullParserException::class, IOException::class)\nprivate fun readFeed(parser: XmlPullParser): List&lt;Entry&gt; {\n    val entries = mutableListOf&lt;Entry&gt;()\n\n    parser.require(XmlPullParser.START_TAG, ns, "feed")\n    while (parser.next() != XmlPullParser.END_TAG) {\n        if (parser.eventType != XmlPullParser.START_TAG) {\n            continue\n        }\n        // Starts by looking for the entry tag\n        if (parser.name == "entry") {\n            entries.add(readEntry(parser))\n        } else {\n            skip(parser)\n        }\n    }\n    return entries\n}</code></pre><p class="graf--p">Here, <b class="graf--bold">XMLPullParser.END_TAG</b> is used to find if the parser has reached to the last tag of the file or not. If it has reached then return and it has not reached then we will check for the <b class="graf--bold">entry</b> tag and if found then will add the value to the <b class="graf--bold">entries</b> list. If the values are not found be to of <b class="graf--bold">entries</b> type then we can skip the parser. At last, we return entries.</p><p class="graf--p">Following are the methods that can be used while parsing an XML file:</p><ol><li><b class="graf--bold">getEventType():</b> This method is used to get the event type. For example, Document start, Document End, Tag start, Tag end, etc.</li><li><b class="graf--bold">getName():</b> This is used to get the tag name in a file. For example, in the above code, the tag name is <b class="graf--bold">entry</b>.</li><li><b class="graf--bold">getAttributeValue():</b> This method is used to get the attribute value of a particular tag. </li><li><b class="graf--bold">getAttributeCount():</b> It returns the total number of attributes of the current tag.</li><li><b class="graf--bold">getAttributeName(int index):</b> It returns the attribute name at a particular index.</li><li><b class="graf--bold">getColumnNumber():</b> It returns the current column number using a 0 based indexing.</li><li><b class="graf--bold">getName():</b> It returns the name of the tag.</li><li><b class="graf--bold">getText():</b> It returns the text present in a particular element.</li></ol><h4 class="graf--h3">XML parsing example</h4><p class="graf--p">Now, let’s do one example to understand the concept of XML parsing ina very easy and clear manner.</p><p class="graf--p">Open Android Studio and create a project with Empty Activity template.</p><p class="graf--p">The very first step is to create the XML file. Either you create your own XML file or you can use mine. To create an XML file, go to java folder and then right click on it. Then click on <b class="graf--bold">New &gt; Folder &gt; Assets</b> folder and then OK. One assets folder will be created for you. Now right click on that folder and create a file and name it as <b class="graf--bold">example.xml</b>. Following is the XML content of <b class="graf--bold">example.xml</b> file:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0"?&gt;\n&lt;records&gt;\n    &lt;student&gt;\n        &lt;name&gt;ABC&lt;/name&gt;\n        &lt;surname&gt;ABC&lt;/surname&gt;\n        &lt;mobile&gt;0123456789&lt;/mobile&gt;\n        &lt;section&gt;A&lt;/section&gt;\n    &lt;/student&gt;\n\n    &lt;student&gt;\n        &lt;name&gt;XYZ&lt;/name&gt;\n        &lt;surname&gt;XYZ&lt;/surname&gt;\n        &lt;mobile&gt;0123456789&lt;/mobile&gt;\n        &lt;section&gt;B&lt;/section&gt;\n    &lt;/student&gt;\n\n    &lt;student&gt;\n        &lt;name&gt;PQR&lt;/name&gt;\n        &lt;surname&gt;PQR&lt;/surname&gt;\n        &lt;mobile&gt;0123456789&lt;/mobile&gt;\n        &lt;section&gt;C&lt;/section&gt;\n    &lt;/student&gt;\n&lt;/records&gt;</code></pre><p class="graf--p">This is a simple example of student data containing the name, surname, mobile and section of the student. In this example, we will extract the name, surname and section of the student. We will ignore the mobile number.</p><p class="graf--p">Now, let’s code for the UI part of our application. Here we will display the desired data on a TextView. So, open the <b class="graf--bold"><i class="graf--italic">activity_main.xml</i></b> file and add the below code:</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"\n                xmlns:tools="http://schemas.android.com/tools"\n                android:layout_width="match_parent"\n                android:layout_height="match_parent"\n                android:padding="16dp"\n                tools:context=".MainActivity"&gt;\n\n    &lt;TextView\n            android:id="@+id/textView"\n            android:layout_width="wrap_content"\n            android:layout_height="wrap_content" /&gt;\n&lt;/RelativeLayout&gt;</code></pre><p class="graf--p">So, we are done with the UI part. Now, let’s write the code for the XML parsing. Below is the code for the <b class="graf--bold"><i class="graf--italic">MainActivity.kt</i></b> file:</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    private lateinit var txtview: TextView\n\n    @SuppressLint("SetTextI18n")\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n        txtview = findViewById&lt;TextView&gt;(R.id.textView)\n        try {\n            val inputStream = assets.open("example.xml")\n            val dbFactory = DocumentBuilderFactory.newInstance()\n            val dBuilder = dbFactory.newDocumentBuilder()\n            val doc = dBuilder.parse(inputStream)\n            val element = doc.documentElement\n            element.normalize()\n            val nList = doc.getElementsByTagName("student")\n            for (i in 0 until nList.length) {\n                val node = nList.item(i)\n                if (node.nodeType === Node.ELEMENT_NODE) {\n                    val element2 = node as Element\n                    txtview.text = "" + txtview.text + "\\nName : " + getValue("name", element2) + "\\n"\n                    txtview.text = "" + txtview.text + "Surname : " + getValue("surname", element2) + "\\n"\n                    txtview.text = "" + txtview.text + "Section : " + getValue("section", element2) + "\\n"\n                    txtview.text = "" + txtview.text + "-----------------------"\n                }\n            }\n        } catch (e: Exception) {\n            e.printStackTrace()\n        }\n    }\n\n    private fun getValue(tag: String, element: Element): String {\n        val nodeList = element.getElementsByTagName(tag).item(0).childNodes\n        val node = nodeList.item(0)\n        return node.nodeValue\n    }\n}</code></pre><p class="graf--p">Now, run the application on your mobile phone and try to add more data to your XML file i.e. the <b class="graf--bold"><i class="graf--italic">example.xml</i></b> file.</p><h4 class="graf--h3">Conclusion</h4><p class="graf--p">In this blog, we learned about XML parsing in Android. We learned how to parse the data present in the XML format in Android Application. We saw how to use <b class="graf--bold">XMLPullParser</b> to do XML parsing. At last, we did one example of XML parsing. You can get more contents about XML parsing at the <a class="markup--anchor" target="_blank" href="https://developer.android.com/training/basics/network-ops/xml#kotlin">Android Developer Website</a>.</p><p class="graf--p">Keep Learning :)</p><p class="graf--p"><b class="graf--bold">Team MindOrks!</b></p>',author:14897,img_url:"/images/processing-parsing-xml-android-banner.png",blog_url:"processing-and-parsing-xml-in-android",likes:0,rank:0,category:1,published_at:"21st June 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:283,title:"Parsing JSON in Android",description:"In this blog, we will learn how to do JSON parsing in Android. JSON parsing is done to get the data that is present in the form of JSON i.e. you will fetch the desired data from the JSON file in your Android Application by using JSON parsing. We will learn each and every concept of JSON parsing.",author:14897,img_url:"/images/json-parsing-in-android-banner.png",blog_url:"parsing-json-in-android",likes:0,rank:0,category:1,published_at:"22nd June 2019",score:4.294234275817871},{id:84,title:"Detecting and fixing memory leaks in android",description:"Many a time we see ANR dialog while using android apps, lags in our apps, we also see OutOfMemoryError in Android Studio while building apps. All these kinds of stuff happen due to memory leaks.",author:30,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/detecting-and-fixing-memory-leaks-in-android.jpg",blog_url:"detecting-and-fixing-memory-leaks-in-android",likes:1,rank:0,category:1,published_at:"27th August 2017",score:.2793795168399811},{id:195,title:"Android  Fragments and its Lifecycle",description:"Android Fragments",author:14897,img_url:"/images/android_fragments_mindorks_feature_image.png",blog_url:"android-fragments-and-its-lifecycle",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.2793795168399811},{id:206,title:"What is Android Jetpack and why should we use it?",description:"What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.",author:30,img_url:"/images/android-jetpack.png",blog_url:"what-is-android-jetpack-and-why-should-we-use-it",likes:0,rank:0,category:1,published_at:"4th January 2019",score:.2793795168399811},{id:231,title:"Understanding and Implementing Permission in Android Q",description:"In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.",author:14897,img_url:"/images/location-permission.png",blog_url:"location-permissions-in-android-q",likes:0,rank:0,category:1,published_at:"11th May 2019",score:.2793795168399811},{id:238,title:"Using Custom and Downloadable Fonts in Android",description:"In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.",author:14897,img_url:"/images/downloadable-font-banner.png",blog_url:"using-custom-and-downloadable-fonts-in-android",likes:0,rank:0,category:1,published_at:"16th May 2019",score:.2793795168399811}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            21st June 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Processing and Parsing XML in Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Processing and Parsing XML in Android" class="graf-image" src="/images/processing-parsing-xml-android-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Sharing data over the internet is very popular. We share our information with the other users over the internet. Let’s take a very common example, since we all are developers and to be more precise, we all are Android Developers and we all must have visited the StackOverflow website whenever we are stuck into some problem in our projects and in every 99 out of 100 cases, we find the solution to our problem. The answer that we get from the StackOverflow website consists of various parts that we are less bothered about. In general, the answers or the questions present on the website contains the id of the question, type of the question, author name of the article or question, publishing data, URL and many other things are there on the website. But we want only meaningful data i.e. we want answers and the authors and nothing else.
+                 </p>
+                 <p class="graf--p">
+                  The problem arises when you want to access the data of a particular website in your Android Application. This is because the data present on the websites are in JSON format or in XML format. So, in order to use that data or to extract the meaningful information from that data, you have to parse that XML file or a JSON file.
+                 </p>
+                 <p class="graf--p">
+                  So, in this blog, we will learn how to process and parse the XML data in Android. So, let’s get started.
+                 </p>
+                 <h4 class="graf--h3">
+                  What is XML?
+                 </h4>
+                 <p class="graf--p">
+                  XML stands for Extensible Markup Language. It is a set of rules that are used to encode data or documents in a Machine-readable language. There are many websites that use an XML format to share data on the internet. For example, many blogging websites use an XML format to share data between users. So, XML parsing and processing become an important task to use that data in our Android Application.
+                 </p>
+                 <h4 class="graf--h3">
+                  XML elements
+                 </h4>
+                 <p class="graf--p">
+                  In general, an XML file consists of a number of elements that together make an XML file. They are the basic building blocks of XML document. These elements are used to store some text elements, attributes, media, etc. Below is the syntax of XML element:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;element-name attributes&gt; Contents...&lt;/element-name&gt;</code></pre>
+                 <p class="graf--p">
+                  Here,
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    element-name
+                   </i>
+                  </b>
+                  is the name of the element and attributes are used to define the property of XML element. Following is an example of an XML document that is used to describe the data of the student:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version = “1.0”?&gt; 
+&lt;contactinfo&gt; 
+    &lt;address category = “college”&gt; 
+        &lt;name&gt;John&lt;/name&gt; 
+        &lt;College&gt;MindOrks&lt;/College&gt; 
+        &lt;mobile&gt;0123456789&lt;/mobile&gt; 
+    &lt;/address&gt; 
+&lt;/contactinfo&gt;</code></pre>
+                 <p class="graf--p">
+                  We can broadly divide the XML elements in four parts:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    Prolog:
+                   </b>
+                   It is the first line that contains the information about the XML file i.e. it is the first line of the XML file.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Events:
+                   </b>
+                   An XML file contains a number of events like document start, document end, Tag start, Tag end, etc.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Text:
+                   </b>
+                   In between the tags(opening and closing), there can be some text. For example, in the above example, “John” is the text.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Attributes:
+                   </b>
+                   These are the properties of XML elements.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  XML Parsing
+                 </h4>
+                 <p class="graf--p">
+                  So, we have seen the introduction of XML and our next task is, How to parse the XML in Android? So, let’s find out.In Android, there are various parsers that can be used to parse the XML file in Android. Some of these are:
+                 </p>
+                 <ol>
+                  <li>
+                   XMLPullParser
+                  </li>
+                  <li>
+                   DOM Parser
+                  </li>
+                  <li>
+                   SAX Parser
+                  </li>
+                 </ol>
+                 <p class="graf--p">
+                  Among these three parsers,
+                  <b class="graf--bold">
+                   XMLPullParser
+                  </b>
+                  is the most commonly and most widely used parsers in Android. This is because
+                  <b class="graf--bold">
+                   XMLPullParser
+                  </b>
+                  is very efficient and easy to use. Also, unlike the
+                  <b class="graf--bold">
+                   DOM Parser
+                  </b>
+                  which loads the whole file in the memory and then parses it, the
+                  <b class="graf--bold">
+                   XMLPullParser
+                  </b>
+                  consumes less memory.
+                 </p>
+                 <h4 class="graf--h3">
+                  Steps involved in XML parsing
+                 </h4>
+                 <p class="graf--p">
+                  Following are the steps that are involved in XML parsing:
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Analyze the feed:
+                   </b>
+                   There are many cases when you will be provided with a number of data but you need only few of them. SO, before parsing the XML, your first step should be to find the desired element in the XML data. For example, here is example of XML file of StackOverflow:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;feed xmlns="http://www.w3.org/2005/Atom" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule" ..."&gt;
+&lt;title type="text"&gt;newest questions tagged android - Stack Overflow&lt;/title&gt;
+...
+    &lt;entry&gt;
+    ...
+    &lt;/entry&gt;
+    &lt;entry&gt;
+        &lt;id&gt;http://stackoverflow.com/q/9439999&lt;/id&gt;
+        &lt;re:rank scheme="http://stackoverflow.com"&gt;0&lt;/re:rank&gt;
+        &lt;title type="text"&gt;Where is my data file?&lt;/title&gt;
+        &lt;category scheme="http://stackoverflow.com/feeds/tag?tagnames=android&amp;sort=newest/tags" term="android"/&gt;
+        &lt;category scheme="http://stackoverflow.com/feeds/tag?tagnames=android&amp;sort=newest/tags" term="file"/&gt;
+        &lt;author&gt;
+            &lt;name&gt;cliff2310&lt;/name&gt;
+            &lt;uri&gt;http://stackoverflow.com/users/1128925&lt;/uri&gt;
+        &lt;/author&gt;
+        &lt;link rel="alternate" href="http://stackoverflow.com/questions/9439999/where-is-my-data-file" /&gt;
+        &lt;published&gt;2012-02-25T00:30:54Z&lt;/published&gt;
+        &lt;updated&gt;2012-02-25T00:30:54Z&lt;/updated&gt;
+        &lt;summary type="html"&gt;
+            &lt;p&gt;I have an Application that requires a data file...&lt;/p&gt;
+
+        &lt;/summary&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    ...
+    &lt;/entry&gt;
+...
+&lt;/feed&gt;</code></pre>
+                 <p class="graf--p">
+                  Here, if you want to extract the data present in the
+                  <b class="graf--bold">
+                   entry
+                  </b>
+                  tag and the data of its sub tags then you should keep note of these things.
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Create XMLPullParser object:
+                   </b>
+                   Our next step is to create the object of XMLPullParser and specify the file name for the XMLPullParser that contains XML. You can use a file or a stream. Following is the code to create an object of the XMLPullParser and then passing the file name for the XMLPullParser:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">class StackOverflowXmlParser {
+
+    @Throws(XmlPullParserException::class, IOException::class)
+    fun parse(inputStream: InputStream): List&lt;*&gt; {
+        inputStream.use { inputStream -&gt;
+            val parser: XmlPullParser = Xml.newPullParser()
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
+            parser.setInput(inputStream, null)
+            parser.nextTag()
+            return readFeed(parser)
+        }
+    }
+ ...
+}</code></pre>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Read the desired data:
+                   </b>
+                   Our last step is to parse the data of the XML file. The following readFeed() function is used to parse the XML file and extract only the values of
+                   <b class="graf--bold">
+                    entries
+                   </b>
+                   and store it into a list:
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">@Throws(XmlPullParserException::class, IOException::class)
+private fun readFeed(parser: XmlPullParser): List&lt;Entry&gt; {
+    val entries = mutableListOf&lt;Entry&gt;()
+
+    parser.require(XmlPullParser.START_TAG, ns, "feed")
+    while (parser.next() != XmlPullParser.END_TAG) {
+        if (parser.eventType != XmlPullParser.START_TAG) {
+            continue
+        }
+        // Starts by looking for the entry tag
+        if (parser.name == "entry") {
+            entries.add(readEntry(parser))
+        } else {
+            skip(parser)
+        }
+    }
+    return entries
+}</code></pre>
+                 <p class="graf--p">
+                  Here,
+                  <b class="graf--bold">
+                   XMLPullParser.END_TAG
+                  </b>
+                  is used to find if the parser has reached to the last tag of the file or not. If it has reached then return and it has not reached then we will check for the
+                  <b class="graf--bold">
+                   entry
+                  </b>
+                  tag and if found then will add the value to the
+                  <b class="graf--bold">
+                   entries
+                  </b>
+                  list. If the values are not found be to of
+                  <b class="graf--bold">
+                   entries
+                  </b>
+                  type then we can skip the parser. At last, we return entries.
+                 </p>
+                 <p class="graf--p">
+                  Following are the methods that can be used while parsing an XML file:
+                 </p>
+                 <ol>
+                  <li>
+                   <b class="graf--bold">
+                    getEventType():
+                   </b>
+                   This method is used to get the event type. For example, Document start, Document End, Tag start, Tag end, etc.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    getName():
+                   </b>
+                   This is used to get the tag name in a file. For example, in the above code, the tag name is
+                   <b class="graf--bold">
+                    entry
+                   </b>
+                   .
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    getAttributeValue():
+                   </b>
+                   This method is used to get the attribute value of a particular tag.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    getAttributeCount():
+                   </b>
+                   It returns the total number of attributes of the current tag.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    getAttributeName(int index):
+                   </b>
+                   It returns the attribute name at a particular index.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    getColumnNumber():
+                   </b>
+                   It returns the current column number using a 0 based indexing.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    getName():
+                   </b>
+                   It returns the name of the tag.
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    getText():
+                   </b>
+                   It returns the text present in a particular element.
+                  </li>
+                 </ol>
+                 <h4 class="graf--h3">
+                  XML parsing example
+                 </h4>
+                 <p class="graf--p">
+                  Now, let’s do one example to understand the concept of XML parsing ina very easy and clear manner.
+                 </p>
+                 <p class="graf--p">
+                  Open Android Studio and create a project with Empty Activity template.
+                 </p>
+                 <p class="graf--p">
+                  The very first step is to create the XML file. Either you create your own XML file or you can use mine. To create an XML file, go to java folder and then right click on it. Then click on
+                  <b class="graf--bold">
+                   New &gt; Folder &gt; Assets
+                  </b>
+                  folder and then OK. One assets folder will be created for you. Now right click on that folder and create a file and name it as
+                  <b class="graf--bold">
+                   example.xml
+                  </b>
+                  . Following is the XML content of
+                  <b class="graf--bold">
+                   example.xml
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0"?&gt;
+&lt;records&gt;
+    &lt;student&gt;
+        &lt;name&gt;ABC&lt;/name&gt;
+        &lt;surname&gt;ABC&lt;/surname&gt;
+        &lt;mobile&gt;0123456789&lt;/mobile&gt;
+        &lt;section&gt;A&lt;/section&gt;
+    &lt;/student&gt;
+
+    &lt;student&gt;
+        &lt;name&gt;XYZ&lt;/name&gt;
+        &lt;surname&gt;XYZ&lt;/surname&gt;
+        &lt;mobile&gt;0123456789&lt;/mobile&gt;
+        &lt;section&gt;B&lt;/section&gt;
+    &lt;/student&gt;
+
+    &lt;student&gt;
+        &lt;name&gt;PQR&lt;/name&gt;
+        &lt;surname&gt;PQR&lt;/surname&gt;
+        &lt;mobile&gt;0123456789&lt;/mobile&gt;
+        &lt;section&gt;C&lt;/section&gt;
+    &lt;/student&gt;
+&lt;/records&gt;</code></pre>
+                 <p class="graf--p">
+                  This is a simple example of student data containing the name, surname, mobile and section of the student. In this example, we will extract the name, surname and section of the student. We will ignore the mobile number.
+                 </p>
+                 <p class="graf--p">
+                  Now, let’s code for the UI part of our application. Here we will display the desired data on a TextView. So, open the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    activity_main.xml
+                   </i>
+                  </b>
+                  file and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                tools:context=".MainActivity"&gt;
+
+    &lt;TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" /&gt;
+&lt;/RelativeLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  So, we are done with the UI part. Now, let’s write the code for the XML parsing. Below is the code for the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    MainActivity.kt
+                   </i>
+                  </b>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    private lateinit var txtview: TextView
+
+    @SuppressLint("SetTextI18n")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        txtview = findViewById&lt;TextView&gt;(R.id.textView)
+        try {
+            val inputStream = assets.open("example.xml")
+            val dbFactory = DocumentBuilderFactory.newInstance()
+            val dBuilder = dbFactory.newDocumentBuilder()
+            val doc = dBuilder.parse(inputStream)
+            val element = doc.documentElement
+            element.normalize()
+            val nList = doc.getElementsByTagName("student")
+            for (i in 0 until nList.length) {
+                val node = nList.item(i)
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    val element2 = node as Element
+                    txtview.text = "" + txtview.text + "\nName : " + getValue("name", element2) + "\n"
+                    txtview.text = "" + txtview.text + "Surname : " + getValue("surname", element2) + "\n"
+                    txtview.text = "" + txtview.text + "Section : " + getValue("section", element2) + "\n"
+                    txtview.text = "" + txtview.text + "-----------------------"
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun getValue(tag: String, element: Element): String {
+        val nodeList = element.getElementsByTagName(tag).item(0).childNodes
+        val node = nodeList.item(0)
+        return node.nodeValue
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, run the application on your mobile phone and try to add more data to your XML file i.e. the
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    example.xml
+                   </i>
+                  </b>
+                  file.
+                 </p>
+                 <h4 class="graf--h3">
+                  Conclusion
+                 </h4>
+                 <p class="graf--p">
+                  In this blog, we learned about XML parsing in Android. We learned how to parse the data present in the XML format in Android Application. We saw how to use
+                  <b class="graf--bold">
+                   XMLPullParser
+                  </b>
+                  to do XML parsing. At last, we did one example of XML parsing. You can get more contents about XML parsing at the
+                  <a class="markup--anchor" href="https://developer.android.com/training/basics/network-ops/xml#kotlin" target="_blank">
+                   Android Developer Website
+                  </a>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Keep Learning :)
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks!
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Parsing JSON in Android" class="ui centered image" src="/images/json-parsing-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Parsing JSON in Android
+           </div>
+           <div class="meta">
+            22nd June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to do JSON parsing in Android. JSON parsing is done to get the data that is present in the form of JSON i.e. you will fetch the desired data from the JSON file in your Android Application by using JSON parsing. We will learn each and every concept of JSON parsing.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Detecting and fixing memory leaks in android" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/detecting-and-fixing-memory-leaks-in-android.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Detecting and fixing memory leaks in android
+           </div>
+           <div class="meta">
+            27th August 2017
+           </div>
+           <div class="description">
+            Many a time we see ANR dialog while using android apps, lags in our apps, we also see OutOfMemoryError in Android Studio while building apps. All these kinds of stuff happen due to memory leaks.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android  Fragments and its Lifecycle" class="ui centered image" src="/images/android_fragments_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android  Fragments and its Lifecycle
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android Fragments
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="What is Android Jetpack and why should we use it?" class="ui centered image" src="/images/android-jetpack.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            What is Android Jetpack and why should we use it?
+           </div>
+           <div class="meta">
+            4th January 2019
+           </div>
+           <div class="description">
+            What is Android Jetpack and why should we use it? Benefits of Android Jetpack. Build high quality, robust apps using the Android Jetpack. Android Jetpack is a collection of Android software components which helps us in building great Android apps.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding and Implementing Permission in Android Q" class="ui centered image" src="/images/location-permission.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding and Implementing Permission in Android Q
+           </div>
+           <div class="meta">
+            11th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will understand the new privacy-based location permission in Android Q and how to implement it in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Custom and Downloadable Fonts in Android" class="ui centered image" src="/images/downloadable-font-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Custom and Downloadable Fonts in Android
+           </div>
+           <div class="meta">
+            16th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

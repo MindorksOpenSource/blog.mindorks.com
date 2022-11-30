@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Android Navigation Drawer in Kotlin
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/android-navigation-drawer-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Android Navigation Drawer in Kotlin" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/android-navigation-drawer-in-kotlin" property="og:url"/>
+  <meta content="/images/android_navigationdrawer_mindorks_featuer_image.png" property="og:image"/>
+  <meta content="Android Navigation Drawer in Kotlin" property="og:description"/>
+  <meta content="Android Navigation Drawer in Kotlin" property="twitter:title"/>
+  <meta content="Android Navigation Drawer in Kotlin" name="twitter:description"/>
+  <meta content="/images/android_navigationdrawer_mindorks_featuer_image.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="Android Navigation Drawer in Kotlin" name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:201,data:{id:201,title:"Android Navigation Drawer in Kotlin",description:"Android Navigation Drawer in Kotlin",text:'<h2 class="graf--h1">Android Navigation Drawer in Kotlin</h2><p class="graf--p">Welcome, In this chapter we are focusing on NavigationDrawer, or we can say NavigationView. NavigationView is the panel which shows you the menu, it’s hidden, but when the user swipes from left to right, this menu bar gets open or from the top when the user touches the hamburger icon (3 horizontal lines).</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_navigationdrawer_mindorks_featuer_image.png class=\'graf-image\' alt=\'Android Navigation Drawer in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Before using it in your app, you should be clear when to use it and what are the use cases when an app needs the NavigationView:</p><ul><li>Apps with five or more top-level destinations</li><li>Apps with two or more levels of the navigation hierarchy</li><li>Quick navigation between unrelated destinations</li></ul><p class="graf--p"></p><p class="graf--p">Let’s start the development:</p><p class="graf--p">1. Create a new project and add the material dependency where our required navigationView is and sync the project.</p><pre><code class="language-java graf graf--code">implementation ‘com.google.android.material:material:1.0.0’</code></pre><p class="graf--p">2. First, create the main screen layout where we will see the navigation menu.</p><pre><code class="language-java graf graf--code">&lt;?xml version=”1.0" encoding=”utf-8"?&gt;\n&lt;androidx.drawerlayout.widget.DrawerLayout xmlns:android=”http://schemas.android.com/apk/res/android"\n xmlns:app=”http://schemas.android.com/apk/res-auto"\n xmlns:tools=”http://schemas.android.com/tools"\n android:id=”@+id/drawer_layout”\n android:layout_width=”match_parent”\n android:layout_height=”match_parent”\n tools:context=”.MainActivity”&gt;&lt;FrameLayout\n android:id=”@+id/content_frame”\n android:layout_width=”match_parent”\n android:layout_height=”match_parent”&gt;&lt;androidx.appcompat.widget.Toolbar\n android:id=”@+id/toolbar”\n android:layout_width=”match_parent”\n android:layout_height=”?attr/actionBarSize”\n android:background=”?attr/colorPrimary”\n app:popupTheme=”@style/ThemeOverlay.AppCompat.Light” /&gt;&lt;/FrameLayout&gt; &lt;com.google.android.material.navigation.NavigationView\n android:id=”@+id/navigationView”\n android:layout_width=”wrap_content”\n android:layout_height=”match_parent”\n android:layout_gravity=”start”\n app:headerLayout=”@layout/nav_header”\n app:menu=”@menu/drawer_view” /&gt;&lt;/androidx.drawerlayout.widget.DrawerLayout&gt;</code></pre><p class="graf--p">3. Here, we have DrawerLayout, which is our parent view, helps us to draw the view on the screen as its child item.</p><p class="graf--p"> We are also using toolbar and removed the default toolbar from the styles.xml by change the parent theme</p><pre><code class="language-java graf graf--code">&lt;! — Base application theme. →\n&lt;style name=”AppTheme” parent=”Theme.AppCompat.Light.NoActionBar”&gt;\n &lt;! — Customize your theme here. →\n &lt;item name=”colorPrimary”&gt;@color/colorPrimary&lt;/item&gt;\n &lt;item name=”colorPrimaryDark”&gt;@color/colorPrimaryDark&lt;/item&gt;\n &lt;item name=”colorAccent”&gt;@color/colorAccent&lt;/item&gt;\n&lt;/style&gt;</code></pre><p class="graf--p"><br/>We also have a FrameLayout, so that our navigation view can come over it.</p><p class="graf--p">4. We have a NavigationView and two attributes in it:</p><pre><code class="language-java graf graf--code">app:menu=”@menu/drawer_view”</code></pre><p class="graf--p"><br/>5. We need to declare that what are the items which we need to show in the navigation view, the list of menu.</p><p class="graf--p"><br/>To create a menu, first, we need to create a menu folder inside res folder. And now, we will create a menu file by right-clicking on the menu and go to the new &gt; menu resource file and create one.</p><p class="graf--p"><br/>Another, we have </p><pre><code class="language-java graf graf--code">app:headerLayout=”@layout/nav_header”</code></pre><p class="graf--p"><br/>We need to define the layout which is the header layout in the navigation view, the top part of the navigation view which is mostly used to describe user details or app details.</p><pre><code class="language-java graf graf--code">&lt;?xml version=”1.0" encoding=”utf-8"?&gt;\n&lt;LinearLayout xmlns:android=”http://schemas.android.com/apk/res/android"\n android:layout_width=”match_parent”\n android:layout_height=”192dp”\n android:background=”?attr/colorPrimaryDark”\n android:gravity=”bottom”\n android:orientation=”vertical”\n android:padding=”16dp”\n android:theme=”@style/ThemeOverlay.AppCompat.Dark”&gt;&lt;TextView\n android:layout_width=”match_parent”\n android:layout_height=”wrap_content”\n android:text=”MindOrks”\nandroid:textAppearance=”@style/TextAppearance.AppCompat.Body1" /&gt;\n&lt;/LinearLayout&gt;</code></pre><p class="graf--p">6. The layout part is completed now, let’s move to the kotlin class. Inside our MainActivity, we will first set the toolbar as a actionbar. </p><pre><code class="language-java graf graf--code">setSupportActionBar(toolbar)</code></pre><p class="graf--p">7. Now, we will set the actionBar to toggle state, which is used when we open and close our navogation view. </p><p class="graf--p">8. To get the hamburger icon, we will set the indicator</p><pre><code class="language-java graf graf--code">toggle.isDrawerIndicatorEnabled = true</code></pre><p class="graf--p">9. To make our NavigationView interactable, we need to set the listener to it.<br/>For that, we will override the method of its interface. </p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{}</code></pre><p class="graf--p">And set the specific action on menuItem clicks. Here, we are showing the toast message. You can also start a new activity, or open fragment etc.</p><pre><code class="language-java graf graf--code">override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {\n    when (menuItem.itemId) {\n        R.id.nav_public -&gt; {\n            Toast.makeText(this, "Publication", Toast.LENGTH_SHORT).show()\n        }\n        R.id.nav_store -&gt; {\n            Toast.makeText(this, "Android Store", Toast.LENGTH_SHORT).show()\n        }\n        R.id.nav_news -&gt; {\n            Toast.makeText(this, "Newsletter", Toast.LENGTH_SHORT).show()\n        }\n        R.id.nav_join -&gt; {\n            Toast.makeText(this, "Join Community", Toast.LENGTH_SHORT).show()\n        }\n        R.id.nav_contact -&gt; {\n            Toast.makeText(this, "Contact us", Toast.LENGTH_SHORT).show()\n        }\n    }\n    drawer_layout.closeDrawer(GravityCompat.START)\n    return true\n}</code></pre><p class="graf--p">We also need to make sure that if the user press back button, we should check the navigationView should be closed first and then the app. For this, we will override the onBackPressed() method.</p><pre><code class="language-java graf graf--code">override fun onBackPressed() {\n    if (drawer_layout.isDrawerOpen(GravityCompat.START)) {\n        drawer_layout.closeDrawer(GravityCompat.START)\n    } else {\n        super.onBackPressed()\n    }\n}</code></pre> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/android_navigation_drawer_mindorks_gif.gif class=\'graf-image\' alt=\'Android Navigation Drawer in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Let&#x27;s run this application. Cool!! This is working fine. There is much more in NavigationView like icons in the menu items etc. Try to explore more and share us with on our twitter or slack channel. </p><h4 class="graf--h3"><a class="markup--anchor" target="_blank" href="https://blog.mindorks.com/android-bottom-navigationview-in-kotlin">In the next chapter we are going to learn about the BottomNavigationView, which you alread had seen in the instagram application. Let&#x27;s start with the next chapter.</a></h4>',author:14897,img_url:"/images/android_navigationdrawer_mindorks_featuer_image.png",blog_url:"android-navigation-drawer-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:180,title:"Navigation Drawer Android Example",description:"Navigation Drawer is the sliding menu that appears on the android screen with a hamburger menu icon in the ActionBar. The construction of it requires placing multiple views inside the navigation portion of the DrawerLayout. ",author:2,img_url:"/images/banner-android-developer-blog-1e4d496366053183.jpg",blog_url:"navigation-drawer-android-example",likes:0,rank:0,category:1,published_at:"22nd August 2016",score:7.090145587921143},{id:202,title:"Android Bottom Navigation Example in Kotlin",description:"Android Bottom Navigation Example in Kotlin. How to implement the BottomNavigationView in Kotlin?",author:14897,img_url:"/images/android_bottom_navigation_mindorks_feature_image.png",blog_url:"android-bottom-navigationview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:2.952772617340088},{id:455,title:"Using Jetpack Navigation Component in Android",description:"In this blog, we are going to learn how to integrate the navigation component, how to see the complete navigation graph of our application, and how to pass arguments safely in Android.",author:11475,img_url:"/images/using-jetpack-navigation-component-in-android-banner-925bdeb7f7ee09f0.png",blog_url:"jetpack-navigation-component-in-android",likes:0,rank:0,category:1,published_at:"21st May 2020",score:2.805088996887207},{id:512,title:"Jetpack Compose: Navigation",description:"In this blog, we will learn how to navigate between different composable using Jetpack Navigation.",author:17146,img_url:"/images/banner-jetpack-compose-navigation-657edc7b323cafdf.png",blog_url:"jetpack-compose-navigation",likes:0,rank:0,category:1,published_at:"4th December 2020",score:2.7959113121032715},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.16603870689868927},{id:194,title:"Android WebView — in kotlin",description:"Android WebView",author:14897,img_url:"/images/android_webview_mindorks_feature_image.png",blog_url:"android-webview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1568611115217209}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            3rd January 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h2 class="graf--h1">
+                  Android Navigation Drawer in Kotlin
+                 </h2>
+                 <p class="graf--p">
+                  Welcome, In this chapter we are focusing on NavigationDrawer, or we can say NavigationView. NavigationView is the panel which shows you the menu, it’s hidden, but when the user swipes from left to right, this menu bar gets open or from the top when the user touches the hamburger icon (3 horizontal lines).
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android Navigation Drawer in Kotlin" class="graf-image" src="/images/android_navigationdrawer_mindorks_featuer_image.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Before using it in your app, you should be clear when to use it and what are the use cases when an app needs the NavigationView:
+                 </p>
+                 <ul>
+                  <li>
+                   Apps with five or more top-level destinations
+                  </li>
+                  <li>
+                   Apps with two or more levels of the navigation hierarchy
+                  </li>
+                  <li>
+                   Quick navigation between unrelated destinations
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                 </p>
+                 <p class="graf--p">
+                  Let’s start the development:
+                 </p>
+                 <p class="graf--p">
+                  1. Create a new project and add the material dependency where our required navigationView is and sync the project.
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation ‘com.google.android.material:material:1.0.0’</code></pre>
+                 <p class="graf--p">
+                  2. First, create the main screen layout where we will see the navigation menu.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version=”1.0" encoding=”utf-8"?&gt;
+&lt;androidx.drawerlayout.widget.DrawerLayout xmlns:android=”http://schemas.android.com/apk/res/android"
+ xmlns:app=”http://schemas.android.com/apk/res-auto"
+ xmlns:tools=”http://schemas.android.com/tools"
+ android:id=”@+id/drawer_layout”
+ android:layout_width=”match_parent”
+ android:layout_height=”match_parent”
+ tools:context=”.MainActivity”&gt;&lt;FrameLayout
+ android:id=”@+id/content_frame”
+ android:layout_width=”match_parent”
+ android:layout_height=”match_parent”&gt;&lt;androidx.appcompat.widget.Toolbar
+ android:id=”@+id/toolbar”
+ android:layout_width=”match_parent”
+ android:layout_height=”?attr/actionBarSize”
+ android:background=”?attr/colorPrimary”
+ app:popupTheme=”@style/ThemeOverlay.AppCompat.Light” /&gt;&lt;/FrameLayout&gt; &lt;com.google.android.material.navigation.NavigationView
+ android:id=”@+id/navigationView”
+ android:layout_width=”wrap_content”
+ android:layout_height=”match_parent”
+ android:layout_gravity=”start”
+ app:headerLayout=”@layout/nav_header”
+ app:menu=”@menu/drawer_view” /&gt;&lt;/androidx.drawerlayout.widget.DrawerLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  3. Here, we have DrawerLayout, which is our parent view, helps us to draw the view on the screen as its child item.
+                 </p>
+                 <p class="graf--p">
+                  We are also using toolbar and removed the default toolbar from the styles.xml by change the parent theme
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;! — Base application theme. →
+&lt;style name=”AppTheme” parent=”Theme.AppCompat.Light.NoActionBar”&gt;
+ &lt;! — Customize your theme here. →
+ &lt;item name=”colorPrimary”&gt;@color/colorPrimary&lt;/item&gt;
+ &lt;item name=”colorPrimaryDark”&gt;@color/colorPrimaryDark&lt;/item&gt;
+ &lt;item name=”colorAccent”&gt;@color/colorAccent&lt;/item&gt;
+&lt;/style&gt;</code></pre>
+                 <p class="graf--p">
+                  <br/>
+                  We also have a FrameLayout, so that our navigation view can come over it.
+                 </p>
+                 <p class="graf--p">
+                  4. We have a NavigationView and two attributes in it:
+                 </p>
+                 <pre><code class="language-java graf graf--code">app:menu=”@menu/drawer_view”</code></pre>
+                 <p class="graf--p">
+                  <br/>
+                  5. We need to declare that what are the items which we need to show in the navigation view, the list of menu.
+                 </p>
+                 <p class="graf--p">
+                  <br/>
+                  To create a menu, first, we need to create a menu folder inside res folder. And now, we will create a menu file by right-clicking on the menu and go to the new &gt; menu resource file and create one.
+                 </p>
+                 <p class="graf--p">
+                  <br/>
+                  Another, we have
+                 </p>
+                 <pre><code class="language-java graf graf--code">app:headerLayout=”@layout/nav_header”</code></pre>
+                 <p class="graf--p">
+                  <br/>
+                  We need to define the layout which is the header layout in the navigation view, the top part of the navigation view which is mostly used to describe user details or app details.
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version=”1.0" encoding=”utf-8"?&gt;
+&lt;LinearLayout xmlns:android=”http://schemas.android.com/apk/res/android"
+ android:layout_width=”match_parent”
+ android:layout_height=”192dp”
+ android:background=”?attr/colorPrimaryDark”
+ android:gravity=”bottom”
+ android:orientation=”vertical”
+ android:padding=”16dp”
+ android:theme=”@style/ThemeOverlay.AppCompat.Dark”&gt;&lt;TextView
+ android:layout_width=”match_parent”
+ android:layout_height=”wrap_content”
+ android:text=”MindOrks”
+android:textAppearance=”@style/TextAppearance.AppCompat.Body1" /&gt;
+&lt;/LinearLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  6. The layout part is completed now, let’s move to the kotlin class. Inside our MainActivity, we will first set the toolbar as a actionbar.
+                 </p>
+                 <pre><code class="language-java graf graf--code">setSupportActionBar(toolbar)</code></pre>
+                 <p class="graf--p">
+                  7. Now, we will set the actionBar to toggle state, which is used when we open and close our navogation view.
+                 </p>
+                 <p class="graf--p">
+                  8. To get the hamburger icon, we will set the indicator
+                 </p>
+                 <pre><code class="language-java graf graf--code">toggle.isDrawerIndicatorEnabled = true</code></pre>
+                 <p class="graf--p">
+                  9. To make our NavigationView interactable, we need to set the listener to it.
+                  <br/>
+                  For that, we will override the method of its interface.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{}</code></pre>
+                 <p class="graf--p">
+                  And set the specific action on menuItem clicks. Here, we are showing the toast message. You can also start a new activity, or open fragment etc.
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+    when (menuItem.itemId) {
+        R.id.nav_public -&gt; {
+            Toast.makeText(this, "Publication", Toast.LENGTH_SHORT).show()
+        }
+        R.id.nav_store -&gt; {
+            Toast.makeText(this, "Android Store", Toast.LENGTH_SHORT).show()
+        }
+        R.id.nav_news -&gt; {
+            Toast.makeText(this, "Newsletter", Toast.LENGTH_SHORT).show()
+        }
+        R.id.nav_join -&gt; {
+            Toast.makeText(this, "Join Community", Toast.LENGTH_SHORT).show()
+        }
+        R.id.nav_contact -&gt; {
+            Toast.makeText(this, "Contact us", Toast.LENGTH_SHORT).show()
+        }
+    }
+    drawer_layout.closeDrawer(GravityCompat.START)
+    return true
+}</code></pre>
+                 <p class="graf--p">
+                  We also need to make sure that if the user press back button, we should check the navigationView should be closed first and then the app. For this, we will override the onBackPressed() method.
+                 </p>
+                 <pre><code class="language-java graf graf--code">override fun onBackPressed() {
+    if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+        drawer_layout.closeDrawer(GravityCompat.START)
+    } else {
+        super.onBackPressed()
+    }
+}</code></pre>
+                 <div class="graf-image graf-caption">
+                  <img alt="Android Navigation Drawer in Kotlin" class="graf-image" src="/images/android_navigation_drawer_mindorks_gif.gif"/>
+                 </div>
+                 <p class="graf--p">
+                  Let's run this application. Cool!! This is working fine. There is much more in NavigationView like icons in the menu items etc. Try to explore more and share us with on our twitter or slack channel.
+                 </p>
+                 <h4 class="graf--h3">
+                  <a class="markup--anchor" href="https://blog.mindorks.com/android-bottom-navigationview-in-kotlin" target="_blank">
+                   In the next chapter we are going to learn about the BottomNavigationView, which you alread had seen in the instagram application. Let's start with the next chapter.
+                  </a>
+                 </h4>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Navigation Drawer Android Example" class="ui centered image" src="/images/banner-android-developer-blog-1e4d496366053183.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Navigation Drawer Android Example
+           </div>
+           <div class="meta">
+            22nd August 2016
+           </div>
+           <div class="description">
+            Navigation Drawer is the sliding menu that appears on the android screen with a hamburger menu icon in the ActionBar. The construction of it requires placing multiple views inside the navigation portion of the DrawerLayout.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android Bottom Navigation Example in Kotlin" class="ui centered image" src="/images/android_bottom_navigation_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android Bottom Navigation Example in Kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android Bottom Navigation Example in Kotlin. How to implement the BottomNavigationView in Kotlin?
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Jetpack Navigation Component in Android" class="ui centered image" src="/images/using-jetpack-navigation-component-in-android-banner-925bdeb7f7ee09f0.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Jetpack Navigation Component in Android
+           </div>
+           <div class="meta">
+            21st May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to integrate the navigation component, how to see the complete navigation graph of our application, and how to pass arguments safely in Android.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Jetpack Compose: Navigation" class="ui centered image" src="/images/banner-jetpack-compose-navigation-657edc7b323cafdf.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Jetpack Compose: Navigation
+           </div>
+           <div class="meta">
+            4th December 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to navigate between different composable using Jetpack Navigation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android WebView — in kotlin" class="ui centered image" src="/images/android_webview_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android WebView — in kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android WebView
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

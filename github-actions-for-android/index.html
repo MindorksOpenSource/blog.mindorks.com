@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Introduction to Github Actions for Android
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/github-actions-for-android" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Introduction to Github Actions for Android" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/github-actions-for-android" property="og:url"/>
+  <meta content="/images/banner-github-actions-for-android-e4586866ea06660b.jpg" property="og:image"/>
+  <meta content="This blog is all about getting started with the Github Actions for Android that will make your software development faster and reliable." property="og:description"/>
+  <meta content="Introduction to Github Actions for Android" property="twitter:title"/>
+  <meta content="This blog is all about getting started with the Github Actions for Android that will make your software development faster and reliable." name="twitter:description"/>
+  <meta content="/images/banner-github-actions-for-android-e4586866ea06660b.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="This blog is all about getting started with the Github Actions for Android that will make your software development faster and reliable." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:442,data:{id:442,title:"Introduction to Github Actions for Android",description:"This blog is all about getting started with the Github Actions for Android that will make your software development faster and reliable.",text:'<h1 class="graf--h1">Introduction to Github Actions for Android</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/banner-github-actions-for-android-e4586866ea06660b.jpg class=\'graf-image\' alt=\'Introduction to Github Actions for Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">You may have heard about Continuous Integration and Continuous Delivery. These 2 terms are a standard practice followed by top companies to make the release of their software smaller, faster, and reliable. You can read more about these topics <a class="markup--anchor" target="_blank" href="https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment">here</a>.</p><h4 class="graf--h3">So what are Github Actions?</h4><p class="graf--p">It is a CI/CD tool to automate the software workflow very easily. There are several tools like Jenkins, CircleCI, TeamCity, TravisCI which help you to automate your workflow, but setting up Github Actions for your repository on Github is extremely easy. We’ll discuss in this blog post how to get started with the same.</p><h4 class="graf--h3">Getting Started</h4><p class="graf--p">When you open your repository on Github, you will now see a new tab called “Actions”. Since we don’t have any action setup as yet the page will look similar to this.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/github-action-getting-started-b06734dcfa58db3c.png class=\'graf-image\' alt=\'Introduction to Github Actions for Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">We will start by creating a <b class="graf--bold">YAML</b> file that is commonly used for configurations. We can do so either by clicking “setup a workflow yourself” link in the Actions tab (see the above screenshot) or by creating a file in your favorite IDE. We first have to create <i class="graf--italic">.github/workflows</i> folder in the root of the repository, and in that folder, we will create a file called <i class="graf--italic">first-workflow.yml.</i></p><p class="graf--p">In this file, we will define the actions that we need to perform. We will be defining 3 actions which include running unit tests, building an apk file, and uploading the apk file to Github servers.</p><p class="graf--p">Now open <i class="graf--italic">first-workflow.yml and paste the following code</i></p><pre><code class="language-java graf graf--code"># This is a basic workflow to help you get started with Actions\n\nname: Android CI\n\n  on:\n    push:\n      branches: [ master ]\n    pull_request:\n      branches: [ master ]\n\njobs:\n  test:\n    name: Run Unit Tests\n    runs-on: ubuntu-latest\n\n    steps:\n    - uses: actions/checkout@v2\n    - name: set up JDK 1.8\n      uses: actions/setup-java@v1\n      with:\n        java-version: 1.8\n    - name: Unit tests\n      run: bash ./gradlew test --stacktrace\n\n  build:\n    name: Generate APK\n    runs-on: ubuntu-latest\n\n    steps:\n    - uses: actions/checkout@v2\n    - name: set up JDK 1.8\n      uses: actions/setup-java@v1\n      with:\n        java-version: 1.8\n    - name: Build Debug APK\n      run: bash ./gradlew :app:assembleDebug\n              \n    - name: Upload APK\n      uses: actions/upload-artifact@v2\n      with:\n        name: App\n        path: ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk</code></pre><p class="graf--p">We will cover what each line means one by one.</p><p class="graf--p">First, we name our workflow with the following line.</p><pre><code class="language-java graf graf--code">name: Android CI</code></pre><p class="graf--p">We can have multiple workflow files in the <i class="graf--italic">.github/workflows directory and each workflow runs in parallel on a different container.</i></p><p class="graf--p">Next, we provide information about when to trigger this workflow by the following lines</p><pre><code class="language-java graf graf--code">on:\n  push:\n    branches: [ master ]\n  pull_request:\n    branches: [ master ]</code></pre><p class="graf--p">Here we define that this workflow should run when either some commit is pushed to the master branch or when some pull request is raised against the master branch.</p><p class="graf--p">Now we define jobs. As its name implies jobs will perform some actions. We have defined 2 jobs namely <b class="graf--bold"><i class="graf--italic">test</i></b> and <b class="graf--bold"><i class="graf--italic">build</i></b></p><p class="graf--p">Let&#x27;s look at first job: <b class="graf--bold"><i class="graf--italic">test</i></b></p><pre><code class="language-java graf graf--code">test:\n  name: Run Unit Tests\n  runs-on: ubuntu-latest\n\n  steps:\n  - uses: actions/checkout@v2\n  - name: set up JDK 1.8\n    uses: actions/setup-java@v1\n    with:\n      java-version: 1.8\n  - name: Unit tests\n    run: bash ./gradlew test --stacktrace</code></pre><p class="graf--p">We name this job “Run Unit Tests” with the key <b class="graf--bold"><i class="graf--italic">name:</i></b>. After this, we define in which virtual machine this job will run. We could choose a virtual machine from “ubuntu”, “windows” or “macOS”. Here are have chosen to run this job on the latest version of Ubuntu (a Linux based operating system) with key <b class="graf--bold"><i class="graf--italic">runs-on.</i></b></p><p class="graf--p">Now we define the steps to be performed in this job with <b class="graf--bold"><i class="graf--italic">steps:</i></b></p><ul><li>The first step checks out the repository for which we have defined actions.</li><li>In the second step we setup java version 8 to run the unit tests. We do this by <b class="graf--bold">actions/setup-java@v1</b>. It is a predefined action which Github server uses to setup java environment for us.</li><li>In the third step, we run the tests with <b class="graf--bold"><i class="graf--italic">run:</i></b> action using the gradle wrapper command-line tool.</li></ul><p class="graf--p">Now when you commit this file and push it the master branch you could see the workflow starts running and if all of your unit tests pass then you should see something like this.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/action-working-and-running-28a3904564dd649b.png class=\'graf-image\' alt=\'Introduction to Github Actions for Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Hurray !!!. Your first workflow is up and running.</p><p class="graf--p">Now let&#x27;s look at the second job: <b class="graf--bold"><i class="graf--italic">build</i></b></p><pre><code class="language-java graf graf--code">build:\n  name: Generate APK\n  runs-on: ubuntu-latest\n\nsteps:\n  - uses: actions/checkout@v2\n  - name: set up JDK 1.8\n    uses: actions/setup-java@v1\n    with:\n      java-version: 1.8\n\n  - name: Build Debug APK\n    run: bash ./gradlew :app:assembleDebug\n\n  - name: Upload APK\n    uses: actions/upload-artifact@v2\n    with:\n      name: App\n      path: ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk</code></pre><p class="graf--p">It starts with the job name “Generate APK” and we define which virtual machine it runs on just like we did for <b class="graf--bold"><i class="graf--italic">test</i></b> job.</p><p class="graf--p">Now we define <b class="graf--bold"><i class="graf--italic">steps</i></b>:</p><ul><li>Checking out the repository and setting up java is done in the same way we did earlier. We have defined it again as this job will run in a different container parallel to the first one.</li><li>Now we build the APK with <b class="graf--bold"><i class="graf--italic">run:</i></b> action using the gradle wrapper command-line tool.</li><li>Next, we upload the APK using predefined action <b class="graf--bold"><i class="graf--italic">actions/upload-artifact@v2</i></b>. Here we define the name of the artifact which will be shown on the Artifacts Github page and the path where the APK was generated in the above step.</li></ul><p class="graf--p">After you commit this file and push it to the master branch, the workflow will start executing, and after the APK is built and uploaded you would see something like this.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/github-actions-upload-a75932f41dae4ce0.png class=\'graf-image\' alt=\'Introduction to Github Actions for Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In order to see and download the APK that was generated and uploaded, we can click on the workflow name (In our case it is “Android CI”). We should see the following screen.</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/github-action-artifacts-a6a7a154bfc13f16.png class=\'graf-image\' alt=\'Introduction to Github Actions for Android\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">We can see the link named “App” under the Artifacts heading. If we click on it then a zip file will be downloaded which contains the APK.</p><p class="graf--p">That&#x27;s it. You have defined CI/CD flow in a very simple way that will make your software development faster and reliable.</p><p class="graf--p">I hope you have learned how to set up and use Github Actions.</p><p class="graf--p">Happy learning.</p><p class="graf--p"><b class="graf--bold">Reference: </b><a class="markup--anchor" target="_blank" href="https://help.github.com/en/actions">GitHub Actions Documentation</a></p><p class="graf--p">Please provide your feedback in the comments below :)</p><p class="graf--p">Also, you can connect with me on <a class="markup--anchor" target="_blank" href="https://www.linkedin.com/in/niteshtarani/">LinkedIn</a>.</p>',author:11475,img_url:"/images/banner-github-actions-for-android-e4586866ea06660b.jpg",blog_url:"github-actions-for-android",likes:0,rank:0,category:1,published_at:"14th May 2020"},author:{id:11475,name:"Nitesh Tarani",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14GjqudwW_Y6J9Cfj3JQmbaWGLBDkgS2S4MuvL8mQ=s96-c?sz=300",fb_profile_pic:null,profile_tagline:"Android Developer at Directi",fb_profile_url:null,google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/niteshtarani510",github_profile_url:"https://github.com/niteshtarani",linkedin_profile_url:"https://www.linkedin.com/in/niteshtarani/"},isFetching:!1,similarBlogs:[{id:447,title:"Introduction to Room Persistent Library in Android",description:"In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.",author:14040,img_url:"/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png",blog_url:"introduction-to-room-persistent-library-in-android",likes:0,rank:0,category:1,published_at:"18th May 2020",score:2.805088996887207},{id:247,title:"Exploring Android ViewPager2 in Android",description:"As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well . ",author:14897,img_url:"/images/exploring-android-viewpager2-banner.png",blog_url:"exploring-android-view-pager2-in-android",likes:0,rank:0,category:1,published_at:"29th May 2019",score:.01835518702864647},{id:254,title:"Android KTX - Android development with Kotlin",description:"In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.",author:14897,img_url:"/images/android-ktx-android-development-banner.png",blog_url:"android-ktx-android-development-with-kotlin",likes:0,rank:0,category:1,published_at:"27th May 2019",score:.01835518702864647},{id:274,title:"Implementing Easy Permissions in Android: Android Tutorial",description:"In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.",author:14897,img_url:"/images/implementing-easy-permissions-android-banner.png",blog_url:"implementing-easy-permissions-in-android-android-tutorial",likes:0,rank:0,category:1,published_at:"13th June 2019",score:.01835518702864647},{id:284,title:"Animation in Android - Android Tutorial",description:"In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.",author:14897,img_url:"/images/animation-in-android-banner.png",blog_url:"animation-in-android-tutorial",likes:0,rank:0,category:1,published_at:"24th June 2019",score:.01835518702864647},{id:297,title:"Integrating Android Google’s reCAPTCHA in Android App",description:"In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.",author:17146,img_url:"/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png",blog_url:"integrating-android-google-re-captcha-in-android-app",likes:0,rank:0,category:1,published_at:"18th July 2019",score:.01835518702864647}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Nitesh Tarani" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14GjqudwW_Y6J9Cfj3JQmbaWGLBDkgS2S4MuvL8mQ=s96-c?sz=300"/>
+          <div class="content">
+           Nitesh Tarani
+           <div class="sub header" style="margin-top:5px">
+            14th May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Introduction to Github Actions for Android
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Introduction to Github Actions for Android" class="graf-image" src="/images/banner-github-actions-for-android-e4586866ea06660b.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  You may have heard about Continuous Integration and Continuous Delivery. These 2 terms are a standard practice followed by top companies to make the release of their software smaller, faster, and reliable. You can read more about these topics
+                  <a class="markup--anchor" href="https://www.atlassian.com/continuous-delivery/principles/continuous-integration-vs-delivery-vs-deployment" target="_blank">
+                   here
+                  </a>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  So what are Github Actions?
+                 </h4>
+                 <p class="graf--p">
+                  It is a CI/CD tool to automate the software workflow very easily. There are several tools like Jenkins, CircleCI, TeamCity, TravisCI which help you to automate your workflow, but setting up Github Actions for your repository on Github is extremely easy. We’ll discuss in this blog post how to get started with the same.
+                 </p>
+                 <h4 class="graf--h3">
+                  Getting Started
+                 </h4>
+                 <p class="graf--p">
+                  When you open your repository on Github, you will now see a new tab called “Actions”. Since we don’t have any action setup as yet the page will look similar to this.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Introduction to Github Actions for Android" class="graf-image" src="/images/github-action-getting-started-b06734dcfa58db3c.png"/>
+                 </div>
+                 <p class="graf--p">
+                  We will start by creating a
+                  <b class="graf--bold">
+                   YAML
+                  </b>
+                  file that is commonly used for configurations. We can do so either by clicking “setup a workflow yourself” link in the Actions tab (see the above screenshot) or by creating a file in your favorite IDE. We first have to create
+                  <i class="graf--italic">
+                   .github/workflows
+                  </i>
+                  folder in the root of the repository, and in that folder, we will create a file called
+                  <i class="graf--italic">
+                   first-workflow.yml.
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  In this file, we will define the actions that we need to perform. We will be defining 3 actions which include running unit tests, building an apk file, and uploading the apk file to Github servers.
+                 </p>
+                 <p class="graf--p">
+                  Now open
+                  <i class="graf--italic">
+                   first-workflow.yml and paste the following code
+                  </i>
+                 </p>
+                 <pre><code class="language-java graf graf--code"># This is a basic workflow to help you get started with Actions
+
+name: Android CI
+
+  on:
+    push:
+      branches: [ master ]
+    pull_request:
+      branches: [ master ]
+
+jobs:
+  test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Unit tests
+      run: bash ./gradlew test --stacktrace
+
+  build:
+    name: Generate APK
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Build Debug APK
+      run: bash ./gradlew :app:assembleDebug
+              
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: App
+        path: ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk</code></pre>
+                 <p class="graf--p">
+                  We will cover what each line means one by one.
+                 </p>
+                 <p class="graf--p">
+                  First, we name our workflow with the following line.
+                 </p>
+                 <pre><code class="language-java graf graf--code">name: Android CI</code></pre>
+                 <p class="graf--p">
+                  We can have multiple workflow files in the
+                  <i class="graf--italic">
+                   .github/workflows directory and each workflow runs in parallel on a different container.
+                  </i>
+                 </p>
+                 <p class="graf--p">
+                  Next, we provide information about when to trigger this workflow by the following lines
+                 </p>
+                 <pre><code class="language-java graf graf--code">on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]</code></pre>
+                 <p class="graf--p">
+                  Here we define that this workflow should run when either some commit is pushed to the master branch or when some pull request is raised against the master branch.
+                 </p>
+                 <p class="graf--p">
+                  Now we define jobs. As its name implies jobs will perform some actions. We have defined 2 jobs namely
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    test
+                   </i>
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build
+                   </i>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Let's look at first job:
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    test
+                   </i>
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">test:
+  name: Run Unit Tests
+  runs-on: ubuntu-latest
+
+  steps:
+  - uses: actions/checkout@v2
+  - name: set up JDK 1.8
+    uses: actions/setup-java@v1
+    with:
+      java-version: 1.8
+  - name: Unit tests
+    run: bash ./gradlew test --stacktrace</code></pre>
+                 <p class="graf--p">
+                  We name this job “Run Unit Tests” with the key
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    name:
+                   </i>
+                  </b>
+                  . After this, we define in which virtual machine this job will run. We could choose a virtual machine from “ubuntu”, “windows” or “macOS”. Here are have chosen to run this job on the latest version of Ubuntu (a Linux based operating system) with key
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    runs-on.
+                   </i>
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Now we define the steps to be performed in this job with
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    steps:
+                   </i>
+                  </b>
+                 </p>
+                 <ul>
+                  <li>
+                   The first step checks out the repository for which we have defined actions.
+                  </li>
+                  <li>
+                   In the second step we setup java version 8 to run the unit tests. We do this by
+                   <b class="graf--bold">
+                    actions/setup-java@v1
+                   </b>
+                   . It is a predefined action which Github server uses to setup java environment for us.
+                  </li>
+                  <li>
+                   In the third step, we run the tests with
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     run:
+                    </i>
+                   </b>
+                   action using the gradle wrapper command-line tool.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Now when you commit this file and push it the master branch you could see the workflow starts running and if all of your unit tests pass then you should see something like this.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Introduction to Github Actions for Android" class="graf-image" src="/images/action-working-and-running-28a3904564dd649b.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Hurray !!!. Your first workflow is up and running.
+                 </p>
+                 <p class="graf--p">
+                  Now let's look at the second job:
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build
+                   </i>
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">build:
+  name: Generate APK
+  runs-on: ubuntu-latest
+
+steps:
+  - uses: actions/checkout@v2
+  - name: set up JDK 1.8
+    uses: actions/setup-java@v1
+    with:
+      java-version: 1.8
+
+  - name: Build Debug APK
+    run: bash ./gradlew :app:assembleDebug
+
+  - name: Upload APK
+    uses: actions/upload-artifact@v2
+    with:
+      name: App
+      path: ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk</code></pre>
+                 <p class="graf--p">
+                  It starts with the job name “Generate APK” and we define which virtual machine it runs on just like we did for
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    test
+                   </i>
+                  </b>
+                  job.
+                 </p>
+                 <p class="graf--p">
+                  Now we define
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    steps
+                   </i>
+                  </b>
+                  :
+                 </p>
+                 <ul>
+                  <li>
+                   Checking out the repository and setting up java is done in the same way we did earlier. We have defined it again as this job will run in a different container parallel to the first one.
+                  </li>
+                  <li>
+                   Now we build the APK with
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     run:
+                    </i>
+                   </b>
+                   action using the gradle wrapper command-line tool.
+                  </li>
+                  <li>
+                   Next, we upload the APK using predefined action
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     actions/upload-artifact@v2
+                    </i>
+                   </b>
+                   . Here we define the name of the artifact which will be shown on the Artifacts Github page and the path where the APK was generated in the above step.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  After you commit this file and push it to the master branch, the workflow will start executing, and after the APK is built and uploaded you would see something like this.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Introduction to Github Actions for Android" class="graf-image" src="/images/github-actions-upload-a75932f41dae4ce0.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In order to see and download the APK that was generated and uploaded, we can click on the workflow name (In our case it is “Android CI”). We should see the following screen.
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Introduction to Github Actions for Android" class="graf-image" src="/images/github-action-artifacts-a6a7a154bfc13f16.png"/>
+                 </div>
+                 <p class="graf--p">
+                  We can see the link named “App” under the Artifacts heading. If we click on it then a zip file will be downloaded which contains the APK.
+                 </p>
+                 <p class="graf--p">
+                  That's it. You have defined CI/CD flow in a very simple way that will make your software development faster and reliable.
+                 </p>
+                 <p class="graf--p">
+                  I hope you have learned how to set up and use Github Actions.
+                 </p>
+                 <p class="graf--p">
+                  Happy learning.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Reference:
+                  </b>
+                  <a class="markup--anchor" href="https://help.github.com/en/actions" target="_blank">
+                   GitHub Actions Documentation
+                  </a>
+                 </p>
+                 <p class="graf--p">
+                  Please provide your feedback in the comments below :)
+                 </p>
+                 <p class="graf--p">
+                  Also, you can connect with me on
+                  <a class="markup--anchor" href="https://www.linkedin.com/in/niteshtarani/" target="_blank">
+                   LinkedIn
+                  </a>
+                  .
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Introduction to Room Persistent Library in Android" class="ui centered image" src="/images/introduction-to-room-persistent-library-in-android-banner-c0b05c6488d46a68.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Introduction to Room Persistent Library in Android
+           </div>
+           <div class="meta">
+            18th May 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to learn the basics of Room Persistent Library. We will learn what a Room Persistent Library is, what is it used for and what are its components.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Exploring Android ViewPager2 in Android" class="ui centered image" src="/images/exploring-android-viewpager2-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Exploring Android ViewPager2 in Android
+           </div>
+           <div class="meta">
+            29th May 2019
+           </div>
+           <div class="description">
+            As Google introduced a new ViewPager called the ViewPager2 with some cool features like vertical orientation, use of Recycler View and many more. So, in this blog, we will explore the new ViewPager2 with its implementation as well .
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android KTX - Android development with Kotlin" class="ui centered image" src="/images/android-ktx-android-development-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android KTX - Android development with Kotlin
+           </div>
+           <div class="meta">
+            27th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement the Android KTX feature of the Android Jetpack that was announced in the Google I/O 2018. We will learn how Kotlin will help us to write the same code and use the same APIs used in Java in a much easier and faster way.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Implementing Easy Permissions in Android: Android Tutorial" class="ui centered image" src="/images/implementing-easy-permissions-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Implementing Easy Permissions in Android: Android Tutorial
+           </div>
+           <div class="meta">
+            13th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Easy Permissions in Android. Easy Permissions are used to ask for permissions required by the application explicitly. These are used to ask users for permissions that are dangerous in nature and involves user privacy.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Animation in Android - Android Tutorial" class="ui centered image" src="/images/animation-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Animation in Android - Android Tutorial
+           </div>
+           <div class="meta">
+            24th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Animation in our Andoird Application. Animations are used to convey the message in a better way. It helps in improving the user experience. So, this blog is all about Animations in Android. So, let's learn about Animation.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Integrating Android Google’s reCAPTCHA in Android App" class="ui centered image" src="/images/integrating-android-google-re-captcha-in-android-app-banner-d717bffad515418a.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Integrating Android Google’s reCAPTCHA in Android App
+           </div>
+           <div class="meta">
+            18th July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to implement Google's reCAPTCHA in our Android application. reCAPTCHA is used to verify if the user is a Human Begin or some robot or bot.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   How to enable logging in OkHttp ?
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/how-to-enable-logging-in-okhttp" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="How to enable logging in OkHttp ?" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/how-to-enable-logging-in-okhttp" property="og:url"/>
+  <meta content="/images/enable-logging-okhttp-banner.png" property="og:image"/>
+  <meta content="In this blog, we will learn about how to log your API calls better using OkHttp . We will learn how to create our own custom Interceptor and log more." property="og:description"/>
+  <meta content="How to enable logging in OkHttp ?" property="twitter:title"/>
+  <meta content="In this blog, we will learn about how to log your API calls better using OkHttp . We will learn how to create our own custom Interceptor and log more." name="twitter:description"/>
+  <meta content="/images/enable-logging-okhttp-banner.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn about how to log your API calls better using OkHttp . We will learn how to create our own custom Interceptor and log more." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:296,data:{id:296,title:"How to enable logging in OkHttp ?",description:"In this blog, we will learn about how to log your API calls better using OkHttp . We will learn how to create our own custom Interceptor and log more.",text:'<h1 class="graf--h1">How to enable logging in OkHttp ? </h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/enable-logging-okhttp-banner.png class=\'graf-image\' alt=\'How to enable logging in OkHttp ?\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Ever had some bad  issues, while doing an API call in your android application? Or may be got some error which was making your API call unsuccessful.</p><h4 class="graf--h3">What did you try?</h4><p class="graf--p"> First resort would have been to try API calls through some client that what was the error. Or may be something else you would have tried.</p><p class="graf--p">What if I told you that you could have chosen something else as well and that would have not required you to test APIs via some client. </p><p class="graf--p">You can use Interceptors in your android code to gets the logs their itself while getting an error. This sounds a better solution right?</p><p class="graf--p">Let&#x27;s understand more about logging in Android. So, in this, we will discuss about <a class="markup--anchor" target="_blank" href="https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor">okhttp logging interceptor</a> and how we can leverage it log our API calls.</p><h4 class="graf--h3">What is OkHttp?</h4><p class="graf--p">OkHttp is an interceptor which helps you to log your API calls. So, here an interceptor is more like a manager for an API call which helps you to monitor or perform certain action on your API calls.</p><p class="graf--p">Let us start by including it in our project, we will add the following in the build.gradle file:</p><pre><code class="language-java graf graf--code">implementation "com.squareup.okhttp3:logging-interceptor:4.0.1"</code></pre><p class="graf--p">and to start logging your API calls, we need to first make an API call,</p><pre><code class="language-java graf graf--code">val client = OkHttpClient.Builder()\nvar request = Request.Builder()\n        .url(/** YOUR API URL **/)\n        .build()</code></pre><p class="graf--p">Here, we create object for request and declared a variable client of OkHttpClient. Now, to perform API call, we will use the following to do it,</p><pre><code class="language-java graf graf--code">client.newCall(request).enqueue(object :Callback{\n    override fun onFailure(request: Request?, e: IOException?) {\n        //API Call fails\n    }\n\n    override fun onResponse(response: Response?) {\n        //Do something with response\n    }\n\n})</code></pre><p class="graf--p">Now, we have performed the first API call. But here we would not see any logs coming up because we have not added any specific interceptor to log the calls. So, how can we log the response the call. </p><p class="graf--p">To, start logging we need to add interceptors in the above OkHttpClient.</p><p class="graf--p">And as we mentioned , interceptors are used to monitor the API call and it will print the logs which would get generated, in the Logcat of the console.</p><p class="graf--p">To add a Interceptor,</p><pre><code class="language-java graf graf--code">val logging = HttpLoggingInterceptor()\nlogging.level = (HttpLoggingInterceptor.Level.BASIC)</code></pre><p class="graf--p">we create and variable called logging of HttpLoggingInterceptor and set the level of logging to <b class="graf--bold"><i class="graf--italic">Basic. </i></b>Basic is the initial level in which you can just log reqest and the response of the API. We can also have <i class="graf--italic"><b class="graf--bold">NONE, HEADERS </b>and<b class="graf--bold">  BODY.</b></i></p><blockquote class="graf--blockquote"><b class="graf--bold"><i class="graf--italic">NONE : Logs Nothing.</i></b></blockquote><blockquote class="graf--blockquote"><b class="graf--bold"><i class="graf--italic">HEADERS :  Logs Request and Response along with Header.</i></b></blockquote><blockquote class="graf--blockquote"><b class="graf--bold"><i class="graf--italic">BODY : Logs Request and Response along with header and if body present in the API call.</i></b></blockquote><p class="graf--p">And, to add this interceptor to the client we use,</p><pre><code class="language-java graf graf--code">val client = OkHttpClient.Builder()\nclient.addInterceptor(logging)</code></pre><p class="graf--p">and, now when we call the API again we would start seeing the logs getting logged in the Logcat like the following,</p><pre><code class="language-java graf graf--code">--&gt; POST /greeting http/1.1 (3-byte body)\n\n&lt;-- 200 OK (22ms, 6-byte body)</code></pre><h4 class="graf--h3"><b class="graf--bold">NOTE : </b></h4><p class="graf--p">1. To add a custom TAG for your or logs to get generated, just add the following,</p><pre><code class="language-java graf graf--code">val logging = HttpLoggingInterceptor(object : Logger() {\n    fun log(message: String) {\n        Log.d("YOUR TAG", message)\n    }\n})</code></pre><p class="graf--p">and you will see the logs getting generated with the TAG you added.</p><p class="graf--p">2. You can also create a custom Interceptor by extending the Interceptor class.</p><pre><code class="language-java graf graf--code">class CustomInterceptor : Interceptor {\n    override fun intercept(chain: Interceptor.Chain): Response {\n        var request = chain.request()\n        request = request.newBuilder()\n                .build()\n        return chain.proceed(request)\n    }\n}</code></pre><p class="graf--p">and add it to the client using,</p><pre><code class="language-java graf graf--code">val client = OkHttpClient.Builder()\nclient.addInterceptor(CustomInterceptor())</code></pre><p class="graf--p">3.  To hide sensative information from the Logcat of Android we can use,</p><pre><code class="language-java graf graf--code">logging.redactHeader("Authorization")\nlogging.redactHeader("Cookie")</code></pre><p class="graf--p">Here,  in above snippet <i class="graf--italic">redactHeader</i> hides the sensitive information of Authorization and Cookie key.</p><p class="graf--p">These gets generated only in <b class="graf--bold">HEADERS</b> and <b class="graf--bold">BODY</b> level.</p><p class="graf--p">This is how we can log API calls being made in your Android application.</p><p class="graf--p">Happy learning</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/enable-logging-okhttp-banner.png",blog_url:"how-to-enable-logging-in-okhttp",likes:0,rank:0,category:1,published_at:"16th July 2019"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:256,title:"Better Logging in Android Using Timber",description:"In this blog, we will be learning about a third party library which we use to log in android studio. ",author:9959,img_url:"/images/timber-logging.jpg",blog_url:"logging-using-timber",likes:0,rank:0,category:1,published_at:"30th May 2019",score:3.1293888092041016}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            16th July 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  How to enable logging in OkHttp ?
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="How to enable logging in OkHttp ?" class="graf-image" src="/images/enable-logging-okhttp-banner.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Ever had some bad  issues, while doing an API call in your android application? Or may be got some error which was making your API call unsuccessful.
+                 </p>
+                 <h4 class="graf--h3">
+                  What did you try?
+                 </h4>
+                 <p class="graf--p">
+                  First resort would have been to try API calls through some client that what was the error. Or may be something else you would have tried.
+                 </p>
+                 <p class="graf--p">
+                  What if I told you that you could have chosen something else as well and that would have not required you to test APIs via some client.
+                 </p>
+                 <p class="graf--p">
+                  You can use Interceptors in your android code to gets the logs their itself while getting an error. This sounds a better solution right?
+                 </p>
+                 <p class="graf--p">
+                  Let's understand more about logging in Android. So, in this, we will discuss about
+                  <a class="markup--anchor" href="https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor" target="_blank">
+                   okhttp logging interceptor
+                  </a>
+                  and how we can leverage it log our API calls.
+                 </p>
+                 <h4 class="graf--h3">
+                  What is OkHttp?
+                 </h4>
+                 <p class="graf--p">
+                  OkHttp is an interceptor which helps you to log your API calls. So, here an interceptor is more like a manager for an API call which helps you to monitor or perform certain action on your API calls.
+                 </p>
+                 <p class="graf--p">
+                  Let us start by including it in our project, we will add the following in the build.gradle file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation "com.squareup.okhttp3:logging-interceptor:4.0.1"</code></pre>
+                 <p class="graf--p">
+                  and to start logging your API calls, we need to first make an API call,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val client = OkHttpClient.Builder()
+var request = Request.Builder()
+        .url(/** YOUR API URL **/)
+        .build()</code></pre>
+                 <p class="graf--p">
+                  Here, we create object for request and declared a variable client of OkHttpClient. Now, to perform API call, we will use the following to do it,
+                 </p>
+                 <pre><code class="language-java graf graf--code">client.newCall(request).enqueue(object :Callback{
+    override fun onFailure(request: Request?, e: IOException?) {
+        //API Call fails
+    }
+
+    override fun onResponse(response: Response?) {
+        //Do something with response
+    }
+
+})</code></pre>
+                 <p class="graf--p">
+                  Now, we have performed the first API call. But here we would not see any logs coming up because we have not added any specific interceptor to log the calls. So, how can we log the response the call.
+                 </p>
+                 <p class="graf--p">
+                  To, start logging we need to add interceptors in the above OkHttpClient.
+                 </p>
+                 <p class="graf--p">
+                  And as we mentioned , interceptors are used to monitor the API call and it will print the logs which would get generated, in the Logcat of the console.
+                 </p>
+                 <p class="graf--p">
+                  To add a Interceptor,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val logging = HttpLoggingInterceptor()
+logging.level = (HttpLoggingInterceptor.Level.BASIC)</code></pre>
+                 <p class="graf--p">
+                  we create and variable called logging of HttpLoggingInterceptor and set the level of logging to
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    Basic.
+                   </i>
+                  </b>
+                  Basic is the initial level in which you can just log reqest and the response of the API. We can also have
+                  <i class="graf--italic">
+                   <b class="graf--bold">
+                    NONE, HEADERS
+                   </b>
+                   and
+                   <b class="graf--bold">
+                    BODY.
+                   </b>
+                  </i>
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    NONE : Logs Nothing.
+                   </i>
+                  </b>
+                 </blockquote>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    HEADERS :  Logs Request and Response along with Header.
+                   </i>
+                  </b>
+                 </blockquote>
+                 <blockquote class="graf--blockquote">
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    BODY : Logs Request and Response along with header and if body present in the API call.
+                   </i>
+                  </b>
+                 </blockquote>
+                 <p class="graf--p">
+                  And, to add this interceptor to the client we use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val client = OkHttpClient.Builder()
+client.addInterceptor(logging)</code></pre>
+                 <p class="graf--p">
+                  and, now when we call the API again we would start seeing the logs getting logged in the Logcat like the following,
+                 </p>
+                 <pre><code class="language-java graf graf--code">--&gt; POST /greeting http/1.1 (3-byte body)
+
+&lt;-- 200 OK (22ms, 6-byte body)</code></pre>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   NOTE :
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  1. To add a custom TAG for your or logs to get generated, just add the following,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val logging = HttpLoggingInterceptor(object : Logger() {
+    fun log(message: String) {
+        Log.d("YOUR TAG", message)
+    }
+})</code></pre>
+                 <p class="graf--p">
+                  and you will see the logs getting generated with the TAG you added.
+                 </p>
+                 <p class="graf--p">
+                  2. You can also create a custom Interceptor by extending the Interceptor class.
+                 </p>
+                 <pre><code class="language-java graf graf--code">class CustomInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        var request = chain.request()
+        request = request.newBuilder()
+                .build()
+        return chain.proceed(request)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  and add it to the client using,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val client = OkHttpClient.Builder()
+client.addInterceptor(CustomInterceptor())</code></pre>
+                 <p class="graf--p">
+                  3.  To hide sensative information from the Logcat of Android we can use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">logging.redactHeader("Authorization")
+logging.redactHeader("Cookie")</code></pre>
+                 <p class="graf--p">
+                  Here,  in above snippet
+                  <i class="graf--italic">
+                   redactHeader
+                  </i>
+                  hides the sensitive information of Authorization and Cookie key.
+                 </p>
+                 <p class="graf--p">
+                  These gets generated only in
+                  <b class="graf--bold">
+                   HEADERS
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   BODY
+                  </b>
+                  level.
+                 </p>
+                 <p class="graf--p">
+                  This is how we can log API calls being made in your Android application.
+                 </p>
+                 <p class="graf--p">
+                  Happy learning
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Better Logging in Android Using Timber" class="ui centered image" src="/images/timber-logging.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Better Logging in Android Using Timber
+           </div>
+           <div class="meta">
+            30th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will be learning about a third party library which we use to log in android studio.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

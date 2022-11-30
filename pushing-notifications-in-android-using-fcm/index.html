@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Push Notifications in Android Using FCM
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/pushing-notifications-in-android-using-fcm" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Push Notifications in Android Using FCM" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/pushing-notifications-in-android-using-fcm" property="og:url"/>
+  <meta content="/images/fcm.jpg" property="og:image"/>
+  <meta content="In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well." property="og:description"/>
+  <meta content="Push Notifications in Android Using FCM" property="twitter:title"/>
+  <meta content="In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well." name="twitter:description"/>
+  <meta content="/images/fcm.jpg" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:234,data:{id:234,title:"Push Notifications in Android Using FCM",description:"In this blog, we will learn using Push Notifications in Android Device using FCM. We will learn how to integrate the push notification feature in the app from scratch and handle the message as well.",text:'<h1 class="graf--h1">Pushing Notifications in Android Using FCM</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/fcm.jpg class=\'graf-image\' alt=\'Push Notifications in Android Using FCM\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Ever wondered how to integrate Push Notifications in your android app ??? then you are at the right place.</p><p class="graf--p">In this blog, we will take you through step by step implementation of Push Notifications in your app using Firebase but before that,</p><h4 class="graf--h3">What is Firebase?</h4><p class="graf--p">Firebase is a platform for your devices to develop awesome apps using collections of services provided by firebase.</p><p class="graf--p">To integrate the Push Notification in our app, we need to use the Firebase Cloud Messaging Service of Firebase. </p><p class="graf--p">Now, Lets integrate the Service in our app,</p><h4 class="graf--h3">Step 1:</h4><p class="graf--p">First we need to setup out app to firebase console,</p><ul><li>First we need to create a project from <a class="markup--anchor" target="_blank" href="https://console.firebase.google.com/">console.firebase.google.com</a> by providing the Project Name and the Location</li><li>Then we need to add out app, by sharing the app&#x27;s package name <b class="graf--bold"><i class="graf--italic">(for eg: com.mindorks.app) </i></b>, app&#x27;s nick name, and a SHA1 key.</li></ul> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/register-project.png class=\'graf-image\' alt=\'Push Notifications in Android Using FCM\' />\n\t\t\t\t\t\t\t\t</div ><ul><li> To generate the SHA key we need to use , </li></ul><pre><code class="language-java graf graf--code">keytool -list -v \\\n-alias androiddebugkey -keystore ~/.android/debug.keystore</code></pre><p class="graf--p">and for Release SHA1 ,</p><pre><code class="language-java graf graf--code">keytool -exportcert -list -v \\\n-alias &lt;your-key-name&gt; -keystore &lt;path-to-production-keystore&gt;</code></pre><p class="graf--p">* Once the Setup is done ,  we will get a google-serivces.json file ,</p> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/json.png class=\'graf-image\' alt=\'Push Notifications in Android Using FCM\' />\n\t\t\t\t\t\t\t\t</div ><ul><li>We need to add the file in our project under app package.</li><li>Once the json file is added we need to add the Firebase dependencies,</li></ul><p class="graf--p">In the project&#x27;s <b class="graf--bold"><i class="graf--italic">build.gradle,</i></b></p><pre><code class="language-java graf graf--code">buildscript {\n  dependencies {\n    // Add this line\n    classpath \'com.google.gms:google-services:4.2.0\'\n  }\n}</code></pre><p class="graf--p">and in app&#x27;s <b class="graf--bold"><i class="graf--italic">build.gradle,</i></b></p><pre><code class="language-java graf graf--code">dependencies {\n  // Add this line\n  implementation \'com.google.firebase:firebase-core:16.0.9\'\n}</code></pre><p class="graf--p">and at the bottom of the app&#x27;s <b class="graf--bold"><i class="graf--italic">build.gradle</i></b> add,</p><pre><code class="language-java graf graf--code">apply plugin: \'com.google.gms.google-services\'</code></pre><p class="graf--p">Now the setup of project is completely done and let&#x27;s start with Firebase cloud Notification.</p><h4 class="graf--h3">Step 2:</h4><p class="graf--p">Let&#x27;s add the FCM dependency by adding the following in app level <b class="graf--bold"><i class="graf--italic">build.gradle</i></b>,</p><pre><code class="language-java graf graf--code">implementation \'com.google.firebase:firebase-messaging:18.0.0\'</code></pre><h4 class="graf--h3">Step 3:</h4><p class="graf--p">We need to create a service which extends <b class="graf--bold"><i class="graf--italic">FirebaseMessagingService</i></b></p><pre><code class="language-java graf graf--code">class MyFirebaseMessagingService : FirebaseMessagingService() </code></pre><p class="graf--p">and add it to the Andorid Manifest file using,</p><pre><code class="language-java graf graf--code">&lt;service\n    android:name=".MyFirebaseMessagingService"\n    android:exported="false"&gt;\n    &lt;intent-filter&gt;\n        &lt;action android:name="com.google.firebase.MESSAGING_EVENT" /&gt;\n    &lt;/intent-filter&gt;\n&lt;/service&gt;</code></pre><p class="graf--p">FirebaseMessagingService is responsible for handling the messaging through Firebase Cloud Messaging</p><h4 class="graf--h3">Step 4:</h4><p class="graf--p">To communicate with the App of an user, the Firebase needs a specific identity of the user. This is handled by the Firebase Token which is unique for every user. To generate the token we need to call,</p><pre><code class="language-java graf graf--code">FirebaseInstanceId.getInstance().instanceId\n        .addOnCompleteListener(OnCompleteListener { task -&gt;\n            if (!task.isSuccessful) {\n                Log.w(TAG, "getInstanceId failed", task.exception)\n                return@OnCompleteListener\n            }\n\n            // Get new Instance ID token\n            val token = task.result?.token\n\n            // Log and toast\n            val msg = getString(R.string.msg_token_fmt, token)\n            Log.d(TAG, msg)\n            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()\n        })</code></pre><p class="graf--p">Here the token are volatile.The registration token  changes when:</p><ul><li>The app deletes Instance ID</li><li>The app is restored on a new device</li><li>The user uninstalls/reinstall the app</li><li>The user clears app data.</li></ul><p class="graf--p">We need to geneate a new token ,</p><pre><code class="language-java graf graf--code">class MyFirebaseMessagingService : FirebaseMessagingService() {\n    override fun onMessageReceived(remoteMessage: RemoteMessage?) {\n        Log.d(TAG, "From: ${remoteMessage?.from}")\n        // Check if message contains a notification payload.\n        remoteMessage?.notification?.let {\n            Log.d(TAG, "Message Notification Body: ${it.body}")\n            //Message Services handle notification\n\n        }\n    }\n    override fun onNewToken(token: String) {\n        //handle token\n    }\n}</code></pre><p class="graf--p"> When the new token is generated we need to update the token wherever we store the  token. We need to store the token in our backend service by using some API for better communication between app and our backend services.</p><p class="graf--p">In <b class="graf--bold"><i class="graf--italic">OnMessageReceived</i></b> , we handle the Data Payload which we receive from our backend server/Firebase console. We can use Notification Manager class to show it as notification for the app or we can use it however we want.</p><h4 class="graf--h3">Step 5:</h4><p class="graf--p">To Show the message as Notifiation we add in onMessageReceived(),</p><pre><code class="language-java graf graf--code">class MyFirebaseMessagingService : FirebaseMessagingService() {\n    override fun onMessageReceived(remoteMessage: RemoteMessage?) {\n        Log.d(TAG, "From: ${remoteMessage?.from}")\n        // Check if message contains a notification payload.\n        remoteMessage?.notification?.let {\n            Log.d(TAG, "Message Notification Body: ${it.body}")\n            //Message Services handle notification\n            val notification = NotificationCompat.Builder(this)\n                    .setContentTitle(remoteMessage.from)\n                    .setContentText(it.body)\n                    .setSmallIcon(icon)\n                    .build()\n            val manager = NotificationManagerCompat.from(applicationContext)\n            manager.notify(/*notification id*/0, notification)\n\n        }\n    }\n\n    override fun onNewToken(token: String) {\n        //handle token\n    }\n}</code></pre><p class="graf--p">Thats it !! you have successfully integrated the FCM for your push notifications.</p><blockquote class="graf--blockquote">To Test the notification in your app,  goto console.firebase.google.com -&gt; your project  and open the notification console. You will see the following screen,</blockquote> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/notif-console.png class=\'graf-image\' alt=\'Push Notifications in Android Using FCM\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Thats pretty much how you can integrate and test your app with Push Notifications in Android.</p><h4 class="graf--h3">Miscellaneous :</h4><ul><li>If you want to send notification to a section of users where users have same common interest lets say &#x27;<b class="graf--bold"><i class="graf--italic">cricket</i></b>&#x27;, we can use Firebase&#x27;s topic feature. To let user subscribe to a topic we use,</li></ul><pre><code class="language-java graf graf--code">FirebaseMessaging.getInstance().subscribeToTopic("cricket")\n        .addOnCompleteListener { task -&gt;\n            var msg = getString(R.string.msg_subscribed)\n            if (!task.isSuccessful) {\n                msg = getString(R.string.msg_subscribe_failed)\n            }\n            Log.d(TAG, msg)\n            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()\n        }</code></pre><p class="graf--p">This will subscribe you to cricket topic and whenever a message is sent for <b class="graf--bold"><i class="graf--italic">cricket</i></b> topic, all users who subscribed to it will receive the message.</p><p class="graf--p">That&#x27;s it from this blog, keep learning :)</p><p class="graf--p">Team MindOrks</p>',author:14897,img_url:"/images/fcm.jpg",blog_url:"pushing-notifications-in-android-using-fcm",likes:0,rank:0,category:1,published_at:"15th May 2019"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:416,title:"How to increase Push Notification Delivery Rate in Android?",description:"In this blog, we will learn how to increase the Push Notification Delivery Rate in Android? All the application developers face problems in delivering the notifications. So, we will see how to increase this delivery rate.",author:17146,img_url:"/images/banner-push-notification-increase-delivery-rate.jpg",blog_url:"how-to-increase-push-notification-delivery-rate-in-android",likes:0,rank:0,category:1,published_at:"14th April 2020",score:4.294234275817871},{id:351,title:"Using Android Sensors: Android Tutorial",description:"In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.",author:14897,img_url:"/images/using-android-sensors-android-tutorial-banner.png",blog_url:"using-android-sensors-android-tutorial",likes:0,rank:0,category:1,published_at:"30th September 2019",score:.3374535143375397},{id:238,title:"Using Custom and Downloadable Fonts in Android",description:"In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.",author:14897,img_url:"/images/downloadable-font-banner.png",blog_url:"using-custom-and-downloadable-fonts-in-android",likes:0,rank:0,category:1,published_at:"16th May 2019",score:.3282759189605713},{id:244,title:"Using Swipe-to-refresh in Android Application",description:"In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.",author:14897,img_url:"/images/swipe-to-refresh-banner.png",blog_url:"using-swipe-to-refresh-in-android-application",likes:0,rank:0,category:1,published_at:"21st May 2019",score:.3282759189605713},{id:250,title:"Using Exoplayer to play Video and Audio in Android like a Pro",description:"In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.",author:14897,img_url:"/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png",blog_url:"using-exoplayer-to-play-video-and-audio-in-android-like-a-pro",likes:0,rank:0,category:1,published_at:"24th May 2019",score:.3282759189605713},{id:251,title:"Using Drag-Drop in Android Applications",description:"In this blog, we will learn how to use the drag and drop feature in our Android app. Drag and Drop feature is used to move one view from one place to other. This will help in moving the UI and the data associated with that item also.",author:14897,img_url:"/images/drag-drop-in-android-applications-banner.png",blog_url:"using-drag-drop-in-android-applications",likes:0,rank:0,category:1,published_at:"24th May 2019",score:.3282759189605713}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            15th May 2019
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Pushing Notifications in Android Using FCM
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Push Notifications in Android Using FCM" class="graf-image" src="/images/fcm.jpg"/>
+                 </div>
+                 <p class="graf--p">
+                  Ever wondered how to integrate Push Notifications in your android app ??? then you are at the right place.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will take you through step by step implementation of Push Notifications in your app using Firebase but before that,
+                 </p>
+                 <h4 class="graf--h3">
+                  What is Firebase?
+                 </h4>
+                 <p class="graf--p">
+                  Firebase is a platform for your devices to develop awesome apps using collections of services provided by firebase.
+                 </p>
+                 <p class="graf--p">
+                  To integrate the Push Notification in our app, we need to use the Firebase Cloud Messaging Service of Firebase.
+                 </p>
+                 <p class="graf--p">
+                  Now, Lets integrate the Service in our app,
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 1:
+                 </h4>
+                 <p class="graf--p">
+                  First we need to setup out app to firebase console,
+                 </p>
+                 <ul>
+                  <li>
+                   First we need to create a project from
+                   <a class="markup--anchor" href="https://console.firebase.google.com/" target="_blank">
+                    console.firebase.google.com
+                   </a>
+                   by providing the Project Name and the Location
+                  </li>
+                  <li>
+                   Then we need to add out app, by sharing the app's package name
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     (for eg: com.mindorks.app)
+                    </i>
+                   </b>
+                   , app's nick name, and a SHA1 key.
+                  </li>
+                 </ul>
+                 <div class="graf-image graf-caption">
+                  <img alt="Push Notifications in Android Using FCM" class="graf-image" src="/images/register-project.png"/>
+                 </div>
+                 <ul>
+                  <li>
+                   To generate the SHA key we need to use ,
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">keytool -list -v \
+-alias androiddebugkey -keystore ~/.android/debug.keystore</code></pre>
+                 <p class="graf--p">
+                  and for Release SHA1 ,
+                 </p>
+                 <pre><code class="language-java graf graf--code">keytool -exportcert -list -v \
+-alias &lt;your-key-name&gt; -keystore &lt;path-to-production-keystore&gt;</code></pre>
+                 <p class="graf--p">
+                  * Once the Setup is done ,  we will get a google-serivces.json file ,
+                 </p>
+                 <div class="graf-image graf-caption">
+                  <img alt="Push Notifications in Android Using FCM" class="graf-image" src="/images/json.png"/>
+                 </div>
+                 <ul>
+                  <li>
+                   We need to add the file in our project under app package.
+                  </li>
+                  <li>
+                   Once the json file is added we need to add the Firebase dependencies,
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  In the project's
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle,
+                   </i>
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">buildscript {
+  dependencies {
+    // Add this line
+    classpath 'com.google.gms:google-services:4.2.0'
+  }
+}</code></pre>
+                 <p class="graf--p">
+                  and in app's
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle,
+                   </i>
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">dependencies {
+  // Add this line
+  implementation 'com.google.firebase:firebase-core:16.0.9'
+}</code></pre>
+                 <p class="graf--p">
+                  and at the bottom of the app's
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle
+                   </i>
+                  </b>
+                  add,
+                 </p>
+                 <pre><code class="language-java graf graf--code">apply plugin: 'com.google.gms.google-services'</code></pre>
+                 <p class="graf--p">
+                  Now the setup of project is completely done and let's start with Firebase cloud Notification.
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 2:
+                 </h4>
+                 <p class="graf--p">
+                  Let's add the FCM dependency by adding the following in app level
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    build.gradle
+                   </i>
+                  </b>
+                  ,
+                 </p>
+                 <pre><code class="language-java graf graf--code">implementation 'com.google.firebase:firebase-messaging:18.0.0'</code></pre>
+                 <h4 class="graf--h3">
+                  Step 3:
+                 </h4>
+                 <p class="graf--p">
+                  We need to create a service which extends
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    FirebaseMessagingService
+                   </i>
+                  </b>
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MyFirebaseMessagingService : FirebaseMessagingService() </code></pre>
+                 <p class="graf--p">
+                  and add it to the Andorid Manifest file using,
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;service
+    android:name=".MyFirebaseMessagingService"
+    android:exported="false"&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name="com.google.firebase.MESSAGING_EVENT" /&gt;
+    &lt;/intent-filter&gt;
+&lt;/service&gt;</code></pre>
+                 <p class="graf--p">
+                  FirebaseMessagingService is responsible for handling the messaging through Firebase Cloud Messaging
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 4:
+                 </h4>
+                 <p class="graf--p">
+                  To communicate with the App of an user, the Firebase needs a specific identity of the user. This is handled by the Firebase Token which is unique for every user. To generate the token we need to call,
+                 </p>
+                 <pre><code class="language-java graf graf--code">FirebaseInstanceId.getInstance().instanceId
+        .addOnCompleteListener(OnCompleteListener { task -&gt;
+            if (!task.isSuccessful) {
+                Log.w(TAG, "getInstanceId failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new Instance ID token
+            val token = task.result?.token
+
+            // Log and toast
+            val msg = getString(R.string.msg_token_fmt, token)
+            Log.d(TAG, msg)
+            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        })</code></pre>
+                 <p class="graf--p">
+                  Here the token are volatile.The registration token  changes when:
+                 </p>
+                 <ul>
+                  <li>
+                   The app deletes Instance ID
+                  </li>
+                  <li>
+                   The app is restored on a new device
+                  </li>
+                  <li>
+                   The user uninstalls/reinstall the app
+                  </li>
+                  <li>
+                   The user clears app data.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  We need to geneate a new token ,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MyFirebaseMessagingService : FirebaseMessagingService() {
+    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+        Log.d(TAG, "From: ${remoteMessage?.from}")
+        // Check if message contains a notification payload.
+        remoteMessage?.notification?.let {
+            Log.d(TAG, "Message Notification Body: ${it.body}")
+            //Message Services handle notification
+
+        }
+    }
+    override fun onNewToken(token: String) {
+        //handle token
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  When the new token is generated we need to update the token wherever we store the  token. We need to store the token in our backend service by using some API for better communication between app and our backend services.
+                 </p>
+                 <p class="graf--p">
+                  In
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    OnMessageReceived
+                   </i>
+                  </b>
+                  , we handle the Data Payload which we receive from our backend server/Firebase console. We can use Notification Manager class to show it as notification for the app or we can use it however we want.
+                 </p>
+                 <h4 class="graf--h3">
+                  Step 5:
+                 </h4>
+                 <p class="graf--p">
+                  To Show the message as Notifiation we add in onMessageReceived(),
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MyFirebaseMessagingService : FirebaseMessagingService() {
+    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+        Log.d(TAG, "From: ${remoteMessage?.from}")
+        // Check if message contains a notification payload.
+        remoteMessage?.notification?.let {
+            Log.d(TAG, "Message Notification Body: ${it.body}")
+            //Message Services handle notification
+            val notification = NotificationCompat.Builder(this)
+                    .setContentTitle(remoteMessage.from)
+                    .setContentText(it.body)
+                    .setSmallIcon(icon)
+                    .build()
+            val manager = NotificationManagerCompat.from(applicationContext)
+            manager.notify(/*notification id*/0, notification)
+
+        }
+    }
+
+    override fun onNewToken(token: String) {
+        //handle token
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Thats it !! you have successfully integrated the FCM for your push notifications.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  To Test the notification in your app,  goto console.firebase.google.com -&gt; your project  and open the notification console. You will see the following screen,
+                 </blockquote>
+                 <div class="graf-image graf-caption">
+                  <img alt="Push Notifications in Android Using FCM" class="graf-image" src="/images/notif-console.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Thats pretty much how you can integrate and test your app with Push Notifications in Android.
+                 </p>
+                 <h4 class="graf--h3">
+                  Miscellaneous :
+                 </h4>
+                 <ul>
+                  <li>
+                   If you want to send notification to a section of users where users have same common interest lets say '
+                   <b class="graf--bold">
+                    <i class="graf--italic">
+                     cricket
+                    </i>
+                   </b>
+                   ', we can use Firebase's topic feature. To let user subscribe to a topic we use,
+                  </li>
+                 </ul>
+                 <pre><code class="language-java graf graf--code">FirebaseMessaging.getInstance().subscribeToTopic("cricket")
+        .addOnCompleteListener { task -&gt;
+            var msg = getString(R.string.msg_subscribed)
+            if (!task.isSuccessful) {
+                msg = getString(R.string.msg_subscribe_failed)
+            }
+            Log.d(TAG, msg)
+            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+        }</code></pre>
+                 <p class="graf--p">
+                  This will subscribe you to cricket topic and whenever a message is sent for
+                  <b class="graf--bold">
+                   <i class="graf--italic">
+                    cricket
+                   </i>
+                  </b>
+                  topic, all users who subscribed to it will receive the message.
+                 </p>
+                 <p class="graf--p">
+                  That's it from this blog, keep learning :)
+                 </p>
+                 <p class="graf--p">
+                  Team MindOrks
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to increase Push Notification Delivery Rate in Android?" class="ui centered image" src="/images/banner-push-notification-increase-delivery-rate.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to increase Push Notification Delivery Rate in Android?
+           </div>
+           <div class="meta">
+            14th April 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to increase the Push Notification Delivery Rate in Android? All the application developers face problems in delivering the notifications. So, we will see how to increase this delivery rate.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Android Sensors: Android Tutorial" class="ui centered image" src="/images/using-android-sensors-android-tutorial-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Android Sensors: Android Tutorial
+           </div>
+           <div class="meta">
+            30th September 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Android Sensors. There are various sensors present in our Android device and we can use them in our application. For example, we can use the temperature sensor in some weather app. So, let's learn about Android Sensors.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Custom and Downloadable Fonts in Android" class="ui centered image" src="/images/downloadable-font-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Custom and Downloadable Fonts in Android
+           </div>
+           <div class="meta">
+            16th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use custom and downloadable fonts in android that was introduced in Android 8.0. Now there is no need of writing some piece of code for using the fonts. Also you can choose from any of the thousands of fonts on Google Fonts and use them in your app.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Swipe-to-refresh in Android Application" class="ui centered image" src="/images/swipe-to-refresh-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Swipe-to-refresh in Android Application
+           </div>
+           <div class="meta">
+            21st May 2019
+           </div>
+           <div class="description">
+            In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Exoplayer to play Video and Audio in Android like a Pro" class="ui centered image" src="/images/using-exoplayer-to-play-video-and-audio-in-android-like-a-pro-banner-1596b1f74d8d8382.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Exoplayer to play Video and Audio in Android like a Pro
+           </div>
+           <div class="meta">
+            24th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use ExoPlayer like a pro. ExoPlayer is a library used to play audio and video in Android apps. You can customize the ExoPlayer according to your needs. So, let's learn how to use ExoPlayer.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Drag-Drop in Android Applications" class="ui centered image" src="/images/drag-drop-in-android-applications-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Drag-Drop in Android Applications
+           </div>
+           <div class="meta">
+            24th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use the drag and drop feature in our Android app. Drag and Drop feature is used to move one view from one place to other. This will help in moving the UI and the data associated with that item also.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

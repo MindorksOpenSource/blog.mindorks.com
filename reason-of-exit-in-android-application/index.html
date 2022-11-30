@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Finding the reason of exit in Android Application
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/reason-of-exit-in-android-application" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Finding the reason of exit in Android Application" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/reason-of-exit-in-android-application" property="og:url"/>
+  <meta content="/images/finding-the-reason-for-the-exit-in-android-application-5aeeba3095cc96f1.png" property="og:image"/>
+  <meta content="In this blog, we are going to talk about how we can find and log reasons for exit from our application. We will be discussing a few realtime examples as well." property="og:description"/>
+  <meta content="Finding the reason of exit in Android Application" property="twitter:title"/>
+  <meta content="In this blog, we are going to talk about how we can find and log reasons for exit from our application. We will be discussing a few realtime examples as well." name="twitter:description"/>
+  <meta content="/images/finding-the-reason-for-the-exit-in-android-application-5aeeba3095cc96f1.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to talk about how we can find and log reasons for exit from our application. We will be discussing a few realtime examples as well." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:445,data:{id:445,title:"Finding the reason of exit in Android Application",description:"In this blog, we are going to talk about how we can find and log reasons for exit from our application. We will be discussing a few realtime examples as well.",text:'<h1 class="graf--h1">Finding the reason for the exit in Android Application</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/finding-the-reason-for-the-exit-in-android-application-e884a4f4f18e00d1.png class=\'graf-image\' alt=\'Finding the reason of exit in Android Application\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">When working with an Android application, we might have to keep an eye on crashes or unwanted ways that the user exits the app. We use many third-party libraries to log exits in android.</p><p class="graf--p">Now, with <b class="graf--bold">Android R</b>, we can log the exits in our app which can help us fix any issue that might exist in our app.</p><p class="graf--p">In this blog, we are going to talk, how we can log the exits of the user from our application. </p><p class="graf--p">Let&#x27; s first discuss the type of crashes and exits we might see in our application. There can be a crash for an exception or maybe there might be an ANR that might lead your app to crash and drop users out of the application. The users might also exit the app intentionally when they have completed using the app.</p><p class="graf--p">Consider an example, let us say we are using WhatsApp and we want to log all the actions when a user exits the app. It can be a crash or an exception, or maybe a user action to close the app.</p><p class="graf--p">So, to get all the information we are going to use the <code class="graf--code-inline">ActivityManager</code>.</p><p class="graf--p">But before that,</p><h4 class="graf--h3">What is ActivityManager?</h4><p class="graf--p">ActivityManager gives information about and interacts with, activities, services, and the containing process. Methods in this class give us certain information that we can use to debug our application.</p><p class="graf--p">So, first, I will create a project with MainActivity like,</p><pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        setContentView(R.layout.activity_main)\n    }\n}</code></pre><p class="graf--p">Now, we will initialize the <code class="graf--code-inline">ActivityManager</code> like,</p><pre><code class="language-java graf graf--code">val am = applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager</code></pre><p class="graf--p">Now, we will use <code class="graf--code-inline">ActivityManager</code> to get the list of historic exit reasons for the app. To get the list, we will use,</p><pre><code class="language-java graf graf--code">val exitList = am.getHistoricalProcessExitReasons(applicationContext.packageName, 0, 1)</code></pre><p class="graf--p">Here, <i class="graf--italic">getHistoricalProcessExitReasons </i>takes three parameters, </p><ul><li><b class="graf--bold">Package name:</b> Here, we passed the package name of our application</li><li><b class="graf--bold">PID</b>: We passed 0 as default to get all the reasons</li><li><b class="graf--bold">Size</b>: The size of the list of exit reasons. So, we will get a list of type ApplicationExitInfo with only one item.</li></ul><blockquote class="graf--blockquote">Here the <code class="graf--code-inline">exitList</code> returns the history of exit, <b class="graf--bold">not</b> the exit information in real-time as it provides the historical data.</blockquote><p class="graf--p">Now, let&#x27;s first set up the <b class="graf--bold">exitList</b> to return us the cause and reason of our crashes.</p><p class="graf--p">In our <b class="graf--bold">onCreate()</b>, I will add,</p><pre><code class="language-java graf graf--code">if (exitList.isNotEmpty()) {\n    val lastExitInformation: ApplicationExitInfo = exitList.first()\n}</code></pre><p class="graf--p">Since we have only one item in the list lastExitInformation will get the value from the list using <code class="graf--code-inline">.first()</code></p><p class="graf--p">Now, we will Log the exit reasons, time and description using,</p><pre><code class="language-java graf graf--code">Log.d(TAG, "Reason: ${lastExitInformation.reason}")\n\nLog.d(TAG, "Timestamp: ${lastExitInformation.timestamp}")\n\nlastExitInformation.description?.let {\n    Log.d(TAG, "Description: ${it}")\n}</code></pre><p class="graf--p"><b class="graf--bold">Here,</b></p><ul><li><code class="graf--code-inline">lastExitInformation</code> will return an integer which corresponds to the reason of the crash</li><li>Timestamp returns Time in Epoch and,</li><li>The description returns the descriptive version of the crash.</li></ul><p class="graf--p">Now, let&#x27;s add a TextView in XML file like,</p><pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;\n&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"\n    xmlns:app="http://schemas.android.com/apk/res-auto"\n    xmlns:tools="http://schemas.android.com/tools"\n    android:layout_width="match_parent"\n    android:layout_height="match_parent"\n    tools:context=".MainActivity"&gt;\n\n    &lt;TextView\n        android:layout_width="wrap_content"\n        android:layout_height="wrap_content"\n        android:text="Hello World!"\n        android:id="@+id/textView"\n        app:layout_constraintBottom_toBottomOf="parent"\n        app:layout_constraintLeft_toLeftOf="parent"\n        app:layout_constraintRight_toRightOf="parent"\n        app:layout_constraintTop_toTopOf="parent" /&gt;\n\n&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre><p class="graf--p"> and set the reason of crash to the textView using,</p><pre><code class="language-java graf graf--code">textView.text = lastExitInformation.reason.toString()</code></pre><p class="graf--p">We are done setting up everything to get the historic exit reasons. Now, let&#x27;s start logging the reasons.</p><h4 class="graf--h3">Case 1:</h4><p class="graf--p">When we close the app from the recent app&#x27;s tray and then reopen the app again we would see the following log,</p><pre><code class="language-java graf graf--code">MainActivity: Reason: 10\nMainActivity: Timestamp: 1589626919924\nMainActivity: Description: remove task</code></pre><p class="graf--p">Here,</p><ul><li>Reason code is 10 which means, <b class="graf--bold">REASON_USER_REQUESTED.</b></li><li>We got timestamp as well in our log and,</li><li>We got the description as remove a task, as we removed the app from the recent app&#x27;s tray.</li></ul><p class="graf--p">We can also see the reason code in the <code class="graf--code-inline">textView</code>.</p><h4 class="graf--h3">The reason code and its meaning are,</h4><pre><code class="language-java graf graf--code">const val REASON_ANR = 6\nconst val REASON_CRASH = 4\nconst val REASON_CRASH_NATIVE = 5\nconst val REASON_DEPENDENCY_DIED = 12\nconst val REASON_EXCESSIVE_RESOURCE_USAGE = 9\nconst val REASON_EXIT_SELF = 1\nconst val REASON_INITIALIZATION_FAILURE = 7\nconst val REASON_LOW_MEMORY = 3\nconst val REASON_OTHER = 13\nconst val REASON_PERMISSION_CHANGE = 8\nconst val REASON_SIGNALED = 2\nconst val REASON_UNKNOWN = 0\nconst val REASON_USER_REQUESTED = 10\nconst val REASON_USER_STOPPED = 11</code></pre><p class="graf--p">So, for example, if we get a crash the reason code would be 4 according to the above table.</p><h4 class="graf--h3">Case 2:</h4><p class="graf--p">When we get a crash in our application. So, first, let&#x27;s introduce a crash in our application. We will create a button using,</p><pre><code class="language-java graf graf--code">lateinit var button: Button</code></pre><p class="graf--p">and on click of textView, we will invoke the button&#x27;s click listener like,</p><pre><code class="language-java graf graf--code">textView.setOnClickListener {\n    button.setOnClickListener {  }\n}</code></pre><p class="graf--p"><b class="graf--bold">This would lead to a crash of our application because the button is not mapped to any widget in XML.</b></p><p class="graf--p">When we reopen the app again, the app will generate a log,</p><pre><code class="language-java graf graf--code">MainActivity: Reason: 14\nMainActivity: Timestamp: 1589627622761\nMainActivity: Description: crash</code></pre><p class="graf--p">Here, the reason code is 4, which maps to <b class="graf--bold">REASON_CRASH </b>from the above table and the description also specifies crash.</p><blockquote class="graf--blockquote">If any exception occurs as well, the reason code would be <b class="graf--bold">REASON_CRASH</b></blockquote><h4 class="graf--h3"><b class="graf--bold">Case 3:</b></h4><p class="graf--p">Let us terminate the JVM using System.exit(). </p><p class="graf--p">So, In on the click of textView, we will add <b class="graf--bold">System.exit()</b> like,</p><pre><code class="language-java graf graf--code">textView.setOnClickListener {\n    System.exit(0)\n}</code></pre><p class="graf--p">This will terminate the app. When we reopen the app, it will generate a log like,</p><pre><code class="language-java graf graf--code">MainActivity: Reason: 1\nMainActivity: Timestamp: 1589627880910</code></pre><p class="graf--p">Here, we won&#x27;t see any description but the reason code is 1 which maps to <b class="graf--bold">REASON_EXIT_SELF</b>. This means it terminated itself.</p><h4 class="graf--h3">Case 4:</h4><p class="graf--p">When our application gets ANR.</p><p class="graf--p">So, to generate an ANR we will run an infinite loop on click of textView using,</p><pre><code class="language-java graf graf--code">textView.setOnClickListener {\n    var a = 0\n    while (true) {\n        a++\n    }\n}</code></pre><p class="graf--p">So, when App gets an ANR the Log generated would be,</p><pre><code class="language-java graf graf--code">MainActivity: Reason: 6\nMainActivity: Timestamp: 1589628198405</code></pre><p class="graf--p">Here, the reason code is 6, which means <b class="graf--bold">REASON_ANR</b>.</p><p class="graf--p">These are a few cases where we can log our exits form our application.</p><p class="graf--p">In this blog, we are using the maximum size as 1. If we change it to any number more then 1, let&#x27;s say maybe 10. It will return the list of last 10 exit reasons information. To set max size to 10, we update the code,</p><pre><code class="language-java graf graf--code">val exitList = am.getHistoricalProcessExitReasons(applicationContext.packageName, 0, 10)</code></pre><p class="graf--p">This is how we can use <code class="graf--code-inline">getHistoricalProcessExitReasons</code> to get the reasons for the exit of the app which might be very useful for developers to understand the user&#x27;s behavior of using the app or maybe checking for crashes.</p><p class="graf--p">Happy learning.</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/finding-the-reason-for-the-exit-in-android-application-5aeeba3095cc96f1.png",blog_url:"reason-of-exit-in-android-application",likes:0,rank:0,category:1,published_at:"16th May 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:88,title:"How to create multiple apk files for android application",description:"Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.",author:30,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg",blog_url:"how-to-create-multiple-apk-files-for-android-application",likes:0,rank:0,category:1,published_at:"30th August 2017",score:1.8890047073364258},{id:244,title:"Using Swipe-to-refresh in Android Application",description:"In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.",author:14897,img_url:"/images/swipe-to-refresh-banner.png",blog_url:"using-swipe-to-refresh-in-android-application",likes:0,rank:0,category:1,published_at:"21st May 2019",score:1.8890047073364258},{id:263,title:"Understanding the Application Lifecycle in Android",description:"In this blog, we will learn about the Application life cycle in Android. We will learn how to make use of various application states that a particular application has in general. ",author:14897,img_url:"/images/understanding-the-application-lifecycle-in-android-banner.png",blog_url:"understanding-the-application-lifecycle-in-android",likes:0,rank:0,category:1,published_at:"4th June 2019",score:1.8890047073364258},{id:290,title:"Things to care while using Proguard in Android application",description:"In this blog, we will learn about the things that we should know before using Proguard in Android application. Proguard is used to minify, obfuscate and optimize the Android code. So, we created a list of things that you should know before using Proguard.",author:14897,img_url:"/images/things-to-take-care-while-using-proguard-banner.png",blog_url:"things-to-care-while-using-proguard-in-android-application",likes:0,rank:0,category:1,published_at:"2nd July 2019",score:1.8890047073364258},{id:388,title:"Practical Guide To Solve OutOfMemoryError in Android Application",description:"In this blog, we will learn how to solve OutOfMemoryError in Android application. There can be many reasons for OutOfMemoryError in Android. We will look at these reasons and we will remove the error with the help of some practical examples.",author:17146,img_url:"/images/practical-guide-to-solve-out-of-memory-error-in-android-application-banner.jpg",blog_url:"practical-guide-to-solve-out-of-memory-error-in-android-application",likes:0,rank:0,category:1,published_at:"6th January 2020",score:1.8890047073364258},{id:188,title:"Build your first Android application in Kotlin",description:"In this blog, we will learn how to create and run your first Android application in Kotlin with the help of Android Studio. We will learn how to create an emulator in Android Studio and how to run applications on an emulator and on mobile devices.",author:14897,img_url:"/images/first-android-app-in-kotlin-banner.png",blog_url:"first-android-app-in-kotlin",likes:0,rank:0,category:1,published_at:"17th December 2018",score:1.8890047073364258}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            16th May 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Finding the reason for the exit in Android Application
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Finding the reason of exit in Android Application" class="graf-image" src="/images/finding-the-reason-for-the-exit-in-android-application-e884a4f4f18e00d1.png"/>
+                 </div>
+                 <p class="graf--p">
+                  When working with an Android application, we might have to keep an eye on crashes or unwanted ways that the user exits the app. We use many third-party libraries to log exits in android.
+                 </p>
+                 <p class="graf--p">
+                  Now, with
+                  <b class="graf--bold">
+                   Android R
+                  </b>
+                  , we can log the exits in our app which can help us fix any issue that might exist in our app.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we are going to talk, how we can log the exits of the user from our application.
+                 </p>
+                 <p class="graf--p">
+                  Let' s first discuss the type of crashes and exits we might see in our application. There can be a crash for an exception or maybe there might be an ANR that might lead your app to crash and drop users out of the application. The users might also exit the app intentionally when they have completed using the app.
+                 </p>
+                 <p class="graf--p">
+                  Consider an example, let us say we are using WhatsApp and we want to log all the actions when a user exits the app. It can be a crash or an exception, or maybe a user action to close the app.
+                 </p>
+                 <p class="graf--p">
+                  So, to get all the information we are going to use the
+                  <code class="graf--code-inline">
+                   ActivityManager
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  But before that,
+                 </p>
+                 <h4 class="graf--h3">
+                  What is ActivityManager?
+                 </h4>
+                 <p class="graf--p">
+                  ActivityManager gives information about and interacts with, activities, services, and the containing process. Methods in this class give us certain information that we can use to debug our application.
+                 </p>
+                 <p class="graf--p">
+                  So, first, I will create a project with MainActivity like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  Now, we will initialize the
+                  <code class="graf--code-inline">
+                   ActivityManager
+                  </code>
+                  like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val am = applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager</code></pre>
+                 <p class="graf--p">
+                  Now, we will use
+                  <code class="graf--code-inline">
+                   ActivityManager
+                  </code>
+                  to get the list of historic exit reasons for the app. To get the list, we will use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val exitList = am.getHistoricalProcessExitReasons(applicationContext.packageName, 0, 1)</code></pre>
+                 <p class="graf--p">
+                  Here,
+                  <i class="graf--italic">
+                   getHistoricalProcessExitReasons
+                  </i>
+                  takes three parameters,
+                 </p>
+                 <ul>
+                  <li>
+                   <b class="graf--bold">
+                    Package name:
+                   </b>
+                   Here, we passed the package name of our application
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    PID
+                   </b>
+                   : We passed 0 as default to get all the reasons
+                  </li>
+                  <li>
+                   <b class="graf--bold">
+                    Size
+                   </b>
+                   : The size of the list of exit reasons. So, we will get a list of type ApplicationExitInfo with only one item.
+                  </li>
+                 </ul>
+                 <blockquote class="graf--blockquote">
+                  Here the
+                  <code class="graf--code-inline">
+                   exitList
+                  </code>
+                  returns the history of exit,
+                  <b class="graf--bold">
+                   not
+                  </b>
+                  the exit information in real-time as it provides the historical data.
+                 </blockquote>
+                 <p class="graf--p">
+                  Now, let's first set up the
+                  <b class="graf--bold">
+                   exitList
+                  </b>
+                  to return us the cause and reason of our crashes.
+                 </p>
+                 <p class="graf--p">
+                  In our
+                  <b class="graf--bold">
+                   onCreate()
+                  </b>
+                  , I will add,
+                 </p>
+                 <pre><code class="language-java graf graf--code">if (exitList.isNotEmpty()) {
+    val lastExitInformation: ApplicationExitInfo = exitList.first()
+}</code></pre>
+                 <p class="graf--p">
+                  Since we have only one item in the list lastExitInformation will get the value from the list using
+                  <code class="graf--code-inline">
+                   .first()
+                  </code>
+                 </p>
+                 <p class="graf--p">
+                  Now, we will Log the exit reasons, time and description using,
+                 </p>
+                 <pre><code class="language-java graf graf--code">Log.d(TAG, "Reason: ${lastExitInformation.reason}")
+
+Log.d(TAG, "Timestamp: ${lastExitInformation.timestamp}")
+
+lastExitInformation.description?.let {
+    Log.d(TAG, "Description: ${it}")
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Here,
+                  </b>
+                 </p>
+                 <ul>
+                  <li>
+                   <code class="graf--code-inline">
+                    lastExitInformation
+                   </code>
+                   will return an integer which corresponds to the reason of the crash
+                  </li>
+                  <li>
+                   Timestamp returns Time in Epoch and,
+                  </li>
+                  <li>
+                   The description returns the descriptive version of the crash.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  Now, let's add a TextView in XML file like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"&gt;
+
+    &lt;TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:id="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+                 <p class="graf--p">
+                  and set the reason of crash to the textView using,
+                 </p>
+                 <pre><code class="language-java graf graf--code">textView.text = lastExitInformation.reason.toString()</code></pre>
+                 <p class="graf--p">
+                  We are done setting up everything to get the historic exit reasons. Now, let's start logging the reasons.
+                 </p>
+                 <h4 class="graf--h3">
+                  Case 1:
+                 </h4>
+                 <p class="graf--p">
+                  When we close the app from the recent app's tray and then reopen the app again we would see the following log,
+                 </p>
+                 <pre><code class="language-java graf graf--code">MainActivity: Reason: 10
+MainActivity: Timestamp: 1589626919924
+MainActivity: Description: remove task</code></pre>
+                 <p class="graf--p">
+                  Here,
+                 </p>
+                 <ul>
+                  <li>
+                   Reason code is 10 which means,
+                   <b class="graf--bold">
+                    REASON_USER_REQUESTED.
+                   </b>
+                  </li>
+                  <li>
+                   We got timestamp as well in our log and,
+                  </li>
+                  <li>
+                   We got the description as remove a task, as we removed the app from the recent app's tray.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  We can also see the reason code in the
+                  <code class="graf--code-inline">
+                   textView
+                  </code>
+                  .
+                 </p>
+                 <h4 class="graf--h3">
+                  The reason code and its meaning are,
+                 </h4>
+                 <pre><code class="language-java graf graf--code">const val REASON_ANR = 6
+const val REASON_CRASH = 4
+const val REASON_CRASH_NATIVE = 5
+const val REASON_DEPENDENCY_DIED = 12
+const val REASON_EXCESSIVE_RESOURCE_USAGE = 9
+const val REASON_EXIT_SELF = 1
+const val REASON_INITIALIZATION_FAILURE = 7
+const val REASON_LOW_MEMORY = 3
+const val REASON_OTHER = 13
+const val REASON_PERMISSION_CHANGE = 8
+const val REASON_SIGNALED = 2
+const val REASON_UNKNOWN = 0
+const val REASON_USER_REQUESTED = 10
+const val REASON_USER_STOPPED = 11</code></pre>
+                 <p class="graf--p">
+                  So, for example, if we get a crash the reason code would be 4 according to the above table.
+                 </p>
+                 <h4 class="graf--h3">
+                  Case 2:
+                 </h4>
+                 <p class="graf--p">
+                  When we get a crash in our application. So, first, let's introduce a crash in our application. We will create a button using,
+                 </p>
+                 <pre><code class="language-java graf graf--code">lateinit var button: Button</code></pre>
+                 <p class="graf--p">
+                  and on click of textView, we will invoke the button's click listener like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">textView.setOnClickListener {
+    button.setOnClickListener {  }
+}</code></pre>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   This would lead to a crash of our application because the button is not mapped to any widget in XML.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  When we reopen the app again, the app will generate a log,
+                 </p>
+                 <pre><code class="language-java graf graf--code">MainActivity: Reason: 14
+MainActivity: Timestamp: 1589627622761
+MainActivity: Description: crash</code></pre>
+                 <p class="graf--p">
+                  Here, the reason code is 4, which maps to
+                  <b class="graf--bold">
+                   REASON_CRASH
+                  </b>
+                  from the above table and the description also specifies crash.
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  If any exception occurs as well, the reason code would be
+                  <b class="graf--bold">
+                   REASON_CRASH
+                  </b>
+                 </blockquote>
+                 <h4 class="graf--h3">
+                  <b class="graf--bold">
+                   Case 3:
+                  </b>
+                 </h4>
+                 <p class="graf--p">
+                  Let us terminate the JVM using System.exit().
+                 </p>
+                 <p class="graf--p">
+                  So, In on the click of textView, we will add
+                  <b class="graf--bold">
+                   System.exit()
+                  </b>
+                  like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">textView.setOnClickListener {
+    System.exit(0)
+}</code></pre>
+                 <p class="graf--p">
+                  This will terminate the app. When we reopen the app, it will generate a log like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">MainActivity: Reason: 1
+MainActivity: Timestamp: 1589627880910</code></pre>
+                 <p class="graf--p">
+                  Here, we won't see any description but the reason code is 1 which maps to
+                  <b class="graf--bold">
+                   REASON_EXIT_SELF
+                  </b>
+                  . This means it terminated itself.
+                 </p>
+                 <h4 class="graf--h3">
+                  Case 4:
+                 </h4>
+                 <p class="graf--p">
+                  When our application gets ANR.
+                 </p>
+                 <p class="graf--p">
+                  So, to generate an ANR we will run an infinite loop on click of textView using,
+                 </p>
+                 <pre><code class="language-java graf graf--code">textView.setOnClickListener {
+    var a = 0
+    while (true) {
+        a++
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  So, when App gets an ANR the Log generated would be,
+                 </p>
+                 <pre><code class="language-java graf graf--code">MainActivity: Reason: 6
+MainActivity: Timestamp: 1589628198405</code></pre>
+                 <p class="graf--p">
+                  Here, the reason code is 6, which means
+                  <b class="graf--bold">
+                   REASON_ANR
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  These are a few cases where we can log our exits form our application.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we are using the maximum size as 1. If we change it to any number more then 1, let's say maybe 10. It will return the list of last 10 exit reasons information. To set max size to 10, we update the code,
+                 </p>
+                 <pre><code class="language-java graf graf--code">val exitList = am.getHistoricalProcessExitReasons(applicationContext.packageName, 0, 10)</code></pre>
+                 <p class="graf--p">
+                  This is how we can use
+                  <code class="graf--code-inline">
+                   getHistoricalProcessExitReasons
+                  </code>
+                  to get the reasons for the exit of the app which might be very useful for developers to understand the user's behavior of using the app or maybe checking for crashes.
+                 </p>
+                 <p class="graf--p">
+                  Happy learning.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="How to create multiple apk files for android application" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/how-to-create-multiple-apk-files-for-android-application.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            How to create multiple apk files for android application
+           </div>
+           <div class="meta">
+            30th August 2017
+           </div>
+           <div class="description">
+            Too many android devices and much more to come and among them, various different CPU architectures and different screen densities devices are there. Making single apk with all device compatible, increases your apk size, as it has resources for every device.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Using Swipe-to-refresh in Android Application" class="ui centered image" src="/images/swipe-to-refresh-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Using Swipe-to-refresh in Android Application
+           </div>
+           <div class="meta">
+            21st May 2019
+           </div>
+           <div class="description">
+            In this blog, we will be learning the Swipe-to-refresh gesture that is being used in various application like the Facebook app or the Instagram app, where the user of the app refreshes the app according to their need.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding the Application Lifecycle in Android" class="ui centered image" src="/images/understanding-the-application-lifecycle-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding the Application Lifecycle in Android
+           </div>
+           <div class="meta">
+            4th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the Application life cycle in Android. We will learn how to make use of various application states that a particular application has in general.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Things to care while using Proguard in Android application" class="ui centered image" src="/images/things-to-take-care-while-using-proguard-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Things to care while using Proguard in Android application
+           </div>
+           <div class="meta">
+            2nd July 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn about the things that we should know before using Proguard in Android application. Proguard is used to minify, obfuscate and optimize the Android code. So, we created a list of things that you should know before using Proguard.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Practical Guide To Solve OutOfMemoryError in Android Application" class="ui centered image" src="/images/practical-guide-to-solve-out-of-memory-error-in-android-application-banner.jpg" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Practical Guide To Solve OutOfMemoryError in Android Application
+           </div>
+           <div class="meta">
+            6th January 2020
+           </div>
+           <div class="description">
+            In this blog, we will learn how to solve OutOfMemoryError in Android application. There can be many reasons for OutOfMemoryError in Android. We will look at these reasons and we will remove the error with the help of some practical examples.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Build your first Android application in Kotlin" class="ui centered image" src="/images/first-android-app-in-kotlin-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Build your first Android application in Kotlin
+           </div>
+           <div class="meta">
+            17th December 2018
+           </div>
+           <div class="description">
+            In this blog, we will learn how to create and run your first Android application in Kotlin with the help of Android Studio. We will learn how to create an emulator in Android Studio and how to run applications on an emulator and on mobile devices.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

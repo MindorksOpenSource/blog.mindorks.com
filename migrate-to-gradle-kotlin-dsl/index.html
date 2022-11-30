@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Migrate to Gradle Kotlin DSL
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/migrate-to-gradle-kotlin-dsl" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Migrate to Gradle Kotlin DSL" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/migrate-to-gradle-kotlin-dsl" property="og:url"/>
+  <meta content="/images/migrate-to-gradle-kotlin-dsl-banner-5cbe58700d2abbeb.png" property="og:image"/>
+  <meta content="In this blog, we are going to learn how to migrate from Groovy-based Gradle to Kotlin DSL Gradle in Android. We will learn what are the basic steps that can be followed for easy migration to Gradle Kotlin DSL." property="og:description"/>
+  <meta content="Migrate to Gradle Kotlin DSL" property="twitter:title"/>
+  <meta content="In this blog, we are going to learn how to migrate from Groovy-based Gradle to Kotlin DSL Gradle in Android. We will learn what are the basic steps that can be followed for easy migration to Gradle Kotlin DSL." name="twitter:description"/>
+  <meta content="/images/migrate-to-gradle-kotlin-dsl-banner-5cbe58700d2abbeb.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to learn how to migrate from Groovy-based Gradle to Kotlin DSL Gradle in Android. We will learn what are the basic steps that can be followed for easy migration to Gradle Kotlin DSL." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:507,data:{id:507,title:"Migrate to Gradle Kotlin DSL",description:"In this blog, we are going to learn how to migrate from Groovy-based Gradle to Kotlin DSL Gradle in Android. We will learn what are the basic steps that can be followed for easy migration to Gradle Kotlin DSL.",text:'<h1 class="graf--h1">Migrate to Gradle Kotlin DSL</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/migrate-to-gradle-kotlin-dsl-banner-5cbe58700d2abbeb.png alt="Migrate To Gradle Kotlin Dsl Banner" class=\'graf-image\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">Gradle is one of the important files that are present in every Android application project. We use <code class="graf--code-inline">build.gradle</code> file to manage all the dependencies that are required in our application. But all the code inside the Gradle file is written in Groovy programming language and nowadays, we write the code of our application in Kotlin because of its concise, null-safe, and interoperable nature. So, how about using the same Kotlin language for dependency management in our Android application project? Things will be much easier, right?</p><p class="graf--p">So, in this blog, we will learn how to migrate our Android application project from a Groovy-based Gradle system to a Kotlin-based Gradle system with the help of Kotlin DSL. Here is what we are going to learn in this blog:</p><ul><li>How to migrate to Kotlin based Gradle?</li><li>How to have a central dependency management system?</li><li>What are the advantages and disadvantages of migrating to Kotlin based Gradle?</li></ul><p class="graf--p">So, let&#x27;s get migrated :) </p><h2 class="graf--h2">How to migrate to Kotlin based Gradle?</h2><p class="graf--p">From the official documentation:</p><blockquote class="graf--blockquote">Gradle’s Kotlin DSL provides an alternative syntax to the traditional Groovy DSL with an enhanced editing experience in supported IDEs, with superior content assist, refactoring, documentation, and more. </blockquote><p class="graf--p">So, in short, we can leverage the functionality of Kotlin and the code suggestion feature along with other features of the IDEs in our Gradle file also just like any other normal Kotlin file. So, let&#x27;s perform our first step of migration.</p><h3 class="graf--h3">Replacing a single quote with double-quote</h3><p class="graf--p">So, the very first thing that you need to do is changing all the single quotes( &#x27; &#x27; ) to double quotes( &quot; &quot; ) in your existing <code class="graf--code-inline">build.gradle</code> file. This is because a Groovy string can be inside a single quote as well as inside a double quote but in Kotlin, only double quotes are allowed for a string. For example:</p><pre><code class="language-java graf graf--code">// before\nimplementation \'com.mindorks.android:prdownloader:$prdownloader_version\'\n// after\nimplementation "com.mindorks.android:prdownloader:$prdownloader_version"</code></pre><h3 class="graf--h3">Using function calls and = assignment operator</h3><p class="graf--p">In Groovy, while calling a function, there is no need for parentheses but in Kotlin, it is required to call the function by using the parentheses.</p><p class="graf--p">Also, in Groovy, while assigning some value to a variable you can skip the use of <code class="graf--code-inline">=</code> assignment operator but in Kotlin, <code class="graf--code-inline">=</code> assignment operator is a must.</p><p class="graf--p">So, our next step is to replace all the function calls by using the parentheses and all the direct assignments by using the <code class="graf--code-inline">=</code> operator. But in a Gradle file, it is difficult to identify between function call and assignment. So, if you are not sure about these two, then what you can do here is use the function call in all places and if an error comes then simply replace it with the <code class="graf--code-inline">=</code> assignment operator. So, here are a few examples for the use of function call and the = assignment operator.</p><pre><code class="language-java graf graf--code">// example of function call\nimplementation("com.mindorks.android:prdownloader:$prdownloader_version")\n// example of = assignment\ndefaultConfig {\n    versionName = 3\n}</code></pre><h3 class="graf--h3">Change filename</h3><p class="graf--p">Now, we are done with our basic setup. It&#x27;s time to change the file name because we are going to use Kotlin DSL. So, name all you <code class="graf--code-inline">.gradle</code> file to <code class="graf--code-inline">.gradle.kts</code> file. For example, <code class="graf--code-inline">build.gradle</code> will become <code class="graf--code-inline">build.gradle.kts</code>.</p><h3 class="graf--h3">Using Plugin</h3><p class="graf--p">To use plugins in your Gradle file, use the following:</p><pre><code class="language-java graf graf--code">plugins {\n    id("com.google.gms.google-services")\n}</code></pre><p class="graf--p">Or if you are using the legacy <code class="graf--code-inline">apply( )</code> function, then you can follow the below approach:</p><pre><code class="language-java graf graf--code">apply(plugin = "com.google.gms.google-services")</code></pre><h3 class="graf--h3">Using URLs</h3><p class="graf--p">In the Gradle file, you can use the URL like this:</p><pre><code class="language-java graf graf--code">// before\nmaven { url \'https://jitpack.io\' }\n// after\nmaven("https://jitpack.io")</code></pre><h3 class="graf--h3">Using tasks</h3><p class="graf--p">Now, to register your task, you need to do this:</p><pre><code class="language-java graf graf--code">// before\ntask clean(type: Delete)  {\n    delete rootProject.buildDir\n}\n// after\ntasks.register("clean",  Delete::class)  {\n    delete(rootProject.buildDir)\n}</code></pre><h3 class="graf--h3">Using Boolean variables</h3><p class="graf--p">To use a boolean variable, you need to use &quot;<b class="graf--bold">is</b>&quot; as a prefix to the variable. But it is always a good practice to use &quot;<b class="graf--bold">is</b>&quot; as a prefix for boolean variables in all programming languages.</p><pre><code class="language-java graf graf--code">// before\ndebuggable false\n// after\nisDebuggable = false</code></pre><h3 class="graf--h3">Using getByName for buildTypes</h3><p class="graf--p">To use various build types, you need to use the <code class="graf--code-inline">getByName</code> function:</p><pre><code class="language-java graf graf--code">// before\nbuildTypes {\n    debug  {\n        // ...\n    }\n    release {  \n        // ...\n    }\n}\n// after\nbuildTypes {\n    getByName("debug") {\n        // ...\n    }\n    getByName("release") {\n        // ...\n    }\n}</code></pre><h3 class="graf--h3">Mapping using mapOf</h3><p class="graf--p">To map variables, you need to use the <code class="graf--code-inline">mapOf()</code> function. For example, to add local <code class="graf--code-inline">.jar</code> file dependency to your <code class="graf--code-inline">build.gradle.kts</code> file, you need to use:</p><pre><code class="language-java graf graf--code">// before\nimplementation fileTree(dir: \'libs\', include: [\'*.jar\'])\n// after\nimplementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))</code></pre><h3 class="graf--h3">Using variables from project-level Gradle file(root project)</h3><p class="graf--p">For better dependency management, many developers tend to put the versions of all the dependencies in the root-level <code class="graf--code-inline">build.gradle</code> file and use it in the app-level <code class="graf--code-inline">build.gradle</code> file. So, we can use this like below:</p><pre><code class="language-java graf graf--code">// in root-level build.gradle file\nval prdownloaderVersion by rootProject.extra("0.6.0")\n// in app-level build.gradle file\nimplementation("com.mindorks.android:prdownloader:${rootProject.extra.get("prdownloaderVersion")}")</code></pre><h3 class="graf--h3">Excluding libraries from all dependencies</h3><p class="graf--p">To exclude some libraries from all dependencies in Kotlin DSL <code class="graf--code-inline">build.gradle</code> file, use the following:</p><pre><code class="language-java graf graf--code">configurations {\n    all {\n        exclude(group = "com.google.guava", module = "listenablefuture")\n    }\n}</code></pre><p class="graf--p">These are some steps that can be used to migrate from a Groovy-based Gradle file to a Kotlin-based Gradle file.</p><p class="graf--p">Now, it will be quite easier for you to manage the code because now you must be getting auto suggestions, code navigation, and obviously all the awesome features of the Kotlin language.</p><p class="graf--p">But things will be much easier if you have a central dependency management system for your whole app. So, let&#x27;s learn how to make one.</p><h2 class="graf--h2">How to have a central dependency management system?</h2><p class="graf--p">Whenever we run any Gradle file, then it checks for <code class="graf--code-inline">buildSrc</code> and based on that it compiles the code. So, we can take the advantage of this feature/process and can make our dependency files written in Kotlin language.</p><p class="graf--p">So, in the project view, create a new directory named <code class="graf--code-inline">buildSrc</code> in your root directory, and inside the <code class="graf--code-inline">buildSrc</code> directory, make a file name <code class="graf--code-inline">build.gradle.kts</code> and add the below code:</p><pre><code class="language-java graf graf--code">repositories {\n    jcenter()\n}\n\nplugins {\n    `kotlin-dsl`\n}</code></pre><p class="graf--p">You can remove the <code class="graf--code-inline">repositories { }</code> section based on the requirement of the project. Now, sync the project.</p><p class="graf--p">Now, in the <code class="graf--code-inline">buildSrc</code> directory, create nested directories by entering the name as <code class="graf--code-inline">src/main/java</code>. You can create these directories one by one also. Inside buildSrc/src/main/java, create a new file named <code class="graf--code-inline">Dependencies.kt</code>.</p><p class="graf--p">Inside this <code class="graf--code-inline">Dependencies.kt</code> file,  we are going to make objects for different purposes like we can have one object for all the versions, also, we can have one object for all Dependencies, and so on.</p><p class="graf--p">For example:</p><pre><code class="language-java graf graf--code">object Versions {\n    const val recyclerViewVersion = "1.1.0"\n    const val materialLibraryVersion = "1.2.1"\n}\nobject Dependencies {\n    const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerViewVersion}"\n    const val materialDesign =   "com.google.android.material:material:${Versions.materialLibraryVersion}"\n}</code></pre><p class="graf--p">Similarly, you can have other objects also like one object for your default configuration and so on.</p><p class="graf--p">Now, to use these dependencies in your app-level <code class="graf--code-inline">build.gradle</code> file, all you need to do is call it by its name. For example, here is the code of the app-level <code class="graf--code-inline">build.gradle</code> file:</p><pre><code class="language-java graf graf--code">dependencies {\n    implementation(Dependencies.materialDesign)\n\n    implementation(Dependencies.recyclerView)\n}</code></pre><p class="graf--p">In this way, you can keep all the dependencies and its version in one place and this code is quite easy to read and maintain.</p><p class="graf--p">We have seen how to migrate from Groovy Gradle to Kotlin Gradle, but there are some disadvantages also of this process. Let&#x27;s find out.</p><h2 class="graf--h2">What are the advantages and disadvantages of migrating to Kotlin based Gradle?</h2><p class="graf--p">Till now, we have seen what are the advantages of using Kotlin DSL in our Gradle file. So, let&#x27;s summarize it:</p><ul><li>Since you are using Kotlin, then the IDE will provide the auto-suggestion feature for your Gradle file also which is missing till now.</li><li>Code navigation between files becomes easy in Kotlin DSL.</li><li>You can leverage all the functionalities of Kotlin in your Gradle file.</li></ul><p class="graf--p">But, there are a few disadvantages also. Here are some:</p><ul><li>In some cases, Kotlin DSL might be slower than the Groovy one. For example, it can be slower in case of first use, on clean checkouts, or on ephemeral CI agents.</li><li>If you are migrating from Groovy to DSL, then things might look difficult and lengthy for you, but it is worth doing.</li><li>Another disadvantage or you can say prerequisite for using Kotlin DSL in Gradle is that you must run your Gradle with Java 8 or higher versions.</li></ul><p class="graf--p">So, these are some of the advantages and disadvantages of using Kotlin DSL for your Gradle files and it is clear that the advantages are quite more than that of disadvantages.</p><p class="graf--p">We are quite sure that you are going to use and love Kotlin DSL for your Gradle files. </p><p class="graf--p">That&#x27;s it for this blog. Hope you enjoyed the migration process.</p><p class="graf--p"><b class="graf--bold">Show your love by sharing this blog with your fellow developers.</b></p><p class="graf--p"><b class="graf--bold">MindOrks!</b></p><p class="graf--p"><b class="graf--bold">Happy Learning :)</b></p>',author:14897,img_url:"/images/migrate-to-gradle-kotlin-dsl-banner-5cbe58700d2abbeb.png",blog_url:"migrate-to-gradle-kotlin-dsl",likes:0,rank:0,category:1,published_at:"15th October 2020"},author:{id:14897,name:"Admin MindOrks",google_profile_pic:"https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png",fb_profile_pic:null,profile_tagline:"Mindorks is an online software learning platform. It is a community of great programmers.",fb_profile_url:"https://www.facebook.com/mindorks.nextgen/",google_plus_profile_url:"https://mindorks.com",twitter_profile_url:"https://twitter.com/mindorksnextgen",github_profile_url:"https://github.com/mindorksopensource",linkedin_profile_url:"https://in.linkedin.com/company/mindorks"},isFetching:!1,similarBlogs:[{id:374,title:"Mastering Kotlin DSL In Android - Step By Step Guide",description:"In this blog, we are going to learn how to write Kotlin DSL in your android project. We will also see a few examples of how to write custom DSLs in your project.",author:9959,img_url:"/images/kotlin-dsl-banner.png",blog_url:"mastering-kotlin-dsl-in-android-step-by-step-guide",likes:0,rank:0,category:1,published_at:"14th November 2019",score:4.432740211486816},{id:241,title:"Gradle Tips and Tricks for Android",description:"In this blog, we will learn some Gradle tips and tricks for Android. After reading this blog, you will be able to use various features of Gradle that will help you in developing an Android App faster than before.",author:14897,img_url:"/images/gradle-tips-tricks-banner-image.png",blog_url:"gradle-tips-and-tricks-for-android",likes:0,rank:0,category:1,published_at:"18th May 2019",score:2.7959113121032715},{id:281,title:"Building Android applications with Gradle — Tutorial",description:"In this blog, we will learn how to use Gradle in Android to build some applications. We will learn some Gradle commands that can be used to perform various Gradle functions using the command line and not the Android Studio. Also, we will learn gradlew tasks and build variants. ",author:14897,img_url:"/images/building-android-applications-with-gradle-banner.png",blog_url:"building-android-applications-with-gradle-tutorial",likes:0,rank:0,category:1,published_at:"20th June 2019",score:2.7959113121032715},{id:310,title:"Speed up Gradle build for Android to save your time",description:"In this blog, we will talk about how can we speed up your gradle build to run it quickly and save your time",author:9959,img_url:"/images/banner-speed-up-gradle.png",blog_url:"speed-up-gradle-build-for-android-to-save-your-time",likes:0,rank:0,category:1,published_at:"6th August 2019",score:2.7959113121032715},{id:408,title:"Gradle for Android Developers - Getting the most of it",description:"In this blog, we are going to understand what Gradle actually is and how important a role it plays in Android Development. How can we get the most of it?",author:3003,img_url:"/images/gradle-for-android-banner-image.png",blog_url:"gradle-for-android-developers-getting-the-most-of-it",likes:0,rank:0,category:1,published_at:"22nd March 2020",score:2.7959113121032715},{id:22,title:"Learn Kotlin —  apply vs with\n",description:"There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png",blog_url:"learn-kotlin-apply-vs-with",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Admin MindOrks" class="ui circular image" src="https://s3.ap-south-1.amazonaws.com/mindorks/website/mindorks-admin.png"/>
+          <div class="content">
+           Admin MindOrks
+           <div class="sub header" style="margin-top:5px">
+            15th October 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Migrate to Gradle Kotlin DSL
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Migrate To Gradle Kotlin Dsl Banner" class="graf-image" src="/images/migrate-to-gradle-kotlin-dsl-banner-5cbe58700d2abbeb.png"/>
+                 </div>
+                 <p class="graf--p">
+                  Gradle is one of the important files that are present in every Android application project. We use
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  file to manage all the dependencies that are required in our application. But all the code inside the Gradle file is written in Groovy programming language and nowadays, we write the code of our application in Kotlin because of its concise, null-safe, and interoperable nature. So, how about using the same Kotlin language for dependency management in our Android application project? Things will be much easier, right?
+                 </p>
+                 <p class="graf--p">
+                  So, in this blog, we will learn how to migrate our Android application project from a Groovy-based Gradle system to a Kotlin-based Gradle system with the help of Kotlin DSL. Here is what we are going to learn in this blog:
+                 </p>
+                 <ul>
+                  <li>
+                   How to migrate to Kotlin based Gradle?
+                  </li>
+                  <li>
+                   How to have a central dependency management system?
+                  </li>
+                  <li>
+                   What are the advantages and disadvantages of migrating to Kotlin based Gradle?
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, let's get migrated :)
+                 </p>
+                 <h2 class="graf--h2">
+                  How to migrate to Kotlin based Gradle?
+                 </h2>
+                 <p class="graf--p">
+                  From the official documentation:
+                 </p>
+                 <blockquote class="graf--blockquote">
+                  Gradle’s Kotlin DSL provides an alternative syntax to the traditional Groovy DSL with an enhanced editing experience in supported IDEs, with superior content assist, refactoring, documentation, and more.
+                 </blockquote>
+                 <p class="graf--p">
+                  So, in short, we can leverage the functionality of Kotlin and the code suggestion feature along with other features of the IDEs in our Gradle file also just like any other normal Kotlin file. So, let's perform our first step of migration.
+                 </p>
+                 <h3 class="graf--h3">
+                  Replacing a single quote with double-quote
+                 </h3>
+                 <p class="graf--p">
+                  So, the very first thing that you need to do is changing all the single quotes( ' ' ) to double quotes( " " ) in your existing
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  file. This is because a Groovy string can be inside a single quote as well as inside a double quote but in Kotlin, only double quotes are allowed for a string. For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// before
+implementation 'com.mindorks.android:prdownloader:$prdownloader_version'
+// after
+implementation "com.mindorks.android:prdownloader:$prdownloader_version"</code></pre>
+                 <h3 class="graf--h3">
+                  Using function calls and = assignment operator
+                 </h3>
+                 <p class="graf--p">
+                  In Groovy, while calling a function, there is no need for parentheses but in Kotlin, it is required to call the function by using the parentheses.
+                 </p>
+                 <p class="graf--p">
+                  Also, in Groovy, while assigning some value to a variable you can skip the use of
+                  <code class="graf--code-inline">
+                   =
+                  </code>
+                  assignment operator but in Kotlin,
+                  <code class="graf--code-inline">
+                   =
+                  </code>
+                  assignment operator is a must.
+                 </p>
+                 <p class="graf--p">
+                  So, our next step is to replace all the function calls by using the parentheses and all the direct assignments by using the
+                  <code class="graf--code-inline">
+                   =
+                  </code>
+                  operator. But in a Gradle file, it is difficult to identify between function call and assignment. So, if you are not sure about these two, then what you can do here is use the function call in all places and if an error comes then simply replace it with the
+                  <code class="graf--code-inline">
+                   =
+                  </code>
+                  assignment operator. So, here are a few examples for the use of function call and the = assignment operator.
+                 </p>
+                 <pre><code class="language-java graf graf--code">// example of function call
+implementation("com.mindorks.android:prdownloader:$prdownloader_version")
+// example of = assignment
+defaultConfig {
+    versionName = 3
+}</code></pre>
+                 <h3 class="graf--h3">
+                  Change filename
+                 </h3>
+                 <p class="graf--p">
+                  Now, we are done with our basic setup. It's time to change the file name because we are going to use Kotlin DSL. So, name all you
+                  <code class="graf--code-inline">
+                   .gradle
+                  </code>
+                  file to
+                  <code class="graf--code-inline">
+                   .gradle.kts
+                  </code>
+                  file. For example,
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  will become
+                  <code class="graf--code-inline">
+                   build.gradle.kts
+                  </code>
+                  .
+                 </p>
+                 <h3 class="graf--h3">
+                  Using Plugin
+                 </h3>
+                 <p class="graf--p">
+                  To use plugins in your Gradle file, use the following:
+                 </p>
+                 <pre><code class="language-java graf graf--code">plugins {
+    id("com.google.gms.google-services")
+}</code></pre>
+                 <p class="graf--p">
+                  Or if you are using the legacy
+                  <code class="graf--code-inline">
+                   apply( )
+                  </code>
+                  function, then you can follow the below approach:
+                 </p>
+                 <pre><code class="language-java graf graf--code">apply(plugin = "com.google.gms.google-services")</code></pre>
+                 <h3 class="graf--h3">
+                  Using URLs
+                 </h3>
+                 <p class="graf--p">
+                  In the Gradle file, you can use the URL like this:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// before
+maven { url 'https://jitpack.io' }
+// after
+maven("https://jitpack.io")</code></pre>
+                 <h3 class="graf--h3">
+                  Using tasks
+                 </h3>
+                 <p class="graf--p">
+                  Now, to register your task, you need to do this:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// before
+task clean(type: Delete)  {
+    delete rootProject.buildDir
+}
+// after
+tasks.register("clean",  Delete::class)  {
+    delete(rootProject.buildDir)
+}</code></pre>
+                 <h3 class="graf--h3">
+                  Using Boolean variables
+                 </h3>
+                 <p class="graf--p">
+                  To use a boolean variable, you need to use "
+                  <b class="graf--bold">
+                   is
+                  </b>
+                  " as a prefix to the variable. But it is always a good practice to use "
+                  <b class="graf--bold">
+                   is
+                  </b>
+                  " as a prefix for boolean variables in all programming languages.
+                 </p>
+                 <pre><code class="language-java graf graf--code">// before
+debuggable false
+// after
+isDebuggable = false</code></pre>
+                 <h3 class="graf--h3">
+                  Using getByName for buildTypes
+                 </h3>
+                 <p class="graf--p">
+                  To use various build types, you need to use the
+                  <code class="graf--code-inline">
+                   getByName
+                  </code>
+                  function:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// before
+buildTypes {
+    debug  {
+        // ...
+    }
+    release {  
+        // ...
+    }
+}
+// after
+buildTypes {
+    getByName("debug") {
+        // ...
+    }
+    getByName("release") {
+        // ...
+    }
+}</code></pre>
+                 <h3 class="graf--h3">
+                  Mapping using mapOf
+                 </h3>
+                 <p class="graf--p">
+                  To map variables, you need to use the
+                  <code class="graf--code-inline">
+                   mapOf()
+                  </code>
+                  function. For example, to add local
+                  <code class="graf--code-inline">
+                   .jar
+                  </code>
+                  file dependency to your
+                  <code class="graf--code-inline">
+                   build.gradle.kts
+                  </code>
+                  file, you need to use:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// before
+implementation fileTree(dir: 'libs', include: ['*.jar'])
+// after
+implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))</code></pre>
+                 <h3 class="graf--h3">
+                  Using variables from project-level Gradle file(root project)
+                 </h3>
+                 <p class="graf--p">
+                  For better dependency management, many developers tend to put the versions of all the dependencies in the root-level
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  file and use it in the app-level
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  file. So, we can use this like below:
+                 </p>
+                 <pre><code class="language-java graf graf--code">// in root-level build.gradle file
+val prdownloaderVersion by rootProject.extra("0.6.0")
+// in app-level build.gradle file
+implementation("com.mindorks.android:prdownloader:${rootProject.extra.get("prdownloaderVersion")}")</code></pre>
+                 <h3 class="graf--h3">
+                  Excluding libraries from all dependencies
+                 </h3>
+                 <p class="graf--p">
+                  To exclude some libraries from all dependencies in Kotlin DSL
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  file, use the following:
+                 </p>
+                 <pre><code class="language-java graf graf--code">configurations {
+    all {
+        exclude(group = "com.google.guava", module = "listenablefuture")
+    }
+}</code></pre>
+                 <p class="graf--p">
+                  These are some steps that can be used to migrate from a Groovy-based Gradle file to a Kotlin-based Gradle file.
+                 </p>
+                 <p class="graf--p">
+                  Now, it will be quite easier for you to manage the code because now you must be getting auto suggestions, code navigation, and obviously all the awesome features of the Kotlin language.
+                 </p>
+                 <p class="graf--p">
+                  But things will be much easier if you have a central dependency management system for your whole app. So, let's learn how to make one.
+                 </p>
+                 <h2 class="graf--h2">
+                  How to have a central dependency management system?
+                 </h2>
+                 <p class="graf--p">
+                  Whenever we run any Gradle file, then it checks for
+                  <code class="graf--code-inline">
+                   buildSrc
+                  </code>
+                  and based on that it compiles the code. So, we can take the advantage of this feature/process and can make our dependency files written in Kotlin language.
+                 </p>
+                 <p class="graf--p">
+                  So, in the project view, create a new directory named
+                  <code class="graf--code-inline">
+                   buildSrc
+                  </code>
+                  in your root directory, and inside the
+                  <code class="graf--code-inline">
+                   buildSrc
+                  </code>
+                  directory, make a file name
+                  <code class="graf--code-inline">
+                   build.gradle.kts
+                  </code>
+                  and add the below code:
+                 </p>
+                 <pre><code class="language-java graf graf--code">repositories {
+    jcenter()
+}
+
+plugins {
+    `kotlin-dsl`
+}</code></pre>
+                 <p class="graf--p">
+                  You can remove the
+                  <code class="graf--code-inline">
+                   repositories { }
+                  </code>
+                  section based on the requirement of the project. Now, sync the project.
+                 </p>
+                 <p class="graf--p">
+                  Now, in the
+                  <code class="graf--code-inline">
+                   buildSrc
+                  </code>
+                  directory, create nested directories by entering the name as
+                  <code class="graf--code-inline">
+                   src/main/java
+                  </code>
+                  . You can create these directories one by one also. Inside buildSrc/src/main/java, create a new file named
+                  <code class="graf--code-inline">
+                   Dependencies.kt
+                  </code>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Inside this
+                  <code class="graf--code-inline">
+                   Dependencies.kt
+                  </code>
+                  file,  we are going to make objects for different purposes like we can have one object for all the versions, also, we can have one object for all Dependencies, and so on.
+                 </p>
+                 <p class="graf--p">
+                  For example:
+                 </p>
+                 <pre><code class="language-java graf graf--code">object Versions {
+    const val recyclerViewVersion = "1.1.0"
+    const val materialLibraryVersion = "1.2.1"
+}
+object Dependencies {
+    const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerViewVersion}"
+    const val materialDesign =   "com.google.android.material:material:${Versions.materialLibraryVersion}"
+}</code></pre>
+                 <p class="graf--p">
+                  Similarly, you can have other objects also like one object for your default configuration and so on.
+                 </p>
+                 <p class="graf--p">
+                  Now, to use these dependencies in your app-level
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  file, all you need to do is call it by its name. For example, here is the code of the app-level
+                  <code class="graf--code-inline">
+                   build.gradle
+                  </code>
+                  file:
+                 </p>
+                 <pre><code class="language-java graf graf--code">dependencies {
+    implementation(Dependencies.materialDesign)
+
+    implementation(Dependencies.recyclerView)
+}</code></pre>
+                 <p class="graf--p">
+                  In this way, you can keep all the dependencies and its version in one place and this code is quite easy to read and maintain.
+                 </p>
+                 <p class="graf--p">
+                  We have seen how to migrate from Groovy Gradle to Kotlin Gradle, but there are some disadvantages also of this process. Let's find out.
+                 </p>
+                 <h2 class="graf--h2">
+                  What are the advantages and disadvantages of migrating to Kotlin based Gradle?
+                 </h2>
+                 <p class="graf--p">
+                  Till now, we have seen what are the advantages of using Kotlin DSL in our Gradle file. So, let's summarize it:
+                 </p>
+                 <ul>
+                  <li>
+                   Since you are using Kotlin, then the IDE will provide the auto-suggestion feature for your Gradle file also which is missing till now.
+                  </li>
+                  <li>
+                   Code navigation between files becomes easy in Kotlin DSL.
+                  </li>
+                  <li>
+                   You can leverage all the functionalities of Kotlin in your Gradle file.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  But, there are a few disadvantages also. Here are some:
+                 </p>
+                 <ul>
+                  <li>
+                   In some cases, Kotlin DSL might be slower than the Groovy one. For example, it can be slower in case of first use, on clean checkouts, or on ephemeral CI agents.
+                  </li>
+                  <li>
+                   If you are migrating from Groovy to DSL, then things might look difficult and lengthy for you, but it is worth doing.
+                  </li>
+                  <li>
+                   Another disadvantage or you can say prerequisite for using Kotlin DSL in Gradle is that you must run your Gradle with Java 8 or higher versions.
+                  </li>
+                 </ul>
+                 <p class="graf--p">
+                  So, these are some of the advantages and disadvantages of using Kotlin DSL for your Gradle files and it is clear that the advantages are quite more than that of disadvantages.
+                 </p>
+                 <p class="graf--p">
+                  We are quite sure that you are going to use and love Kotlin DSL for your Gradle files.
+                 </p>
+                 <p class="graf--p">
+                  That's it for this blog. Hope you enjoyed the migration process.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Show your love by sharing this blog with your fellow developers.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   MindOrks!
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Happy Learning :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Mastering Kotlin DSL In Android - Step By Step Guide" class="ui centered image" src="/images/kotlin-dsl-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Mastering Kotlin DSL In Android - Step By Step Guide
+           </div>
+           <div class="meta">
+            14th November 2019
+           </div>
+           <div class="description">
+            In this blog, we are going to learn how to write Kotlin DSL in your android project. We will also see a few examples of how to write custom DSLs in your project.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Gradle Tips and Tricks for Android" class="ui centered image" src="/images/gradle-tips-tricks-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Gradle Tips and Tricks for Android
+           </div>
+           <div class="meta">
+            18th May 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn some Gradle tips and tricks for Android. After reading this blog, you will be able to use various features of Gradle that will help you in developing an Android App faster than before.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Building Android applications with Gradle — Tutorial" class="ui centered image" src="/images/building-android-applications-with-gradle-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Building Android applications with Gradle — Tutorial
+           </div>
+           <div class="meta">
+            20th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn how to use Gradle in Android to build some applications. We will learn some Gradle commands that can be used to perform various Gradle functions using the command line and not the Android Studio. Also, we will learn gradlew tasks and build variants.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Speed up Gradle build for Android to save your time" class="ui centered image" src="/images/banner-speed-up-gradle.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Speed up Gradle build for Android to save your time
+           </div>
+           <div class="meta">
+            6th August 2019
+           </div>
+           <div class="description">
+            In this blog, we will talk about how can we speed up your gradle build to run it quickly and save your time
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Gradle for Android Developers - Getting the most of it" class="ui centered image" src="/images/gradle-for-android-banner-image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Gradle for Android Developers - Getting the most of it
+           </div>
+           <div class="meta">
+            22nd March 2020
+           </div>
+           <div class="description">
+            In this blog, we are going to understand what Gradle actually is and how important a role it plays in Android Development. How can we get the most of it?
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin —  apply vs with
+" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin —  apply vs with
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>

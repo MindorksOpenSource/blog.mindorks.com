@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>
+   Type Aliases in Kotlin
+  </title>
+  <meta charset="utf-8"/>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no" name="viewport"/>
+  <link href="https://blog.mindorks.com/type-aliases-in-kotlin" rel="canonical"/>
+  <meta content="986249072156-dabps0lf90smluddrk5rkqsdjghk3hd3.apps.googleusercontent.com" name="google-signin-client_id"/>
+  <meta content="android, learn android app development, android app development courses, android blogs, android tutorial" name="keywords"/>
+  <meta content="Type Aliases in Kotlin" property="og:title"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://blog.mindorks.com/type-aliases-in-kotlin" property="og:url"/>
+  <meta content="/images/type-alias-banner-70e6c93a7fffa7c7.png" property="og:image"/>
+  <meta content="In this blog, we are going to learn about Type Aliases in Kotlin. We will also see the practical use cases on how to use them." property="og:description"/>
+  <meta content="Type Aliases in Kotlin" property="twitter:title"/>
+  <meta content="In this blog, we are going to learn about Type Aliases in Kotlin. We will also see the practical use cases on how to use them." name="twitter:description"/>
+  <meta content="/images/type-alias-banner-70e6c93a7fffa7c7.png" name="twitter:image:src"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="@MindorksNextGen" name="twitter:site"/>
+  <meta content="In this blog, we are going to learn about Type Aliases in Kotlin. We will also see the practical use cases on how to use them." name="description"/>
+  <meta content="1620001391374687" property="fb:app_id"/>
+  <link href="/styles/vendor-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link href="/styles/app-1.8.6.css" rel="stylesheet" type="text/css"/>
+  <link as="style" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" onload='this.onload=null,this.rel="stylesheet"' rel="preload"/>
+  <noscript>
+   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  </noscript>
+  <script type="text/javascript">
+   window.__PRELOADED_STATE__={toastr:{toastrs:[],confirm:null},blogData:{data:{},latestBlogs:null,isFetching:!0,isFetchingLatestBlogs:!1,currentCategory:"",categories:[]},contactData:{formData:{email:"",name:"",phone:"",message:"",isWriting:!1,isNameError:!1,isEmailError:!1,isPhoneError:!1,isMessageError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSending:!1},communityData:{formData:{email:"",isEmailError:!1,isWriting:!1,isSending:!1,dismissMsg:!1},successMessage:null,errorMessage:null},blogPageData:{blogId:491,data:{id:491,title:"Type Aliases in Kotlin",description:"In this blog, we are going to learn about Type Aliases in Kotlin. We will also see the practical use cases on how to use them.",text:'<h1 class="graf--h1">Type Aliases in Kotlin</h1> <div class=\'graf-image graf-caption\'>\n\t\t\t\t\t\t\t\t\t<img src=/images/type-alias-banner-70e6c93a7fffa7c7.png class=\'graf-image\' alt=\'Type Aliases in Kotlin\' />\n\t\t\t\t\t\t\t\t</div ><p class="graf--p">In a project, we might declare variables of the same datatype multiple times like declaring a variable of Api response class type in Android or maybe using the same function again and again which might not make your code readable.</p><p class="graf--p">Using <b class="graf--bold">type alias</b>, in Kotlin we can make our code more readable for the developers.</p><p class="graf--p">In this blog, we will see how to use <b class="graf--bold">type alias</b> and what is the benefit of it. We are going to learn about,</p><ul><li>What are Type Aliases in Kotlin?</li><li>How to use it?</li><li>Benefits of using typeAlias</li></ul><h4 class="graf--h3">What are Type Aliases in Kotlin?</h4><p class="graf--p">typeAlias in Kotlin means a way to give an existing type a new name. It provides an alternative naming to your existing type to reflect a more readable code.</p><h4 class="graf--h3">How to use it?</h4><p class="graf--p">Now, we will understand the use of typeAlias with examples.</p><p class="graf--p"><b class="graf--bold">Case 01.</b></p><p class="graf--p">Consider we have an example where we have triple, like,</p><pre><code class="language-java graf graf--code">Triple&lt;String, String, Int&gt;</code></pre><p class="graf--p">Now, let&#x27;s say this triple will have user details like <i class="graf--italic">firstName</i>,<i class="graf--italic">lastName</i>, and <i class="graf--italic">age</i>.</p><p class="graf--p">And then, we will have a function of return type <i class="graf--italic">Triple</i> returning the user details like,</p><pre><code class="language-java graf graf--code">fun fetchUser():Triple&lt;String, String, Int&gt;{\n   return Triple("Himanshu","Singh",26)\n}</code></pre><p class="graf--p">Now, if we have to write this function multiple times in different classes, again and again, the code will not look good. In fact, returning Triple<i class="graf--italic"> </i>every time we create the same function we have to pass the return type of <i class="graf--italic">Triple</i>.</p><p class="graf--p">To make the code aesthetically correct, we use <b class="graf--bold">typeAlias</b>.</p><p class="graf--p">Here, we will make a <b class="graf--bold">typeAlias</b> for the Triple like,</p><pre><code class="language-java graf graf--code">typealias User = Triple&lt;String, String, Int&gt;</code></pre><p class="graf--p">Now, we can update the function like,</p><pre><code class="language-java graf graf--code">fun fetchUser(): User {\n    return Triple("Himanshu", "Singh", 26)\n}</code></pre><p class="graf--p">Here, you can see, now we have a return type of <i class="graf--italic">User</i> in place of <i class="graf--italic">Triple</i>. This makes our code more explanatory that now what we are returning is the detail of <i class="graf--italic">User</i>.</p><p class="graf--p">This is why we use <b class="graf--bold">typeAlias</b> to make our code more explanatory and readable.</p><p class="graf--p"><b class="graf--bold">Case 02.</b></p><p class="graf--p">Consider an example, when we have to load the resource from drawable or let&#x27;s say we load XML file from our layout folder.</p><p class="graf--p">For both of them, we use <b class="graf--bold">R.drawable.drawable_name</b> or <b class="graf--bold">R.layout.layout_name</b> and then load it to the view. In our projects, we use a lot of drawables and layouts and hence we have to repeat <b class="graf--bold">R.drawable</b> and <b class="graf--bold">R.layout</b> a lot of times.</p><p class="graf--p">We can convert them using <b class="graf--bold">typeAlias</b> to reduce the re-writing again and again. To move it to typeAlias we use,</p><pre><code class="language-java graf graf--code">typealias Drawable = R.drawable\ntypealias Layout = R.layout</code></pre><p class="graf--p">Here, if you see we created Drawable and Layout <b class="graf--bold">typeAliases</b> pointing to <b class="graf--bold">R.drawable</b> and <b class="graf--bold">R.layout</b> respectively.</p><p class="graf--p">Now, to use it in our project we will use it as,</p><pre><code class="language-java graf graf--code">setContentView(Layout.activity_main)</code></pre><p class="graf--p">and for drawable we will use it like,</p><pre><code class="language-java graf graf--code">imageView.setImageDrawable(ContextCompat.getDrawable(this, Drawable.ic_launcher_background))</code></pre><p class="graf--p">Here, you can see we have replaced <b class="graf--bold">R.drawable</b> and <b class="graf--bold">R.layout</b> with its <b class="graf--bold">typeAliases.</b></p><p class="graf--p"><b class="graf--bold">Case 03.</b></p><p class="graf--p">Now, consider an example when we have to make a custom TextView which might have some additional feature then the TextView provided by Android.</p><p class="graf--p">So, I will create a TextView class inside our <b class="graf--bold">customView</b> package that would have our implementation of textView.</p><p class="graf--p">Now, while using it, we might have declared a variable like,</p><pre><code class="language-java graf graf--code">lateinit var textView :com.mindorks.example.customView.TextView</code></pre><p class="graf--p">The reason here is we have named the View class as <b class="graf--bold">TextView</b> similar to what Android has, i.e. TextView.</p><p class="graf--p">Here, we have a name <b class="graf--bold">conflict</b> of TextViews. Generally, when resolving the conflict what we do is in the import statement we update it like,</p><pre><code class="language-java graf graf--code">import com.mindorks.example.customView.TextView as MyTextView</code></pre><p class="graf--p">and then in place of writing the conflicting name we just use <b class="graf--bold">MyTextView</b>.</p><p class="graf--p">But, we can also do it in a better way by using <b class="graf--bold">typeAlias</b>.</p><p class="graf--p">To solve this conflict with <b class="graf--bold">typeAlias</b> we will create a <b class="graf--bold">typeAlias</b> for our textView implementation like,</p><pre><code class="language-java graf graf--code">typealias MyTextView = com.mindorks.example.customView.TextView</code></pre><p class="graf--p">and now to use it, we will use it as,</p><pre><code class="language-java graf graf--code">lateinit var textView : MyTextView</code></pre><p class="graf--p">Here, we are using <b class="graf--bold">MyTextView</b> as type as we created an alias for it.</p><p class="graf--p">While decompiling it to Java equivalent, it will still keep it as,</p><pre><code class="language-java graf graf--code">com.mindorks.example.customView.TextView</code></pre><p class="graf--p">and typeAlias would not be there.</p><p class="graf--p"><b class="graf--bold">Case 04.</b></p><p class="graf--p">Let&#x27;s say we have an RecyclerView adapters and in all of them we need to setup a click listener. The listener will pass the position and the clicked data of that position on the click.</p><p class="graf--p">So, let&#x27;s create a typeAlias like,</p><pre><code class="language-java graf graf--code">typealias ItemClickListener&lt;T&gt; = (position: Int, data: T) -&gt; Unit</code></pre><p class="graf--p">Here, we created a ItemClickListener which takes a position and data of generic. It can be used at different adapters of RecyclerView. </p><p class="graf--p">Now, to use this in RecyclerView Adapter for displaying the list of Post we will declare it like,</p><pre><code class="language-java graf graf--code">lateinit var itemClickListener: ItemClickListener&lt;Post&gt;</code></pre><p class="graf--p">Now, on the click listener of the item in RecyclerView adapter, we will add,</p><pre><code class="language-java graf graf--code">itemClickListener(position, data)</code></pre><p class="graf--p">where, data is the Post data of the item at the specific position which is clicked.</p><p class="graf--p">Now, to utilise the listener, we will call it in our view class like,</p><pre><code class="language-java graf graf--code">postAdapter.itemClickListener = { position, data -&gt;\n    // do something on item click at that position\n}</code></pre><p class="graf--p">This will get you the position of the list where it was clicked along with the data of type post at that position.</p><h4 class="graf--h3">Benefits of using typeAlias</h4><p class="graf--p">We should use <b class="graf--bold">typeAlias</b> to,</p><ul><li>Make our code more readable</li><li>While creating an alternative name, it doesn&#x27;t create a new type.</li></ul><blockquote class="graf--blockquote">Note: typeAlias should be declared from the top level of our Kotlin code and not like inside of a class or a function. Declaring it inside function/class will throw an error.</blockquote><p class="graf--p">This is all about <b class="graf--bold">typeAlias</b> in Koltin.</p><p class="graf--p">Happy learning.</p><p class="graf--p"><b class="graf--bold">Team MindOrks :)</b></p>',author:9959,img_url:"/images/type-alias-banner-70e6c93a7fffa7c7.png",blog_url:"type-aliases-in-kotlin",likes:0,rank:0,category:1,published_at:"4th July 2020"},author:{id:9959,name:"Himanshu Singh",google_profile_pic:"https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300",fb_profile_pic:null,profile_tagline:null,fb_profile_url:"https://www.facebook.com/scorpiey",google_plus_profile_url:null,twitter_profile_url:"https://twitter.com/hi_man_shoe",github_profile_url:"https://github.com/hi-manshu",linkedin_profile_url:"https://www.linkedin.com/in/himanshoe-singh/"},isFetching:!1,similarBlogs:[{id:277,title:"Understanding Activity Aliases in Android To Preserve Your Launchers",description:"In this blog, we will learn the concept of Activity Aliases in Android. Activity Aliases are used to preserve the Launchers whenever there is a change in the Launcher Activity name. Generally, when we create a shortcut on our home screen and if we change the Launcher Activity, then the shortcut will be removed from the home screen. So, let's find how to deal with this.",author:14897,img_url:"/images/activity-aliases-in-android-banner.png",blog_url:"understanding-activity-aliases-in-android-to-preserve-your-launchers",likes:0,rank:0,category:1,published_at:"17th June 2019",score:4.2850565910339355},{id:22,title:"Learn Kotlin —  apply vs with\n",description:"There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png",blog_url:"learn-kotlin-apply-vs-with",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:24,title:"Learn Kotlin - Data Class",description:"We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png",blog_url:"learn-kotlin-data-class",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:25,title:"Learn Kotlin- Destructuring Declarations",description:"Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png",blog_url:"learn-kotlin-destructuring-declarations",likes:1,rank:0,category:1,published_at:"22nd May 2017",score:.1476835161447525},{id:62,title:"Learn Kotlin — Extension Functions",description:"As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.",author:14897,img_url:"https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png",blog_url:"learn-kotlin-extension-functions",likes:1,rank:0,category:1,published_at:"30th May 2017",score:.1476835161447525},{id:194,title:"Android WebView — in kotlin",description:"Android WebView",author:14897,img_url:"/images/android_webview_mindorks_feature_image.png",blog_url:"android-webview-in-kotlin",likes:0,rank:0,category:1,published_at:"3rd January 2019",score:.1476835161447525}],isSimilarBlogsFetching:!1},loginData:{data:null,isLoggingIn:!1,isLoggingOut:!1,loginState:!1,isForcedLogout:!1,isTokenRefreshed:!1,isRedirectHome:!1,message:""},updatesData:{news:null,inspirations:null,isNewsFetching:!0,isInspirationsFetching:!0},blogEditorData:{blogId:null,blogDetailsFormData:{title:"",description:"",imgUrl:"",blogUrl:"",category:"",categories:[],isWriting:!1,isTitleError:!1,isDescriptionError:!1,isImgUrlError:!1,isBlogUrlError:!1,isCategoryError:!1,isUploadingImage:!1,uploadedImageUrl:null},editorState:null,editorText:null,successMessage:null,errorMessage:null,isSending:!1,isMsgToShow:!1,isPublished:!1,isSubmitted:!1,isDraft:!0,isEditOfExistingBlog:!1,isFetchingBlogCategories:!1,isUploadingImage:!1,uploadedImageUrl:null},myBlogsData:{data:null,isSubmittedBlogsFetching:!0,isDraftBlogsFetching:!0,isPublishedBlogsFetching:!0,successMessage:null,errorMessage:null,isMsgToShow:!1,tabNames:["drafts","submissions","published"],selectedTab:"drafts",isFetchingBlog:!1,isDeletingBlog:!1,openEditorPage:!1},profilePreviewData:{profile:null,blogs:null,isFetchingProfile:!1,isFetchingAuthorBlogs:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,isUserNotRegistered:!1,redirectToMyProfileEdit:!1},profileEditableData:{userId:null,name:null,fbProfilePicUrl:null,googleProfilePicUrl:null,profileFormData:{tagline:"",fbProfileUrl:"",googlePlusProfileUrl:"",twitterProfileUrl:"",githubProfileUrl:"",linkedinProfileUrl:"",isWriting:!1,isTaglineError:!1,isFbProfileUrlError:!1,isGooglePlusProfileUrlError:!1,isTwitterProfileUrlError:!1,isGithubProfileUrlError:!1,isLinkedinProfileUrlError:!1},isSavingProfile:!1,successMessage:null,errorMessage:null,isMsgToShow:!1,redirectToProfilePreview:!1},submitBlogData:{formData:{email:"",name:"",link:"",isWriting:!1,isNameError:!1,isEmailError:!1,isLinkError:!1,dismissMsg:!1},successMessage:null,errorMessage:null,isSubmitting:!1},advertisementsData:{data:{},isLoading:!1},recaptchaData:{verified:!1,successMessage:null,errorMessage:null},blogSearchData:{searches:null,isSearching:!1}}
+  </script>
+  <script async="" src="https://www.google-analytics.com/analytics.js" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-91686131-1","auto"),ga("require","cleanUrlTracker"),ga("require","eventTracker"),ga("require","impressionTracker"),ga("require","outboundLinkTracker"),ga("require","urlChangeTracker"),ga("require","maxScrollTracker"),ga("require","mediaQueryTracker"),ga("require","outboundFormTracker"),ga("require","outboundLinkTracker"),ga("require","pageVisibilityTracker"),ga("require","socialWidgetTracker"),ga("require","urlChangeTracker"),ga("send","pageview")
+  </script>
+  <script defer="defer" src="/assets/autotrack.js" type="text/javascript">
+  </script>
+  <script src="/assets/highlight.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/vendor-bundle-1.8.6.js" type="text/javascript">
+  </script>
+  <script defer="defer" src="/js/app-bundle-1.8.6.js" type="text/javascript">
+  </script>
+ </head>
+ <body>
+  <div id="root">
+   <div class="screen app-load-content" data-reactroot="">
+    <div class="ui centered grid">
+     <div class="row" style="padding:0">
+      <div class="ui fixed menu navbar huge borderless grid" style="background-color:#fff;height:60px">
+      </div>
+     </div>
+     <div class="centered computer only row" style="padding:0">
+      <div class="ui fixed top menu navbar huge borderless grid header-container" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="right menu">
+        <a class="item" href="https://janisharali.com" target="_blank">
+         Mentor Ali
+        </a>
+        <a class="item" href="https://amitshekhar.me" target="_blank">
+         Mentor Amit
+        </a>
+       </div>
+      </div>
+     </div>
+     <div class="tablet only mobile only row" style="padding:0">
+      <div class="ui fixed top navbar huge menu borderless" style="background-color:#fff;height:60px">
+       <a class="item brand" href="/">
+        <img alt="MindOrks" src="/assets/mindorks-logo.svg"/>
+        <div class="header item" style="font-size:20px;padding:0;margin-left:10px">
+         MindOrks
+        </div>
+       </a>
+       <div class="item">
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="header-height">
+    </div>
+    <div aria-live="assertive" class="redux-toastr">
+     <div>
+      <div class="top-left">
+      </div>
+      <div class="top-right">
+      </div>
+      <div class="top-center">
+      </div>
+      <div class="bottom-left">
+      </div>
+      <div class="bottom-right">
+      </div>
+      <div class="bottom-center">
+      </div>
+     </div>
+    </div>
+    <div class="content-container theme">
+     <div class="ui centered one column grid" style="padding-bottom:80px;background-color:#fff">
+      <div class="ten wide computer fifteen wide mobile fifteen wide tablet column" style="margin-top:50px">
+       <div>
+        <div class="blog-page-author">
+         <div class="ui small header">
+          <img alt="Himanshu Singh" class="ui circular image" src="https://lh3.googleusercontent.com/a-/AOh14Ghy8H-FJrgWB2TcxHCOKWxWEQB4AiklYADGTydu4nE=s96-c?sz=300"/>
+          <div class="content">
+           Himanshu Singh
+           <div class="sub header" style="margin-top:5px">
+            4th July 2020
+           </div>
+          </div>
+         </div>
+        </div>
+        <div id="content">
+         <article class="template">
+          <div class="postContent">
+           <div class="notesSource">
+            <div class="postField postField--body" id="editor">
+             <section class="section--first section--last">
+              <div class="section-divider layoutSingleColumn-template">
+               <hr class="section-divider"/>
+              </div>
+              <div class="section-content">
+               <div class="section-inner layoutSingleColumn-template">
+                <div>
+                 <h1 class="graf--h1">
+                  Type Aliases in Kotlin
+                 </h1>
+                 <div class="graf-image graf-caption">
+                  <img alt="Type Aliases in Kotlin" class="graf-image" src="/images/type-alias-banner-70e6c93a7fffa7c7.png"/>
+                 </div>
+                 <p class="graf--p">
+                  In a project, we might declare variables of the same datatype multiple times like declaring a variable of Api response class type in Android or maybe using the same function again and again which might not make your code readable.
+                 </p>
+                 <p class="graf--p">
+                  Using
+                  <b class="graf--bold">
+                   type alias
+                  </b>
+                  , in Kotlin we can make our code more readable for the developers.
+                 </p>
+                 <p class="graf--p">
+                  In this blog, we will see how to use
+                  <b class="graf--bold">
+                   type alias
+                  </b>
+                  and what is the benefit of it. We are going to learn about,
+                 </p>
+                 <ul>
+                  <li>
+                   What are Type Aliases in Kotlin?
+                  </li>
+                  <li>
+                   How to use it?
+                  </li>
+                  <li>
+                   Benefits of using typeAlias
+                  </li>
+                 </ul>
+                 <h4 class="graf--h3">
+                  What are Type Aliases in Kotlin?
+                 </h4>
+                 <p class="graf--p">
+                  typeAlias in Kotlin means a way to give an existing type a new name. It provides an alternative naming to your existing type to reflect a more readable code.
+                 </p>
+                 <h4 class="graf--h3">
+                  How to use it?
+                 </h4>
+                 <p class="graf--p">
+                  Now, we will understand the use of typeAlias with examples.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Case 01.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Consider we have an example where we have triple, like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">Triple&lt;String, String, Int&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, let's say this triple will have user details like
+                  <i class="graf--italic">
+                   firstName
+                  </i>
+                  ,
+                  <i class="graf--italic">
+                   lastName
+                  </i>
+                  , and
+                  <i class="graf--italic">
+                   age
+                  </i>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  And then, we will have a function of return type
+                  <i class="graf--italic">
+                   Triple
+                  </i>
+                  returning the user details like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun fetchUser():Triple&lt;String, String, Int&gt;{
+   return Triple("Himanshu","Singh",26)
+}</code></pre>
+                 <p class="graf--p">
+                  Now, if we have to write this function multiple times in different classes, again and again, the code will not look good. In fact, returning Triple
+                  <i class="graf--italic">
+                  </i>
+                  every time we create the same function we have to pass the return type of
+                  <i class="graf--italic">
+                   Triple
+                  </i>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  To make the code aesthetically correct, we use
+                  <b class="graf--bold">
+                   typeAlias
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  Here, we will make a
+                  <b class="graf--bold">
+                   typeAlias
+                  </b>
+                  for the Triple like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">typealias User = Triple&lt;String, String, Int&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, we can update the function like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">fun fetchUser(): User {
+    return Triple("Himanshu", "Singh", 26)
+}</code></pre>
+                 <p class="graf--p">
+                  Here, you can see, now we have a return type of
+                  <i class="graf--italic">
+                   User
+                  </i>
+                  in place of
+                  <i class="graf--italic">
+                   Triple
+                  </i>
+                  . This makes our code more explanatory that now what we are returning is the detail of
+                  <i class="graf--italic">
+                   User
+                  </i>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  This is why we use
+                  <b class="graf--bold">
+                   typeAlias
+                  </b>
+                  to make our code more explanatory and readable.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Case 02.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Consider an example, when we have to load the resource from drawable or let's say we load XML file from our layout folder.
+                 </p>
+                 <p class="graf--p">
+                  For both of them, we use
+                  <b class="graf--bold">
+                   R.drawable.drawable_name
+                  </b>
+                  or
+                  <b class="graf--bold">
+                   R.layout.layout_name
+                  </b>
+                  and then load it to the view. In our projects, we use a lot of drawables and layouts and hence we have to repeat
+                  <b class="graf--bold">
+                   R.drawable
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   R.layout
+                  </b>
+                  a lot of times.
+                 </p>
+                 <p class="graf--p">
+                  We can convert them using
+                  <b class="graf--bold">
+                   typeAlias
+                  </b>
+                  to reduce the re-writing again and again. To move it to typeAlias we use,
+                 </p>
+                 <pre><code class="language-java graf graf--code">typealias Drawable = R.drawable
+typealias Layout = R.layout</code></pre>
+                 <p class="graf--p">
+                  Here, if you see we created Drawable and Layout
+                  <b class="graf--bold">
+                   typeAliases
+                  </b>
+                  pointing to
+                  <b class="graf--bold">
+                   R.drawable
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   R.layout
+                  </b>
+                  respectively.
+                 </p>
+                 <p class="graf--p">
+                  Now, to use it in our project we will use it as,
+                 </p>
+                 <pre><code class="language-java graf graf--code">setContentView(Layout.activity_main)</code></pre>
+                 <p class="graf--p">
+                  and for drawable we will use it like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">imageView.setImageDrawable(ContextCompat.getDrawable(this, Drawable.ic_launcher_background))</code></pre>
+                 <p class="graf--p">
+                  Here, you can see we have replaced
+                  <b class="graf--bold">
+                   R.drawable
+                  </b>
+                  and
+                  <b class="graf--bold">
+                   R.layout
+                  </b>
+                  with its
+                  <b class="graf--bold">
+                   typeAliases.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Case 03.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Now, consider an example when we have to make a custom TextView which might have some additional feature then the TextView provided by Android.
+                 </p>
+                 <p class="graf--p">
+                  So, I will create a TextView class inside our
+                  <b class="graf--bold">
+                   customView
+                  </b>
+                  package that would have our implementation of textView.
+                 </p>
+                 <p class="graf--p">
+                  Now, while using it, we might have declared a variable like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">lateinit var textView :com.mindorks.example.customView.TextView</code></pre>
+                 <p class="graf--p">
+                  The reason here is we have named the View class as
+                  <b class="graf--bold">
+                   TextView
+                  </b>
+                  similar to what Android has, i.e. TextView.
+                 </p>
+                 <p class="graf--p">
+                  Here, we have a name
+                  <b class="graf--bold">
+                   conflict
+                  </b>
+                  of TextViews. Generally, when resolving the conflict what we do is in the import statement we update it like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">import com.mindorks.example.customView.TextView as MyTextView</code></pre>
+                 <p class="graf--p">
+                  and then in place of writing the conflicting name we just use
+                  <b class="graf--bold">
+                   MyTextView
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  But, we can also do it in a better way by using
+                  <b class="graf--bold">
+                   typeAlias
+                  </b>
+                  .
+                 </p>
+                 <p class="graf--p">
+                  To solve this conflict with
+                  <b class="graf--bold">
+                   typeAlias
+                  </b>
+                  we will create a
+                  <b class="graf--bold">
+                   typeAlias
+                  </b>
+                  for our textView implementation like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">typealias MyTextView = com.mindorks.example.customView.TextView</code></pre>
+                 <p class="graf--p">
+                  and now to use it, we will use it as,
+                 </p>
+                 <pre><code class="language-java graf graf--code">lateinit var textView : MyTextView</code></pre>
+                 <p class="graf--p">
+                  Here, we are using
+                  <b class="graf--bold">
+                   MyTextView
+                  </b>
+                  as type as we created an alias for it.
+                 </p>
+                 <p class="graf--p">
+                  While decompiling it to Java equivalent, it will still keep it as,
+                 </p>
+                 <pre><code class="language-java graf graf--code">com.mindorks.example.customView.TextView</code></pre>
+                 <p class="graf--p">
+                  and typeAlias would not be there.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Case 04.
+                  </b>
+                 </p>
+                 <p class="graf--p">
+                  Let's say we have an RecyclerView adapters and in all of them we need to setup a click listener. The listener will pass the position and the clicked data of that position on the click.
+                 </p>
+                 <p class="graf--p">
+                  So, let's create a typeAlias like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">typealias ItemClickListener&lt;T&gt; = (position: Int, data: T) -&gt; Unit</code></pre>
+                 <p class="graf--p">
+                  Here, we created a ItemClickListener which takes a position and data of generic. It can be used at different adapters of RecyclerView.
+                 </p>
+                 <p class="graf--p">
+                  Now, to use this in RecyclerView Adapter for displaying the list of Post we will declare it like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">lateinit var itemClickListener: ItemClickListener&lt;Post&gt;</code></pre>
+                 <p class="graf--p">
+                  Now, on the click listener of the item in RecyclerView adapter, we will add,
+                 </p>
+                 <pre><code class="language-java graf graf--code">itemClickListener(position, data)</code></pre>
+                 <p class="graf--p">
+                  where, data is the Post data of the item at the specific position which is clicked.
+                 </p>
+                 <p class="graf--p">
+                  Now, to utilise the listener, we will call it in our view class like,
+                 </p>
+                 <pre><code class="language-java graf graf--code">postAdapter.itemClickListener = { position, data -&gt;
+    // do something on item click at that position
+}</code></pre>
+                 <p class="graf--p">
+                  This will get you the position of the list where it was clicked along with the data of type post at that position.
+                 </p>
+                 <h4 class="graf--h3">
+                  Benefits of using typeAlias
+                 </h4>
+                 <p class="graf--p">
+                  We should use
+                  <b class="graf--bold">
+                   typeAlias
+                  </b>
+                  to,
+                 </p>
+                 <ul>
+                  <li>
+                   Make our code more readable
+                  </li>
+                  <li>
+                   While creating an alternative name, it doesn't create a new type.
+                  </li>
+                 </ul>
+                 <blockquote class="graf--blockquote">
+                  Note: typeAlias should be declared from the top level of our Kotlin code and not like inside of a class or a function. Declaring it inside function/class will throw an error.
+                 </blockquote>
+                 <p class="graf--p">
+                  This is all about
+                  <b class="graf--bold">
+                   typeAlias
+                  </b>
+                  in Koltin.
+                 </p>
+                 <p class="graf--p">
+                  Happy learning.
+                 </p>
+                 <p class="graf--p">
+                  <b class="graf--bold">
+                   Team MindOrks :)
+                  </b>
+                 </p>
+                </div>
+               </div>
+              </div>
+             </section>
+            </div>
+           </div>
+          </div>
+         </article>
+        </div>
+       </div>
+       <div class="ui divider">
+       </div>
+      </div>
+      <div class="stretched fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui large center aligned header" style="padding-top:20px">
+        Recommended for You
+       </div>
+      </div>
+      <div class="fourteen wide computer fifteen wide mobile fifteen wide tablet column">
+       <div class="ui centered grid">
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Understanding Activity Aliases in Android To Preserve Your Launchers" class="ui centered image" src="/images/activity-aliases-in-android-banner.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Understanding Activity Aliases in Android To Preserve Your Launchers
+           </div>
+           <div class="meta">
+            17th June 2019
+           </div>
+           <div class="description">
+            In this blog, we will learn the concept of Activity Aliases in Android. Activity Aliases are used to preserve the Launchers whenever there is a change in the Launcher Activity name. Generally, when we create a shortcut on our home screen and if we change the Launcher Activity, then the shortcut will be removed from the home screen. So, let's find how to deal with this.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin —  apply vs with
+" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A%E2%80%94%E2%80%8Aapply-vs-with.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin —  apply vs with
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            There are many great features available in Kotlin, we can take advantage of all these features to write the better application in Kotlin. Among all those features, apply and with are important feature. We must know when to use which one.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin - Data Class" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-data-class.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin - Data Class
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            We frequently create a class to do nothing but hold data. In such a class some standard functionality is often mechanically derivable from the data. In Kotlin, this is called a data class and is marked as data.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin- Destructuring Declarations" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin-destructuring-declarations.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin- Destructuring Declarations
+           </div>
+           <div class="meta">
+            22nd May 2017
+           </div>
+           <div class="description">
+            Destructuring is a convenient way of extracting multiple values from data stored in (possibly nested) objects and Arrays. It can be used in locations that receive data (such as the left-hand side of an assignment).
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Learn Kotlin — Extension Functions" class="ui centered image" src="https://s3.ap-south-1.amazonaws.com/mindorks/blogs/learn-kotlin%E2%80%8A-extension-functions.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Learn Kotlin — Extension Functions
+           </div>
+           <div class="meta">
+            30th May 2017
+           </div>
+           <div class="description">
+            As the name implies, the extension functions are the functions that help us to extend the functionality of classes without having to touch their code.
+           </div>
+          </div>
+         </a>
+        </div>
+        <div class="stretched five wide computer sixteen wide mobile eight wide tablet column">
+         <a class="ui fluid card">
+          <img alt="Android WebView — in kotlin" class="ui centered image" src="/images/android_webview_mindorks_feature_image.png" style="max-height:300px"/>
+          <div class="content">
+           <div class="header">
+            Android WebView — in kotlin
+           </div>
+           <div class="meta">
+            3rd January 2019
+           </div>
+           <div class="description">
+            Android WebView
+           </div>
+          </div>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div style="background:#fff">
+     <footer class="content-container">
+      <div class="ui centered padded grid" style="padding-top:40px;background:linear-gradient(to right,#c4e0e0,#e5f1f1)">
+       <h2 class="ui huge icon center aligned header">
+        <div class="content">
+         Connect With Your Mentors
+        </div>
+       </h2>
+       <div class="centered row">
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Janishar Ali" class="ui medium circular image" src="/assets/ali.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://janisharali.com" target="_blank">
+             Janishar Ali
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://janisharali.com" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/janisharali" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="five wide computer sixteen wide mobile eight wide tablet column">
+         <div class="ui centered padded one column grid">
+          <div class="ui centered grid">
+           <div class="column">
+            <div class="ui circular segment" style="width:175px;height:175px;padding:0">
+             <img alt="Amit Shekhar" class="ui medium circular image" src="/assets/amit.jpg"/>
+            </div>
+           </div>
+          </div>
+          <div class="column">
+           <div class="ui large center aligned header">
+            <a class="content" href="https://amitshekhar.me" target="_blank">
+             Amit Shekhar
+             <div class="sub header" style="padding:5px;color:#000">
+              Founder | IIT-BHU | 10 Yrs Exp.
+             </div>
+            </a>
+           </div>
+          </div>
+          <div class="ui centered grid">
+           <div class="column">
+            <a class="ui black huge circular icon button" href="https://amitshekhar.me" role="button" target="_blank">
+             <i aria-hidden="true" class="linkify icon">
+             </i>
+            </a>
+            <a class="ui twitter huge circular icon button" href="https://twitter.com/amitiitbhu" role="button" target="_blank">
+             <i aria-hidden="true" class="twitter icon">
+             </i>
+            </a>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="ui divider" style="margin:unset">
+      </div>
+      <h5 class="ui header" style="padding:16px;margin:unset;color:#555">
+       <i aria-hidden="true" class="copyright icon">
+       </i>
+       <div class="content">
+        Copyright 2022, MindOrks Nextgen Private Limited
+       </div>
+      </h5>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script type="text/javascript">
+   window.hljs.initHighlightingOnLoad()
+  </script>
+ </body>
+</html>
