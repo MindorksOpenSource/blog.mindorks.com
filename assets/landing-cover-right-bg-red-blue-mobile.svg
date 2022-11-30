@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600px" height="774px" viewBox="0 0 600 774" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 13</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="100%" x2="98.828125%" y2="1.49902344%" id="linearGradient-1">
+            <stop stop-color="#FA014A" offset="0%"></stop>
+            <stop stop-color="#3931BF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Mindorks-Institute" transform="translate(-177.000000, -2896.000000)" fill="url(#linearGradient-1)">
+            <rect id="Rectangle-13" x="177" y="2896" width="600" height="800"></rect>
+        </g>
+    </g>
+</svg>
